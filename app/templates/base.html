@@ -1,0 +1,29 @@
+<html>
+<head>
+	{% if title %} <!--if statements in Jinja 2-->
+	<title>{{ title }} - microblog</title>
+	{% else %}
+	<title>Welcome to INNUENDO Analyzer</title>
+	{% endif %}
+</head>
+<body>
+	<div>Microblog: 
+		<a href="{{ url_for('index') }}">Home</a>
+        {% if current_user.is_authenticated %}
+        | <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+    </div>
+	<hr>
+	{% with messages = get_flashed_messages() %} <!--get flashed messages passed to the user-->
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+	{% block content %}{% endblock %} <!--Block that can be placed at this position and reused-->
+	{% include "security/_menu.html" %}
+</body>
+</html>

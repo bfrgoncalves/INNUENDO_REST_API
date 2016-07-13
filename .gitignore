@@ -1,0 +1,4 @@
+flask/
+migrations/
+app.db
+config.py

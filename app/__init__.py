@@ -3,13 +3,16 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from config import basedir
 import os 
 
+#Setup app
 app = Flask(__name__)
 app.config.from_object('config') #Reads the config file located at ../
+
+#Setup db
 db = SQLAlchemy(app) #initialization of the database
 
 # Setup Flask-Security
 from flask.ext.security import Security, SQLAlchemyUserDatastore
-from .models import User, Role
+from app.models.models import User, Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
@@ -27,4 +30,4 @@ admin = Admin(app)
 admin.add_view(UserAdmin(User, db.session))
 admin.add_view(RoleAdmin(Role, db.session))
 
-from app import views, models #models are files that define the database structure
+from app import views, models, api, app_configuration #models are files that define the database structure

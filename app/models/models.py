@@ -12,6 +12,7 @@ class User(db.Model, UserMixin):
 	active = db.Column(db.Boolean())
 	email = db.Column(db.String(120), index=True, unique=True)
 	roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+	studies = db.relationship('Study', backref='author', lazy='dynamic')
 	#posts = db.relationship('Post', backref='author', lazy='dynamic')
 	#With this relationship we get a user.posts member that gets us the list of posts from the user. 
 	#The first argument to db.relationship indicates the "many" class of this relationship. 
@@ -35,13 +36,9 @@ class Role(db.Model, RoleMixin):
 		return hash(self.name)
 
 
-'''
-class Post(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	body = db.Column(db.String(140))
+class Study(db.Model):
+	__tablename__ = "studies"
+	id = db.Column(db.Integer(), primary_key=True)
+	description = db.Column(db.String(255))
 	timestamp = db.Column(db.DateTime)
-	user_id = db.Column(db.Integer, db.ForeignKey('users.id')) #Uses the User primary key to link betwene Users and Posts
-
-	def __repr__(self):
-		return '<Post %r>' % (self.body)
-'''
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

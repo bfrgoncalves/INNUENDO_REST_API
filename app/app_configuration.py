@@ -27,7 +27,7 @@ def before_first_request():
     user_datastore.add_role_to_user(app.config['ADMIN_EMAIL'], 'admin')
     db.session.commit()
 
-@user_registered.connect_via(app)
+@user_registered.connect_via(app) #overrides the handler function to add a default role to a registered user
 def user_registered_handler(app, user, confirm_token):
     default_role = user_datastore.find_role('end-user')
     user_datastore.add_role_to_user(user, default_role)

@@ -6,7 +6,7 @@ from app import app
 
 @app.route('/')
 @app.route('/index')
-@login_required #Using this decorator, only login users are allowed to view the index page
+#@login_required #Using this decorator, only login users are allowed to view the index page
 def index():
 	return render_template('index.html', title='Home')
 

@@ -1,29 +1,23 @@
-<html>
+<html> 
 <head>
-	{% if title %} <!--if statements in Jinja 2-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+    {% if title %} <!--if statements in Jinja 2-->
 	<title>{{ title }} - microblog</title>
 	{% else %}
 	<title>Welcome to INNUENDO Analyzer</title>
 	{% endif %}
+
+    <link href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% block stylesheets %}{% endblock %} <!--Block that can be placed at this position and reused-->
+
 </head>
 <body>
-	<div>Microblog: 
-		<a href="{{ url_for('index') }}">Home</a>
-        {% if current_user.is_authenticated %}
-        | <a href="{{ url_for('logout') }}">Logout</a>
-        {% endif %}
-    </div>
-	<hr>
-	{% with messages = get_flashed_messages() %} <!--get flashed messages passed to the user-->
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-            <li>{{ message }} </li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
 	{% block content %}{% endblock %} <!--Block that can be placed at this position and reused-->
-	{% include "security/_menu.html" %}
+
+    <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

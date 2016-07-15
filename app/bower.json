@@ -1,0 +1,25 @@
+{
+  "name": "INNUENDO_REST_API",
+  "homepage": "https://github.com/bfrgoncalves/INNUENDO_REST_API",
+  "description": "innuendo routes and frontend",
+  "main": "run.py",
+  "moduleType": [],
+  "authors": [
+    "bfrgoncalves",
+    "mickaelsilva",
+    "mpmachado"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.6",
+    "datatables": "^1.10.12"
+  }
+}

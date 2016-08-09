@@ -10,50 +10,52 @@
 	<title>Welcome to INNUENDO Analyzer</title>
 	{% endif %}
 
-    <link href="/static/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/bower_components/bootstrap-select/dist/css/bootstrap-select.css" rel="stylesheet">
-    <link href="/static/bower_components/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/static/bower_components/datatables/media/css/jquery.dataTables.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/static/bower_components/datatables.net-responsive-dt/css/responsive.dataTables.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/static/bower_components/datatables.net-colreorder-dt/css/colreorder.dataTables.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/static/bower_components/datatables.net-buttons-dt/css/buttons.dataTables.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/static/bower_components/datatables.net-select-dt/css/select.dataTables.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/static/bower_components/datatables.net-fixedcolumns-dt/css/fixedcolumns.dataTables.css" media="all" rel="stylesheet" type="text/css" />
-    <link href="/static/css/screen_style.css" rel="stylesheet">
-    <link href="/static/css/additional_style.css" rel="stylesheet">
-    <link href="/static/css/navbar_style.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/bower_components/components-font-awesome/css/font-awesome.min.css">
+    <link href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap-select/dist/css/bootstrap-select.css') }}">
+    <link href="{{ url_for('static', filename='bower_components/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='bower_components/datatables/media/css/jquery.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='bower_components/datatables.net-responsive-dt/css/responsive.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='bower_components/datatables.net-colreorder-dt/css/colreorder.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='bower_components/datatables.net-buttons-dt/css/buttons.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='bower_components/datatables.net-select-dt/css/select.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='bower_components/datatables.net-fixedcolumns-dt/css/fixedcolumns.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/screen_style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/additional_style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/navbar_style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/components-font-awesome/css/font-awesome.min.css') }}">
     {% block stylesheets %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
 </head>
 <body>
 	{% block content %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
-    <script type="text/javascript">
+    <script>
         var current_user_id = {{ current_user_id|safe }}
     </script>
-    <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/static/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/static/bower_components/angular/angular.js"></script>
-    <script src="/static/bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
-    <script src="/static/bower_components/bootstrap-fileinput/js/fileinput.min.js"></script>
-    <script src="/static/bower_components/datatables/media/js/jquery.dataTables.js"></script>
-    <script src="/static/bower_components/datatables.net-responsive/js/dataTables.responsive.js"></script>
-    <script src="/static/bower_components/datatables.net-colreorder/js/dataTables.colreorder.js"></script>
-    <script src="/static/bower_components/datatables.net-buttons/js/dataTables.buttons.js"></script>
-    <script src="/static/bower_components/datatables.net-buttons/js/buttons.colVis.js"></script>
-    <script src="/static/bower_components/datatables.net-select/js/dataTables.select.js"></script>
-    <script src="/static/bower_components/datatables.net-fixedcolumns/js/dataTables.fixedcolumns.js"></script>
-    <script src="/static/bower_components/html.sortable/dist/html.sortable.js"></script>
-    <script src="/static/controllers/main_controller.js"></script>
-    <script src="/static/controllers/utils.js"></script>
+
+    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/angular/angular.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/bootstrap-select/dist/js/bootstrap-select.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables/media/js/jquery.dataTables.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-responsive/js/dataTables.responsive.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-colreorder/js/dataTables.colreorder.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-buttons/js/dataTables.buttons.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-buttons/js/buttons.colVis.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-select/js/dataTables.select.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-fixedcolumns/js/dataTables.fixedcolumns.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/html.sortable/dist/html.sortable.js') }}"></script>
+    <script src="{{ url_for('static', filename='controllers/main_controller.js') }}"></script>
+    <script src="{{ url_for('static', filename='controllers/utils.js') }}"></script>
     {% if current_user.is_authenticated %}
-        <script src="/static/controllers/projects_controller.js"></script>
-        <script src="/static/controllers/single_project_controller.js"></script>
-        <script src="/static/controllers/uploads_controller.js"></script>
-        <script src="/static/controllers/protocols_controller.js"></script>
-        <script src="/static/controllers/workflows_controller.js"></script>
+        <script src="{{ url_for('static', filename='controllers/projects_controller.js') }}"></script>
+        <script src="{{ url_for('static', filename='controllers/single_project_controller.js') }}"></script>
+        <script src="{{ url_for('static', filename='controllers/uploads_controller.js') }}"></script>
+        <script src="{{ url_for('static', filename='controllers/protocols_controller.js') }}"></script>
+        <script src="{{ url_for('static', filename='controllers/workflows_controller.js') }}"></script>
     {% endif %}
+
 
 </body>
 </html>

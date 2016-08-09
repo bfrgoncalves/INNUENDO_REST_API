@@ -4,9 +4,9 @@
       <div id="sidebarLeft" class="col-sm-3 col-md-2 sidebar sidebar-offcanvas" role="navigation">
         <div class="well sidebar-nav">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = '/static/html_components/overview.html'">Overview</a></li>
+            <li class="active"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">Overview</a></li>
             {% if current_user.is_authenticated %}
-            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = '/static/html_components/projects_view.html'">Projects</a></li>
+            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
             <li><a class="nav-a" href="">Reports</a></li>
             <li></li>
             {% endif %}
@@ -16,9 +16,9 @@
         {% if current_user.is_authenticated %}
         <div class="well sidebar-nav">
           <ul class="nav nav-sidebar">
-            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = '/static/html_components/protocols_view.html'">Protocols</a></li>
-            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = '/static/html_components/workflows_view.html'">Workflows</a></li>
-            <li><a  class="nav-a" href="" ng-click="selectedTemplate.path = '/static/html_components/uploads_view.html'">Uploads</a></li>
+            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
+            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
+            <li><a  class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/uploads_view.html') }}&#39;">Uploads</a></li>
           </ul>
         </div>
         {% endif %}

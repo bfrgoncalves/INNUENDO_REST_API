@@ -1,5 +1,10 @@
 var innuendoApp = angular.module("innuendoApp", []);
 
+/*innuendoApp.config(['$interpolateProvider', function($interpolateProvider) {
+  $interpolateProvider.startSymbol('{a');
+  $interpolateProvider.endSymbol('a}');
+}]);*/
+
 var CURRENT_PROJECT_ID = "";
 var CURRENT_PROJECT = {};
 var CURRENT_SPECIES_ID = "";
@@ -12,14 +17,6 @@ $('a').click(function(){
 	$(this).parent().addClass("active").siblings().removeClass("active");
 });
 
-/*
-$("tbody").on("click", "tr", function(e) {     
-  $(this)
-     .toggleClass("selected")
-     .siblings(".selected")
-         .removeClass("selected");
-});
-*/
 
 setTimeout(function(){
 	$('#overviewLink').trigger('click');

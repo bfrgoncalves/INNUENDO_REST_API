@@ -55,7 +55,6 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
     }
 
-
 $scope.change_project_by_specie = function(species_id, species_name){
 
     CURRENT_SPECIES_ID = species_id;

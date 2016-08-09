@@ -1,8 +1,11 @@
 from app import db
 from flask.ext.security import UserMixin, RoleMixin
+from sqlalchemy.dialects.postgresql import ARRAY, JSON
 
 #Secondary role table
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')), db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
+pipelines_workflows = db.Table('pipelines_workflows', db.Column('pipeline_id', db.Integer(), db.ForeignKey('pipelines.id')), db.Column('workflow_id', db.Integer(), db.ForeignKey('workflows.id')))
+projects_strains = db.Table('projects_strains', db.Column('project_id', db.Integer(), db.ForeignKey('projects.id')), db.Column('strains_id', db.Integer(), db.ForeignKey('strains.id')))
 
 class User(db.Model, UserMixin):
 	__tablename__ = "users" #change table name from user to users just not clash with postgresql 
@@ -12,7 +15,7 @@ class User(db.Model, UserMixin):
 	active = db.Column(db.Boolean())
 	email = db.Column(db.String(120), index=True, unique=True)
 	roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
-	studies = db.relationship('Study', backref='author', lazy='dynamic')
+	projects = db.relationship('Project', backref='author', lazy='dynamic')
 	#posts = db.relationship('Post', backref='author', lazy='dynamic')
 	#With this relationship we get a user.posts member that gets us the list of posts from the user. 
 	#The first argument to db.relationship indicates the "many" class of this relationship. 
@@ -36,9 +39,106 @@ class Role(db.Model, RoleMixin):
 		return hash(self.name)
 
 
-class Study(db.Model):
-	__tablename__ = "studies"
+class Project(db.Model):
+	__tablename__ = "projects"
 	id = db.Column(db.Integer(), primary_key=True)
-	description = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
+	description = db.Column(db.Text())
 	timestamp = db.Column(db.DateTime)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	pipelines = db.relationship('Pipeline', backref='project', lazy='dynamic')
+	strains = db.relationship('Strain', secondary=projects_strains, backref=db.backref('project', lazy='dynamic'), lazy='dynamic')
+	species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
+	
+	def add_Strain(self, strain):
+		if not self.is_strain_added(strain):
+			self.strains.append(strain)
+			return self
+		else:
+			return False
+
+	def remove_Strain(self, strain):
+		if self.is_strain_added(strain):
+			self.strains.remove(strain)
+			return self
+		else:
+			return False
+
+	def is_strain_added(self, strain):
+		return self.strains.filter(projects_strains.c.strains_id == strain.id).count() > 0
+
+	def project_strains(self):
+		return Strain.query.join(projects_strains, (projects_strains.c.strains_id == Strain.id)).filter(projects_strains.c.project_id == self.id).all()
+
+
+class Pipeline(db.Model):
+	__tablename__ = "pipelines"
+	id = db.Column(db.Integer(), primary_key=True)
+	name = db.Column(db.String(255), unique=True)
+	timestamp = db.Column(db.DateTime)
+	project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+	workflows = db.relationship('Workflow', secondary=pipelines_workflows, backref=db.backref('pipeline', lazy='dynamic'))
+	processes = db.relationship('Process', backref='pipeline', lazy='dynamic')
+	workflows_order = db.Column(JSON)
+
+	def add_workflow(self, workflow):
+		if not self.is_workflow_added(workflow):
+			self.workflows.append(workflow)
+			return self
+
+	def is_workflow_added(self, workflow):
+		return self.pipelines_workflows.filter(pipelines_workflows.c.workflow_id == workflow.id).count() > 0
+
+
+
+class Workflow(db.Model):
+	__tablename__ = "workflows"
+	id = db.Column(db.Integer(), primary_key=True)
+	name = db.Column(db.String(255), unique=True)
+	timestamp = db.Column(db.DateTime)
+	protocol_order = db.Column(JSON)
+
+
+class Process(db.Model):
+	__tablename__ = "processes"
+	id = db.Column(db.Integer(), primary_key=True)
+	timestamp = db.Column(db.DateTime)
+	pipeline_id = db.Column(db.Integer, db.ForeignKey('pipelines.id'))
+	messages = db.Column(JSON)
+
+
+class Protocol(db.Model):
+	__tablename__ = "protocols"
+	id = db.Column(db.Integer(), primary_key=True)
+	timestamp = db.Column(db.DateTime)
+	name = db.Column(db.String(255))
+	steps = db.Column(JSON)
+
+
+class Specie(db.Model):
+	__tablename__ = "species"
+	id = db.Column(db.Integer(), primary_key=True)
+	name = db.Column(db.String(255), unique=True)
+	timestamp = db.Column(db.DateTime)
+
+
+class Strain(db.Model):
+	__tablename__ = "strains"
+	id = db.Column(db.Integer(), primary_key=True)
+	name = db.Column(db.String(255), unique=True)
+	timestamp = db.Column(db.DateTime)
+	strain_metadata = db.Column(JSON)
+	fields = db.Column(JSON)
+	species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
+
+
+class Message(db.Model):
+	__tablename__ = "messages"
+	id = db.Column(db.Integer(), primary_key=True)
+	timestamp = db.Column(db.DateTime)
+	name = db.Column(db.String(255))
+	description = db.Column(JSON)
+	process_id = db.Column(db.Integer, db.ForeignKey('processes.id'))
+
+
+

@@ -1,6 +1,7 @@
 from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered
 from app import app, db, user_datastore, security
-
+from app.models.models import Specie
+import os
 
 # Executes before the first request is processed.
 @app.before_first_request
@@ -20,6 +21,20 @@ def before_first_request():
         user_datastore.create_user(email=app.config['ADMIN_EMAIL'], password=encrypted_password)
 
     # Commit any database changes; the User and Roles must exist before we can add a Role to the User
+    specie1 = Specie(name="Campylobacter")
+    specie2 = Specie(name="Yersinia")
+    specie3 = Specie(name="E.coli")
+    specie4 = Specie(name="Salmonella")
+
+    if not db.session.query(Specie).filter(Specie.name == specie1.name).count() > 0:
+        db.session.add(specie1)
+    if not db.session.query(Specie).filter(Specie.name == specie2.name).count() > 0:
+        db.session.add(specie2)
+    if not db.session.query(Specie).filter(Specie.name == specie3.name).count() > 0:
+        db.session.add(specie3)
+    if not db.session.query(Specie).filter(Specie.name == specie4.name).count() > 0:
+        db.session.add(specie4)
+
     db.session.commit()
 
     # Give one User has the "end-user" role, while the other has the "admin" role. (This will have no effect if the
@@ -29,6 +44,10 @@ def before_first_request():
 
 @user_registered.connect_via(app) #overrides the handler function to add a default role to a registered user
 def user_registered_handler(app, user, confirm_token):
+
+    if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], str(user.id))):
+        os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], str(user.id)))
+    
     default_role = user_datastore.find_role('end-user')
     user_datastore.add_role_to_user(user, default_role)
     db.session.commit()

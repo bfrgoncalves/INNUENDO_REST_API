@@ -3,3 +3,4 @@ migrations/
 app/static/bower_components/
 app.db
 config.py
+*.pyc

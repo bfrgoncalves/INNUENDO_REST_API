@@ -11,7 +11,7 @@ from app.models.models import User
 user_fields = {
 	'id': fields.Integer,
 	'email': fields.String,
-    'studies': fields.Url('user_studies', absolute=True)
+    'projects': fields.Url('user_projects', absolute=True)
 }
 
 #Define studies resources

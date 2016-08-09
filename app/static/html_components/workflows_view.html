@@ -1,0 +1,46 @@
+<div ng-controller="workflowsCtrl" ng-init="launch_sortable()">
+  <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
+  <h3 class="sub-header">Workflows</h3>
+
+  <div class="col-md-6">
+    <div class="sub_container">
+      <div class="jumbotron">
+        <h3 class="sub-header">Protocols</h3>
+        <select ng-model="selectedTypeLoad" class="form-control" id="protocol_type_selector_load" ng-change="loadProtocolType(selectedTypeLoad)">
+          <option ng-repeat="type in protocol_types">{{type}}</option>
+        </select>
+        <select ng-model="selectedProtocolLoad" class="form-control" id="protocol_selector_load" ng-change="loadProtocol(selectedProtocolLoad)">
+          <option ng-repeat="protocol in protocols_of_type">{{protocol}}</option>
+        </select>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+              <button class="btn btn-default" ng-click="addToPipeline()">Add to Workflow</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="sub_container">
+      <div class="jumbotron">
+        <h3 class="sub-header">Workflows view</h3>
+
+      	<ul class='list-group sortable pipeline-list'>
+      	  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols">{{protocol.Name}}</li>
+      	</ul>
+
+        <div class="form-group" style="display:none;" id="workflow_form_block">
+          <form role="form" id="new_workflow_form" ng-submit="add_New_Workflow()">
+            <label for="worflow_name">Workflow name:</label>
+            <input type="text" id="worflow_name" name="name"></input>
+            <button class="btn btn-md btn-default">Add Workflow</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  	
+  </div>
+
+</div>

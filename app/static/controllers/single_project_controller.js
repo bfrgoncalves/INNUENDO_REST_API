@@ -30,7 +30,7 @@ $scope.showProject = function(){
 $scope.deleteProject = function(){
 
     req = {
-        url:'/api/v1.0/projects/' + CURRENT_PROJECT_ID,
+        url:'api/v1.0/projects/' + CURRENT_PROJECT_ID,
         method:'DELETE'
     }
 
@@ -81,7 +81,7 @@ $scope.addPipeline = function(){
 $scope.getStrains = function(){
 
     req = {
-        url: '/api/v1.0/strains/',
+        url: 'api/v1.0/strains/',
         method:'GET'
     }
 
@@ -124,7 +124,7 @@ $scope.getStrains = function(){
 $scope.getUploadedFiles = function(){
 
     req = {
-        url: '/api/v1.0/uploads/',
+        url: 'api/v1.0/uploads/',
         method:'GET'
     }
 
@@ -140,7 +140,7 @@ $scope.getUploadedFiles = function(){
 $scope.getProjectStrains = function(){
 
     req = {
-        url: '/api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
+        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
         method:'GET'
     }
 
@@ -183,7 +183,7 @@ $scope.getProjectStrains = function(){
 $scope.addStrainToProject = function(strain_name){
 
     req = {
-        url: '/api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
+        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
         method:'PUT',
         data: {
             "strainID": strain_name
@@ -237,7 +237,7 @@ $scope.add_Database_Strains = function(){
 $scope.add_New_Strain = function(){
 
     req = {
-        url: '/api/v1.0/strains/',
+        url: 'api/v1.0/strains/',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         method:'POST',
         data: $('#new_strain_form').find("select, input").serialize()
@@ -274,7 +274,7 @@ $scope.removeStrainsFromProject = function(){
         strain_name = strain_names[i];
 
         req = {
-            url: '/api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
+            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
             method:'DELETE',
             params: {
                 "strainID": strain_name

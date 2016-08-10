@@ -3,9 +3,20 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from config import basedir
 import os 
 
+from werkzeug.serving import run_simple
+from werkzeug.wsgi import DispatcherMiddleware
+
+
+
 #Setup app
 app = Flask(__name__)
 app.config.from_object('config') #Reads the config file located at ../
+
+def simple(env, resp):
+    resp(b'200 OK', [(b'Content-Type', b'text/plain')])
+    return [b'Hello WSGI World']
+
+app.wsgi_app = DispatcherMiddleware(simple, {'/app': app.wsgi_app})
 
 #Setup db
 db = SQLAlchemy(app) #initialization of the database

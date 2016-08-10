@@ -11,7 +11,7 @@ $scope.uploadFiles = function(){
 	formData.append('file', file);
 
 	req = {
-        url: '/api/v1.0/uploads/',
+        url: 'api/v1.0/uploads/',
         method:'POST',
         data: formData,
         contentType: false,

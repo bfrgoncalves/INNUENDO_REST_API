@@ -11,7 +11,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
         //Get user projects for specie 1
         req_1 = {
-                url:'/api/v1.0/projects/species/1',
+                url:'api/v1.0/projects/species/1',
                 method:'GET'
             }
 
@@ -26,7 +26,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
         //Get other projects for specie 1
         req_2 = {
-                url:'/api/v1.0/projects/species/1',
+                url:'api/v1.0/projects/species/1',
                 method:'GET',
                 params: { get_others: true }
             }
@@ -42,7 +42,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
         
         //Get species
         req_3 = {
-            url:'/api/v1.0/species/',
+            url:'api/v1.0/species/',
             method:'GET'
         }
 
@@ -65,7 +65,7 @@ $scope.change_project_by_specie = function(species_id, species_name){
     destroyTable('other_projects_table');
 
     req = {
-            url:'/api/v1.0/projects/species/' + species_id,
+            url:'api/v1.0/projects/species/' + species_id,
             method:'GET'
         }
 
@@ -84,7 +84,7 @@ $scope.change_project_by_specie = function(species_id, species_name){
 
 
     req = {
-            url:'/api/v1.0/projects/species/' + species_id,
+            url:'api/v1.0/projects/species/' + species_id,
             method:'GET',
             params: { get_others: true }
         }
@@ -109,7 +109,7 @@ $scope.change_project_by_specie = function(species_id, species_name){
 $scope.addRow = function(){
 
     req = {
-        url:'/api/v1.0/projects/',
+        url:'api/v1.0/projects/',
         method:'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         data: $('#new_project_form').serialize()
@@ -137,7 +137,7 @@ $scope.deleteRow = function(){
         var project_id = $scope.projects[project_indexes[i]].id;
         
         req = {
-            url:'/api/v1.0/projects/' + project_id,
+            url:'api/v1.0/projects/' + project_id,
             method:'DELETE'
         }
 
@@ -165,7 +165,7 @@ $scope.highlightProject = function($event, project_id){
 $scope.loadProject = function(){
 
     req = {
-        url:'/api/v1.0/projects/' + CURRENT_PROJECT_ID,
+        url:'api/v1.0/projects/' + CURRENT_PROJECT_ID,
         method:'GET'
     }
 

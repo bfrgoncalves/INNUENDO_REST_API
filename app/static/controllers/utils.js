@@ -16,7 +16,6 @@ function loadDataTables(table_id, table_values){
         if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
           return false;
         }
-        console.log('AQUI');
 
         if (table_values.length == 0) return false;
 

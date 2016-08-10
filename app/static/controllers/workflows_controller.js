@@ -5,7 +5,6 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	$scope.launch_sortable = function(){
 		sortable('.sortable');
 		$scope.protocol_types = protocol_types;
-		console.log(protocols);
 	}
 
 	$scope.loadProtocolType = function(selectedType){

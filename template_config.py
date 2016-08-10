@@ -37,6 +37,11 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'tab'])
 #app route
 
 app_route = '/app'
-#SECURITY_URL_PREFIX = app_route
+APPLICATION_ROOT = app_route
+#SECURITY_URL_PREFIX = '/app'
 SECURITY_POST_LOGIN_VIEW = app_route
 SECURITY_POST_LOGOUT_VIEW = app_route
+SECURITY_POST_REGISTER_VIEW = app_route
+SECURITY_POST_CONFIRM_VIEW = app_route
+SECURITY_POST_RESET_VIEW = app_route
+SECURITY_POST_CHANGE_VIEW = app_route

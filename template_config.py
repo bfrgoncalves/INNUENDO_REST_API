@@ -30,6 +30,10 @@ MAIL_PASSWORD = 'sender_pass'
 WTF_CSRF_ENABLED = True
 #To be used in the Flask-WTF extension
 
+#File upload information
+UPLOAD_FOLDER = 'app/uploads/'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'tab'])
+
 #app route
 
 app_route = '/app'

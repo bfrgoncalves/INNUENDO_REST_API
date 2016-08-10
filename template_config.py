@@ -29,3 +29,10 @@ MAIL_USERNAME = 'sender_email'
 MAIL_PASSWORD = 'sender_pass'
 WTF_CSRF_ENABLED = True
 #To be used in the Flask-WTF extension
+
+#app route
+
+app_route = '/app'
+#SECURITY_URL_PREFIX = app_route
+SECURITY_POST_LOGIN_VIEW = app_route
+SECURITY_POST_LOGOUT_VIEW = app_route

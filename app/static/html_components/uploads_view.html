@@ -1,0 +1,16 @@
+<div ng-controller="uploadsCtrl">
+  <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
+  <h3 class="sub-header">Uploads</h3>
+  
+  <form role="form" id="uploads_form" ng-submit="uploadFiles()">
+    <label class="control-label">Select File</label>
+	<input id="input-1a" type="file" class="file-loading" name="file">
+  </form>
+
+</div>
+
+<script>
+	$("#input-1a").fileinput({
+		maxFileCount: 2
+	});
+</script>

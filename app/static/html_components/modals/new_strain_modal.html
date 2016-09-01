@@ -1,0 +1,75 @@
+<!-- Modal Template-->
+<div id="newStrainModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Add Strain</h4>
+	  </div>
+      <div class="modal-body">
+      	<ul class="nav nav-tabs">
+		  <li><a data-toggle="tab" href="#database_menu">From Database</a></li>
+		  <li class="active"><a data-toggle="tab" href="#newstrain_menu">New</a></li>
+		</ul>
+		<div class="tab-content">
+			<div id="newstrain_menu" class="tab-pane fade in active tab-container" style="text-align:left;">
+				<div class="col-md-12" id="new_strain_message_div"></div>
+				<form role="form" id="new_strain_form" ng-submit="add_New_Strain()">
+					<div class="form-group">
+						<label for="strainID">Strain name:</label>
+						<input type="text" class="form-control" id="strain_name" name="strainID" placeholder="Enter strain name">
+						<input type="hidden" name="species_id" ng-value="species_id">
+					</div>
+					<div class="form-group">
+						<label for="Location">Location:</label>
+						<input type="text" class="form-control" id="strain_location" name="Location" placeholder="Enter location">
+					</div>
+					<div class="form-group">
+						<label for="ST">ST:</label>
+						<input type="text" class="form-control" id="strain_ST" name="ST" placeholder="Enter ST">
+					</div>
+					<div class="form-group">
+						<label for="CC">CC:</label>
+						<input type="text" class="form-control" id="strain_CC" name="CC" placeholder="Enter CC">
+					</div>
+					<div class="form-group">
+						<label for="fileselector">Select a file:</label>
+						<select name="fileselector" class="form-control" id="file_selector" form="database_file_form">
+					    	<option ng-repeat="file in files">{{ file.filename }}</option>
+					    </select>
+					    </div>
+					<button class="btn btn-primary" type="submit">Add Strain</button>
+				</form>
+			</div>
+			<div id="database_menu" class="tab-pane fade tab-container">
+				<div class="col-md-12" id="database_strain_message_div"></div>
+				<form role="form" id="database_strain_form" ng-submit="add_Database_Strains()">
+					<button class="btn btn-primary" type="submit">Add Selected Strains</button>
+				</form>
+				<table class="display nowrap" id="public_strains_table">
+		            <thead>
+		              <tr>
+		                <th></th>
+		                <th ng-repeat="header in public_strains_headers">{{ header }}</th>
+		              </tr>
+		            </thead>
+		            <tbody style="height: 120px;overflow-y: auto;">
+		              <tr ng-repeat="strain in public_strains">
+		                <td></td>
+		                <td ng-repeat="field in strain">{{ field }}</td>
+		                </td>
+		              </tr>
+		            </tbody>
+		          </table>
+			</div>
+	  </div>
+	</div>
+	  <div class="modal-footer">
+	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+
+  </div>
+</div>

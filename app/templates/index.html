@@ -1,0 +1,16 @@
+{% extends "base.html" %} <!--extends the base html-->
+{% block stylesheets %} <!--modifies the stylesheets block-->
+	<link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %} <!--modifies the content block-->
+	{% include "_navbar.html" %}
+	{% include "_main.html" %}
+	<!--
+    <h1>Hi, {{ current_user.email }}!</h1>
+    {% for post in posts %}
+    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+    {% endfor %}
+    {% include "security/_menu.html" %}
+-->
+{% endblock %}

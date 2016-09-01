@@ -1,0 +1,33 @@
+{% extends "base.html" %} <!--extends the base html-->
+{% block stylesheets %} <!--modifies the stylesheets block-->
+	<link href="{{ url_for('static', filename='css/signin.css') }}" rel="stylesheet">
+{% endblock %}
+{% block content %} <!--modifies the content block-->
+	{% from "security/_macros.html" import render_field_with_errors, render_field %}
+	{% include "_navbar.html" %}
+	<div class="container">
+		<form class="form-signin" action="{{ url_for_security('login') }}" method="POST" name="login_user_form">
+		  <h2 class="form-signin-heading">Please sign in</h2>
+		  {{ login_user_form.hidden_tag() }}	
+		  <label for="email" class="sr-only">Email address</label>
+
+	     <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+	     {{ render_field_with_errors(login_user_form.email) }}
+		 <label for="password" class="sr-only">Password</label>
+	     <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+	     {{ render_field_with_errors(login_user_form.password) }}
+		  <div class="checkbox">
+	          <label>
+	            <input type="checkbox" id="remember" name="remember" value="y"> Remember me
+	            <a href="{{ url_for_security('forgot_password') }}" class="form-signin">Forgot password</a>
+	            {{ render_field_with_errors(login_user_form.remember) }}
+	          </label>
+	      </div>
+		  {{ render_field(login_user_form.next) }}
+		  <button class="btn btn-lg btn-primary btn-block" id="submit" name="submit" type="submit">Sign in</button>
+		  {% include "security/_messages.html" %}
+		</form>
+		{% if security.recoverable %}
+        {% endif %}
+	</div>
+{% endblock %}

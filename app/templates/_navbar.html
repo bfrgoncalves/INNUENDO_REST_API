@@ -1,0 +1,29 @@
+<header id="header" class="headroom">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <p class="pull-left visible-xs">
+            <button id="offcanvasleft" class="navbar-toggle" type="button" data-toggle="offcanvasleft"><i class="fa fa-bars"> INNUENDO</i></button>
+        </p>
+        <button id="navbarlogbutton" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i class="fa fa-bars"> Log Menu</i></button>
+        <!--<a class="navbar-brand" href="{{ url_for('index') }}">INNUENDO Platform</a>-->
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          {% if current_user.is_authenticated %}
+           {% include "_userdropdown.html" %}
+          {% else %}
+          {% if security.registerable %}
+          <li><a href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Register</a></li>
+          {% endif %}
+          <li><a href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Login</a></li>
+          {% endif %}
+          <li><a href="#">Help</a></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <input type="text" class="form-control" placeholder="Search...">
+        </form>
+      </div>
+    </div>
+  </nav>
+</header>

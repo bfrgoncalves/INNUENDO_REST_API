@@ -15,6 +15,7 @@
 		</ul>
 		<div class="tab-content">
 			<div id="newstrain_menu" class="tab-pane fade in active tab-container" style="text-align:left;">
+				<div class="col-md-12" id="new_strain_message_div"></div>
 				<form role="form" id="new_strain_form" ng-submit="add_New_Strain()">
 					<div class="form-group">
 						<label for="strainID">Strain name:</label>
@@ -43,6 +44,7 @@
 				</form>
 			</div>
 			<div id="database_menu" class="tab-pane fade tab-container">
+				<div class="col-md-12" id="database_strain_message_div"></div>
 				<form role="form" id="database_strain_form" ng-submit="add_Database_Strains()">
 					<button class="btn btn-primary" type="submit">Add Selected Strains</button>
 				</form>

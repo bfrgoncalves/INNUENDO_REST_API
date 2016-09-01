@@ -13,12 +13,16 @@
 		  {{ register_user_form.hidden_tag() }}
 		  <label for="email" class="sr-only">Email address</label>
 	      <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+	      {{ render_field_with_errors(register_user_form.email) }}
 	      <label for="password" class="sr-only">Password</label>
           <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+	      {{ render_field_with_errors(register_user_form.password) }}
 	      <label for="password_confirm" class="sr-only">Confirm Password</label>
 	      <input type="password" id="password_confirm" name="password_confirm" class="form-control" placeholder="Confirm Password" required>
+	      {% if register_user_form.password_confirm %}
+		    {{ render_field_with_errors(register_user_form.password_confirm) }}
+		  {% endif %}
 		  <button class="btn btn-lg btn-primary btn-block" id="submit" name="submit" type="submit">Submit</button>
-		  {% include "security/_messages.html" %}
 		</form>
 	</div>
 

@@ -38,6 +38,7 @@
     "html.sortable": "^0.4.0",
     "angular": "^1.5.8",
     "bootstrap-fileinput": "^4.3.4",
-    "bootstrap-select": "^1.10.0"
+    "bootstrap-select": "^1.10.0",
+    "angular-flash-alert": "^2.3.0"
   }
 }

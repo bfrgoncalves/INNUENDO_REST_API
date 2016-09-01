@@ -10,14 +10,12 @@ import datetime
 
 #Defining post arguments parser
 strain_post_parser = reqparse.RequestParser()
-#strain_post_parser.add_argument('metadata_fields', dest='metadata_fields', type=str, required=True, help="Strain metadata fields")
 strain_post_parser.add_argument('strainID', type=str, required=True, help="Strain identifier")
 strain_post_parser.add_argument('species_id', type=int, required=True, help="Species identifier")
 strain_post_parser.add_argument('Location', type=str, required=True, help="Strain location")
 strain_post_parser.add_argument('ST', type=str, required=True, help="Strain ST")
 strain_post_parser.add_argument('CC', type=str, required=True, help="Strain CC")
 strain_post_parser.add_argument('fileselector', type=str, required=True, help="Strain sequencing file")
-#Lets accept multiple values for variables. -d "name=bob" -d "name=sue" -d "name=joe" ? ['bob', 'sue', 'joe']
 
 strain_project_parser = reqparse.RequestParser()
 strain_project_parser.add_argument('strainID', dest='strainID', type=str, required=False, help="Strain identifier")

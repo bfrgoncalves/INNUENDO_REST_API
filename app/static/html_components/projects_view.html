@@ -7,11 +7,13 @@
       </ul>
     </div>
 
+    <div class="col-md-12" id="projects_message_div"></div>
+
     <div class="col-md-6">
       <div class="sub_container">
         <div id="jumbotron-projects" class="jumbotron">
             <h3 class="sub-header">My Projects<button type="button" class="btn btn-md btn-danger" ng-click="deleteRow()" value="" style="float:right;"><i class="fa fa-trash-o"></i></button>
-            <button class="btn btn-md btn-default" style="float:right;" data-toggle="modal" data-target="#newProjectModal"><i class="fa fa-plus"></i></button><button class="btn btn-md btn-primary" style="float:right;" ng-click="loadProject();selectedTemplate.path = 'static/html_components/manage_projects_view.html'"><i class="fa fa-upload"></i></button></h3>
+            <button class="btn btn-md btn-default" style="float:right;" data-toggle="modal" data-target="#newProjectModal"><i class="fa fa-plus"></i></button><button class="btn btn-md btn-primary" style="float:right;" ng-click="loadProject('projects_table');"><i class="fa fa-upload"></i></button></h3>
           <table class="display nowrap alltables" cellspacing="0" id="projects_table">
             <thead>
               <tr ng-repeat="row in projects" ng-if="$index == 0">
@@ -32,7 +34,7 @@
     <div class="col-md-6">
       <div class="sub_container">
         <div id="jumbotron-otherprojects" class="jumbotron">
-        <h3 class="sub-header">Other Projects<button class="btn btn-md btn-primary" style="float:right;" ng-click="loadOtherProjects(); selectedTemplate.path = 'manage_projects_view.html'"><i class="fa fa-upload"></i></button></h3>
+        <h3 class="sub-header">Other Projects<button class="btn btn-md btn-primary" style="float:right;" ng-click="loadProject('other_projects_table');"><i class="fa fa-upload"></i></button></h3>
           <table class="display nowrap" cellspacing="0" id="other_projects_table">
             <thead>
               <tr ng-repeat="row in other_projects" ng-if="$index == 0">
@@ -42,7 +44,7 @@
             <tbody>
               <tr ng-repeat="project in other_projects" ng-click="highlightProject($event, project.id)">
                 <td></td>
-                <td ng-repeat="(key,val) in project" ng-if="key != 'id'">{{ project.name }}</td>
+                <td ng-repeat="(key,val) in project" ng-if="key != 'id'">{{ val }}</td>
               </tr>
             </tbody>
           </table>

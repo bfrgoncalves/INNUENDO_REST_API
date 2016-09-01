@@ -6,6 +6,11 @@ import os
 from werkzeug.serving import run_simple
 from werkzeug.wsgi import DispatcherMiddleware
 
+from franz.openrdf.sail.allegrographserver import AllegroGraphServer
+from franz.openrdf.repository.repository import Repository
+from franz.miniclient import repository
+from config import basedir,AG_HOST,AG_PORT,AG_REPOSITORY,AG_USER,AG_PASSWORD, app_route
+
 
 
 #Setup app
@@ -16,7 +21,7 @@ def simple(env, resp):
     resp(b'200 OK', [(b'Content-Type', b'text/plain')])
     return [b'Hello WSGI World']
 
-app.wsgi_app = DispatcherMiddleware(simple, {'/app': app.wsgi_app})
+app.wsgi_app = DispatcherMiddleware(simple, {app_route: app.wsgi_app})
 
 #Setup db
 db = SQLAlchemy(app) #initialization of the database
@@ -40,5 +45,19 @@ admin = Admin(app)
 # Add Flask-Admin views for Users and Roles
 admin.add_view(UserAdmin(User, db.session))
 admin.add_view(RoleAdmin(Role, db.session))
+
+
+#setup agraph
+server= AllegroGraphServer(AG_HOST, AG_PORT, AG_USER, AG_PASSWORD)
+catalog = server.openCatalog()             ## default rootCatalog
+#print "Available repositories in catalog '%s':  %s" % (catalog.getName(), catalog.listRepositories())    
+myRepository = catalog.getRepository(AG_REPOSITORY, Repository.OPEN)
+myRepository.initialize()
+dbconAg = myRepository.getConnection()
+dedicateddbconAg = myRepository.getConnection()
+print "Repository %s is up!  It contains %i statements." % (
+	myRepository.getDatabaseName(), dbconAg.size())
+
+
 
 from app import views, models, api, app_configuration #models are files that define the database structure

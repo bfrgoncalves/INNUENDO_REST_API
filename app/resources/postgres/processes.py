@@ -7,10 +7,15 @@ from app.models.models import Pipeline
 from flask.ext.security import current_user, login_required, roles_required
 import datetime
 
+############################################ NOT BEING USED #######################################################
+
+"""
+Processes are being defined in the ngsonto resources
+"""
+
 #Defining post arguments parser
 process_post_parser = reqparse.RequestParser()
 process_post_parser.add_argument('messages', dest='messages', type=str, required=True, help="Process messages")
-#Lets accept multiple values for variables. -d "name=bob" -d "name=sue" -d "name=joe" ? ['bob', 'sue', 'joe']
 
 #Defining response fields
 

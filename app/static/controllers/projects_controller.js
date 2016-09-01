@@ -5,175 +5,82 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
     $scope.projects_headers = {};
     $scope.other_projects = [];
     $scope.species = [];
-    $scope.currentSpecieID = 1
+    $scope.currentSpecieID = 1;
+
+    var projects_table = new Projects_Table(0, null, $http);
+    var objects_utils = new Objects_Utils();
 
     if (get_userid() != 0){
 
         //Get user projects for specie 1
-        req_1 = {
-                url:'api/v1.0/projects/species/1',
-                method:'GET'
-            }
-
-        $http(req_1).then(function(response){
-            $scope.projects = response.data.map(function(d){
-                    return {name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id}
-                });
-
-
-            loadDataTables('projects_table', $scope.projects);
+        projects_table.get_projects_from_species(1, false, function(results){
+        	$scope.projects = results;
+        	objects_utils.loadDataTables('projects_table', $scope.projects);
         });
-
         //Get other projects for specie 1
-        req_2 = {
-                url:'api/v1.0/projects/species/1',
-                method:'GET',
-                params: { get_others: true }
-            }
-
-        $http(req_2).then(function(response_1){
-            $scope.other_projects = response_1.data.map(function(e){
-                return {name: e.name, description: e.description, date: e.timestamp.split(" ").slice(0, 4).join(' '), id: e.id}
-            });
-
-            loadDataTables('other_projects_table', $scope.other_projects);
+        projects_table.get_projects_from_species(1, true, function(results){
+        	$scope.other_projects = results;
+        	objects_utils.loadDataTables('other_projects_table', $scope.other_projects);
         });
-
-        
         //Get species
-        req_3 = {
-            url:'api/v1.0/species/',
-            method:'GET'
-        }
-
-        $http(req_3).then(function(response){
-            $scope.species = response.data;
-            CURRENT_SPECIES_NAME = response.data[0].name;
-            CURRENT_SPECIES_ID = response.data[0].id;
+        projects_table.get_species_names(function(results){
+        	$scope.species = results.species;
+	        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
+	        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
         });
-
-
     }
 
-$scope.change_project_by_specie = function(species_id, species_name){
+	$scope.change_project_by_specie = function(species_id, species_name){
 
-    CURRENT_SPECIES_ID = species_id;
-    CURRENT_SPECIES_NAME = species_name;
-    $scope.currentSpecieID = species_id;
+	    CURRENT_SPECIES_ID = species_id;
+	    CURRENT_SPECIES_NAME = species_name;
+	    $scope.currentSpecieID = species_id;
 
-    destroyTable('projects_table');
-    destroyTable('other_projects_table');
+	    objects_utils.destroyTable('projects_table');
+	    objects_utils.destroyTable('other_projects_table');
 
-    req = {
-            url:'api/v1.0/projects/species/' + species_id,
-            method:'GET'
-        }
+	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
+	    	$scope.projects = results;
+	    	objects_utils.loadDataTables('projects_table', $scope.projects);
+	    });
 
-    $http(req).then(function(response){
+	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
+	    	$scope.other_projects = results;
+	    	objects_utils.loadDataTables('other_projects_table', $scope.other_projects);
+	    });
 
-            $scope.projects = response.data.map(function(d){
-                    return {name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id}
-                });
+	};
 
-            loadDataTables('projects_table', $scope.projects);
-        },
-        function(error){
-            $scope.projects = [];
-            loadDataTables('projects_table', $scope.projects);
-        }); 
+	$scope.addRow = function(){
 
+	    projects_table.add_project(function(results){
+	    	$scope.projects = results.projects;
+	    });
 
-    req = {
-            url:'api/v1.0/projects/species/' + species_id,
-            method:'GET',
-            params: { get_others: true }
-        }
+	};
 
-    $http(req).then(function(response){
+	$scope.deleteRow = function(){
 
-            $scope.other_projects = response.data.map(function(d){
-                return {name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id}
-            });
+	    projects_table.delete_project(function(results){
+	    	$scope.$apply(function(){
+	    		objects_utils.destroyTable('projects_table');
+	    		$scope.projects = results.projects;
+	    		objects_utils.loadDataTables('projects_table', $scope.projects);
+	    	})
+	    })
 
-            loadDataTables('other_projects_table', $scope.other_projects);
-        },
-        function(error){
-            $scope.other_projects = [];
+	};
 
-            loadDataTables('other_projects_table', $scope.other_projects);
-        }); 
+	$scope.highlightProject = function($event, project_id){
+	    CURRENT_PROJECT_ID = project_id;
+	}
 
-};
+	$scope.loadProject = function(table_id){
+		projects_table.load_project(table_id, CURRENT_PROJECT_ID, function(results){
+			CURRENT_PROJECT = results.CURRENT_PROJECT;
+			$scope.selectedTemplate.path = results.template;
+		});
 
-
-$scope.addRow = function(){
-
-    req = {
-        url:'api/v1.0/projects/',
-        method:'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        data: $('#new_project_form').serialize()
-    }
-
-	$http(req).then(function(response){
-            destroyTable('projects_table');
-
-	  		$scope.projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id});
-
-            loadDataTables('projects_table', $scope.projects);
-            
-            $('#newProjectModal').modal('hide');
-    });	
-};
-
-$scope.deleteRow = function(){
-
-    var project_indexes = $.map($('#projects_table').DataTable().rows('.selected').indexes(), function(index){
-        return index;
-    });
-    
-    for(i in project_indexes){
-
-        var project_id = $scope.projects[project_indexes[i]].id;
-        
-        req = {
-            url:'api/v1.0/projects/' + project_id,
-            method:'DELETE'
-        }
-
-        $http(req).then(function(response){
-
-            destroyTable('projects_table');
-            var new_projects = [];
-            $scope.projects.map(function(d){
-                if (d.id != project_id) new_projects.push(d);
-            })
-            $scope.projects = new_projects;
-            loadDataTables('projects_table', $scope.projects);
-
-        });
-
-    }
-
-};
-
-
-$scope.highlightProject = function($event, project_id){
-    CURRENT_PROJECT_ID = project_id;
-}
-
-$scope.loadProject = function(){
-
-    req = {
-        url:'api/v1.0/projects/' + CURRENT_PROJECT_ID,
-        method:'GET'
-    }
-
-	$http(req).then(function(response){
-        console.log(response);
-        CURRENT_PROJECT = response.data;
-    });
-
-};
+	};
 
 });

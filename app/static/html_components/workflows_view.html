@@ -9,7 +9,7 @@
         <select ng-model="selectedTypeLoad" class="form-control" id="protocol_type_selector_load" ng-change="loadProtocolType(selectedTypeLoad)">
           <option ng-repeat="type in protocol_types">{{type}}</option>
         </select>
-        <select ng-model="selectedProtocolLoad" class="form-control" id="protocol_selector_load" ng-change="loadProtocol(selectedProtocolLoad)">
+        <select ng-model="selectedProtocolLoad" class="form-control" id="protocol_selector_load">
           <option ng-repeat="protocol in protocols_of_type">{{protocol}}</option>
         </select>
         <div class="form-group">
@@ -26,8 +26,8 @@
       <div class="jumbotron">
         <h3 class="sub-header">Workflows view</h3>
 
-      	<ul class='list-group sortable pipeline-list'>
-      	  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols">{{protocol.Name}}</li>
+      	<ul id="sortable_list" class='list-group sortable pipeline-list'>
+      	  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols" value="{{protocol.id}}">{{protocol.name}}</li>
       	</ul>
 
         <div class="form-group" style="display:none;" id="workflow_form_block">
@@ -40,6 +40,7 @@
       </div>
     </div>
   </div>
+  <div class="col-md-12" id="workflows_message_div"></div>
   	
   </div>
 

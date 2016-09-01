@@ -10,15 +10,11 @@ projects_strains = db.Table('projects_strains', db.Column('project_id', db.Integ
 class User(db.Model, UserMixin):
 	__tablename__ = "users" #change table name from user to users just not clash with postgresql 
 	id = db.Column(db.Integer, primary_key=True)
-	#username = db.Column(db.String(64), index=True, unique=True)
 	password = db.Column('password' , db.String(255))
 	active = db.Column(db.Boolean())
 	email = db.Column(db.String(120), index=True, unique=True)
 	roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 	projects = db.relationship('Project', backref='author', lazy='dynamic')
-	#posts = db.relationship('Post', backref='author', lazy='dynamic')
-	#With this relationship we get a user.posts member that gets us the list of posts from the user. 
-	#The first argument to db.relationship indicates the "many" class of this relationship. 
 	#The backref argument defines a field that will be added to the objects of the "many" class that points back at the "one" object. 
 	#In our case this means that we can use post.author to get the User instance that created a post.
 
@@ -74,29 +70,15 @@ class Project(db.Model):
 class Pipeline(db.Model):
 	__tablename__ = "pipelines"
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255), unique=True)
 	timestamp = db.Column(db.DateTime)
 	project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
-	workflows = db.relationship('Workflow', secondary=pipelines_workflows, backref=db.backref('pipeline', lazy='dynamic'))
-	processes = db.relationship('Process', backref='pipeline', lazy='dynamic')
-	workflows_order = db.Column(JSON)
-
-	def add_workflow(self, workflow):
-		if not self.is_workflow_added(workflow):
-			self.workflows.append(workflow)
-			return self
-
-	def is_workflow_added(self, workflow):
-		return self.pipelines_workflows.filter(pipelines_workflows.c.workflow_id == workflow.id).count() > 0
-
-
+	strain_id = db.Column(db.Integer, db.ForeignKey('strains.id'))
 
 class Workflow(db.Model):
 	__tablename__ = "workflows"
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255), unique=True)
 	timestamp = db.Column(db.DateTime)
-	protocol_order = db.Column(JSON)
 
 
 class Process(db.Model):
@@ -111,7 +93,7 @@ class Protocol(db.Model):
 	__tablename__ = "protocols"
 	id = db.Column(db.Integer(), primary_key=True)
 	timestamp = db.Column(db.DateTime)
-	name = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
 	steps = db.Column(JSON)
 
 

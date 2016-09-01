@@ -1,72 +1,74 @@
 innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
-	protocol_types = ["Software", "Assembly"];
-	$scope.protocol_types = protocol_types;
-
-	var file_formats = ["fastq", "gbk", "bam", "sam"];
-
-	//var protocols = {};
-	var selectedProtocolType = '';
-	var selectedNewProtocolType = '';
-
-	var protocol_fields = {
-
-		"Software": {
-			"Name": ["input", "text"],
-			"Version": ["input", "text"],
-			"Description": ["textarea", "text"],
-			"Input": ["select", file_formats],
-			"Output": ["select", file_formats]
-		},
-		"Assembly": {
-			"Name": ["input", "text"],
-			"Version": ["input", "text"],
-			"Platform": ["input", "text"],
-			"Description": ["textarea", "text"],
-			"Input": ["select", file_formats],
-			"Output": ["select", file_formats]
-		}
-
-	}
-
 	$scope.protocol_type = {};
 	$scope.protocols_of_type = [];
+	$scope.protocolTypeParameters = {};
 
+	var protocols_list = new Protocol_List($http);
 
-$scope.addProtocol = function(){
-	form_serialized = $('#new_protocol_form').serializeArray();
-	var protocol_object = {};
-	for (i in form_serialized){
-		protocol_object[form_serialized[i].name.split('_')[1]] = form_serialized[i].value;
+	$scope.loadProtocols = function(){
+		$scope.getProtocolTypes();
 	}
 
-	if(!protocols.hasOwnProperty(selectedNewProtocolType)){
-		protocols[selectedNewProtocolType] = {};
+	$scope.getProtocolTypes = function(){
+
+		protocols_list.get_protocol_types(function(results){
+			$scope.protocol_types = results.protocol_types;
+		});
 	}
-	protocols[selectedNewProtocolType][protocol_object.Name] = protocol_object;
-	console.log('protocol created');
 
-}
+	$scope.addProtocol = function(){
 
-$scope.loadProtocolCreator = function(selectedType){
-	selectedNewProtocolType = selectedType;
-	$scope.protocol_type = protocol_fields[selectedType];
-}
+		protocols_list.add_protocol(function(results){
+			console.log(results.message);
+		});
 
-$scope.loadProtocolType = function(selectedType){
-
-	if(protocols.hasOwnProperty(selectedType)){
-		$scope.protocols_of_type = Object.keys(protocols[selectedType]);
-		selectedProtocolType = selectedType;
 	}
-	else $scope.protocols_of_type = [];
-}
 
-$scope.loadProtocol = function(selectedProtocol){
+	$scope.loadProtocolCreator = function(selectedType){
 
-	$scope.selected_protocol = protocols[selectedProtocolType][selectedProtocol];
+		protocols_list.load_protocol_form(selectedType, function(results){
+	    	$scope.protocol_parameters = results.protocol_parameters;
+	    	$scope.protocol_type = results.protocol_type;
+		});
+	}
 
-}
+	$scope.loadProtocolType = function(selectedType){
+
+		protocols_list.get_protocols_of_type(selectedType, function(results){
+			$scope.property_fields = results.property_fields;
+	    	$scope.protocols_of_type = results.protocols_of_type;
+		});
+	}
+
+	$scope.loadProtocol = function(selectedProtocol){
+
+		protocols_list.load_protocol(selectedProtocol, function(results){
+			$scope.selected_protocol = results.protocol;
+		});
+
+	}
+
+	$scope.getProtocolFields = function(uri){
+
+		protocols_list.get_protocol_fields(uri, function(results){
+			$scope.property_fields = results.property_fields;
+		});
+	}
+
+	$scope.AddParameters = function(){
+
+		protocols_list.get_current_protocol_type(function(results){
+			var parameterObject = $('#new_data_form').serializeArray();
+			var currentProtocolType = results.currentProtocolType
+			if (!$scope.protocolTypeParameters.hasOwnProperty(currentProtocolType)){
+				$scope.protocolTypeParameters[currentProtocolType] = [];
+			}
+			$scope.protocolTypeParameters[currentProtocolType].push(parameterObject);
+			$scope.protocol_parameters = $scope.protocolTypeParameters[currentProtocolType];
+		});
+
+	}
 
 
 });

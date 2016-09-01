@@ -1,7 +1,10 @@
 from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered
-from app import app, db, user_datastore, security
+from app import app, db, user_datastore, security, dbconAg,dedicateddbconAg
 from app.models.models import Specie
 import os
+
+from config import obo,localNSpace,dcterms
+from franz.openrdf.vocabulary.rdf import RDF
 
 # Executes before the first request is processed.
 @app.before_first_request
@@ -51,3 +54,14 @@ def user_registered_handler(app, user, confirm_token):
     default_role = user_datastore.find_role('end-user')
     user_datastore.add_role_to_user(user, default_role)
     db.session.commit()
+
+    id= user.id
+
+    ############# Add user to NGS_onto ########################
+
+    UserURI = dbconAg.createURI(namespace=localNSpace, localname="users/"+str(id))
+    userType = dbconAg.createURI(namespace=dcterms, localname="Agent")
+    dbconAg.add(UserURI, RDF.TYPE, userType)
+    
+    return 200
+

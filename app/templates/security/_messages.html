@@ -1,9 +1,10 @@
 {%- with messages = get_flashed_messages(with_categories=true) -%}
   {% if messages %}
-    <ul class="flashes">
     {% for category, message in messages %}
-      <li class="{{ category }}">{{ message }}</li>
+    	<div class="alert alert-{{ category }}">
+    	  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <strong>{{ category }}!</strong> {{ message }}.
+        </div>
     {% endfor %}
-    </ul>
   {% endif %}
 {%- endwith %}

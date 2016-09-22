@@ -11,6 +11,10 @@ import datetime
 pipeline_post_parser = reqparse.RequestParser()
 pipeline_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="Strain id")
 
+#Defining post arguments parser
+pipeline_delete_parser = reqparse.RequestParser()
+pipeline_delete_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="Strain id")
+
 #Pipeline get parameters
 pipeline_get_parser = reqparse.RequestParser()
 pipeline_get_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="Strain id")
@@ -73,3 +77,17 @@ class PipelineListResource(Resource):
 		db.session.add(pipeline)
 		db.session.commit()
 		return pipeline, 201
+
+	@login_required
+	@marshal_with(pipeline_fields)
+	def delete(self, id):
+		args=pipeline_delete_parser.parse_args()
+		if not current_user.is_authenticated:
+				abort(403, message="No permissions")
+		print args.strain_id
+		pipeline = db.session.query(Pipeline).filter(Pipeline.strain_id == args.strain_id, Pipeline.project_id == id).first()
+		if not pipeline:
+			abort(404, message="Pipeline {} doesn't exist".format(id))
+		db.session.delete(pipeline)
+		db.session.commit()
+		return pipeline, 204

@@ -140,6 +140,23 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	           callback(response, strain_id);
 	        });
     	},
+    	ngs_onto_request_remove_pipeline: function(pipeline_id, callback){
+
+	    	req = {
+                url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
+                method:'DELETE',
+                params: {
+	                pipeline_id: pipeline_id
+	            }
+            }
+
+            $http(req).then(function(response){
+               callback(response);
+            },
+            function(response){
+               callback(response);
+            });
+	    },
     	ngs_onto_request_save_pipeline: function(pipeline_id, workflow_id, pipeline_step, callback){
 
 	        req = {

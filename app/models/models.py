@@ -1,11 +1,19 @@
+import ldap
 from app import db
 from flask.ext.security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
+from config import LDAP_PROVIDER_URL, DC
 
 #Secondary role table
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')), db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
 pipelines_workflows = db.Table('pipelines_workflows', db.Column('pipeline_id', db.Integer(), db.ForeignKey('pipelines.id')), db.Column('workflow_id', db.Integer(), db.ForeignKey('workflows.id')))
 projects_strains = db.Table('projects_strains', db.Column('project_id', db.Integer(), db.ForeignKey('projects.id')), db.Column('strains_id', db.Integer(), db.ForeignKey('strains.id')))
+
+#LADP connection
+def get_ldap_connection():
+	print LDAP_PROVIDER_URL
+	conn = ldap.initialize(LDAP_PROVIDER_URL)
+	return conn
 
 class User(db.Model, UserMixin):
 	__tablename__ = "users" #change table name from user to users just not clash with postgresql 
@@ -18,6 +26,13 @@ class User(db.Model, UserMixin):
 	#The backref argument defines a field that will be added to the objects of the "many" class that points back at the "one" object. 
 	#In our case this means that we can use post.author to get the User instance that created a post.
 
+	@staticmethod
+	def try_login(email, password):
+		conn = get_ldap_connection()
+		conn.simple_bind_s(
+			'cn=%s,ou=Users,dc=%s,dc=net' % (email, DC),
+			password
+		)
 
 class Role(db.Model, RoleMixin):
 	__tablename__ = "roles"

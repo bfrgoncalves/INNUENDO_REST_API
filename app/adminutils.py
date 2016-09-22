@@ -2,7 +2,7 @@ from flask.ext.admin import Admin
 from flask.ext.admin.contrib import sqla
 from wtforms.fields import PasswordField
 
-from flask.ext.security import current_user
+from flask.ext.security import current_user, utils
 
 
 # Customized User model for SQL-Admin

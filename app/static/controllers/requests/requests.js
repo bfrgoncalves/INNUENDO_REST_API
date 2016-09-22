@@ -3,6 +3,20 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	return {
 
 		//////////////// Protocols Requests /////////////////////////////////////////
+		get_upload_token: function(username, callback){
+
+			req = {
+		        url:'/controller/v1.0/users',
+		        method:'GET',
+		        params: { username: username }
+		    }
+
+		    $http(req).then(function(response){
+		    	callback(response);
+		    }, function(response){
+		    	callback(response);
+		    });
+		},
 		create_protocol: function(protocol_object, callback){
 			req = {
 		        url:'api/v1.0/protocols/',
@@ -186,6 +200,23 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            callback(response);
 		    });
 		},
+		remove_pipeline_from_project: function(strain_id, callback){
+
+		    req = {
+		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
+		        method:'DELETE',
+		        params: {
+		        	"strain_id": strain_id
+		        }
+		    }
+
+		    $http(req).then(function(response){
+		        callback(response);
+	        },
+	        function(response){
+	            callback(response);
+		    });
+		},
 		get_uploaded_files: function(callback){
 
 		    req = {
@@ -233,6 +264,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		},
 		add_new_strain: function(callback){
 
+			console.log($('#new_strain_form').find("select, input").serialize());
+
 		    req = {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -275,10 +308,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 	        }
 	        $http(req).then(function(response){
-	               callback(response);
+	               callback(response, strain_id);
 	            },
 	            function(response){
-	               callback(response);
+	               callback(response, strain_id);
 	        });
 		},
 		add_pipeline: function(strain_id, callback){

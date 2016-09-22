@@ -2,8 +2,9 @@ from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required
 from app import app, db, user_datastore, security, dbconAg,dedicateddbconAg
 from app.models.models import Specie
 import os
+import requests
 
-from config import obo,localNSpace,dcterms
+from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
 
 # Executes before the first request is processed.
@@ -48,8 +49,8 @@ def before_first_request():
 @user_registered.connect_via(app) #overrides the handler function to add a default role to a registered user
 def user_registered_handler(app, user, confirm_token):
 
-    if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], str(user.id))):
-        os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], str(user.id)))
+    if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], str(user.email) + '_' + str(user.id))):
+        os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], str(user.email) + '_' + str(user.id)))
     
     default_role = user_datastore.find_role('end-user')
     user_datastore.add_role_to_user(user, default_role)
@@ -62,6 +63,8 @@ def user_registered_handler(app, user, confirm_token):
     UserURI = dbconAg.createURI(namespace=localNSpace, localname="users/"+str(id))
     userType = dbconAg.createURI(namespace=dcterms, localname="Agent")
     dbconAg.add(UserURI, RDF.TYPE, userType)
-    
-    return 200
 
+    ############## CREATE USER ON CONTROLLER ##############################
+    r = requests.post('http://' + SFTP_HOST + '/controller/v1.0/users', data = {'username': user.email})
+    print r.json()
+    return 200

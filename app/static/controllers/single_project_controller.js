@@ -7,7 +7,6 @@ innuendoApp.controller("projectCtrl", function($scope, $http) {
     single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
     $scope.getAppliedPipelines = single_project.get_applied_pipelines;
-	$scope.add_Database_Strains = single_project.add_database_strains;
 	$scope.add_New_Strain = single_project.add_new_strain;
 	$scope.applyWorkflow = single_project.apply_workflow;
 	$scope.createPipeline = single_project.create_pipeline;
@@ -15,6 +14,12 @@ innuendoApp.controller("projectCtrl", function($scope, $http) {
 	$scope.runPipelines = single_project.run_pipelines;
 
 	var objects_utils = new Objects_Utils();
+
+	var metadata = new Metadata();
+
+	metadata.add_owner(CURRENT_USER_NAME);
+
+	$scope.metadata_fields = metadata.get_fields();
 
 
 	$scope.showProject = function(){
@@ -35,7 +40,7 @@ innuendoApp.controller("projectCtrl", function($scope, $http) {
 	                $scope.getAppliedPipelines();
 	            }, 1000);
 	        });
-	    }, 100);
+	    }, 50);
 	}
 
 	$scope.getWorkflows = function(){
@@ -47,10 +52,25 @@ innuendoApp.controller("projectCtrl", function($scope, $http) {
 
 	}
 
+	$scope.add_Database_Strains = function(){
+		
+		function add_strain(callback){
+			single_project.add_database_strains(function(strains_results){
+				$scope.strains_headers = strains_results.strains_headers;
+				$scope.strains = strains_results.strains;
+				callback();
+			});
+		}
+		add_strain(function(){
+			objects_utils.loadDataTables('strains_table', $scope.strains);
+		});
+	}
+
 	$scope.getStrains = function(){
 
 		single_project.get_strains(function(strains_results){
 		    $scope.public_strains_headers = strains_results.public_strains_headers;
+		    $scope.strains_headers = strains_results.public_strains_headers;
 		    $scope.public_strains = strains_results.public_strains;
 		    objects_utils.loadDataTables('public_strains_table', $scope.public_strains);
 		});

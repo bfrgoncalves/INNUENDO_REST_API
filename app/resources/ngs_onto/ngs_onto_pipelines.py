@@ -16,6 +16,9 @@ from franz.openrdf.model import URI
 pipeline_post_parser = reqparse.RequestParser()
 pipeline_post_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline id")
 
+pipeline_delete_parser = reqparse.RequestParser()
+pipeline_delete_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline id")
+
 class NGSOnto_PipelineListProjectResource(Resource):
     
 	@login_required
@@ -28,7 +31,7 @@ class NGSOnto_PipelineListProjectResource(Resource):
 		jsonResult=parseAgraphStatementsRes(statements)
 		statements.close()
 
-		return jsonResult,201
+		return jsonResult,200
 
 	@login_required
 	def post(self, id):
@@ -45,8 +48,17 @@ class NGSOnto_PipelineListProjectResource(Resource):
 		dbconAg.add(pipelineURI, RDF.TYPE, pipelineType)
 		dbconAg.add(studyURI, hasPart, pipelineURI)
 
-		return 200
+		return 201
 		
 
 	def delete(self, id):
-		pass
+
+		args=pipeline_delete_parser.parse_args()
+		pipeline_id=args.pipeline_id
+		#Agraph
+		studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
+		hasPart = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
+		pipelineURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(pipeline_id))
+		dbconAg.remove(studyURI, hasPart, pipelineURI)
+
+		return 204

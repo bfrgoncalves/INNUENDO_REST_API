@@ -4,7 +4,7 @@ from flask.ext.security import current_user
 from flask import jsonify
 
 from app.models.models import Project
-from flask.ext.security import current_user, login_required, roles_required
+from flask.ext.security import current_user, login_required, roles_required, auth_token_required
 import datetime
 
 #Defining post arguments parser
@@ -71,6 +71,7 @@ class ProjectUserResource(Resource):
 
 class ProjectListUserResource(Resource):
 
+	#@auth_token_required
 	@login_required
 	@marshal_with(all_project_fields)
 	def get(self):

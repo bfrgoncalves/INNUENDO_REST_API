@@ -4,6 +4,7 @@ var CURRENT_PROJECT_ID = "";
 var CURRENT_PROJECT = {};
 var CURRENT_SPECIES_ID = "";
 var CURRENT_SPECIES_NAME = "";
+var CURRENT_USER_NAME = current_user_name;
 
 var protocols = {};
 var protocol_types = [];

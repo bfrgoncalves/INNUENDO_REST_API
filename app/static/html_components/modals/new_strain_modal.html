@@ -17,22 +17,22 @@
 			<div id="newstrain_menu" class="tab-pane fade in active tab-container" style="text-align:left;">
 				<div class="col-md-12" id="new_strain_message_div"></div>
 				<form role="form" id="new_strain_form" ng-submit="add_New_Strain()">
-					<div class="form-group">
-						<label for="strainID">Strain name:</label>
-						<input type="text" class="form-control" id="strain_name" name="strainID" placeholder="Enter strain name">
-						<input type="hidden" name="species_id" ng-value="species_id">
-					</div>
-					<div class="form-group">
-						<label for="Location">Location:</label>
-						<input type="text" class="form-control" id="strain_location" name="Location" placeholder="Enter location">
-					</div>
-					<div class="form-group">
-						<label for="ST">ST:</label>
-						<input type="text" class="form-control" id="strain_ST" name="ST" placeholder="Enter ST">
-					</div>
-					<div class="form-group">
-						<label for="CC">CC:</label>
-						<input type="text" class="form-control" id="strain_CC" name="CC" placeholder="Enter CC">
+					<input type="hidden" name="species_id" ng-value="species_id">
+					<div class="form-group" ng-repeat="(key, val) in metadata_fields">
+						<label for="{{key}}">{{key}}</label>
+						<div ng-repeat="attribute in val">
+							<div ng-repeat="(k,v) in attribute">
+								<input type="{{v}}" ng-if="key == 'StrainID'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}">
+								<input type="{{v}}" ng-if="key == 'Date'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}">
+								<select type="{{v}}" ng-if="key == 'Source'" class="form-control" id="source_{{k}}" name="source_{{k}}">
+									<option ng-repeat="type in v">{{ type }}</option>
+								</select>
+								<input type="{{v}}" ng-if="key =='Owner'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}" disabled>
+								<input type="{{v}}" ng-if="key =='Submitter' && k =='Submitter'" class="form-control" id="{{k}}" name="{{k}}"disabled value="{{attribute.data}}"></input>
+								<input type="{{v}}" ng-if="key == 'AdditionalInformation' && k == 'AdditionalInformation'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}" maxlength="{{attribute.maxlength}}">
+								<input type="{{v}}" ng-if="key =='Location'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}" disabled>
+							</div>
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="fileselector">Select a file:</label>

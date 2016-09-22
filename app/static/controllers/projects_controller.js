@@ -77,7 +77,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
 	$scope.loadProject = function(table_id){
 		projects_table.load_project(table_id, CURRENT_PROJECT_ID, function(results){
-			CURRENT_PROJECT = results.CURRENT_PROJECT;
+			CURRENT_PROJECT = results.project;
 			$scope.selectedTemplate.path = results.template;
 		});
 

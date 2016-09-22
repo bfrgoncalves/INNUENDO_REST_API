@@ -45,7 +45,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 	            
 	            }
 	            callback({ strains_headers: strains_headers, strains: strains});
-	            objects_utils.loadDataTables('strains_table', strains);
+	            //objects_utils.loadDataTables('strains_table', strains);
 			}
 			else{
 				console.log(response.statusText);
@@ -56,16 +56,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 	}
 
 	function create_pipeline(strain_Name, callback){
-
 		strain_id = strains_dict[strain_Name];
 
-		pg_requests.check_if_pipeline_exists(strain_id, function(response){
+		pg_requests.check_if_pipeline_exists(strain_id, function(response, strainid){
 			if(response.status == 200){
 				console.log("Pipeline already exists");
-	            callback(strain_id, response.data.id);
+	            callback(strainid, response.data.id);
 			}
 			else{
-				pg_requests.add_pipeline(strain_id, function(response){
+				console.log(strainid);
+				pg_requests.add_pipeline(strainid, function(response){
 					if(response.status == 201){
 						new_pipeline_id = response.data.id;
 						ngs_onto_requests.ngs_onto_request_create_pipeline(response.data.id, response.data.strain_id, function(response, strain_id){
@@ -110,6 +110,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		            if (data.length != 0){
 
 		                public_strains_headers = JSON.parse(data[0].fields).metadata_fields;
+		                public_strains_headers.unshift("strainID");
+
 		                public_strains_headers.push('Analysis');
 
 		                for (i in data){
@@ -117,7 +119,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		                    strain_id_to_name[data[i].id] = data[i].strainID;
 
 		                    var strain_data = JSON.parse(data[i].strain_metadata);
+		                    strain_data["strainID"] = data[i].strainID;
 		                    strain_data['Analysis'] = "";
+		                    console.log(public_strains_headers);
+		                    console.log(strain_data);
 		                    var sd = {};
 		                    for (i in public_strains_headers){
 		                        if(strain_data.hasOwnProperty(public_strains_headers[i])){
@@ -147,11 +152,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		            if (data.length != 0){
 
 		                strains_headers = JSON.parse(data[0].fields).metadata_fields;
+		                strains_headers.unshift("strainID");
 		                strains_headers.push('Analysis');
 		                
 		                for (i in data){
 
 		                    var strain_data = JSON.parse(data[i].strain_metadata);
+		                    strain_data["strainID"] = data[i].strainID;
 		                    strain_data['Analysis'] = "";
 		                    var sd = {};
 		                    for (j in strains_headers){
@@ -177,6 +184,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 			pg_requests.get_applied_pipelines(function(response){
 				if (response.status == 200){
 					for (i in response.data){
+
 		                strainID_pipeline[response.data[i].strain_id] = response.data[i].id;
 		                ngs_onto_requests.ngs_onto_request_applied_pipelines(response.data[i].id, response.data[i].strain_id, function(response, strain_id){
 		                	if(response.status == 200){
@@ -206,7 +214,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 			});
 
 		},
-		add_database_strains: function(){
+		add_database_strains: function(callback){
 
 			var strain_names = $.map($('#public_strains_table').DataTable().rows('.selected').data(), function(item){
 		        return item[1];
@@ -216,6 +224,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		        objects_utils.destroyTable('strains_table');
 		        for(i in strain_names){
 		            add_strain_to_project(strain_names[i], function(results){
+		            	callback(results);
 		            });
 		        }
 		    }
@@ -255,6 +264,17 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		        		var new_strains = [];
 		                to_use.map(function(d){
 		                    if (d.strainID != response.data.strainID) new_strains.push(d);
+		                    else{
+		                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], function(response, strainid){
+		                    		if(response.status == 200){
+		                    			pg_requests.remove_pipeline_from_project(strainid, function(response){
+		                    			});
+		                    			ngs_onto_requests.ngs_onto_request_remove_pipeline(response.data.id, function(response){
+		                    				console.log('removed');
+		                    			});
+		                    		}
+		                    	});
+		                    }
 		                })
 		                to_use = new_strains;
 		                objects_utils.show_message('project_strain_message_div', 'success', 'Strains removed from project.');
@@ -265,7 +285,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		        	}
 		        });
 		    }
-		    setTimeout(function(){callback({strains: to_use});}, 100);
+		    setTimeout(function(){strains = to_use; callback({strains: to_use});}, 400);
 		},
 		apply_workflow: function(){
 
@@ -311,17 +331,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		    });
 
 		    for(i in selected_indexes){
-		            
 		        create_pipeline(strains[selected_indexes[i]].strainID, function(strain_id, pipeline_id){
-		            pipelines_applied[strain_id_to_name[strain_id]].map(function(d, x){
-		                workflowName = d.split('>')[1].split('</')[0];
-		                ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_id, pipelinesByName[workflowName], x, function(response){
-		                	if(response.status == 200){
+		        	if(pipelines_applied.hasOwnProperty(strain_id_to_name[strain_id])){
+		        		pipelines_applied[strain_id_to_name[strain_id]].map(function(d, x){
+			                workflowName = d.split('>')[1].split('</')[0];
+			                ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_id, pipelinesByName[workflowName], x, function(response){
+			                	if(response.status == 200){
 
-		                	}
-		                	else console.log(response.statusText);
-		                });
+			                	}
+			                	else console.log(response.statusText);
+			                });
 		            });
+		        	}
 		        });
 
 		    }

@@ -35,6 +35,7 @@ pycurl==7.43.0
 python-cjson==1.1.0
 python-dateutil==2.5.3
 python-editor==1.0.1
+python-ldap==2.4.27
 python-openid==2.2.5
 pytz==2016.4
 requests==2.10.0

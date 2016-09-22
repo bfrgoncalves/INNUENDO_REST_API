@@ -1,7 +1,7 @@
 from app import app, db
 from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask.ext.security import current_user
-from flask import jsonify
+from flask import jsonify, request
 import json
 
 from app.models.models import Strain, Project, projects_strains
@@ -10,12 +10,12 @@ import datetime
 
 #Defining post arguments parser
 strain_post_parser = reqparse.RequestParser()
-strain_post_parser.add_argument('strainID', type=str, required=True, help="Strain identifier")
-strain_post_parser.add_argument('species_id', type=int, required=True, help="Species identifier")
-strain_post_parser.add_argument('Location', type=str, required=True, help="Strain location")
-strain_post_parser.add_argument('ST', type=str, required=True, help="Strain ST")
-strain_post_parser.add_argument('CC', type=str, required=True, help="Strain CC")
-strain_post_parser.add_argument('fileselector', type=str, required=True, help="Strain sequencing file")
+#strain_post_parser.add_argument('strainID', type=str, required=True, help="Strain identifier")
+#strain_post_parser.add_argument('species_id', type=int, required=True, help="Species identifier")
+#strain_post_parser.add_argument('Location', type=str, required=True, help="Strain location")
+#strain_post_parser.add_argument('ST', type=str, required=True, help="Strain ST")
+#strain_post_parser.add_argument('CC', type=str, required=True, help="Strain CC")
+#strain_post_parser.add_argument('fileselector', type=str, required=True, help="Strain sequencing file")
 
 strain_project_parser = reqparse.RequestParser()
 strain_project_parser.add_argument('strainID', dest='strainID', type=str, required=False, help="Strain identifier")
@@ -33,7 +33,7 @@ strain_fields = {
 
 #Defining metadata fields
 
-toStore = ["strainID", "Location", "ST", "CC"]
+nottoStore = ["fileselector"]
 
 
 class StrainResource(Resource):
@@ -68,15 +68,16 @@ class StrainListResource(Resource):
 	@login_required
 	@marshal_with(strain_fields)  
 	def post(self): #id=user_id
-		args=strain_post_parser.parse_args()
+		args=request.form
+		print args
 		metadata_fields = []
 		metadata = {}
 		for i in args:
-			if i in toStore:
+			if i not in nottoStore:
 				metadata_fields.append(i)
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
-		strain = Strain(name=args.strainID, species_id=args.species_id, fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow())
+		strain = Strain(name=args["Primary"] + " " + args["Food-Bug"], species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow())
 		if not strain:
 			abort(404, message="An error as occurried")
 		db.session.add(strain)

@@ -31,6 +31,7 @@
 
     <script>
         var current_user_id = {{ current_user_id|safe }}
+        var current_user_name = {{ current_user_name|safe }}
     </script>
 
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -49,6 +50,7 @@
     <script src="{{ url_for('static', filename='controllers/main_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/js_objects/objects_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='controllers/js_objects/metadata.js') }}"></script>
     {% if current_user.is_authenticated %}
         <script src="{{ url_for('static', filename='controllers/js_objects/single_project.js') }}"></script>
         <script src="{{ url_for('static', filename='controllers/js_objects/projects_table.js') }}"></script>

@@ -32,7 +32,7 @@ class UserResource(Resource):
     def get(self, id):
         users = db.session.query(User).filter(User.id == id).first()
         return users
-
+'''
 @app.login_manager.request_loader
 def load_user_from_request(request):
     if request.method == 'POST':
@@ -53,3 +53,4 @@ def load_user_from_request(request):
                 user = user_datastore.create_user(email=email, password=encrypted_password)
         
         return user
+'''

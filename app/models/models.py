@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
 	projects = db.relationship('Project', backref='author', lazy='dynamic')
 	#The backref argument defines a field that will be added to the objects of the "many" class that points back at the "one" object. 
 	#In our case this means that we can use post.author to get the User instance that created a post.
-
+	'''
 	@staticmethod
 	def try_login(email, password):
 		conn = get_ldap_connection()
@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
 			'cn=%s,ou=Users,dc=%s,dc=net' % (email, DC),
 			password
 		)
-
+	'''
 class Role(db.Model, RoleMixin):
 	__tablename__ = "roles"
 	id = db.Column(db.Integer(), primary_key=True)

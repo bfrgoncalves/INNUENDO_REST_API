@@ -251,7 +251,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
 		        method:'PUT',
 		        data: {
-		            "strainID": strain_name
+		            "strainID": strain_name.trim()
 		        }
 		    }
 
@@ -265,7 +265,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		add_new_strain: function(callback){
 
 			console.log($('#new_strain_form').find("select, input").serialize());
-
 		    req = {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -299,7 +298,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	        });
 		},
 		check_if_pipeline_exists: function(strain_id, callback){
-
 			req = {
 	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
 	            method:'GET',
@@ -330,6 +328,44 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            function(response){
 	               callback(response);
 	        });
+		},
+		run_job: function(strain_id, protocol_ids, callback){
+
+		    req = {
+		        url: 'api/v1.0/jobs/',
+		        method:'POST',
+		        data: {
+		        	strain_id: strain_id,
+		        	protocol_ids: protocol_ids
+		    	}
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+
+		},
+		get_job_status: function(job_id, callback){
+			console.log(job_id);
+
+		    req = {
+		        url: 'api/v1.0/jobs/',
+		        method:'GET',
+		        params: {
+		        	job_id: job_id
+		    	}
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+
 		}
 	}
 }

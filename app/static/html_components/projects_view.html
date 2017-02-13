@@ -14,7 +14,7 @@
         <div id="jumbotron-projects" class="jumbotron">
             <h3 class="sub-header">My Projects<button type="button" class="btn btn-md btn-danger" ng-click="deleteRow()" value="" style="float:right;"><i class="fa fa-trash-o"></i></button>
             <button class="btn btn-md btn-default" style="float:right;" data-toggle="modal" data-target="#newProjectModal"><i class="fa fa-plus"></i></button><button class="btn btn-md btn-primary" style="float:right;" ng-click="loadProject('projects_table');"><i class="fa fa-upload"></i></button></h3>
-          <table class="display nowrap alltables" cellspacing="0" id="projects_table">
+          <table class="display nowrap" cellspacing="0" id="projects_table">
             <thead>
               <tr ng-repeat="row in projects" ng-if="$index == 0">
                 <th></th>

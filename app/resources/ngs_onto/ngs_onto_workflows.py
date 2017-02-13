@@ -131,7 +131,10 @@ class NGSOnto_ProtocolWorkflowResource(Resource):
 
 		for p_id in protocol_ids:
 
+			print p_id
+
 			protocolURI = dbconAg.createURI(namespace=localNSpace, localname="protocols/"+str(p_id))
+			print protocolURI
 
 			hasStep = dbconAg.createURI(namespace=obo, localname="NGS_0000078")
 			workflowURI = dbconAg.createURI(namespace=localNSpace, localname="workflows/"+str(workflow_id))

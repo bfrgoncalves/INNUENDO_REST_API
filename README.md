@@ -15,6 +15,10 @@ Install the required dependencies using the pip package manager installed in the
 
 flask/bin/pip install -r requirements.txt
 
+Install bower components
+Install bower
+run: bower install
+
 Install PostgreSQL and create a database.
 
 Change the necessary parameters in the template_config.py file and rename it to config.py 

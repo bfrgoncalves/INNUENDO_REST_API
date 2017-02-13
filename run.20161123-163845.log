@@ -1,0 +1,43 @@
+
+==========> INNUca.py <==========
+
+Program start: Wed Nov 23 16:38:45 2016
+
+LOGFILE:
+/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/run.20161123-163845.log
+
+COMMAND:
+/usr/bin/python /Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/INNUca.py -g 2.1 -i uploads/ -s Streptococcus agalactiae
+
+PRESENT DIRECTORY :
+/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API
+
+VERSION INNUca.py:
+Version 2.0
+ee428d2 (ee428d2098e0e952d9fef49c7ddd832796e8ebc6) - Commit by miguelpmachado, Fri Nov 18 11:16:31 2016) : Always keep polished assembly
+* remote origin
+  Fetch URL: https://github.com/B-UMMI/INNUca.git
+  Push  URL: https://github.com/B-UMMI/INNUca.git
+  HEAD branch: master
+  Remote branch:
+    master tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+
+['cat', '/proc/cpuinfo']
+Running: ['cat', '/proc/cpuinfo']
+STDOUT
+
+STDERR
+cat: /proc/cpuinfo: No such file or directory
+
+
+PATH variable:
+/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/fastqc_v0.11.5:/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/Trimmomatic-0.36:/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/SPAdes-3.9.0-Linux/bin:/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/bowtie2-2.2.9:/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/samtools-1.3.1/bin:/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/pilon_v1.18:/Users/bgoncalves/miniconda2/bin:/Users/bgoncalves/sandbox/programs/mummer:/Users/bgoncalves/sandbox/programs/mongodb/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/ncbi/blast/bin:/usr/texbin:.
+
+Checking dependencies...
+['which', 'samtools']
+/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/samtools-1.3.1/bin/samtools
+['/Users/bgoncalves/sandbox/repositories/INNUENDO_REST_API/dependencies/INNUca/src/samtools-1.3.1/bin/samtools', '--version']

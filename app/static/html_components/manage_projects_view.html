@@ -14,7 +14,7 @@
     <div class="col-md-6">
       <div class="sub_container">
         <div id="jumbotron-procedures" class="jumbotron">
-          <h3 class="sub-header">Procedures<!--<button class="btn btn-md btn-default" style="float:right;" data-toggle="modal" data-target="#newPipelineModal"><i class="fa fa-plus"></i></button>--><button type="button" class="btn btn-md btn-default" ng-click="runPipelines()" value="" style="float:right;"><i class="fa">Run</i></button><button type="button" class="btn btn-md btn-default" ng-click="savePipelines()" value="" style="float:right;"><i class="fa">Save State</i></button><button class="btn btn-md btn-primary" style="float:right;" ng-click="applyWorkflow()"><i class="fa fa-arrow-circle-down">Apply</i></button></h3>
+          <h3 class="sub-header">Procedures<!--<button class="btn btn-md btn-default" style="float:right;" data-toggle="modal" data-target="#newPipelineModal"><i class="fa fa-plus"></i></button>--><button type="button" class="btn btn-md btn-default" ng-click="runPipelines()" value="" style="float:right;"><i class="fa">Run</i></button><!--<button type="button" class="btn btn-md btn-default" ng-click="savePipelines()" value="" style="float:right;"><i class="fa">Save State</i></button>--><button class="btn btn-md btn-primary" style="float:right;" ng-click="applyWorkflow()"><i class="fa fa-arrow-circle-down">Apply</i></button></h3>
 
           <select class="form-control" id="pipeline_selector">
             <option ng-repeat="pipeline in pipelines">{{ pipeline.name }}</option>

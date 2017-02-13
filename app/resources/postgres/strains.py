@@ -77,7 +77,13 @@ class StrainListResource(Resource):
 				metadata_fields.append(i)
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
-		strain = Strain(name=args["Primary"] + " " + args["Food-Bug"], species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow())
+
+		if not args["Food-Bug"]:
+			s_name = args["Primary"]
+		else:
+			s_name = args["Primary"] + " " + args["Food-Bug"]
+			
+		strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow())
 		if not strain:
 			abort(404, message="An error as occurried")
 		db.session.add(strain)

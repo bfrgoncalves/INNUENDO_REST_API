@@ -16,9 +16,11 @@ function Workflows($http){
 			return true;
 		},
 		add_protocol_to_workflow: function(protocol_name, callback){
+			console.log(protocol_name);
 			if(!added_protocols.hasOwnProperty(protocol_name)){
 				added_protocols[protocol_name] = protocols[protocol_name];
 			}
+			console.log(added_protocols[protocol_name]);
 			if(Object.keys(added_protocols).length > 0){
 				$('#workflow_form_block').css({display:'block'});
 			}

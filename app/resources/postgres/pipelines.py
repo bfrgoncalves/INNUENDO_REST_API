@@ -55,12 +55,14 @@ class PipelineListResource(Resource):
 	@marshal_with(pipeline_fields)
 	def get(self, id): #project_id
 		args=pipeline_get_parser.parse_args()
+		print args
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
 		if args.strain_id:
 			pipelines = db.session.query(Pipeline).filter(Pipeline.strain_id == args.strain_id, Pipeline.project_id == id).first()
 		else:
 			pipelines = db.session.query(Pipeline).filter(Pipeline.project_id == id).all()
+		print pipelines
 		if not pipelines:
 			abort(404, message="No pipelines are available")
 		return pipelines, 200

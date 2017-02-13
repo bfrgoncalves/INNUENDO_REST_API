@@ -54,6 +54,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	$scope.addRow = function(){
 
 	    projects_table.add_project(function(results){
+	    	console.log(results);
 	    	$scope.projects = results.projects;
 	    });
 

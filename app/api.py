@@ -16,7 +16,9 @@ from resources.ngs_onto.ngs_onto_protocols import NGSOnto_ProtocolList, NGSOnto_
 from resources.ngs_onto.ngs_onto_workflows import NGSOnto_WorkflowListPipelineResource, NGSOnto_ProtocolWorkflowResource
 from resources.ngs_onto.ngs_onto_pipelines import NGSOnto_PipelineListProjectResource
 from resources.ngs_onto.ngs_onto_strains import NGSOnto_StrainsListUserResource
-from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource
+from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, NGSOnto_ProcessJobID
+from resources.jobs.jobs import Job_queue
+
 
 #Setup API
 api = Api(app)
@@ -51,6 +53,9 @@ api.add_resource(ProcessResource, '/api/v1.0/users/<int:user_id>/projects/<int:p
 api.add_resource(FileUpload, '/api/v1.0/uploads/', endpoint = 'uploads')
 api.add_resource(GetFile, '/api/v1.0/uploads/<filename>', endpoint = 'get_file')
 
+#################################DEFINE JOB QUEUE###################################
+
+api.add_resource(Job_queue, '/api/v1.0/jobs/')
 
 ################################# Defining NGSOnto routes ##############################################
 
@@ -69,6 +74,7 @@ api.add_resource(NGSOnto_ProtocolPropertiesFieldsList, '/api/v1.0/ngsonto/protoc
 
 api.add_resource(NGSOnto_ProcessListPipelineResource, '/api/v1.0/ngsonto/projects/<int:id>/pipelines/<int:id2>/processes/', endpoint = 'NGSOnto_processes')
 api.add_resource(NGSOnto_ProcessResource, '/api/v1.0/ngsonto/projects/<int:id>/pipelines/<int:id2>/processes/<int:id3>', endpoint = 'NGSOnto_single_process')
+api.add_resource(NGSOnto_ProcessJobID, '/api/v1.0/ngsonto/projects/<int:id>/pipelines/<int:id2>/processes/jobid', endpoint = 'NGSOnto_jobid')
 
 api.add_resource(NGSOnto_StrainsListUserResource, '/api/v1.0/ngsonto/strains/', endpoint = 'NGSOnto_strains')
 

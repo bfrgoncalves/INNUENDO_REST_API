@@ -34,11 +34,14 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 			        	projects = response.data.map(function(d){
 				            return {name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id}
 				        });
+				        console.log(projects);
 				        callback(projects);
 			        	objects_utils.loadDataTables('projects_table', projects);
 			        }
 		        }
 		        else {
+		        	if(!is_others) projects = [];
+		        	else other_projects = [];
 	        		console.log(response.statusText);
 	        		callback([]);
 	        	}
@@ -67,7 +70,7 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		    });
 		    
 		    for(i in project_indexes){
-
+		    	console.log(projects);
 		        var project_id = projects[project_indexes[i]].id;
 		        pg_requests.delete_project_from_database(project_id, function(response){
 		        	if(response.status == 204){

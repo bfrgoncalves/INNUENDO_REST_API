@@ -1,8 +1,9 @@
-from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered
-from app import app, db, user_datastore, security, dbconAg,dedicateddbconAg
-from app.models.models import Specie
+from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
+from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg
+from app.models.models import Specie, User
 import os
 import requests
+import ldap
 
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
@@ -22,7 +23,7 @@ def before_first_request():
     # In each case, use Flask-Security utility function to encrypt the password.
     encrypted_password = utils.encrypt_password(app.config['ADMIN_PASS'])
     if not user_datastore.get_user(app.config['ADMIN_EMAIL']):
-        user_datastore.create_user(email=app.config['ADMIN_EMAIL'], password=encrypted_password)
+        user_datastore.create_user(email=app.config['ADMIN_EMAIL'], password=encrypted_password, username=app.config['ADMIN_USERNAME'], name=app.config['ADMIN_NAME'])
 
     # Commit any database changes; the User and Roles must exist before we can add a Role to the User
     specie1 = Specie(name="Campylobacter")
@@ -46,6 +47,31 @@ def before_first_request():
     user_datastore.add_role_to_user(app.config['ADMIN_EMAIL'], 'admin')
     db.session.commit()
 
+@app.login_manager.request_loader
+def load_user_from_request(request):
+    if request.method == 'POST':
+        username = request.form.get('email')
+        password = request.form.get('password')
+
+        try:
+            result = User.try_login(username, password)
+            print result
+        except ldap.INVALID_CREDENTIALS, e:
+            print e
+            return None
+
+        user = User.query.filter_by(username=result['uid'][0]).first()
+        
+        if not user:
+            encrypted_password = utils.encrypt_password(password)
+            if not user_datastore.get_user(result['mail'][0]):
+                user = user_datastore.create_user(email=result['mail'][0], password=encrypted_password, username=result['uid'][0], name=result['cn'][0])
+                db.session.commit()
+        
+        user = User.query.filter_by(username=result['uid'][0]).first()
+        login_user(user)
+        return user
+
 @user_registered.connect_via(app) #overrides the handler function to add a default role to a registered user
 def user_registered_handler(app, user, confirm_token):
 
@@ -64,7 +90,9 @@ def user_registered_handler(app, user, confirm_token):
     userType = dbconAg.createURI(namespace=dcterms, localname="Agent")
     dbconAg.add(UserURI, RDF.TYPE, userType)
 
+    '''
     ############## CREATE USER ON CONTROLLER ##############################
     r = requests.post('http://' + SFTP_HOST + '/controller/v1.0/users', data = {'username': user.email})
     print r.json()
     return 200
+    '''

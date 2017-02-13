@@ -61,6 +61,8 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		},
 		//////////////// Workflows Requests /////////////////////////////////////////
 		ngs_onto_request_add_workflow: function(workflow_id, protocol_ids, callback){
+
+			console.log(protocol_ids);
 	    	
 	    	req = {
 		        url:'api/v1.0/ngsonto/workflows/protocols',
@@ -69,6 +71,21 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		        	workflow_id: workflow_id,
 		        	protocol_ids: protocol_ids
 		        }
+		    }
+
+		    $http(req).then(function(response){
+		    	callback(response);
+		    }, function(response){
+		    	callback(response);
+		    });
+	    },
+	    ngs_onto_request_get_workflow: function(workflow_id, callback){
+	    	console.log(workflow_id);
+	    	
+	    	req = {
+		        url:'api/v1.0/ngsonto/workflows/protocols',
+		        method:'GET',
+		        params: { workflow_id: workflow_id }
 		    }
 
 		    $http(req).then(function(response){
@@ -94,7 +111,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		},
 		//////////////// Single Project Requests /////////////////////////////////////////
 		ngs_onto_request_applied_pipelines: function(pipeline_id, strain_id, callback){
-
+			console.log(CURRENT_PROJECT_ID, pipeline_id);
 			req = {
 		            url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/workflows/',
 		            method:'GET'
@@ -159,6 +176,8 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	    },
     	ngs_onto_request_save_pipeline: function(pipeline_id, workflow_id, pipeline_step, callback){
 
+    		console.log('PIPELINES', pipeline_id, workflow_id, pipeline_step);
+
 	        req = {
 	            url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/' + pipeline_id + '/workflows/',
 	            method:'POST',
@@ -175,8 +194,8 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	            callback(response);
 	        });
 	    },
-	    ngs_onto_request_add_processes: function(pipeline_id, strain_id, callback){
-
+	    ngs_onto_request_add_processes: function(pipeline_id, strain_id, strain_name, callback){
+	    	console.log(pipeline_id, strain_id);
 	    	req = {
                 url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/processes/',
                 method:'POST',
@@ -186,9 +205,67 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
             }
 
             $http(req).then(function(response){
+            	console.log(response);
+               callback(response, strain_name);
+            },
+            function(response){
+            	console.log(response);
+               callback(response, strain_name);
+            });
+	    },
+	    ngs_onto_request_get_processes: function(pipeline_id, callback){
+	    	req = {
+                url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/processes/',
+                method:'GET',
+            }
+
+            $http(req).then(function(response){
+            	//console.log(response);
                callback(response);
             },
             function(response){
+            	//console.log(response);
+               callback(response);
+            });
+	    },
+	    ngs_onto_request_add_jobid_to_process: function(pipeline_id, processes_ids, task_ids, callback){
+
+	    	console.log(pipeline_id, processes_ids, task_ids);
+
+	    	req = {
+                url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/processes/jobid',
+                method:'POST',
+                data: {
+                	processes_ids: processes_ids.join(),
+                    task_ids: task_ids.join()
+                }
+            }
+
+            $http(req).then(function(response){
+            	console.log(response);
+               callback(response);
+            },
+            function(response){
+            	console.log(response);
+               callback(response);
+            });
+	    },
+	    ngs_onto_request_get_jobid_from_process: function(pipeline_id, processes_ids, callback){
+
+	    	req = {
+                url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/processes/jobid',
+                method:'GET',
+                params: {
+                	processes_ids: processes_ids.join()
+                }
+            }
+
+            $http(req).then(function(response){
+            	console.log(response);
+               callback(response);
+            },
+            function(response){
+            	console.log(response);
                callback(response);
             });
 	    }

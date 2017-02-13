@@ -2,8 +2,8 @@ function Objects_Utils(){
 
 	function normalTable(table_id){
 
-	    $('#' + table_id).DataTable( {
-	        responsive: true,
+	    table = $('#' + table_id).DataTable( {
+	        //responsive: true,
 	        colReorder: true,
 	        dom: 'Bfrtip',
 	        stateSave: true,
@@ -14,6 +14,7 @@ function Objects_Utils(){
 	        scrollY:        200,
 	        scrollCollapse: true,
 	        columnDefs: [
+    			{ "width": "20%", "targets": "_all"},
 	            //{"className": "dt-center", "targets": "_all"},
 	            {
 	                orderable: false,
@@ -29,12 +30,15 @@ function Objects_Utils(){
 	        order: [[ 1, 'asc' ]]
 	    } );
 
+	    table.columns.adjust().draw();
+
 	}
 
 	function nestedTable(table_id){
 
-	    $('#' + table_id).DataTable( {
-	        responsive: true,
+	    table = $('#' + table_id).DataTable( {
+	    	/*
+	        //responsive: true,
 	        colReorder: true,
 	        dom: 'Bfrtip',
 	        stateSave: true,
@@ -43,8 +47,10 @@ function Objects_Utils(){
 	        ],
 	        deferRender:    true,
 	        scrollY:        200,
-	        scrollCollapse: true,
+	        //scrollCollapse: true,
+	        */
 	        columnDefs: [
+	        	{ "width": "20%", "targets": "_all"},
 	            //{"className": "dt-center", "targets": "_all"},
 	            {
 	                orderable: false,
@@ -52,13 +58,16 @@ function Objects_Utils(){
 	                targets:   0
 	            }
 	          ],
-	        paging: false,
+	        paging: true,
 	        select: {
 	            style:    'multi',
 	            selector: 'td:first-child'
 	        },
-	        order: [[ 1, 'asc' ]]
+	        order: [[ 1, 'asc' ]],
+	        scrollX:true
 	    } );
+	    table.columns.adjust().draw();
+
 
 	}
 
@@ -75,17 +84,15 @@ function Objects_Utils(){
 	        var strain_names = $.map(table.rows().data(), function(item){
 	            return item[1];
 	        });
-
+	        var count = 0;
 	        for(w in workflow_ids){
-
+	        	count+=1;
 	            workflow_id = workflow_ids[w];
-
-	            buttonselectedPipeline = '<button class="btn btn-sm btn-default">'+ pipelinesByID[workflow_id] + '</button>';
-
 
 	            for(i in selected_indexes){
 	                var toAdd = '';
 	                if(strain_names[i] == strain_name){
+	                	buttonselectedPipeline = '<button class="btn btn-sm btn-default" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+'">'+ pipelinesByID[workflow_id] + '</button>';
 	                    if(!pipelines_applied.hasOwnProperty(strain_name)){
 	                        pipelines_applied[strain_name] = [];
 	                    }
@@ -127,10 +134,10 @@ function Objects_Utils(){
 
 		        if (arrayOfHeaders.length == 0) return false;
 
-		        if (table_id == 'strains_table' || table_id == 'public_strains_table'){
-		            nestedTable(table_id);
-		        }
-		        else normalTable(table_id);
+		        //if (table_id == 'strains_table' || table_id == 'public_strains_table'){
+				nestedTable(table_id);
+		        //}
+		        //else normalTable(table_id);
 
 		    }, 150);
 		}

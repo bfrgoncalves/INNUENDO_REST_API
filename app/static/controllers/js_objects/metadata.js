@@ -5,13 +5,27 @@ function Metadata(){
 
 	var fields = {
 
-		"StrainID": [ {"Primary": "text"}, {"Food-Bug": "text"}],
+		"Strain Identifier": [ {"Primary": "text"}, {"Food-Bug": "text"}],
 		"Date": [{"SamplingDate": "date"}, {"SampleReceivedDate": "date"}],
 		"Source": [{"Source": ["Human", "Food", "Animal, cattle", "Animal, poultry", "Animal, swine", "Animal, other", "Environment", "Water"]}],
 		"Owner": [{"Owner": "text disabled"}],
 		"Submitter": [{"Submitter": "text", "data": ""}],
-		"AdditionalInformation": [{"AdditionalInformation": "text", "maxlength":"10"}],
+		"Additional Information": [{"AdditionalInformation": "text", "maxlength":"10"}],
 		"Location": [{"Location": "text disabled"}]
+	}
+
+	var dict_fields = {
+		"Strain Name": "strainID",
+		"Strain ID": "species_id",
+		"Received Date": "SampleReceivedDate",
+		"Source": "source_Source",
+		"File 1": "File_1",
+		"File 2": "File_2",
+		"Primary": "Primary",
+		"Sampling Date": "SamplingDate",
+		"Food-Bug": "Food-Bug",
+		"Additional Info": "Additional Information",
+		"Analysis": "Analysis"
 	}
 
 	return {
@@ -21,6 +35,9 @@ function Metadata(){
 		},
 		get_fields: function(){
 			return fields;
+		},
+		get_dict_fields: function(){
+			return dict_fields;
 		}
 	}
 }

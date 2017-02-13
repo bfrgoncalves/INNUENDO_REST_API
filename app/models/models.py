@@ -2,7 +2,7 @@ import ldap
 from app import db
 from flask.ext.security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
-from config import LDAP_PROVIDER_URL, DC
+from config import LDAP_PROVIDER_URL, baseDN
 
 #Secondary role table
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')), db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
@@ -12,12 +12,14 @@ projects_strains = db.Table('projects_strains', db.Column('project_id', db.Integ
 #LADP connection
 def get_ldap_connection():
 	print LDAP_PROVIDER_URL
-	conn = ldap.initialize(LDAP_PROVIDER_URL)
+	conn = ldap.open(LDAP_PROVIDER_URL)
 	return conn
 
 class User(db.Model, UserMixin):
 	__tablename__ = "users" #change table name from user to users just not clash with postgresql 
 	id = db.Column(db.Integer, primary_key=True)
+	username = db.Column(db.String(120), index=True, unique=True)
+	name = db.Column(db.String(255))
 	password = db.Column('password' , db.String(255))
 	active = db.Column(db.Boolean())
 	email = db.Column(db.String(120), index=True, unique=True)
@@ -25,15 +27,25 @@ class User(db.Model, UserMixin):
 	projects = db.relationship('Project', backref='author', lazy='dynamic')
 	#The backref argument defines a field that will be added to the objects of the "many" class that points back at the "one" object. 
 	#In our case this means that we can use post.author to get the User instance that created a post.
-	'''
+	
 	@staticmethod
 	def try_login(email, password):
 		conn = get_ldap_connection()
-		conn.simple_bind_s(
-			'cn=%s,ou=Users,dc=%s,dc=net' % (email, DC),
-			password
-		)
-	'''
+		conn.simple_bind_s()
+		search_filter = "uid="+email
+		result = conn.search_s(baseDN,ldap.SCOPE_SUBTREE,search_filter)
+		print result
+		for dn, entry in result:
+			DN = str(dn)
+			Entry = entry
+			print DN
+			print Entry
+
+		conn.simple_bind_s( DN, password )
+		conn.unbind_s()
+		return Entry
+
+	
 class Role(db.Model, RoleMixin):
 	__tablename__ = "roles"
 	id = db.Column(db.Integer(), primary_key=True)

@@ -15,11 +15,13 @@ def getID(current_user):
 @app.route('/index')
 #@login_required #Using this decorator, only login users are allowed to view the index page
 def index():
+	print current_user
 	current_user_id = getID(current_user)
-	email = ""
+	username = ""
 	if current_user.is_authenticated:
-		email = current_user.email
-	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(email))
+		username = current_user.username
+		print current_user.username
+	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username))
 
 
 @app.route('/logout')

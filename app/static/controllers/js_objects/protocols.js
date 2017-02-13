@@ -100,6 +100,7 @@ function Protocol_List($http){
 			    		for (j in ps){
 			    			protocols[response.data[i].name][j] = ps[j];
 			    		}
+			    		protocols[response.data[i].name].id = response.data[i].id;
 
 			    	}
 			    	callback({property_fields:property_fields, protocols_of_type:protocols_of_type, protocols:protocols});
@@ -118,6 +119,7 @@ function Protocol_List($http){
 		},
 		get_protocol_fields: function(uri, callback){
 			ngs_onto_requests.ngs_onto_get_protocol_fields(uri, function(response){
+				console.log(response);
 		        property_fields = [];
 		    	for(i in response.data){
 		    		property_fields.push(response.data[i].plabel.split('"')[1])

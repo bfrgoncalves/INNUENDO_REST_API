@@ -8,6 +8,7 @@
             {% if current_user.is_authenticated %}
             <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
             <li><a class="nav-a" href="">Reports</a></li>
+            <li><a  class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/uploads_view.html') }}&#39;">Uploads</a></li>
             <li></li>
             {% endif %}
           </ul>
@@ -18,7 +19,6 @@
           <ul class="nav nav-sidebar">
             <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
             <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
-            <li><a  class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/uploads_view.html') }}&#39;">Uploads</a></li>
           </ul>
         </div>
         {% endif %}

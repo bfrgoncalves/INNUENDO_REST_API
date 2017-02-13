@@ -4,7 +4,6 @@ innuendoApp.controller("uploadsCtrl", function($scope, $http) {
     $scope.upload_pass = ""
     
     $scope.getUploadToken = function(){
-        console.log('AQUI');
         pg_requests.get_upload_token(CURRENT_USER_NAME, function(response){
             $scope.upload_pass = response.data.upload_pass
         });

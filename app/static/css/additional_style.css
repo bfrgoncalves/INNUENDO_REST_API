@@ -3,19 +3,85 @@
 	margin-top:20px;
 }
 
-table { width: 100%; }
 
-tbody tr:hover.selected td,
 tbody tr:hover td {
   cursor: pointer;
 }
 
-#jumbotron-projects, #jumbotron-strains, #jumbotron-otherprojects, #jumbotron-procedures {
-  padding:12px;
+
+table.display{
+  table-layout: fixed;
 }
 
-#newStrainModal .modal-dialog{
-  width: 60%;
+.inside_table{
+  width:100%;
+  table-layout: fixed;
+  overflow-x:auto;
+}
+
+.display td {
+  overflow: hidden; /* this is what fixes the expansion */
+  text-overflow: ellipsis; /* not supported in all browsers, but I accepted the tradeoff */
+}
+
+.scroll_div{
+  width:100%;
+  overflow-x:auto;
+}
+
+#s_project_message_div{
+  position:absolute;
+  top:50%;
+  left:40%;
+  z-index:99;
+}
+
+.jumbotron{
+  padding:15px;
+  width:100%;
+  height:auto;
+}
+
+#jumbotron-projects, #jumbotron-otherprojects, #jumbotron-class {
+  padding:15px;
+  width:100%;
+  height:auto;
+}
+
+
+
+#jumbotron-strains{
+  padding:12px;
+  width:100%;
+  height:auto;
+}
+
+#newStrainModal .modal-dialog, #choosePipelineModal .modal-dialog{
+  width: 80%;
+  height:auto;
+}
+
+#LabProtocolTableModal .modal-dialog{
+  width: 80%;
+  height:80%;
+}
+
+#LabProtocolTableModal .modal-body{
+  overflow-x:auto;
+}
+
+#StrainDetailModal .modal-dialog{
+  width: 80%;
+  height: 80%;
+}
+
+#MergedTableModal .modal-dialog{
+  width: 80%;
+  height:auto;
+}
+
+#MergedTableModal .dataTables_wrapper {
+  margin: 0 auto;
 }
 
 .tab-container{

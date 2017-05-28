@@ -1,11 +1,11 @@
 from app import app, dbconAg,dedicateddbconAg
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user, login_required
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user, login_required
 from flask import jsonify
 from app.utils.queryParse2Json import parseAgraphStatementsRes,parseAgraphQueryRes
 
 #from app.models.models import Study
-from flask.ext.security import current_user, login_required, roles_required
+from flask_security import current_user, login_required, roles_required
 from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
 from franz.openrdf.vocabulary.rdf import RDF
 from franz.openrdf.vocabulary.xmlschema import XMLSchema

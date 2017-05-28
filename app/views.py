@@ -1,9 +1,10 @@
 from flask import render_template, flash, redirect, session, url_for, request, g #a function from the flask framework. Uses Jinja2 templating engine
-from flask.ext.security import login_required, current_user, utils, roles_required
+from flask_security import login_required, current_user, utils, roles_required
 import json
 #from flask.ext.security.utils import get_hmac #Encrypts according to the config paramaters
 from app import app
 import requests
+from config import JOBS_ROOT
 
 def getID(current_user):
 	if current_user.is_authenticated:
@@ -21,7 +22,7 @@ def index():
 	if current_user.is_authenticated:
 		username = current_user.username
 		print current_user.username
-	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username))
+	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT))
 
 
 @app.route('/logout')

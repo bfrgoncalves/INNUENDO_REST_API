@@ -1,11 +1,11 @@
 from app import app, db
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user
 from flask import jsonify, request
 import json
 
 from app.models.models import Strain, Project, projects_strains
-from flask.ext.security import current_user, login_required, roles_required
+from flask_security import current_user, login_required, roles_required
 import datetime
 
 #Defining post arguments parser
@@ -28,7 +28,9 @@ strain_fields = {
 	'strainID': fields.String(attribute='name'),
 	'fields': fields.String,
 	'strain_metadata': fields.String,
-	'species_id': fields.String
+	'species_id': fields.String,
+	'file_1': fields.String,
+	'file_2': fields.String
 }
 
 #Defining metadata fields
@@ -40,10 +42,10 @@ class StrainResource(Resource):
 
 	@login_required
 	@marshal_with(strain_fields)
-	def get(self, id): #id=user_id
+	def get(self, name): #id=user_id
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
-		strain = db.session.query(Strain).filter(Strain.id == id).first()
+		strain = db.session.query(Strain).filter(Strain.name == name).first()
 		if not strain:
 			abort(404, message="No strain available")
 		return strain, 200
@@ -69,7 +71,7 @@ class StrainListResource(Resource):
 	@marshal_with(strain_fields)  
 	def post(self): #id=user_id
 		args=request.form
-		print args
+		#print args
 		metadata_fields = []
 		metadata = {}
 		for i in args:
@@ -82,12 +84,31 @@ class StrainListResource(Resource):
 			s_name = args["Primary"]
 		else:
 			s_name = args["Primary"] + " " + args["Food-Bug"]
-			
-		strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow())
-		if not strain:
-			abort(404, message="An error as occurried")
-		db.session.add(strain)
-		db.session.commit()
+
+		strain = db.session.query(Strain).filter(Strain.name == s_name).first()
+
+		if strain:
+			file_1 = ""
+			file_2 = ""
+			if args["File_1"] and json.loads(strain.strain_metadata)["File_1"] == args["File_1"]:
+				strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
+			if args["File_2"] and json.loads(strain.strain_metadata)["File_2"] == args["File_2"]:
+				strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+			return strain, 200		
+		
+		try:
+			print 'AQUI'
+			strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow(), user_id=current_user.id)
+			print strain
+			if not strain:
+				abort(404, message="An error as occurried")
+
+			db.session.add(strain)
+			db.session.commit()
+		except Exception as erro:
+			print erro
+			db.session.rollback()
+			strain = db.session.query(Strain).filter(Strain.name == s_name).first()
 		return strain, 201
 
 
@@ -119,10 +140,11 @@ class StrainProjectListResource(Resource):
 		if not strain:
 			abort(404, message="No strain available")
 
+		
 		put_status = project.add_Strain(strain)
 		
 		if not put_status:
-			abort(404, message="An error occurried")
+			return abort(404, message="Strain already on project")
 		
 		db.session.commit()
 

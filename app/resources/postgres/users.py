@@ -1,10 +1,10 @@
 import ldap
 from config import baseDN
 from app import app, db, user_datastore, security
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user, utils
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user, utils
 from flask import jsonify
-from flask.ext.security import current_user, login_required, login_user
+from flask_security import current_user, login_required, login_user
 
 from app.models.models import User
 

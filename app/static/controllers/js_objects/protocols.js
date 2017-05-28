@@ -122,7 +122,7 @@ function Protocol_List($http){
 				console.log(response);
 		        property_fields = [];
 		    	for(i in response.data){
-		    		property_fields.push(response.data[i].plabel.split('"')[1])
+		    		if(property_fields.indexOf(response.data[i].plabel.split('"')[1]) < 0) property_fields.push(response.data[i].plabel.split('"')[1])
 		    	}
 		        property_fields = property_fields.reverse();
 		        property_fields = property_fields;

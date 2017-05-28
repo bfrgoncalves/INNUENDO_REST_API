@@ -1,5 +1,5 @@
-from flask.ext.security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
-from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg
+from flask_security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
+from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
 from app.models.models import Specie, User
 import os
 import requests
@@ -7,6 +7,7 @@ import ldap
 
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
+
 
 # Executes before the first request is processed.
 @app.before_first_request
@@ -47,9 +48,11 @@ def before_first_request():
     user_datastore.add_role_to_user(app.config['ADMIN_EMAIL'], 'admin')
     db.session.commit()
 
+
 @app.login_manager.request_loader
 def load_user_from_request(request):
-    if request.method == 'POST':
+    
+    if request.method == 'POST' and "/outputs/" not in request.base_url:
         username = request.form.get('email')
         password = request.form.get('password')
 

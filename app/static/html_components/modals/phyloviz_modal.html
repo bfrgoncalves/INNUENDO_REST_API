@@ -1,0 +1,36 @@
+<!-- Modal Template-->
+<div id="sendToPHYLOViZModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Send data to PHYLOViZ</h4>
+	  </div>
+      <div class="modal-body">
+		<form class="form-horizontal" role="form" id="save_phyloviz_form" ng-submit="sendToPHYLOViZ()">
+		    <div class="form-group">
+		      <label class="control-label col-sm-2" for="name">Dataset Name:</label>
+		      <div class="col-sm-10">
+		        <input type="text" class="form-control" id="modal_phyloviz_dataset_name" name="dataset_name" placeholder="Enter a dataset name">
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label class="control-label col-sm-2" for="description">Description</label>
+		      <div class="col-sm-10">
+		        <textarea class="form-control" rows="3" id="modal_phyloviz_dataset_description" name="dataset_description" placeholder="Enter a dataset description"></textarea>
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <div class="col-sm-offset-2 col-sm-10">
+		        <button type="submit" class="btn btn-default">Send to PHYLOViZ</button>
+		      </div>
+		    </div>
+		</form>
+		<div style="overflow-x:auto;margin-left:20%;" id="phyloviz_output"></div>
+	  </div>
+	</div>
+
+  </div>
+</div>

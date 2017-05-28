@@ -1,6 +1,7 @@
 innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 	$scope.added_protocols = {};
+	$scope.class_options = ["Classifier", "Procedure"];
 
 	var protocols = new Protocol_List($http);
 	var workflows = new Workflows($http);

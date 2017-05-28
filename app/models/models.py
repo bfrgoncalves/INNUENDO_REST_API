@@ -34,15 +34,14 @@ class User(db.Model, UserMixin):
 		conn.simple_bind_s()
 		search_filter = "uid="+email
 		result = conn.search_s(baseDN,ldap.SCOPE_SUBTREE,search_filter)
-		print result
 		for dn, entry in result:
 			DN = str(dn)
 			Entry = entry
 			print DN
 			print Entry
+			break
 
-		conn.simple_bind_s( DN, password )
-		conn.unbind_s()
+		conn.unbind()
 		return Entry
 
 	
@@ -65,7 +64,8 @@ class Role(db.Model, RoleMixin):
 class Project(db.Model):
 	__tablename__ = "projects"
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255), unique=True)
+	name = db.Column(db.String(255))
+	is_removed = db.Column(db.String(255))
 	description = db.Column(db.Text())
 	timestamp = db.Column(db.DateTime)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -99,12 +99,16 @@ class Pipeline(db.Model):
 	id = db.Column(db.Integer(), primary_key=True)
 	timestamp = db.Column(db.DateTime)
 	project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+	parent_pipeline_id = db.Column(db.Integer())
+	parent_project_id = db.Column(db.Integer())
+	removed = db.Column(db.String(255))
 	strain_id = db.Column(db.Integer, db.ForeignKey('strains.id'))
 
 class Workflow(db.Model):
 	__tablename__ = "workflows"
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255), unique=True)
+	classifier = db.Column(db.String(255))
 	timestamp = db.Column(db.DateTime)
 
 
@@ -139,7 +143,36 @@ class Strain(db.Model):
 	strain_metadata = db.Column(JSON)
 	fields = db.Column(JSON)
 	species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
+	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
+#Table to store all procedure report data
+class Report(db.Model):
+	__tablename__ = "reports"
+	id = db.Column(db.Integer(), primary_key=True)
+	job_id = db.Column(db.String(255), unique=True)
+	user_id = db.Column(db.Integer())
+	username = db.Column(db.String(255))
+	procedure = db.Column(db.String(255))
+	project_id = db.Column(db.String(255))
+	sample_name = db.Column(db.String(255))
+	pipeline_id = db.Column(db.String(255))
+	process_position = db.Column(db.String(255))
+	procedure = db.Column(db.String(255))
+	timestamp = db.Column(db.DateTime)
+	report_data = db.Column(JSON)
+
+#Table to store all combined reports
+class Combined_Reports(db.Model):
+	__tablename__ = "combined_reports"
+	id = db.Column(db.Integer(), primary_key=True)
+	user_id = db.Column(db.Integer())
+	username = db.Column(db.String(255))
+	name = db.Column(db.String(255))
+	description = db.Column(db.String(255))
+	run_identifiers = db.Column(db.String(255))
+	strain_names = db.Column(db.String(255))
+	species_id = db.Column(db.String(255))
+	timestamp = db.Column(db.DateTime)
 
 class Message(db.Model):
 	__tablename__ = "messages"

@@ -1,0 +1,6 @@
+Primary-Identifier	Food-Bug	Source	Sampling-Date	Sample-Received-Date	Owner	Submitter	Location	Additional-Information	File_1	File_2
+1_campy		Food	01/01/12	22/02/12	msilva	msilva	Portugal	test	12xb_598_GGACTCCT-AGAGTAGA_L001_R1_001.fastq.gz	12xb_598_GGACTCCT-AGAGTAGA_L001_R2_001.fastq.gz
+1	Campy	Food	01/01/12	22/02/12	msilva	msilva	Portugal	test	12xb_598_GGACTCCT-AGAGTAGA_L001_R1_001.fastq.gz	12xb_598_GGACTCCT-AGAGTAGA_L001_R2_001.fastq.gz
+2	Campy	Food	01/01/12	22/02/12	msilva	msilva	Portugal	test	12xb_598_GGACTCCT-AGAGTAGA_L001_R1_001.fastq.gz	12xb_598_GGACTCCT-AGAGTAGA_L001_R2_001.fastq.gz
+3	Campy	Food	01/01/12	22/02/12	msilva	msilva	Portugal	test	12xb_598_GGACTCCT-AGAGTAGA_L001_R1_001.fastq.gz	12xb_598_GGACTCCT-AGAGTAGA_L001_R2_001.fastq.gz
+4	Campy	Food	01/01/12	22/02/12	msilva	msilva	Portugal	test	12xb_598_GGACTCCT-AGAGTAGA_L001_R1_001.fastq.gz	12xb_598_GGACTCCT-AGAGTAGA_L001_R2_001.fastq.gz

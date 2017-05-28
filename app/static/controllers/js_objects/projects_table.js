@@ -24,17 +24,18 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
     		pg_requests.get_species_projects(species_id, is_others, function(response){
 	        	if(response.status == 200){
 	        		if(is_others){
-	        			other_projects = response.data.map(function(d){
-				            return {name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id}
+	        			other_projects = []
+	        			response.data.map(function(d){
+	        				if(d.is_removed == null) other_projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id});
 				        });
 				        callback(other_projects);
 			        	objects_utils.loadDataTables('projects_table', projects);
 	        		}
 	        		else{
-			        	projects = response.data.map(function(d){
-				            return {name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id}
+	        			projects = [];
+			        	response.data.map(function(d){
+				            if(d.is_removed == null) projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id});
 				        });
-				        console.log(projects);
 				        callback(projects);
 			        	objects_utils.loadDataTables('projects_table', projects);
 			        }
@@ -50,12 +51,10 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
     	add_project: function(callback){
     		pg_requests.add_project_to_database(function(response){
     			if (response.status == 201){
-	    			objects_utils.destroyTable('projects_table');
 	    			ngs_onto_requests.ngs_onto_request_add_project_to_database(response.data.id, function(response){
 	    				//Do something if needed
 	    			});
 	    			projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id});
-	    			objects_utils.loadDataTables('projects_table', projects);
 		            $('#newProjectModal').modal('hide');
 		            objects_utils.show_message('projects_message_div', 'success', 'Project created.');
 		            callback({projects: projects});
@@ -89,15 +88,19 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		    	callback({projects: projects});
 		    }, 200);
     	},
-    	load_project: function(table_id, CURRENT_PROJECT_ID, callback){
+    	load_project: function(table_id, CURRENT_PROJECT_ID, pass, callback){
 
-    		var table = $('#' + table_id).DataTable();
+    		selected_indexes = [];
+    		
+    		if(table_id != ""){
+    			var table = $('#' + table_id).DataTable();
     
-		    var selected_indexes = $.map(table.rows('.selected').indexes(), function(index){
-		        return index;
-		    });
+			    var selected_indexes = $.map(table.rows('.selected').indexes(), function(index){
+			        return index;
+			    });
+    		}
 		    
-		    if (selected_indexes.length == 0){
+		    if (selected_indexes.length == 0 && pass != true){
 		        objects_utils.show_message('projects_message_div', 'warning', 'Please select a project first.');
 		    }
 		    else{

@@ -1,5 +1,5 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from config import basedir
 import os 
 
@@ -27,24 +27,24 @@ app.wsgi_app = DispatcherMiddleware(simple, {app_route: app.wsgi_app})
 db = SQLAlchemy(app) #initialization of the database
 
 # Setup Flask-Security
-from flask.ext.security import Security, SQLAlchemyUserDatastore
+from flask_security import Security, SQLAlchemyUserDatastore
 from app.models.models import User, Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)
 
 from .adminutils import UserAdmin, RoleAdmin
-from flask.ext.admin import Admin
+from flask_admin import Admin
 from flask_mail import Mail
 #initialize mailer
 mail = Mail(app)
 
 # Initialize Flask-Admin
-admin = Admin(app)
+#admin = Admin(app)
 
 # Add Flask-Admin views for Users and Roles
-admin.add_view(UserAdmin(User, db.session))
-admin.add_view(RoleAdmin(Role, db.session))
+#admin.add_view(UserAdmin(User, db.session))
+#admin.add_view(RoleAdmin(Role, db.session))
 
 
 #setup agraph
@@ -58,6 +58,7 @@ dedicateddbconAg = myRepository.getConnection()
 print "Repository %s is up!  It contains %i statements." % (
 	myRepository.getDatabaseName(), dbconAg.size())
 
+print '###############################################################'
 
 
 from app import views, models, api, app_configuration #models are files that define the database structure

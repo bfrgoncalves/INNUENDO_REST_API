@@ -1,8 +1,8 @@
 from app import app, dbconAg,dedicateddbconAg
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user
 from flask import jsonify
-from flask.ext.security import current_user, login_required
+from flask_security import current_user, login_required
 
 from config import obo,localNSpace,dcterms
 from franz.openrdf.vocabulary.rdf import RDF

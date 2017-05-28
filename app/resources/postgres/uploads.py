@@ -1,51 +1,50 @@
 from app import app, db
 import os
 from flask import Flask, request, redirect, url_for
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user
 from flask import jsonify
 
 from os import listdir
 from os.path import isfile, join
 
-from flask.ext.security import current_user, login_required, roles_required
+from flask_security import current_user, login_required, roles_required
 import datetime
 
-from werkzeug.utils import secure_filename
-from flask import send_from_directory
+import json
+import requests
 
-def allowed_file(filename):
-	return '.' in filename and \
-		filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
+config1 = {}
+execfile("config.py", config1)
 
+#Defining post arguments parser
+downloads_get_parser = reqparse.RequestParser()
+downloads_get_parser.add_argument('accession_numbers', dest='accession_numbers', type=str, required=True, help="ENA accession numbers")
 
-class FileUpload(Resource):
-	
-	@login_required
-	def post(self):
-		if 'file' not in request.files:
-			flash('No file part')
-			return redirect(request.url)
-		file = request.files['file']
-		# if user does not select file, browser also
-		# submit a empty part without filename
-		if file.filename == '':
-			return redirect(request.url)
-		if file and allowed_file(file.filename):
-			filename = secure_filename(file.filename)
-			file.save(os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], str(current_user.id)), filename))
-			return jsonify({ "filename": file.filename })
+class GetFilesResource(Resource):
 
 	@login_required
 	def get(self):
-		mypath = os.path.join(app.config['UPLOAD_FOLDER'], str(current_user.id))
-		onlyfiles = [{"filename":f, "uri": url_for('get_file', filename=f, _external=True)} for f in listdir(mypath) if isfile(join(mypath, f))]
+		print config1['FILES_ROOT']
+		request = requests.get(config1['FILES_ROOT'], params={'username':current_user.username})
+		try:
+			return request.json(), 200
+		except Exception as e:
+			return False, 200
 
-
-		return jsonify({ "files": onlyfiles })
-
-class GetFile(Resource):
+class DownloadFilesResource(Resource):
 
 	@login_required
-	def get(self, filename):
-		return jsonify({ "filename": filename })
+	def post(self):
+		args=downloads_get_parser.parse_args()
+		request = requests.post(config1['DOWNLOADS_ROOT'], data={'username':current_user.username, 'accession_numbers': args.accession_numbers})
+		print request.json()
+
+		return request.json(), 200
+
+	@login_required
+	def get(self):
+		args=downloads_get_parser.parse_args()
+		request = requests.get(config1['DOWNLOADS_ROOT'], data={'username':current_user.username, 'accession_numbers': args.accession_numbers})
+		print request.json()
+		return request.json(), 200

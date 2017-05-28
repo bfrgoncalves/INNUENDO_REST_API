@@ -1,3 +1,0 @@
-Sample	species_id	SampleReceivedDate	source_Source	AdditionalInformation	File_1	Primary	SamplingDate	Owner	Food-Bug	Submitter	File_2	fileselector	Location
-2 Campy	1	2012-02-22	Food		SRR5127263_1.fastq.gz	2	2012-01-01	msilva	Campy	msilva	SRR5127263_2.fastq.gz	Reads: Paired End	Finland
-1 Campy	1	2012-02-22	Food		12xb_598_GGACTCCT-AGAGTAGA_L001_R1_001.fastq.gz	1	2012-01-01	msilva	Campy	msilva	12xb_598_GGACTCCT-AGAGTAGA_L001_R2_001.fastq.gz	Reads: Paired End	Portugal

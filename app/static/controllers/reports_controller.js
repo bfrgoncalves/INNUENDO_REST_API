@@ -470,10 +470,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#waiting_spinner').css({display:'none'});
 						$('#reports_container').css({display:"block"});
 
-						table = $('#reports_table').DataTable();
-						table.draw();
-						table = $('#saved_reports_table').DataTable();
-						table.draw();
+						setTimeout(function(){
+							table = $('#reports_table').DataTable();
+							table.draw();
+							table = $('#saved_reports_table').DataTable();
+							table.draw();
+						}, 1000);
 				    }
 				});
 		    });

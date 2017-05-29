@@ -400,7 +400,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	    	$scope.report_procedures = [];
 			global_results_dict = {};
-			run_info = [];
+			run_infos = [];
 			run_results = [];
 
 

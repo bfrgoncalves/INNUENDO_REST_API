@@ -446,7 +446,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            }
 		            //callback();
 		        }
-		        else console.log(response.statusText);
+		        else{
+		        	console.log(response.statusText);
+
+		        	callback({strains:[]});
+		        }
 			});
 		},
 		get_public_strain_applied_pipelines: function(strainids, callback){

@@ -415,6 +415,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			    catch(e){
 			    	var current_project = "";
 			    }
+
+			    console.log(current_project);
+			    
 			    $scope.getSavedReports(function(){
 
 				    if(current_project != ""){

@@ -201,7 +201,10 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 			parentProcessURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(ppropid)+"/pipelines/"+str(ppipid)+"/processes/"+str(pprocid))
 
+			print ppipid, rpipid
 			if ppipid == rpipid:
+				print "AQUIQQQQ1"
+				print procJsonResult
 				for proc_json in procJsonResult:
 					if k == "StrIndex" and int(proc_json["StrIndex"]) > int(pprocid):
 						todelUri = dbconAg.createURI(k)

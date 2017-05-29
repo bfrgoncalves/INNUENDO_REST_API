@@ -137,7 +137,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
         	else{
         		$("#group_buttons_strain").css({display:"block"});
         		$("#buttons_procedures").css({display:"block"});
-        		$("#protocols_div").css({display:"block"});
         		$("#procedures_div").css({display:"block"});
         	}
 

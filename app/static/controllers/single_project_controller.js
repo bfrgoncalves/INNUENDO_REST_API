@@ -203,9 +203,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		
 		single_project.get_workflows("Procedure", function(pipelines){
 			$scope.pipelines = pipelines;
+			console.log("workflows");
 
 			single_project.get_workflows("Classifier", function(pipelines){
 				$scope.pipelines_classifiers = pipelines;
+				console.log("workflows2");
 				callback();
 			});
 		});
@@ -333,6 +335,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		    global_public_strains = strains_results.public_strains;
 		    objects_utils.loadDataTables('public_strains_table', global_public_strains, public_project_col_defs, strains_headers);
 		    //single_project.get_public_strains_applied_pipelines(function(){});
+		    console.log("strains");
 		    callback();
 		});
 
@@ -344,6 +347,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			global_strains = strains_results.strains;
 			//console.log(global_strains);
 			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			console.log("projectstrains");
 			callback();
 		});
 	}

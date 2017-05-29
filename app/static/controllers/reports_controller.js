@@ -392,67 +392,67 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
 	    	//console.log(results);
 	    	results.map(function(d){$scope.projects_names.push(d)});
-	    });
+	    	console.log(1);
 
-	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
-	    	//console.log(results);
-	    	results.map(function(d){$scope.projects_names.push(d)});
-	    });
+	    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
+		    	//console.log(results);
+		    	results.map(function(d){$scope.projects_names.push(d)});
 
-	    setTimeout(function(){
-		    objects_utils.destroyTable('reports_table');
-		    try{
-		    	var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
-		    }
-		    catch(e){
-		    	var current_project = "";
-		    }
-		    $scope.getSavedReports();
+		    	console.log(2);
 
-		    if(current_project != ""){
-		    	pg_requests.get_applied_pipelines(null, current_project, function(response){
-					//console.log(response);
-					var pipelines_to_check = [];
-					for(x in response.data){
-						if(response.data[x].parent_pipeline_id != null) pipelines_to_check.push(response.data[x].parent_pipeline_id);
-						else pipelines_to_check.push(response.data[x].id);
-					}
-					pipelines_to_check = pipelines_to_check.join();
-			    	reports.get_project_reports(current_project, pipelines_to_check, function(response){
-					
-						user_reports = response.data;
-						if(user_reports.message != undefined) user_reports = [];
+		    	objects_utils.destroyTable('reports_table');
+			    try{
+			    	var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
+			    }
+			    catch(e){
+			    	var current_project = "";
+			    }
+			    $scope.getSavedReports();
 
-						objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
-
-						if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-							show_results_and_info($rootScope.showing_jobs);
+			    if(current_project != ""){
+			    	pg_requests.get_applied_pipelines(null, current_project, function(response){
+						//console.log(response);
+						var pipelines_to_check = [];
+						for(x in response.data){
+							if(response.data[x].parent_pipeline_id != null) pipelines_to_check.push(response.data[x].parent_pipeline_id);
+							else pipelines_to_check.push(response.data[x].id);
 						}
+						pipelines_to_check = pipelines_to_check.join();
+				    	reports.get_project_reports(current_project, pipelines_to_check, function(response){
+						
+							user_reports = response.data;
+							if(user_reports.message != undefined) user_reports = [];
 
-						current_strains_data = [];
-						current_job_ids = [];
-						global_results_dict = {};
+							objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
 
-						objects_utils.loadDataTables('reports_info_table', [], reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_results_table', [], reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_metadata_table', [], reports_metadata_col_defs, reports_metadata_table_headers);
+							if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
+								show_results_and_info($rootScope.showing_jobs);
+							}
 
-						$('#reports_info_table_wrapper').css({'display':'none'});
-						$('#reports_results_table_wrapper').css({'display':'none'});
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
+							current_strains_data = [];
+							current_job_ids = [];
+							global_results_dict = {};
 
-						$('#waiting_spinner').css({display:'none'});
-						$('#reports_container').css({display:"block"});
+							objects_utils.loadDataTables('reports_info_table', [], reports_info_col_defs, reports_info_table_headers);
+							objects_utils.loadDataTables('reports_results_table', [], reports_info_col_defs, reports_info_table_headers);
+							objects_utils.loadDataTables('reports_metadata_table', [], reports_metadata_col_defs, reports_metadata_table_headers);
 
-						table = $('#reports_table').DataTable();
-						table.draw();
-						table = $('#saved_reports_table').DataTable();
-						table.draw();
+							$('#reports_info_table_wrapper').css({'display':'none'});
+							$('#reports_results_table_wrapper').css({'display':'none'});
+							$('#reports_metadata_table_wrapper').css({'display':'none'});
+
+							$('#waiting_spinner').css({display:'none'});
+							$('#reports_container').css({display:"block"});
+
+							table = $('#reports_table').DataTable();
+							table.draw();
+							table = $('#saved_reports_table').DataTable();
+							table.draw();
+						});
 					});
-				});
-		    }
-
-	    }, 500);
+			    }
+		    });
+	    });
 
 	};
 

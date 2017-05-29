@@ -673,9 +673,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 						console.log(global_results_dict);
 						procedure_to_show = Object.keys(global_results_dict)[0];
-
-						if(procedure_to_show.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
-						else $('#phyloviz_button').css({display:"none"});
 						
 						run_infos=global_results_dict[procedure_to_show][0];
 						run_results=global_results_dict[procedure_to_show][1];
@@ -696,8 +693,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 
 								$('#run_info_' + q[p]).on('click', function(){
-
-									console.log("AQUI");
 
 									sp = this.id.split('_');
 									to_check = sp.splice(2, sp.length).join('_');

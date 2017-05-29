@@ -1027,6 +1027,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        		var last_pipeline_id = "";
 			        	console.log(pipelines_applied);
 			        	var count_processes = 0;
+			        	var has_completed = false;
 			        	for(x in pipelines_applied[strain_names[i]]){
 			        		count_processes += 1;
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
@@ -1036,8 +1037,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			lastprocess = count_processes-1;
 			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_names[i]]];
 			        		}
+
+			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED") has_completed = true;
+
 			        	}
-			        	if(lastprocess != ""){
+			        	if(lastprocess != "" && has_completed == true){
 			        		pip_id_of_parents.push(CURRENT_PROJECT_ID);
 			        		pip_id_of_parents.push(last_pipeline_id);
 			        		pip_id_of_parents.push(lastprocess);

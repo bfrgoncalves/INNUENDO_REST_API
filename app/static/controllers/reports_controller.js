@@ -436,7 +436,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
 									show_results_and_info($rootScope.showing_jobs);
 								}
-
+								console.log("PUFF");
 								$('#waiting_spinner').css({display:'none'}); 
 								$('#reports_container').css({display:"block"});
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
@@ -452,6 +452,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						});
 				    }
 				    else{
+				    	console.log("AQUI");
 				    	$('#waiting_spinner').css({display:'none'}); 
 						$('#reports_container').css({display:"block"});
 						objects_utils.loadDataTables('reports_table', [], user_reports_col_defs, user_reports_table_headers);

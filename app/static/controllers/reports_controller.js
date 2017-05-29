@@ -250,11 +250,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			aux_info['Sample'] = sample_name;
 			console.log(report_data);
 			for(x in report_data.run_stats){
-				console.log("AQUI");
 				if(x == 'header') continue;
 				else{
 					for(y in report_data.run_stats[x]){
-						console.log("AQUI2");
 						aux_info[report_data.run_stats['header'][y]] = report_data.run_stats[x][y];
 					}
 				}
@@ -262,11 +260,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
 			for(x in report_data.run_output){
-				console.log("AQUI3");
 				if(x == 'header') continue;
 				else{
 					for(y in report_data.run_output[x]){
-						console.log("AQUI4");
 						aux_results[report_data.run_output['header'][y]] = report_data.run_output[x][y];
 					}
 				}
@@ -689,13 +685,18 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$scope.run_infos_headers = info_headers;
 
 						var q = Object.keys(global_results_dict);
+
+						console.log(q);
 						
 						for(p in q){
 
 							$('#run_info_' + q[p]).unbind( "click" );
 							$('#results_info_' + q[p]).unbind( "click" );
 
+
 							$('#run_info_' + q[p]).on('click', function(){
+
+								console.log("AQUI");
 
 								sp = this.id.split('_');
 								to_check = sp.splice(2, sp.length).join('_');
@@ -719,6 +720,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							});
 
 							$('#results_info_' + q[p]).on('click',function(){
+
+								console.log("AQUI2");
 
 								sp = this.id.split('_');
 								to_check = to_check = sp.splice(2, sp.length).join('_');

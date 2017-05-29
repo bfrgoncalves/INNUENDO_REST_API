@@ -444,7 +444,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								}
 
 								$('#waiting_spinner').css({display:'none'}); 
-								$('#reports_controller_div').css({display:'block'});
+								$('#reports_container').css({display:"block"});
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
@@ -453,7 +453,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				    }
 				    else{
 				    	$('#waiting_spinner').css({display:'none'}); 
-						$('#reports_controller_div').css({display:'block'});
+						$('#reports_container').css({display:"block"});
 						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 						console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);

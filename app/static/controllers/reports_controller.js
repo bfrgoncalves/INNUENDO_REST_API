@@ -444,17 +444,17 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								objects_utils.loadDataTables('reports_results_table', [], reports_info_col_defs, reports_info_table_headers);
 								objects_utils.loadDataTables('reports_metadata_table', [], reports_metadata_col_defs, reports_metadata_table_headers);
 
-								$('#reports_info_table_wrapper').css({'display':'none'});
+								$('#reports_info_table_wrapper').css({'display':'block'});
 								$('#reports_results_table_wrapper').css({'display':'none'});
 								$('#reports_metadata_table_wrapper').css({'display':'none'});
 
 								$('#waiting_spinner').css({display:'none'});
 								$('#reports_container').css({display:"block"});
 
-								table = $('#reports_table').DataTable();
+								table = $('#reports_info_table').DataTable();
 								table.draw();
-								table = $('#saved_reports_table').DataTable();
-								table.draw();
+								//table = $('#saved_reports_table').DataTable();
+								//table.draw();
 							});
 						});
 				    }
@@ -470,12 +470,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#waiting_spinner').css({display:'none'});
 						$('#reports_container').css({display:"block"});
 
-						setTimeout(function(){
-							table = $('#reports_table').DataTable();
-							table.draw();
-							table = $('#saved_reports_table').DataTable();
-							table.draw();
-						}, 1000);
+						table = $('#reports_info_table').DataTable();
+						table.draw();
+						//table = $('#saved_reports_table').DataTable();
+						//table.draw();
 				    }
 				});
 		    });

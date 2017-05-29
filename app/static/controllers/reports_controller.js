@@ -295,12 +295,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		        projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
 			    	results.map(function(d){$scope.projects_names.push(d)});
 
-			    	console.log(1);
-
 			    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
 				    	results.map(function(d){$scope.projects_names.push(d)});
-
-				    	console.log(2);
 
 				    	objects_utils.destroyTable('reports_table');
 
@@ -401,13 +397,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
 	    	//console.log(results);
 	    	results.map(function(d){$scope.projects_names.push(d)});
-	    	console.log(1);
+
+	    	$scope.report_procedures = [];
+			global_results_dict = {};
+			run_info = [];
+			run_results = [];
+
 
 	    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
 		    	//console.log(results);
 		    	results.map(function(d){$scope.projects_names.push(d)});
-
-		    	console.log(2);
 
 		    	objects_utils.destroyTable('reports_table');
 			    try{
@@ -417,9 +416,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			    	var current_project = "";
 			    }
 			    $scope.getSavedReports(function(){
-
-			    	console.log("AQUI");
-			    	console.log(current_project);
 
 				    if(current_project != ""){
 				    	pg_requests.get_applied_pipelines(null, current_project, function(response){
@@ -431,8 +427,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							}
 							pipelines_to_check = pipelines_to_check.join();
 					    	reports.get_project_reports(current_project, pipelines_to_check, function(response){
-
-					    		console.log(response, "BAHHA");
 							
 								user_reports = response.data;
 								if(user_reports.message != undefined) user_reports = [];
@@ -448,6 +442,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+								$('#reports_info_table_wrapper').css({'display':'block'});
+								$('#reports_results_table_wrapper').css({'display':'none'});
+								$('#reports_metadata_table_wrapper').css({'display':'none'});
 							});
 						});
 				    }
@@ -458,6 +455,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 						console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+						$('#reports_info_table_wrapper').css({'display':'block'});
+						$('#reports_results_table_wrapper').css({'display':'none'});
+						$('#reports_metadata_table_wrapper').css({'display':'none'});
 						//table = $('#saved_reports_table').DataTable();
 						//table.draw();
 				    }

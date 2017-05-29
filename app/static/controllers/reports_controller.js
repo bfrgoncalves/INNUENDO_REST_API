@@ -687,87 +687,92 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						var q = Object.keys(global_results_dict);
 
 						console.log(q);
+
+						setTimeout(function(){
+							for(p in q){
+
+								$('#run_info_' + q[p]).unbind( "click" );
+								$('#results_info_' + q[p]).unbind( "click" );
+
+
+								$('#run_info_' + q[p]).on('click', function(){
+
+									console.log("AQUI");
+
+									sp = this.id.split('_');
+									to_check = sp.splice(2, sp.length).join('_');
+
+									if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
+									else $('#phyloviz_button').css({display:"none"});
+
+									run_infos=global_results_dict[to_check][0];
+									run_results=global_results_dict[to_check][1];
+
+									objects_utils.destroyTable('reports_info_table');
+									objects_utils.destroyTable('reports_results_table');
+
+									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+									objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
+
+									$('#reports_info_table_wrapper').css({'display':'block'});
+									$('#reports_results_table_wrapper').css({'display':'none'});
+									$('#reports_metadata_table_wrapper').css({'display':'none'});
+									//$('#'+table_id).DataTable().draw();
+								});
+
+								$('#results_info_' + q[p]).on('click',function(){
+
+									console.log("AQUI2");
+
+									sp = this.id.split('_');
+									to_check = to_check = sp.splice(2, sp.length).join('_');
+
+									if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
+									else $('#phyloviz_button').css({display:"none"});
+
+									run_infos=global_results_dict[to_check][0];
+									run_results=global_results_dict[to_check][1];
+
+									objects_utils.destroyTable('reports_info_table');
+									objects_utils.destroyTable('reports_results_table');
+
+									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+									objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
+									
+									$('#reports_info_table_wrapper').css({'display':'none'});
+									$('#reports_results_table_wrapper').css({'display':'block'});
+									$('#reports_metadata_table_wrapper').css({'display':'none'});
+								});
+
+							}
+
+							if(run_infos.length == 0){
+								$('#reports_info_table thead').css({'visibility':'hidden'});
+								$('#reports_info_table tfoot').css({'visibility':'hidden'});
+								$('#reports_results_table thead').css({'visibility':'hidden'});
+								$('#reports_results_table tfoot').css({'visibility':'hidden'});
+								$('#reports_metadata_table thead').css({'visibility':'hidden'});
+								$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
+							}
+							else {
+								$('#reports_info_table thead').css({'visibility':'visible'});
+								$('#reports_info_table tfoot').css({'visibility':'visible'});
+								$('#reports_results_table thead').css({'visibility':'visible'});
+								$('#reports_results_table tfoot').css({'visibility':'visible'});
+								$('#reports_metadata_table thead').css({'visibility':'visible'});
+								$('#reports_metadata_table tfoot').css({'visibility':'visible'});
+							}
+
+							objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+							objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
+
+							$('#reports_info_table_wrapper').css({'display':'block'});
+							$('#reports_results_table_wrapper').css({'display':'none'});
+							$('#reports_metadata_table_wrapper').css({'display':'none'});
 						
-						for(p in q){
-
-							$('#run_info_' + q[p]).unbind( "click" );
-							$('#results_info_' + q[p]).unbind( "click" );
-
-
-							$('#run_info_' + q[p]).on('click', function(){
-
-								console.log("AQUI");
-
-								sp = this.id.split('_');
-								to_check = sp.splice(2, sp.length).join('_');
-
-								if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
-								else $('#phyloviz_button').css({display:"none"});
-
-								run_infos=global_results_dict[to_check][0];
-								run_results=global_results_dict[to_check][1];
-
-								objects_utils.destroyTable('reports_info_table');
-								objects_utils.destroyTable('reports_results_table');
-
-								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-
-								$('#reports_info_table_wrapper').css({'display':'block'});
-								$('#reports_results_table_wrapper').css({'display':'none'});
-								$('#reports_metadata_table_wrapper').css({'display':'none'});
-								//$('#'+table_id).DataTable().draw();
-							});
-
-							$('#results_info_' + q[p]).on('click',function(){
-
-								console.log("AQUI2");
-
-								sp = this.id.split('_');
-								to_check = to_check = sp.splice(2, sp.length).join('_');
-
-								if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
-								else $('#phyloviz_button').css({display:"none"});
-
-								run_infos=global_results_dict[to_check][0];
-								run_results=global_results_dict[to_check][1];
-
-								objects_utils.destroyTable('reports_info_table');
-								objects_utils.destroyTable('reports_results_table');
-
-								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-								
-								$('#reports_info_table_wrapper').css({'display':'none'});
-								$('#reports_results_table_wrapper').css({'display':'block'});
-								$('#reports_metadata_table_wrapper').css({'display':'none'});
-							});
-
-						}
-
-						if(run_infos.length == 0){
-							$('#reports_info_table thead').css({'visibility':'hidden'});
-							$('#reports_info_table tfoot').css({'visibility':'hidden'});
-							$('#reports_results_table thead').css({'visibility':'hidden'});
-							$('#reports_results_table tfoot').css({'visibility':'hidden'});
-							$('#reports_metadata_table thead').css({'visibility':'hidden'});
-							$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
-						}
-						else {
-							$('#reports_info_table thead').css({'visibility':'visible'});
-							$('#reports_info_table tfoot').css({'visibility':'visible'});
-							$('#reports_results_table thead').css({'visibility':'visible'});
-							$('#reports_results_table tfoot').css({'visibility':'visible'});
-							$('#reports_metadata_table thead').css({'visibility':'visible'});
-							$('#reports_metadata_table tfoot').css({'visibility':'visible'});
-						}
-
-						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-
-						$('#reports_info_table_wrapper').css({'display':'block'});
-						$('#reports_results_table_wrapper').css({'display':'none'});
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
+						}, 500);
+						
+						
 
 					}
 				});

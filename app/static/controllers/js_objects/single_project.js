@@ -1198,9 +1198,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
 								//if (t_id.split('_')[0] != prevjobid) count+=1;
 								count_process[strain_id]+=1;
-								tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_' + String(response.data[l].process_id) + '_' + CURRENT_PROJECT_ID;
-								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_' + String(response.data[l].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
-								buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_' + String(response.data[l].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
+								tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
+								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
+								buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
 								prevjobid = t_id.split('_')[0];
 								dict_of_tasks_status[t_id] = '';
 								console.log(strain_id, pip_id);

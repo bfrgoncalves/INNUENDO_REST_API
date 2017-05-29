@@ -251,7 +251,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				if(x == 'header') continue;
 				else{
 					for(y in report_data.run_info[x]){
-						aux_info[report_data.run_info['header'][y]] = report_data[1][x][y];
+						aux_info[report_data.run_info['header'][y]] = report_data.run_info[x][y];
 					}
 				}
 			}
@@ -261,7 +261,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				if(x == 'header') continue;
 				else{
 					for(y in report_data.run_results[x]){
-						aux_results[report_data.run_results['header'][y]] = report_data[2][x][y];
+						aux_results[report_data.run_results['header'][y]] = report_data.run_results[x][y];
 					}
 				}
 

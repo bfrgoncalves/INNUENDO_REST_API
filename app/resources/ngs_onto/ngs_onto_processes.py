@@ -206,6 +206,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					if k == "StrIndex" and int(proc_json["StrIndex"]) > int(pprocid):
 						todelUri = dbconAg.createURI(k)
 						dbconAg.remove(parentProcessURI, None, todelUri)
+						print "AQUIQQQQ"
 						numberOfProcesses -= 1
 
 			print ppropid, ppipid, pprocid

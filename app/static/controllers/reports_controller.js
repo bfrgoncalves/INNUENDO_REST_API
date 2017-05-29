@@ -219,7 +219,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	}
 
 
-	function process_report_data(identifier, report_data, sample_name, procedure){
+	function process_report_data(identifier, report_data, sample_name, procedure, job, callback){
 
 		var run_information = [];
 		var run_results = [];
@@ -243,7 +243,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
 			}
 			console.log([aux_info, aux_results]);
-			return [aux_info, aux_results];
+			callback([aux_info, aux_results], job);
 		}
 		else if(procedure.indexOf('chewBBACA') > -1){
 			var aux_info = {};
@@ -267,7 +267,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					}
 				}
 			console.log([aux_info, aux_results]);
-			return [aux_info, aux_results];
+			callback([aux_info, aux_results], job);
 			}
 		}
 	}
@@ -619,6 +619,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			var identifier = "";
 
+			total_jobs = response.data.length;
+			count_jobs = 0;
+
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
 				if(response.data[job].procedure_name == "INNUca") identifier = Object.keys(response.data[job].report_data.run_info)[0];
@@ -634,69 +637,123 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				//if(identifier == "stats") continue:
 
-				if ($.inArray(response.data[job].job_id, current_job_ids) != -1) continue;
-
-				results = process_report_data(identifier, response.data[job].report_data, response.data[job].sample_name, response.data[job].procedure_name);
-				console.log(results);
-
-				results[0]['job_id'] = response.data[job].job_id;
-				results[1]['job_id'] = response.data[job].job_id;
-
-				try{
-					global_results_dict[response.data[job].procedure_name.replace(/ /g,"_")][0].push(results[0]);
-					global_results_dict[response.data[job].procedure_name.replace(/ /g,"_")][1].push(results[1]);
+				if ($.inArray(response.data[job].job_id, current_job_ids) != -1){
+					count_jobs += 1;
+					continue;
 				}
-				catch(err){
-					global_results_dict[response.data[job].procedure_name.replace(/ /g,"_")] = [];
-					global_results_dict[response.data[job].procedure_name.replace(/ /g,"_")].push([]);
-					global_results_dict[response.data[job].procedure_name.replace(/ /g,"_")].push([]);
-					global_results_dict[response.data[job].procedure_name.replace(/ /g,"_")][0].push(results[0]);
-					global_results_dict[response.data[job].procedure_name.replace(/ /g,"_")][1].push(results[1]);
-				}
-				info_to_use.push(results[0]);
-				results_to_use.push(results[1]);
-				current_job_ids.push(response.data[job].job_id);
 
-				if ($scope.report_procedures.indexOf(response.data[job].procedure_name.replace(/ /g,"_")) < 0 && response.data[job].procedure_name != null){
-					$scope.report_procedures.push(response.data[job].procedure_name.replace(/ /g,"_"));
-				}
-			}
-			console.log(global_results_dict);
-			procedure_to_show = Object.keys(global_results_dict)[0];
+				process_report_data(identifier, response.data[job].report_data, response.data[job].sample_name, response.data[job].procedure_name, job, function(results, job_to_use){
+					
+					console.log(results);
+					count_jobs += 1;
 
-			if(procedure_to_show.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
-			else $('#phyloviz_button').css({display:"none"});
-			
-			run_infos=global_results_dict[procedure_to_show][0];
-			run_results=global_results_dict[procedure_to_show][1];
+					results[0]['job_id'] = response.data[job_to_use].job_id;
+					results[1]['job_id'] = response.data[job_to_use].job_id;
 
-			$scope.run_identifiers = run_identifiers;
-			$scope.run_results_headers = results_headers;
-			$scope.run_infos_headers = info_headers;
+					try{
+						global_results_dict[response.data[job_to_use].procedure_name.replace(/ /g,"_")][0].push(results[0]);
+						global_results_dict[response.data[job_to_use].procedure_name.replace(/ /g,"_")][1].push(results[1]);
+					}
+					catch(err){
+						global_results_dict[response.data[job_to_use].procedure_name.replace(/ /g,"_")] = [];
+						global_results_dict[response.data[job_to_use].procedure_name.replace(/ /g,"_")].push([]);
+						global_results_dict[response.data[job_to_use].procedure_name.replace(/ /g,"_")].push([]);
+						global_results_dict[response.data[job_to_use].procedure_name.replace(/ /g,"_")][0].push(results[0]);
+						global_results_dict[response.data[job_to_use].procedure_name.replace(/ /g,"_")][1].push(results[1]);
+					}
+					info_to_use.push(results[0]);
+					results_to_use.push(results[1]);
+					current_job_ids.push(response.data[job_to_use].job_id);
 
+					if ($scope.report_procedures.indexOf(response.data[job_to_use].procedure_name.replace(/ /g,"_")) < 0 && response.data[job_to_use].procedure_name != null){
+						$scope.report_procedures.push(response.data[job_to_use].procedure_name.replace(/ /g,"_"));
+					}
 
-			setTimeout(function(){
+					if(count_jobs == total_jobs) {
 
-				var q = Object.keys(global_results_dict);
-				
-				for(p in q){
+						console.log(global_results_dict);
+						procedure_to_show = Object.keys(global_results_dict)[0];
 
-					$('#run_info_' + q[p]).unbind( "click" );
-					$('#results_info_' + q[p]).unbind( "click" );
-
-					$('#run_info_' + q[p]).on('click', function(){
-
-						sp = this.id.split('_');
-						to_check = sp.splice(2, sp.length).join('_');
-
-						if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
+						if(procedure_to_show.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
 						else $('#phyloviz_button').css({display:"none"});
+						
+						run_infos=global_results_dict[procedure_to_show][0];
+						run_results=global_results_dict[procedure_to_show][1];
 
-						run_infos=global_results_dict[to_check][0];
-						run_results=global_results_dict[to_check][1];
+						$scope.run_identifiers = run_identifiers;
+						$scope.run_results_headers = results_headers;
+						$scope.run_infos_headers = info_headers;
 
-						objects_utils.destroyTable('reports_info_table');
-						objects_utils.destroyTable('reports_results_table');
+						var q = Object.keys(global_results_dict);
+						
+						for(p in q){
+
+							$('#run_info_' + q[p]).unbind( "click" );
+							$('#results_info_' + q[p]).unbind( "click" );
+
+							$('#run_info_' + q[p]).on('click', function(){
+
+								sp = this.id.split('_');
+								to_check = sp.splice(2, sp.length).join('_');
+
+								if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
+								else $('#phyloviz_button').css({display:"none"});
+
+								run_infos=global_results_dict[to_check][0];
+								run_results=global_results_dict[to_check][1];
+
+								objects_utils.destroyTable('reports_info_table');
+								objects_utils.destroyTable('reports_results_table');
+
+								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+								objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
+
+								$('#reports_info_table_wrapper').css({'display':'block'});
+								$('#reports_results_table_wrapper').css({'display':'none'});
+								$('#reports_metadata_table_wrapper').css({'display':'none'});
+								//$('#'+table_id).DataTable().draw();
+							});
+
+							$('#results_info_' + q[p]).on('click',function(){
+
+								sp = this.id.split('_');
+								to_check = to_check = sp.splice(2, sp.length).join('_');
+
+								if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
+								else $('#phyloviz_button').css({display:"none"});
+
+								run_infos=global_results_dict[to_check][0];
+								run_results=global_results_dict[to_check][1];
+
+								objects_utils.destroyTable('reports_info_table');
+								objects_utils.destroyTable('reports_results_table');
+
+								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+								objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
+								
+								$('#reports_info_table_wrapper').css({'display':'none'});
+								$('#reports_results_table_wrapper').css({'display':'block'});
+								$('#reports_metadata_table_wrapper').css({'display':'none'});
+							});
+
+						}
+
+						if(run_infos.length == 0){
+							$('#reports_info_table thead').css({'visibility':'hidden'});
+							$('#reports_info_table tfoot').css({'visibility':'hidden'});
+							$('#reports_results_table thead').css({'visibility':'hidden'});
+							$('#reports_results_table tfoot').css({'visibility':'hidden'});
+							$('#reports_metadata_table thead').css({'visibility':'hidden'});
+							$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
+						}
+						else {
+							$('#reports_info_table thead').css({'visibility':'visible'});
+							$('#reports_info_table tfoot').css({'visibility':'visible'});
+							$('#reports_results_table thead').css({'visibility':'visible'});
+							$('#reports_results_table tfoot').css({'visibility':'visible'});
+							$('#reports_metadata_table thead').css({'visibility':'visible'});
+							$('#reports_metadata_table tfoot').css({'visibility':'visible'});
+						}
 
 						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
@@ -704,58 +761,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#reports_info_table_wrapper').css({'display':'block'});
 						$('#reports_results_table_wrapper').css({'display':'none'});
 						$('#reports_metadata_table_wrapper').css({'display':'none'});
-						//$('#'+table_id).DataTable().draw();
-					});
 
-					$('#results_info_' + q[p]).on('click',function(){
+					}
+				});
 
-						sp = this.id.split('_');
-						to_check = to_check = sp.splice(2, sp.length).join('_');
-
-						if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
-						else $('#phyloviz_button').css({display:"none"});
-
-						run_infos=global_results_dict[to_check][0];
-						run_results=global_results_dict[to_check][1];
-
-						objects_utils.destroyTable('reports_info_table');
-						objects_utils.destroyTable('reports_results_table');
-
-						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-						
-						$('#reports_info_table_wrapper').css({'display':'none'});
-						$('#reports_results_table_wrapper').css({'display':'block'});
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
-					});
-
-				}
-
-			}, 200);
-
-			if(run_infos.length == 0){
-				$('#reports_info_table thead').css({'visibility':'hidden'});
-				$('#reports_info_table tfoot').css({'visibility':'hidden'});
-				$('#reports_results_table thead').css({'visibility':'hidden'});
-				$('#reports_results_table tfoot').css({'visibility':'hidden'});
-				$('#reports_metadata_table thead').css({'visibility':'hidden'});
-				$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
 			}
-			else {
-				$('#reports_info_table thead').css({'visibility':'visible'});
-				$('#reports_info_table tfoot').css({'visibility':'visible'});
-				$('#reports_results_table thead').css({'visibility':'visible'});
-				$('#reports_results_table tfoot').css({'visibility':'visible'});
-				$('#reports_metadata_table thead').css({'visibility':'visible'});
-				$('#reports_metadata_table tfoot').css({'visibility':'visible'});
-			}
-
-			objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-			objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-
-			$('#reports_info_table_wrapper').css({'display':'block'});
-			$('#reports_results_table_wrapper').css({'display':'none'});
-			$('#reports_metadata_table_wrapper').css({'display':'none'});
+			
 			
 
 		});

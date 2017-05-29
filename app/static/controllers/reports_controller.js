@@ -403,6 +403,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			run_infos = [];
 			run_results = [];
 			current_strains_data = [];
+			current_job_ids = [];
 
 
 	    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){

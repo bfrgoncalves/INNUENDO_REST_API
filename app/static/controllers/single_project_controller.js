@@ -126,6 +126,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				});
         	});
 
+        	console.log("##########", CURRENT_JOB_MINE);
+
         	if(CURRENT_JOB_MINE == false){
         		$("#group_buttons_strain").css({display:"none"});
         		$("#buttons_procedures").css({display:"none"});

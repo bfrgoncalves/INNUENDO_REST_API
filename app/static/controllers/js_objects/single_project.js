@@ -1181,6 +1181,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var countStrain = {};
 			console.log(strain_to_real_pip);
+			if (strains.length == 0) return callback({strains:[]});
 			for(i in strains){
 				//array_of_strains.push(strains[i]);
 				//p_id_to_use = injected_pipelines[strains_dict[strains[i].strainID.trim()]] == undefined ? CURRENT_PROJECT_ID: injected_pipelines[strains_dict[strains[i].strainID.trim()]];

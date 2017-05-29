@@ -46,7 +46,9 @@ job_download_results_get_parser.add_argument('file_path', dest='file_path', type
 #Add job data to db
 def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id):
 
-	report = db.session.query(Report).filter(Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
+	print pipeline_id, process_position, project_id
+
+	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 	
 	if not report:
 		print procedure

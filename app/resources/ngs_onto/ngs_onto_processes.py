@@ -234,6 +234,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				string_p = x['pid']
 				processes_ids.append(string_p.split('/')[-1].split('>')[0])
 
+			print "################BAH"
+			print processes_ids
+
 			return processes_ids, 200
 		
 		try:

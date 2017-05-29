@@ -130,6 +130,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
             	$scope.getStrains(function(){
             		$scope.getProjectStrains(function(){
 
+            			console.log("get applied");
+
             			$scope.getAppliedPipelines(null, function(strains_results){
 		                	objects_utils.destroyTable('strains_table');
 		                	global_strains = strains_results.strains;

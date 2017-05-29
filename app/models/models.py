@@ -149,7 +149,7 @@ class Strain(db.Model):
 class Report(db.Model):
 	__tablename__ = "reports"
 	id = db.Column(db.Integer(), primary_key=True)
-	job_id = db.Column(db.String(255), unique=True)
+	job_id = db.Column(db.String(255))
 	user_id = db.Column(db.Integer())
 	username = db.Column(db.String(255))
 	procedure = db.Column(db.String(255))

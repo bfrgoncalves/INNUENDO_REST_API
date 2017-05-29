@@ -1116,6 +1116,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        				
 					        				var countTasks = 0;
 					        				for(l in response.data){
+					        					console.log(response.data);
 					        					if(response.data[l] == 'null'){
 					        						countTasks++;
 					        						var button_name = dict_strain_names[strain_names[strain_name]][5].shift();

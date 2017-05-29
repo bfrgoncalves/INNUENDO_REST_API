@@ -423,7 +423,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                		pprojid = CURRENT_PROJECT_ID;
 			                		strainID_pipeline[sid] = ppipid;
 			                	}
-			                	get_and_apply_pipeline(total_pipelines,ppipid, sid, pprojid, pipid, function(response){
+			                	get_and_apply_pipeline(total_pipelines, ppipid, sid, pprojid, pipid, function(response){
 				                	callback(response);
 				                })
 			                });

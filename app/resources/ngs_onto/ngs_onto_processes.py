@@ -16,6 +16,7 @@ process_post_parser.add_argument('strain_id', dest='strain_id', type=str, requir
 process_post_parser.add_argument('parent_pipeline_id', dest='parent_pipeline_id', type=str, required=True, help="parent_pipeline_id id")
 process_post_parser.add_argument('parent_project_id', dest='parent_project_id', type=str, required=True, help="parent_project_id id")
 process_post_parser.add_argument('parent_process_id', dest='parent_process_id', type=str, required=True, help="parent_process_id id")
+process_post_parser.add_argument('real_pipeline_id', dest='real_pipeline_id', type=str, required=True, help="real_pipeline_id id")
 
 #Defining get arguments parser
 process_get_parser = reqparse.RequestParser()
@@ -120,6 +121,16 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		jsonResult=parseAgraphStatementsRes(statements)
 		statements.close()
 		numberOfProcesses=len(jsonResult)
+
+		#get all ordered workflows from pipeline
+		queryString = "SELECT (str(?proc) as ?StrProc) (str(?index) as ?StrIndex) WHERE{<"+pipelineStr+"> obo:BFO_0000051 ?proc. ?proc obo:NGS_0000081 ?index.}"
+		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+		result = tupleQuery.evaluate()
+		procJsonResult=parseAgraphQueryRes(result,["StrProc","StrIndex"])
+		result.close()
+
+		numberOfProcesses=len(procJsonResult)	
+
 		
 		#get all ordered workflows from pipeline
 		queryString = "SELECT ?execStep ?stepIndex ?workflowURI ?execStep  WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI; obo:NGS_0000081 ?stepIndex} ORDER BY ASC(?stepIndex)"
@@ -186,9 +197,18 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			ppipid = args.parent_pipeline_id
 			ppropid = args.parent_project_id
 			pprocid = args.parent_process_id
+			rpipid = args.real_pipeline_id
+
+			parentProcessURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(ppropid)+"/pipelines/"+str(ppipid)+"/processes/"+str(pprocid))
+
+			if ppipid == rpipid:
+				for proc_json in procJsonResult:
+					for k,v in proc_json.items():
+						if int(v) > int(pprocid):
+							todelUri = dbconAg.createURI(k)
+							dbconAg.remove(parentProcessURI, None, todelUri)
 
 			print ppropid, ppipid, pprocid
-			parentProcessURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(ppropid)+"/pipelines/"+str(ppipid)+"/processes/"+str(pprocid))
 			print '##############################'
 			print parentProcessURI
 			#get output URI from process

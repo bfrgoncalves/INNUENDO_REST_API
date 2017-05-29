@@ -48,8 +48,8 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 	
-	print pipeline_id, process_position, project_id
-	
+	print project_id, pipeline_id, process_position
+
 	if not report:
 		print procedure
 		print sample

@@ -1204,6 +1204,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								prevjobid = t_id.split('_')[0];
 								dict_of_tasks_status[t_id] = '';
 								console.log(strain_id, pip_id);
+								console.log(buttons_to_tasks);
 								periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id);
 							}
 						}

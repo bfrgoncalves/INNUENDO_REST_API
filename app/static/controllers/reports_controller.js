@@ -801,10 +801,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		//profile
 		mergeResultsData(table_id_profile, function(results_profile){
+			console.log(results_profile);
 			total_results.push(results_profile);
 
 			//metadata
 			mergeResultsData(table_id_metadata, function(results_metadata){
+				console.log(results_metadata);
 				total_results.push(results_metadata);
 				//Send to phyloviz
 				reports.sendToPHYLOViZ(total_results, function(response){

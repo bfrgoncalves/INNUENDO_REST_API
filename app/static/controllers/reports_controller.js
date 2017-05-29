@@ -702,8 +702,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									sp = this.id.split('_');
 									to_check = sp.splice(2, sp.length).join('_');
 
-									if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
-									else $('#phyloviz_button').css({display:"none"});
+									$('#phyloviz_button').css({display:"none"});
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
@@ -722,10 +721,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 								$('#results_info_' + q[p]).on('click',function(){
 
-									console.log("AQUI2");
-
 									sp = this.id.split('_');
-									to_check = to_check = sp.splice(2, sp.length).join('_');
+									to_check = sp.splice(2, sp.length).join('_');
 
 									if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
 									else $('#phyloviz_button').css({display:"none"});
@@ -801,6 +798,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		//profile
 		mergeResultsData(table_id_profile, function(results_profile){
+
+			if(results_profile[1].length < 2) return objects_utils.show_message('s_report_message_div', 'warning', 'Two or more strains need to be selected for comparison using PHYLOViZ Online.')
+			
 			console.log(results_profile);
 			total_results.push(results_profile);
 

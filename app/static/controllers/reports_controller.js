@@ -402,6 +402,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			global_results_dict = {};
 			run_infos = [];
 			run_results = [];
+			current_strains_data = [];
 
 
 	    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
@@ -442,6 +443,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+								objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
+								objects_utils.loadDataTables('reports_table', [], user_reports_col_defs, user_reports_table_headers);
 								$("#act_rep").trigger("click");
 							});
 						});
@@ -453,6 +456,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 						console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
+						objects_utils.loadDataTables('reports_table', [], user_reports_col_defs, user_reports_table_headers);
 						$("#act_rep").trigger("click");
 						//table = $('#saved_reports_table').DataTable();
 						//table.draw();

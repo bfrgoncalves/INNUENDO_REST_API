@@ -463,7 +463,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						objects_utils.loadDataTables('reports_results_table', [], reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_metadata_table', [], reports_metadata_col_defs, reports_metadata_table_headers);
 
-						$('#reports_info_table_wrapper').css({'display':'none'});
+						$('#reports_info_table_wrapper').css({'display':'block'});
 						$('#reports_results_table_wrapper').css({'display':'none'});
 						$('#reports_metadata_table_wrapper').css({'display':'none'});
 

@@ -636,6 +636,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				if ($.inArray(response.data[job].job_id, current_job_ids) != -1) continue;
 
 				results = process_report_data(identifier, response.data[job].report_data, response.data[job].sample_name, response.data[job].procedure_name);
+				console.log(results);
+
 				results[0]['job_id'] = response.data[job].job_id;
 				results[1]['job_id'] = response.data[job].job_id;
 

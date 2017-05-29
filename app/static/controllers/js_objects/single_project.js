@@ -1055,7 +1055,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        			}
 	        			console.log("DONE NGSOnto");
 
-	        			console.log(dict_strain_names[strain_names[strain_name]][4])
+	        			console.log(dict_strain_names[strain_names[strain_name]][4]);
 
 	        			//Push button identifier
 	        			dict_strain_names[strain_names[strain_name]].push([]);

@@ -247,6 +247,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		else if(procedure.indexOf('chewBBACA') > -1){
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
+			console.log(report_data);
 			for(x in report_data.run_info){
 				if(x == 'header') continue;
 				else{

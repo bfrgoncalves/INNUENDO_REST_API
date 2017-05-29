@@ -248,11 +248,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
 			console.log(report_data);
-			for(x in report_data.run_info){
+			for(x in report_data.run_stats){
 				if(x == 'header') continue;
 				else{
-					for(y in report_data.run_info[x]){
-						aux_info[report_data.run_info['header'][y]] = report_data.run_info[x][y];
+					for(y in report_data.run_stats[x]){
+						aux_info[report_data.run_stats['header'][y]] = report_data.run_stats[x][y];
 					}
 				}
 			}

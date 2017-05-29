@@ -303,6 +303,7 @@ class NGSOnto_ProcessJobID(Resource):
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				jsonResult2=parseAgraphQueryRes(result,["jobid"])
+				jsonResult2["process_id"] = x
 				job_ids.append(jsonResult2)
 
 			except:

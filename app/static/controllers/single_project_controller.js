@@ -109,13 +109,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	});
 
 
-	setTimeout(function(){ 
-		$('#waiting_spinner').css({display:'none'}); 
-		$('#single_project_controller_div').css({display:'block'}); 
-		$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
-	}, 2000);
-
-
 	$scope.rep_string = function(st){ return st.replace(/[A-Z]/g, function(x){ return " " + x; }); }
 
 
@@ -147,6 +140,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			                	global_strains = strains_results.strains;
 			                	console.log(global_strains);
 			                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			                	$('#waiting_spinner').css({display:'none'}); 
+								$('#single_project_controller_div').css({display:'block'}); 
+								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 		                	});
 		                });
 

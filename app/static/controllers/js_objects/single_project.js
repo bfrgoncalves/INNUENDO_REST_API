@@ -1028,12 +1028,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
 			        		console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]]);
 			        	
-			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] != "COMPLETED"){
+			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] != "COMPLETED" && count_processes != 1){
 			        			lastprocess = count_processes-1;
 			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_names[i]]];
 			        		}
 			        	}
-			        	console.log("BABQ", lastprocess);
 			        	if(lastprocess != ""){
 			        		pip_id_of_parents.push(CURRENT_PROJECT_ID);
 			        		pip_id_of_parents.push(last_pipeline_id);

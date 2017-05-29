@@ -595,15 +595,18 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			keys = Object.keys(global_results_dict);
 
+			var identifier = "";
+
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
-				identifier = Object.keys(response.data[job].report_data[0])[0];
+				if(procedure_name == "INNUca") identifier = Object.keys(response.data[job].report_data.run_info)[0];
+				else identifier = "";
 
-				if(identifier == "stats") response.data[job].report_data.shift();
+				//if(identifier == "stats") response.data[job].report_data.shift();
 
-				console.log(response.data[job].report_data);
+				//console.log(response.data[job].report_data);
 
-				identifier = Object.keys(response.data[job].report_data[0])[0];
+				//identifier = Object.keys(response.data[job].report_data[0])[0];
 				
 				run_identifiers.push(identifier);
 

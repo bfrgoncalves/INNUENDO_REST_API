@@ -76,6 +76,8 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 			report.sample_name=sample
 			report.project_id=project_id
 
+			db.session.commit()
+
 			return True, job_id
 
 

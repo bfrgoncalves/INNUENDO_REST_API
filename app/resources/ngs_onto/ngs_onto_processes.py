@@ -282,6 +282,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				prevMessageURI=messageURI
 				addedProcesses+=1
 				processes_ids.append(processid)
+
+			print "################"
+			print processes_ids
 		
 			return processes_ids
 		except:

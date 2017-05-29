@@ -158,7 +158,7 @@ class Job_queue(Resource):
 			job_status[0] = args.job_id
 
 			if results['store_in_db'] == True:
-				added, job_id = add_data_to_db(results.job_id, results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id)
+				added, job_id = add_data_to_db(results['job_id'], results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id)
 				
 				#DATA IS BEING ADDED AT JOB FINISHING TIME AT THE SBATCH FILES
 				#add_data_to_ngsOnto(results['paths'], args.process_id, args.project_id, args.pipeline_id)

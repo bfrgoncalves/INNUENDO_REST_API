@@ -411,7 +411,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			    if(current_project != ""){
 			    	pg_requests.get_applied_pipelines(null, current_project, function(response){
-						//console.log(response);
+						console.log(response);
 						var pipelines_to_check = [];
 						for(x in response.data){
 							if(response.data[x].parent_pipeline_id != null) pipelines_to_check.push(response.data[x].parent_pipeline_id);
@@ -419,6 +419,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						}
 						pipelines_to_check = pipelines_to_check.join();
 				    	reports.get_project_reports(current_project, pipelines_to_check, function(response){
+
+				    		console.log(response, "BAHHA");
 						
 							user_reports = response.data;
 							if(user_reports.message != undefined) user_reports = [];

@@ -229,7 +229,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
                     strain_id: strain_id,
                     parent_project_id: pip_ids_to_parents[0],
                     parent_pipeline_id: pip_ids_to_parents[1],
-                    parent_process_id: ppi
+                    parent_process_id: ppi,
                     real_pipeline_id: pipeline_id
                 }
             }

@@ -242,6 +242,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			for(results_key in run_results_keys){
 				aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
 			}
+			console.log([aux_info, aux_results]);
 			return [aux_info, aux_results];
 		}
 		else if(procedure.indexOf('chewBBACA') > -1){
@@ -265,7 +266,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						aux_results[report_data.run_results['header'][y]] = report_data.run_results[x][y];
 					}
 				}
-
+			console.log([aux_info, aux_results]);
 			return [aux_info, aux_results];
 			}
 		}

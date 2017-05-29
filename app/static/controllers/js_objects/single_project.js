@@ -1024,7 +1024,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		count_processes += 1;
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
 			        		console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]]);
-			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] != "COMPLETED" && dict_of_tasks_status[buttons_to_tasks[pip_name]] != undefined){
+			        		//&& dict_of_tasks_status[buttons_to_tasks[pip_name]] != undefined
+			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] != "COMPLETED"){
 			        			lastprocess = count_processes-1;
 			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_names[i]]];
 			        		}

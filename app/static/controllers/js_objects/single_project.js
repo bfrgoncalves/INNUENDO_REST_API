@@ -1138,6 +1138,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        						}
 
 					        						processes_to_map = task_ids_to_map.map(function(x){
+					        							console.log(x, dict_strain_names[strain_names[strain_name]]);
 					        							return dict_strain_names[strain_names[strain_name]][4].shift();
 							        				});
 					        					}

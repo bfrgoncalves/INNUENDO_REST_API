@@ -332,6 +332,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									//console.log(user_reports);
 									objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
 
+
 									if($rootScope.showing_jobs){
 										$.map($('#reports_table').DataTable().rows().data(), function(item, index){
 
@@ -353,6 +354,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									    show_strains_metadata($rootScope.showing_strain_names);
 									}
+
+									$('#waiting_spinner').css({display:'none'}); 
+									$('#reports_controller_div').css({display:'block'});
+									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
+									console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
+									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 								});
 							})
 					    }
@@ -436,42 +443,20 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									show_results_and_info($rootScope.showing_jobs);
 								}
 
-								current_strains_data = [];
-								current_job_ids = [];
-								global_results_dict = {};
-
-								objects_utils.loadDataTables('reports_info_table', [], reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_results_table', [], reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_metadata_table', [], reports_metadata_col_defs, reports_metadata_table_headers);
-
-								$('#reports_info_table_wrapper').css({'display':'block'});
-								$('#reports_results_table_wrapper').css({'display':'none'});
-								$('#reports_metadata_table_wrapper').css({'display':'none'});
-
-								$('#waiting_spinner').css({display:'none'});
-								$('#reports_container').css({display:"block"});
-
-								table = $('#reports_info_table').DataTable();
-								table.draw();
-								//table = $('#saved_reports_table').DataTable();
-								//table.draw();
+								$('#waiting_spinner').css({display:'none'}); 
+								$('#reports_controller_div').css({display:'block'});
+								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
+								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
+								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 							});
 						});
 				    }
 				    else{
-				    	objects_utils.loadDataTables('reports_info_table', [], reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_results_table', [], reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_metadata_table', [], reports_metadata_col_defs, reports_metadata_table_headers);
-
-						$('#reports_info_table_wrapper').css({'display':'block'});
-						$('#reports_results_table_wrapper').css({'display':'none'});
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
-
-						$('#waiting_spinner').css({display:'none'});
-						$('#reports_container').css({display:"block"});
-
-						table = $('#reports_info_table').DataTable();
-						table.draw();
+				    	$('#waiting_spinner').css({display:'none'}); 
+						$('#reports_controller_div').css({display:'block'});
+						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
+						console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
+						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 						//table = $('#saved_reports_table').DataTable();
 						//table.draw();
 				    }

@@ -388,11 +388,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    $scope.projects_names = [];
 	    $scope.report_procedures = [];
 
-	    objects_utils.destroyTable('reports_table');
+	    /*objects_utils.destroyTable('reports_table');
 	    objects_utils.destroyTable('saved_reports_table');
 	    objects_utils.destroyTable('reports_info_table');
 		objects_utils.destroyTable('reports_results_table');
-		objects_utils.destroyTable('reports_metadata_table');
+		objects_utils.destroyTable('reports_metadata_table');*/
 
 	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
 	    	//console.log(results);
@@ -417,7 +417,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			    }
 
 			    console.log(current_project);
-			    
+
 			    $scope.getSavedReports(function(){
 
 				    if(current_project != ""){

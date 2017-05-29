@@ -133,68 +133,69 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				});
         	});
 
-            $scope.getWorkflows();
-            $scope.getStrains();
-            $scope.getProjectStrains();
+            $scope.getWorkflows(function(){
+            	$scope.getStrains(function(){
+            		$scope.getProjectStrains(function(){
+
+            			$scope.getAppliedPipelines(null, function(strains_results){
+		                	objects_utils.destroyTable('strains_table');
+		                	global_strains = strains_results.strains;
+
+		                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+		                	$scope.getIdsFromProjects(function(strains_results){
+		                		objects_utils.destroyTable('strains_table');
+			                	global_strains = strains_results.strains;
+			                	console.log(global_strains);
+			                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+		                	});
+		                });
+
+		                $('#fromfileSubmit').on('click', function(e){
+							var input_element = document.getElementById('fromfile_file');
+						    single_project.load_strains_from_file(input_element, '\t', function(results){
+						    });
+						  });
+
+		                $('#fromfile_file').on("change", function(){
+							$("#file_text").val(this.files[0].name);
+						})
+
+						$('#add_pip_from_fileSubmit').on("click", function(){
+
+							console.log("clicked");
+							strains_without_pip = single_project.get_no_pip_strains();
+
+							keys_no_pip = Object.keys(strains_without_pip);
+							counter = 0;
+							if(keys_no_pip.length != 0){
+								for(z in strains_without_pip){
+									single_project.add_strain_to_project(strains_without_pip[z][1], function(strains_results, strain_name){
+											counter += 1;
+											$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
+											$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
+											
+											if(counter == keys_no_pip.length){
+												objects_utils.destroyTable('strains_table');
+							                	global_strains = strains_results.strains;
+							                	console.log(global_strains);
+							                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+											}
+							        });
+								}
+							}
+						})
+
+            		});
+            	});
+            });
+            
             $scope.specie_name = CURRENT_SPECIES_NAME;
             $scope.species_id = CURRENT_SPECIES_ID;
-
-            setTimeout(function(){
-                $scope.getAppliedPipelines(null, function(strains_results){
-                	objects_utils.destroyTable('strains_table');
-                	global_strains = strains_results.strains;
-
-                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-                	$scope.getIdsFromProjects(function(strains_results){
-                		objects_utils.destroyTable('strains_table');
-	                	global_strains = strains_results.strains;
-	                	console.log(global_strains);
-	                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-                	});
-                });
-
-                $('#fromfileSubmit').on('click', function(e){
-					var input_element = document.getElementById('fromfile_file');
-				    single_project.load_strains_from_file(input_element, '\t', function(results){
-				    });
-				  });
-
-                $('#fromfile_file').on("change", function(){
-					$("#file_text").val(this.files[0].name);
-				})
-
-				$('#add_pip_from_fileSubmit').on("click", function(){
-
-					console.log("clicked");
-					strains_without_pip = single_project.get_no_pip_strains();
-
-					keys_no_pip = Object.keys(strains_without_pip);
-					counter = 0;
-					if(keys_no_pip.length != 0){
-						for(z in strains_without_pip){
-							single_project.add_strain_to_project(strains_without_pip[z][1], function(strains_results, strain_name){
-									counter += 1;
-									$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
-									$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
-									
-									if(counter == keys_no_pip.length){
-										objects_utils.destroyTable('strains_table');
-					                	global_strains = strains_results.strains;
-					                	console.log(global_strains);
-					                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-									}
-					        });
-						}
-					}
-				})
-
-            }, 1000);
-
 
 	    }, 100);
 	}
 
-	$scope.getWorkflows = function(){
+	$scope.getWorkflows = function(callback){
 
 		$scope.project = CURRENT_PROJECT;
 		
@@ -202,10 +203,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		
 		single_project.get_workflows("Procedure", function(pipelines){
 			$scope.pipelines = pipelines;
-		});
 
-		single_project.get_workflows("Classifier", function(pipelines){
-			$scope.pipelines_classifiers = pipelines;
+			single_project.get_workflows("Classifier", function(pipelines){
+				$scope.pipelines_classifiers = pipelines;
+				callback();
+			});
 		});
 
 	}
@@ -324,23 +326,25 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		});
 	}
 
-	$scope.getStrains = function(){
+	$scope.getStrains = function(callback){
 
 		single_project.get_strains(function(strains_results){
 		    objects_utils.destroyTable('strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    objects_utils.loadDataTables('public_strains_table', global_public_strains, public_project_col_defs, strains_headers);
 		    //single_project.get_public_strains_applied_pipelines(function(){});
+		    callback();
 		});
 
 	}
 
-	$scope.getProjectStrains = function(){
+	$scope.getProjectStrains = function(callback){
 
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
 			//console.log(global_strains);
 			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			callback();
 		});
 	}
 

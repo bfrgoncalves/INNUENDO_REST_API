@@ -206,7 +206,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				print "AQUIQQQQ1"
 				print procJsonResult
 				for proc_json in procJsonResult:
-					if int(proc_json["StrIndex"]) > int(pprocid):
+					if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 						todelUri = dbconAg.createURI(k)
 						dbconAg.remove(parentProcessURI, None, todelUri)
 						print "AQUIQQQQ"

@@ -84,7 +84,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	                }
 	                strains.push(sd);
 
-	                objects_utils.show_message('s_project_message_div', 'success', 'Strains were added to the project.');
+	                objects_utils.show_message('project_message_div', 'success', 'Strains were added to the project.');
 	                callback({ strains_headers: strains_headers, strains: strains});
 	            
 	            }
@@ -93,7 +93,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			}
 			else{
 				//objects_utils.loadDataTables('strains_table', strains);
-        		objects_utils.show_message('s_project_message_div', 'warning', response.data.message.split('.')[0]+'.');
+        		objects_utils.show_message('project_message_div', 'warning', response.data.message.split('.')[0]+'.');
         		callback({message:"Strain already on Project."})
 			}
 		});
@@ -628,7 +628,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            });
 		        }
 		    }
-		    else objects_utils.show_message('s_project_message_div', 'warning', 'Please select some strains first.');
+		    else objects_utils.show_message('project_message_div', 'warning', 'Please select some strains first.');
 		},
 		add_new_strain: function(callback){
 
@@ -721,7 +721,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					}
 				}
 				else{
-					objects_utils.show_message('s_project_message_div', 'warning', 'An error as occurried when creating a new strain.');
+					objects_utils.show_message('project_message_div', 'warning', 'An error as occurried when creating a new strain.');
 				}
 			});
 		},
@@ -773,10 +773,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    }
 		                })
 		                to_use = new_strains;
-		                objects_utils.show_message('s_project_message_div', 'success', 'Strains removed from project.');
+		                objects_utils.show_message('project_message_div', 'success', 'Strains removed from project.');
 		        	}
 		        	else{
-		        		objects_utils.show_message('s_project_message_div', 'warning', 'An error occurried when removing strains from project.');
+		        		objects_utils.show_message('project_message_div', 'warning', 'An error occurried when removing strains from project.');
 		        	}
 		        });
 		    }
@@ -794,7 +794,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        return item;
 		    });
 		    //console.log(strain_data);
-		    if (strain_data.length == 0) objects_utils.show_message('s_project_message_div', 'warning', 'Select strains to apply procedures.');
+		    if (strain_data.length == 0) objects_utils.show_message('project_message_div', 'warning', 'Select strains to apply procedures.');
 
 		    //buttonselectedPipeline = '<button class="btn btn-sm btn-default">'+ $( "#pipeline_selector option:selected" ).val() + '</button>';
 
@@ -868,7 +868,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        	else if (type_proc == 'analysis_protocol') strain_data[i]['Analysis'] = toAdd_analysis;
 
 		        if(counter == strain_data.length-1){
-		    		objects_utils.show_message('s_project_message_div', 'success', 'Procedure applied.');
+		    		objects_utils.show_message('project_message_div', 'success', 'Procedure applied.');
 		        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
 		        }
 		        //table.cell(selected_indexes[i], -1).data(toAdd).draw(); 
@@ -959,7 +959,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						                	count_finished += 1;
 
 						                	if(count_finished == index_length){
-								        		objects_utils.show_message('s_project_message_div', 'success', 'Procedure state saved.');
+								        		objects_utils.show_message('project_message_div', 'success', 'Procedure state saved.');
 								        		callback(true);
 
 								        	}
@@ -978,7 +978,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					                	count_finished += 1;
 
 					                	if(count_finished == index_length){
-							        		objects_utils.show_message('s_project_message_div', 'success', 'Procedure state saved.');
+							        		objects_utils.show_message('project_message_div', 'success', 'Procedure state saved.');
 							        		callback(true);
 
 							        	}
@@ -1369,9 +1369,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if($rootScope.showing_jobs == undefined) $rootScope.showing_jobs = [];
 
 				CURRENT_JOB_ID = buttons_to_tasks[button_id];
-				if(dict_of_tasks_status[CURRENT_JOB_ID] != "COMPLETED") return objects_utils.show_message('s_project_message_div', 'warning', 'This process cannot be added to the active report.');
+				if(dict_of_tasks_status[CURRENT_JOB_ID] != "COMPLETED") return objects_utils.show_message('project_message_div', 'warning', 'This process cannot be added to the active report.');
 				$rootScope.showing_jobs.push(CURRENT_JOB_ID);
-				objects_utils.show_message('s_project_message_div', 'success', 'Results stored on active report.');
+				objects_utils.show_message('project_message_div', 'success', 'Results stored on active report.');
 
 
 				//$('#reports_button').trigger("click");
@@ -1391,7 +1391,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		download_result: function(response, callback){
 			console.log("Download", response);
 			if(response.data.length == 0){
-				return objects_utils.show_message('s_project_message_div', 'warning', 'The requested file is not available.');
+				return objects_utils.show_message('project_message_div', 'warning', 'The requested file is not available.');
 			}
 			f_path = response.data[0].file_3.split('^^')[0].replace(/"/g, "")
 			//console.log(f_path);
@@ -1402,7 +1402,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		download_log: function(response, callback){
 			console.log("Download", response);
 			if(response.data.length == 0){
-				return objects_utils.show_message('s_project_message_div', 'warning', 'The requested file is not available.');
+				return objects_utils.show_message('project_message_div', 'warning', 'The requested file is not available.');
 			}
 			f_path = response.data[0].file_4.split('^^')[0].replace(/"/g, "")
 			//console.log(f_path);

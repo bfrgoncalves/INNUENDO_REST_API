@@ -227,48 +227,41 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		var other_pos = 0;
 
 		if(procedure.indexOf('INNUca') > -1){
-			try{
-				var run_info_keys = Object.keys(report_data[pos][identifier].modules_run_report);
-				other_pos += 1;
-			}
-			catch(err){
-				pos = 1;
-				console.log(identifier, report_data[pos], report_data[pos][identifier]);
-				var run_info_keys = Object.keys(report_data[pos][identifier].modules_run_report);
-				other_pos = 0;
-			}
+
+			var run_info_keys = Object.keys(report_data.run_info[identifier].modules_run_report);
+
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
 			for(info_key in run_info_keys){
-				aux_info[run_info_keys[info_key]] = report_data[pos][identifier].modules_run_report[run_info_keys[info_key]][0];
+				aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
 			}
-			var run_results_keys = Object.keys(report_data[other_pos][identifier]);
+			var run_results_keys = Object.keys(report_data.run_stats[identifier]);
 
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
 			for(results_key in run_results_keys){
-				aux_results[run_results_keys[results_key]] = report_data[other_pos][identifier][run_results_keys[results_key]];
+				aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
 			}
 			return [aux_info, aux_results];
 		}
 		else if(procedure.indexOf('chewBBACA') > -1){
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
-			for(x in report_data[1]){
+			for(x in report_data.run_info){
 				if(x == 'header') continue;
 				else{
-					for(y in report_data[1][x]){
-						aux_info[report_data[1]['header'][y]] = report_data[1][x][y];
+					for(y in report_data.run_info[x]){
+						aux_info[report_data.run_info['header'][y]] = report_data[1][x][y];
 					}
 				}
 			}
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
-			for(x in report_data[2]){
+			for(x in report_data.run_results){
 				if(x == 'header') continue;
 				else{
-					for(y in report_data[2][x]){
-						aux_results[report_data[2]['header'][y]] = report_data[2][x][y];
+					for(y in report_data.run_results[x]){
+						aux_results[report_data.run_results['header'][y]] = report_data[2][x][y];
 					}
 				}
 

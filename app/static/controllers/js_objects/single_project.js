@@ -291,7 +291,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            }
 		            callback(response.data);
 				}
-				else console.log(response.statusText);
+				else{
+					console.log(response.statusText);
+					callback(response.data);
+				}
 
 			});
 		},

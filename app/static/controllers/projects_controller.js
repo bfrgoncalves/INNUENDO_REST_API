@@ -134,6 +134,8 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	}
 
 	$scope.loadProject = function(table_id){
+		if(table_id == "other_projects_table") CURRENT_JOB_MINE = false;
+		else CURRENT_JOB_MINE = true;
 		projects_table.load_project(table_id, CURRENT_PROJECT_ID, false, function(results){
 			CURRENT_PROJECT = results.project;
 			$scope.selectedTemplate.path = results.template;

@@ -126,6 +126,19 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				});
         	});
 
+        	if(CURRENT_JOB_MINE == false){
+        		$("#group_buttons_strain").css({display:"none"});
+        		$("#buttons_procedures").css({display:"none"});
+        		$("#protocols_div").css({display:"none"});
+        		$("#procedures_div").css({display:"none"});
+        	}
+        	else{
+        		$("#group_buttons_strain").css({display:"block"});
+        		$("#buttons_procedures").css({display:"block"});
+        		$("#protocols_div").css({display:"block"});
+        		$("#procedures_div").css({display:"block"});
+        	}
+
             $scope.getWorkflows(function(){
             	$scope.getStrains(function(){
             		$scope.getProjectStrains(function(){

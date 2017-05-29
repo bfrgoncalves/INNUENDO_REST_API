@@ -1,6 +1,7 @@
 var innuendoApp = angular.module("innuendoApp", []);
 
 var CURRENT_PROJECT_ID = "";
+var CURRENT_JOB_MINE = "";
 var CURRENT_PROJECT = {};
 var CURRENT_SPECIES_ID = "";
 var CURRENT_SPECIES_NAME = "";

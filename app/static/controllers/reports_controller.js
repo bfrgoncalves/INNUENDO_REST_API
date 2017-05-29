@@ -388,11 +388,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    $scope.projects_names = [];
 	    $scope.report_procedures = [];
 
-	    /*objects_utils.destroyTable('reports_table');
+	    objects_utils.destroyTable('reports_table');
 	    objects_utils.destroyTable('saved_reports_table');
 	    objects_utils.destroyTable('reports_info_table');
 		objects_utils.destroyTable('reports_results_table');
-		objects_utils.destroyTable('reports_metadata_table');*/
+		objects_utils.destroyTable('reports_metadata_table');
 
 	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
 	    	//console.log(results);
@@ -442,9 +442,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-								$('#reports_info_table_wrapper').css({'display':'block'});
-								$('#reports_results_table_wrapper').css({'display':'none'});
-								$('#reports_metadata_table_wrapper').css({'display':'none'});
+								$('#reports_info_table').css({'display':'block'});
+								$('#reports_results_table').css({'display':'none'});
+								$('#reports_metadata_table').css({'display':'none'});
 							});
 						});
 				    }
@@ -454,9 +454,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#reports_container').css({display:"block"});
 						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 						console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
-						$('#reports_info_table_wrapper').css({'display':'block'});
-						$('#reports_results_table_wrapper').css({'display':'none'});
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
+						$('#reports_info_table').css({'display':'block'});
+						$('#reports_results_table').css({'display':'none'});
+						$('#reports_metadata_table').css({'display':'none'});
 						//table = $('#saved_reports_table').DataTable();
 						//table.draw();
 				    }

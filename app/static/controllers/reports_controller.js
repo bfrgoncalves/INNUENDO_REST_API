@@ -261,13 +261,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			}
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
-			for(x in report_data.run_results){
+			for(x in report_data.run_output){
 				console.log("AQUI3");
 				if(x == 'header') continue;
 				else{
-					for(y in report_data.run_results[x]){
+					for(y in report_data.run_output[x]){
 						console.log("AQUI4");
-						aux_results[report_data.run_results['header'][y]] = report_data.run_results[x][y];
+						aux_results[report_data.run_output['header'][y]] = report_data.run_output[x][y];
 					}
 				}
 			console.log([aux_info, aux_results]);

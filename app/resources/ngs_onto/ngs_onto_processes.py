@@ -204,11 +204,10 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			if ppipid == rpipid:
 				print procJsonResult
 				for proc_json in procJsonResult:
-					print proc_json
-					for k,v in proc_json.items():
-						if int(v) > int(pprocid):
-							todelUri = dbconAg.createURI(k)
-							dbconAg.remove(parentProcessURI, None, todelUri)
+					print proc_json["StrIndex"]
+					if k == "StrIndex" and int(proc_json["StrIndex"]) > int(pprocid):
+						todelUri = dbconAg.createURI(k)
+						dbconAg.remove(parentProcessURI, None, todelUri)
 
 			print ppropid, ppipid, pprocid
 			print '##############################'

@@ -35,8 +35,6 @@ class User(db.Model, UserMixin):
 			print email, password
 			conn.simple_bind_s("cn="+email+",ou=users,dc=innuendo,dc=com", password)
 		except Exception as e:
-			print "BAH"
-			print e
 			return False
 		search_filter = "uid="+email
 		Entry = ""
@@ -74,7 +72,7 @@ class Role(db.Model, RoleMixin):
 class Project(db.Model):
 	__tablename__ = "projects"
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
 	is_removed = db.Column(db.String(255))
 	description = db.Column(db.Text())
 	timestamp = db.Column(db.DateTime)

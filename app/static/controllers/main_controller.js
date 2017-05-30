@@ -25,7 +25,7 @@ $('a').click(function(){
 
 
 setTimeout(function(){
-	$('#overviewLink').trigger('click');
+	$('#overview_li').trigger('click');
 
 	$('#offcanvasleft').click(function() {
 	  $('.row-offcanvas-left').toggleClass('active');
@@ -35,4 +35,4 @@ setTimeout(function(){
 	  $('.row-offcanvas-left').toggleClass('active');
 	});
 
-}, 100);
+}, 200);

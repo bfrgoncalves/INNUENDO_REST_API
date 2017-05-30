@@ -216,7 +216,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 	function periodic_check_job_status(job_id, dict_of_tasks_status, strain_id, process_id, pipeline_id){
 
-		function get_status(job_id){
+		function get_status(job_id, strain_id, process_id, pipeline_id){
 
 			//console.log(tasks_to_buttons, job_id, workflow_id_to_name, strain_id);
 
@@ -227,7 +227,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			//var pipeline_id = strainID_pipeline[strains_dict[strain_id]];
 
-			//console.log(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id);
+			console.log(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id);
 
 			pg_requests.get_job_status(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id, function(response){
 				//console.log(response, tasks_to_buttons, response.data[0]);
@@ -264,13 +264,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		prevtaskid = '';
 
-		get_status(job_id);
+		get_status(job_id, strain_id, process_id, pipeline_id);
 
 		//console.log("PROCESS_ID", process_id);
 
 		//get_status(job_id);
 
-		var periodic_check = setInterval(function(){ get_status(job_id); }, 20000);
+		var periodic_check = setInterval(function(){ get_status(job_id, strain_id, process_id, pipeline_id); }, 20000);
 
 		intervals_running[job_id] = periodic_check;
 

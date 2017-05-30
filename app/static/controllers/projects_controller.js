@@ -88,21 +88,26 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	    	projects = results;
 	    	console.log(results);
 	    	objects_utils.loadDataTables('projects_table', projects, project_col_defs, []);
+
+	    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
+		    	//$scope.other_projects = results;
+		    	other_projects = results;
+		    	console.log(results);
+		    	objects_utils.loadDataTables('other_projects_table', other_projects, project_col_defs, []);
+
+		    	$('#projects_container').css({display:"block"});
+				$('#waiting_spinner').css({display:'none'});
+				$('#projects_table').DataTable().draw(); 
+				$('#other_projects_table').DataTable().draw();
+		    });
 	    });
 
-	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
-	    	//$scope.other_projects = results;
-	    	other_projects = results;
-	    	console.log(results);
-	    	objects_utils.loadDataTables('other_projects_table', other_projects, project_col_defs, []);
-	    });
-
-	    setTimeout(function(){
+	    /*setTimeout(function(){
 	    	$('#projects_container').css({display:"block"});
 			$('#waiting_spinner').css({display:'none'});
 			$('#projects_table').DataTable().draw(); 
 			$('#other_projects_table').DataTable().draw(); 
-	    }, 400);
+	    }, 400);*/
 
 	};
 

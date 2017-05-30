@@ -35,4 +35,4 @@ setTimeout(function(){
 	  $('.row-offcanvas-left').toggleClass('active');
 	});
 
-}, 200);
+}, 500);

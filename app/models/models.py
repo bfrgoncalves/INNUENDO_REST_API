@@ -32,7 +32,7 @@ class User(db.Model, UserMixin):
 	def try_login(email, password):
 		conn = get_ldap_connection()
 		try:
-			conn.simple_bind_s("cn="+email, "dc=innuendo","dc=com", password)
+			conn.simple_bind_s("cn="+email+",dc=innuendo,dc=com", password)
 		except Exception as e:
 			print "BAH"
 			print e

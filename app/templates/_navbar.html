@@ -18,11 +18,11 @@
           {% endif %}
           <li><a href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">Login</a></li>
           {% endif %}
-          <li><a href="#">Help</a></li>
+          <!--<li><a href="#">Help</a></li>-->
         </ul>
-        <form class="navbar-form navbar-right">
+        <!--<form class="navbar-form navbar-right">
           <input type="text" class="form-control" placeholder="Search...">
-        </form>
+        </form>-->
       </div>
     </div>
   </nav>

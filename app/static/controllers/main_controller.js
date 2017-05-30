@@ -25,7 +25,7 @@ $('a').click(function(){
 
 
 setTimeout(function(){
-	$('#overview_li').trigger('click');
+	$('#overviewLink').trigger('click');
 
 	$('#offcanvasleft').click(function() {
 	  $('.row-offcanvas-left').toggleClass('active');

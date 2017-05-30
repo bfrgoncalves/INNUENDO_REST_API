@@ -17,11 +17,6 @@
 	     <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 	     {{ render_field_with_errors(login_user_form.password) }}
 		  <div class="checkbox">
-	          <!--<label>
-	            <input type="checkbox" id="remember" name="remember" value="y"> Remember me
-	            <a href="{{ url_for_security('forgot_password') }}" class="form-signin">Forgot password</a>
-	            {{ render_field_with_errors(login_user_form.remember) }}
-	          </label>-->
 	      </div>
 		  {{ render_field(login_user_form.next) }}
 		  <button class="btn btn-lg btn-primary btn-block" id="submit" name="submit" type="submit">Sign in</button>

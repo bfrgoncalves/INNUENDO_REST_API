@@ -33,6 +33,7 @@ class User(db.Model, UserMixin):
 		conn = get_ldap_connection()
 		conn.simple_bind_s()
 		search_filter = "uid="+email
+		Entry = ""
 		result = conn.search_s(baseDN,ldap.SCOPE_SUBTREE,search_filter)
 		for dn, entry in result:
 			DN = str(dn)
@@ -42,7 +43,10 @@ class User(db.Model, UserMixin):
 			break
 
 		conn.unbind()
-		return Entry
+		if Entry != "":
+			return Entry
+		else:
+			return False
 
 	
 class Role(db.Model, RoleMixin):

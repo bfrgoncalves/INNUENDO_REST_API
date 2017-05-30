@@ -31,7 +31,11 @@ class User(db.Model, UserMixin):
 	@staticmethod
 	def try_login(email, password):
 		conn = get_ldap_connection()
-		conn.simple_bind_s()
+		try:
+			conn.simple_bind_s("cn="+email, "dc=innuendo","dc=com", password)
+		except Exception as e:
+			print e
+			return False
 		search_filter = "uid="+email
 		Entry = ""
 		result = conn.search_s(baseDN,ldap.SCOPE_SUBTREE,search_filter)

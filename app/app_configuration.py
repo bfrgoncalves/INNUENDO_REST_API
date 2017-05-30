@@ -59,6 +59,8 @@ def load_user_from_request(request):
         try:
             result = User.try_login(username, password)
             print result
+            if result == None:
+                return None
         except ldap.INVALID_CREDENTIALS, e:
             print e
             return None

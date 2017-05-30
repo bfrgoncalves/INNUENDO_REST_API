@@ -33,7 +33,7 @@ class User(db.Model, UserMixin):
 		conn = get_ldap_connection()
 		try:
 			print email, password
-			conn.simple_bind_s("ou=users,dc=innuendo,dc=com", email, password)
+			conn.simple_bind_s("uid="+email, password)
 		except Exception as e:
 			print "BAH"
 			print e

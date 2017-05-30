@@ -9,6 +9,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	$scope.project = {};
 	$scope.pipelines, $scope.fileType = [];
     $scope.specie_name, $scope.species_id = "";
+    $scope.current_user_name = CURRENT_USER_NAME;
 
     single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
 

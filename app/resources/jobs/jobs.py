@@ -149,7 +149,6 @@ class Job_queue(Resource):
 	@login_required
 	def get(self):
 		args = job_get_parser.parse_args()
-		print args.process_position
 		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(current_user.username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position})
 		results = request.json()
 

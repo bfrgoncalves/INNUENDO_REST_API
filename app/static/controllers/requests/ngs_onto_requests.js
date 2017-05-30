@@ -236,14 +236,18 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
             $http(req).then(function(response){
             	console.log(response, "##########################");
+            	p_to_map = [];
             	for(x in response.data){
+            		if(real_pipeline_id == pip_ids_to_parents[0] && ppi != "null" && int(ppi) < int(response.data[x])){
+            			p_to_map.push(response.data[x])
+            		}
             		console.log(response.data[x]);
             	}
-               callback(response, strain_name);
+               callback(response, strain_name, p_to_map);
             },
             function(response){
             	console.log(response);
-               callback(response, strain_name);
+               callback(response, strain_name, []);
             });
 	    },
 	    ngs_onto_request_get_processes: function(pipeline_id, project_id, callback){

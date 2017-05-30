@@ -1051,11 +1051,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	console.log(pip_id_of_parents);
 		        	
 		        	//console.log(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]]);
-		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]], function(response, strain_name){
+		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]], function(response, strain_name, p_to_map){
 	        			console.log(response);
-
+	        			console.log(p_to_map);
 	        			if(response.status != 404){
-	        				dict_strain_names[strain_names[strain_name]].push(response.data);
+	        				if (p_to_map.length == 0) dict_strain_names[strain_names[strain_name]].push(response.data);
+							else dict_strain_names[strain_names[strain_name]].push(p_to_map);
 	        			}
 	        			console.log("DONE NGSOnto");
 

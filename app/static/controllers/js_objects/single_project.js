@@ -220,7 +220,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			console.log(tasks_to_buttons, job_id, workflow_id_to_name, strain_id);
 			console.log(tasks_to_buttons);
-			
+
 			procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
 
 			var parts_split = tasks_to_buttons[job_id].replace(/ /g, "_").split("_");
@@ -1479,8 +1479,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;
 						pipelines_type_by_strain[strain_names[index]][1] = new_pipapplied_proc;
-						
-						clearInterval(buttons_to_tasks[sp_name]);
+						console.log(buttons_to_tasks[sp_name]);
+						clearInterval(intervals_running[buttons_to_tasks[sp_name]]);
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];

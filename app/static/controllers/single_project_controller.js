@@ -49,7 +49,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
             "className":      'details-control',
             "orderable":      false,
             "data":           null,
-            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="lab-protocols-control btn-info"><i class="fa fa-lg fa-flask" data-toggle="tooltip" data-placement="top" title="Lab protocols"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+        	//<button class="lab-protocols-control btn-info"><i class="fa fa-lg fa-flask" data-toggle="tooltip" data-placement="top" title="Lab protocols"></i></button>
         }
 
     ];

@@ -44,6 +44,7 @@ class ReportsResource(Resource):
 		reports_to_send = []
 		reports = []
 		if not args.job_ids:
+			#plus_report = db.session.query(Report).filter(Report.user_id == current_user.id).all()
 			plus_report = db.session.query(Report).filter(Report.user_id == current_user.id).all()
 			if plus_report:
 				reports.append(plus_report)

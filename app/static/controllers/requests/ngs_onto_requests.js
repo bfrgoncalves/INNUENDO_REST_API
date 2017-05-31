@@ -238,7 +238,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
             	console.log(response, "##########################");
             	p_to_map = [];
             	for(x in response.data){
-            		if(real_pipeline_id == pip_ids_to_parents[0] && ppi != "null" && int(ppi) < int(response.data[x])){
+            		if(pipeline_id == pip_ids_to_parents[0] && ppi != "null" && int(ppi) < int(response.data[x])){
             			p_to_map.push(response.data[x])
             		}
             		console.log(response.data[x]);

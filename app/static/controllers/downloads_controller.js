@@ -60,7 +60,7 @@ innuendoApp.controller("downloadsCtrl", function($scope, $http) {
             reader.readAsText(input_element.files[0]);
         }
         else if (item.target.id == "download_button_single" && $('#input_accession').val() != ""){
-            $('#download_results_status').append("<p>"+lines.length+" accessions to download:</p>");
+            $('#download_results_status').append("<p>1 accession to download:</p>");
         	down_loop([$('#input_accession').val()]);
         }
         else return null;

@@ -1475,11 +1475,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						pipelines_applied[strain_names[index]] = new_pipapplied;
 
-						console.log(new_pipapplied_proc);
-
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;
 						pipelines_type_by_strain[strain_names[index]][1] = new_pipapplied_proc;
-						console.log(buttons_to_tasks[sp_name]);
+
 						clearInterval(intervals_running[buttons_to_tasks[sp_name]]);
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];

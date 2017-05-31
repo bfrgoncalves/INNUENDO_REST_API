@@ -312,6 +312,8 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
                 }
             }
 
+            console.log(processes_ids);
+
             $http(req).then(function(response){
             	//console.log(response);
                callback(response, processes_ids, strain_id, count, pipeline_id);

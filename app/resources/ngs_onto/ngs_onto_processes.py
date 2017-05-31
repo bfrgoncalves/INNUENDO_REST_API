@@ -209,19 +209,19 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				print procJsonResult
 				for proc_json in procJsonResult:
 					if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
-						print "PASSOU AQUI"
-						print proc_json["StrProc"]
+						#print "PASSOU AQUI"
+						#print proc_json["StrProc"]
 
 						todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
-						print todelUri
+						#print todelUri
 						statements = dbconAg.getStatements(todelUri, None, None)
 						jsonResult=parseAgraphStatementsRes(statements)
 						statements.close()
 						print jsonResult
 
 						#todelUri = dbconAg.createURI(proc_json["StrProc"])
-						print dbconAg.remove(todelUri, None,None)
-						print dbconAg.remove(None, None, todelUri)
+						dbconAg.remove(todelUri, None,None)
+						dbconAg.remove(None, None, todelUri)
 
 						statements = dbconAg.getStatements(todelUri, None, None)
 						jsonResult=parseAgraphStatementsRes(statements)

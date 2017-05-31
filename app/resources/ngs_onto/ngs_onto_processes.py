@@ -213,15 +213,15 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 						print proc_json["StrProc"]
 
 						todelUri = dbconAg.createURI("<"+proc_json["StrProc"]+">")
-
+						print todelUri
 						statements = dbconAg.getStatements(todelUri, None, None)
 						jsonResult=parseAgraphStatementsRes(statements)
 						statements.close()
 						print jsonResult
 
 						#todelUri = dbconAg.createURI(proc_json["StrProc"])
-						dbconAg.remove(todelUri, None,None)
-						dbconAg.remove(None, None, todelUri)
+						print dbconAg.remove(todelUri, None,None)
+						print dbconAg.remove(None, None, todelUri)
 
 						statements = dbconAg.getStatements(todelUri, None, None)
 						jsonResult=parseAgraphStatementsRes(statements)

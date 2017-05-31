@@ -207,9 +207,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				for proc_json in procJsonResult:
 					if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 						print "PASSOU AQUI"
-						todelUri = dbconAg.createURI(k)
+						todelUri = dbconAg.createURI(proc_json["StrProc"])
 						dbconAg.remove(todelUri, None,None)
-						dbconAg.remove(parentProcessURI, None, todelUri)
+						dbconAg.remove(None, None, todelUri)
 
 
 						numberOfProcesses -= 1

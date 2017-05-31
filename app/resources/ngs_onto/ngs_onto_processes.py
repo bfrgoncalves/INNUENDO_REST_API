@@ -201,6 +201,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 			parentProcessURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(ppropid)+"/pipelines/"+str(ppipid)+"/processes/"+str(pprocid))
 
+
+
+
 			print ppipid, rpipid
 			if ppipid == rpipid:
 				print procJsonResult
@@ -208,10 +211,19 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 						print "PASSOU AQUI"
 						print proc_json["StrProc"]
+						statements = dbconAg.getStatements(proc_json["StrProc"], None, None)
+						jsonResult=parseAgraphStatementsRes(statements)
+						statements.close()
+						print jsonResult
+
 						todelUri = dbconAg.createURI(proc_json["StrProc"])
 						dbconAg.remove(todelUri, None,None)
 						dbconAg.remove(None, None, todelUri)
 
+						statements = dbconAg.getStatements(proc_json["StrProc"], None, None)
+						jsonResult=parseAgraphStatementsRes(statements)
+						statements.close()
+						print jsonResult
 
 						numberOfProcesses -= 1
 

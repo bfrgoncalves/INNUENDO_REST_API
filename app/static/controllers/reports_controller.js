@@ -228,6 +228,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		if(procedure.indexOf('INNUca') > -1){
 
+			console.log(identifier);
+
 			var run_info_keys = Object.keys(report_data.run_info[identifier].modules_run_report);
 
 			var aux_info = {};

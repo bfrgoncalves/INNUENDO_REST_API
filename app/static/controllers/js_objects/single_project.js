@@ -219,7 +219,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		function get_status(job_id, strain_id, process_id, pipeline_id){
 
 			console.log(tasks_to_buttons, job_id, workflow_id_to_name, strain_id);
-
+			console.log(tasks_to_buttons);
+			
 			procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
 
 			var parts_split = tasks_to_buttons[job_id].replace(/ /g, "_").split("_");

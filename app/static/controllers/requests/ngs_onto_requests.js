@@ -236,14 +236,11 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
             $http(req).then(function(response){
             	console.log(response, "##########################");
-            	p_to_map = [];
+
             	for(x in response.data){
-            		if(pipeline_id == pip_ids_to_parents[0] && ppi != "null" && int(ppi) < int(response.data[x])){
-            			p_to_map.push(response.data[x])
-            		}
             		console.log(response.data[x]);
             	}
-               callback(response, strain_name, p_to_map);
+               callback(response, strain_names);
             },
             function(response){
             	console.log(response);

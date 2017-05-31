@@ -207,6 +207,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				for proc_json in procJsonResult:
 					if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 						print "PASSOU AQUI"
+						print proc_json["StrProc"]
 						todelUri = dbconAg.createURI(proc_json["StrProc"])
 						dbconAg.remove(todelUri, None,None)
 						dbconAg.remove(None, None, todelUri)

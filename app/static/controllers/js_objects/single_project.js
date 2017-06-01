@@ -1542,10 +1542,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			var bline_to_use = line_to_use;
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
-		      				//console.log("AQUI", hline_to_use[x]);
+		      				console.log("AQUI", hline_to_use[x]);
+
 		      				$('#'+hline_to_use[x] + " option").filter(function() {
 							    //may want to use $.trim in here
-							    if($(this).text().indexOf(bline_to_use[x]) > -1){
+							    if($(this).text().trim().indexOf(bline_to_use[x].trim()) > -1){
 							    	console.log(hline_to_use[x], bline_to_use[x]);
 							    	return bline_to_use[x];
 							    }

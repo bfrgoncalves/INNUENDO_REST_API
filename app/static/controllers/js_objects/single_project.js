@@ -1542,9 +1542,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
 		      				console.log("AQUI", hline_to_use[x]);
-		      				$('#'+hline_to_use[x]).filter(function() {
+		      				$('#'+hline_to_use[x] + " option").filter(function() {
 							    //may want to use $.trim in here
-							    console.log($(this).text());
+							    console.log($(this).text(), bline_to_use[x]);
 							    return $(this).text() == bline_to_use[x]; 
 							}).prop('selected', true);
 						}

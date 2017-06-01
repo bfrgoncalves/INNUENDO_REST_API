@@ -1538,10 +1538,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		for (x in strains_object['body'][l]){
 		      			var hline_to_use = strains_object['headers'];
 		      			var bline_to_use = strains_object['body'][l];
-
+		      			console.log(hline_to_use[x], bline_to_use[x]);
 		      			$('#'+hline_to_use[x]).val(bline_to_use[x]);
 		      		}
-		      		$('#newstrainbuttonsubmit').trigger("submit");
+		      		//$('#newstrainbuttonsubmit').trigger("submit");
 		      	}
 
 

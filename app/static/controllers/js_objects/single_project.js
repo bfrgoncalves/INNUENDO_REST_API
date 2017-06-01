@@ -1544,7 +1544,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      				console.log("AQUI", hline_to_use[x]);
 		      				$('#'+hline_to_use[x] + " option").filter(function() {
 							    //may want to use $.trim in here
-							    console.log($(this).text().replace(" ",""), bline_to_use[x].trim());
+							    if($(this).text().indexOf(bline_to_use[x]) > -1)console.log("PASSED");
+							    //console.log($(this).text().replace(" ",""), bline_to_use[x].trim());
 							    if($(this).text().trim() == bline_to_use[x].trim()) console.log($(this).text().trim(), bline_to_use[x].trim());
 							    return $(this).text().trim() == bline_to_use[x].trim(); 
 							}).prop('selected', true);

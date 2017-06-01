@@ -1541,7 +1541,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			console.log(hline_to_use[x], bline_to_use[x]);
 		      			$('#'+hline_to_use[x]).val(bline_to_use[x]);
 		      		}
-		      		//$('#newstrainbuttonsubmit').trigger("submit");
+		      		$('#newstrainbuttonsubmit').trigger("submit");
 		      	}
 
 

@@ -1517,6 +1517,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	//parse file
 		      	for(i in lines){
 		      		line  = lines[i].split(separator);
+		      		console.log(line);
 		      		var array_to_use = [];
 
 		      		//console.log(line);

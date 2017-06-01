@@ -1540,10 +1540,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			var bline_to_use = strains_object['body'][l];
 		      			console.log(hline_to_use[x], bline_to_use[x]);
 
-		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_1") > -1){
+		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
 		      				console.log("AQUI", hline_to_use[x]);
 		      				$('#'+hline_to_use[x]).filter(function() {
 							    //may want to use $.trim in here
+							    console.log($(this).text());
 							    return $(this).text() == bline_to_use[x]; 
 							}).prop('selected', true);
 						}

@@ -400,7 +400,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				console.log(response);
 				var total_pipelines = response.data.length;
 				console.log(response.data.hasOwnProperty("message"), response.data);
-				if(response.data.hasOwnProperty("message") == true) return callback({strains:[]});
+				if(response.data.hasOwnProperty("message") == true) return callback({strains: "no_pipelines"});
 				console.log("PASSOU");
 				global_counter_pipelines = 0;
 				if (response.status == 200){

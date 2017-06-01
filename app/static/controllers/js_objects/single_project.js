@@ -1539,7 +1539,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			var hline_to_use = strains_object['headers'];
 		      			var bline_to_use = strains_object['body'][l];
 		      			console.log(hline_to_use[x], bline_to_use[x]);
-		      			$('#'+hline_to_use[x]).val(bline_to_use[x]);
+
+		      			if(hline_to_use[x] == "File_1" || hline_to_use[x] == "File_2"){
+		      				cosnole.log("AQUI", hline_to_use[x]);
+		      				$('#'+hline_to_use[x]).filter(function() {
+							    //may want to use $.trim in here
+							    return $(this).text() == text1; 
+							}).prop('selected', true);
+						}
+						else $('#'+hline_to_use[x]).val(bline_to_use[x]);
 		      		}
 		      		$('#newstrainbuttonsubmit').trigger("submit");
 		      	}

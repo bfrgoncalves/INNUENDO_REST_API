@@ -399,6 +399,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, function(response, strainid){
 				console.log(response);
 				var total_pipelines = response.data.length;
+				if(total_pipelines == 0) return callback({strains:[]});
 				global_counter_pipelines = 0;
 				if (response.status == 200){
 					for (i in response.data){

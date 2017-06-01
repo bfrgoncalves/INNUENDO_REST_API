@@ -87,6 +87,7 @@ function Objects_Utils(){
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
+	        "pageLength": 50,
 	        select: {
 	            style:    'multi',
 	            selector: 'td:first-child'
@@ -213,6 +214,7 @@ function Objects_Utils(){
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:false,
+	        "pageLength": 50,
 	        select: {
 	            style:    'os',
 	            selector: 'td:first-child'

@@ -70,9 +70,7 @@ class StrainListResource(Resource):
 	@login_required
 	@marshal_with(strain_fields)  
 	def post(self): #id=user_id
-		print "AQUI"
 		args=request.form
-		print args
 
 		metadata_fields = []
 		metadata = {}
@@ -102,6 +100,7 @@ class StrainListResource(Resource):
 				print e
 				strain.strain_metadata = json.dumps(args)
 				db.session.commit()
+				print strain.id
 			return strain, 200		
 		
 		try:

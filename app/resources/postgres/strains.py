@@ -70,8 +70,10 @@ class StrainListResource(Resource):
 	@login_required
 	@marshal_with(strain_fields)  
 	def post(self): #id=user_id
+		print "AQUI"
 		args=request.form
-		#print args
+		print args
+
 		metadata_fields = []
 		metadata = {}
 		for i in args:

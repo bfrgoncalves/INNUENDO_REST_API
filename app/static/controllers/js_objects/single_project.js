@@ -303,7 +303,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			pg_requests.get_strains(function(response){
 				if(response.status == 200){
-
+					console.log(response.data);
 					var max_headers = 0;
 		            var data = response.data;
 		            objects_utils.destroyTable('public_strains_table');

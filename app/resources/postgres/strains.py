@@ -100,13 +100,11 @@ class StrainListResource(Resource):
 				print e
 				strain.strain_metadata = json.dumps(args)
 				db.session.commit()
-				print strain.id
 			return strain, 200		
 		
 		try:
-			print 'AQUI'
 			strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow(), user_id=current_user.id)
-			print strain
+
 			if not strain:
 				abort(404, message="An error as occurried")
 

@@ -101,6 +101,7 @@ class StrainListResource(Resource):
 			except KeyError as e:
 				print e
 				strain.strain_metadata = json.dumps(args)
+				db.session.commit()
 			return strain, 200		
 		
 		try:

@@ -1534,11 +1534,43 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	}
 
 		      	//load strains
-		      	for (l in strains_object['body']){
+
+		      	function add_to_database(){
+		      		line_to_use = strains_object['body'].shift();
 		      		for (x in strains_object['body'][l]){
 		      			var hline_to_use = strains_object['headers'];
 		      			var bline_to_use = strains_object['body'][l];
-		      			console.log(hline_to_use[x], bline_to_use[x]);
+
+		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
+		      				//console.log("AQUI", hline_to_use[x]);
+		      				$('#'+hline_to_use[x] + " option").filter(function() {
+							    //may want to use $.trim in here
+							    if($(this).text().indexOf(bline_to_use[x]) > -1){
+							    	console.log(hline_to_use[x], bline_to_use[x]);
+							    	return bline_to_use[x];
+							    }
+							    //console.log($(this).text().replace(" ",""), bline_to_use[x].trim());
+							    //if($(this).text().trim() == bline_to_use[x].trim()) console.log($(this).text().trim(), bline_to_use[x].trim());
+							    //return $(this).text().trim() == bline_to_use[x].trim(); 
+							}).prop('selected', true);
+						}
+						else $('#'+hline_to_use[x]).val(bline_to_use[x]);
+		      		}
+		      		setTimeout(function(){
+		      			$('#newstrainbuttonsubmit').trigger("submit");
+		      			console.log("ENTER");
+		      			if(strains_object['body'].length != 0) add_to_database();
+		      			else console.log("DONE");
+		      		}, 1000);
+
+		      	}
+
+		      	add_to_database();
+		      	
+		      	/*for (l in strains_object['body']){
+		      		for (x in strains_object['body'][l]){
+		      			var hline_to_use = strains_object['headers'];
+		      			var bline_to_use = strains_object['body'][l];
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
 		      				console.log("AQUI", hline_to_use[x]);
@@ -1556,7 +1588,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						else $('#'+hline_to_use[x]).val(bline_to_use[x]);
 		      		}
 		      		$('#newstrainbuttonsubmit').trigger("submit");
-		      	}
+		      	}*/
 
 
 		    };

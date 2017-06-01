@@ -510,6 +510,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 
 		},
+
 		remove_strain_from_project: function(strain_name, callback){
 
 			req = {

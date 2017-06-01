@@ -1537,9 +1537,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		      	function add_to_database(){
 		      		line_to_use = strains_object['body'].shift();
-		      		for (x in strains_object['body'][l]){
+		      		for (x in line_to_use){
 		      			var hline_to_use = strains_object['headers'];
-		      			var bline_to_use = strains_object['body'][l];
+		      			var bline_to_use = line_to_use;
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
 		      				//console.log("AQUI", hline_to_use[x]);

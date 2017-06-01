@@ -82,7 +82,7 @@ function Objects_Utils(){
 	    } );
 
 	    table = $('#' + table_id).DataTable({
-	    	dom: 'Bfrtip',
+	    	dom: 'Blfrtip',
 	    	"scrollY": "200px",
   			"scrollCollapse": true,
 	    	"scrollX": true,
@@ -208,7 +208,7 @@ function Objects_Utils(){
 	function nestedTable(table_id, columnDefinitions, data, visible_headers){
 
 	    table = $('#' + table_id).DataTable({
-	    	dom: 'Bfrtip',
+	    	dom: 'Blfrtip',
 	    	"scrollY": "200px",
   			"scrollCollapse": true,
 	    	"scrollX": true,

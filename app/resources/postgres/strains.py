@@ -92,6 +92,7 @@ class StrainListResource(Resource):
 		if strain:
 			file_1 = ""
 			file_2 = ""
+			print args
 			if args["File_1"] and json.loads(strain.strain_metadata)["File_1"] == args["File_1"]:
 				strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
 			if args["File_2"] and json.loads(strain.strain_metadata)["File_2"] == args["File_2"]:

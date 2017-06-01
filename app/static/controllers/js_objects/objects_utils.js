@@ -83,7 +83,7 @@ function Objects_Utils(){
 
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
-	    	"scrollY": "200px",
+	    	//"scrollY": "200px",
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
@@ -209,7 +209,7 @@ function Objects_Utils(){
 
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
-	    	"scrollY": "200px",
+	    	//"scrollY": "200px",
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:false,

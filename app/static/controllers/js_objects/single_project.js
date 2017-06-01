@@ -1510,7 +1510,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	var lines = this.result.split('\n');
 		      	firstLine = true;
 		      	strains_object = {};
-		      	//console.log(lines);
+		      	console.log(lines);
 
 		      	strains_object['body'] = [];
 		      	

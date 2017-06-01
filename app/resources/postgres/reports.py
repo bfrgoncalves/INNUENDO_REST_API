@@ -52,7 +52,7 @@ class ReportsResource(Resource):
 		else:
 			j_ids = args.job_ids.split(',')
 			for j_id in j_ids:
-				plus_report = db.session.query(Report).filter(Report.user_id == current_user.id, Report.job_id == j_id).all()
+				plus_report = db.session.query(Report).filter(Report.job_id == j_id).all()
 				if plus_report:
 					reports.append(plus_report)
 

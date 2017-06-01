@@ -1544,7 +1544,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      				console.log("AQUI", hline_to_use[x]);
 		      				$('#'+hline_to_use[x]).filter(function() {
 							    //may want to use $.trim in here
-							    return $(this).text() == text1; 
+							    return $(this).text() == bline_to_use[x]; 
 							}).prop('selected', true);
 						}
 						else $('#'+hline_to_use[x]).val(bline_to_use[x]);

@@ -147,11 +147,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#waiting_spinner').css({display:'none'}); 
 		$('#reports_controller_div').css({display:'block'});
 		$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-		console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 		objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-	}, 3000);
+	}, 2000);
 
 	$('#project_selector').on("change", function(){
+
+		$('#waiting_spinner').css({display:'block'}); 
+		$('#reports_controller_div').css({display:'none'});
 		//console.log('AQUI');
 		objects_utils.destroyTable('reports_table');
 		var current_project = $(this).children(":selected").attr("name").split('_')[1];
@@ -171,6 +173,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					if(user_reports.message != undefined) user_reports = [];
 
 					objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
+
+					$('#waiting_spinner').css({display:'none'}); 
+					$('#reports_controller_div').css({display:'block'});
 
 					if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
 						show_results_and_info($rootScope.showing_jobs);
@@ -217,6 +222,24 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	    callback([array_of_headers, array_of_data]);
 	}
+
+	function getmergeResultsJobIDs(table_id, callback){
+
+		table = $('#'+table_id).DataTable();
+
+		var table_data = $.map(table.rows().data(), function(data){
+	       return data;
+	    });
+ 
+	    var array_of_jobs = [];
+
+	    for(index in table_data){
+	    	array_of_jobs.push(table_data[index].job_id);
+	    }
+
+	    callback(array_of_jobs);
+	}
+
 
 
 	function process_report_data(identifier, report_data, sample_name, procedure, job, callback){
@@ -791,7 +814,29 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		var table_id_metadata = 'reports_metadata_table';
 
-		var total_results = [];
+		getmergeResultsJobIDs(table_id_profile, function(job_ids){
+
+			reports.sendToPHYLOViZ(job_ids, function(response){
+				var to_phyloviz = "";
+				if(response.data.indexOf("http") < 0){
+					to_phyloviz = "An error as occuried when uploading data to PHYLOViZ Online";
+					$('#phyloviz_output').empty();
+					$('#phyloviz_output').append(to_phyloviz);
+				}
+				else{
+
+					to_phyloviz = "<button class='btn btn-md btn-info' id='button_view_phyloviz'>View Tree</button>";
+					$('#phyloviz_output').empty();
+					$('#phyloviz_output').append(to_phyloviz);
+					$("#button_view_phyloviz").on("click", function(){
+						window.open('http'+response.data.split('http')[1],'_blank');
+					});
+				} 
+			});
+
+		});
+
+		/*var total_results = [];
 
 		//profile
 		mergeResultsData(table_id_profile, function(results_profile){
@@ -824,7 +869,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					} 
 				});
 			});
-		});	
+		});*/	
 	}
 
 	$scope.deleteFromReports = function(){

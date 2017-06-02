@@ -94,6 +94,7 @@ function Objects_Utils(){
 	        },
 	        buttons: [
 	        	'selectAll',
+	        	'selectNone',
 	            'csv'
 	        ],
 	        columns: columnDefinitions,

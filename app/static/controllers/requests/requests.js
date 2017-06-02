@@ -642,7 +642,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		},
 
 		//////////////////////////// SEND TO PHYLOVIZ ////////////////////////////////////////
-		send_to_phyloviz: function(profile_data, metadata, callback){
+		/*send_to_phyloviz: function(profile_data, metadata, callback){
 			
 			var headers_profile = JSON.stringify(profile_data[0]);
 			var body_profile = JSON.stringify(profile_data[1]);
@@ -660,6 +660,28 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	body_profile: body_profile,
 		        	headers_metadata: headers_metadata,
 		        	body_metadata: body_metadata,
+		        	dataset_name: $('#modal_phyloviz_dataset_name').text(),
+		        	dataset_description: $('#modal_phyloviz_dataset_description').text()
+		    	}
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+		}*/
+
+		send_to_phyloviz: function(job_ids, callback){
+			
+			console.log('ONREQUEST');
+
+			req = {
+		        url: 'api/v1.0/phyloviz/',
+		        method:'POST',
+		        data: {
+		        	job_ids: job_ids.join(","),
 		        	dataset_name: $('#modal_phyloviz_dataset_name').text(),
 		        	dataset_description: $('#modal_phyloviz_dataset_description').text()
 		    	}

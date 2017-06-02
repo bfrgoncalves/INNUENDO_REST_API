@@ -90,11 +90,16 @@ function Report($http){
 		  	}
 
 		 },
-		 sendToPHYLOViZ: function(total_data, callback){
-		 	pg_requests.send_to_phyloviz(total_data[0], total_data[1], function(response){
+		 sendToPHYLOViZ: function(job_ids, callback){
+		 	pg_requests.send_to_phyloviz(job_ids, function(response){
 		 		callback(response);
 		 	});
 		 }
+		 /*sendToPHYLOViZ: function(total_data, callback){
+		 	pg_requests.send_to_phyloviz(total_data[0], total_data[1], function(response){
+		 		callback(response);
+		 	});
+		 }*/
 		 
 	}
 	

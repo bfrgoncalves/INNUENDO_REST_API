@@ -68,9 +68,11 @@ class PHYLOViZResource(Resource):
 
 				new_profile = []
 				for allele in report.report_data["run_output"]["run_output.fasta"]:
+					print allele
+					print to_replace
 					for k,v in to_replace.iteritems():
 						new_allele = allele.replace(k, v)
-
+					print new_allele
 					new_profile.append(new_allele)
 				profiles = body_profile + new_profile
 

@@ -292,6 +292,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			
 					$(".pipeline_strain_button").on('click', function(){
 						var p_id = $(this).attr("pipeline");
+						console.log(p_id);
 						var owner_p = $(this).attr("ownerproject");
 						var strain_id = strains_dict[$(this).attr("strain_id")];
 						console.log(strain_id);

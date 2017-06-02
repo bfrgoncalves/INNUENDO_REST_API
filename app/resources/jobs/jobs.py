@@ -67,6 +67,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 		if report.job_id == job_id:
 			return False, job_id
 		else:
+			print "#####################################################################################################################################"
 			print procedure
 			print job_id
 			report.pipeline_id=pipeline_id

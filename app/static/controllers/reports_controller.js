@@ -651,7 +651,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
-				if(response.data[job].procedure_name.indexOf("INNUca") > -1) identifier = Object.keys(response.data[job].report_data.run_info)[0];
+				if(response.data[job].procedure_name.indexOf("INNUca") > -1){
+					console.log(response.data[job]);
+					identifier = Object.keys(response.data[job].report_data.run_info)[0];
+				}
 				else identifier = "";
 
 				//if(identifier == "stats") response.data[job].report_data.shift();

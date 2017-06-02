@@ -636,7 +636,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			console.log(response);
 
-			if(response == null) return;
+			if(response == null){
+				objects_utils.show_message('s_report_message_div', 'warning', 'Please select a report first.')
+				return;
+			}
 
 			var run_identifiers = [];
 			var info_headers = [];

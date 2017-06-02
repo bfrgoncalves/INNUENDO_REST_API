@@ -489,21 +489,20 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						for(pipeline in response.data){
 
 							if(response.data[pipeline].project_id == null || response.data[pipeline].parent_pipeline_id != null){
-								console.log("##################")
 								processed_pip += 1;
 								if(processed_pip == total_pip) {
 									processed_strains += 1;
 									console.log(available_workflows);
 					            	for(pipeline in available_workflows){
+					            		final_pips = []
 										if(workflow_ids_added[available_workflows[pipeline].join()] != true){
 					            			workflow_ids_added[available_workflows[pipeline].join()] = true;
 					            			//console.log(available_workflows[pipeline]);
 					            			for(workflow in available_workflows[pipeline]){
-					            				console.log("PASSOU");
-												available_workflows[pipeline][workflow] = pipelinesByID[available_workflows[pipeline][workflow]];
+												final_pips.push(pipelinesByID[available_workflows[pipeline][workflow]]);
 											}
 											total_pips[strain_id_to_name[strain_id]].push(pipelines_ids[pipeline]);
-											total_wf[strain_id_to_name[strain_id]].push(available_workflows[pipeline]);
+											total_wf[strain_id_to_name[strain_id]].push(final_pips);
 											//console.log(available_workflows);
 					            		}
 									}
@@ -543,13 +542,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						            }
 						            //console.log(strain_to_real_pip);
 						            //appliedWorkflows = appliedWorkflows.reverse();
-						            console.log(appliedWorkflows);
+		
 						            available_workflows.push(appliedWorkflows);
 						            workflow_ids_added[appliedWorkflows.join()] = false;
 
 						            if(processed_pip == total_pip) {
 						            	//console.log(workflow_ids_added);
-						            	console.log(available_workflows);
+						            	//console.log(available_workflows);
 						            	processed_strains += 1;
 						            	for(pipeline in available_workflows){
 						            		final_pips = []
@@ -558,7 +557,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						            			workflow_ids_added[available_workflows[pipeline].join()] = true;
 						            			//console.log(available_workflows[pipeline]);
 						            			for(workflow in available_workflows[pipeline]){
-						            				console.log(pipelinesByID[available_workflows[pipeline][workflow]], pipelinesByID, available_workflows[pipeline][workflow]);
+						            				//console.log(pipelinesByID[available_workflows[pipeline][workflow]], pipelinesByID, available_workflows[pipeline][workflow]);
 													//available_workflows[pipeline][workflow] = pipelinesByID[available_workflows[pipeline][workflow]];
 													final_pips.push(pipelinesByID[available_workflows[pipeline][workflow]]);
 												}

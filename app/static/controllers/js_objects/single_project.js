@@ -552,17 +552,19 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						            	console.log(available_workflows);
 						            	processed_strains += 1;
 						            	for(pipeline in available_workflows){
+						            		final_pips = []
 						            		//console.log(workflow_ids_added, available_workflows[pipeline].join(), workflow_ids_added[available_workflows[pipeline].join()]);
 						            		if(workflow_ids_added[available_workflows[pipeline].join()] != true){
 						            			workflow_ids_added[available_workflows[pipeline].join()] = true;
 						            			//console.log(available_workflows[pipeline]);
 						            			for(workflow in available_workflows[pipeline]){
 						            				console.log(pipelinesByID[available_workflows[pipeline][workflow]], pipelinesByID, available_workflows[pipeline][workflow]);
-													available_workflows[pipeline][workflow] = pipelinesByID[available_workflows[pipeline][workflow]];
+													//available_workflows[pipeline][workflow] = pipelinesByID[available_workflows[pipeline][workflow]];
+													final_pips.push(pipelinesByID[available_workflows[pipeline][workflow]]);
 												}
 												//console.log(total_pips, strain_id_to_name[strain_id], strain_id);
 												total_pips[strain_id_to_name[strain_id]].push(pipelines_ids[pipeline]);
-												total_wf[strain_id_to_name[strain_id]].push(available_workflows[pipeline]);
+												total_wf[strain_id_to_name[strain_id]].push(final_pips);
 												//console.log(available_workflows);
 						            		}
 										}

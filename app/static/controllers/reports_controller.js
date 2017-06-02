@@ -324,6 +324,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#reports_metadata_table thead').css({'visibility':'hidden'});
 		$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
 
+		$('#reports_container').css({display:"none"});
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'45%'}); 
+
 		objects_utils.destroyTable('reports_info_table');
 	    objects_utils.destroyTable('reports_results_table');
 
@@ -423,7 +426,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$scope.change_report_by_specie = function(species_id, species_name){
 
 		$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'55%'}); 
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'45%'}); 
 
 	    CURRENT_SPECIES_ID = species_id;
 	    CURRENT_SPECIES_NAME = species_name;

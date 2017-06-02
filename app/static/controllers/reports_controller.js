@@ -642,6 +642,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#reports_info_table_wrapper').css({'display':'none'});
 						$('#reports_results_table_wrapper').css({'display':'none'});
 						$('#reports_metadata_table_wrapper').css({'display':'block'});
+						$('#reports_metadata_table').DataTable().draw();
 					});
 				}, 200)
 			}

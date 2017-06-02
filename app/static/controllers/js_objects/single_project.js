@@ -555,7 +555,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						            			workflow_ids_added[available_workflows[pipeline].join()] = true;
 						            			//console.log(available_workflows[pipeline]);
 						            			for(workflow in available_workflows[pipeline]){
-						            				console.log(pipelinesByID[available_workflows[pipeline][workflow]]);
+						            				console.log(pipelinesByID[available_workflows[pipeline][workflow]], pipelinesByID, available_workflows[pipeline][workflow]);
 													available_workflows[pipeline][workflow] = pipelinesByID[available_workflows[pipeline][workflow]];
 												}
 												//console.log(total_pips, strain_id_to_name[strain_id], strain_id);

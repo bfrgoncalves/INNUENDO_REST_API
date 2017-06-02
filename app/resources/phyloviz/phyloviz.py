@@ -70,7 +70,7 @@ class PHYLOViZResource(Resource):
 				string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
 				for k,v in to_replace.iteritems():
-					string_list.replace(k,v)
+					string_list = string_list.replace(k,v)
 				#new_profile.append(report.sample_name + "\t" + new_allele)
 
 				#print profiles

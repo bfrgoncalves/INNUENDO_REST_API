@@ -64,7 +64,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 		return True, job_id
 	else:
 		if report.job_id == job_id:
-			if not results:
+			if results:
 				report.report_data=results
 				db.session.commit()
 			return False, job_id

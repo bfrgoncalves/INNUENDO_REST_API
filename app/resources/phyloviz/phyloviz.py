@@ -67,8 +67,6 @@ class PHYLOViZResource(Resource):
 					first_time = False
 
 				new_profile = []
-				string_list = 
-				
 				string_list = "\t".report.report_data["run_output"]["run_output.fasta"]
 
 				for k,v in to_replace.iteritems():

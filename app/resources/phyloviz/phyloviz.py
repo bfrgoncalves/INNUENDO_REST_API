@@ -61,13 +61,13 @@ class PHYLOViZResource(Resource):
 			if not report:
 				continue
 			else:
-				print report.report_data
-				print json.loads(report.report_data)["sample_name"]
-				body_profile.append(report["report_data"]["sample_name"])
+				print report.report_data["run_output"]
+				print report.sample_name
+				body_profile.append(report.sample_name)
 				if first_time == True:
-					headers = headers_profile + report["report_data"]["run_output"]["header"]
+					headers = headers_profile + report.report_data["run_output"]["header"]
 					first_time = False
-				profiles = body_profile + report["report_data"]["run_output"]["run_output.fasta"]
+				profiles = body_profile + report.report_data["run_output"]["run_output.fasta"]
 				all_profiles.append(profiles)
 
 

@@ -1003,9 +1003,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        return item['strainID'];
 		    });
 
-		    /*var strain_submitter = $.map(table.rows('.selected').data(), function(item){
-		        return item['strainID'];
-		    });*/
+		    var strain_submitter = $.map(table.rows('.selected').data(), function(item){
+		        return item['Submitter'];
+		    });
 
 		    countWorkflows = 0;
 		    countFinished = 0;
@@ -1115,7 +1115,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				if (dict_strain_names[strain_names[strain_name]][0] == dict_strain_names[strain_names[strain_name]][2]){
 					        			indexes = indexes.replace(/,$/, '');
 					        			//console.log(strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6]);
-					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, function(response, strain_name){
+					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], function(response, strain_name){
 					        				console.log('RUNNING JOB');
 
 					        				task_ids = [];

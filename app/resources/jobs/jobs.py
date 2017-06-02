@@ -24,8 +24,8 @@ job_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=T
 job_post_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline identifier")
 job_post_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_post_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
+job_post_parser.add_argument('strain_submitter', dest='strain_submitter', type=str, required=True, help="strain_submitter id")
 #parameters -> workflow_id
-
 job_get_parser = reqparse.RequestParser()
 job_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job id")
 job_get_parser.add_argument('procedure_name', dest='procedure_name', type=str, required=True, help="Procedure name")
@@ -137,7 +137,7 @@ class Job_queue(Resource):
 					files[x] = metadata[x]
 
 			if 'used Parameter' in steps:
-				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
+				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
 			else:
 				to_send.append("null")
 				#print data

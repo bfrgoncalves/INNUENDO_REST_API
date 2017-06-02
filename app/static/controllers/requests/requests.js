@@ -567,7 +567,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	               callback(response);
 	        });
 		},
-		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, callback){
+		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, callback){
 
 			console.log(protocol_ids, pipeline_id, process_id);
 
@@ -579,7 +579,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	protocol_ids: protocol_ids,
 		        	project_id: CURRENT_PROJECT_ID,
 		        	pipeline_id: pipeline_id,
-		        	process_id: process_id.join()
+		        	process_id: process_id.join(),
+		        	strain_submitter: strain_submitter
 		    	}
 		    }
 

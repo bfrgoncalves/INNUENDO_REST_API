@@ -41,7 +41,7 @@ class PHYLOViZResource(Resource):
 
 		file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
 
-		to_replace = {u"LNF": "0", u"INF-": "", u"NIPHEM": "0", u"NIPH": "0", u"LOTSC": "0", u"PLOT3": "0", u"PLOT5": "0", u"ALM": "0", u"ASM": "0"}
+		to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 
 		
 		headers_profile = ["Sample"]
@@ -61,23 +61,22 @@ class PHYLOViZResource(Resource):
 			else:
 				#print report.report_data["run_output"]
 				#print report.sample_name
-				body_profile.append(report.sample_name)
+
 				if first_time == True:
 					headers = headers_profile + report.report_data["run_output"]["header"]
 					first_time = False
 
 				new_profile = []
-				for allele in report.report_data["run_output"]["run_output.fasta"]:
-					print allele
-					print to_replace
-					for k,v in to_replace.iteritems():
-						new_allele = allele.replace(k, v)
-					print new_allele
-					new_profile.append(new_allele)
-				profiles = body_profile + new_profile
+				string_list = 
+				
+				string_list = "\t".report.report_data["run_output"]["run_output.fasta"]
+
+				for k,v in to_replace.iteritems():
+					string_list.replace(k,v)
+				#new_profile.append(report.sample_name + "\t" + new_allele)
 
 				#print profiles
-				all_profiles.append(profiles)
+				all_profiles.append(report.sample_name + "\t" + new_allele)
 
 
 		with open(file_path_profile, 'w') as p_file:
@@ -86,7 +85,7 @@ class PHYLOViZResource(Resource):
 			p_file.write('\t'.join(headers) + '\n')
 			
 			for y in all_profiles:
-				p_file.write('\t'.join(y) + '\n')
+				p_file.write(y + '\n')
 
 		'''with open(file_path_metadata, "w") as p_file:
 			hd = [];

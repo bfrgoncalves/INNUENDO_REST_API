@@ -297,6 +297,22 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			return callback([aux_info, aux_results], job);
 			}
 		}
+
+		else if(procedure.indexOf('PathoTyping') > -1){
+			var aux_info = {};
+			aux_info['Sample'] = sample_name;
+			aux_info["Status"] = "Done";
+			
+			var aux_results = {};
+			aux_results['Sample'] = sample_name;
+			for(x in report_data.run_output){
+				if(x == 'header') continue;
+				aux_results[x] = report_data.run_output[x]
+				
+			console.log([aux_info, aux_results]);
+			return callback([aux_info, aux_results], job);
+			}
+		}
 	}
 
 	$scope.showReports = function(){

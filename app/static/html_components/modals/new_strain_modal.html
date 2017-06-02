@@ -162,7 +162,7 @@
 </div>
 
 <!-- Modal Template-->
-<div id="choosePipelineModal" class="modal fade" role="dialog" style="width:50%;height:70%;">
+<div id="choosePipelineModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -172,7 +172,7 @@
 		<h4>Available Pipelines</h4>
 	  </div>
       <div class="modal-body">
-      	  <div style="height:30%;overflow-x:auto;">
+      	  <div style="height:70%;overflow-x:auto;">
 			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines">
 			  	  <label style="font-size:14px;color:#3399ff">Strain {{ key }}:</label>
 			  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">

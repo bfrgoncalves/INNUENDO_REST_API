@@ -276,16 +276,17 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			
 			$('#choosePipelineModal').modal('show');
 			
-			$("#new_pipeline_button").off('click');
-			
-			$(".new_pipeline_button").on('click', function(){
-				console.log(strain_id, this.strain_id);
-				/*add_strain([strain_id], function(){
-
-				});*/
-			});
 
 			setTimeout(function(){
+				$(".new_pipeline_button").off('click');
+			
+				$(".new_pipeline_button").on('click', function(){
+					console.log(strain_id, this.strain_id);
+					/*add_strain([strain_id], function(){
+
+					});*/
+				});
+				
 				$('.list-group-item').on('click', function(){
 					$(".pipeline_strain_button").css({display:"none"});
 					$('.list-group-item').removeClass("active");

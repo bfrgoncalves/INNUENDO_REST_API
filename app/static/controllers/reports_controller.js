@@ -153,7 +153,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$('#project_selector').on("change", function(){
 
 		$('#waiting_spinner').css({display:'block'}); 
-		$('#reports_controller_div').css({display:'none'});
+		$('#reports_area').css({display:'none'});
 		//console.log('AQUI');
 		objects_utils.destroyTable('reports_table');
 		var current_project = $(this).children(":selected").attr("name").split('_')[1];
@@ -175,7 +175,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
 
 					$('#waiting_spinner').css({display:'none'}); 
-					$('#reports_controller_div').css({display:'block'});
+					$('#reports_area').css({display:'block'});
 
 					if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
 						show_results_and_info($rootScope.showing_jobs);

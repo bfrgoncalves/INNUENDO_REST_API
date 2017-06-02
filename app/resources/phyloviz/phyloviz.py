@@ -62,7 +62,7 @@ class PHYLOViZResource(Resource):
 				continue
 			else:
 				print report.report_data
-				print report.report_data["sample_name"]
+				print json.loads(report.report_data)["sample_name"]
 				body_profile.append(report["report_data"]["sample_name"])
 				if first_time == True:
 					headers = headers_profile + report["report_data"]["run_output"]["header"]

@@ -59,8 +59,8 @@ class PHYLOViZResource(Resource):
 			if not report:
 				continue
 			else:
-				print report.report_data["run_output"]
-				print report.sample_name
+				#print report.report_data["run_output"]
+				#print report.sample_name
 				body_profile.append(report.sample_name)
 				if first_time == True:
 					headers = headers_profile + report.report_data["run_output"]["header"]
@@ -68,12 +68,15 @@ class PHYLOViZResource(Resource):
 
 				new_profile = []
 				for allele in report.report_data["run_output"]["run_output.fasta"]:
+					print allele
 					for k,v in to_replace.iteritems():
 						new_allele = allele.replace(k, v)
-						new_profile.append(new_allele)
+
+					new_profile.append(new_allele)
+					print new_profile
 				profiles = body_profile + new_profile
 
-				print profiles
+				#print profiles
 				all_profiles.append(profiles)
 
 

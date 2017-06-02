@@ -74,7 +74,7 @@ class PHYLOViZResource(Resource):
 				#new_profile.append(report.sample_name + "\t" + new_allele)
 
 				#print profiles
-				all_profiles.append(report.sample_name + "\t" + new_allele)
+				all_profiles.append(report.sample_name + "\t" + string_list)
 
 
 		with open(file_path_profile, 'w') as p_file:

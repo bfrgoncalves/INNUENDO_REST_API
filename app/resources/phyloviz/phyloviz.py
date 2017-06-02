@@ -45,8 +45,10 @@ class PHYLOViZResource(Resource):
 
 		
 		headers_profile = ["ID"]
+		headers_metadata = ["ID"]
 		body_profile = []
 		all_profiles = []
+		all_metadata = []
 
 
 		total_j_ids = args.job_ids.split(",")
@@ -82,9 +84,28 @@ class PHYLOViZResource(Resource):
 
 				strain_metadata = json.loads(strain.strain_metadata)
 				print strain_metadata
+				first_time_m = True
+
+				if first_time_m == True:
+					for x in strain_metadata:
+						if x == "fileselector":
+							continue
+						else:
+							headers_metadata.append(x)
+
+				first_time_m = False
+				
+				straind = [report.sample_name]
+				for x in strain_metadata:
+					if x == "fileselector":
+						continue
+					else:
+						straind.append(strain_metadata[x])
+
+				all_metadata.append('\t'.join(straind) + "\n")
 
 
-
+		#WRITE PROFILE FILE
 		with open(file_path_profile, 'w') as p_file:
 			hd = [];
 			
@@ -93,15 +114,12 @@ class PHYLOViZResource(Resource):
 			for y in all_profiles:
 				p_file.write(y + '\n')
 
-		'''with open(file_path_metadata, "w") as p_file:
-			hd = [];
-			for x in headers_metadata:
-				hd.append(x['title'])
+		#WRITE METADATA FILE
+		with open(file_path_metadata, "w") as p_file:			
+			p_file.write("\t".join(headers_metadata) + "\n")
 			
-			p_file.write("\t".join(hd) + "\n")
-			
-			for y in body_metadata:
-				p_file.write("\t".join(y) + "\n")'''
+			for y in all_metadata:
+				p_file.write(y + "\n")
 
 		#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + args.dataset_name + ' -dn ' + args.dataset_description;
 		command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';

@@ -301,7 +301,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 							console.log(results);
 							if(results.message != undefined) return callback({message:results.message});
 							else{
-								single_project.get_and_apply_pipeline(1,p_id, strain_id, owner_p, function(response){
+								single_project.get_and_apply_pipeline(1, p_id, strain_id, owner_p, function(response){
 									$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;

@@ -579,7 +579,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		    if (project_id != CURRENT_PROJECT_ID){
 				pg_requests.add_pipeline(strain_id, pipeline_id, project_id, function(response){
-					//console.log(response);
+					console.log(response);
 					var new_pipeline_id = response.data.id;
 					var parent_project_id = response.data.parent_project_id;
 					var parent_pipeline_id = response.data.parent_pipeline_id;

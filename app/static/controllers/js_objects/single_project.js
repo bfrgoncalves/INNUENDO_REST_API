@@ -205,7 +205,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            	}
 	            	//workflow_id_to_name[results.workflow_id] = results.workflow_name;
 	            	//console.log(total_pipelines, counter_pipelines);
-	            	console.log(total_pipelines, global_counter_pipelines, workflow_id_to_name)
+	            	//console.log(total_pipelines, global_counter_pipelines, workflow_id_to_name)
 
 	            	if (total_pipelines == global_counter_pipelines) callback({strains:strains});
 	            });
@@ -218,8 +218,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		function get_status(job_id, strain_id, process_id, pipeline_id){
 
-			console.log(tasks_to_buttons, job_id, workflow_id_to_name, strain_id);
-			console.log(tasks_to_buttons);
+			//console.log(tasks_to_buttons, job_id, workflow_id_to_name, strain_id);
+			//console.log(tasks_to_buttons);
 
 			procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
 
@@ -228,7 +228,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			//var pipeline_id = strainID_pipeline[strains_dict[strain_id]];
 
-			console.log(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id);
+			//console.log(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id);
 
 			pg_requests.get_job_status(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id, function(response){
 				//console.log(response, tasks_to_buttons, response.data[0]);
@@ -1002,6 +1002,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var strain_names = $.map(table.rows('.selected').data(), function(item){
 		        return item['strainID'];
 		    });
+
+		    /*var strain_submitter = $.map(table.rows('.selected').data(), function(item){
+		        return item['strainID'];
+		    });*/
 
 		    countWorkflows = 0;
 		    countFinished = 0;

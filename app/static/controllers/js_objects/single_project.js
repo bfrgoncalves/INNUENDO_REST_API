@@ -489,6 +489,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						for(pipeline in response.data){
 
 							if(response.data[pipeline].project_id == null || response.data[pipeline].parent_pipeline_id != null){
+								console.log("##################")
 								processed_pip += 1;
 								if(processed_pip == total_pip) {
 									processed_strains += 1;
@@ -498,6 +499,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					            			workflow_ids_added[available_workflows[pipeline].join()] = true;
 					            			//console.log(available_workflows[pipeline]);
 					            			for(workflow in available_workflows[pipeline]){
+					            				console.log("PASSOU");
 												available_workflows[pipeline][workflow] = pipelinesByID[available_workflows[pipeline][workflow]];
 											}
 											total_pips[strain_id_to_name[strain_id]].push(pipelines_ids[pipeline]);

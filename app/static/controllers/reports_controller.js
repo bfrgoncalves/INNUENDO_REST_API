@@ -319,10 +319,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		//$('#reports_info_table thead').css({'visibility':'hidden'});
 		//$('#reports_info_table tfoot').css({'visibility':'hidden'});
-		$('#reports_results_table thead').css({'visibility':'hidden'});
+		/*$('#reports_results_table thead').css({'visibility':'hidden'});
 		$('#reports_results_table tfoot').css({'visibility':'hidden'});
 		$('#reports_metadata_table thead').css({'visibility':'hidden'});
-		$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
+		$('#reports_metadata_table tfoot').css({'visibility':'hidden'});*/
 
 		objects_utils.destroyTable('reports_info_table');
 	    objects_utils.destroyTable('reports_results_table');

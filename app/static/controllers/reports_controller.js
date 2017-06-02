@@ -353,7 +353,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							//$('#div_back_project').css({'display':"block"});
 						}
 
-					    var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
+						try{
+							var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
+						}
+						catch(e){
+							console.log("no projects"):
+						}
+					    //var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
 					    //console.log(current_project);
 
 						if(current_project != ""){

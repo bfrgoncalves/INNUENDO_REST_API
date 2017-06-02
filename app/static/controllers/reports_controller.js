@@ -631,6 +631,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					$scope.report_procedures.push("Metadata");
 				}
 				objects_utils.destroyTable('reports_metadata_table');
+				$('#reports_metadata_table thead').css({'visibility':'visible'});
+				$('#reports_metadata_table tfoot').css({'visibility':'visible'});
+
 				objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
 
 				$('#reports_metadata_table_wrapper').css({'display':'none'});
@@ -639,8 +642,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#reports_info_table_wrapper').css({'display':'none'});
 						$('#reports_results_table_wrapper').css({'display':'none'});
 						$('#reports_metadata_table_wrapper').css({'display':'block'});
-						$('#reports_metadata_table thead').css({'visibility':'visible'});
-						$('#reports_metadata_table tfoot').css({'visibility':'visible'});
 					});
 				}, 200)
 			}

@@ -155,6 +155,7 @@ class Job_queue(Resource):
 		results = request.json()
 
 		if results != '':
+			print results
 			job_status = results['stdout'].split('\t')
 			if len(job_status) == 1:
 				return ["null", "null"]

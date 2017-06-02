@@ -361,6 +361,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							current_project = "";
 							$('#waiting_spinner').css({display:'none'}); 
 							$('#reports_controller_div').css({display:'block'});
+							console.log("QUI");
 						}
 					    //var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
 					    //console.log(current_project);

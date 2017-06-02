@@ -324,8 +324,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#reports_metadata_table thead').css({'visibility':'hidden'});
 		$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
 
-		$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 		objects_utils.destroyTable('reports_info_table');
 	    objects_utils.destroyTable('reports_results_table');
@@ -359,9 +357,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						catch(e){
 							console.log("no projects");
 							current_project = "";
-							$('#waiting_spinner').css({display:'none'}); 
-							$('#reports_container').css({display:'block'});
-							$('#reports_controller_div').css({display:'block'});
 						}
 					    //var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
 					    //console.log(current_project);

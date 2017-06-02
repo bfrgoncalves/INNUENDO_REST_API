@@ -181,10 +181,10 @@
 					  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline">{{ workflow }}</button>
 					  	<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>
 					  </div>
-					  <hr>
 			  	  </div>
 			  	  <label>Create a new one:</label>
-		   		  <button class="btn btn-md btn-primary" strain_id="{{ key }}" class="new_pipeline_button">New Pipeline</button>
+		   		  <button class="btn btn-md btn-primary new_pipeline_button" strain_id="{{ key }}">New Pipeline</button>
+		   		  <hr>
 			  </div>
 		  </div>
 	  </div>

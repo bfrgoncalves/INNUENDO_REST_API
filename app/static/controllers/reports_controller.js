@@ -357,7 +357,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
 						}
 						catch(e){
-							console.log("no projects"):
+							console.log("no projects");
+							current_project = "";
 						}
 					    //var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
 					    //console.log(current_project);

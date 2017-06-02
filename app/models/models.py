@@ -177,8 +177,8 @@ class Combined_Reports(db.Model):
 	username = db.Column(db.String(255))
 	name = db.Column(db.String(255))
 	description = db.Column(db.String(255))
-	run_identifiers = db.Column(db.String(255))
-	strain_names = db.Column(db.String(255))
+	run_identifiers = db.Column(db.Text())
+	strain_names = db.Column(db.Text())
 	species_id = db.Column(db.String(255))
 	timestamp = db.Column(db.DateTime)
 

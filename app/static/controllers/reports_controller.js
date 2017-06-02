@@ -790,6 +790,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								});
 
 							}
+							console.log("BAHHSKAJ", run_infos);
 
 							if(run_infos.length == 0){
 								$('#reports_info_table thead').css({'visibility':'hidden'});

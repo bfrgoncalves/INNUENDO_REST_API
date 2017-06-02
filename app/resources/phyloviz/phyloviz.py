@@ -26,6 +26,8 @@ phyloviz_post_parser.add_argument('dataset_name', dest='dataset_name', type=str,
 phyloviz_post_parser.add_argument('dataset_description', dest='dataset_description', type=str, required=True, help="dataset description")'''
 
 phyloviz_post_parser.add_argument('job_ids', dest='job_ids', type=str, required=True, help="Job ids")
+phyloviz_post_parser.add_argument('dataset_name', dest='dataset_name', type=str, required=True, help="dataset name")
+phyloviz_post_parser.add_argument('dataset_description', dest='dataset_description', type=str, required=True, help="dataset description")
 #Load job results to display on graphical interface
 class PHYLOViZResource(Resource):
 
@@ -76,7 +78,7 @@ class PHYLOViZResource(Resource):
 			
 			p_file.write('\t'.join(headers) + '\n')
 			
-			for y in profiles:
+			for y in all_profiles:
 				p_file.write('\t'.join(y) + '\n')
 
 		'''with open(file_path_metadata, "w") as p_file:

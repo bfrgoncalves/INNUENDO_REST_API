@@ -68,7 +68,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 			return False, job_id
 		else:
 			print procedure
-			print results
+			print job_id
 			report.pipeline_id=pipeline_id
 			report.process_position=process_position
 			report.report_data=results

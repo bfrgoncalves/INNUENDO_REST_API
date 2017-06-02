@@ -214,7 +214,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
         });
 	}
 
-	function periodic_check_job_status(job_id, dict_of_tasks_status, strain_id, process_id, pipeline_id){
+	function periodic_check_job_status(job_id, dict_of_tasks_status, strain_id, process_id, pipeline_id, project_to_search){
 
 		function get_status(job_id, strain_id, process_id, pipeline_id){
 
@@ -230,7 +230,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			//console.log(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id);
 
-			pg_requests.get_job_status(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id, function(response){
+			pg_requests.get_job_status(job_id, procedure_name, strain_id, pipeline_id, process_position, project_to_search, process_id, function(response){
 				//console.log(response, tasks_to_buttons, response.data[0]);
 				//console.log(dict_of_tasks_status);
 				//console.log(response, tasks_to_buttons, current_job_status_color);
@@ -1162,7 +1162,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        								//console.log(strainID_pipeline, strain_name);
 		        								for(tk in response.data.tasks){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
-		        									if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]]);
+		        									if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 		        								}
 		        							})
 					        			})
@@ -1208,7 +1208,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				for(s_p in strain_processes){
 
-					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id){
+					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
 						strain_id = strain_id.trim();
 						console.log("###############");
 						console.log(response);
@@ -1226,7 +1226,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								dict_of_tasks_status[t_id] = '';
 								console.log(strain_id, pip_id);
 								console.log(buttons_to_tasks);
-								periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id);
+								periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
 							}
 						}
 						countstrains += 1;

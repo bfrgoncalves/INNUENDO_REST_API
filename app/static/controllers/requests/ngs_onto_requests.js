@@ -316,11 +316,11 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
             $http(req).then(function(response){
             	//console.log(response);
-               callback(response, processes_ids, strain_id, count, pipeline_id);
+               callback(response, processes_ids, strain_id, count, pipeline_id, project_id);
             },
             function(response){
             	console.log(response);
-               callback(response, processes_ids, strain_id, count, pipeline_id);
+               callback(response, processes_ids, strain_id, count, pipeline_id, project_id);
             });
 	    }
 	}

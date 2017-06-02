@@ -509,7 +509,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		show_results_and_info(null);
 		show_strains_metadata(null);
 
-		objects_utils.show_message('s_report_message_div', 'success', 'Report was added to Active Report tab.')
+		//objects_utils.show_message('s_report_message_div', 'success', 'Report was added to Active Report tab.')
 	}
 
 	$scope.getSavedReports = function(callback){

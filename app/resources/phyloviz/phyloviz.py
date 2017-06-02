@@ -81,10 +81,7 @@ class PHYLOViZResource(Resource):
 
 				strain = db.session.query(Strain).filter(Strain.name == report.sample_name).first()
 
-				print strain.name
-
 				strain_metadata = json.loads(strain.strain_metadata)
-				print strain_metadata
 
 				if first_time_m == True:
 					for x in strain_metadata:

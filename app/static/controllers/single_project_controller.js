@@ -270,6 +270,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
 			$scope.available_strain_pipelines = applied_workflows;
 			$scope.available_pipelines_ids = pipelines_ids;
+
+			console.log(applied_workflows);
+			console.log(pipelines_ids);
 			
 			$('#choosePipelineModal').modal('show');
 			

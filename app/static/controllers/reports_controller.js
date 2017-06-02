@@ -490,7 +490,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 								objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
 								objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
-								//$('#reports_metadata_table_wrapper').css({'display':'none'});
+								$('#reports_metadata_table_wrapper').css({'display':'none'});
 								$("#act_rep").trigger("click");
 							});
 						});
@@ -504,7 +504,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
 						objects_utils.loadDataTables('reports_table', [], user_reports_col_defs, user_reports_table_headers);
-						//$('#reports_metadata_table_wrapper').css({'display':'none'});
+						$('#reports_metadata_table_wrapper').css({'display':'none'});
 						$("#act_rep").trigger("click");
 						//table = $('#saved_reports_table').DataTable();
 						//table.draw();
@@ -639,6 +639,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#reports_info_table_wrapper').css({'display':'none'});
 						$('#reports_results_table_wrapper').css({'display':'none'});
 						$('#reports_metadata_table_wrapper').css({'display':'block'});
+						$('#reports_metadata_table thead').css({'visibility':'visible'});
+						$('#reports_metadata_table tfoot').css({'visibility':'visible'});
 					});
 				}, 200)
 			}

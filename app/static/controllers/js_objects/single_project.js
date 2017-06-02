@@ -468,8 +468,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if (strainid != null) strain_id = strains_dict[strainids[strainid]];
 				//console.log(strains_dict);
 				//console.log(strainid);
-				var pipelines_ids = [];
-				var workflow_ids_added = {};
 				//var new_a_w = [];
 
 				total_wf[strainids[strainid]] = [];
@@ -479,7 +477,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				pg_requests.get_applied_pipelines(strain_id, CURRENT_PROJECT_ID, function(response, strain_id){
 					//console.log(response, strain_id);
 					var available_workflows = [];
-					
+					var workflow_ids_added = {};
+					var pipelines_ids = [];
+
 					if (response.status == 200){
 						var total_pip = response.data.length;
 						var processed_pip = 0;

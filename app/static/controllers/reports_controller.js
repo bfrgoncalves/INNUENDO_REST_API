@@ -177,6 +177,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					$('#waiting_spinner').css({display:'none'}); 
 					$('#reports_area').css({display:'block'});
 
+					$("#reports_table").DataTable().draw();
+
 					if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
 						show_results_and_info($rootScope.showing_jobs);
 					}

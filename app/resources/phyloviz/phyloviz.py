@@ -54,6 +54,7 @@ class PHYLOViZResource(Resource):
 		total_j_ids = args.job_ids.split(",")
 
 		first_time = True
+		first_time_m = True
 
 		for job_id in total_j_ids:
 			body_profile = [];
@@ -84,7 +85,6 @@ class PHYLOViZResource(Resource):
 
 				strain_metadata = json.loads(strain.strain_metadata)
 				print strain_metadata
-				first_time_m = True
 
 				if first_time_m == True:
 					for x in strain_metadata:

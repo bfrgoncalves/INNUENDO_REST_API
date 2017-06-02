@@ -137,7 +137,7 @@ class Job_queue(Resource):
 					files[x] = metadata[x]
 
 			if 'used Parameter' in steps:
-				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
+				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
 			else:
 				to_send.append("null")
 				#print data

@@ -331,7 +331,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					    if(CURRENT_PROJECT_NAME_ID != ""){
 							$('#project_selector').find('option').filter("[name='proj_"+CURRENT_PROJECT_NAME_ID+"']").attr("selected", "selected");
 							CURRENT_PROJECT_NAME_ID = "";
-							$('#div_back_project').css({'display':"block"});
+							//$('#div_back_project').css({'display':"block"});
 						}
 
 					    var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];

@@ -325,7 +325,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#reports_metadata_table tfoot').css({'visibility':'hidden'});
 
 		$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'45%'}); 
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 		objects_utils.destroyTable('reports_info_table');
 	    objects_utils.destroyTable('reports_results_table');
@@ -426,7 +426,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$scope.change_report_by_specie = function(species_id, species_name){
 
 		$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'45%'}); 
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 	    CURRENT_SPECIES_ID = species_id;
 	    CURRENT_SPECIES_NAME = species_name;
@@ -519,6 +519,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	};
 
 	$scope.showReport = function(){
+
+		$('#reports_container').css({display:"none"});
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
 		objects_utils.destroyTable('reports_info_table');
 	    objects_utils.destroyTable('reports_results_table');
@@ -815,6 +818,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$('#reports_metadata_table thead').css({'visibility':'visible'});
 								$('#reports_metadata_table tfoot').css({'visibility':'visible'});
 							}
+
+							$('#waiting_spinner').css({display:'none'}); 
+							$('#reports_container').css({display:"block"});
 
 							objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 							objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);

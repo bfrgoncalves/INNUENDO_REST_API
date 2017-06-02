@@ -35,17 +35,13 @@ class PHYLOViZResource(Resource):
 	def post(self):
 		args = phyloviz_post_parser.parse_args()
 
-		'''headers_profile = json.loads(args.headers_profile);
-		body_profile = json.loads(args.body_profile);
-
-		headers_metadata = json.loads(args.headers_metadata);
-		body_metadata = json.loads(args.body_metadata);'''
-
 		file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 
 		file_path_profile = './app/uploads/'+file_name+'_profile.tab'
 
 		file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
+
+		to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 
 		
 		headers_profile = ["Sample"]
@@ -69,7 +65,13 @@ class PHYLOViZResource(Resource):
 				if first_time == True:
 					headers = headers_profile + report.report_data["run_output"]["header"]
 					first_time = False
-				profiles = body_profile + report.report_data["run_output"]["run_output.fasta"]
+
+				new_profile = []
+				for allele in report.report_data["run_output"]["run_output.fasta"]:
+					for k,v in to_replace.iteritems():
+						new_allele = allele.replace(k, v)
+						new_profile.append(new_allele)
+				profiles = body_profile + new_profile
 				all_profiles.append(profiles)
 
 

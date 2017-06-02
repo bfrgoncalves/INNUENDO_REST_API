@@ -327,7 +327,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		    req = {
 		        url: 'api/v1.0/strains/',
-		        method:'GET'
+		        method:'GET',
 		        params:
 		        {
 		        	speciesID: CURRENT_SPECIES_ID

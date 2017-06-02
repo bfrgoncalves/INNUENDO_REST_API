@@ -484,15 +484,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						var total_pip = response.data.length;
 						var processed_pip = 0;
 
-						console.log(response.data)
-
 						for(pipeline in response.data){
 
 							if(response.data[pipeline].project_id == null || response.data[pipeline].parent_pipeline_id != null){
 								processed_pip += 1;
 								if(processed_pip == total_pip) {
 									processed_strains += 1;
-									console.log(available_workflows);
 					            	for(pipeline in available_workflows){
 					            		final_pips = []
 										if(workflow_ids_added[available_workflows[pipeline].join()] != true){
@@ -522,11 +519,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 									strain_to_real_pip[strain_id] = [];
 
-									console.log(response);
-
 						            for (w in response.data){
 						            	var wf_url_parts = [];
-						            	console.log()
 						                workflow_id = response.data[w].workflowURI.split('<')[1].split('>')[0].split('/');
 						                workflow_id = workflow_id[workflow_id.length-1];
 						                appliedWorkflows.push(workflow_id);

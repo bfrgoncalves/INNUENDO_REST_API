@@ -294,6 +294,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						var p_id = $(this).attr("pipeline");
 						console.log(p_id);
 						var owner_p = $(this).attr("ownerproject");
+						console.log(owner_p);
 						var strain_id = strains_dict[$(this).attr("strain_id")];
 						console.log(strain_id);
 						add_strain([strain_id], function(results){

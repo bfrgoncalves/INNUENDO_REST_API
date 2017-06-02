@@ -464,10 +464,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var total_wf = {};
 			var total_pips = {};
 
+			var available_workflows = [];
+
 			for(strainid in strainids){
 				console.log(strainid, strainids[strainid]);
 				if (strainid != null) strain_id = strains_dict[strainids[strainid]];
-				var available_workflows = [];
 				//console.log(strains_dict);
 				//console.log(strainid);
 				var pipelines_ids = [];

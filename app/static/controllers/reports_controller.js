@@ -654,6 +654,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				if (Object.keys(response.data[job].report_data).length == 0){
 					objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
+					count_jobs += 1;
 					continue;
 				}
 				
@@ -790,7 +791,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 							objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 							objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-
+							objects_utils.show_message('s_report_message_div', 'success', 'Reports added to the project.')
 							$('#reports_info_table_wrapper').css({'display':'block'});
 							$('#reports_results_table_wrapper').css({'display':'none'});
 							$('#reports_metadata_table_wrapper').css({'display':'none'});

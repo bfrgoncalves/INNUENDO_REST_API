@@ -301,7 +301,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		},
 		get_strains: function(callback){
 
-			pg_requests.get_strains(function(response){
+			pg_requests.get_strains(CURRENT_SPECIES_ID, function(response){
 				if(response.status == 200){
 					console.log(response.data);
 					var max_headers = 0;
@@ -1537,11 +1537,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		      	function add_to_database(){
 		      		line_to_use = strains_object['body'].shift();
+		      		var has_files = 0;
 		      		for (x in line_to_use){
 		      			var hline_to_use = strains_object['headers'];
 		      			var bline_to_use = line_to_use;
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
+		      				//check for files in user area
+		      				has_files += 1;
 		      				console.log("AQUI", hline_to_use[x]);
 
 		      				$('#'+hline_to_use[x] + " option").filter(function() {
@@ -1558,7 +1561,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						else $('#'+hline_to_use[x]).val(bline_to_use[x]);
 		      		}
 		      		setTimeout(function(){
-		      			$('#newstrainbuttonsubmit').trigger("submit");
+		      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 		      			console.log("ENTER");
 		      			if(strains_object['body'].length != 0) add_to_database();
 		      			else console.log("DONE");

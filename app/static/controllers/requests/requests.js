@@ -322,12 +322,16 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });	
 
 		},
-		get_strains: function(callback){
+		get_strains: function(CURRENT_SPECIES_ID, callback){
 
 
 		    req = {
 		        url: 'api/v1.0/strains/',
 		        method:'GET'
+		        params:
+		        {
+		        	speciesID: CURRENT_SPECIES_ID
+		        }
 		    }
 
 		    $http(req).then(function(response){

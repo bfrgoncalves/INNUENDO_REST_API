@@ -72,6 +72,8 @@ class PHYLOViZResource(Resource):
 						new_allele = allele.replace(k, v)
 						new_profile.append(new_allele)
 				profiles = body_profile + new_profile
+
+				print profiles
 				all_profiles.append(profiles)
 
 
@@ -97,7 +99,7 @@ class PHYLOViZResource(Resource):
 		command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 		command = command.split(' ')
 		print command
-		proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		#proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		stdout, stderr = proc.communicate()
 
 		print stdout, stderr

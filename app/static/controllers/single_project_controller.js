@@ -278,7 +278,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			
 			$("#new_pipeline_button").off('click');
 			
-			$("#new_pipeline_button").on('click', function(){
+			$(".new_pipeline_button").on('click', function(){
 				console.log(strain_id, this.strain_id);
 				/*add_strain([strain_id], function(){
 

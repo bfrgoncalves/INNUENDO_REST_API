@@ -540,6 +540,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						            }
 						            //console.log(strain_to_real_pip);
 						            //appliedWorkflows = appliedWorkflows.reverse();
+						            console.log(appliedWorkflows);
 						            available_workflows.push(appliedWorkflows);
 						            workflow_ids_added[appliedWorkflows.join()] = false;
 

@@ -41,7 +41,7 @@ class PHYLOViZResource(Resource):
 
 		file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
 
-		to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
+		to_replace = {u"LNF": "0", u"INF-": "", u"NIPHEM": "0", u"NIPH": "0", u"LOTSC": "0", u"PLOT3": "0", u"PLOT5": "0", u"ALM": "0", u"ASM": "0"}
 
 		
 		headers_profile = ["Sample"]
@@ -69,9 +69,7 @@ class PHYLOViZResource(Resource):
 				new_profile = []
 				for allele in report.report_data["run_output"]["run_output.fasta"]:
 					for k,v in to_replace.iteritems():
-						key = unicode(k, "utf-8")
-						val = unicode(v, "utf-8")
-						new_allele = allele.replace(key, val)
+						new_allele = allele.replace(k, v)
 
 					new_profile.append(new_allele)
 				profiles = body_profile + new_profile

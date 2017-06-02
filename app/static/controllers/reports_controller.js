@@ -589,6 +589,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	},
 
 	$scope.showCombinedReport = function(){
+
+		$('#reports_container').css({display:"none"});
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 		
 		var table = $('#saved_reports_table').DataTable();
     

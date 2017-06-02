@@ -174,12 +174,12 @@ class Combined_Reports(db.Model):
 	__tablename__ = "combined_reports"
 	id = db.Column(db.Integer(), primary_key=True)
 	user_id = db.Column(db.Integer())
-	username = db.Column(db.String(255))
-	name = db.Column(db.String(255))
-	description = db.Column(db.String(255))
+	username = db.Column(db.Text())
+	name = db.Column(db.Text())
+	description = db.Column(db.Text())
 	run_identifiers = db.Column(db.Text())
 	strain_names = db.Column(db.Text())
-	species_id = db.Column(db.String(255))
+	species_id = db.Column(db.Text())
 	timestamp = db.Column(db.DateTime)
 
 class Message(db.Model):

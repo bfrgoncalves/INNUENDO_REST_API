@@ -44,7 +44,7 @@ class PHYLOViZResource(Resource):
 		to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 
 		
-		headers_profile = ["Sample"]
+		headers_profile = ["ID"]
 		body_profile = []
 		all_profiles = []
 
@@ -76,6 +76,14 @@ class PHYLOViZResource(Resource):
 				#print profiles
 				all_profiles.append(report.sample_name + "\t" + string_list)
 
+				strain = db.session.query(Strain).filter(Strain.name == report.sample_name).first()
+
+				print strain.name
+
+				strain_metadata = json.loads(strain.strain_metadata)
+				print strain_metadata
+
+
 
 		with open(file_path_profile, 'w') as p_file:
 			hd = [];
@@ -99,7 +107,7 @@ class PHYLOViZResource(Resource):
 		command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 		command = command.split(' ')
 		print command
-		proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		#proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		stdout, stderr = proc.communicate()
 
 		print stdout, stderr

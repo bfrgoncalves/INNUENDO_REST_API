@@ -204,7 +204,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	});
 
 	$("#search_report_by_strain_button").on("click", function(){
-		strain_id_to_search = ("#strain_id_search_report").val();
+		strain_id_to_search = $("#strain_id_search_report").val();
 
 		reports.get_reports_by_strain(strain_id_to_search, function(response){
 				

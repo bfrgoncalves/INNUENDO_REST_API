@@ -209,6 +209,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		reports.get_reports_by_strain(strain_id_to_search, function(response){
 				
 			user_reports = response.data;
+			console.log(response);
 			if(user_reports.message != undefined) user_reports = [];
 
 			objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);

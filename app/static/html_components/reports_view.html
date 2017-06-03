@@ -41,7 +41,7 @@
 			        	<div class="input-group col-md-6">
 					        <label class="input-group-btn">
 					          <span class="btn btn-info btn-file">
-					            Select a strain name
+					            Search by strain ID
 					          </span>
 					        </label>
 					        <input type="text" class="form-control" id="strain_id_search_report">
@@ -51,9 +51,9 @@
 					        <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
 					      <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
 					    </div>
-			        	<div class="form-group row">
-			        		<label class="col-sm-1 col-form-label">Projects</label>
-				        	<select class="col-sm-4" id="project_selector">
+			        	<div class="input-group row">
+			        		<label class="input-group-btn">Projects</label>
+				        	<select class="form-control" id="project_selector">
 					            <option ng-repeat="project_name in projects_names" name="proj_{{project_name.id}}">{{ project_name.name }}</option>
 					        </select>
 					    </div>

@@ -593,7 +593,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					ngs_onto_requests.ngs_onto_request_create_pipeline(response.data.id, response.data.strain_id, function(response, strain_id){
 						//console.log("CREATE PIPELINE", response);
 						//pipeline_ids_parents[new_pipeline_id] = [parent_project_id, parent_pipeline_id]
-						
+						console.log(pipeline_id);
 						get_and_apply_pipeline(total_pipelines, pipeline_id, strain_id, project_id, new_pipeline_id, function(){
 							callback();
 						})

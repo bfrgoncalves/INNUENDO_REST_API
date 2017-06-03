@@ -582,6 +582,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    strainid_processes_buttons[strain_id] = [{}];
 
 		    global_counter_pipelines = 0;
+		    console.log(project_id);
 
 		    if (project_id != CURRENT_PROJECT_ID){
 				pg_requests.add_pipeline(strain_id, pipeline_id, project_id, function(response){
@@ -594,6 +595,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						//console.log("CREATE PIPELINE", response);
 						//pipeline_ids_parents[new_pipeline_id] = [parent_project_id, parent_pipeline_id]
 						console.log(pipeline_id);
+						console.log(project_id);
 						get_and_apply_pipeline(total_pipelines, pipeline_id, strain_id, project_id, new_pipeline_id, function(){
 							callback();
 						})

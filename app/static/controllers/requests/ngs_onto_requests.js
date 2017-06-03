@@ -128,6 +128,21 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	        });
 
 		},
+		ngs_onto_request_applied_pipelines_with_parent: function(pipeline_id, project_id, strain_id, response, callback){
+			console.log(project_id, pipeline_id);
+			req = {
+		            url: 'api/v1.0/ngsonto/projects/'+project_id+'/pipelines/'+pipeline_id+'/workflows/',
+		            method:'GET'
+		        }
+
+	        $http(req).then(function(response){
+	        	callback(response, strain_id,pipeline_id, project_id, response);
+	        },
+	        function(response){
+	            callback(response, strain_id,pipeline_id, project_id, response);
+	        });
+
+		},
 		ngs_onto_request_add_strain_to_project: function(id,  callback){
 
 			console.log(id);

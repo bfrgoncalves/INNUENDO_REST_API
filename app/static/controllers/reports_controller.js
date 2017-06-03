@@ -206,6 +206,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$("#search_report_by_strain_button").on("click", function(){
 		strain_id_to_search = $("#strain_id_search_report").val();
 
+		$('#waiting_spinner').css({display:'block'}); 
+		$('#reports_area').css({display:'none'});
+
+		objects_utils.destroyTable('reports_table');
+
 		reports.get_reports_by_strain(strain_id_to_search, function(response){
 				
 			user_reports = response.data;

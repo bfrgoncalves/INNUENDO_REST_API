@@ -121,10 +121,10 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		        }
 
 	        $http(req).then(function(response){
-	        	callback(response, strain_id);
+	        	callback(response, strain_id,pipeline_id, project_id);
 	        },
 	        function(response){
-	            callback(response, strain_id);
+	            callback(response, strain_id,pipeline_id, project_id);
 	        });
 
 		},

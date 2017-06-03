@@ -51,16 +51,12 @@
 					        <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
 					      <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
 					    </div>
-					    <div class="container">
-						    <div class="col-lg-6">
-						        <div class="form-group"> 
-						            <label class="form-group-btn">Projects</label>
-						        	<select class="form-control" id="project_selector">
-							            <option ng-repeat="project_name in projects_names" name="proj_{{project_name.id}}">{{ project_name.name }}</option>
-							        </select>
-						        </div>
-						    </div>
-						</div>
+				        <div class="form-group col-md-6"> 
+				            <label class="input-group-btn">Projects</label>
+				        	<select class="form-control" id="project_selector">
+					            <option ng-repeat="project_name in projects_names" name="proj_{{project_name.id}}">{{ project_name.name }}</option>
+					        </select>
+				        </div>
 
 			        	<!--<div class="input-group">
 			        		<label class="input-group-btn">Projects</label>

@@ -100,7 +100,7 @@ class ReportsStrainResource(Resource):
 		reports_to_send = []
 		reports = []
 
-		reports = db.session.query(Report).filter(Report.pipeline_id == pipeline).all()
+		reports = db.session.query(Report).filter(Report.pipeline_id == args.strain_id).all()
 
 		if not reports:
 			abort(404, message="No report available")

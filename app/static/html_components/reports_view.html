@@ -38,8 +38,12 @@
 			        	<h4 class="sub-header">Projects Results
 			        		<button class="btn btn-md btn-primary" style="float:right;" ng-click="showReport()"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to active report"></i></button>
 			        	</h4>
-			        	<div class="input-group col-md-6">
-					        <label for="strain_id_search_report">
+			        	<ul class="nav nav-pills" style="float:left;">
+							<li class="active" id="project_search_button"><a>Search By Project</a></li>
+							<li id="strainid_search_button"><a>Search By strain ID</a></li>
+						</ul>
+			        	<div class="input-group col-md-6" id="div_search_strainid" style="display:none;">
+					        <label class="input-group-btn">
 					          <span class="btn btn-info btn-file">
 					            Search by strain ID
 					          </span>
@@ -51,7 +55,7 @@
 					        <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
 					      <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
 					    </div>
-				        <div class="form-group col-md-6"> 
+				        <div class="form-group col-md-6" id="div_search_project" style="display:block;"> 
 				            <label for="project_selector">Search By Project</label>
 				        	<select class="form-control" id="project_selector">
 					            <option ng-repeat="project_name in projects_names" name="proj_{{project_name.id}}">{{ project_name.name }}</option>

@@ -134,6 +134,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#act_rep").removeClass("active");
 	});
 
+	$("#project_search_button").on("click", function(){
+		$("#div_search_project").css({"display":"block"});
+		$("#strain_id_search_report").css({"display":"none"});
+	});
+
+	$("#strainid_search_button").on("click", function(){
+		$("#div_search_project").css({"display":"none"});
+		$("#strain_id_search_report").css({"display":"block"});
+	});
+
 
 	var objects_utils = new Objects_Utils();
 

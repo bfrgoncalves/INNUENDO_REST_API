@@ -9,7 +9,7 @@ from resources.postgres.protocols import ProtocolResource, ProtocolListResource,
 from resources.postgres.processes import ProcessResource, ProcessListResource
 from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource
 from resources.postgres.species import SpecieListResource
-from resources.postgres.reports import ReportsResource, CombinedReportsResource, ReportsProjectResource
+from resources.postgres.reports import ReportsResource, CombinedReportsResource, ReportsProjectResource, ReportsStrainResource
 from resources.postgres.uploads import GetFilesResource, DownloadFilesResource
 from resources.ngs_onto.ngs_onto_users import NGSOnto_UserResource, NGSOnto_UserListResource
 from resources.ngs_onto.ngs_onto_projects import NGSOnto_ProjectListResource, NGSOnto_ProjectUserResource, NGSOnto_ProjectListUserResource
@@ -70,6 +70,7 @@ api.add_resource(PHYLOViZResource, '/api/v1.0/phyloviz/')
 
 api.add_resource(ReportsResource, '/api/v1.0/reports/')
 api.add_resource(ReportsProjectResource, '/api/v1.0/reports/project')
+api.add_resource(ReportsStrainResource, '/api/v1.0/reports/strain')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
 
 #################################USER FILES################################

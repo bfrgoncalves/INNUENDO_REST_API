@@ -204,6 +204,21 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 
 		},
+		get_reports_by_strain: function(strain_id_to_search, callback){
+
+		    req = {
+		        url: 'api/v1.0/reports/strain', //Defined at utils.js
+		        method:'GET',
+		        params:{'strain_id': strain_id_to_search}
+		    }
+
+		    $http(req).then(function(response){
+		    	callback(response);
+	        },function(response){
+	            callback(response);
+		    });
+
+		},
 		get_multiple_user_reports: function(job_ids, callback){
 			console.log('IDS', job_ids);
 		    req = {

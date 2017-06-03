@@ -13,6 +13,11 @@ function Report($http){
 				callback(response);
 			});
 		 },
+		 get_reports_by_strain: function(strain_id_to_search, callback){
+		 	pg_requests.get_reports_by_strain(strain_id_to_search, function(response){
+				callback(response);
+			});
+		 },
 		 get_multiple_user_reports: function(ids, callback){
 
 		 	if(ids == null){

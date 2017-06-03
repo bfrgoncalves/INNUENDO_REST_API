@@ -203,6 +203,28 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	});
 
+	$("#search_report_by_strain_button").on("click", function(){
+		strain_id_to_search = ("#strain_id_search_report").val();
+
+		reports.get_reports_by_strain(strain_id_to_search, function(response){
+				
+			user_reports = response.data;
+			if(user_reports.message != undefined) user_reports = [];
+
+			objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
+
+			$('#waiting_spinner').css({display:'none'}); 
+			$('#reports_area').css({display:'block'});
+
+			$("#reports_table").DataTable().draw();
+
+			if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
+				show_results_and_info($rootScope.showing_jobs);
+			}
+		});
+
+	});
+
 
 	function mergeResultsData(table_id, callback){
 

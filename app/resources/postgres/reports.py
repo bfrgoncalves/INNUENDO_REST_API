@@ -23,6 +23,9 @@ report_get_project_parser = reqparse.RequestParser()
 report_get_project_parser.add_argument('project_id', dest='project_id', type=str, required=False, help="project id")
 report_get_project_parser.add_argument('pipelines_to_check', dest='pipelines_to_check', type=str, required=False, help="pipelines_to_check")
 
+report_strain_get_project_parser = reqparse.RequestParser()
+report_strain_get_project_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="strain id")
+
 report_delete_parser = reqparse.RequestParser()
 report_delete_parser.add_argument('report_name', dest='report_name', type=str, required=False, help="report name")
 
@@ -88,6 +91,25 @@ class ReportsProjectResource(Resource):
 					reports_to_send.append({'sample_name': report.sample_name, 'procedure_name': report.procedure, 'username': report.username, 'user_id': report.user_id, 'job_id': report.job_id, 'report_data': report.report_data})
 				
 		return reports_to_send, 200
+
+class ReportsStrainResource(Resource):
+
+	@login_required
+	def get(self):
+		args = report_strain_get_project_parser.parse_args()
+		reports_to_send = []
+		reports = []
+
+		reports = db.session.query(Report).filter(Report.pipeline_id == pipeline).all()
+
+		if not reports:
+			abort(404, message="No report available")
+		else:
+			for report in reports:
+				reports_to_send.append({'sample_name': report.sample_name, 'procedure_name': report.procedure, 'username': report.username, 'user_id': report.user_id, 'job_id': report.job_id, 'report_data': report.report_data})
+			
+		return reports_to_send, 200
+
 
 class CombinedReportsResource(Resource):
 

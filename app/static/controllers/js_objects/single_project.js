@@ -414,6 +414,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                pipid = response.data[i].id;
 			                pprojid = response.data[i].parent_project_id;
 			                sid = response.data[i].strain_id;
+
+			                console.log(pprojid);
 			                //console.log(total_pipelines, counter_pipelines, ppipid, sid, pprojid, pipid);
 			                //Check if exist workflows on pipeline
 			                ngs_onto_requests.ngs_onto_request_applied_pipelines(pipid, CURRENT_PROJECT_ID, sid, function(response, strain_id, pipid, projd){

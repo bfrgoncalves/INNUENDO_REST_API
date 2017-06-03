@@ -136,16 +136,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	$("#project_search_button").on("click", function(){
 		$("#div_search_project").css({"display":"block"});
-		$("#strain_id_search_report").css({"display":"none"});
-		$("#div_search_project").addClass("active");
-		$("#strain_id_search_report").removeClass("active");
+		$("#div_search_strainid").css({"display":"none"});
+		$("#project_search_button").addClass("active");
+		$("#strainid_search_button").removeClass("active");
 	});
 
 	$("#strainid_search_button").on("click", function(){
 		$("#div_search_project").css({"display":"none"});
-		$("#strain_id_search_report").css({"display":"block"});
-		$("#strain_id_search_report").addClass("active");
-		$("#div_search_project").removeClass("active");
+		$("#div_search_strainid").css({"display":"block"});
+		$("#strainid_search_button").addClass("active");
+		$("#project_search_button").removeClass("active");
 	});
 
 

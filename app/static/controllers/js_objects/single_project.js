@@ -420,6 +420,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                //Check if exist workflows on pipeline
 			                ngs_onto_requests.ngs_onto_request_applied_pipelines_with_parent(pipid, CURRENT_PROJECT_ID, sid, response.data[i], function(response, strain_id, pipid, projd, response_parent){
 			                	console.log(response);
+			                	
 			                	ppipid = response_parent.parent_pipeline_id;
 				                pipid = response_parent.id;
 				                pprojid = response_parent.parent_project_id;

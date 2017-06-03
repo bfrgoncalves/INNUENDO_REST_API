@@ -48,6 +48,10 @@ table.display{
   height:auto;
 }
 
+.my-group .form-control{
+    width:50%;
+}
+
 
 
 #jumbotron-strains{

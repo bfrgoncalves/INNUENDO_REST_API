@@ -134,6 +134,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#act_rep").removeClass("active");
 	});
 
+
 	var objects_utils = new Objects_Utils();
 
 	//to be transfered when report is saved

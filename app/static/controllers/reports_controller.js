@@ -476,6 +476,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#reports_container').css({display:"none"});
 		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
+		$("#project_search_button").trigger("click");
+
 	    CURRENT_SPECIES_ID = species_id;
 	    CURRENT_SPECIES_NAME = species_name;
 	    $scope.currentSpecieID = species_id;

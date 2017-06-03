@@ -42,14 +42,16 @@
 							<li class="active" id="project_search_button"><a>Search By Project</a></li>
 							<li id="strainid_search_button"><a>Search By strain ID</a></li>
 						</ul>
-			        	<div class="input-group col-md-6" id="div_search_strainid" style="display:none;">
-					        <input type="text" class="form-control" id="strain_id_search_report">
-					        <div class="input-group-btn">
-					          <button id="search_report_by_strain_button" class="btn btn-md btn-default" type="button">Search</button>
-					        </div>
-					        <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
-					      <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
-					    </div>
+						<div id="div_search_strainid" style="display:none;">
+				        	<div class="input-group col-md-6">
+						        <input type="text" class="form-control" id="strain_id_search_report">
+						        <div class="input-group-btn">
+						          <button id="search_report_by_strain_button" class="btn btn-md btn-default" type="button">Search</button>
+						        </div>
+						        <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
+						      <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
+						    </div>
+					   	</div>
 				        <div class="form-group col-md-6" id="div_search_project" style="display:block;"> 
 				        	<select class="form-control" id="project_selector">
 					            <option ng-repeat="project_name in projects_names" name="proj_{{project_name.id}}">{{ project_name.name }}</option>

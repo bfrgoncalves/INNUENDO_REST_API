@@ -68,7 +68,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
         	$('#waiting_spinner').css({display:'none'}); 
         	$('#project_controller_div').css({display:'block'}); 
         	$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
-    	}, 1000);
+    	}, 2000);
     }
 
 	$scope.change_project_by_specie = function(species_id, species_name){

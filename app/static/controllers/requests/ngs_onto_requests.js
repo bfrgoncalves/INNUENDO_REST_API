@@ -129,7 +129,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
 		},
 		ngs_onto_request_applied_pipelines_with_parent: function(parent_pip, parent_project_id, strain_id, pipeline_id, callback){
-			console.log(project_id, pipeline_id);
+
 			req = {
 		            url: 'api/v1.0/ngsonto/projects/'+parent_project_id+'/pipelines/'+pipeline_id+'/workflows/',
 		            method:'GET'

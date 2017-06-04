@@ -40,14 +40,40 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
         	/*setTimeout(function(){
 				objects_utils.loadDataTables('projects_table', $scope.projects);
 			}, 2000);*/
+			//Get other projects for specie 1
+	        projects_table.get_projects_from_species(1, true, function(results){
+	        	other_projects = results;
+		    	console.log(results);
+		    	objects_utils.loadDataTables('other_projects_table', other_projects, project_col_defs);
+	        	/*$scope.other_projects = results;
+	        	objects_utils.loadDataTables('other_projects_table', $scope.other_projects);*/
+	        	 //Get species
+		        projects_table.get_species_names(function(results){
+		        	$scope.species = results.species;
+			        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
+			        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
+
+			        $('#projects_table').on('click', 'tr', function(){
+			        	CURRENT_PROJECT_ID = projects[$(this).index()].id;
+			        })
+
+			        $('#other_projects_table').on('click', 'tr', function(){
+			        	CURRENT_PROJECT_ID = other_projects[$(this).index()].id;
+			        })
+
+			        $('#waiting_spinner').css({display:'none'}); 
+        			$('#project_controller_div').css({display:'block'}); 
+        			$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
+		        });
+	        });
         });
         //Get other projects for specie 1
-        projects_table.get_projects_from_species(1, true, function(results){
+        /*projects_table.get_projects_from_species(1, true, function(results){
         	other_projects = results;
 	    	console.log(results);
 	    	objects_utils.loadDataTables('other_projects_table', other_projects, project_col_defs);
-        	/*$scope.other_projects = results;
-        	objects_utils.loadDataTables('other_projects_table', $scope.other_projects);*/
+        	//$scope.other_projects = results;
+        	//objects_utils.loadDataTables('other_projects_table', $scope.other_projects);
         });
         //Get species
         projects_table.get_species_names(function(results){
@@ -68,7 +94,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
         	$('#waiting_spinner').css({display:'none'}); 
         	$('#project_controller_div').css({display:'block'}); 
         	$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
-    	}, 2000);
+    	}, 2000);*/
     }
 
 	$scope.change_project_by_specie = function(species_id, species_name){

@@ -1283,7 +1283,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						    			}
 							    }
 							    strain_data[x]["Analysis"] = toAdd_analysis;
-							    strain_data[i]['lab_protocols'] = toAdd_lab_protocols;
+							    strain_data[x]['lab_protocols'] = toAdd_lab_protocols;
 
 						    }
 						    callback({strains:strain_data});

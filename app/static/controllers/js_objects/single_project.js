@@ -414,10 +414,20 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                pipid = response.data[i].id;
 			                pprojid = response.data[i].parent_project_id;
 			                sid = response.data[i].strain_id;
+
+			                console.log(response.data[i]);
+
+			                console.log(pprojid);
 			                //console.log(total_pipelines, counter_pipelines, ppipid, sid, pprojid, pipid);
 			                //Check if exist workflows on pipeline
-			                ngs_onto_requests.ngs_onto_request_applied_pipelines(pipid, CURRENT_PROJECT_ID, sid, function(response, strain_id, pipid, projd){
+			                ngs_onto_requests.ngs_onto_request_applied_pipelines_with_parent(ppipid, pprojid, sid, pipid, function(response, ppipid, pprojid, sid, pipid){
 			                	console.log(response);
+
+			                	/*ppipid = response_parent.parent_pipeline_id;
+				                pipid = response_parent.id;
+				                pprojid = response_parent.parent_project_id;
+				                sid = response_parent.strain_id;*/
+
 			                	if(response.data.length == 0){
 			                		pipid = pipid;
 			                		strainID_pipeline[sid] = ppipid;
@@ -1202,11 +1212,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var countStrain = {};
 			console.log(strain_to_real_pip);
+			console.log(strains);
 			if (strains.length == 0) return callback({strains:[]});
 			for(i in strains){
 				//array_of_strains.push(strains[i]);
 				//p_id_to_use = injected_pipelines[strains_dict[strains[i].strainID.trim()]] == undefined ? CURRENT_PROJECT_ID: injected_pipelines[strains_dict[strains[i].strainID.trim()]];
 				p_id_to_use = CURRENT_PROJECT_ID;
+
+				if(strains[i] == undefined) continue;
 
 				var strain_processes = strain_to_real_pip[strains_dict[strains[i].strainID]];
 				console.log(strain_processes);
@@ -1270,7 +1283,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						    			}
 							    }
 							    strain_data[x]["Analysis"] = toAdd_analysis;
-							    strain_data[i]['lab_protocols'] = toAdd_lab_protocols;
+							    strain_data[x]['lab_protocols'] = toAdd_lab_protocols;
 
 						    }
 						    callback({strains:strain_data});

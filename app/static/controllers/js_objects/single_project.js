@@ -1212,6 +1212,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var countStrain = {};
 			console.log(strain_to_real_pip);
+			console.log(strains);
 			if (strains.length == 0) return callback({strains:[]});
 			for(i in strains){
 				//array_of_strains.push(strains[i]);

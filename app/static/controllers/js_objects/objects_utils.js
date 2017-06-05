@@ -213,7 +213,7 @@ function Objects_Utils(){
 	    	dom: 'Blfrtip',
 	    	//"scrollY": "200px",
   			"scrollCollapse": true,
-	    	"scrollX": true,
+	    	//"scrollX": true,
 	        paging:false,
 	        "pageLength": 50,
 	        select: {

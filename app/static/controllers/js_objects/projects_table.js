@@ -67,11 +67,15 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
     		var project_indexes = $.map($('#projects_table').DataTable().rows('.selected').indexes(), function(index){
 		        return index;
 		    });
+
+		    count_to_delete = 0;
+		    total_to_delete = project_indexes.length;
 		    
 		    for(i in project_indexes){
 		    	console.log(projects);
 		        var project_id = projects[project_indexes[i]].id;
 		        pg_requests.delete_project_from_database(project_id, function(response){
+		        	count_to_delete+=1;
 		        	if(response.status == 204){
 		        		var new_projects = [];
 			            projects.map(function(d){
@@ -79,14 +83,13 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 			            })
 			            projects = new_projects;
 			            objects_utils.show_message('projects_message_div', 'success', 'Project deleted.');
+
 		        	}
 		        	else console.log(response.statusText);
+		        	if(count_to_delete == total_to_delete) callback({projects: projects});
 
 		        });
 		    }
-		    setTimeout(function(){
-		    	callback({projects: projects});
-		    }, 200);
     	},
     	load_project: function(table_id, CURRENT_PROJECT_ID, pass, callback){
 

@@ -142,6 +142,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	    projects_table.add_project(function(results){
 	    	objects_utils.destroyTable('projects_table');
 	    	projects = results.projects;
+	    	console.log(projects);
 	    	objects_utils.loadDataTables('projects_table', projects, project_col_defs, []);
 	    	$('#projects_table').DataTable().draw(); 
 	    });
@@ -154,6 +155,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	    	//$scope.$apply(function(){
 	    		objects_utils.destroyTable('projects_table');
 	    		projects = results.projects;
+	    		console.log(projects);
 	    		objects_utils.loadDataTables('projects_table', projects, project_col_defs, []);
 	    		$('#projects_table').DataTable().draw(); 
 

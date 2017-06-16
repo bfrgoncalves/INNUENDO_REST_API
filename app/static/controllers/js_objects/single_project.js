@@ -1231,8 +1231,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
 						strain_id = strain_id.trim();
-						//console.log("###############");
-						//console.log(response);
+						console.log("###############");
+						console.log(response);
 
 						//console.log(pr_ids);
 						for(l in response.data){

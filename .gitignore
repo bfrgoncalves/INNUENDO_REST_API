@@ -6,3 +6,4 @@ config.py
 *.pyc
 Installation_log.txt
 nohup.out
+.idea

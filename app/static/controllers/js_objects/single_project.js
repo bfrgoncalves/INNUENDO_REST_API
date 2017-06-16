@@ -218,7 +218,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		function get_status(job_id, strain_id, process_id, pipeline_id){
 
-			console.log(tasks_to_buttons, job_id, workflow_id_to_name, strain_id);
+			//console.log(tasks_to_buttons, job_id, workflow_id_to_name, strain_id);
 			//console.log(tasks_to_buttons);
 
 			procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
@@ -1222,7 +1222,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if(strains[i] == undefined) continue;
 
 				var strain_processes = strain_to_real_pip[strains_dict[strains[i].strainID]];
-				console.log(strain_processes);
+				//console.log(strain_processes);
 				count_processes += strain_processes == undefined ? 0 : strain_processes.length;
 
 				countStrain[strains[i].strainID] = 0;
@@ -1231,8 +1231,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
 						strain_id = strain_id.trim();
-						console.log("###############");
-						console.log(response);
+						//console.log("###############");
+						//console.log(response);
 
 						//console.log(pr_ids);
 						for(l in response.data){
@@ -1245,8 +1245,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
 								prevjobid = t_id.split('_')[0];
 								dict_of_tasks_status[t_id] = '';
-								console.log(strain_id, pip_id);
-								console.log(buttons_to_tasks);
+								//console.log(strain_id, pip_id);
+								//console.log(buttons_to_tasks);
 								periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
 							}
 						}

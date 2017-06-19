@@ -62,7 +62,7 @@ table.display{
 
 #newStrainModal .modal-dialog, #choosePipelineModal .modal-dialog{
   width: 80%;
-  height:auto;
+  height:100%;
 }
 
 #LabProtocolTableModal .modal-dialog{

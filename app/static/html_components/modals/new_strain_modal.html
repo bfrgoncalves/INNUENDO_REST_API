@@ -16,7 +16,6 @@
 		</ul>
 		<div class="tab-content">
 			<div id="newstrain_menu" class="tab-pane fade in active tab-container" style="text-align:left;">
-				<div class="col-md-12" id="new_strain_message_div"></div>
 				<form role="form" id="new_strain_form" ng-submit="add_New_Strain()">
 					<input type="hidden" name="species_id" ng-value="species_id">
 					
@@ -93,6 +92,7 @@
 						<div class="col-md-12" style="text-align:center;">
 							<button class="btn btn-primary" id="newstrainbuttonsubmit" type="submit">Add Strain</button>
 						</div>
+						<div class="col-md-12" id="new_strain_message_div"></div>
 					</div>
 				</form>
 			</div>
@@ -173,18 +173,20 @@
 	  </div>
       <div class="modal-body">
       	  <div style="height:70%;overflow-x:auto;">
-			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines">
+			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines" id="pipeline_group_{{key}}">
 			  	  <label style="font-size:14px;color:#3399ff">Strain {{ key }}:</label>
-			  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">
-			  	  	 <div class="list-group-item">
-			  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }}: </label>
-					  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline">{{ workflow }}</button>
-					  	<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>
-					  </div>
-			  	  </div>
-			  	  <label>Create a new one:</label>
-			  	  <br>
-		   		  <button class="btn btn-md btn-primary new_pipeline_button" strain_id="{{ key }}">New Pipeline</button>
+			  	  <div id="pipeline_group_{{key}}">
+				  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">
+				  	  	 <div class="list-group-item">
+				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }}: </label>
+						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline">{{ workflow }}</button>
+						  	<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>
+						  </div>
+				  	  </div>
+				  	  <label>Create a new one:</label>
+				  	  <br>
+			   		  <button class="btn btn-md btn-primary new_pipeline_button" strain_id="{{ key }}">New Pipeline</button>
+			   	  </div>
 		   		  <hr>
 			  </div>
 		  </div>

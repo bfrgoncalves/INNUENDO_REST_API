@@ -319,6 +319,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
 					                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+					                	console.log('#pipeline_group_'+s_id.replace(/ /g, "_"));
 					                	$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
 										$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
 					                	callback({strain_id:strain_id});

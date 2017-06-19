@@ -82,7 +82,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		    	callback(response);
 		    });
 	    },
-	    ngs_onto_request_get_workflow: function(workflow_id, strain_name, callback){
+	    ngs_onto_request_get_workflow: function(workflow_id, strain_name, workflow_name, callback){
 	    	console.log(workflow_id);
 	    	
 	    	req = {
@@ -92,9 +92,9 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		    }
 
 		    $http(req).then(function(response){
-		    	callback(response, strain_name);
+		    	callback(response, strain_name, workflow_name);
 		    }, function(response){
-		    	callback(response, strain_name);
+		    	callback(response, strain_name, workflow_name);
 		    });
 	    },
 		//////////////// Projects Table Requests /////////////////////////////////////////

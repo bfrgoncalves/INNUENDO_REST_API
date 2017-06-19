@@ -1033,7 +1033,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    for(i in strain_names){
 
 		        put_i.push(i);
-		        indexes = '';
+		        //indexes = '';
 		        if(pipelines_applied[strain_names[i]] != undefined){
 
 		        	dict_strain_names[strain_names[i]] = [pipelines_applied[strain_names[i]].length, [], 0, 0];
@@ -1093,6 +1093,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        			dict_strain_names[strain_names[strain_name]].push([]);
 	        			dict_strain_names[strain_names[strain_name]].push(0);
 
+	        			//Push workflow ID
+	        			dict_strain_names[strain_names[strain_name]].push({});
+
+	        			count_pipelines_applied = 0;
+
 			        	for(p in pipelines_applied[strain_names[strain_name]]){
 			        		//console.log(pipelines_applied, pipelines_applied[strain_names[strain_name]]);
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
@@ -1110,17 +1115,19 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		}
 				
-				        	var indexes = '';
+				        	//var indexes = '';
 				        	//console.log(dict_strain_names);
 				        	console.log('####################GET WORKFLOW###################');
 
 		        			while(dict_strain_names[strain_names[strain_name]][1].length != 0){
 		        				workflowName = dict_strain_names[strain_names[strain_name]][1].shift();
+		        				count_pipelines_applied += 1;
+				        		dict_strain_names[strain_names[strain_name]][8][count_pipelines_applied] = "";
 
 		        				dict_strain_names[strain_names[strain_name]][7] += 1;
 		        				dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
 
-		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, function(response, strain_name){
+		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
 		        					console.log(response, strain_name);
 		        					//console.log(dict_strain_names[strain_names[strain_name]][6]);
 			        				dict_strain_names[strain_names[strain_name]][2]+=1;
@@ -1128,10 +1135,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				for(k=response.data.length-1; k>=0;k--){
 			        					parts = response.data[k].protocol.split('/');
 			        					parts = parts[parts.length-1];
-			        					indexes += parts.replace('>', '') + ',';
+			        					dict_strain_names[strain_names[strain_name]][8][count_pip_app] = parts.replace('>', '');
+			        					//indexes += parts.replace('>', '') + ',';
 			        				}
 
 			        				if (dict_strain_names[strain_names[strain_name]][0] == dict_strain_names[strain_names[strain_name]][2]){
+			        					
+			        					var indexes = '';
+
+			        					for(prot_index in dict_strain_names[strain_names[strain_name]][8]){
+			        						indexes += dict_strain_names[strain_names[strain_name]][8][prot_index].replace('>', '') + ',';
+			        					}
+
 			        					console.log(indexes);
 					        			indexes = indexes.replace(/,$/, '');
 					        			//console.log(strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6]);
@@ -1373,7 +1388,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			workflow_name = button_text.split('&&')[0];
 			console.log(button_parts);
 			if(button_parts.length > 2){
-				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflow_name], "", function(response, strain_name){
+				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflow_name], "", 0, function(response, strain_name, count_pip_app){
 					console.log(response);
 					indexes = "";
 					for(k=response.data.length-1; k>=0;k--){

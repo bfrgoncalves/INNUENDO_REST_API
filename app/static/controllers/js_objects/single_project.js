@@ -912,7 +912,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        create_pipeline(strains[selected_indexes[i]].strainID, function(strain_id, pipeline_id){
 		        	strainID_pipeline[strain_id] = pipeline_id;
 		        	pipeline_ids.push(pipeline_id);
-		        	console.log(strain_id, pipeline_id);
+		        	//console.log(strain_id, pipeline_id);
 
 		        
 		        	if(pipelines_applied.hasOwnProperty(strain_id_to_name[strain_id])){
@@ -932,9 +932,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                //steps.push(x+1);
 			                
 			                //workflow_ids.push(pipelinesByName[workflowName]);
-			                console.log(current_job_status_color[button_n]);
+			                //console.log(current_job_status_color[button_n]);
 			                if(current_job_status_color[button_n] == "#f75454") task_failed = true;
-			                console.log(task_failed);
+			                //console.log(task_failed);
 			                
 			                if(buttons_to_tasks[button_n] == undefined || task_failed == true){
 			                	if(task_failed == true) clearInterval(intervals_running[buttons_to_tasks[button_n]]);
@@ -959,7 +959,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                	//console.log(counter_steps, pipelines_applied[strain_id_to_name[strain_id]].length);
 			                	if(counter_steps == pipelines_applied[strain_id_to_name[strain_id]].length){
 			                		pg_requests.change_pipeline_from_project(strain_id, 'remove_parent', pipeline_to_use, function(response, strain_id, pipeline_to_use){
-			                			console.log("Parent Removed")
+			                			//console.log("Parent Removed")
 			                			//Say that this process belongs to this project
 
 			                			if(strain_to_real_pip.hasOwnProperty(strain_id)){
@@ -972,9 +972,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                			console.log(pipeline_to_use, workflow_ids, steps);
 
 			                			ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
-					                		console.log(response);
+					                		//console.log(response);
 						                	if(response.status == 200){
-						                		console.log('SAVED!!!');
+						                		//console.log('SAVED!!!');
 						                	}
 						                	else console.log(response.statusText);
 
@@ -993,7 +993,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                		ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
 				                		//console.log(response);
 					                	if(response.status == 200){
-					                		console.log('SAVED!!!');
+					                		//console.log('SAVED!!!');
 					                	}
 					                	else console.log(response.statusText);
 
@@ -1117,7 +1117,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				
 				        	//var indexes = '';
 				        	//console.log(dict_strain_names);
-				        	console.log('####################GET WORKFLOW###################');
+				        	//console.log('####################GET WORKFLOW###################');
 
 		        			while(dict_strain_names[strain_names[strain_name]][1].length != 0){
 		        				workflowName = dict_strain_names[strain_names[strain_name]][1].shift();
@@ -1128,7 +1128,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
 
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
-		        					console.log(response, strain_name);
+		        					//console.log(response, strain_name);
 		        					//console.log(dict_strain_names[strain_names[strain_name]][6]);
 			        				dict_strain_names[strain_names[strain_name]][2]+=1;
 
@@ -1147,7 +1147,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        						indexes += dict_strain_names[strain_names[strain_name]][8][prot_index].replace('>', '') + ',';
 			        					}
 
-			        					console.log(indexes);
+			        					//console.log(indexes);
 					        			indexes = indexes.replace(/,$/, '');
 					        			//console.log(strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6]);
 					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], function(response, strain_name){
@@ -1162,7 +1162,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        				
 					        				var countTasks = 0;
 					        				for(l in response.data){
-					        					console.log(response.data);
+					        					//console.log(response.data);
 					        					if(response.data[l] == 'null'){
 					        						countTasks++;
 					        						var button_name = dict_strain_names[strain_names[strain_name]][5].shift();
@@ -1185,7 +1185,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        						}
 
 					        						processes_to_map = task_ids_to_map.map(function(x){
-					        							console.log(x, dict_strain_names[strain_names[strain_name]]);
+					        							//console.log(x, dict_strain_names[strain_names[strain_name]]);
 					        							return dict_strain_names[strain_names[strain_name]][4].shift();
 							        				});
 					        					}

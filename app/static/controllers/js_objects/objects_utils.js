@@ -81,13 +81,16 @@ function Objects_Utils(){
 	        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
 	    } );
 
+	    if(table_id == "public_strains_table") page_length = 10;
+	    else page_length = 50;
+
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
 	    	//"scrollY": "200px",
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
-	        "pageLength": 50,
+	        "pageLength": page_length,
 	        select: {
 	            style:    'multi',
 	            selector: 'td:first-child'
@@ -209,13 +212,16 @@ function Objects_Utils(){
 
 	function nestedTable(table_id, columnDefinitions, data, visible_headers){
 
+		if(table_id == "public_strains_table") page_length = 10;
+	    else page_length = 50;
+
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
 	    	//"scrollY": "200px",
   			"scrollCollapse": true,
 	    	//"scrollX": true,
 	        paging:false,
-	        "pageLength": 50,
+	        "pageLength": page_length,
 	        select: {
 	            style:    'os',
 	            selector: 'td:first-child'

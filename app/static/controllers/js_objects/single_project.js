@@ -1051,13 +1051,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	if(pip_id_of_parents.length == 0){
 		        		var lastprocess = "";
 		        		var last_pipeline_id = "";
-			        	console.log(pipelines_applied);
+			        	//console.log(pipelines_applied);
 			        	var count_processes = 0;
 			        	var has_completed = false;
 			        	for(x in pipelines_applied[strain_names[i]]){
 			        		count_processes += 1;
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
-			        		console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]]);
+			        		//console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]]);
 			        	
 			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] != "COMPLETED" && count_processes != 1){
 			        			lastprocess = count_processes-1;
@@ -1074,7 +1074,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	}
 		        	}
 		        	
-		        	console.log(pip_id_of_parents);
+		        	//console.log(pip_id_of_parents);
 		        	
 		        	//console.log(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]]);
 		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]], function(response, strain_name){
@@ -1082,9 +1082,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        			if(response.status != 404){
 	        				dict_strain_names[strain_names[strain_name]].push(response.data);
 	        			}
-	        			console.log("DONE NGSOnto");
+	        			//console.log("DONE NGSOnto");
 
-	        			console.log(dict_strain_names[strain_names[strain_name]][4]);
+	        			//console.log(dict_strain_names[strain_names[strain_name]][4]);
 
 	        			//Push button identifier
 	        			dict_strain_names[strain_names[strain_name]].push([]);
@@ -1098,7 +1098,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
 			        		
 			        		//console.log(strain_names, strain_name, pi_name, dict_strain_names);
-			        		console.log(buttons_to_tasks);			        		
+			        		//console.log(buttons_to_tasks);			        		
 			        		if(buttons_to_tasks[pi_name] == undefined){
 			        			dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('>')[1].split('<')[0]);
 			        			dict_strain_names[strain_names[strain_name]][5].push(pi_name);
@@ -1111,8 +1111,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		}
 				
 				        	var indexes = '';
-				        	console.log(dict_strain_names);
-				        	//console.log(dict_strain_names[strain_names[strain_name]][1]);	
+				        	//console.log(dict_strain_names);
+				        	console.log('####################GET WORKFLOW###################');
+
 		        			while(dict_strain_names[strain_names[strain_name]][1].length != 0){
 		        				workflowName = dict_strain_names[strain_names[strain_name]][1].shift();
 
@@ -1120,7 +1121,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
 
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, function(response, strain_name){
-		        					console.log(response);
+		        					console.log(response, strain_name);
 		        					//console.log(dict_strain_names[strain_names[strain_name]][6]);
 			        				dict_strain_names[strain_names[strain_name]][2]+=1;
 
@@ -1131,6 +1132,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				}
 
 			        				if (dict_strain_names[strain_names[strain_name]][0] == dict_strain_names[strain_names[strain_name]][2]){
+			        					console.log(indexes);
 					        			indexes = indexes.replace(/,$/, '');
 					        			//console.log(strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6]);
 					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], function(response, strain_name){

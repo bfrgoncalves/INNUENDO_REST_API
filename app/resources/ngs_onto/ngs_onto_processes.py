@@ -384,6 +384,19 @@ class NGSOnto_ProcessJobID(Resource):
 				stmt1 = dbconAg.createStatement(processURI, indexProp, indexInt)
 				#send to allegro
 				dbconAg.add(stmt1)
+
+				#ADD PROCESS STATUS - TALK TO MICKAEL
+				'''
+				runStatus = dbconAg.createLiteral(("pending"), datatype=XMLSchema.STRING)
+				runStatusProp = dbconAg.createURI(namespace=obo, localname="NGS_0000097")
+				
+				dbconAg.remove(processURI, runStatusProp, None)
+
+				stmt5 = dbconAg.createStatement(processURI, runStatusProp, runStatus)
+
+				dbconAg.add(stmt5)
+				'''
+				
 				countadded+=1
 			except:
 				print 'error mapping process'

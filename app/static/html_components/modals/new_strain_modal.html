@@ -173,9 +173,9 @@
 	  </div>
       <div class="modal-body">
       	  <div style="height:70%;overflow-x:auto;">
-			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines" id="pipeline_group_{{key}}">
+			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines">
 			  	  <label style="font-size:14px;color:#3399ff">Strain {{ key }}:</label>
-			  	  <div id="pipeline_group_{{key}}">
+			  	  <div class="pipeline_group_{{myReplace(key)}}">
 				  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">
 				  	  	 <div class="list-group-item">
 				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }}: </label>

@@ -261,6 +261,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		});
 	}
 
+	$scope.myReplace = function(string) {
+	    var my_string = string.replace(/ /g, "_");
+	    return my_string;
+	}
+
 
 	function get_strain_pipeline(strain_ids, callback){
 		//console.log(strain_ids);
@@ -284,8 +289,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 					console.log(strain_id, strains_dict[$(this).attr("strain_id")]);
 					s_id=$(this).attr("strain_id");
 					add_strain([strains_dict[$(this).attr("strain_id")]], function(){
-						$('#pipeline_group_'+s_id).empty();
-						$('#pipeline_group_'+s_id).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
+						$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
+						$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
 					});
 				});
 
@@ -313,8 +318,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
 					                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-					                	$('#pipeline_group_'+strain_id).empty();
-										$('#pipeline_group_'+strain_id).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
+					                	$('#pipeline_group_'+strain_id.replace(/ /g, "_")).empty();
+										$('#pipeline_group_'+strain_id.replace(/ /g, "_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
 					                	callback({strain_id:strain_id});
 				                	});
 								})

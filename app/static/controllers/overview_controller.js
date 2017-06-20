@@ -16,25 +16,27 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 		if(CURRENT_USER_NAME == ""){
 			$("#load_species_row").css({"display":"none"});
 		}
+		else{
 
-		projects_table.get_species_names(function(results){
-        	$scope.species = results.species;
-	        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
-	        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
+			projects_table.get_species_names(function(results){
+	        	$scope.species = results.species;
+		        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
+		        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
 
-	        console.log(CURRENT_SPECIES_NAME, CURRENT_SPECIES_ID, results.species);
+		        console.log(CURRENT_SPECIES_NAME, CURRENT_SPECIES_ID, results.species);
 
-	        var t_use = "";
-			for(r in results.species){
-				t_use += '<option species_id="'+results.species[r].id+'">' + results.species[r].name + '</option>';
-			}
-			$('#species_select_drop').append(t_use);
+		        var t_use = "";
+				for(r in results.species){
+					t_use += '<option species_id="'+results.species[r].id+'">' + results.species[r].name + '</option>';
+				}
+				$('#species_select_drop').append(t_use);
 
-			$('.selectpicker').selectpicker({
-			});
+				$('.selectpicker').selectpicker({
+				});
 
 
-        });
+	        });
+		}
 
 	}
 

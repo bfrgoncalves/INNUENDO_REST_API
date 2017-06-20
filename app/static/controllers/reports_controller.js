@@ -1,6 +1,6 @@
 innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
-	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'55%'}); 
+	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 	reports = new Report($http);
 	var objects_utils = new Objects_Utils();

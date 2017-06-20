@@ -12,7 +12,7 @@
                   <li id="workflows_button_li"><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
-                <li><a href="#"><h3 id="current_species_nav" style="border-bottom:1px solid black;"></h3></a></li>
+                <li><h3 id="current_species_nav" style="border-bottom:1px solid black;"></h3></li>
                 <li id="projects_button_li"><a id="projects_button" href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
                 <li id="reports_button_li"><a  id="reports_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">Reports</a></li>
                 <li id="uploads_button_li"><a  id="uploads_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/downloads_view.html') }}&#39;">Downloads</a></li>

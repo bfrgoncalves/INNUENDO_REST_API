@@ -33,7 +33,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
     $scope.currentSpecieID = CURRENT_SPECIES_ID;
     $scope.species_in_use = CURRENT_SPECIES_NAME;
 
-    $("#current_species_nav").val(CURRENT_SPECIES_NAME);
+    $("#current_species_nav").text(CURRENT_SPECIES_NAME);
 
 
     var projects_table = new Projects_Table(0, null, $http);

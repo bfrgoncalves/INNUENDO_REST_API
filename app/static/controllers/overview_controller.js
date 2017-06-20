@@ -9,6 +9,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 		$("#workflows_button_li").css({"display":"block"});
 		$("#protocols_button_li").css({"display":"block"});
 		$("#species_drop_button_li").css({"display":"none"});
+		$("#overview_li").css({"display":"block"});
 
 		var projects_table = new Projects_Table(0, null, $http);
 

@@ -6,8 +6,15 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	$("#reports_button_li").css({"display":"block"});
 	$("#uploads_button_li").css({"display":"block"}); 
 	$("#species_drop_button_li").css({"display":"block"});
-	$("#workflows_button_li").css({"display":"none"});
 	$("#protocols_button_li").css({"display":"none"});
+	$("#workflows_button_li").css({"display":"none"});
+	$("#overview_li").css({"display":"none"});
+
+	$("#reset_strain").on("click", function(){
+		$scope.$apply(function(){
+			$scope.selectedTemplate.path = 'static/html_components/overview.html';
+		})
+	});
 	
 	//$scope.projects = [];
     //$scope.projects_headers = {};

@@ -14,7 +14,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 	        var t_use = "";
 			for(r in results.species){
-				t_use += '<option>' + results.species[r] + '</option>';
+				t_use += '<option>' + results.species[r].name + '</option>';
 			}
 			$('#species_select_drop').append(t_use);
 

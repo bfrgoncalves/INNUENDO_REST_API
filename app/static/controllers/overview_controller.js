@@ -29,11 +29,11 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
         });
 
         $("#load_species_button").on("click", function(){
-        	console.log($('#species_select_drop option:selected').text());
-        	console.log($('#species_select_drop').attr("species_id"));
         	CURRENT_SPECIES_NAME = $('#species_select_drop option:selected').text();
 	        CURRENT_SPECIES_ID = $('#species_select_drop option:selected').attr("species_id");
 	        $scope.selectedTemplate.path = 'static/html_components/projects_view.html';
+	        console.log(CURRENT_SPECIES_NAME);
+        	console.log(CURRENT_SPECIES_ID);
 
         });
 

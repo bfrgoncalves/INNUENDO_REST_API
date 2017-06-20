@@ -10,7 +10,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 	        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
 	        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
 
-	        console.log(CURRENT_SPECIES_NAME, CURRENT_SPECIES_ID);
+	        console.log(CURRENT_SPECIES_NAME, CURRENT_SPECIES_ID, results.species);
 
 	        var t_use = "";
 			for(r in results.species){

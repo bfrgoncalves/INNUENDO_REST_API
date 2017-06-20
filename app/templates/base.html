@@ -55,6 +55,7 @@
     <script src="{{ url_for('static', filename='controllers/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/js_objects/objects_utils.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/js_objects/metadata.js') }}"></script>
+    <script src="{{ url_for('static', filename='controllers/overview_controller.js') }}"></script>
     {% if current_user.is_authenticated %}
         <script src="{{ url_for('static', filename='controllers/js_objects/single_project.js') }}"></script>
         <script src="{{ url_for('static', filename='controllers/js_objects/projects_table.js') }}"></script>
@@ -63,7 +64,6 @@
         <script src="{{ url_for('static', filename='controllers/js_objects/workflows.js') }}"></script>
         <script src="{{ url_for('static', filename='controllers/requests/requests.js') }}"></script>
         <script src="{{ url_for('static', filename='controllers/requests/ngs_onto_requests.js') }}"></script>
-        <script src="{{ url_for('static', filename='controllers/overview_controller.js') }}"></script>
         <script src="{{ url_for('static', filename='controllers/projects_controller.js') }}"></script>
         <script src="{{ url_for('static', filename='controllers/single_project_controller.js') }}"></script>
         <script src="{{ url_for('static', filename='controllers/downloads_controller.js') }}"></script>

@@ -37,6 +37,8 @@ setTimeout(function(){
 	  $('.row-offcanvas-left').toggleClass('active');
 	});
 
-	$("#button_ham_navbar").click();
+	$(".navbar ul li").on("click", function(){
+		$("#button_ham_navbar").click();
+	})
 
 }, 500);

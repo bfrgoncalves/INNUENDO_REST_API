@@ -1,6 +1,10 @@
 innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
-	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'55%'}); 
+	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'55%'});
+
+	$("#projects_button_li").css({"display":"block"});
+	$("#reports_button_li").css({"display":"block"});
+	$("#uploads_button_li").css({"display":"block"}); 
 	
 	//$scope.projects = [];
     //$scope.projects_headers = {};
@@ -173,6 +177,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 		else CURRENT_JOB_MINE = true;
 		projects_table.load_project(table_id, CURRENT_PROJECT_ID, false, function(results){
 			CURRENT_PROJECT = results.project;
+			console.log(results.template);
 			$scope.selectedTemplate.path = results.template;
 		});
 

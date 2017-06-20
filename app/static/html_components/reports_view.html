@@ -21,7 +21,7 @@
 	        <h2>Reports <span style="float:right;">{{ species_in_use }}</span></h2>
 	      </div>
 
-		<ul class="nav nav-pills">
+		<ul class="nav nav-pills" style="margin-bottom: 10px;">
 			<li class="active" id="act_rep"><a>Active Report</a></li>
 			<li id="user_jobs"><a>Search</a></li>
 			<li id="saved_rep"><a>Saved Reports</a></li>
@@ -37,9 +37,9 @@
 			    <div class="col-md-12" style="display:none;" id="user_jobs_div">
 			      <div class="sub_container">
 			        <div class="jumbotron">
-			        	<h4 class="sub-header">Report search
+			        	<h3 class="sub-header">Report search
 			        		<button class="btn btn-sm btn-primary" style="float:right;" ng-click="showReport()"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to active report"></i></button>
-			        	</h4>
+			        	</h3>
 			        	<ul class="nav nav-pills" style="float:left;">
 							<li class="active" id="project_search_button"><a>Search By Project</a></li>
 							<li id="strainid_search_button"><a>Search By strain ID</a></li>
@@ -96,10 +96,10 @@
 			    <div class="col-md-12" style="display:none;" id="saved_rep_div">
 			      <div class="sub_container">
 			        <div class="jumbotron">
-			        	<h4 class="sub-header">Saved Reports
+			        	<h3 class="sub-header">Saved Reports
 			        		<button class="btn btn-sm btn-danger" style="float:right;" ng-click="deleteCombinedReport()"><i class="fa fa-minus" data-toggle="tooltip" data-placement="top" title="Delete saved report"></i></button>
 			        		<button class="btn btn-sm btn-primary" style="float:right;" ng-click="showCombinedReport()"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Show on active report"></i></button>
-			        	</h4>
+			        	</h3>
 			        	<div class="scroll_div">
 			            <table class="display compact hover" id="saved_reports_table" width='100%'>
 				            <thead>
@@ -131,13 +131,13 @@
 		    <div class="col-md-12" style="display:block;" id="active_rep_div">
 		      <div class="sub_container">
 		        <div class="jumbotron">
-		        	<h4 class="sub-header">Active Report
+		        	<h3 class="sub-header">Active Report
 		        		<button class="btn btn-sm btn-danger" style="float:right;" ng-click="deleteAllReports()"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Clear active report"></i></button>
 		        		<button class="btn btn-sm btn-danger" style="float:right;" ng-click="deleteFromReports()"><i class="fa fa-minus" data-toggle="tooltip" data-placement="top" title="Delete report"></i></button>
 		        		<button class="btn btn-sm btn-default" style="float:right;" ng-click="showMergedTableModal()"><i class="fa fa-compress" data-toggle="tooltip" data-placement="top" title="Show current table to export"></i></button>
 		        		<button class="btn btn-sm btn-info" style="float:right;" ng-click="showReportModal()"><i class="fa fa-floppy-o" data-toggle="tooltip" data-placement="top" title="Save active report"></i></button>
 		        		<button id="phyloviz_button" class="btn btn-sm btn-warning" style="float:right;display:none;"><i class="fa" data-toggle="tooltip" data-placement="top" title="Send data to PHYLOViZ Online">Send to PHYLOViZ Online</i></button>
-		        	</h4>
+		        	</h3>
 		        	<!--<div class="scroll_div">-->
 		        	<ul class="nav nav-tabs">
 					  <li ng-repeat="procedure in report_procedures" class="dropdown active" data-toggle="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ procedure }}</a>

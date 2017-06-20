@@ -31,8 +31,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 				}
 				$('#species_select_drop').append(t_use);
 
-				$('.selectpicker').selectpicker({
-				});
+				$('.selectpicker').selectpicker({});
 
 
 	        });

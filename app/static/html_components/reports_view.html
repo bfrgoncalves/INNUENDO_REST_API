@@ -55,7 +55,7 @@
 						    </div>
 					   	</div>
 				        <div class="form-group col-md-6" id="div_search_project" style="display:block;"> 
-				        	<select class="form-control" id="project_selector">
+				        	<select class="selectpicker" id="project_selector" data-live-search="true">
 					            <option ng-repeat="project_name in projects_names" name="proj_{{project_name.id}}">{{ project_name.name }}</option>
 					        </select>
 				        </div>

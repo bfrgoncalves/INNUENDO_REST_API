@@ -170,6 +170,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#reports_controller_div').css({display:'block'});
 		$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 		objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+		$('.selectpicker').selectpicker({});
 	}, 2000);
 
 	$('#project_selector').on("change", function(){

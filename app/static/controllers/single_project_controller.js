@@ -129,9 +129,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
         		}
         		$('#File_1').append(t_use);
         		$('#File_2').append(t_use);
-
-        		$('.selectpicker').selectpicker({
-				});
         	});
 
         	console.log("##########", CURRENT_JOB_MINE);

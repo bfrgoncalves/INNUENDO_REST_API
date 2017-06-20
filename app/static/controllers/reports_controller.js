@@ -148,6 +148,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#project_search_button").removeClass("active");
 	});
 
+	$("#reset_strain").on("click", function(){
+		$scope.$apply(function(){
+			$scope.selectedTemplate.path = 'static/html_components/overview.html';
+		})
+	});
+
 
 	var objects_utils = new Objects_Utils();
 

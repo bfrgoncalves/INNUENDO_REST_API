@@ -2,6 +2,12 @@ innuendoApp.controller("downloadsCtrl", function($scope, $http) {
 
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
+    $("#reset_strain").on("click", function(){
+        $scope.$apply(function(){
+            $scope.selectedTemplate.path = 'static/html_components/overview.html';
+        })
+    });
+
 
 	$scope.download_accessions = function(item){
 

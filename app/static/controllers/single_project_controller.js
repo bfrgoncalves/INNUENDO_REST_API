@@ -110,6 +110,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		$("#an_proc").removeClass("active");
 	});
 
+	$("#reset_strain").on("click", function(){
+		$scope.$apply(function(){
+			$scope.selectedTemplate.path = 'static/html_components/overview.html';
+		})
+	});
+
 
 	$scope.rep_string = function(st){ return st.replace(/[A-Z]/g, function(x){ return " " + x; }); }
 

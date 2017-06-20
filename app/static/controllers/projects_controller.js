@@ -66,6 +66,14 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 		    	$('#waiting_spinner').css({display:'none'}); 
     			$('#project_controller_div').css({display:'block'}); 
     			$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
+
+    			$('#projects_table').on('click', 'tr', function(){
+		        	CURRENT_PROJECT_ID = projects[$(this).index()].id;
+		        })
+
+		        $('#other_projects_table').on('click', 'tr', function(){
+		        	CURRENT_PROJECT_ID = other_projects[$(this).index()].id;
+		        })
 	        	/*$scope.other_projects = results;
 	        	objects_utils.loadDataTables('other_projects_table', $scope.other_projects);*/
 	        	 //Get species

@@ -137,12 +137,19 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
         	console.log("##########", CURRENT_JOB_MINE);
 
         	if(CURRENT_JOB_MINE == false){
-        		$("#group_buttons_strain").css({display:"none"});
+        		$("#button_run_strain").css({display:"none"});
+        		$("#button_remove_strain").css({display:"none"});
+        		$("#button_add_strain").css({display:"none"});
+
         		$("#buttons_procedures").css({display:"none"});
         		$("#protocols_div").css({display:"none"});
         		$("#procedures_div").css({display:"none"});
         	}
         	else{
+        		$("#button_run_strain").css({display:"block"});
+        		$("#button_remove_strain").css({display:"block"});
+        		$("#button_add_strain").css({display:"block"});
+
         		$("#group_buttons_strain").css({display:"block"});
         		$("#buttons_procedures").css({display:"block"});
         		$("#procedures_div").css({display:"block"});
@@ -234,7 +241,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		
 		single_project.get_workflows("Procedure", function(pipelines){
 			$scope.pipelines = pipelines;
-			console.log($scope.pipelines);
 			console.log("workflows");
 
 			single_project.get_workflows("Classifier", function(pipelines){

@@ -234,6 +234,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		
 		single_project.get_workflows("Procedure", function(pipelines){
 			$scope.pipelines = pipelines;
+			console.log($scope.pipelines);
 			console.log("workflows");
 
 			single_project.get_workflows("Classifier", function(pipelines){

@@ -13,6 +13,10 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 		var projects_table = new Projects_Table(0, null, $http);
 
+		if(CURRENT_USER_NAME == ""){
+			$("#load_species_row").css({"display":"none"});
+		}
+
 		projects_table.get_species_names(function(results){
         	$scope.species = results.species;
 	        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;

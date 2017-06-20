@@ -36,6 +36,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$scope.reports_info_table_headers = reports_info_table_headers;
 	$scope.reports_metadata_table_headers = reports_metadata_table_headers;
 	$scope.saved_reports_headers = saved_reports_headers;
+	$scope.species_in_use = CURRENT_SPECIES_NAME;
 
 	var user_reports_col_defs = [
     	{
@@ -455,7 +456,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$('#waiting_spinner').css({display:'none'}); 
 								$('#reports_controller_div').css({display:'block'});
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
+								//console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 							});
 						})

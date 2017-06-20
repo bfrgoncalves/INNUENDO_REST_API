@@ -37,7 +37,6 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 	$scope.load_species = function(){
     	CURRENT_SPECIES_NAME = $('#species_select_drop option:selected').text();
         CURRENT_SPECIES_ID = $('#species_select_drop option:selected').attr("species_id");
-        $scope.appl
         $scope.selectedTemplate.path = 'static/html_components/projects_view.html';
 	}
 

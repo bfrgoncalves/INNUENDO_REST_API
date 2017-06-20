@@ -6,6 +6,8 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 		$("#projects_button_li").css({"display":"none"});
 		$("#reports_button_li").css({"display":"none"});
 		$("#uploads_button_li").css({"display":"none"});
+		$("#workflows_button_li").css({"display":"block"});
+		$("#protocols_button_li").css({"display":"block"});
 
 		var projects_table = new Projects_Table(0, null, $http);
 
@@ -29,14 +31,12 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
         });
 
 	}
+	
 	$scope.load_species = function(){
     	CURRENT_SPECIES_NAME = $('#species_select_drop option:selected').text();
         CURRENT_SPECIES_ID = $('#species_select_drop option:selected').attr("species_id");
         $scope.appl
         $scope.selectedTemplate.path = 'static/html_components/projects_view.html';
-        console.log($scope.selectedTemplate.path);
-        console.log(CURRENT_SPECIES_NAME);
-    	console.log(CURRENT_SPECIES_ID);
 	}
 
 });

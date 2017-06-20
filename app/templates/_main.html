@@ -8,8 +8,8 @@
                 <li><a href="#"><h3>INNUENDO</h3></a></li>
                 <li class="active" id="overview_li"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">Overview</a></li>
                 {% if current_user.is_authenticated %}
-                  <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
-                  <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
+                  <li id="protocols_button_li" ><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
+                  <li id="workflows_button_li"><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
                 <li id="projects_button_li"><a id="projects_button" href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>

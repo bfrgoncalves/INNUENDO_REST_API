@@ -1,15 +1,15 @@
 <div ng-controller="projectsCtrl" style="display:none;" id="project_controller_div">
   <div ng-include src="'static/html_components/modals/new_project_modal.html'"></div>
 
-    <div style="margin-bottom:5px;">
+    <!--<div style="margin-bottom:5px;">
       <ul class="nav nav-tabs">
         <li ng-repeat="specie in species" ng-class="{active: $index == 0}"><a data-toggle="tab" ng-click="change_project_by_specie(specie.id, specie.name)">{{ specie.name }}</a></li>
       </ul>
-    </div>
+    </div>-->
     
     <div class="col-md-12" style="padding-left:1%;padding-right:1%;margin-bottom: 5px;">
       <div class="col-md-12 sub-header" style="margin-bottom:2px;">
-        <h2 style="float:left;">Projects</h2>
+        <h2 style="float:left;">Projects <span style="float:right;">{{ species_in_use }}</span></h2>
         <div id="projects_message_div" style="font-size:10px;position:fixed;right:1%;"></div>
       </div>
       

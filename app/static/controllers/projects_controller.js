@@ -5,6 +5,8 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	$("#projects_button_li").css({"display":"block"});
 	$("#reports_button_li").css({"display":"block"});
 	$("#uploads_button_li").css({"display":"block"}); 
+	$("#workflows_button_li").css({"display":"none"});
+	$("#protocols_button_li").css({"display":"none"});
 	
 	//$scope.projects = [];
     //$scope.projects_headers = {};
@@ -28,7 +30,9 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
     var other_projects = [];
 
     $scope.species = [];
-    $scope.currentSpecieID = 1;
+    $scope.currentSpecieID = CURRENT_SPECIES_ID;
+    $scope.species_in_use = CURRENT_SPECIES_NAME;
+
 
     var projects_table = new Projects_Table(0, null, $http);
     var objects_utils = new Objects_Utils();
@@ -36,7 +40,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
     if (get_userid() != 0){
 
         //Get user projects for specie 1
-        projects_table.get_projects_from_species(1, false, function(results){
+        projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
         	//$scope.projects = results;
         	projects = results;
 	    	console.log(results);
@@ -45,7 +49,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 				objects_utils.loadDataTables('projects_table', $scope.projects);
 			}, 2000);*/
 			//Get other projects for specie 1
-	        projects_table.get_projects_from_species(1, true, function(results){
+	        projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
 	        	other_projects = results;
 		    	console.log(results);
 		    	objects_utils.loadDataTables('other_projects_table', other_projects, project_col_defs);

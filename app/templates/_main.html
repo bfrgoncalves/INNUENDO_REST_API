@@ -4,23 +4,27 @@
     
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-            <ul class="nav sidebar-nav">
-                <li><a href="#"><h3>INNUENDO</h3></a></li>
-                <li class="active" id="overview_li"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">Overview</a></li>
-                {% if current_user.is_authenticated %}
-                  <li id="protocols_button_li" ><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
-                  <li id="workflows_button_li"><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
-                {% endif %}
-                {% if current_user.is_authenticated %}
-                <li id="projects_button_li"><a id="projects_button" href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
-                <li id="reports_button_li"><a  id="reports_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">Reports</a></li>
-                <li id="uploads_button_li"><a  id="uploads_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/downloads_view.html') }}&#39;">Downloads</a></li>
-                <li></li>
-                {% endif %}
-            </ul>
-            <ul class="nav" style="margin-top:10px;">
-                <li><h3 id="current_species_nav" style="border-bottom:1px solid black;color:white;"></h3></li>
-            </ul>
+            <div style="margin-bottom: 10px;">
+                <ul class="nav sidebar-nav">
+                    <li><a href="#"><h3>INNUENDO</h3></a></li>
+                    <li class="active" id="overview_li"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">Overview</a></li>
+                    {% if current_user.is_authenticated %}
+                      <li id="protocols_button_li" ><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
+                      <li id="workflows_button_li"><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
+                    {% endif %}
+                    {% if current_user.is_authenticated %}
+                    <li id="projects_button_li"><a id="projects_button" href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
+                    <li id="reports_button_li"><a  id="reports_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">Reports</a></li>
+                    <li id="uploads_button_li"><a  id="uploads_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/downloads_view.html') }}&#39;">Downloads</a></li>
+                    <li></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <ul class="nav" style="margin-top:10px;">
+                    <li><h3 id="current_species_nav" style="border-bottom:1px solid black;color:white;"></h3></li>
+                </ul>
+            </div>
         </nav>
         <!-- /#sidebar-wrapper -->
 

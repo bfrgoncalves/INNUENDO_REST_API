@@ -63,10 +63,13 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	        	other_projects = results;
 		    	console.log(results);
 		    	objects_utils.loadDataTables('other_projects_table', other_projects, project_col_defs);
+		    	$('#waiting_spinner').css({display:'none'}); 
+    			$('#project_controller_div').css({display:'block'}); 
+    			$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 	        	/*$scope.other_projects = results;
 	        	objects_utils.loadDataTables('other_projects_table', $scope.other_projects);*/
 	        	 //Get species
-		        projects_table.get_species_names(function(results){
+		        /*projects_table.get_species_names(function(results){
 		        	$scope.species = results.species;
 			        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
 			        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
@@ -82,7 +85,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 			        $('#waiting_spinner').css({display:'none'}); 
         			$('#project_controller_div').css({display:'block'}); 
         			$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
-		        });
+		        });*/
 	        });
         });
         //Get other projects for specie 1

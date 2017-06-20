@@ -8,6 +8,21 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     var ngs_onto_requests = new ngs_onto_client(CURRENT_PROJECT_ID, $http);
 
+    function modalAlert(text, callback){
+
+    	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#modalAlert #buttonSub').on("click", function(){
+    		$('#modalAlert').modal("hide");
+    		callback();
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }
+
     var returned_functions = {
 
     	get_species_names: function(callback){
@@ -70,25 +85,32 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 
 		    count_to_delete = 0;
 		    total_to_delete = project_indexes.length;
-		    
-		    for(i in project_indexes){
-		    	console.log(projects);
-		        var project_id = projects[project_indexes[i]].id;
-		        pg_requests.delete_project_from_database(project_id, function(response){
-		        	count_to_delete+=1;
-		        	if(response.status == 204){
-		        		var new_projects = [];
-			            projects.map(function(d){
-			                if (d.id != project_id) new_projects.push(d);
-			            })
-			            projects = new_projects;
-			            objects_utils.show_message('projects_message_div', 'success', 'Project deleted.');
 
-		        	}
-		        	else console.log(response.statusText);
-		        	if(count_to_delete == total_to_delete) callback({projects: projects});
+		    if(project_indexes.length > 0){
 
-		        });
+		    	modalAlert("By accepting this option you are removing the project/projects from the application. Do you really want proceed?", function(){
+
+		    		for(i in project_indexes){
+				    	console.log(projects);
+				        var project_id = projects[project_indexes[i]].id;
+				        pg_requests.delete_project_from_database(project_id, function(response){
+				        	count_to_delete+=1;
+				        	if(response.status == 204){
+				        		var new_projects = [];
+					            projects.map(function(d){
+					                if (d.id != project_id) new_projects.push(d);
+					            })
+					            projects = new_projects;
+					            objects_utils.show_message('projects_message_div', 'success', 'Project deleted.');
+
+				        	}
+				        	else console.log(response.statusText);
+				        	if(count_to_delete == total_to_delete) callback({projects: projects});
+
+				        });
+				    }
+		    	});
+
 		    }
     	},
     	load_project: function(table_id, CURRENT_PROJECT_ID, pass, callback){

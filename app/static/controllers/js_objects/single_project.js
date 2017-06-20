@@ -763,46 +763,61 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    strain_indexes.map(function(d){ delete pipelines_applied[d]; });
 
 		    var to_use = used_strains;
+		    var number_of_strains = strain_names.length;
+		    count_removed = 0;
 
-		    while(strain_names.length != 0){
+		    if(strain_names.length > 0){
 
-		        strain_name = strain_names.pop();
-		        pg_requests.remove_strain_from_project(strain_name, function(response){
-		        	if(response.status == 200){
-		        		var new_strains = [];
-		                to_use.map(function(d){
-		                    if (d.strainID != response.data.strainID) new_strains.push(d);
-		                    else{
-		                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], function(response, strainid){
-		                    		if(response.status == 200){
-		                    			console.log(response);
-		                    			if(response.data.length > 0){
-		                    				modalAlert("The applied pipeline is being used in other projects. A so, the strain will be removed from the project but the pipeline will still be available.", function(){
-			                    				pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
-			                    					console.log(response, "DONE");
-				                    			});
-			                    			});
-		                    			}
-		                    			else{
-		                    				pg_requests.remove_pipeline_from_project(strainid, true, function(response){
-			                    			});
-			                    			ngs_onto_requests.ngs_onto_request_remove_pipeline(response.data.id, function(response){
-			                    				console.log('removed');
-			                    			});
-		                    			}
-		                    		}
-		                    	});
-		                    }
-		                })
-		                to_use = new_strains;
-		                objects_utils.show_message('project_message_div', 'success', 'Strains removed from project.');
-		        	}
-		        	else{
-		        		objects_utils.show_message('project_message_div', 'warning', 'An error occurried when removing strains from project.');
-		        	}
-		        });
+		    	modalAlert("By accepting this option you are removing the strain/strains from the project. Do you really want proceed?", function(){
+
+			    	while(strain_names.length != 0){
+
+				        strain_name = strain_names.pop();
+				        pg_requests.remove_strain_from_project(strain_name, function(response){
+				        	count_removed += 1;
+				        	if(response.status == 200){
+				        		var new_strains = [];
+				                to_use.map(function(d){
+				                    if (d.strainID != response.data.strainID) new_strains.push(d);
+				                    else{
+				                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], function(response, strainid){
+				                    		if(response.status == 200){
+				                    			console.log(response);
+				                    			if(response.data.length > 0){
+				                    				modalAlert("The applied pipeline is being used in other projects. A so, the strain will be removed from the project but the pipeline will still be available.", function(){
+					                    				pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
+					                    					console.log(response, "DONE");
+						                    			});
+					                    			});
+				                    			}
+				                    			else{
+				                    				pg_requests.remove_pipeline_from_project(strainid, true, function(response){
+					                    			});
+					                    			ngs_onto_requests.ngs_onto_request_remove_pipeline(response.data.id, function(response){
+					                    				console.log('removed');
+					                    			});
+				                    			}
+				                    		}
+				                    	});
+				                    }
+				                })
+				                
+				                to_use = new_strains;
+				                
+				                if(count_removed == number_of_strains){
+				                	strains = to_use;
+				                	callback({strains: to_use});
+				                }
+				                objects_utils.show_message('project_message_div', 'success', 'Strains removed from project.');
+				        	}
+				        	else{
+				        		objects_utils.show_message('project_message_div', 'warning', 'An error occurried when removing strains from project.');
+				        	}
+				        });
+			    	}
+		    	});
+
 		    }
-		    setTimeout(function(){strains = to_use; callback({strains: to_use});}, 400);
 		},
 		apply_workflow: function(mode, type_proc, callback){
 

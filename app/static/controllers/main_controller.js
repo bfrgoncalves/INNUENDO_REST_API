@@ -8,6 +8,8 @@ var CURRENT_SPECIES_NAME = "";
 var CURRENT_USER_NAME = current_user_name;
 var CURRENT_JOBS_ROOT = jobs_root;
 
+console.log(CURRENT_USER_NAME);
+
 var CURRENT_JOB_ID = "";
 var CURRENT_PROJECT_NAME_ID = "";
 

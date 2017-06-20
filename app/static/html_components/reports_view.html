@@ -7,19 +7,19 @@
 
 
 	<!--<h3 class="sub-header">Reports</h3>-->
-	<div style="margin-bottom:10px;">
+	<!--<div style="margin-bottom:10px;">
       <ul class="nav nav-tabs">
         <li ng-repeat="specie in species" ng-class="{active: $index == 0}"><a data-toggle="tab" ng-click="change_report_by_specie(specie.id, specie.name)">{{ specie.name }}</a></li>
       </ul>
-    </div>
+    </div>-->
     <div id="div_back_project" style="width:100%;border-bottom: 1px solid black;margin:10px;display:none;">
 		<button id="button_back_project" class="btn btn-md btn-primary">Back to Project</button>
 	</div>
     <div id="reports_container">
 		
-		<div style="padding-left:1%;padding-right:1%;">
-			<h3 class="sub-header">Reports<div id="s_report_message_div" style="font-size:10px;position:fixed;right:1%;"></div></h3>
-		</div>
+		<div class="col-md-12 sub-header" style="margin-bottom:2px;">
+	        <h2>Reports <span style="float:right;">{{ species_in_use }}</span></h2>
+	      </div>
 
 		<ul class="nav nav-pills">
 			<li class="active" id="act_rep"><a>Active Report</a></li>

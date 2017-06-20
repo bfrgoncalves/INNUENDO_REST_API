@@ -1,6 +1,6 @@
 innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
-	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'55%'});
+	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
 	$("#projects_button_li").css({"display":"block"});
 	$("#reports_button_li").css({"display":"block"});

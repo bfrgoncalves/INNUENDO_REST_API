@@ -379,93 +379,93 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	    current_job_ids = [];
 
-	    projects_table.get_species_names(function(results){
+	    /*projects_table.get_species_names(function(results){
 	    	$scope.species = results.species;
 	        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
-	        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
+	        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;*/
 	        
-	        $scope.getSavedReports(function(){
+        $scope.getSavedReports(function(){
 
-		        projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
+	        projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
+		    	results.map(function(d){$scope.projects_names.push(d)});
+
+		    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
 			    	results.map(function(d){$scope.projects_names.push(d)});
 
-			    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
-				    	results.map(function(d){$scope.projects_names.push(d)});
+			    	objects_utils.destroyTable('reports_table');
 
-				    	objects_utils.destroyTable('reports_table');
+				    if(CURRENT_PROJECT_NAME_ID != ""){
+						$('#project_selector').find('option').filter("[name='proj_"+CURRENT_PROJECT_NAME_ID+"']").attr("selected", "selected");
+						CURRENT_PROJECT_NAME_ID = "";
+						//$('#div_back_project').css({'display':"block"});
+					}
 
-					    if(CURRENT_PROJECT_NAME_ID != ""){
-							$('#project_selector').find('option').filter("[name='proj_"+CURRENT_PROJECT_NAME_ID+"']").attr("selected", "selected");
-							CURRENT_PROJECT_NAME_ID = "";
-							//$('#div_back_project').css({'display':"block"});
-						}
+					try{
+						var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
+					}
+					catch(e){
+						console.log("no projects");
+						current_project = "";
+					}
+				    //var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
+				    //console.log(current_project);
 
-						try{
-							var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
-						}
-						catch(e){
-							console.log("no projects");
-							current_project = "";
-						}
-					    //var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
-					    //console.log(current_project);
+					if(current_project != ""){
 
-						if(current_project != ""){
+						pg_requests.get_applied_pipelines(null, current_project, function(response){
+							//console.log(response);
+							var pipelines_to_check = [];
+							for(x in response.data){
+								if(response.data[x].parent_pipeline_id != null) pipelines_to_check.push(response.data[x].parent_pipeline_id);
+								else pipelines_to_check.push(response.data[x].id);
+							}
+							pipelines_to_check = pipelines_to_check.join();
 
-							pg_requests.get_applied_pipelines(null, current_project, function(response){
-								//console.log(response);
-								var pipelines_to_check = [];
-								for(x in response.data){
-									if(response.data[x].parent_pipeline_id != null) pipelines_to_check.push(response.data[x].parent_pipeline_id);
-									else pipelines_to_check.push(response.data[x].id);
+							reports.get_project_reports(current_project, pipelines_to_check, function(response){
+						
+								user_reports = response.data;
+								if(user_reports.message != undefined) user_reports = [];
+
+								//console.log(user_reports);
+								objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
+
+
+								if($rootScope.showing_jobs){
+									$.map($('#reports_table').DataTable().rows().data(), function(item, index){
+
+										if($rootScope.showing_jobs.indexOf(item.job_id) > -1){
+											var row = $('#reports_table').DataTable().row(index).node();
+											$(row).addClass("selected");
+										}
+									});
 								}
-								pipelines_to_check = pipelines_to_check.join();
 
-								reports.get_project_reports(current_project, pipelines_to_check, function(response){
-							
-									user_reports = response.data;
-									if(user_reports.message != undefined) user_reports = [];
+								if($rootScope.showing_strain_names == undefined) $rootScope.showing_strain_names = []; 
+								
+								if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
+									show_results_and_info($rootScope.showing_jobs);
 
-									//console.log(user_reports);
-									objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
+									$.map($('#reports_table').DataTable().rows('.selected').data(), function(data){
+								      	$rootScope.showing_strain_names.push(data.sample_name);
+								    });
 
+								    show_strains_metadata($rootScope.showing_strain_names);
+								}
 
-									if($rootScope.showing_jobs){
-										$.map($('#reports_table').DataTable().rows().data(), function(item, index){
-
-											if($rootScope.showing_jobs.indexOf(item.job_id) > -1){
-												var row = $('#reports_table').DataTable().row(index).node();
-												$(row).addClass("selected");
-											}
-										});
-									}
-
-									if($rootScope.showing_strain_names == undefined) $rootScope.showing_strain_names = []; 
-									
-									if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-										show_results_and_info($rootScope.showing_jobs);
-
-										$.map($('#reports_table').DataTable().rows('.selected').data(), function(data){
-									      	$rootScope.showing_strain_names.push(data.sample_name);
-									    });
-
-									    show_strains_metadata($rootScope.showing_strain_names);
-									}
-
-									$('#waiting_spinner').css({display:'none'}); 
-									$('#reports_controller_div').css({display:'block'});
-									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-									console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
-									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-								});
-							})
-					    }
-				    });
-				});
-
-		    });
+								$('#waiting_spinner').css({display:'none'}); 
+								$('#reports_controller_div').css({display:'block'});
+								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
+								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
+								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+							});
+						})
+				    }
+			    });
+			});
 
 	    });
+
+	    //});
 
 		$('#button_back_project').on("click", function(){
 			$('#projects_button').trigger("click");

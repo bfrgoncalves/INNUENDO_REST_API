@@ -44,7 +44,7 @@
 
       <div id="procedures_div" class="col-md-3" style="display:block;">
             <div class="input-group">           
-              <select class="form-control" id="pipeline_selector">
+              <select class="selectpicker" id="pipeline_selector">
                 <option ng-repeat="pipeline in pipelines" name="analysis_{{ pipeline.name }}">{{ pipeline.name }}</option>
               </select>
               <span class="input-group-btn">

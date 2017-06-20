@@ -239,7 +239,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			single_project.get_workflows("Classifier", function(pipelines){
 				$scope.pipelines_classifiers = pipelines;
 				console.log("workflows2");
+
+				$(".selectpicker").selectpicker({});
+				
 				callback();
+
+
 			});
 		});
 

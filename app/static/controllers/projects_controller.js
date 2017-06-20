@@ -177,7 +177,6 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 		else CURRENT_JOB_MINE = true;
 		projects_table.load_project(table_id, CURRENT_PROJECT_ID, false, function(results){
 			CURRENT_PROJECT = results.project;
-			console.log(results.template);
 			$scope.selectedTemplate.path = results.template;
 		});
 

@@ -12,17 +12,13 @@
                   <li id="workflows_button_li"><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
-                <li id="species_drop_button_li" class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Current Species <span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li class="dropdown-header" id="current_species_nav"></li>
-                    <li><a href="#" id="reset_strain">Reset</a></li>
-                  </ul>
-                </li>
                 <li id="projects_button_li"><a id="projects_button" href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
                 <li id="reports_button_li"><a  id="reports_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">Reports</a></li>
                 <li id="uploads_button_li"><a  id="uploads_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/downloads_view.html') }}&#39;">Downloads</a></li>
                 <li></li>
+                <li id="species_drop_button_li">
+                  <a href="#" id="reset_strain">Change Species</a>
+                </li>
                 {% endif %}
             </ul>
 

@@ -320,7 +320,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				$(".new_pipeline_button").on('click', function(){
 					console.log(strain_id, strains_dict[$(this).attr("strain_id")]);
 					s_id=$(this).attr("strain_id");
-					add_strain([strains_dict[$(this).attr("strain_id")]], function(){
+					add_strain([strains_dict[$(this).attr("strain_id")]], function(results){
 						if(results.message != undefined){
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Strain already on project.</b></p>');
@@ -353,11 +353,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						console.log(strain_id);
 						add_strain([strain_id], function(results){
 							console.log(results);
-							if(results.message != undefined){
-								objects_utils.destroyTable('strains_table');
-								objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-								return callback({message:results.message});
-							}
+							if(results.message != undefined) return callback({message:results.message});
 							else{
 								single_project.get_and_apply_pipeline(1, p_id, strain_id, owner_p, function(response){
 									$scope.getIdsFromProjects(function(strains_results){

@@ -557,11 +557,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						});
 				    }
 				    else{
-				    	console.log("AQUI");
 				    	$('#waiting_spinner').css({display:'none'}); 
 						$('#reports_container').css({display:"block"});
 						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-						console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
 						objects_utils.loadDataTables('reports_table', [], user_reports_col_defs, user_reports_table_headers);
@@ -655,6 +653,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    var current_names = $.map(table.rows('.selected').data(), function(data){
 	       return data.strain_names.split(',');
 	    });
+
+	    objects_utils.destroyTable('reports_info_table');
+	    objects_utils.destroyTable('reports_results_table');
 
 	    //console.log(current_names);
 
@@ -773,7 +774,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				process_report_data(identifier, response.data[job].report_data, response.data[job].sample_name, response.data[job].procedure_name, job, function(results, job_to_use){
 					
-					console.log(results);
 					count_jobs += 1;
 
 					results[0]['job_id'] = response.data[job_to_use].job_id;
@@ -799,8 +799,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					}
 
 					if(count_jobs == total_jobs) {
-
-						console.log(global_results_dict);
 						procedure_to_show = Object.keys(global_results_dict)[0];
 						
 						run_infos=global_results_dict[procedure_to_show][0];

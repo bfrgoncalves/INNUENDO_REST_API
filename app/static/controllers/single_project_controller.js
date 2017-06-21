@@ -90,7 +90,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
     	$('#modalAlert #buttonSub').on("click", function(){
-    		$('#modalAlert').hide();
+    		$("buttonCancelAlert").click();
     		callback();
     	})
 
@@ -330,6 +330,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						else{
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>New Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
+							modalAlert("Strains were added to the project.", function(){});
 						}
 						
 					});
@@ -350,9 +351,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						console.log(owner_p);
 						var strain_id = strains_dict[$(this).attr("strain_id")];
 						var s_id=$(this).attr("strain_id")
-						console.log(strain_id);
 						add_strain([strain_id], function(results){
-							console.log(results);
 							if(results.message != undefined) return callback({message:results.message});
 							else{
 								single_project.get_and_apply_pipeline(1, p_id, strain_id, owner_p, function(response){
@@ -363,6 +362,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 					                	//console.log('#pipeline_group_'+s_id.replace(/ /g, "_"));
 					                	$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
 										$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
+										modalAlert("Strains were added to the project.", function(){});
 					                	callback({strain_id:strain_id});
 				                	});
 								})

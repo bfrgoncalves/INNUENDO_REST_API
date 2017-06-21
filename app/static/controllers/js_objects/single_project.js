@@ -61,6 +61,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 	            for(s in strains){
 	            	md = JSON.parse(response.data.strain_metadata);
+	            	console.log(md);
 	            	if(md.file_1 == strains[s].file_1){
 	            		has_same_files = true;
 	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.file_1 + "<br>";

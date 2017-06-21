@@ -63,6 +63,11 @@ class StrainListResource(Resource):
 			strains = db.session.query(Strain).filter(Strain.species_id == args.speciesID).all()
 		else:
 			strains = db.session.query(Strain).all()
+		
+		for strain in strains:
+			strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
+			strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+			
 		if not strains:
 			abort(404, message="No strain available")
 		return strains, 200

@@ -109,7 +109,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
     	$('#modalAlert #buttonSub').on("click", function(){
-    		$('#modalAlert').modal("hide");
+    		$("#buttonCancelAlert").click();
     		callback();
     	})
 

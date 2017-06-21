@@ -39,7 +39,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
     	$('#modalAlert #buttonSub').on("click", function(){
-    		$('#modalAlert').modal("hide");
+    		$("#buttonCancelAlert").click();
     		callback();
     	})
 

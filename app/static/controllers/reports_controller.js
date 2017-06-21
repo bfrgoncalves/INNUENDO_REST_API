@@ -660,6 +660,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    //console.log(current_names);
 
 	    //CHECK IF WORKS - RESET ACTIVE REPORT ON LOAD SAVED REPORT
+	    $scope.report_procedures = [];
+		run_infos = [];
+		run_results = [];
 	    global_results_dict = {}
 	    current_strains_data = [];
 	    current_job_ids = [];

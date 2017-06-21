@@ -15,6 +15,21 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 			$scope.selectedTemplate.path = 'static/html_components/overview.html';
 		})
 	});
+
+	function modalAlert(text, callback){
+
+    	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#modalAlert #buttonSub').on("click", function(){
+    		$('#modalAlert').modal("hide");
+    		callback();
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }
 	
 	//$scope.projects = [];
     //$scope.projects_headers = {};

@@ -82,6 +82,22 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	var global_strains = [];
 	var global_public_strains = [];
 
+
+	function modalAlert(text, callback){
+
+    	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#modalAlert #buttonSub').on("click", function(){
+    		$('#modalAlert').modal("hide");
+    		callback();
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }
+
 	$("#description_tab").on("click", function(){
 		$("#div_description").css({"display":"block"});
 		$("#div_project").css({"display":"none"});
@@ -271,7 +287,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		single_project.save_pipelines(function(run){
 			console.log('Save');
 			if(run == true) single_project.run_pipelines();
-			else objects_utils.show_message('project_message_div', 'warning', 'All processes for that strain have been run.');
+			else modalAlert('All processes for that strain have been run.', function(){});
+			//else objects_utils.show_message('project_message_div', 'warning', 'All processes for that strain have been run.');
 			console.log('Run');
 		});
 	}
@@ -380,7 +397,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	$scope.add_New_Strain = function(){
 		single_project.add_new_strain(function(strains_results){
 			if(strains_results.already_there) return;
-			objects_utils.show_message('new_strain_message_div', 'success', 'Strain added to the project.');
+			modalAlert('Strain added to the project.', function(){});
+			//objects_utils.show_message('new_strain_message_div', 'success', 'Strain added to the project.');
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
@@ -417,6 +435,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			modalAlert("Strains were added to the project.", function(){});
 		});
 
 	}
@@ -427,6 +446,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			modalAlert("Strains were removed from the project.", function(){});
 		});
 	}
 
@@ -479,5 +499,6 @@ newPipelineFromFile = function(element){
 		objects_utils.loadDataTables('strains_table', global_strains, pcol, sh);
 		$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
 		$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
+		modalAlert('Strain added to the project.', function(){});
 	});
 }

@@ -102,6 +102,21 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
     ];
 
+    function modalAlert(text, callback){
+
+    	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#modalAlert #buttonSub').on("click", function(){
+    		$('#modalAlert').modal("hide");
+    		callback();
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }
+
     $("#act_rep").on("click", function(){
     	$("#active_rep_div").css({"display":"block"});
 		$("#saved_rep_div").css({"display":"none"});
@@ -670,7 +685,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    show_results_and_info(selected_job_ids);
 	    show_strains_metadata(current_names);
 
-		objects_utils.show_message('s_report_message_div', 'success', 'The Saved Report was loaded to the Active Report tab.')
+	    modalAlert('The Saved Report was loaded to the Active Report tab.', function(){});
+
+		//objects_utils.show_message('s_report_message_div', 'success', 'The Saved Report was loaded to the Active Report tab.')
 
 	}
 
@@ -733,7 +750,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			console.log(response);
 
 			if(response == null){
-				objects_utils.show_message('s_report_message_div', 'warning', 'Please select a report first.')
+				modalAlert('Please select a report first.', function(){});
+				//objects_utils.show_message('s_report_message_div', 'warning', 'Please select a report first.')
 				return;
 			}
 
@@ -752,7 +770,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				//console.log(response.data[job].report_data);
 
 				if (Object.keys(response.data[job].report_data).length == 0){
-					objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
+					modalAlert('Failed to load report with job id '+response.data[job].job_id+'.', function(){});
+					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
 					count_jobs += 1;
 					continue;
 				}
@@ -888,7 +907,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 							objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 							objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-							objects_utils.show_message('s_report_message_div', 'success', 'Reports added to the project.')
+							
+							modalAlert('Reports added to the project.', function(){});
+							//objects_utils.show_message('s_report_message_div', 'success', 'Reports added to the project.')
 							$('#reports_info_table_wrapper').css({'display':'block'});
 							$('#reports_results_table_wrapper').css({'display':'none'});
 							$('#reports_metadata_table_wrapper').css({'display':'none'});

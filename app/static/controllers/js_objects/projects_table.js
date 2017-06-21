@@ -71,10 +71,12 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 	    			});
 	    			projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id});
 		            $('#newProjectModal').modal('hide');
-		            objects_utils.show_message('projects_message_div', 'success', 'Project created.');
+		            modalAlert('Project created.', function(){});
+		            //objects_utils.show_message('projects_message_div', 'success', 'Project created.');
 		            callback({projects: projects});
 		        }
-		        else objects_utils.show_message('new_project_message_div', 'warning', 'An error as occuried when creating the new project.');
+		        else modalAlert('An error as occuried when creating the new project.', function(){});
+		        //else objects_utils.show_message('new_project_message_div', 'warning', 'An error as occuried when creating the new project.');
     		})
     	},
     	delete_project: function(callback){
@@ -101,7 +103,7 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 					                if (d.id != project_id) new_projects.push(d);
 					            })
 					            projects = new_projects;
-					            objects_utils.show_message('projects_message_div', 'success', 'Project deleted.');
+					            //objects_utils.show_message('projects_message_div', 'success', 'Project deleted.');
 
 				        	}
 				        	else console.log(response.statusText);
@@ -126,7 +128,8 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
     		}
 		    
 		    if (selected_indexes.length == 0 && pass != true){
-		        objects_utils.show_message('projects_message_div', 'warning', 'Please select a project first.');
+		    	modalAlert('Please select a project first.', function(){});
+		        //objects_utils.show_message('projects_message_div', 'warning', 'Please select a project first.');
 		    }
 		    else{
 		    	pg_requests.load_project(CURRENT_PROJECT_ID, function(response){

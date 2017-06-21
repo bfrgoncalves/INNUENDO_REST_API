@@ -153,6 +153,9 @@ class StrainProjectListResource(Resource):
 		
 		db.session.commit()
 
+		strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
+		strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+
 		return strain, 200
 
 	@login_required

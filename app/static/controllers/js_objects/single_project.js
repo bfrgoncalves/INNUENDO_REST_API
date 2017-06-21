@@ -59,6 +59,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     	})
 
     	$('#modalAlert #buttonCancelAlert').on("click", function(){
+    		$('#modalAlert #buttonCancelAlert').off("click");
     		setTimeout(function(){callback(false)}, 400);
     	})
 

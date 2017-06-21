@@ -327,6 +327,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 							objects_utils.destroyTable('strains_table');
 							objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 						}
+						else if(results.prevent){
+							objects_utils.destroyTable('strains_table');
+							objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+						}
 						else{
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>New Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');

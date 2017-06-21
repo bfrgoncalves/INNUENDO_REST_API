@@ -103,7 +103,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            			console.log("AQUI");
 	            			pg_requests.remove_strain_from_project(strain_name, function(response){
 	            				objects_utils.destroyTable('strains_table');
-	            				callback({ strains_headers: strains_headers, strains: strains});
+	            				callback({ strains_headers: strains_headers, strains: strains, prevent:true});
 	            			});
 	            		}
 	            	});

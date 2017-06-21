@@ -94,7 +94,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
     		callback();
     	})
 
-    	$('#modalAlert').modal("show");
+    	setTimeout(function(){$('#modalAlert').modal("show")}, 400);
 
     }
 

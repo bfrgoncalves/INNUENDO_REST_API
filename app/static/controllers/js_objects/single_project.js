@@ -47,6 +47,25 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     }
 
+    function modalAlertAddSameFiles(text, callback){
+
+    	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#modalAlert #buttonSub').on("click", function(){
+    		$("#buttonCancelAlert").click();
+    		setTimeout(function(){callback(true)}, 400);
+    	})
+
+    	$('#modalAlert #buttonCancelAlert').on("click", function(){
+    		setTimeout(function(){callback(false)}, 400);
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }
+
     console.log(CURRENT_PROJECT_ID);
 
 
@@ -65,19 +84,24 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            	console.log(strains[s]);
 	            	if(md.File_1 == strains[s].File_1){
 	            		has_same_files = true;
-	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.file_1 + "<br>";
+	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.File_1 + "<br>";
 
 	            	}
 	            	if(md.File_2 == strains[s].File_2){
 	            		has_same_files = true;
-	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.file_2 + "<br>";
+	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.File_2 + "<br>";
 	            	}
 	            }
 
 	            if(has_same_files == true){
-	            	message = "<p>Some files associated with this strain are already being used in this Project:" +message_to_add+"</p>";
-	            	modalAlert(message, function(){
-	            		continue_adding();
+	            	message = "<p><b>Some files associated with this strain are already being used in this Project:</b></p><p>"+message_to_add+"</p>";
+	            	modalAlertAddSameFiles(message, function(toadd){
+	            		if(toadd) continue_adding();
+	            		else{
+	            			pg_requests.remove_strains_from_project(strain_name, function(response){
+	            				callback({ strains_headers: strains_headers, strains: strains});
+	            			});
+	            		}
 	            	});
 	            }
 	            else continue_adding();

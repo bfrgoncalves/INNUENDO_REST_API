@@ -94,7 +94,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
     		callback();
     	})
 
-    	setTimeout(function(){$('#modalAlert').modal("show")}, 400);
+    	$('#modalAlert').modal("show");
 
     }
 
@@ -455,7 +455,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-			modalAlert("Strains were removed from the project.", function(){});
+			//modalAlert("Strains were removed from the project.", function(){});
 		});
 	}
 

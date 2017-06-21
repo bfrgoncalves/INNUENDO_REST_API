@@ -785,8 +785,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				                    else{
 				                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], function(response, strainid){
 				                    		if(response.status == 200){
-				                    			console.log(response);
-				                    			if(response.data.length > 0){
+				                    			console.log(response, pipelines_applied, strainid);
+
+				                    			if(response.data.length > 0 && pipelines_applied[strainid].length > 0){
 				                    				modalAlert("The applied pipeline is being used in other projects. A so, the strain will be removed from the project but the pipeline will still be available.", function(){
 					                    				pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
 					                    					console.log(response, "DONE");

@@ -16,7 +16,7 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 
     	$('#modalAlert #buttonSub').on("click", function(){
     		$("#buttonCancelAlert").click();
-    		callback();
+    		setTimeout(function(){callback()}, 400);
     	})
 
     	$('#modalAlert').modal("show");

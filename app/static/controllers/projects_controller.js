@@ -24,7 +24,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
     	$('#modalAlert #buttonSub').on("click", function(){
     		$("#buttonCancelAlert").click();
-    		callback();
+    		setTimeout(function(){callback()}, 400);
     	})
 
     	$('#modalAlert').modal("show");

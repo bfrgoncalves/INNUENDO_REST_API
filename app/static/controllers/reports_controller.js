@@ -110,7 +110,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
     	$('#modalAlert #buttonSub').on("click", function(){
     		$("#buttonCancelAlert").click();
-    		callback();
+    		setTimeout(function(){callback()}, 400);
     	})
 
     	$('#modalAlert').modal("show");

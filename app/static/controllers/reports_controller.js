@@ -658,6 +658,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	    //console.log(current_names);
 
+	    //CHECK IF WORKS - RESET ACTIVE REPORT ON LOAD SAVED REPORT
+	    global_results_dict = {}
+	    current_strains_data = [];
+
 	    show_results_and_info(selected_job_ids);
 	    show_strains_metadata(current_names);
 
@@ -807,8 +811,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 						var q = Object.keys(global_results_dict);
 
-						console.log(q);
-
 						setTimeout(function(){
 							for(p in q){
 
@@ -835,7 +837,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									$('#reports_info_table_wrapper').css({'display':'block'});
 									$('#reports_results_table_wrapper').css({'display':'none'});
 									$('#reports_metadata_table_wrapper').css({'display':'none'});
-									//$('#'+table_id).DataTable().draw();
+
 								});
 
 								$('#results_info_' + q[p]).on('click',function(){
@@ -861,7 +863,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								});
 
 							}
-							console.log("BAHHSKAJ", run_infos);
 
 							if(run_infos.length == 0){
 								$('#reports_info_table thead').css({'visibility':'hidden'});

@@ -90,7 +90,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
     	$('#modalAlert #buttonSub').on("click", function(){
-    		$("buttonCancelAlert").click();
+    		$("#buttonCancelAlert").click();
     		callback();
     	})
 

@@ -94,11 +94,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            }
 
 	            if(has_same_files == true){
-	            	message = "<p><b>Some files associated with this strain are already being used in this Project:</b></p><p>"+message_to_add+"</p>";
+	            	message = "<p><b>Some files associated with this strain are already being used in this Project:</b></p><p>"+message_to_add+"</p><p><b>Do you want to proceed?</b></p>";
 	            	modalAlertAddSameFiles(message, function(toadd){
 	            		if(toadd) continue_adding();
 	            		else{
-	            			pg_requests.remove_strains_from_project(strain_name, function(response){
+	            			console.log("AQUI");
+	            			pg_requests.remove_strain_from_project(strain_name, function(response){
+	            				objects_utils.destroyTable('strains_table');
 	            				callback({ strains_headers: strains_headers, strains: strains});
 	            			});
 	            		}

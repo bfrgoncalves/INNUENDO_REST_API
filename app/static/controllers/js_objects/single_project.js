@@ -795,10 +795,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					                    			});
 				                    			}
 				                    			else{
-				                    				pg_requests.remove_pipeline_from_project(strainid, true, function(response){
-					                    			});
-					                    			ngs_onto_requests.ngs_onto_request_remove_pipeline(response.data.id, function(response){
-					                    				console.log('removed');
+				                    				pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
+				                    					console.log(response, "DONE");
 					                    			});
 				                    			}
 				                    		}

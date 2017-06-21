@@ -344,14 +344,17 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						console.log(strain_id);
 						add_strain([strain_id], function(results){
 							console.log(results);
-							if(results.message != undefined) return callback({message:results.message});
+							if(results.message != undefined){
+								objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+								return callback({message:results.message});
+							}
 							else{
 								single_project.get_and_apply_pipeline(1, p_id, strain_id, owner_p, function(response){
 									$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
 					                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-					                	console.log('#pipeline_group_'+s_id.replace(/ /g, "_"));
+					                	//console.log('#pipeline_group_'+s_id.replace(/ /g, "_"));
 					                	$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
 										$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
 					                	callback({strain_id:strain_id});

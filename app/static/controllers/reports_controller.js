@@ -106,12 +106,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
     	$("#active_rep_div").css({"display":"block"});
 		$("#saved_rep_div").css({"display":"none"});
 		$("#user_jobs_div").css({"display":"none"});
-		$("#reports_info_table").DataTable().draw();
-		$("#reports_results_table").DataTable().draw();
 		$("#reports_results_table_wrapper").css({"display": "none"});
 		$("#reports_results_table_wrapper").css({"display": "none"});
 		$('#reports_metadata_table_wrapper').css({'display':'none'});
 		$("#reports_info_table_wrapper").css({"display": "block"});
+		$("#reports_info_table").DataTable().draw();
+		$("#reports_results_table").DataTable().draw();
 		$("#act_rep").addClass("active");
 		$("#user_jobs").removeClass("active");
 		$("#saved_rep").removeClass("active");

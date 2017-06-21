@@ -318,7 +318,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				$(".new_pipeline_button").off('click');
 			
 				$(".new_pipeline_button").on('click', function(){
-					console.log(strain_id, strains_dict[$(this).attr("strain_id")]);
 					s_id=$(this).attr("strain_id");
 					add_strain([strains_dict[$(this).attr("strain_id")]], function(results){
 						if(results.message != undefined){

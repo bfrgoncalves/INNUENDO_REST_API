@@ -81,8 +81,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 	            for(s in strains){
 	            	md = JSON.parse(response.data.strain_metadata);
-	            	console.log(md);
-	            	console.log(strains[s]);
 	            	if(md.File_1 == strains[s].File_1){
 	            		has_same_files = true;
 	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.File_1 + "<br>";
@@ -97,10 +95,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            if(has_same_files == true){
 	            	message = "<p><b>Some files associated with this strain are already being used in this Project:</b></p><p>"+message_to_add+"</p><p><b>Do you want to proceed?</b></p>";
 	            	modalAlertAddSameFiles(message, function(toadd){
-	            		console.log(toadd);
 	            		if(toadd == true) continue_adding();
 	            		else{
-	            			console.log("AQUI");
 	            			pg_requests.remove_strain_from_project(strain_name, function(response){
 	            				objects_utils.destroyTable('strains_table');
 	            				callback({ strains_headers: strains_headers, strains: strains, prevent:true});

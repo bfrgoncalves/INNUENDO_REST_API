@@ -321,8 +321,17 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 					console.log(strain_id, strains_dict[$(this).attr("strain_id")]);
 					s_id=$(this).attr("strain_id");
 					add_strain([strains_dict[$(this).attr("strain_id")]], function(){
-						$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
-						$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>New Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
+						if(results.message != undefined){
+							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
+							$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Strain already on project.</b></p>');
+							objects_utils.destroyTable('strains_table');
+							objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+						}
+						else{
+							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
+							$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>New Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
+						}
+						
 					});
 				});
 
@@ -345,6 +354,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						add_strain([strain_id], function(results){
 							console.log(results);
 							if(results.message != undefined){
+								objects_utils.destroyTable('strains_table');
 								objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 								return callback({message:results.message});
 							}

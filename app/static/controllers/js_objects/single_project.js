@@ -62,12 +62,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            for(s in strains){
 	            	md = JSON.parse(response.data.strain_metadata);
 	            	console.log(md);
-	            	if(md.file_1 == strains[s].file_1){
+	            	console.log(strains[s]);
+	            	if(md.File_1 == strains[s].File_1){
 	            		has_same_files = true;
 	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.file_1 + "<br>";
 
 	            	}
-	            	if(md.file_2 == strains[s].file_2){
+	            	if(md.File_2 == strains[s].File_2){
 	            		has_same_files = true;
 	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.file_2 + "<br>";
 	            	}

@@ -54,41 +54,69 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		pg_requests.add_strain_to_project(strain_name, function(response){
 			if(response.status == 200){
-				ngs_onto_requests.ngs_onto_request_add_strain_to_project(response.data.id, function(response){
-					if(response.status == 200){
 
-					}
-					else console.log(response.statusText);
-				});
+	            var has_same_files = false;
+	            var message = "";
+	            var message_to_add = "";
 
-				var data = response.data;
-	            objects_utils.destroyTable('strains_table');
+	            for(s in strains){
+	            	md = JSON.parse(response.data.strain_metadata);
+	            	if(md.file_1 == strains[s].file_1){
+	            		has_same_files = true;
+	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.file_1 + "<br>";
 
-	            console.log(data);
-
-	            if (data.length != 0){
-	                strains_headers = JSON.parse(data.fields).metadata_fields;
-	                strains_headers.push('Analysis');
-	                
-	                var strain_data = JSON.parse(data.strain_metadata);
-	                strain_data['Analysis'] = "";
-	                var sd = {};
-	                for (i in strains_headers){
-	                    if(strain_data.hasOwnProperty(strains_headers[i])){
-	                        sd[strains_headers[i]] = strain_data[strains_headers[i]];
-	                    }
-	                }
-	                sd["strainID"] = data.strainID;
-	                if(!strains_dict.hasOwnProperty($.trim(data.strainID))){
-	                    strains_dict[$.trim(data.strainID)] = data.id;
-	                }
-	                strains.push(sd);
-
-	                //objects_utils.show_message('project_message_div', 'success', 'Strains were added to the project.');
-	                callback({ strains_headers: strains_headers, strains: strains});
-	            
+	            	}
+	            	if(md.file_2 == strains[s].file_2){
+	            		has_same_files = true;
+	            		message_to_add += "<b>"+strains[s].strainID + ":</b>" + md.file_2 + "<br>";
+	            	}
 	            }
-	 			else callback({ strains_headers: strains_headers, strains: strains});
+
+	            if(has_same_files == true){
+	            	message = "<p>Some files associated with this strain are already being used in this Project:" +message_to_add+"</p>";
+	            	modalAlert(message, function(){
+	            		continue_adding();
+	            	});
+	            }
+	            else continue_adding();
+
+	            function continue_adding(){
+
+	            	ngs_onto_requests.ngs_onto_request_add_strain_to_project(response.data.id, function(response){
+						if(response.status == 200){
+
+						}
+						else console.log(response.statusText);
+					});
+
+					var data = response.data;
+		            objects_utils.destroyTable('strains_table');
+
+		            if (data.length != 0){
+		                strains_headers = JSON.parse(data.fields).metadata_fields;
+		                strains_headers.push('Analysis');
+		                
+		                var strain_data = JSON.parse(data.strain_metadata);
+		                strain_data['Analysis'] = "";
+		                var sd = {};
+		                for (i in strains_headers){
+		                    if(strain_data.hasOwnProperty(strains_headers[i])){
+		                        sd[strains_headers[i]] = strain_data[strains_headers[i]];
+		                    }
+		                }
+		                sd["strainID"] = data.strainID;
+		                if(!strains_dict.hasOwnProperty($.trim(data.strainID))){
+		                    strains_dict[$.trim(data.strainID)] = data.id;
+		                }
+		                strains.push(sd);
+
+		                //objects_utils.show_message('project_message_div', 'success', 'Strains were added to the project.');
+		                callback({ strains_headers: strains_headers, strains: strains});
+		            
+		            }
+		 			else callback({ strains_headers: strains_headers, strains: strains});
+
+		        }
 	            //objects_utils.loadDataTables('strains_table', strains);
 			}
 			else{

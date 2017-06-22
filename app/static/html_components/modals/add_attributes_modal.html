@@ -6,7 +6,7 @@
     <div class="modal-content">
       <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4 class="modal-title">Modify Strain</h4>
+		<h4 class="modal-title">Add Metadata from Analysis</h4>
 	  </div>
       <div class="modal-body" style="margin:5%;">
       	<div class="row">
@@ -15,9 +15,9 @@
       	</div>
       	<br>
 
-      	<div class="row" ng-repeat="(key,val) in analysis_fields">
+      	<div class="row" ng-repeat="(key,val) in analysis_fields" id="{{ key }}">
       		<div class="list-group-item">
-	  	  	 	<label>{{ key }} : {{ val }}</label>
+	  	  	 	<label style="font-size: 10px;">{{ key }} : {{ val }}</label>
 			  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" style="float:right;" key="{{ key }}" val="{{ val }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
 			</div>
       	</div>

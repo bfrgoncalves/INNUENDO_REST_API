@@ -146,7 +146,12 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 				$scope.$apply(function(){
 					$scope.analysis_fields = to_show;
-				})
+				});
+
+				$('.add_to_metadata_strain_button').on("click", function(){
+					console.log($(this).attr("key"));
+					console.log($(this).attr("val"));
+				});
 			});
 
 

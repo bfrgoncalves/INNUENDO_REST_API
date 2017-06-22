@@ -1661,7 +1661,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
 		      				//check for files in user area
 		      				has_files += 1;
-		      				console.log("AQUI", hline_to_use[x]);
 
 		      				$('#'+hline_to_use[x] + " option").filter(function() {
 							    //may want to use $.trim in here

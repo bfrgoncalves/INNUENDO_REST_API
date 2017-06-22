@@ -60,9 +60,15 @@ table.display{
   height:auto;
 }
 
-#newStrainModal .modal-dialog, #choosePipelineModal .modal-dialog, #modifyStrainModal .modal-dialog, #addAttributeModal .modal-dialog{
+#newStrainModal .modal-dialog, #choosePipelineModal .modal-dialog, #modifyStrainModal .modal-dialog{
   width: 80%;
   height:auto;
+}
+
+#addAttributeModal .modal-dialog{
+  width: 80%;
+  height:80%;
+  margin: 5%;
 }
 
 #LabProtocolTableModal .modal-dialog{

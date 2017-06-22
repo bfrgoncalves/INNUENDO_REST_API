@@ -13,11 +13,12 @@
       		<label for="select_job">Job:Procedure</label>
       		<select name="select_job" data-width="100%" class="selectpicker" data-live-search="true" id="select_job"></select>
       	</div>
+      	<br>
 
       	<div class="row" ng-repeat="(key,val) in analysis_fields">
       		<div class="list-group-item">
-	  	  	 	<label>{{ key }}:{{ val }}</label>
-			  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" style="display:none;float:right;" key="{{ key }}" val="{{ val }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
+	  	  	 	<label>{{ key }} : {{ val }}</label>
+			  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" style="float:right;" key="{{ key }}" val="{{ val }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
 			</div>
       	</div>
 	  </div>

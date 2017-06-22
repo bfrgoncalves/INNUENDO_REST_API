@@ -60,7 +60,7 @@ class StrainListResource(Resource):
 		args=strain_project_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
-		print from_user
+		print args.from_user
 		if args.speciesID and args.from_user == "true":
 			strains = db.session.query(Strain).filter(Strain.species_id == args.speciesID, Strain.user_id == current_user.id).all()
 		elif args.speciesID and args.from_user == "false":

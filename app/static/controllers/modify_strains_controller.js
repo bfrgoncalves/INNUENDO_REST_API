@@ -130,7 +130,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 			$('.selectpicker').selectpicker({});
 
-			$('#addAttributeModal').show();
+			$('#addAttributeModal').modal("show");
 
 
 			/*objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);

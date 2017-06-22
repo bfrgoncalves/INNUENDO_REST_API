@@ -38,12 +38,12 @@ setTimeout(function(){
 	});
 
 	$(".navbar ul li").not('.navbar ul .drop').on("click", function(){
-		$("#button_ham_navbar").click();
+		$("#button_ham_navbar")[0].click();
 	})
 
 	$(".dropdiv ul li").on("click", function(){
 		console.log("AQUI");
-		$("#button_ham_navbar").click();
+		$("#button_ham_navbar")[0].click();
 	})
 
 }, 800);

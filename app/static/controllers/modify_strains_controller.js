@@ -123,7 +123,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			var to_select_job = "";
 
 			for(j in jobs_to_reports){
-				to_select_job += '<option>' + j + ' : <b>' + jobs_to_reports[j].procedure_name + '</b></option>';
+				to_select_job += '<option name="j">' + j + ' : <b>' + jobs_to_reports[j].procedure_name + '</b></option>';
 			}
 
 			$('#select_job').append(to_select_job);
@@ -131,6 +131,10 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			$('.selectpicker').selectpicker({});
 
 			$('#addAttributeModal').modal("show");
+
+			$('#select_job').on("change", function(){
+				console.log($(this).attr("name"));
+			});
 
 
 			/*objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);

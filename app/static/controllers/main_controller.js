@@ -26,6 +26,7 @@ $('a').click(function(){
 });
 
 function tclick(){
+	console.log('passou');
 	$("#button_ham_navbar")[0].click();
 }
 
@@ -41,12 +42,12 @@ setTimeout(function(){
 	  $('.row-offcanvas-left').toggleClass('active');
 	});
 
-	$(".navbar ul li").not('.navbar ul .drop').on("click", function(){
+	$(".dropdiv ul li").on("click", function(){
+		console.log("AQUI");
 		tclick();
 	})
 
-	$(".dropdiv ul li").on("click", function(){
-		console.log("AQUI");
+	$(".navbar ul li").not('.navbar ul .drop').on("click", function(){
 		tclick();
 	})
 

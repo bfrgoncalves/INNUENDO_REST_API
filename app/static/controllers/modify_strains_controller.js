@@ -84,6 +84,10 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	}
 
 	$scope.modifyStrains = function(){
+		var strain_selected = $.map($('#modify_strains_table').DataTable().rows('.selected').data(), function(item){
+	        return item;
+	    });
+	    console.log(strain_selected);
 		$('#modifyStrainModal').modal("show");
 	}
 

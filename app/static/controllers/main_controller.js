@@ -47,7 +47,7 @@ setTimeout(function(){
 		tclick();
 	})
 
-	$(".navbar ul li").not('.navbar ul .drop').on("click", function(){
+	$(".navbar ul li").not('.navbar ul .drop').not('.dropdiv ul li').on("click", function(){
 		tclick();
 	})
 

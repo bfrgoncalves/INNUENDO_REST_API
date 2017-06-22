@@ -1,0 +1,61 @@
+
+<div ng-controller="modifyStrainsCtrl" ng-init="showUserStrains()" style="display:none;" id="modify_strains_controller_div">
+	<ul class="nav nav-tabs">
+    <li class="active" id="project_tab"><a href="#">Project</a></li>
+    <li id="description_tab"><a href="#">Description</a></li>
+  </ul>
+
+  <div class="col-md-12 sub-header" style="margin-bottom:2px;">
+    <h2>{{ project.name }} <span style="float:right;">{{ specie_name }}</span></h2>
+  </div>
+
+  <div id="s_project_message_div"></div>
+
+  	<!-- Main jumbotron for project description -->
+    <div id="div_description" style="display:none;">
+      <div class="col-md-12">
+        <div class="sub_container">
+          <span>{{ project.description }}</span>
+          <!--<div class="jumbotron">
+              <span>{{ project.description }}</span>
+          </div>-->
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-12" style="padding:10px;">
+      <div class="sub_container">
+        <div id="jumbotron-strains" class="jumbotron">
+        <h3 class="sub-header">Strains</h3>
+          <!--<div class="scroll_div">-->
+            <table class="display compact hover" id="modify_strains_table" width='100%'>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th ng-repeat="header in strains_headers">{{ header }}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <!--<tbody>
+                <tr ng-repeat="strain in strains">
+                  <td></td>
+                  <td ng-repeat="field in strain">{{ field }}</td>
+                  </td>
+                </tr>
+              </tbody>-->
+              <tfoot>
+                <tr>
+                  <th></th>
+                  <th ng-repeat="header in strains_headers">{{ header }}</th>
+                  <th></th>
+                </tr>
+              </tfoot>
+            </table>
+          <!--</div>-->
+        </div>
+      </div>
+    </div>
+    </div>
+
+</div>

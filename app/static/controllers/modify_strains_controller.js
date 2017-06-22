@@ -98,11 +98,11 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    $('#modifyStrainModal').modal("show");
 
 	    $('#add_metadata_from_analysis_button').on("click", function(){
-	    	$scope.loadAnalysisFromStrain(strain_id_in_use);
+	    	loadAnalysisFromStrain(strain_id_in_use);
 	    });
 	}
 
-	$scope.loadAnalysisFromStrain = function(strain_id){
+	loadAnalysisFromStrain = function(strain_id){
 
 		reports.get_reports_by_strain(strain_id, function(response){
 				

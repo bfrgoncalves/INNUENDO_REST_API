@@ -46,4 +46,4 @@ setTimeout(function(){
 		$("#button_ham_navbar").click();
 	})
 
-}, 500);
+}, 800);

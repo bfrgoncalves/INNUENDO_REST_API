@@ -26,7 +26,6 @@ $('a').click(function(){
 });
 
 function tclick(){
-	console.log('passou');
 	$("#button_ham_navbar")[0].click();
 }
 
@@ -43,7 +42,6 @@ setTimeout(function(){
 	});
 
 	$(".dropdiv ul li").on("click", function(){
-		console.log("AQUI");
 		tclick();
 	})
 

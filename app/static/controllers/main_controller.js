@@ -41,7 +41,8 @@ setTimeout(function(){
 		$("#button_ham_navbar").click();
 	})
 
-	$(".drop div ul li").on("click", function(){
+	$(".dropdiv ul li").on("click", function(){
+		console.log("AQUI");
 		$("#button_ham_navbar").click();
 	})
 

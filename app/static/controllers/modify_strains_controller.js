@@ -34,7 +34,6 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
         { "data": "Location" },
         { "data": "SampleReceivedDate" },
         { "data": "SamplingDate" },
-        { "data": "Submitter" },
         {
             "className":      'details-control',
             "orderable":      false,

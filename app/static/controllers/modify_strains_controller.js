@@ -1,5 +1,5 @@
 
-innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
+innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) {
 
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 

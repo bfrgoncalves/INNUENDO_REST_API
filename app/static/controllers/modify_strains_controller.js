@@ -78,6 +78,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 		    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
 		    $('#waiting_spinner').css({display:'none'});
 		    $('#modify_strains_controller_div').css({display:'block'}); 
+		    $("#modify_strains_table").DataTables().draw();
 		});
 
 	}

@@ -88,7 +88,10 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	        return item;
 	    });
 	    console.log(strain_selected);
-		$('#modifyStrainModal').modal("show");
+	    for(key in strain_selected[0]){
+	    	$('#'+key).val(strain_selected[0][key]);
+	    }
+	    $('#modifyStrainModal').modal("show");
 	}
 
 

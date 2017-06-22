@@ -123,7 +123,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			var to_select_job = "";
 
 			for(j in jobs_to_reports){
-				to_select_job += '<option name="j">' + j + ' : <b>' + jobs_to_reports[j].procedure_name + '</b></option>';
+				to_select_job += '<option name="'+j+'">' + j + ' : <b>' + jobs_to_reports[j].procedure_name + '</b></option>';
 			}
 
 			$('#select_job').append(to_select_job);
@@ -133,7 +133,20 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			$('#addAttributeModal').modal("show");
 
 			$('#select_job').on("change", function(){
-				console.log($(this).find(":selected").attr("name"));
+				var job_id = $(this).find(":selected").attr("name");
+				var to_show = "";
+				if(jobs_to_reports[job_id].procedure_name.indexOf("chewBBACA") > -1) return;
+				else if(jobs_to_reports[job_id].procedure_name.indexOf("PathoTyping") > -1){
+					to_show = jobs_to_reports[job_id].report_data.run_output;
+				}
+				else if(jobs_to_reports[job_id].procedure_name.indexOf("INNUca") > -1){
+					reads_name = Object.keys(jobs_to_reports[job_id].report_data.run_stats);
+					to_show = jobs_to_reports[job_id].report_data.run_stats[reads_name];
+				}
+
+				$scope.$apply(function(){
+					$scope.analysis_fields = to_show;
+				})
 			});
 
 

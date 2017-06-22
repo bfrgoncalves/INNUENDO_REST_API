@@ -8,6 +8,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	var metadata = new Metadata();
 
 	single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
+	reports = new Report($http);
 
 	metadata.add_owner(CURRENT_USER_NAME);
 
@@ -88,11 +89,41 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	        return item;
 	    });
 	    console.log(strain_selected);
+	    var strain_id_in_use = strain_selected[0].strainID;
+
 	    for(key in strain_selected[0]){
 	    	console.log(key);
 	    	$('#'+key).val(strain_selected[0][key]);
 	    }
 	    $('#modifyStrainModal').modal("show");
+
+	    $('#add_metadata_from_analysis_button').on("click", function(){
+	    	$scope.loadAnalysisFromStrain(strain_id_in_use);
+	    });
+	}
+
+	$scope.loadAnalysisFromStrain = function(strain_id){
+
+		reports.get_reports_by_strain(strain_id, function(response){
+				
+			user_reports = response.data;
+			console.log(response);
+			if(user_reports.message != undefined) user_reports = [];
+
+			console.log(user_reports);
+
+			/*objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
+
+			$('#waiting_spinner').css({display:'none'}); 
+			$('#reports_area').css({display:'block'});
+
+			$("#reports_table").DataTable().draw();
+
+			if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
+				show_results_and_info($rootScope.showing_jobs);
+			}*/
+		});
+
 	}
 
 

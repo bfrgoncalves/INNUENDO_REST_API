@@ -84,6 +84,9 @@ function Objects_Utils(){
 	    if(table_id == "public_strains_table") page_length = 10;
 	    else page_length = 50;
 
+	    if(table_id == "modify_strains_table") selection_style = "single";
+	    else selection_style = "multi";
+
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
 	    	//"scrollY": "200px",
@@ -92,7 +95,7 @@ function Objects_Utils(){
 	        paging:true,
 	        "pageLength": page_length,
 	        select: {
-	            style:    'multi',
+	            style:    selection_style,
 	            selector: 'td:first-child'
 	        },
 	        buttons: [

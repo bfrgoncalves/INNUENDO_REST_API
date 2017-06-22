@@ -133,7 +133,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			$('#addAttributeModal').modal("show");
 
 			$('#select_job').on("change", function(){
-				console.log($(this).attr("name"));
+				console.log($(this).find(":selected").attr("name"));
 			});
 
 

@@ -41,7 +41,7 @@ setTimeout(function(){
 		$("#button_ham_navbar").click();
 	})
 
-	$(".navbar ul .drop ul li").on("click", function(){
+	$(".drop div ul li").on("click", function(){
 		$("#button_ham_navbar").click();
 	})
 

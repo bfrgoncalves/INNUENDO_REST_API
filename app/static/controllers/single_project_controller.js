@@ -419,7 +419,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
 	$scope.getStrains = function(callback){
 
-		single_project.get_strains(function(strains_results){
+		single_project.get_strains(false, function(strains_results){
 		    objects_utils.destroyTable('strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    objects_utils.loadDataTables('public_strains_table', global_public_strains, public_project_col_defs, strains_headers);

@@ -20,6 +20,7 @@ strain_post_parser = reqparse.RequestParser()
 strain_project_parser = reqparse.RequestParser()
 strain_project_parser.add_argument('strainID', dest='strainID', type=str, required=False, help="Strain identifier")
 strain_project_parser.add_argument('speciesID', dest='speciesID', type=str, required=False, help="Species identifier")
+strain_project_parser.add_argument('from_user', dest='from_user', type=str, required=False, help="Get strains submitter only by user")
 
 #Defining response fields
 
@@ -59,7 +60,10 @@ class StrainListResource(Resource):
 		args=strain_project_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
-		if args.speciesID:
+		print from_user
+		if args.speciesID and args.from_user == "true":
+			strains = db.session.query(Strain).filter(Strain.species_id == args.speciesID, Strain.user_id == current_user.id).all()
+		elif args.speciesID and args.from_user == "false":
 			strains = db.session.query(Strain).filter(Strain.species_id == args.speciesID).all()
 		else:
 			strains = db.session.query(Strain).all()

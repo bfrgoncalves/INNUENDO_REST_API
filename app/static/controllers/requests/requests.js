@@ -337,7 +337,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });	
 
 		},
-		get_strains: function(CURRENT_SPECIES_ID, callback){
+		get_strains: function(CURRENT_SPECIES_ID, from_user, callback){
 
 
 		    req = {
@@ -345,7 +345,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET',
 		        params:
 		        {
-		        	speciesID: CURRENT_SPECIES_ID
+		        	speciesID: CURRENT_SPECIES_ID,
+		        	from_user: from_user
 		        }
 		    }
 

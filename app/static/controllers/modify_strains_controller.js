@@ -13,6 +13,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 
 	$scope.metadata_fields = metadata.get_fields();
+	$scope.specie_name = CURRENT_SPECIES_NAME;
 
 	var strains_headers = metadata.get_minimal_fields();
 
@@ -33,6 +34,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
         { "data": "Location" },
         { "data": "SampleReceivedDate" },
         { "data": "SamplingDate" },
+        { "data": "Submitter" },
         {
             "className":      'details-control',
             "orderable":      false,
@@ -71,7 +73,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 	$scope.getStrains = function(){
 
-		single_project.get_strains(function(strains_results){
+		single_project.get_strains(true, function(strains_results){
 		    objects_utils.destroyTable('modify_strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);

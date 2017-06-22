@@ -354,9 +354,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			});
 		},
-		get_strains: function(callback){
+		get_strains: function(from_user, callback){
 
-			pg_requests.get_strains(CURRENT_SPECIES_ID, function(response){
+			pg_requests.get_strains(CURRENT_SPECIES_ID, from_user, function(response){
 				if(response.status == 200){
 					console.log(response.data);
 					var max_headers = 0;
@@ -395,7 +395,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				else console.log(response.statusText);
 
 
-			})
+			}),
+
+
 			
 			$('#fromdbbutton').click(function(){
 				var table = $("#public_strains_table").DataTable();

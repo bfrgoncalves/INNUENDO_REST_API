@@ -25,6 +25,10 @@ $('a').click(function(){
 	$(this).parent().addClass("active").siblings().removeClass("active");
 });
 
+function tclick(){
+	$("#button_ham_navbar")[0].click();
+}
+
 
 setTimeout(function(){
 	$('#overviewLink').trigger('click');
@@ -38,12 +42,12 @@ setTimeout(function(){
 	});
 
 	$(".navbar ul li").not('.navbar ul .drop').on("click", function(){
-		$("#button_ham_navbar")[0].click();
+		tclick();
 	})
 
 	$(".dropdiv ul li").on("click", function(){
 		console.log("AQUI");
-		$("#button_ham_navbar")[0].click();
+		tclick();
 	})
 
 }, 800);

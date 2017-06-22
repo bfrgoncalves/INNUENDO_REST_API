@@ -12,6 +12,8 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 	metadata.add_owner(CURRENT_USER_NAME);
 
+	var jobs_to_reports = {};
+
 
 	$scope.metadata_fields = metadata.get_fields();
 	$scope.specie_name = CURRENT_SPECIES_NAME;
@@ -111,6 +113,25 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			if(user_reports.message != undefined) user_reports = [];
 
 			console.log(user_reports);
+
+			jobs_to_reports = {};
+
+			for(job in user_reports){
+				jobs_to_reports[user_reports[job].job_id] = user_reports[job]
+			}
+
+			var to_select_job = "";
+
+			for(j in jobs_to_reports){
+				to_select_job += '<option>' + j + ':' + jobs_to_reports[j].procedure_name + '</option>';
+			}
+
+			$('#select_job').append(to_select_job);
+
+			$('.selectpicker').selectpicker({});
+
+			$('#addAttributeModal').show();
+
 
 			/*objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
 

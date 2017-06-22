@@ -37,11 +37,11 @@ setTimeout(function(){
 	  $('.row-offcanvas-left').toggleClass('active');
 	});
 
-	$(".navbar ul li").not('.navbar ul li .drop').on("click", function(){
+	$(".navbar ul li").not('.navbar ul .drop').on("click", function(){
 		$("#button_ham_navbar").click();
 	})
 
-	$(".navbar ul li .drop div ul li").on("click", function(){
+	$(".navbar ul .drop div ul li").on("click", function(){
 		$("#button_ham_navbar").click();
 	})
 

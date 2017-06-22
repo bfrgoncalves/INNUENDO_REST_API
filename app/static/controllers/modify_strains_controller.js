@@ -83,5 +83,9 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 	}
 
+	$scope.modifyStrains = function(){
+		$('#modifyStrainModal').modal("show");
+	}
+
 
 });

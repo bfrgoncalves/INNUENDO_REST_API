@@ -6,7 +6,7 @@
     <h2>Modify Strains <span style="float:right;">{{ specie_name }}</span></h2>
   </div>
 
-  <div id="s_project_message_div"></div>
+  <div ng-include src="'static/html_components/modals/modify_strain_modal.html'"></div>
 
   	<!-- Main jumbotron for project description -->
     <div id="div_description" style="display:none;">
@@ -24,7 +24,7 @@
     <div class="col-md-12" style="padding:10px;">
       <div class="sub_container">
         <div id="jumbotron-strains" class="jumbotron">
-        <h3 class="sub-header">Strains</h3>
+        <h3 class="sub-header">Strains<button id="button_modify_strain" type="button" class="btn btn-sm btn-primary" ng-click="modifyStrains()" value="" style="float:right;"><i class="fa fa-sign-in" data-toggle="tooltip" data-placement="top" title="Modify Strain"></i></button></h3>
           <!--<div class="scroll_div">-->
             <table class="display compact hover" id="modify_strains_table" width='100%'>
               <thead>

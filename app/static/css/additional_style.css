@@ -60,7 +60,7 @@ table.display{
   height:auto;
 }
 
-#newStrainModal .modal-dialog, #choosePipelineModal .modal-dialog{
+#newStrainModal .modal-dialog, #choosePipelineModal .modal-dialog, #modifyStrainModal .modal-dialog{
   width: 80%;
   height:auto;
 }

@@ -6,7 +6,7 @@
     <div class="modal-content">
       <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4 class="modal-title">New Pipeline</h4>
+		<h4 class="modal-title">Modify Strain</h4>
 	  </div>
       <div class="modal-body">
 		<form role="form" id="modify_strain_form" ng-submit="change_Strain()">
@@ -61,29 +61,10 @@
 					<textarea rows="4" cols="50" class="form-control" id="AdditionalInformation" name="AdditionalInformation" placeholder="Additional Information"></textarea>
 				</div>
 			</div>
-			<div class="row">
-				<div class="form-group col-md-4">
-					<label>File Type</label>
-					<select name="fileselector" class="form-control" id="file_selector" form="database_file_form">
-				    	<option id="r_pe">Reads: Paired End</option>
-				    	<!--<option id="r_se">Reads: Single End</option>
-				    	<option id="assembly">Assembly</option>-->
-				    </select>
-				</div>
-				<div class="form-group col-md-4">
-					<label>File 1</label>
-			    	<select name="File_1" data-width="100%" class="selectpicker" data-live-search="true" id="File_1">
-			    </select>
-				</div>
-				<div class="form-group col-md-4">
-					<label>File 2</label>
-			    	<select name="File_2" data-width="100%" class="selectpicker" data-live-search="true" id="File_2">
-			    </select>
-				</div>
-			</div>
+			
 			<div class="row">
 				<div class="col-md-12" style="text-align:center;">
-					<button class="btn btn-primary" id="newstrainbuttonsubmit" type="submit">Add Strain</button>
+					<button class="btn btn-primary" id="newstrainbuttonsubmit" type="submit">Modify Strain</button>
 				</div>
 				<div class="col-md-12" id="new_strain_message_div"></div>
 			</div>

@@ -774,6 +774,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$('#reports_metadata_table thead').css({'visibility':'visible'});
 				$('#reports_metadata_table tfoot').css({'visibility':'visible'});
 
+				console.log(current_strains_data);
+
 				objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
 
 				$('#reports_metadata_table_wrapper').css({'display':'none'});

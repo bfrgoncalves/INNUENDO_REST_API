@@ -19,6 +19,8 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 	$scope.metadata_fields = metadata.get_fields();
 	$scope.specie_name = CURRENT_SPECIES_NAME;
 
+	var current_p = "";
+
 
 	function modalAlert(text, callback){
 
@@ -42,8 +44,6 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 	});
 
 	$scope.showWorkflows = function(){
-
-		var current_p = "";
 
 		single_project.get_workflows("Procedure", function(pipelines){
 			console.log(pipelines);
@@ -94,6 +94,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
 				$('.remove_from_metadata_strain_button').on("click", function(){
 					console.log($(this).attr("key"));
+					console.log(current_p);
 					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
 					$('#select_job').trigger("change");
 					/*single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){

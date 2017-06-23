@@ -88,6 +88,15 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 						console.log("Updated");
 					});*/
 				});
+
+				$('.remove_from_metadata_strain_button').on("click", function(){
+					console.log($(this).attr("key"));
+					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
+					$('#select_job').trigger("change");
+					/*single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){
+						console.log("Updated");
+					});*/
+				});
 			});
 		});
 

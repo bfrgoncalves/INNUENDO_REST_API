@@ -59,7 +59,8 @@ class PHYLOViZResource(Resource):
 
 		count_ids = 0
 		additional_data = json.loads(args.additional_data)
-
+		print additional_data
+		'''
 		for job_id in total_j_ids:
 			body_profile = [];
 			report = db.session.query(Report).filter(Report.job_id == job_id).first()
@@ -120,7 +121,7 @@ class PHYLOViZResource(Resource):
 			
 			for y in all_profiles:
 				p_file.write(y + '\n')
-
+		'''
 		#WRITE METADATA FILE
 		with open(file_path_metadata, "w") as p_file:			
 			p_file.write("\t".join(headers_metadata) + "\n")

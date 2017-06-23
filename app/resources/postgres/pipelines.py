@@ -65,7 +65,6 @@ class PipelineListResource(Resource):
 	@marshal_with(pipeline_fields)
 	def get(self, id): #project_id
 		args=pipeline_get_parser.parse_args()
-		print args
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
 		if args.strain_id_all:
@@ -82,8 +81,6 @@ class PipelineListResource(Resource):
 		if not pipelines:
 			abort(404, message="No pipelines are available")
 
-		for pipeline in pipelines:
-			print pipeline.project_id
 		return pipelines, 200
 
 	@login_required
@@ -122,7 +119,6 @@ class PipelineListResource(Resource):
 		args=pipeline_delete_parser.parse_args()
 		if not current_user.is_authenticated:
 				abort(403, message="No permissions")
-		print args.strain_id
 		pipeline = db.session.query(Pipeline).filter(Pipeline.strain_id == args.strain_id, Pipeline.project_id == id).first()
 		if not pipeline:
 			abort(404, message="Pipeline {} doesn't exist".format(id))

@@ -20,7 +20,7 @@ user_fields = {
 #Define studies resources
 
 user_parser = reqparse.RequestParser()
-user_parser.add_argument('parameters_object', dest='parameters_object', type=str, required=False, help="Analysis parameters selector")
+user_parser.add_argument('parameters_object', dest='parameters_object', type=str, required=True, help="Analysis parameters selector")
 
 class UserListResource(Resource):
 
@@ -41,6 +41,7 @@ class UserResource(Resource):
     @login_required
     @marshal_with(user_fields)
     def put(self):
+        args=user_parser.parse_args()
         users = db.session.query(User).filter(User.id == current_user.id).first()
         users.analysis_parameters_object = args.parameters_object
         db.session.commit()

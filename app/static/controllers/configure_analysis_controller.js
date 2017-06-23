@@ -4,6 +4,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
 	var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
+	var single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
 
 	var jobs_to_reports = {};
 	var strain_name_to_id = {};

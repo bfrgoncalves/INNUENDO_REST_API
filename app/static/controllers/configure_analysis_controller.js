@@ -35,68 +35,64 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
 	$scope.showWorkflows = function(){
 
-		pg_requests.get_user_parameters(function(response){
-			console.log(response);
+		single_project.get_workflows("Procedure", function(pipelines){
+			console.log(pipelines);
+			var to_show = "";
+			pipelines.map(function(d){
+				to_show += "<option name='"+d.name+"'>" + d.name + "</option>";
+			});
+			$("#select_job").append(to_show);
+			$('.selectpicker').selectpicker({});
+			$('#waiting_spinner').css({display:'none'});
+			$('#configure_analysis_controller_div').css({display:'block'});
 
-			single_project.get_workflows("Procedure", function(pipelines){
-				console.log(pipelines);
-				var to_show = "";
-				pipelines.map(function(d){
-					to_show += "<option name='"+d.name+"'>" + d.name + "</option>";
+			$('#select_job').on("change", function(){
+				var procedure_name = $(this).find(":selected").attr("name");
+				var to_show = [];
+
+				if(procedure_name.indexOf("chewBBACA") > -1){
+					current_p = "chewBBACA";
+					for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
+						to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["chewBBACA"][x]]);
+					}
+				}
+				else if(procedure_name.indexOf("PathoTyping") > -1){
+					current_p = "PathoTyping";
+					for (x in ANALYSYS_PARAMETERS["PathoTyping"]){
+						to_show.push([x,ANALYSYS_PARAMETERS["PathoTyping"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["PathoTyping"][x]]);
+					}
+				}
+				else if(procedure_name.indexOf("INNUca") > -1){
+					current_p = "INNUca";
+					for (x in ANALYSYS_PARAMETERS["INNUca"]){
+						to_show.push([x,ANALYSYS_PARAMETERS["INNUca"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["INNUca"][x]]);
+					}
+				}
+
+				$scope.$apply(function(){
+					$scope.analysis_fields = to_show;
 				});
-				$("#select_job").append(to_show);
-				$('.selectpicker').selectpicker({});
-				$('#waiting_spinner').css({display:'none'});
-				$('#configure_analysis_controller_div').css({display:'block'});
 
-				$('#select_job').on("change", function(){
-					var procedure_name = $(this).find(":selected").attr("name");
-					var to_show = [];
-
-					if(procedure_name.indexOf("chewBBACA") > -1){
-						current_p = "chewBBACA";
-						for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
-							to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["chewBBACA"][x]]);
-						}
-					}
-					else if(procedure_name.indexOf("PathoTyping") > -1){
-						current_p = "PathoTyping";
-						for (x in ANALYSYS_PARAMETERS["PathoTyping"]){
-							to_show.push([x,ANALYSYS_PARAMETERS["PathoTyping"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["PathoTyping"][x]]);
-						}
-					}
-					else if(procedure_name.indexOf("INNUca") > -1){
-						current_p = "INNUca";
-						for (x in ANALYSYS_PARAMETERS["INNUca"]){
-							to_show.push([x,ANALYSYS_PARAMETERS["INNUca"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["INNUca"][x]]);
-						}
-					}
-
-					$scope.$apply(function(){
-						$scope.analysis_fields = to_show;
+				$('.add_to_metadata_strain_button').on("click", function(){
+					console.log($(this).attr("key"));
+					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
+					$('#select_job').trigger("change");
+					pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
+						console.log(response);
 					});
 
-					$('.add_to_metadata_strain_button').on("click", function(){
-						console.log($(this).attr("key"));
-						ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
-						$('#select_job').trigger("change");
-						pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
-							console.log(response);
-						});
+				});
 
+				$('.remove_from_metadata_strain_button').on("click", function(){
+					console.log($(this).attr("key"));
+					console.log(current_p);
+					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
+					$('#select_job').trigger("change");
+
+					pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
+						console.log(response);
 					});
 
-					$('.remove_from_metadata_strain_button').on("click", function(){
-						console.log($(this).attr("key"));
-						console.log(current_p);
-						ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
-						$('#select_job').trigger("change");
-
-						pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
-							console.log(response);
-						});
-
-					});
 				});
 			});
 		});

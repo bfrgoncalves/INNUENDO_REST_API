@@ -13,6 +13,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 		$("#overview_li").css({"display":"block"});
 
 		var projects_table = new Projects_Table(0, null, $http);
+		var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
 		if(CURRENT_USER_NAME == ""){
 			$("#load_species_row").css({"display":"none"});
@@ -37,6 +38,12 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 	        });
 		}
+
+		pg_requests.get_user_parameters(function(response){
+			console.log(response);
+			ANALYSYS_PARAMETERS = JSON.parse(response.data.analysis_parameters_object);
+			console.log(ANALYSYS_PARAMETERS);
+		});
 
 	}
 

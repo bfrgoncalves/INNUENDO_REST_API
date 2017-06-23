@@ -12,9 +12,10 @@
 	
 
 	<div class="col-md-12" ng-repeat="val in analysis_fields" id="{{ val[0] }}" style="margin-top: 10px;">
-		<div class="list-group-item">
-	  	 	<label style="font-size: 10px;">{{ val }}</label>
-		  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" style="float:right;background-color:{{ val[1] }}" key="{{ val[0] }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
+		<div class="list-group-item" style="background-color:{{ val[1] }}">
+	  	 	<label style="font-size: 10px;">{{ val[0] }}</label>
+	  	 	<button class="btn btn-sm btn-default remove_from_metadata_strain_button" ng-if="{{ val[2] == true }}" style="float:right;" key="{{ val[0] }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
+		  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" ng-if="{{ val[2] == false }}" style="float:right;" key="{{ val[0] }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
 		</div>
 	</div>
 

@@ -59,17 +59,17 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 				if(procedure_name.indexOf("chewBBACA") > -1){
 					for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
 
-						to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff"]);
+						to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff"], ANALYSYS_PARAMETERS["chewBBACA"][x]);
 					}
 				}
 				else if(procedure_name.indexOf("PathoTyping") > -1){
 					for (x in ANALYSYS_PARAMETERS["PathoTyping"]){
-						to_show.push([x,ANALYSYS_PARAMETERS["PathoTyping"][x] == true ? "#c0ffee": "#ffffff"]);
+						to_show.push([x,ANALYSYS_PARAMETERS["PathoTyping"][x] == true ? "#c0ffee": "#ffffff"], ANALYSYS_PARAMETERS["PathoTyping"][x]);
 					}
 				}
 				else if(procedure_name.indexOf("INNUca") > -1){
 					for (x in ANALYSYS_PARAMETERS["INNUca"]){
-						to_show.push([x,ANALYSYS_PARAMETERS["INNUca"][x] == true ? "#c0ffee": "#ffffff"]);
+						to_show.push([x,ANALYSYS_PARAMETERS["INNUca"][x] == true ? "#c0ffee": "#ffffff"], ANALYSYS_PARAMETERS["INNUca"][x]);
 					}
 				}
 

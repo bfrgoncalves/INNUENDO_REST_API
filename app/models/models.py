@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
 	email = db.Column(db.String(120), index=True, unique=True)
 	roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 	projects = db.relationship('Project', backref='author', lazy='dynamic')
-	analysis_parameters_object = db.Column(db.JSON)
+	analysis_parameters_object = db.Column(JSON)
 	#The backref argument defines a field that will be added to the objects of the "many" class that points back at the "one" object. 
 	#In our case this means that we can use post.author to get the User instance that created a post.
 	

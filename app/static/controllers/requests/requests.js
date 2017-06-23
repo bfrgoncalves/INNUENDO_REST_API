@@ -670,6 +670,54 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 		},
 
+		get_user_files: function(callback){
+
+			req = {
+		        url: 'api/v1.0/files/',
+		        method:'GET'
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+		},
+
+		set_user_parameters: function(parameters_object_string, callback){
+
+			req = {
+		        url: 'api/v1.0/user/',
+		        method:'PUT',
+		        params: {
+		        	parameters_object: parameters_object_string
+		        }
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+		},
+
+		get_user_parameters: function(parameters_object_string, callback){
+
+			req = {
+		        url: 'api/v1.0/user/',
+		        method:'GET'
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+		},
+
 		download_file: function(path, callback){
 
 			url = CURRENT_JOBS_ROOT + 'results/download/?file_path=' + encodeURI(path);

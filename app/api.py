@@ -28,7 +28,7 @@ api = Api(app)
 ################################ Define App routes #######################################################
 
 api.add_resource(UserListResource, '/api/v1.0/users/', endpoint = 'all_users')
-api.add_resource(UserResource, '/api/v1.0/users/<int:id>', endpoint = 'single_user')
+api.add_resource(UserResource, '/api/v1.0/user/', endpoint = 'single_user')
 
 api.add_resource(ProjectListUserResource, '/api/v1.0/projects/', endpoint = 'user_projects')
 api.add_resource(ProjectListUserSpecieResource, '/api/v1.0/projects/species/<int:id>', endpoint = 'user_specie_projects')

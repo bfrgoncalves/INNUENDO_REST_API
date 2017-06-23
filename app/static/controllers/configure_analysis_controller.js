@@ -3,21 +3,10 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
-	var objects_utils = new Objects_Utils();
-
-	var metadata = new Metadata();
-
-	single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
-	reports = new Report($http);
-
-	metadata.add_owner(CURRENT_USER_NAME);
+	var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
 	var jobs_to_reports = {};
 	var strain_name_to_id = {};
-
-
-	$scope.metadata_fields = metadata.get_fields();
-	$scope.specie_name = CURRENT_SPECIES_NAME;
 
 	var current_p = "";
 
@@ -45,65 +34,71 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
 	$scope.showWorkflows = function(){
 
-		single_project.get_workflows("Procedure", function(pipelines){
-			console.log(pipelines);
-			var to_show = "";
-			pipelines.map(function(d){
-				to_show += "<option name='"+d.name+"'>" + d.name + "</option>";
-			});
-			$("#select_job").append(to_show);
-			$('.selectpicker').selectpicker({});
-			$('#waiting_spinner').css({display:'none'});
-			$('#configure_analysis_controller_div').css({display:'block'});
+		pg_requests.get_user_parameters(function(response){
+			console.log(response);
 
-			$('#select_job').on("change", function(){
-				var procedure_name = $(this).find(":selected").attr("name");
-				var to_show = [];
-
-				if(procedure_name.indexOf("chewBBACA") > -1){
-					current_p = "chewBBACA";
-					for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
-						to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["chewBBACA"][x]]);
-					}
-				}
-				else if(procedure_name.indexOf("PathoTyping") > -1){
-					current_p = "PathoTyping";
-					for (x in ANALYSYS_PARAMETERS["PathoTyping"]){
-						to_show.push([x,ANALYSYS_PARAMETERS["PathoTyping"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["PathoTyping"][x]]);
-					}
-				}
-				else if(procedure_name.indexOf("INNUca") > -1){
-					current_p = "INNUca";
-					for (x in ANALYSYS_PARAMETERS["INNUca"]){
-						to_show.push([x,ANALYSYS_PARAMETERS["INNUca"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["INNUca"][x]]);
-					}
-				}
-
-				$scope.$apply(function(){
-					$scope.analysis_fields = to_show;
+			single_project.get_workflows("Procedure", function(pipelines){
+				console.log(pipelines);
+				var to_show = "";
+				pipelines.map(function(d){
+					to_show += "<option name='"+d.name+"'>" + d.name + "</option>";
 				});
+				$("#select_job").append(to_show);
+				$('.selectpicker').selectpicker({});
+				$('#waiting_spinner').css({display:'none'});
+				$('#configure_analysis_controller_div').css({display:'block'});
 
-				$('.add_to_metadata_strain_button').on("click", function(){
-					console.log($(this).attr("key"));
-					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
-					$('#select_job').trigger("change");
-					/*single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){
-						console.log("Updated");
-					});*/
-				});
+				$('#select_job').on("change", function(){
+					var procedure_name = $(this).find(":selected").attr("name");
+					var to_show = [];
 
-				$('.remove_from_metadata_strain_button').on("click", function(){
-					console.log($(this).attr("key"));
-					console.log(current_p);
-					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
-					$('#select_job').trigger("change");
-					/*single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){
-						console.log("Updated");
-					});*/
+					if(procedure_name.indexOf("chewBBACA") > -1){
+						current_p = "chewBBACA";
+						for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
+							to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["chewBBACA"][x]]);
+						}
+					}
+					else if(procedure_name.indexOf("PathoTyping") > -1){
+						current_p = "PathoTyping";
+						for (x in ANALYSYS_PARAMETERS["PathoTyping"]){
+							to_show.push([x,ANALYSYS_PARAMETERS["PathoTyping"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["PathoTyping"][x]]);
+						}
+					}
+					else if(procedure_name.indexOf("INNUca") > -1){
+						current_p = "INNUca";
+						for (x in ANALYSYS_PARAMETERS["INNUca"]){
+							to_show.push([x,ANALYSYS_PARAMETERS["INNUca"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["INNUca"][x]]);
+						}
+					}
+
+					$scope.$apply(function(){
+						$scope.analysis_fields = to_show;
+					});
+
+					$('.add_to_metadata_strain_button').on("click", function(){
+						console.log($(this).attr("key"));
+						ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
+						$('#select_job').trigger("change");
+						pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
+							console.log(response);
+						});
+
+					});
+
+					$('.remove_from_metadata_strain_button').on("click", function(){
+						console.log($(this).attr("key"));
+						console.log(current_p);
+						ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
+						$('#select_job').trigger("change");
+
+						pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
+							console.log(response);
+						});
+
+					});
 				});
 			});
 		});
-
 	}
 
 });

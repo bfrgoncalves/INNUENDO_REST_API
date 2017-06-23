@@ -716,7 +716,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		else to_use = strain_names;
 		reports.get_strain_by_name(to_use, function(strain_data){
 
-			console.log(report_procedures);
+			console.log($scope.report_procedures);
 
 			$.each(strain_data, function(i, el){
 				isthere = false;
@@ -727,9 +727,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			        }
 				}
 				if(!isthere){
-					for(procedure in report_procedures){
-						if(report_procedures[procedure].indexOf("chewBBACA") > -1){
-							console.log(global_results_dict[report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]]);
+					for(procedure in $scope.report_procedures){
+						if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
+							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]]);
 						}
 						else if(report_procedures[procedure].indexOf("PathoTyping") > -1){
 							

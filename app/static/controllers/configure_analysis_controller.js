@@ -61,7 +61,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 				var to_show = [];
 
 				if(procedure_name.indexOf("chewBBACA") > -1){
-					current_p = "";
+					current_p = "chewBBACA";
 					for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
 						to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["chewBBACA"][x]]);
 					}

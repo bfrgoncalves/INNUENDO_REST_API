@@ -13,6 +13,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	metadata.add_owner(CURRENT_USER_NAME);
 
 	var jobs_to_reports = {};
+	var strain_name_to_id = {};
 
 
 	$scope.metadata_fields = metadata.get_fields();
@@ -80,6 +81,10 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 		    global_public_strains = strains_results.public_strains;
 		    console.log(global_public_strains);
 		    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
+
+		    global_public_strains.map(function(d){
+		    	strain_name_to_id[d.strainID] = d.id;
+		    });
 		    $('#waiting_spinner').css({display:'none'});
 		    $('#modify_strains_controller_div').css({display:'block'}); 
 		    $("#modify_strains_table").DataTable().draw();
@@ -152,8 +157,9 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 				$('.add_to_metadata_strain_button').on("click", function(){
 					console.log($(this).attr("key"));
 					console.log($(this).attr("val"));
-					single_project.update_strain(strain_id_in_use, function(){
 
+					single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){
+						console.log("Updated");
 					});
 				});
 			});

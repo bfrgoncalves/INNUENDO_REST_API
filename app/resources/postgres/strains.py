@@ -22,6 +22,11 @@ strain_project_parser.add_argument('strainID', dest='strainID', type=str, requir
 strain_project_parser.add_argument('speciesID', dest='speciesID', type=str, required=False, help="Species identifier")
 strain_project_parser.add_argument('from_user', dest='from_user', type=str, required=False, help="Get strains submitter only by user")
 
+strain_update_parser = reqparse.RequestParser()
+strain_update_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="Strain identifier")
+strain_update_parser.add_argument('key', dest='key', type=str, required=False, help="Key to change on metadata")
+strain_update_parser.add_argument('value', dest='value', type=str, required=False, help="Value to change")
+
 #Defining response fields
 
 strain_fields = {
@@ -124,6 +129,24 @@ class StrainListResource(Resource):
 			db.session.rollback()
 			strain = db.session.query(Strain).filter(Strain.name == s_name).first()
 		return strain, 201
+
+	@login_required
+	@marshal_with(strain_fields)
+	def put(self):
+		args=strain_update_parser.parse_args()
+
+		strain = db.session.query(Strain).filter(Strain.id == args.strain_id).first()
+		
+		if not strain:
+			abort(404, message="An error as occurried")
+		else:
+			strain_metadata = json.loads(strain.strain_metadata)
+			strain_fields = json.loads(strain.fields)
+			print strain_metadata
+			print strain_fields
+			print json.loads(strain_fields.metadata_fields)
+
+
 
 
 class StrainProjectListResource(Resource):

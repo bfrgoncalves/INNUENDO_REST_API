@@ -358,6 +358,27 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 
 		},
+		update_strain: function(strain_id, key, value, callback){
+
+			req = {
+		        url: 'api/v1.0/strains/',
+		        method:'PUT',
+		        params:
+		        {
+		        	strain_id: strain_id,
+		        	key: key,
+		        	value: value
+		        }
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+
+		},
 		get_strain_by_name: function(strain_name, callback){
 
 

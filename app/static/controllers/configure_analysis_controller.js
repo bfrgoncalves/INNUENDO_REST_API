@@ -78,7 +78,6 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
 					$('#select_job').trigger("change");
 					pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
-						console.log(response);
 					});
 
 				});
@@ -90,11 +89,13 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 					$('#select_job').trigger("change");
 
 					pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
-						console.log(response);
 					});
 
 				});
 			});
+
+			$('#select_job').trigger("change");
+
 		});
 	}
 

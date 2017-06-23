@@ -40,9 +40,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 		}
 
 		pg_requests.get_user_parameters(function(response){
-			console.log(response);
 			ANALYSYS_PARAMETERS = JSON.parse(response.data.analysis_parameters_object);
-			console.log(ANALYSYS_PARAMETERS);
 		});
 
 	}

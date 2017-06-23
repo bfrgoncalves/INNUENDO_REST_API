@@ -220,7 +220,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					$("#reports_table").DataTable().draw();
 
 					if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-						show_results_and_info($rootScope.showing_jobs);
+						show_results_and_info($rootScope.showing_jobs, function(){
+
+						});
 					}
 				});
 			});
@@ -250,7 +252,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			$("#reports_table").DataTable().draw();
 
 			if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-				show_results_and_info($rootScope.showing_jobs);
+				show_results_and_info($rootScope.showing_jobs, function(){
+
+				});
 			}
 		});
 
@@ -460,7 +464,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								if($rootScope.showing_strain_names == undefined) $rootScope.showing_strain_names = []; 
 								
 								if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-									show_results_and_info($rootScope.showing_jobs);
+									show_results_and_info($rootScope.showing_jobs, function(){
+
+									});
 
 									$.map($('#reports_table').DataTable().rows('.selected').data(), function(data){
 								      	$rootScope.showing_strain_names.push(data.sample_name);
@@ -557,7 +563,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								if(user_reports.message != undefined) user_reports = [];
 
 								if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-									show_results_and_info($rootScope.showing_jobs);
+									show_results_and_info($rootScope.showing_jobs, function(){
+
+									});
 								}
 								$('#waiting_spinner').css({display:'none'}); 
 								$('#reports_container').css({display:"block"});
@@ -599,8 +607,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		//current_job_ids = []
 
-		show_results_and_info(null);
-		show_strains_metadata(null);
+		show_results_and_info(null, function(){
+			console.log(global_results_dict);
+			show_strains_metadata(null);
+		});
 
 		//objects_utils.show_message('s_report_message_div', 'success', 'Report was added to Active Report tab.')
 	}
@@ -682,8 +692,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    current_strains_data = [];
 	    current_job_ids = [];
 
-	    show_results_and_info(selected_job_ids);
-	    show_strains_metadata(current_names);
+	    show_results_and_info(selected_job_ids, function(){
+	    	show_strains_metadata(current_names);
+	    });
+	    //show_strains_metadata(current_names);
 
 	    modalAlert('The Saved Report was loaded to the Active Report tab.', function(){});
 
@@ -743,7 +755,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		});
 	}
 
-	function show_results_and_info(job_ids){
+	function show_results_and_info(job_ids, callback){
 		
 		reports.get_multiple_user_reports(job_ids, function(response){
 
@@ -913,6 +925,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							$('#reports_info_table_wrapper').css({'display':'block'});
 							$('#reports_results_table_wrapper').css({'display':'none'});
 							$('#reports_metadata_table_wrapper').css({'display':'none'});
+
+							callback();
 						
 						}, 500);
 						

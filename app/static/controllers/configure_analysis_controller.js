@@ -46,7 +46,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 			console.log(pipelines);
 			var to_show = "";
 			pipelines.map(function(d){
-				to_show += "<option>" + d.name + "</option>";
+				to_show += "<option name='"+d.name+"'>" + d.name + "</option>";
 			});
 			$("#select_job").append(to_show);
 			$('.selectpicker').selectpicker({});

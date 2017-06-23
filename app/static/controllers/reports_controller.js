@@ -731,10 +731,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
 							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]]);
 						}
-						else if(report_procedures[procedure].indexOf("PathoTyping") > -1){
+						else if($scope.report_procedures[procedure].indexOf("PathoTyping") > -1){
 							
 						}
-						else if(report_procedures[procedure].indexOf("INNUca") > -1){
+						else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
 							
 						}
 					}

@@ -58,6 +58,7 @@ class PHYLOViZResource(Resource):
 		first_time_m = True
 
 		count_ids = 0
+		print json.loads(args.additional_data)
 
 		for job_id in total_j_ids:
 			body_profile = [];

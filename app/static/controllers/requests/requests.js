@@ -703,7 +703,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 		},
 
-		get_user_parameters: function(parameters_object_string, callback){
+		get_user_parameters: function(callback){
 
 			req = {
 		        url: 'api/v1.0/user/',

@@ -811,6 +811,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				callback(results, strain_name);
             });
 		},
+		update_strain: function(strain_name, callback){
+			//CONTINUE
+		},
 		get_no_pip_strains: function(callback){
 			return strains_without_pip;
 		},

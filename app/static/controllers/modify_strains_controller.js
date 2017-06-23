@@ -78,6 +78,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 		single_project.get_strains(true, function(strains_results){
 		    objects_utils.destroyTable('modify_strains_table');
 		    global_public_strains = strains_results.public_strains;
+		    console.log(global_public_strains);
 		    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
 		    $('#waiting_spinner').css({display:'none'});
 		    $('#modify_strains_controller_div').css({display:'block'}); 
@@ -104,9 +105,9 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    });
 	}
 
-	loadAnalysisFromStrain = function(strain_id){
+	loadAnalysisFromStrain = function(strain_id_in_use){
 
-		reports.get_reports_by_strain(strain_id, function(response){
+		reports.get_reports_by_strain(strain_id_in_use, function(response){
 				
 			user_reports = response.data;
 			console.log(response);
@@ -151,6 +152,9 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 				$('.add_to_metadata_strain_button').on("click", function(){
 					console.log($(this).attr("key"));
 					console.log($(this).attr("val"));
+					single_project.update_strain(strain_id_in_use, function(){
+
+					});
 				});
 			});
 

@@ -57,7 +57,7 @@ class PHYLOViZResource(Resource):
 		first_time = True
 		first_time_m = True
 
-		print json.loads(args.additional_data)
+		count_ids = 0
 
 		for job_id in total_j_ids:
 			body_profile = [];
@@ -92,6 +92,8 @@ class PHYLOViZResource(Resource):
 							continue
 						else:
 							headers_metadata.append(x)
+					for key, val in json.loads(args.additional_data)[count_ids].iteritems():
+						headers_metadata.append(key)
 
 				first_time_m = False
 				
@@ -101,8 +103,12 @@ class PHYLOViZResource(Resource):
 						continue
 					else:
 						straind.append(strain_metadata[x])
+				for key, val in json.loads(args.additional_data)[count_ids].iteritems():
+					straind.append(val)
 
 				all_metadata.append('\t'.join(straind) + "\n")
+
+			count_ids += 1
 
 
 		#WRITE PROFILE FILE

@@ -776,7 +776,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 								if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
-									current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 								}
 							}
@@ -787,7 +787,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 								if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
-									current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 								}
 							}
@@ -800,7 +800,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							for(a in ANALYSYS_PARAMETERS["INNUca"]){
 								if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
 
-									current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 								}
 							}

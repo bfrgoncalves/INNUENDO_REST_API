@@ -56,18 +56,21 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 			$('#select_job').on("change", function(){
 				var procedure_name = $(this).find(":selected").attr("name");
 				var to_show = [];
+				var current_p = "chewBBACA";
 				if(procedure_name.indexOf("chewBBACA") > -1){
+					current_p = "";
 					for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
-
 						to_show.push([x,ANALYSYS_PARAMETERS["chewBBACA"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["chewBBACA"][x]]);
 					}
 				}
 				else if(procedure_name.indexOf("PathoTyping") > -1){
+					current_p = "PathoTyping";
 					for (x in ANALYSYS_PARAMETERS["PathoTyping"]){
 						to_show.push([x,ANALYSYS_PARAMETERS["PathoTyping"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["PathoTyping"][x]]);
 					}
 				}
 				else if(procedure_name.indexOf("INNUca") > -1){
+					current_p = "INNUca";
 					for (x in ANALYSYS_PARAMETERS["INNUca"]){
 						to_show.push([x,ANALYSYS_PARAMETERS["INNUca"][x] == true ? "#c0ffee": "#ffffff", ANALYSYS_PARAMETERS["INNUca"][x]]);
 					}
@@ -79,7 +82,8 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
 				$('.add_to_metadata_strain_button').on("click", function(){
 					console.log($(this).attr("key"));
-
+					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
+					$('#select_job').trigger("change");
 					/*single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){
 						console.log("Updated");
 					});*/

@@ -92,7 +92,7 @@ class PHYLOViZResource(Resource):
 							continue
 						else:
 							headers_metadata.append(x)
-					for key, val in json.loads(args.additional_data)[count_ids].iteritems():
+					for key, val in json.loads(args.additional_data)[str(count_ids)].iteritems():
 						headers_metadata.append(key)
 
 				first_time_m = False
@@ -103,7 +103,7 @@ class PHYLOViZResource(Resource):
 						continue
 					else:
 						straind.append(strain_metadata[x])
-				for key, val in json.loads(args.additional_data)[count_ids].iteritems():
+				for key, val in json.loads(args.additional_data)[str(count_ids)].iteritems():
 					straind.append(val)
 
 				all_metadata.append('\t'.join(straind) + "\n")

@@ -94,7 +94,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 				});
 			});
 
-			$('#select_job').trigger("change");
+			//$('#select_job').trigger("change");
 
 		});
 	}

@@ -44,6 +44,12 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 	$scope.showWorkflows = function(){
 		single_project.get_workflows("Procedure", function(pipelines){
 			console.log(pipelines);
+			var to_show = "";
+			pipelines.map(function(d){
+				to_show += "<option>" + d.name + "</option>";
+			});
+			$("#select_job").append(to_show);
+			$('.selectpicker').selectpicker({});
 			$('#waiting_spinner').css({display:'none'});
 			$('#configure_analysis_controller_div').css({display:'block'});
 		});

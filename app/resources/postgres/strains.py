@@ -144,7 +144,7 @@ class StrainListResource(Resource):
 			strain_fields = json.loads(strain.fields)
 			print strain_metadata
 			print strain_fields
-			print json.loads(strain_fields["metadata_fields"])
+			print strain_fields["metadata_fields"][0]
 
 
 

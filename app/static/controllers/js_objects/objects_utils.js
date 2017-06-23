@@ -36,7 +36,10 @@ function Objects_Utils(){
 	    	}
 	    	if(!isThere){
 	    		if (table_id.indexOf('reports') > -1 && table_id.indexOf('reports_metadata') < 0) toUse.push([keys, d[keys]]);
-	    		else toUse.push([convert_dict_reverse[keys], d[keys]]);
+	    		else {
+	    			if(convert_dict_reverse[keys] == undefined) toUse.push([keys, d[keys]]);
+	    			else toUse.push([convert_dict_reverse[keys], d[keys]]);
+	    		}
 	    	}
 	    }
 

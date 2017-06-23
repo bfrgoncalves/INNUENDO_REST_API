@@ -724,6 +724,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			$.each(strain_data, function(i, el){
 				isthere = false;
 				for(i in current_strains_data){
+					console.log(current_strains_data);
 					if (current_strains_data[i].Sample === el.Sample) {
 			            isthere=true;
 
@@ -798,6 +799,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["INNUca"]){
 								if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
+
 									current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 								}

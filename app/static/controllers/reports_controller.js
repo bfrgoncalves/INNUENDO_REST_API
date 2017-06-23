@@ -31,6 +31,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var run_results = [];
 
 	var global_results_dict = {};
+	var global_additional_data = {};
 
 	$scope.user_reports_table_headers = user_reports_table_headers;
 	$scope.reports_info_table_headers = reports_info_table_headers;
@@ -712,6 +713,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	function show_strains_metadata(strain_names){
 
+		global_additional_data = {};
+
 		if(strain_names==null) to_use = null;
 		else to_use = strain_names;
 		reports.get_strain_by_name(to_use, function(strain_data){
@@ -728,18 +731,22 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
 								console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
 								console.log(el);
+								global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 									if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
 										current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 									}
 								}
 							}
 							else if($scope.report_procedures[procedure].indexOf("PathoTyping") > -1){
 								console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i]);
 								console.log(el);
+								global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 									if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
 										current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 									}
 								}
 								
@@ -747,9 +754,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
 								console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i]);
 								console.log(el);
+								global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["INNUca"]){
 									if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
 										current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 									}
 								}
 								
@@ -763,18 +772,22 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
 							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
 							console.log(el);
+							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 								if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
-									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+									current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 								}
 							}
 						}
 						else if($scope.report_procedures[procedure].indexOf("PathoTyping") > -1){
 							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i]);
 							console.log(el);
+							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 								if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
-									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+									current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 								}
 							}
 							
@@ -782,9 +795,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
 							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i]);
 							console.log(el);
+							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["INNUca"]){
 								if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
-									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+									current_strains_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 								}
 							}
 							
@@ -1026,7 +1041,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		getmergeResultsJobIDs(table_id_profile, function(job_ids){
 
-			reports.sendToPHYLOViZ(job_ids, function(response){
+			reports.sendToPHYLOViZ(job_ids, global_additional_data, function(response){
 				var to_phyloviz = "";
 				if(response.data.indexOf("http") < 0){
 					to_phyloviz = "An error as occuried when uploading data to PHYLOViZ Online";

@@ -763,7 +763,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 		}*/
 
-		send_to_phyloviz: function(job_ids, callback){
+		send_to_phyloviz: function(job_ids, global_additional_data, callback){
 			
 			console.log('ONREQUEST');
 
@@ -773,7 +773,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: {
 		        	job_ids: job_ids.join(","),
 		        	dataset_name: $('#modal_phyloviz_dataset_name').text(),
-		        	dataset_description: $('#modal_phyloviz_dataset_description').text()
+		        	dataset_description: $('#modal_phyloviz_dataset_description').text(),
+		        	additional_data: JSON.stringify(global_additional_data)
 		    	}
 		    }
 

@@ -28,6 +28,7 @@ phyloviz_post_parser.add_argument('dataset_description', dest='dataset_descripti
 phyloviz_post_parser.add_argument('job_ids', dest='job_ids', type=str, required=True, help="Job ids")
 phyloviz_post_parser.add_argument('dataset_name', dest='dataset_name', type=str, required=True, help="dataset name")
 phyloviz_post_parser.add_argument('dataset_description', dest='dataset_description', type=str, required=True, help="dataset description")
+phyloviz_post_parser.add_argument('additional_data', dest='additional_data', type=str, required=True, help="additional metadata")
 #Load job results to display on graphical interface
 class PHYLOViZResource(Resource):
 
@@ -55,6 +56,8 @@ class PHYLOViZResource(Resource):
 
 		first_time = True
 		first_time_m = True
+
+		print json.loads(args.additional_data)
 
 		for job_id in total_j_ids:
 			body_profile = [];

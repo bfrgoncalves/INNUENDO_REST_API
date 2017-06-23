@@ -9,12 +9,12 @@
 		<label for="select_job">Procedures</label>
 		<select name="select_job" data-width="100%" class="selectpicker" data-live-search="true" id="select_job"></select>
 	</div>
-	<br>
+	
 
-	<div class="col-md-12" ng-repeat="val in analysis_fields" id="{{ val }}">
+	<div class="col-md-12" ng-repeat="val in analysis_fields" id="{{ val[0] }}" style="margin-top: 10px;">
 		<div class="list-group-item">
 	  	 	<label style="font-size: 10px;">{{ val }}</label>
-		  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" style="float:right;" key="{{ val }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
+		  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" style="float:right;background-color:{{ val[1] }}" key="{{ val[0] }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
 		</div>
 	</div>
 

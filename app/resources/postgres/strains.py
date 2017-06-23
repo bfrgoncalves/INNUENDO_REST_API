@@ -145,6 +145,13 @@ class StrainListResource(Resource):
 			print strain_metadata
 			print strain_fields
 			print strain_fields["metadata_fields"][0]
+			new_metadata_fields = []
+			new_metadata_fields.append(args.key)
+			for x in strain_fields["metadata_fields"]:
+				if x != args.key:
+					new_metadata_fields.append(x)
+
+			strain_metadata[args.key] = args.value
 
 
 

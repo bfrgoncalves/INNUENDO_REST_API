@@ -1,0 +1,21 @@
+<div ng-controller="configureAnalysisCtrl" ng-init="showWorkflows()" style="display:none;" id="configure_analysis_controller_div">
+
+
+	<div class="col-md-12 sub-header" style="margin-bottom:2px;">
+		<h2>Modify Strains <span style="float:right;">{{ specie_name }}</span></h2>
+	</div>
+
+	<div class="row">
+		<label for="select_job">Procedure</label>
+		<select name="select_job" data-width="100%" class="selectpicker" data-live-search="true" id="select_job"></select>
+	</div>
+	<br>
+
+	<div class="row" ng-repeat="(key,val) in analysis_fields" id="{{ key }}">
+		<div class="list-group-item">
+	  	 	<label style="font-size: 10px;">{{ key }} : {{ val }}</label>
+		  	<button class="btn btn-sm btn-default add_to_metadata_strain_button" style="float:right;" key="{{ key }}" val="{{ val }}"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add to metadata"></i></button>
+		</div>
+	</div>
+
+</div>

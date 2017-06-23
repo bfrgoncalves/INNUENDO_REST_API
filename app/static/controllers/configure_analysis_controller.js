@@ -52,6 +52,38 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 			$('.selectpicker').selectpicker({});
 			$('#waiting_spinner').css({display:'none'});
 			$('#configure_analysis_controller_div').css({display:'block'});
+
+			$('#select_job').on("change", function(){
+				var procedure_name = $(this).find(":selected").attr("name");
+				var to_show = [];
+				if(procedure_name.indexOf("chewBBACA") > -1){
+					for (x in ANALYSYS_PARAMETERS["chewBBACA"]){
+						to_show.push(x);
+					}
+				}
+				else if(procedure_name.indexOf("PathoTyping") > -1){
+					for (x in ANALYSYS_PARAMETERS["PathoTyping"]){
+						to_show.push(x);
+					}
+				}
+				else if(procedure_name.indexOf("INNUca") > -1){
+					for (x in ANALYSYS_PARAMETERS["INNUca"]){
+						to_show.push(x);
+					}
+				}
+
+				$scope.$apply(function(){
+					$scope.analysis_fields = to_show;
+				});
+
+				$('.add_to_metadata_strain_button').on("click", function(){
+					console.log($(this).attr("key"));
+
+					/*single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){
+						console.log("Updated");
+					});*/
+				});
+			});
 		});
 
 	}

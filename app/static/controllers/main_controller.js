@@ -34,8 +34,7 @@ var ANALYSYS_PARAMETERS = {"INNUca": {"#samples":false, "MLST_ST": true, "MLST_s
 						   "PathoTyping": {"result":true}
 						  };
 
-console.log(ANALYSYS_PARAMETERS);
-
+var INFO_OR_RESULTS = {"chewBBACA": 0, "PathoTyping": 1, "INNUca": 1}
 
 
 $('a').click(function(){

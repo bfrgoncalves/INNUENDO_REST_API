@@ -74,7 +74,6 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 				});
 
 				$('.add_to_metadata_strain_button').on("click", function(){
-					console.log($(this).attr("key"));
 					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
 					$('#select_job').trigger("change");
 					pg_requests.set_user_parameters(JSON.stringify(ANALYSYS_PARAMETERS), function(response){
@@ -83,8 +82,6 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 				});
 
 				$('.remove_from_metadata_strain_button').on("click", function(){
-					console.log($(this).attr("key"));
-					console.log(current_p);
 					ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] == true ? ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = false : ANALYSYS_PARAMETERS[current_p][$(this).attr("key")] = true;
 					$('#select_job').trigger("change");
 

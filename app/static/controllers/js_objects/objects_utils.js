@@ -14,6 +14,8 @@ function Objects_Utils(){
 	    isThere = true;
 	    //console.log(visible_headers);
 
+	    console.log(d);
+
     	for(keys in d){
     		isThere = false;
     		for(header in visible_headers){

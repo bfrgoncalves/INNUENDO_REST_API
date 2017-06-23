@@ -28,6 +28,7 @@ function Objects_Utils(){
     			}
     			else{
     				if(convert_dict[visible_headers[header]] == keys){
+    					console.log(keys);
 		    			isThere = true;
 		    			break;
 		    		}
@@ -38,7 +39,8 @@ function Objects_Utils(){
 	    		else toUse.push([convert_dict_reverse[keys], d[keys]]);
 	    	}
 	    }
-	    //console.log("TOUSE", toUse);
+
+	    console.log("TOUSE", toUse);
 	    for(x in toUse){
 	    	if(toUse[x][0] == 'job_id' || toUse[x][0] == undefined || toUse[x][0] == 'Analysis')continue;
 	    	tr_headers += '<td><b>'+toUse[x][0]+'</b></td>';

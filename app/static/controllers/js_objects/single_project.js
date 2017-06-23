@@ -385,6 +385,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                            sd[public_strains_headers[i]] = strain_data[public_strains_headers[i]];
 		                        }
 		                    }
+		                    sd["id"] = data[i].id;
 		                    new_strains.push(sd);
 		                }
 		                public_strains = new_strains;

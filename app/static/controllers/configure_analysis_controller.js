@@ -42,6 +42,9 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 	});
 
 	$scope.showWorkflows = function(){
+
+		var current_p = "";
+
 		single_project.get_workflows("Procedure", function(pipelines){
 			console.log(pipelines);
 			var to_show = "";
@@ -56,7 +59,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 			$('#select_job').on("change", function(){
 				var procedure_name = $(this).find(":selected").attr("name");
 				var to_show = [];
-				var current_p = "chewBBACA";
+
 				if(procedure_name.indexOf("chewBBACA") > -1){
 					current_p = "";
 					for (x in ANALYSYS_PARAMETERS["chewBBACA"]){

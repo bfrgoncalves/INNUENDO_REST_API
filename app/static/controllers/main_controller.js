@@ -61,7 +61,7 @@ setTimeout(function(){
 		tclick();
 	})
 
-	$("#sidebar-wrapper ul li").on("click", function(){
+	$("#sidebar-wrapper ul li").not('.navbar ul .drop').on("click", function(){
 		tclick();
 	})
 

@@ -39,6 +39,10 @@
             <select type="text" id="select_classifier" class="form-control">
               <option ng-repeat="option in class_options">{{ option }}</option>
             </select>
+            <label for="workflow_species">For:</label>
+            <select type="text" id="workflow_species" class="form-control">
+              <option ng-repeat="option in species_options">{{ option }}</option>
+            </select>
             <br>
             <button class="btn btn-md btn-default">Add Workflow</button>
           </form>

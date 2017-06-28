@@ -289,7 +289,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				//console.log(response, tasks_to_buttons, response.data[0]);
 				//console.log(dict_of_tasks_status);
 				//console.log(response, tasks_to_buttons, current_job_status_color);
-				console.log(response.data);
+				//console.log(response.data);
 				if(response.data != false){
 					task_id = response.data[0];
 					status = response.data[1];
@@ -335,9 +335,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     var returned_functions = {
 
-	    get_workflows: function(classifier, callback){
+	    get_workflows: function(classifier, species_name, callback){
 
-			pg_requests.get_workflows(classifier, function(response){
+			pg_requests.get_workflows(classifier, species_name, function(response){
 				//console.log(response);
 				if(response.status == 200){
 					if (typeof response.data != 'string'){

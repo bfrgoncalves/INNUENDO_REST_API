@@ -5,10 +5,12 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 	var protocols = new Protocol_List($http);
 	var workflows = new Workflows($http);
+	var projects_table = new Projects_Table(0, null, $http);
 
 	$scope.launch_sortable = function(){
 		sortable('.sortable');
 		$scope.getProtocolTypes();
+		$scope.getSpecies();
 	}
 
 	$scope.getProtocolTypes = function(){
@@ -16,6 +18,14 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		protocols.get_protocol_types(function(results){
 			$scope.protocol_types = results.protocol_types;
 			workflows.set_protocol_types_object(results.protocolTypeObject);
+		});
+
+	}
+
+	$scope.getSpecies = function(){
+
+		projects_table.get_species_names(function(results){
+	        $scope.species_options = results.species;
 		});
 
 	}

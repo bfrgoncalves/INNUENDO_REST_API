@@ -252,11 +252,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		
 		CURRENT_PROJECT_NAME_ID = CURRENT_PROJECT_ID;
 		
-		single_project.get_workflows("Procedure", function(pipelines){
+		single_project.get_workflows("Procedure", CURRENT_SPECIES_NAME, function(pipelines){
 			$scope.pipelines = pipelines;
+			console.log(pipelines);
 			console.log("workflows");
 
-			single_project.get_workflows("Classifier", function(pipelines){
+			single_project.get_workflows("Classifier", CURRENT_SPECIES_NAME, function(pipelines){
 				$scope.pipelines_classifiers = pipelines;
 				console.log("workflows2");
 

@@ -11,9 +11,11 @@ import datetime
 workflow_post_parser = reqparse.RequestParser()
 workflow_post_parser.add_argument('name', dest='name', type=str, required=True, help="Workflow name")
 workflow_post_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
+workflow_post_parser.add_argument('species', dest='species', type=str, required=True, help="Workflow species")
 
 workflow_list_get_parser = reqparse.RequestParser()
 workflow_list_get_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
+workflow_list_get_parser.add_argument('species', dest='species', type=str, required=True, help="Workflow species")
 
 #Defining response fields
 
@@ -44,7 +46,7 @@ class WorkflowListResource(Resource):
 		args = workflow_list_get_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
-		workflow = db.session.query(Workflow).filter(Workflow.classifier == args.classifier).all()
+		workflow = db.session.query(Workflow).filter(Workflow.classifier == args.classifier, Workflow.classifier == args.species).all()
 		if not workflow:
 			abort(404, message="No workflows are available".format(id))
 		return workflow, 200
@@ -55,7 +57,7 @@ class WorkflowListResource(Resource):
 		args=workflow_post_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
-		workflow = Workflow(classifier=args.classifier, name=args.name, timestamp=datetime.datetime.utcnow())
+		workflow = Workflow(classifier=args.classifier, name=args.name, timestamp=datetime.datetime.utcnow(), species=args.species)
 		if not workflow:
 			abort(404, message="An error as occurried")
 		db.session.add(workflow)

@@ -70,7 +70,7 @@ def load_user_from_request(request):
         if not user:
             encrypted_password = utils.encrypt_password(password)
             if not user_datastore.get_user(result['mail'][0]):
-                user = user_datastore.create_user(email=result['mail'][0], password=encrypted_password, username=result['uid'][0], name=result['cn'][0])
+                user = user_datastore.create_user(email=result['mail'][0], password=encrypted_password, username=result['uid'][0], name=result['cn'][0], gid=result['gidNumber'][0])
                 db.session.commit()
         
         user = User.query.filter_by(username=result['uid'][0]).first()

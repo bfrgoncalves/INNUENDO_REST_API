@@ -393,7 +393,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            }
 		            callback({ public_strains_headers: public_strains_headers, public_strains: public_strains});
 				}
-				else console.log(response.statusText);
+				else{
+					console.log(response.statusText);
+					callback({ public_strains_headers: [], public_strains: []});
+				}
 
 
 			}),

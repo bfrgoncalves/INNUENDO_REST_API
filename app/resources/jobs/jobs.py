@@ -47,13 +47,8 @@ job_download_results_get_parser.add_argument('file_path', dest='file_path', type
 def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
-	
-	print project_id, pipeline_id, process_position
 
 	if not report:
-		print procedure
-		print sample
-		print '######################################'
 		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=current_user.username, procedure=procedure, sample_name=sample)
 		if not report:
 			abort(404, message="An error as occurried when uploading the data")
@@ -69,9 +64,6 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 				db.session.commit()
 			return False, job_id
 		else:
-			print "#####################################################################################################################################"
-			print procedure
-			print job_id
 			report.pipeline_id=pipeline_id
 			report.process_position=process_position
 			report.report_data=results

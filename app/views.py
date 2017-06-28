@@ -21,7 +21,7 @@ def index():
 	username = ""
 	if current_user.is_authenticated:
 		username = current_user.username
-	if current_user.gidNumber == "501":
+	if current_user.gid == "501":
 		show_protocols = True
 	else:
 		show_protocols = False

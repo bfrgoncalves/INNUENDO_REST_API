@@ -21,8 +21,11 @@ def index():
 	username = ""
 	if current_user.is_authenticated:
 		username = current_user.username
-		print current_user.username
-	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT))
+	if current_user["gidNumber"] == "501":
+		show_protocols = True
+	else:
+		show_protocols = False
+	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT), show_protocols=show_protocols)
 
 
 @app.route('/logout')

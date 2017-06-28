@@ -21,11 +21,15 @@ def index():
 	username = ""
 	if current_user.is_authenticated:
 		username = current_user.username
-	if current_user.gid == "501":
-		show_protocols = True
-		print "AQUI"
-	else:
+	try:
+		if current_user.gid == "501":
+			show_protocols = True
+			print "AQUI"
+		else:
+			show_protocols = False
+	except Exception, e:
 		show_protocols = False
+		
 	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT), show_protocols=show_protocols)
 
 

@@ -64,5 +64,8 @@ setTimeout(function(){
 	$("#sidebar-wrapper ul li").not('.navbar ul .drop').on("click", function(){
 		tclick();
 	})
+	$(".nav-list li").on("click", function(){
+		tclick();
+	})
 
 }, 800);

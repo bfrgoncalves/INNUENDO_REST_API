@@ -35,7 +35,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
 	$scope.showWorkflows = function(){
 
-		single_project.get_workflows("Procedure", CURRENT_STRAIN_NAME, function(pipelines){
+		single_project.get_workflows("Procedure", CURRENT_SPECIES_NAME, function(pipelines){
 			console.log(pipelines);
 			var to_show = "";
 			pipelines.map(function(d){

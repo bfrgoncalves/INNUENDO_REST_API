@@ -25,7 +25,9 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	$scope.getSpecies = function(){
 
 		projects_table.get_species_names(function(results){
-	        $scope.species_options = results.species;
+	        $scope.species_options = results.species.map(function(d){
+	        	return d.name;
+	        });
 		});
 
 	}

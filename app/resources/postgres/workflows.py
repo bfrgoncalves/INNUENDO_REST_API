@@ -46,7 +46,7 @@ class WorkflowListResource(Resource):
 		args = workflow_list_get_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
-		workflow = db.session.query(Workflow).filter(Workflow.classifier == args.classifier, Workflow.classifier == args.species).all()
+		workflow = db.session.query(Workflow).filter(Workflow.classifier == args.classifier, Workflow.species == args.species).all()
 		if not workflow:
 			abort(404, message="No workflows are available".format(id))
 		return workflow, 200

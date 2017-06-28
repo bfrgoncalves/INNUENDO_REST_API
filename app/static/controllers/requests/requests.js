@@ -303,12 +303,12 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		},
 		//////////////// Single Project Requests /////////////////////////////////////////
-		get_workflows: function(classifier, callback){
+		get_workflows: function(classifier, species, callback){
 
 		    req = {
 		        url: 'api/v1.0/workflows/', //Defined at utils.js
 		        method:'GET',
-		        params:{"classifier": classifier}
+		        params:{"classifier": classifier, "species":species}
 		    }
 
 		    $http(req).then(function(response){

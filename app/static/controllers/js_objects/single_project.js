@@ -320,7 +320,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		prevtaskid = '';
 
-		get_status(job_id, strain_id, process_id, pipeline_id);
+		//get_status(job_id, strain_id, process_id, pipeline_id);
 
 		//console.log("PROCESS_ID", process_id);
 

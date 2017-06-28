@@ -380,9 +380,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    strain_data["strainID"] = data[i].strainID;
 		                    //strain_data['Analysis'] = "";
 		                    var sd = {};
-		                    for (i in public_strains_headers){
-		                        if(strain_data.hasOwnProperty(public_strains_headers[i])){
-		                            sd[public_strains_headers[i]] = strain_data[public_strains_headers[i]];
+		                    for (j in public_strains_headers){
+		                        if(strain_data.hasOwnProperty(public_strains_headers[j])){
+		                            sd[public_strains_headers[j]] = strain_data[public_strains_headers[j]];
 		                        }
 		                    }
 		                    sd["id"] = data[i].id;

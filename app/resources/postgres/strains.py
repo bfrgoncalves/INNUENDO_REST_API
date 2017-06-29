@@ -138,7 +138,9 @@ class StrainListResource(Resource):
 		else:
 			strain_metadata = json.loads(strain.strain_metadata)
 			#strain_fields = json.loads(strain.fields)
-			print strain_metadata
+			#print strain_metadata
+			for key, val in args.iteritems():
+				print key, val
 			#print strain_fields
 			#new_metadata_fields = []
 

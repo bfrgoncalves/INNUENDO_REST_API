@@ -110,7 +110,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    });
 	}
 
-	$scope.updateMetadata = function(strain_id_in_use){
+	updateMetadata = function(strain_id_in_use){
 		single_project.update_metadata(strain_id_in_use, function(){
 
 		});

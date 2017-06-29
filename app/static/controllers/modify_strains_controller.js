@@ -114,8 +114,17 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 	updateMetadata = function(strain_id_in_use){
 		single_project.update_metadata(strain_id_in_use, function(response){
+			var new_public = [];
+			global_public_strains.map(function(d){
+				response.data.id == d.id ? new_public.push(response.data) : new_public.push(d)
+			})
 			console.log(response);
 			modalAlert("Strain metadata was modified.", function(){
+				objects_utils.destroyTable('modify_strains_table');
+			    global_public_strains = new_public;
+			    console.log(global_public_strains);
+			    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
+				
 
 			});
 		});

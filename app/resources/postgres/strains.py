@@ -140,7 +140,12 @@ class StrainListResource(Resource):
 			#strain_fields = json.loads(strain.fields)
 			#print strain_metadata
 			for key, val in args.iteritems():
-				print key, val
+				strain_metadata[key] = val
+
+			print strain_metadata
+
+			strain.strain_metadata = json.dumps(strain_metadata)
+			db.session.commit()
 			#print strain_fields
 			#new_metadata_fields = []
 

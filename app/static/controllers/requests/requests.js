@@ -560,7 +560,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        method:'PUT',
-		        data: $('#modify_strain_form').find("select, input, textarea").serialize() + "&&strain_id=" + strain_id
+		        data: $('#modify_strain_form').find("select, input, textarea").serialize() + "&strain_id=" + strain_id
 		    }
 
 		    $http(req).then(function(response){

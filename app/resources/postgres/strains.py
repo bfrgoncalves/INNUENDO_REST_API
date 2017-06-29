@@ -146,6 +146,8 @@ class StrainListResource(Resource):
 
 			strain.strain_metadata = json.dumps(strain_metadata)
 			db.session.commit()
+
+			return strain, 201
 			#print strain_fields
 			#new_metadata_fields = []
 

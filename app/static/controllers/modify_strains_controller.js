@@ -99,6 +99,13 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	        return item;
 	    });
 	    console.log(strain_selected);
+
+	    if (strain_selected.length == 0){
+	    	modalAlert("Please select a strain first.", function(){
+
+			});
+			return;
+	    }
 	    var strain_id_in_use = strain_selected[0].id;
 
 	    for(key in strain_selected[0]){

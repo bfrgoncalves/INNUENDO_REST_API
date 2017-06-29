@@ -81,7 +81,6 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 		single_project.get_strains(true, function(strains_results){
 		    objects_utils.destroyTable('modify_strains_table');
 		    global_public_strains = strains_results.public_strains;
-		    console.log(global_public_strains);
 		    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
 
 		    global_public_strains.map(function(d){
@@ -109,7 +108,6 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    var strain_id_in_use = strain_selected[0].id;
 
 	    for(key in strain_selected[0]){
-	    	console.log(key);
 	    	$('#'+key).val(strain_selected[0][key]);
 	    }
 	    $('#modifyStrainModal').modal("show");
@@ -125,7 +123,6 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			single_project.get_strains(true, function(strains_results){
 			    objects_utils.destroyTable('modify_strains_table');
 			    global_public_strains = strains_results.public_strains;
-			    console.log(global_public_strains);
 			    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
 			
 				modalAlert("Strain metadata was modified.", function(){

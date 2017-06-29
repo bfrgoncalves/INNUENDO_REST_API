@@ -23,7 +23,6 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 	$scope.strains_headers = strains_headers;
 
-	$scope.specie_name = CURRENT_SPECIES_NAME;
     $scope.species_id = CURRENT_SPECIES_ID;
 
 	sh = strains_headers;

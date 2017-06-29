@@ -129,8 +129,9 @@ class StrainListResource(Resource):
 	@marshal_with(strain_fields)
 	def put(self):
 		args=request.form
+		print args
 
-		strain = db.session.query(Strain).filter(Strain.id == args.strain_id).first()
+		strain = db.session.query(Strain).filter(Strain.id == args["strain_id"]).first()
 		
 		if not strain:
 			abort(404, message="An error as occurried")

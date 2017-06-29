@@ -9,13 +9,8 @@ from flask_security import current_user, login_required, roles_required
 import datetime
 
 #Defining post arguments parser
-strain_post_parser = reqparse.RequestParser()
-#strain_post_parser.add_argument('strainID', type=str, required=True, help="Strain identifier")
-#strain_post_parser.add_argument('species_id', type=int, required=True, help="Species identifier")
-#strain_post_parser.add_argument('Location', type=str, required=True, help="Strain location")
-#strain_post_parser.add_argument('ST', type=str, required=True, help="Strain ST")
-#strain_post_parser.add_argument('CC', type=str, required=True, help="Strain CC")
-#strain_post_parser.add_argument('fileselector', type=str, required=True, help="Strain sequencing file")
+#strain_put_parser = reqparse.RequestParser()
+#strain_put_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="Strain identifier")
 
 strain_project_parser = reqparse.RequestParser()
 strain_project_parser.add_argument('strainID', dest='strainID', type=str, required=False, help="Strain identifier")
@@ -133,7 +128,7 @@ class StrainListResource(Resource):
 	@login_required
 	@marshal_with(strain_fields)
 	def put(self):
-		args=strain_update_parser.parse_args()
+		args=request.form
 
 		strain = db.session.query(Strain).filter(Strain.id == args.strain_id).first()
 		
@@ -141,17 +136,16 @@ class StrainListResource(Resource):
 			abort(404, message="An error as occurried")
 		else:
 			strain_metadata = json.loads(strain.strain_metadata)
-			strain_fields = json.loads(strain.fields)
+			#strain_fields = json.loads(strain.fields)
 			print strain_metadata
-			print strain_fields
-			print strain_fields["metadata_fields"][0]
-			new_metadata_fields = []
-			new_metadata_fields.append(args.key)
-			for x in strain_fields["metadata_fields"]:
-				if x != args.key:
-					new_metadata_fields.append(x)
+			#print strain_fields
+			#new_metadata_fields = []
 
-			strain_metadata[args.key] = args.value
+			#for x in strain_fields["metadata_fields"]:
+				#if x != args.key:
+					#new_metadata_fields.append(x)
+
+			#strain_metadata[args.key] = args.value
 
 
 

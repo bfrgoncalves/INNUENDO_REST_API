@@ -97,7 +97,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	        return item;
 	    });
 	    console.log(strain_selected);
-	    var strain_id_in_use = strain_selected[0].strainID;
+	    var strain_id_in_use = strain_selected[0].id;
 
 	    for(key in strain_selected[0]){
 	    	console.log(key);
@@ -106,78 +106,14 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    $('#modifyStrainModal').modal("show");
 
 	    $('#add_metadata_from_analysis_button').on("click", function(){
-	    	loadAnalysisFromStrain(strain_id_in_use);
+	    	updateMetadata(strain_id_in_use);
 	    });
 	}
 
-	loadAnalysisFromStrain = function(strain_id_in_use){
+	$scope.updateMetadata = function(strain_id_in_use){
+		single_project.update_metadata(strain_id_in_use, function(){
 
-		reports.get_reports_by_strain(strain_id_in_use, function(response){
-				
-			user_reports = response.data;
-			console.log(response);
-			if(user_reports.message != undefined) user_reports = [];
-
-			console.log(user_reports);
-
-			jobs_to_reports = {};
-
-			for(job in user_reports){
-				jobs_to_reports[user_reports[job].job_id] = user_reports[job]
-			}
-
-			var to_select_job = "";
-
-			for(j in jobs_to_reports){
-				to_select_job += '<option name="'+j+'">' + j + ' : <b>' + jobs_to_reports[j].procedure_name + '</b></option>';
-			}
-
-			$('#select_job').append(to_select_job);
-
-			$('.selectpicker').selectpicker({});
-
-			$('#addAttributeModal').modal("show");
-
-			$('#select_job').on("change", function(){
-				var job_id = $(this).find(":selected").attr("name");
-				var to_show = "";
-				if(jobs_to_reports[job_id].procedure_name.indexOf("chewBBACA") > -1) return;
-				else if(jobs_to_reports[job_id].procedure_name.indexOf("PathoTyping") > -1){
-					to_show = jobs_to_reports[job_id].report_data.run_output;
-				}
-				else if(jobs_to_reports[job_id].procedure_name.indexOf("INNUca") > -1){
-					reads_name = Object.keys(jobs_to_reports[job_id].report_data.run_stats);
-					to_show = jobs_to_reports[job_id].report_data.run_stats[reads_name];
-				}
-
-				$scope.$apply(function(){
-					$scope.analysis_fields = to_show;
-				});
-
-				$('.add_to_metadata_strain_button').on("click", function(){
-					console.log($(this).attr("key"));
-					console.log($(this).attr("val"));
-
-					single_project.update_strain(strain_name_to_id[strain_id_in_use], $(this).attr("key"), $(this).attr("val"), function(response){
-						console.log("Updated");
-					});
-				});
-			});
-
-
-			/*objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
-
-			$('#waiting_spinner').css({display:'none'}); 
-			$('#reports_area').css({display:'block'});
-
-			$("#reports_table").DataTable().draw();
-
-			if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-				show_results_and_info($rootScope.showing_jobs);
-			}*/
 		});
-
 	}
-
 
 });

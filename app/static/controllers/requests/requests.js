@@ -552,6 +552,26 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		},
 
+		update_metadata: function(strain_id, callback){
+
+			console.log($('#modify_strain_form').find("select, input, textarea").serialize());
+		    
+		    req = {
+		        url: 'api/v1.0/strains/',
+		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		        method:'PUT',
+		        data: $('#modify_strain_form').find("select, input, textarea").serialize() + "&&strain_id=" + strain_id
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+
+		},
+
 		remove_strain_from_project: function(strain_name, callback){
 
 			req = {

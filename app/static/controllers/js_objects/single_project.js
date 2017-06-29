@@ -821,6 +821,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				callback(response);
 			});
 		},
+		update_metadata: function(strain_id, callback){
+			pg_requests.update_metadata(strain_id, function(response){
+				callback(response);
+			});
+		},
 		get_no_pip_strains: function(callback){
 			return strains_without_pip;
 		},

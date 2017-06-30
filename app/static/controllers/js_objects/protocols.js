@@ -107,6 +107,7 @@ function Protocol_List($http){
 				}
 				else{
 					protocols_of_type = [];
+					property_fields = [];
 					callback({protocols_of_type:protocols_of_type, property_fields:property_fields, protocols:protocols});
 					console.log(response.statusText);
 				}

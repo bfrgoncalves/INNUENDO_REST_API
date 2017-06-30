@@ -74,25 +74,25 @@ def read_chewBBACA_file_to_JSON(file_path):
 def read_metadata_file_to_JSON(file_path):
 
 	results_metadata = {}
-		with open(file_path, 'rtU') as reader:
-		metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 'Country', 'Serotype': 'Serotype', 'Simple Patho': 'Pathotyping', 'ST(Achtman 7 Gene)': 'ST'}
-		metadata_fields = None
-		for line in reader:
-			line = line.splitlines()[0]
-			if len(line) > 0:
-				if line.startswith('Uberstrain'):
-					metadata_fields = line.split('\t')[0:]
-				else:
-					line = line.split('\t')
-					sample = line[0] + ".fasta"
-					results_metadata[sample] = {}
-					line = line[0:]
-					if len(line) != len(metadata_fields):
-						sys.exit('Different number of loci')
-					for x, metadata_field in enumerate(metadata_fields):
-						for k, v in metadata_to_use.items():
-							if k == metadata_field:
-								results_metadata[sample][metadata_to_use[metadata_field]] = line[x]
+	with open(file_path, 'rtU') as reader:
+	metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 'Country', 'Serotype': 'Serotype', 'Simple Patho': 'Pathotyping', 'ST(Achtman 7 Gene)': 'ST'}
+	metadata_fields = None
+	for line in reader:
+		line = line.splitlines()[0]
+		if len(line) > 0:
+			if line.startswith('Uberstrain'):
+				metadata_fields = line.split('\t')[0:]
+			else:
+				line = line.split('\t')
+				sample = line[0] + ".fasta"
+				results_metadata[sample] = {}
+				line = line[0:]
+				if len(line) != len(metadata_fields):
+					sys.exit('Different number of loci')
+				for x, metadata_field in enumerate(metadata_fields):
+					for k, v in metadata_to_use.items():
+						if k == metadata_field:
+							results_metadata[sample][metadata_to_use[metadata_field]] = line[x]
 
 	return results_metadata
 

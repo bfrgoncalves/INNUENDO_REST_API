@@ -5,36 +5,36 @@ import sys
 import json
 import os.path
 
-def populate_db_ecoli(name, classifier, allelic_profile, table_id):
+def populate_db_ecoli(name, classifier, allelic_profile, strain_metadata):
 
-	ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, timestamp = datetime.datetime.utcnow())
+	ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
 
 	return 201
 
-def populate_db_yersinia(name, classifier, allelic_profile, table_id):
+def populate_db_yersinia(name, classifier, allelic_profile, strain_metadata):
 
-	ecoli = Yersinia(name = name, classifier = classifier, allelic_profile = allelic_profile, timestamp = datetime.datetime.utcnow())
+	ecoli = Yersinia(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
 
 	return 201
 
-def populate_db_campylobacter(name, classifier, allelic_profile, table_id):
+def populate_db_campylobacter(name, classifier, allelic_profile, strain_metadata):
 
-	ecoli = Campylobacter(name = name, classifier = classifier, allelic_profile = allelic_profile, timestamp = datetime.datetime.utcnow())
+	ecoli = Campylobacter(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
 
 	return 201
 
-def populate_db_salmonella(name, classifier, allelic_profile, table_id):
+def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata):
 
-	ecoli = Salmonella(name = name, classifier = classifier, allelic_profile = allelic_profile, timestamp = datetime.datetime.utcnow())
+	ecoli = Salmonella(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
@@ -124,7 +124,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 	print metadata_json
 	
 	#for strain_id, allelic_profile in chewbbaca_json.iteritems():
-		#populate_dbs[table_id](strain_id, classification_json[strain_id], allelic_profile)
+		#populate_dbs[table_id](strain_id, classification_json[strain_id], allelic_profile, metadata_json[strain_id])
 
 mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli")
 

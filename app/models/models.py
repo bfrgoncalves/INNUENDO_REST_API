@@ -215,7 +215,7 @@ class Ecoli(db.Model):
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
-	metadata = db.Column(JSON)
+	strain_metadata = db.Column(JSON)
 	timestamp = db.Column(db.DateTime)
 
 class Yersinia(db.Model):
@@ -225,7 +225,7 @@ class Yersinia(db.Model):
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
-	metadata = db.Column(JSON)
+	strain_metadata = db.Column(JSON)
 	timestamp = db.Column(db.DateTime)
 
 class Campylobacter(db.Model):
@@ -235,7 +235,7 @@ class Campylobacter(db.Model):
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
-	metadata = db.Column(JSON)
+	strain_metadata = db.Column(JSON)
 	timestamp = db.Column(db.DateTime)
 
 class Salmonella(db.Model):
@@ -245,7 +245,7 @@ class Salmonella(db.Model):
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
-	metadata = db.Column(JSON)
+	strain_metadata = db.Column(JSON)
 	timestamp = db.Column(db.DateTime)
 
 class Core_Schemas(db.Model):

@@ -22,7 +22,7 @@ def before_first_request():
 
     # Create two Users for testing purposes -- unless they already exists.
     # In each case, use Flask-Security utility function to encrypt the password.
-    #encrypted_password = utils.encrypt_password(app.config['ADMIN_PASS'])
+    encrypted_password = utils.encrypt_password(app.config['ADMIN_PASS'])
     if not user_datastore.get_user(app.config['ADMIN_EMAIL']):
         user_datastore.create_user(email=app.config['ADMIN_EMAIL'], password=encrypted_password, username=app.config['ADMIN_USERNAME'], name=app.config['ADMIN_NAME'])
 

@@ -71,6 +71,31 @@ def read_chewBBACA_file_to_JSON(file_path):
 	
 	return results_alleles
 
+def read_metadata_file_to_JSON(file_path):
+
+	results_metadata = {}
+	with open(file_path, 'rtU') as reader:
+	    metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 'Country', 'Serotype': 'Serotype', 'Simple Patho': 'Pathotyping', 'ST(Achtman 7 Gene)': 'ST'}
+	    metadata_fields = None
+	    for line in reader:
+	        line = line.splitlines()[0]
+	        if len(line) > 0:
+	            if line.startswith('Uberstrain'):
+	                metadata_fields = line.split('\t')[0:]
+	            else:
+	                line = line.split('\t')
+	                sample = line[0] + ".fasta"
+	                results_metadata[sample] = {}
+	                line = line[0:]
+	                if len(line) != len(metadata_fields):
+	                    sys.exit('Different number of loci')
+	                for x, metadata_field in enumerate(metadata_fields):
+                        for k, v in metadata_to_use.items():
+                        	if k == metadata_field:
+                        		results_metadata[sample][metadata_to_use[metadata_field]] = line[x]
+
+	return results_metadata
+
 
 def read_classification_file_to_JSON(file_path):
 
@@ -90,17 +115,18 @@ def read_classification_file_to_JSON(file_path):
 
 	return results_classification
 
-def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, table_id):
+def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_file_path, table_id):
 	chewbbaca_json = read_chewBBACA_file_to_JSON(chewbbaca_file_path)
 	classification_json = read_classification_file_to_JSON(classification_file_path)
+	metadata_json = read_metadata_file_to_JSON(metadata_file_path)
 
 
-	print classification_json
+	print metadata_json
 	
-	#for x in chewbbaca_json:
-		#populate_dbs[table_id](x, "ST3", allelic_profile)
+	#for strain_id, allelic_profile in chewbbaca_json.iteritems():
+		#populate_dbs[table_id](strain_id, classification_json[strain_id], allelic_profile)
 
-mlst_profiles_to_db("../../chewbbaca_database_profiles/results_alleles_ecoli.tsv", "../../chewbbaca_database_profiles/Classification15_ecoli.txt", "ecoli")
+mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli")
 
 
 

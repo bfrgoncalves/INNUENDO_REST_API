@@ -4,6 +4,7 @@ import datetime
 
 def populate_db(name, classifier, allelic_profile):
 
+	print "PASSOU"
 	ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, timestamp = datetime.datetime.utcnow())
 	db.session.add(ecoli)
 	db.session.commit()
@@ -11,5 +12,7 @@ def populate_db(name, classifier, allelic_profile):
 	return 201
 
 allelic_profile = {'coli1':{'loci':'1'}}
+
+print "AQUI"
 
 populate_db("coli1", "ST3", allelic_profile)

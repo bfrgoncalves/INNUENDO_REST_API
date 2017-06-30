@@ -117,13 +117,14 @@ def read_classification_file_to_JSON(file_path):
 
 def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_file_path, table_id):
 	chewbbaca_json = read_chewBBACA_file_to_JSON(chewbbaca_file_path)
+	print "DONE chewBBACA parse"
 	classification_json = read_classification_file_to_JSON(classification_file_path)
+	print "DONE classification parse"
 	metadata_json = read_metadata_file_to_JSON(metadata_file_path)
-
-
-	print metadata_json
+	print "DONE metadata parse"
 	
-	#for strain_id, allelic_profile in chewbbaca_json.iteritems():
+	for strain_id, allelic_profile in chewbbaca_json.iteritems():
+		print strain_id
 		#populate_dbs[table_id](strain_id, classification_json[strain_id], allelic_profile, metadata_json[strain_id])
 
 mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli")

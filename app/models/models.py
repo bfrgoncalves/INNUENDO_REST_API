@@ -1,6 +1,6 @@
 import ldap
 from app import db
-from flask.ext.security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
 from config import LDAP_PROVIDER_URL, baseDN
 

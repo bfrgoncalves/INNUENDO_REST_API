@@ -116,7 +116,7 @@ def read_classification_file_to_JSON(file_path):
 
 	return results_classification
 
-def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_file_path, table_id):
+def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_file_path, table_id, platform_tag):
 	chewbbaca_json = read_chewBBACA_file_to_JSON(chewbbaca_file_path)
 	print "DONE chewBBACA parse"
 	classification_json = read_classification_file_to_JSON(classification_file_path)
@@ -135,7 +135,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 		except KeyError as e:
 			print "No metadata for " + strain_id + ". Adding empty..."
 			metadata_to_use = base_metadata
-		populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use)
+		populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use, platform_tag)
 
 mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
 

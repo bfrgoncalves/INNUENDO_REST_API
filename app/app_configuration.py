@@ -51,6 +51,8 @@ def before_first_request():
 
 @app.login_manager.request_loader
 def load_user_from_request(request):
+
+    print "AQUI"
     
     if request.method == 'POST' and "/outputs/" not in request.base_url:
         username = request.form.get('email')

@@ -123,6 +123,8 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 	print "DONE classification parse"
 	metadata_json = read_metadata_file_to_JSON(metadata_file_path)
 	print "DONE metadata parse"
+	count_no_meta = 0
+	count_no_class = 0
 	
 	for strain_id, allelic_profile in chewbbaca_json.iteritems():
 		try:
@@ -130,10 +132,14 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 		except KeyError as e:
 			print "No classification found for " + strain_id + ". Adding undefined..."
 			classification_to_use = "undefined"
+			count_no_class += 1
+			print count_no_class
 		try:
 			metadata_to_use = metadata_json[strain_id]
 		except KeyError as e:
 			print "No metadata for " + strain_id + ". Adding empty..."
+			count_no_meta += 1
+			print count_no_meta
 			metadata_to_use = base_metadata
 		populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use, platform_tag)
 

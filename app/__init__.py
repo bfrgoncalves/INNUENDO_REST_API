@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from config import basedir
 import os 
 
+from rq import Queue
+
 from werkzeug.serving import run_simple
 from werkzeug.wsgi import DispatcherMiddleware
 

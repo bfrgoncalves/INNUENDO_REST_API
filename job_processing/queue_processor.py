@@ -11,7 +11,7 @@ import string
 #IMPORTING REDIS QUEUE CONNECTION
 from app import q
 
-from app.job_processing.database_functions import search_on_database, add_to_database, classify_profile
+from job_processing.database_functions import search_on_database, add_to_database, classify_profile
 
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
 

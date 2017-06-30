@@ -74,6 +74,7 @@ def load_user_from_request(request):
                 db.session.commit()
         
         user = User.query.filter_by(username=result['uid'][0]).first()
+        print user
         login_user(user)
         return user
 

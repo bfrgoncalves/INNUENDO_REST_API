@@ -11,6 +11,9 @@ from franz.openrdf.repository.repository import Repository
 from franz.miniclient import repository
 from config import basedir,AG_HOST,AG_PORT,AG_REPOSITORY,AG_USER,AG_PASSWORD, app_route
 
+#IMPORT CONNECTION FROM THE WORKER REDIS
+from worker import conn
+
 
 
 #Setup app
@@ -25,6 +28,9 @@ app.wsgi_app = DispatcherMiddleware(simple, {app_route: app.wsgi_app})
 
 #Setup db
 db = SQLAlchemy(app) #initialization of the database
+
+#SET THE REDIS QUEUE
+q = Queue(connection=conn)
 
 # Setup Flask-Security
 from flask_security import Security, SQLAlchemyUserDatastore

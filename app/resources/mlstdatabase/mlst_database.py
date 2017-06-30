@@ -8,24 +8,24 @@ import datetime
 from job_processing.queue_processor import Queue_Processor
 
 #Defining post arguments parser
-project_post_search_parser = reqparse.RequestParser()
-project_post_search_parser.add_argument('name', dest='name', type=str, required=True, help="strain name")
-project_post_search_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="lineage classification")
-project_post_search_parser.add_argument('allelic_profile', dest='allelic_profile', type=str, required=True, help="allelic profile")
+database_get_search_parser = reqparse.RequestParser()
+database_get_search_parser.add_argument('name', dest='name', type=str, required=True, help="strain name")
+database_get_search_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="lineage classification")
+database_get_search_parser.add_argument('allelic_profile', dest='allelic_profile', type=str, required=True, help="allelic profile")
 
 #Defining get arguments parser
-project_post_search_parser = reqparse.RequestParser()
-project_post_search_parser.add_argument('mlst_search_id', dest='mlst_search_id', type=str, required=True, help="id of queue search")
+job_get_search_parser = reqparse.RequestParser()
+job_get_search_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="redis job id")
 
 #Defining post arguments parser
-project_post_add_parser = reqparse.RequestParser()
-project_post_add_parser.add_argument('name', dest='name', type=str, required=True, help="strain name")
-project_post_add_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="lineage classification")
-project_post_add_parser.add_argument('max_closest', dest='max_closest', type=str, required=True, help="Number of closest strains")
+database_post_add_parser = reqparse.RequestParser()
+database_post_add_parser.add_argument('name', dest='name', type=str, required=True, help="strain name")
+database_post_add_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="lineage classification")
+database_post_add_parser.add_argument('max_closest', dest='max_closest', type=str, required=True, help="Number of closest strains")
 
 #Defining get arguments parser
-project_post_add_parser = reqparse.RequestParser()
-project_post_add_parser.add_argument('mlst_search_id', dest='mlst_search_id', type=str, required=True, help="id of queue search")
+database_post_add_parser = reqparse.RequestParser()
+database_post_add_parser.add_argument('mlst_search_id', dest='mlst_search_id', type=str, required=True, help="id of queue search")
 
 database_fields = {
 	'id': fields.Integer,
@@ -33,40 +33,40 @@ database_fields = {
 	'classifier': fields.String
 }
 
+database_processor = Queue_Processor()
+
 class DatabaseSearchResource(Resource):
 
-	#@marshal_with(workflow_fields)
+	@login_required
+	@marshal_with(database_fields)
 	def get(self): 
-		return 200
+		args=database_get_search_parser.parse_args()
 
-	#@marshal_with(workflow_fields)
-	def post(self): 
-		args=project_post_search_parser.parse_args()
-
-		database_processor = Queue_Processor()
-		jobID = innuendo_processor.search_on_db(args.name, args.max_closest)
+		jobID = database_processor.search_on_db(args.name, args.max_closest)
 
 		return jobID, 201
 
-	#@marshal_with(workflow_fields)
-	def put(self): 
-		return 202
 
 class DatabaseAddResource(Resource):
 
-	#@marshal_with(workflow_fields)
-	def get(self): 
-		return 200
-
-	#@marshal_with(workflow_fields)
+	@login_required
+	@marshal_with(database_fields)
 	def post(self): 
-		args=project_post_parser.parse_args()
+		args=database_post_add_parser.parse_args()
 
-		database_processor = Queue_Processor()
-		jobID = innuendo_processor.add_to_db(args.name, args.allelic_profile, args.classifier)
+		jobID = database_processor.add_to_db(args.name, args.allelic_profile, args.classifier)
 
 		return jobID, 201
 
-	#@marshal_with(workflow_fields)
-	def put(self): 
-		return 202
+
+class FetchJobResource(Resource):
+
+	@login_required
+	@marshal_with(database_fields)
+	def get(self): 
+		args=job_get_search_parser.parse_args()
+
+		jobID = database_processor.fetch_job(args.job_id)
+
+		return jobID, 201
+

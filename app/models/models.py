@@ -5,9 +5,9 @@ from sqlalchemy.dialects.postgresql import ARRAY, JSON
 from config import LDAP_PROVIDER_URL, baseDN
 
 #Secondary role table
-roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')), db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
-pipelines_workflows = db.Table('pipelines_workflows', db.Column('pipeline_id', db.Integer(), db.ForeignKey('pipelines.id')), db.Column('workflow_id', db.Integer(), db.ForeignKey('workflows.id')))
-projects_strains = db.Table('projects_strains', db.Column('project_id', db.Integer(), db.ForeignKey('projects.id')), db.Column('strains_id', db.Integer(), db.ForeignKey('strains.id')))
+roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')), db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')), info={'bind_key': 'innuendo_database'})
+pipelines_workflows = db.Table('pipelines_workflows', db.Column('pipeline_id', db.Integer(), db.ForeignKey('pipelines.id')), db.Column('workflow_id', db.Integer(), db.ForeignKey('workflows.id')), info={'bind_key': 'innuendo_database'})
+projects_strains = db.Table('projects_strains', db.Column('project_id', db.Integer(), db.ForeignKey('projects.id')), db.Column('strains_id', db.Integer(), db.ForeignKey('strains.id')), info={'bind_key': 'innuendo_database'})
 
 #LADP connection
 def get_ldap_connection():
@@ -17,7 +17,7 @@ def get_ldap_connection():
 
 class User(db.Model, UserMixin):
 	__tablename__ = "users" #change table name from user to users just not clash with postgresql 
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(120), index=True, unique=True)
 	name = db.Column(db.String(255))
@@ -58,7 +58,7 @@ class User(db.Model, UserMixin):
 	
 class Role(db.Model, RoleMixin):
 	__tablename__ = "roles"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(80), unique=True)
 	description = db.Column(db.String(255))
@@ -75,7 +75,7 @@ class Role(db.Model, RoleMixin):
 
 class Project(db.Model):
 	__tablename__ = "projects"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255), unique=True)
 	is_removed = db.Column(db.String(255))
@@ -109,7 +109,7 @@ class Project(db.Model):
 
 class Pipeline(db.Model):
 	__tablename__ = "pipelines"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	timestamp = db.Column(db.DateTime)
 	project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
@@ -120,7 +120,7 @@ class Pipeline(db.Model):
 
 class Workflow(db.Model):
 	__tablename__ = "workflows"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255), unique=True)
 	classifier = db.Column(db.String(255))
@@ -130,7 +130,7 @@ class Workflow(db.Model):
 
 class Process(db.Model):
 	__tablename__ = "processes"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	timestamp = db.Column(db.DateTime)
 	pipeline_id = db.Column(db.Integer, db.ForeignKey('pipelines.id'))
@@ -139,7 +139,7 @@ class Process(db.Model):
 
 class Protocol(db.Model):
 	__tablename__ = "protocols"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	timestamp = db.Column(db.DateTime)
 	name = db.Column(db.String(255), unique=True)
@@ -148,7 +148,7 @@ class Protocol(db.Model):
 
 class Specie(db.Model):
 	__tablename__ = "species"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255), unique=True)
 	timestamp = db.Column(db.DateTime)
@@ -156,7 +156,7 @@ class Specie(db.Model):
 
 class Strain(db.Model):
 	__tablename__ = "strains"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255), unique=True)
 	timestamp = db.Column(db.DateTime)
@@ -168,7 +168,7 @@ class Strain(db.Model):
 #Table to store all procedure report data
 class Report(db.Model):
 	__tablename__ = "reports"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	job_id = db.Column(db.String(255))
 	user_id = db.Column(db.Integer())
@@ -185,7 +185,7 @@ class Report(db.Model):
 #Table to store all combined reports
 class Combined_Reports(db.Model):
 	__tablename__ = "combined_reports"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	user_id = db.Column(db.Integer())
 	username = db.Column(db.Text())
@@ -198,7 +198,7 @@ class Combined_Reports(db.Model):
 
 class Message(db.Model):
 	__tablename__ = "messages"
-	#__bind_key__ = 'innuendo_database'
+	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	timestamp = db.Column(db.DateTime)
 	name = db.Column(db.String(255))
@@ -210,7 +210,7 @@ class Message(db.Model):
 
 class Ecoli(db.Model):
 	__tablename__ = "ecoli"
-	#__bind_key__ = 'mlst_database'
+	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
@@ -221,7 +221,7 @@ class Ecoli(db.Model):
 
 class Yersinia(db.Model):
 	__tablename__ = "yersinia"
-	#__bind_key__ = 'mlst_database'
+	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
@@ -232,7 +232,7 @@ class Yersinia(db.Model):
 
 class Campylobacter(db.Model):
 	__tablename__ = "campylobacter"
-	#__bind_key__ = 'mlst_database'
+	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
@@ -243,7 +243,7 @@ class Campylobacter(db.Model):
 
 class Salmonella(db.Model):
 	__tablename__ = "salmonella"
-	#__bind_key__ = 'mlst_database'
+	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255))
 	classifier = db.Column(db.String(255))
@@ -254,7 +254,7 @@ class Salmonella(db.Model):
 
 class Core_Schemas(db.Model):
 	__tablename__ = "core_schemas"
-	#__bind_key__ = 'mlst_database'
+	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	name = db.Column(db.String(255))
 	loci = db.Column(JSON)

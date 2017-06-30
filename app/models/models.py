@@ -216,6 +216,7 @@ class Ecoli(db.Model):
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
+	platform_tag = db.Column(db.String(255)) #Tell if it is legacy or from the platform
 	timestamp = db.Column(db.DateTime)
 
 class Yersinia(db.Model):
@@ -226,6 +227,7 @@ class Yersinia(db.Model):
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
+	platform_tag = db.Column(db.String(255)) #Tell if it is legacy or from the platform
 	timestamp = db.Column(db.DateTime)
 
 class Campylobacter(db.Model):
@@ -236,6 +238,7 @@ class Campylobacter(db.Model):
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
+	platform_tag = db.Column(db.String(255)) #Tell if it is legacy or from the platform
 	timestamp = db.Column(db.DateTime)
 
 class Salmonella(db.Model):
@@ -246,6 +249,7 @@ class Salmonella(db.Model):
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
+	platform_tag = db.Column(db.String(255)) #Tell if it is legacy or from the platform
 	timestamp = db.Column(db.DateTime)
 
 class Core_Schemas(db.Model):

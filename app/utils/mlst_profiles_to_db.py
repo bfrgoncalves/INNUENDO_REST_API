@@ -5,36 +5,36 @@ import sys
 import json
 import os.path
 
-def populate_db_ecoli(name, classifier, allelic_profile, strain_metadata):
+def populate_db_ecoli(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 
-	ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
+	ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
 
 	return 201
 
-def populate_db_yersinia(name, classifier, allelic_profile, strain_metadata):
+def populate_db_yersinia(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 
-	ecoli = Yersinia(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
+	ecoli = Yersinia(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
 
 	return 201
 
-def populate_db_campylobacter(name, classifier, allelic_profile, strain_metadata):
+def populate_db_campylobacter(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 
-	ecoli = Campylobacter(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
+	ecoli = Campylobacter(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
 
 	return 201
 
-def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata):
+def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 
-	ecoli = Salmonella(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, timestamp = datetime.datetime.utcnow())
+	ecoli = Salmonella(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
 	
 	db.session.add(ecoli)
 	db.session.commit()
@@ -43,13 +43,15 @@ def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata):
 
 
 populate_dbs = {"ecoli": populate_db_ecoli, "yersinia": populate_db_yersinia, "campylobacter": populate_db_campylobacter, "salmonella": populate_db_salmonella}
+allele_classes_to_ignore = {'LNF': '0', 'INF-': '', 'NIPHEM': '0', 'NIPH': '0', 'LOTSC': '0', 'PLOT3': '0', 'PLOT5': '0', 'ALM': '0', 'ASM': '0'}
+metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 'Country', 'Serotype': 'Serotype', 'Simple Patho': 'Pathotyping', 'ST(Achtman 7 Gene)': 'ST'}
+base_metadata = {'strainID':"", "Source":"", "Country":"", "Serotype":"", "Pathotyping":"", "ST":""}
 
 
 def read_chewBBACA_file_to_JSON(file_path):
 
 	results_alleles = {}
 	with open(file_path, 'rtU') as reader:
-	    allele_classes_to_ignore = {'LNF': '0', 'INF-': '', 'NIPHEM': '0', 'NIPH': '0', 'LOTSC': '0', 'PLOT3': '0', 'PLOT5': '0', 'ALM': '0', 'ASM': '0'}
 	    loci = None
 	    for line in reader:
 	        line = line.splitlines()[0]
@@ -75,7 +77,6 @@ def read_metadata_file_to_JSON(file_path):
 
 	results_metadata = {}
 	with open(file_path, 'rtU') as reader:
-		metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 'Country', 'Serotype': 'Serotype', 'Simple Patho': 'Pathotyping', 'ST(Achtman 7 Gene)': 'ST'}
 		metadata_fields = None
 		for line in reader:
 			line = line.splitlines()[0]
@@ -124,12 +125,19 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 	print "DONE metadata parse"
 	
 	for strain_id, allelic_profile in chewbbaca_json.iteritems():
-		print strain_id
-		print classification_json[strain_id]
-		print metadata_json[strain_id]
-		populate_dbs[table_id](strain_id, classification_json[strain_id], allelic_profile, metadata_json[strain_id])
+		try:
+			classification_to_use = classification_json[strain_id]
+		except KeyError as e:
+			print "No classification found for " + strain_id + ". Adding undefined..."
+			classification_to_use = "undefined"
+		try:
+			metadata_to_use = metadata_json[strain_id]
+		except KeyError as e:
+			print "No metadata for " + strain_id + ". Adding empty..."
+			metadata_to_use = base_metadata
+		populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use)
 
-mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli")
+mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
 
 
 

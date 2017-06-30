@@ -56,6 +56,8 @@ def load_user_from_request(request):
         username = request.form.get('email')
         password = request.form.get('password')
 
+        print username, password
+
         try:
             result = User.try_login(username, password)
             print result

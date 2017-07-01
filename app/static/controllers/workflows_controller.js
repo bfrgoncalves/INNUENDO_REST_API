@@ -117,7 +117,9 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		});
 	}
 
-	$scope.removeFromPipeline = function(){
+	$scope.removeFromPipeline = function(element){
+
+		console.log(element);
 
 		workflows.remove_protocol_from_workflow($("#protocol_selector_load option:selected").attr("protocol_name"), function(results){
 			$scope.added_protocols = results.added_protocols;

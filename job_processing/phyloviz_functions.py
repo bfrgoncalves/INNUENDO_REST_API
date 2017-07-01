@@ -33,7 +33,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	first_time_m = True
 
 	count_ids = 0
-	additional_data = json.loads(args.additional_data)
+	additional_data = json.loads(additional_data)
 	
 	for job_id in total_j_ids:
 		body_profile = [];

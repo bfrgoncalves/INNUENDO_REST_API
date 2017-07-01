@@ -5,6 +5,9 @@ import string
 import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report, Strain
 
+import subprocess
+import requests
+
 database_correspondece = {"E.coli":Ecoli}
 
 def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest):

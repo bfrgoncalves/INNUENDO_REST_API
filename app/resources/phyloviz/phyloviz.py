@@ -52,9 +52,9 @@ class PHYLOViZResource(Resource):
 		print "AQUI"
 		#jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest)
 		job = get_current_job()
-    	print 'Current job: %s' % (job.id,)
-		stat1us = phyloviz_processor.fetch_job(jobID)
-		print stat1us
+		print 'Current job: %s' % (job.id,)
+		#stat1us = phyloviz_processor.fetch_job(jobID)
+		#print stat1us
 		return jobID, 201
 
 	@login_required

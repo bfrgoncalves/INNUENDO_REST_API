@@ -74,6 +74,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			console.log(results);
 			$scope.property_fields = results.property_fields;
 	    	//$scope.protocols_of_type = results.protocols_of_type;
+	    	options = "";
 	    	for(x in results.protocols_of_type){
 				options +="<option>"+results.protocols_of_type[x]+"</option>";
 			}

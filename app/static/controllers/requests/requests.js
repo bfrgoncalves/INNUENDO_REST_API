@@ -80,7 +80,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		add_workflow: function(callback){
 
 			console.log($('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text());
-			/*req = {
+			
+			req = {
 		        url:'api/v1.0/workflows/',
 		        method:'POST',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -94,7 +95,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	console.log(response);
 		    	callback(response);
 		    });
-		    */
+		    
 		},
 		//////////////// Projects Table Requests /////////////////////////////////////////
 		get_species_names: function(callback){

@@ -142,7 +142,16 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 	$scope.add_New_Workflow = function(){
 
-		workflows.save_workflow();
+		workflows.save_workflow(function(status){
+			if(status == true){
+				modalAlert("Workflow saved.", function(){
+				});
+			}
+			else{
+				modalAlert("An error as occurried when saving the workflow.", function(){
+				});
+			}
+		});
 
 	}
 

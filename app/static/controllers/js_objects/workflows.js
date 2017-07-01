@@ -52,30 +52,27 @@ function Workflows($http){
 
 			callback({added_protocols:added_protocols});
 		},
-		save_workflow: function(){
+		save_workflow: function(callback){
 			var values = $('#sortable_list li').map(function() {
 			    return this.value;
 			});
 			list_values = values.get().join(',');
-
-			console.log(list_values);
-
-			/*
 			
 			pg_requests.add_workflow(function(response){
 				if(response.status == 201){
 					ngs_onto_requests.ngs_onto_request_add_workflow(response.data.id, list_values, function(response){
 						//do something
-						objects_utils.show_message('workflows_message_div', 'success', 'Workflow saved.');
+						//objects_utils.show_message('workflows_message_div', 'success', 'Workflow saved.');
 						console.log("workflow saved");
+						callback(true)
 					});
 				}
 				else{
-					objects_utils.show_message('workflows_message_div', 'warning', 'An error as occurried when saving the workflow.');
+					//objects_utils.show_message('workflows_message_div', 'warning', 'An error as occurried when saving the workflow.');
 					console.log(response.statusText);
+					callback(false)
 				}
 			})
-			*/
 		}
 	}
 

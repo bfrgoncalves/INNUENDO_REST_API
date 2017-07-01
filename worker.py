@@ -6,7 +6,7 @@ from config import REDIS_URL
 
 ###WORKER TO BE LISTENING TO DATABASE JOBS
 
-listen = ['database_jobs']
+listen = ['default']
 
 redis_url = os.getenv('REDISTOGO_URL', REDIS_URL)
 

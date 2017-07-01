@@ -17,8 +17,6 @@ import subprocess
 import random
 import string
 
-import rq
-
 from job_processing.queue_processor import Queue_Processor
 
 phyloviz_post_parser = reqparse.RequestParser()
@@ -51,8 +49,6 @@ class PHYLOViZResource(Resource):
 		args=phyloviz_post_parser.parse_args()
 		print "AQUI"
 		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest)
-		stat1us = phyloviz_processor.fetch_job(jobID)
-		#print stat1us
 		return jobID, 201
 
 	@login_required

@@ -17,7 +17,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		os.mkdir("./app/uploads")
 
 	if database_to_include != "None":
-		strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
+		strains_from_db = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].platform_tag == "NFP").limit(int(max_closest)).all()
 
 	headers_profile = ["ID"]
 	headers_metadata = ["ID"]

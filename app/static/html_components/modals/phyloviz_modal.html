@@ -6,7 +6,7 @@
     <div class="modal-content">
       <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4 class="modal-title">Send data to PHYLOViZ</h4>
+		<h4 class="modal-title">Vizualize a tree on PHYLOViZ Online</h4>
 	  </div>
       <div class="modal-body">
 		<form class="form-horizontal" role="form" id="save_phyloviz_form" ng-submit="sendToPHYLOViZ()">
@@ -20,6 +20,21 @@
 		      <label class="control-label col-sm-2" for="description">Description</label>
 		      <div class="col-sm-10">
 		        <textarea class="form-control" rows="3" id="modal_phyloviz_dataset_description" name="dataset_description" placeholder="Enter a dataset description"></textarea>
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label class="control-label col-sm-2" for="name">Include strains from database:</label>
+		      <div class="col-sm-10">
+		        <select type="text" id="species_database" class="selectpicker form-control" data-live-search="true">
+	              <!--<option ng-repeat="option in species_options">{{ option }}</option>-->
+	            </select>
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label class="control-label col-sm-2" for="name">Number of closest strains</label>
+		      <div class="col-sm-10">
+		        <input type="number" id="closest_number_of_strains" class="form-control" min="1" max="50">
+	              <!--<option ng-repeat="option in species_options">{{ option }}</option>-->
 		      </div>
 		    </div>
 		    <div class="form-group">

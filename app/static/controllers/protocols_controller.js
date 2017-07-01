@@ -89,6 +89,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		var selected_text = $("#parameter_select option:selected").text();
 		new_options = "";
 		protocols_list.get_current_protocol_type(function(results){
+			var currentProtocolType = results.currentProtocolType;
 			for(x in $scope.protocolTypeParameters[currentProtocolType]){
 				to_check = $scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value;
 				if(to_check != selected_text){

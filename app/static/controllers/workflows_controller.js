@@ -16,6 +16,21 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	var workflows = new Workflows($http);
 	var projects_table = new Projects_Table(0, null, $http);
 
+	function modalAlert(text, callback){
+
+    	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#modalAlert #buttonSub').on("click", function(){
+    		$("#buttonCancelAlert").click();
+    		setTimeout(function(){callback()}, 400);
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }
+
 	$scope.launch_sortable = function(){
 		sortable('.sortable');
 		$scope.getProtocolTypes();
@@ -94,7 +109,10 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	$scope.addToPipeline = function(){
 
 		workflows.add_protocol_to_workflow($("#protocol_selector_load option:selected").text(), function(results){
-			$scope.added_protocols = results.added_protocols;
+			if(results.more_than_one == true) modalAlert("At the moment, only one protocol can be applied to the workflow. We will improve this option in the near future.", function(){
+				$scope.added_protocols = results.added_protocols;
+			});
+			else $scope.added_protocols = results.added_protocols;
 		});
 	}
 

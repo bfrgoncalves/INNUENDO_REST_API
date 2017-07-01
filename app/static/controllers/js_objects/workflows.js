@@ -17,10 +17,30 @@ function Workflows($http){
 		},
 		add_protocol_to_workflow: function(protocol_name, callback){
 			console.log(protocol_name);
+			if(Object.keys(added_protocols).length > 1) return callback({more_than_one:true, added_protocols:added_protocols});
+
 			if(!added_protocols.hasOwnProperty(protocol_name)){
 				added_protocols[protocol_name] = protocols[protocol_name];
 			}
 			console.log(added_protocols[protocol_name]);
+			if(Object.keys(added_protocols).length > 0){
+				$('#workflow_form_block').css({display:'block'});
+			}
+			else $('#workflow_form_block').css({display:'none'});
+			
+			setTimeout(function(){
+				sortable('.sortable');
+			}, 100);
+
+			callback({added_protocols:added_protocols});
+		},
+
+		remove_protocol_to_workflow: function(protocol_name, callback){
+			console.log(protocol_name);
+			
+			if(added_protocols.hasOwnProperty(protocol_name)){
+				delete added_protocols[protocol_name];
+			}
 			if(Object.keys(added_protocols).length > 0){
 				$('#workflow_form_block').css({display:'block'});
 			}

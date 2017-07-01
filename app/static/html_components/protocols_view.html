@@ -29,7 +29,10 @@
 					</div>
 					<label class="col-sm-3 col-form-label" ng-if="key == 'used Software'">{{key}} version</label>
 					<div class="col-sm-9" ng-if="key == 'used Software'">
-						<input name="protocol_{{key}}version" type="text" class="form-control" style="width:80%;" ng-if="key == 'used Software'">
+						<select  id="select_software" name="protocol_{{key}}version" class="selectpicker form-control" ng-if="type[0] == 'select'" style="width:50%;">
+							<option ng-repeat="option in type[1]">{{option}}</option>
+						</select>
+						<!--<input name="protocol_{{key}}version" type="text" class="form-control" style="width:80%;" ng-if="key == 'used Software'">-->
 					</div>
 	    		</div>
 	    		<div class="form-group">

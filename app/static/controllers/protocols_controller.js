@@ -6,6 +6,8 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 	var protocols_list = new Protocol_List($http);
 
+	var usedSoftware = ["INNUca", "chewBBACA", "PathoTyping"];
+
 	$scope.loadProtocols = function(){
 		$scope.getProtocolTypes();
 	}
@@ -38,6 +40,13 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 		protocols_list.load_protocol_form(selectedType, function(results){
 	    	$scope.protocol_parameters = results.protocol_parameters;
+	    	if($.inArray("used Software", results.protocol_parameters)){
+	    		options = "";
+	    		for(x in usedSoftware){
+	    			options += "<option>"+usedSoftware[x]+"</option>";
+	    		}
+	    		$('#select_software').append(options);
+	    	}
 	    	$scope.protocol_type = results.protocol_type;
 	    	$("#create_protocol_button").css({"display":"block"});
 		});

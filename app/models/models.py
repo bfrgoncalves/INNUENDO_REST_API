@@ -206,7 +206,7 @@ class Message(db.Model):
 	process_id = db.Column(db.Integer, db.ForeignKey('processes.id'))
 
 class Tree(db.Model):
-	__tablename__ = "messages"
+	__tablename__ = "trees"
 	__bind_key__ = 'innuendo_database'
 	id = db.Column(db.Integer(), primary_key=True)
 	timestamp = db.Column(db.DateTime)

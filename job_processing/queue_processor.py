@@ -16,6 +16,8 @@ from job_processing.phyloviz_functions import send_to_phyloviz
 
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
 
+from worker import conn
+
 #READ CONFIG FILE
 config = {}
 execfile("config.py", config)

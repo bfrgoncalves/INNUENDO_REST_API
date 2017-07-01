@@ -100,7 +100,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			}
 
 			$("#parameter_select").append(option);
-			$(".selectpicker").selectpicker({});
+			$(".selectpicker").selectpicker("refresh");
 
 		});
 

@@ -114,14 +114,20 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 				$scope.added_protocols = results.added_protocols;
 			});
 			else $scope.added_protocols = results.added_protocols;
+
+			setTimeout(function(){
+				$(".current_workflow_close").on("click", function(){
+					$scope.removeFromPipeline($(this).closest("li").attr("protocol_name"))
+				});
+			}, 800);
 		});
 	}
 
-	$scope.removeFromPipeline = function(element){
+	$scope.removeFromPipeline = function(protocol_name){
 
-		console.log(element);
+		console.log(protocol_name);
 
-		workflows.remove_protocol_from_workflow($("#protocol_selector_load option:selected").attr("protocol_name"), function(results){
+		workflows.remove_protocol_from_workflow(protocol_name, function(results){
 			$scope.added_protocols = results.added_protocols;
 			modalAlert("The protocol was removed from the workflow.", function(){
 			});

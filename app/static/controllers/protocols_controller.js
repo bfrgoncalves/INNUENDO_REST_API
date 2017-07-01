@@ -84,6 +84,22 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		});
 	}
 
+	$scope.removeSelectedParameter = function(){
+
+		var selected_text = $("#parameter_select option:selected").text();
+		new_options = "";
+		for(x in $scope.protocolTypeParameters[currentProtocolType]){
+			to_check = $scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value;
+			if(to_check != selected_text){
+				new_options += "<option>"+to_check+"</option>";
+			}
+		}
+		$('#parameter_select').empty();
+		$("#parameter_select").append(new_options);
+		$(".selectpicker").selectpicker("refresh");
+
+	}
+
 	$scope.AddParameters = function(){
 
 		protocols_list.get_current_protocol_type(function(results){

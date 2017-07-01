@@ -11,8 +11,8 @@ import string
 #IMPORTING REDIS QUEUE CONNECTION
 from app import q
 
-from database_functions import search_on_database, add_to_database, classify_profile
-from phyloviz_functions import send_to_phyloviz
+import database_functions
+import phyloviz_functions
 
 from worker import conn
 
@@ -26,7 +26,7 @@ class Queue_Processor:
 		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
 		#RETURN IDS OF CLOSEST
 		job = q.enqueue_call(
-            func=search_on_database, args=(strain_id, closest_number), result_ttl=5000
+            func=database_functions.search_on_database, args=(strain_id, closest_number), result_ttl=5000
         )
 
 		return job.get_id()
@@ -37,7 +37,7 @@ class Queue_Processor:
 		print "PASSOU"
 		print job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest
 		job = q.enqueue_call(
-			func=send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest,), result_ttl=5000
+			func=phyloviz_functions.send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest,), result_ttl=5000
 		)
 		print job.get_id()
 		return job.get_id()
@@ -45,14 +45,14 @@ class Queue_Processor:
 	def add_to_db(self, strain_id, profile_object, classifier):
 		#ADD PROFILE TO DATABASE
 		job = q.enqueue_call(
-            func=add_to_database, args=(strain_id, profile_object, classifier), result_ttl=5000
+            func=database_functions.add_to_database, args=(strain_id, profile_object, classifier), result_ttl=5000
         )
 		return job.get_id()
 
 	def classify_profile(self, strain_id, profile_object):
 		#RETURNS THE CLASSIFIER FOR A GIVEN PROFILE
 		job = q.enqueue_call(
-            func=classify_profile, args=(strain_id, profile_object), result_ttl=5000
+            func=database_functions.classify_profile, args=(strain_id, profile_object), result_ttl=5000
         )
 		return job.get_id()
 

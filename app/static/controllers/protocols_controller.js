@@ -111,12 +111,17 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		new_options = "";
 		protocols_list.get_current_protocol_type(function(results){
 			var currentProtocolType = results.currentProtocolType;
+			var new_protocolParameters = [];
 			for(x in $scope.protocolTypeParameters[currentProtocolType]){
 				to_check = $scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value;
 				if(to_check != selected_text){
 					new_options += "<option>"+to_check+"</option>";
+					new_protocolParameters.push($scope.protocolTypeParameters[currentProtocolType][x]);
 				}
 			}
+
+			$scope.protocolTypeParameters[currentProtocolType] = new_protocolParameters;
+			
 			$('#parameter_select').empty();
 			$("#parameter_select").append(new_options);
 			$(".selectpicker").selectpicker("refresh");

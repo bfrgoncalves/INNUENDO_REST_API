@@ -129,6 +129,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		console.log(protocol_name);
 
 		workflows.remove_protocol_from_workflow(protocol_name, function(results){
+			console.log(results.added_protocols);
 			$scope.added_protocols = results.added_protocols;
 			modalAlert("The protocol was removed from the workflow.", function(){
 			});

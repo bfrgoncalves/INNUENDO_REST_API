@@ -80,7 +80,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 		protocols_list.get_protocol_fields(uri, function(results){
 			console.log(results);
-			$scope.property_fields = results.property_fields;
+			$scope.property_fields = results.property_fields.reverse();
 		});
 	}
 

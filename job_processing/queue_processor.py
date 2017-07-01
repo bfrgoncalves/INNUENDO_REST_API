@@ -11,8 +11,8 @@ import string
 #IMPORTING REDIS QUEUE CONNECTION
 from app import q
 
-from job_processing.database_functions import search_on_database, add_to_database, classify_profile
-from job_processing.phyloviz_functions import send_to_phyloviz
+from database_functions import search_on_database, add_to_database, classify_profile
+from phyloviz_functions import send_to_phyloviz
 
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
 

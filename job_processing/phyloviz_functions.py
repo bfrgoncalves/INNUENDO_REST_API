@@ -94,7 +94,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			string_metadata = []
 			for x in headers:
 				if x == "ID":
-					string_profile.append(strain_from_db.allelic_profile["strain"+x])
+					string_profile.append(strain_from_db.allelic_profile[x])
 
 			string_profile = "\t".join(string_profile)
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)
@@ -103,7 +103,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				print headers_metadata
 				print strain_from_db.strain_metadata
 				try:
-					string_metadata.append(strain_from_db.strain_metadata[x])
+					if x == "ID":
+						string_metadata.append(strain_from_db.strain_metadata["strain"+x])
+					else:
+						string_metadata.append(strain_from_db.strain_metadata[x])
 				except Exception as e:
 					string_metadata.append("")
 

@@ -3,7 +3,7 @@ import random
 import os
 import string
 import json
-from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas
+from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report, Strain
 
 database_correspondece = {"E.coli":Ecoli}
 

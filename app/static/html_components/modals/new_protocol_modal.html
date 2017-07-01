@@ -10,9 +10,11 @@
 	  </div>
       <div class="modal-body">
 		<form class="form-horizontal" role="form" id="new_data_form" ng-submit="AddParameters()">
-		    <div class="form-group" ng-repeat="property_field in property_fields">
-		      <label class="control-label col-sm-2" for="field_{{property_field}}">{{property_field}}</label>
+		    <div class="form-group row" ng-repeat="property_field in property_fields">
+		      <label class="col-sm-3 col-form-label" for="field_{{property_field}}">{{property_field}}</label>
+		      <div class="col-sm-9">
 		        <input type="text" class="form-control" name="field_{{property_field}}" placeholder="Enter {{property_field}}">
+		      </div>
 		    </div>
 		    <div class="form-group">
 		      <div class="col-sm-offset-2 col-sm-10">

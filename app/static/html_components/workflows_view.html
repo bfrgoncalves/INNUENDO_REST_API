@@ -6,16 +6,16 @@
     <div class="sub_container">
       <div class="jumbotron">
         <h3 class="sub-header">Protocols</h3>
+        <label for ="protocol_type_selector_load">Protocol type</label>
         <select class="selectpicker form-control" id="protocol_type_selector_load">
           <!--<option ng-repeat="type in protocol_types">{{type}}</option>-->
         </select>
+        <label for ="protocol_selector_load">Protocol</label>
         <select class="selectpicker form-control" id="protocol_selector_load">
           <option ng-repeat="protocol in protocols_of_type">{{protocol}}</option>
         </select>
         <div class="form-group" id="div_button_addto_workflow" style="display:none;">
-          <div class="col-sm-offset-2 col-sm-10">
-              <button class="btn btn-default" ng-click="addToPipeline()">Add to Workflow</button>
-            </div>
+          <button class="btn btn-default" ng-click="addToPipeline()">Add to Workflow</button>
         </div>
       </div>
     </div>

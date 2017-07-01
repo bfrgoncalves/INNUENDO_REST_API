@@ -67,7 +67,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 				$("#div_button_addto_workflow").css({display:"block"});
 			});
 
-			$("#protocol_selector_load").trigger("change");
+			if(results.protocols.length != 0) $("#protocol_selector_load").trigger("change");
 		});
 	}
 

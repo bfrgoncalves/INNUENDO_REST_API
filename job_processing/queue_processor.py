@@ -34,9 +34,12 @@ class Queue_Processor:
 	def send_to_phyloviz(self, job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest):
 		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
 		#RETURN IDS OF CLOSEST
+		print "PASSOU"
 		job = q.enqueue_call(
             func=send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest), result_ttl=5000
         )
+
+        print job.get_id()
 
 		return job.get_id()
 

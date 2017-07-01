@@ -71,8 +71,20 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 	$scope.loadProtocolType = function(selectedType){
 
 		protocols_list.get_protocols_of_type(selectedType, function(results){
+			console.log(results);
 			$scope.property_fields = results.property_fields;
-	    	$scope.protocols_of_type = results.protocols_of_type;
+	    	//$scope.protocols_of_type = results.protocols_of_type;
+	    	for(x in results.protocols_of_type){
+				options +="<option>"+results.protocols_of_type[x]+"</option>";
+			}
+
+			$("#protocol_selector_load").append(options);
+			$(".selectpicker").selectpicker("refresh");
+
+			$("#protocol_selector_load").on("change", function(){
+				$scope.loadProtocol($("#protocol_selector_load option:selected").text());
+			});
+
 		});
 	}
 
@@ -128,6 +140,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			}
 
 			$('#parameter_select').empty();
+			$('.entered_params').val("");
 			$("#parameter_select").append(option);
 			$(".selectpicker").selectpicker("refresh");
 

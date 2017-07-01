@@ -61,8 +61,6 @@ function Protocol_List($http){
 
 			console.log(protocol_object);
 
-			/*
-
 			pg_requests.create_protocol(protocol_object, function(response){
 				if(response.status == 201){
 					new_protocol_id = response.data.id;
@@ -77,7 +75,6 @@ function Protocol_List($http){
 					objects_utils.show_message('protocols_message_div', 'warning', 'An error as occurried when saving the protocol.');
 				} 
 			});
-			*/
 		},
 		load_protocol_form: function(selectedType, callback){
 

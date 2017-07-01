@@ -35,7 +35,7 @@ function Workflows($http){
 			callback({added_protocols:added_protocols});
 		},
 
-		remove_protocol_to_workflow: function(protocol_name, callback){
+		remove_protocol_from_workflow: function(protocol_name, callback){
 			console.log(protocol_name);
 			
 			if(added_protocols.hasOwnProperty(protocol_name)){
@@ -54,10 +54,10 @@ function Workflows($http){
 		},
 		save_workflow: function(){
 			var values = $('#sortable_list li').map(function() {
-			    return this.value;
+			    return $(this).attr("protocol_name");
 			});
 			list_values = values.get().join(',');
-
+			/*
 			pg_requests.add_workflow(function(response){
 				if(response.status == 201){
 					ngs_onto_requests.ngs_onto_request_add_workflow(response.data.id, list_values, function(response){
@@ -71,6 +71,7 @@ function Workflows($http){
 					console.log(response.statusText);
 				}
 			})
+			*/
 		}
 	}
 

@@ -9,7 +9,7 @@
 		<h4 class="modal-title">Vizualize a tree on PHYLOViZ Online</h4>
 	  </div>
       <div class="modal-body">
-		<form class="form-horizontal" role="form" id="save_phyloviz_form" ng-submit="sendToPHYLOViZ()">
+		<form class="form-horizontal" role="form" id="save_phyloviz_form" ng-submit="sendToPHYLOViZ()" style="padding:20px;">
 		    <div class="form-group">
 		      <label class="control-label" for="name">Dataset Name:</label>
 		        <input type="text" class="form-control" id="modal_phyloviz_dataset_name" name="dataset_name" placeholder="Enter a dataset name">
@@ -31,7 +31,7 @@
 		    </div>
 		    <div class="form-group" style="width:100%;">
 		      <div style="text-align: center;">
-		        <button type="submit" class="btn btn-default">Send to PHYLOViZ</button>
+		        <button type="submit" class="btn btn-primary">Send to PHYLOViZ</button>
 		      </div>
 		    </div>
 		</form>

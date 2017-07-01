@@ -17,10 +17,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		os.mkdir("./app/uploads")
 
 	if database_to_include != "None":
-		strains_from_db = db.session.query(Ecoli).filter(Ecoli.platform_tag == "NFP").limit(int(max_closest)).all()
-
-	if strains_from_db:
-		print "HA"
+		strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
 
 	headers_profile = ["ID"]
 	headers_metadata = ["ID"]
@@ -103,6 +100,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)
 
 			for x in headers_metadata:
+				print "HEADERS META"
 				try:
 					string_metadata.append(strain_from_db.strain_metadata[x])
 				except Exception as e:

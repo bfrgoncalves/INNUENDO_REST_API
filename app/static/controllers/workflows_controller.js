@@ -3,6 +3,15 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	$scope.added_protocols = {};
 	$scope.class_options = ["Classifier", "Procedure"];
 
+	for(x in $scope.class_options){
+		options +="<option>"+$scope.class_options[x]+"</option>";
+	}
+
+	$("#select_classifier").empty();
+	$("#select_classifier").append(options);
+	$(".selectpicker").selectpicker({});
+	$(".selectpicker").selectpicker("refresh");
+
 	var protocols = new Protocol_List($http);
 	var workflows = new Workflows($http);
 	var projects_table = new Projects_Table(0, null, $http);
@@ -23,8 +32,10 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 				options +="<option>"+results.protocol_types[x]+"</option>";
 			}
 
+			$("#protocol_type_selector_load").empty();
 			$("#protocol_type_selector_load").append(options);
 			$(".selectpicker").selectpicker({});
+			$(".selectpicker").selectpicker("refresh");
 			
 			$("#protocol_type_selector_load").on("change", function(){
 				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
@@ -38,9 +49,17 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	$scope.getSpecies = function(){
 
 		projects_table.get_species_names(function(results){
-	        $scope.species_options = results.species.map(function(d){
-	        	return d.name;
+			options=""
+	        results.species.map(function(d){
+	        	options += "<option>"+d.name+"</option>";
+	        	//return d.name;
 	        });
+
+	        $("#workflow_species").empty();
+	        $("#workflow_species").append(options);
+	        $(".selectpicker").selectpicker({});
+	        $(".selectpicker").selectpicker("refresh");
+
 		});
 
 	}

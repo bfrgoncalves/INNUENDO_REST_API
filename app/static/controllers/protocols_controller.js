@@ -20,6 +20,9 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			for(x in results.protocol_types){
 				options +="<option>"+results.protocol_types[x]+"</option>";
 			}
+
+			$("#protocol_type_selector").empty();
+			$("#protocol_type_selector_load").empty();
 			$("#protocol_type_selector").append(options);
 			$("#protocol_type_selector_load").append(options);
 			$(".selectpicker").selectpicker({});

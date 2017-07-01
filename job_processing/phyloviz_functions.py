@@ -2,6 +2,7 @@ from app import db
 import random
 import os
 import string
+import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas
 
 database_correspondece = {"E.coli":Ecoli}

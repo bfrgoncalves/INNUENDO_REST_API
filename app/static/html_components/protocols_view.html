@@ -20,7 +20,8 @@
 		    			<select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control" data-live-search="true" style="width:50%;">
 		    				<!--<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>-->
 		    			</select>
-		    			<button name="protocol_{{key}}" class="btn btn-md btn-default" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
+		    			<button name="protocol_{{key}}" class="btn btn-md btn-primary" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
+		    			<button name="protocol_{{key}}" class="btn btn-md btn-danger" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Remove Parameter</button>
 		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control" ng-if="type[0] == 'input' && type[1] == 'text'">
 		    			<textarea name="protocol_{{key}}" class="form-control" ng-if="type[0] == 'textarea'"></textarea>
 						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">

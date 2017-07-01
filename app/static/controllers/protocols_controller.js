@@ -51,6 +51,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		    		for(x in usedSoftware){
 		    			options += "<option>"+usedSoftware[x]+"</option>";
 		    		}
+		    		$('#select_software').empty();
 		    		$('#select_software').append(options);
 		    		$(".selectpicker").selectpicker({});
 		    		$("#new_protocol_form").css({"display":"block"});
@@ -99,6 +100,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 				option += "<option>"+$scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value+"</option>";
 			}
 
+			$('#parameter_select').empty();
 			$("#parameter_select").append(option);
 			$(".selectpicker").selectpicker("refresh");
 

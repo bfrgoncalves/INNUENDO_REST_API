@@ -23,9 +23,6 @@
 		    			<button name="protocol_{{key}}" class="btn btn-md btn-default" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
 		    			<input style="width:80%;" name="protocol_{{key}}" type="text" class="form-control" ng-if="type[0] == 'input' && type[1] == 'text'">
 		    			<textarea name="protocol_{{key}}" class="form-control" ng-if="type[0] == 'textarea'"></textarea>
-		    			<select  name="protocol_{{key}}" class="form-control" ng-if="type[0] == 'select'" style="width:50%;">
-							<option ng-repeat="option in type[1]">{{option}}</option>
-						</select>
 						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" style="width:50%;" ng-if="type[0] == 'select' && type[1] == 'text'">
 							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
 						</select>

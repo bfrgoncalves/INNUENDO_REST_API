@@ -45,7 +45,6 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 	    	setTimeout(function(){
 	    		if($.inArray("used Software", results.protocol_parameters)){
-		    		console.log("AQUI");
 		    		options = "";
 		    		for(x in usedSoftware){
 		    			options += "<option>"+usedSoftware[x]+"</option>";
@@ -53,7 +52,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		    		$('#select_software').append(options);
 		    		$(".selectpicker").selectpicker({});
 		    	}
-	    	}, 1000);
+	    	}, 600);
 		});
 	}
 

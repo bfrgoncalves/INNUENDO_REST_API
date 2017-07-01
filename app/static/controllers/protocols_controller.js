@@ -38,6 +38,8 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 	$scope.loadProtocolCreator = function(selectedType){
 
+		$("#new_protocol_form").css({"display":"none"});
+
 		protocols_list.load_protocol_form(selectedType, function(results){
 	    	$scope.protocol_parameters = results.protocol_parameters;
 	    	$scope.protocol_type = results.protocol_type;
@@ -51,6 +53,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		    		}
 		    		$('#select_software').append(options);
 		    		$(".selectpicker").selectpicker({});
+		    		$("#new_protocol_form").css({"display":"block"});
 		    	}
 	    	}, 600);
 		});

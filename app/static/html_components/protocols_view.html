@@ -16,21 +16,21 @@
 	    	<form id="new_protocol_form" style="display:none;">
 	    		<div ng-repeat="(key,type) in protocol_type" class="form-group row">
 	    			<label class="col-sm-3 col-form-label">{{key}}</label>
-	    			<div class="col-sm-9 div_options">
-		    			<select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control" data-live-search="true" style="width:50%;">
+	    			<div class="col-sm-9">
+		    			<select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control to_empty" data-live-search="true" style="width:50%;">
 		    				<!--<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>-->
 		    			</select>
 		    			<button name="protocol_{{key}}" class="btn btn-md btn-primary" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
 		    			<button name="protocol_{{key}}" class="btn btn-md btn-danger" ng-if="type[0] == 'button'" ng-click="removeSelectedParameter()">Remove Parameter</button>
-		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control" ng-if="type[0] == 'input' && type[1] == 'text'">
-		    			<textarea name="protocol_{{key}}" class="form-control" ng-if="type[0] == 'textarea'"></textarea>
-						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
+		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'text'">
+		    			<textarea name="protocol_{{key}}" class="form-control to_empty" ng-if="type[0] == 'textarea'"></textarea>
+						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control to_empty" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
 							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
 						</select>
 					</div>
 					<label class="col-sm-3 col-form-label" ng-if="key == 'used Software'">{{key}} version</label>
-					<div class="col-sm-9 div_options" ng-if="key == 'used Software'">
-						<input name="protocol_{{key}}version" type="text" class="form-control" style="width:100%;" ng-if="key == 'used Software'">
+					<div class="col-sm-9" ng-if="key == 'used Software'">
+						<input name="protocol_{{key}}version" type="text" class="form-control to_empty" style="width:100%;" ng-if="key == 'used Software'">
 					</div>
 	    		</div>
 	    		<div class="form-group">

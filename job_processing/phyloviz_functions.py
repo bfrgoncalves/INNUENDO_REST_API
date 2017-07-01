@@ -93,7 +93,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			string_profile = []
 			string_metadata = []
 			for x in headers:
-				if x == "ID":
+				if x != "ID":
 					string_profile.append(strain_from_db.allelic_profile[x])
 
 			string_profile = "\t".join(string_profile)

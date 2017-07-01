@@ -21,9 +21,14 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 				options +="<option>"+results.protocol_types[x]+"</option>";
 			}
 			$("#protocol_type_selector").append(options);
+			$("#protocol_type_selector_load").append(options);
 			$(".selectpicker").selectpicker({});
+			
 			$("#protocol_type_selector").on("change", function(){
 				$scope.loadProtocolCreator($("#protocol_type_selector option:selected").text());
+			});
+			$("#protocol_type_selector_load").on("change", function(){
+				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
 			});
 		});
 	}

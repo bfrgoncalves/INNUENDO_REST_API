@@ -3,6 +3,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	$scope.added_protocols = {};
 	$scope.class_options = ["Classifier", "Procedure"];
 
+	options=""
 	for(x in $scope.class_options){
 		options +="<option>"+$scope.class_options[x]+"</option>";
 	}

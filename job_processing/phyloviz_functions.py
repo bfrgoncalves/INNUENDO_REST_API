@@ -9,6 +9,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	file_path_profile = './app/uploads/'+file_name+'_profile.tab'
 	file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
 
+	print "AQUI"
+
 	if database_to_include != "None":
 		strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
 

@@ -88,15 +88,17 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 		var selected_text = $("#parameter_select option:selected").text();
 		new_options = "";
-		for(x in $scope.protocolTypeParameters[currentProtocolType]){
-			to_check = $scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value;
-			if(to_check != selected_text){
-				new_options += "<option>"+to_check+"</option>";
+		protocols_list.get_current_protocol_type(function(results){
+			for(x in $scope.protocolTypeParameters[currentProtocolType]){
+				to_check = $scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value;
+				if(to_check != selected_text){
+					new_options += "<option>"+to_check+"</option>";
+				}
 			}
-		}
-		$('#parameter_select').empty();
-		$("#parameter_select").append(new_options);
-		$(".selectpicker").selectpicker("refresh");
+			$('#parameter_select').empty();
+			$("#parameter_select").append(new_options);
+			$(".selectpicker").selectpicker("refresh");
+		});
 
 	}
 
@@ -104,7 +106,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 		protocols_list.get_current_protocol_type(function(results){
 			var parameterObject = $('#new_data_form').serializeArray();
-			var currentProtocolType = results.currentProtocolType
+			var currentProtocolType = results.currentProtocolType;
 			if (!$scope.protocolTypeParameters.hasOwnProperty(currentProtocolType)){
 				$scope.protocolTypeParameters[currentProtocolType] = [];
 			}

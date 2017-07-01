@@ -96,7 +96,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 			option = "";
 			for(x in $scope.protocolTypeParameters[currentProtocolType]){
-				option += "<option>"+$scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value"</option>";
+				option += "<option>"+$scope.protocolTypeParameters[currentProtocolType][x][0].value+":"+$scope.protocolTypeParameters[currentProtocolType][x][1].value+"</option>";
 			}
 
 			$("#parameter_select").append(option);

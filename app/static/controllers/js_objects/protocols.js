@@ -18,6 +18,9 @@ function Protocol_List($http){
 		if(property == 'used Parameter'){
 			return ["button", "text", uri];
 		}
+		if(property == 'used Software'){
+			return ["select", "text"];
+		}
 		return ["input", "text"];
 
 	}

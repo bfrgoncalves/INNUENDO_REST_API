@@ -26,7 +26,7 @@
 		    			<select  name="protocol_{{key}}" class="form-control" ng-if="type[0] == 'select'" style="width:50%;">
 							<option ng-repeat="option in type[1]">{{option}}</option>
 						</select>
-						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" style="width:50%;" ng-if="key == 'used Software'">
+						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" style="width:50%;" ng-if="type[0] == 'select' && type[1] == 'text'">
 							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
 						</select>
 					</div>

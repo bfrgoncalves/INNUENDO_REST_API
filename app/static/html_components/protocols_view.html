@@ -16,7 +16,7 @@
 	    	<form id="new_protocol_form" style="display:none;">
 	    		<div ng-repeat="(key,type) in protocol_type" class="form-group row">
 	    			<label class="col-sm-3 col-form-label">{{key}}</label>
-	    			<div class="col-sm-9">
+	    			<div class="col-sm-9 div_options">
 		    			<select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control" data-live-search="true" style="width:50%;">
 		    				<!--<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>-->
 		    			</select>
@@ -29,7 +29,7 @@
 						</select>
 					</div>
 					<label class="col-sm-3 col-form-label" ng-if="key == 'used Software'">{{key}} version</label>
-					<div class="col-sm-9" ng-if="key == 'used Software'">
+					<div class="col-sm-9 div_options" ng-if="key == 'used Software'">
 						<input name="protocol_{{key}}version" type="text" class="form-control" style="width:100%;" ng-if="key == 'used Software'">
 					</div>
 	    		</div>

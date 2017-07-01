@@ -205,6 +205,16 @@ class Message(db.Model):
 	description = db.Column(JSON)
 	process_id = db.Column(db.Integer, db.ForeignKey('processes.id'))
 
+class Tree(db.Model):
+	__tablename__ = "messages"
+	__bind_key__ = 'innuendo_database'
+	id = db.Column(db.Integer(), primary_key=True)
+	timestamp = db.Column(db.DateTime)
+	user_id = db.Column(db.Integer())
+	name = db.Column(db.Text())
+	description = db.Column(db.Text())
+	uri = db.Column(db.Text())
+
 
 #######################MLST DATABASE##################################################
 

@@ -25,6 +25,7 @@
 			<li class="active" id="act_rep"><a>Active Report</a></li>
 			<li id="user_jobs"><a>Search</a></li>
 			<li id="saved_rep"><a>Saved Reports</a></li>
+			<li id="tree_tab"><a>Trees</a></li>
 		</ul>
 
 		<div id="s_report_message_div" class="col-md-4" style="float:right;"></div>
@@ -126,6 +127,36 @@
 			      </div>
 			    </div>
 			</div>
+		</div>
+		<div class="col-md-12" style="display:none;" id="trees_tab_div">
+		      <div class="sub_container">
+		        <div class="jumbotron">
+		        	<h3 class="sub-header">Trees</h3>
+		        	<div class="scroll_div">
+		            <table class="display compact hover" id="trees_table" width='100%'>
+			            <thead>
+			              <tr>
+			                <th></th>
+			                <th ng-repeat="header in trees_headers">{{ header }}</th>
+			              </tr>
+			            </thead>
+			            <!--<tbody>
+			              <tr ng-repeat="report in saved_reports">
+			                <td></td>
+			                <td ng-repeat="(key, val) in report">{{ val }}</td>
+			              </tr>
+			            </tbody>-->
+			            <tfoot>
+			              <tr>
+			                <th></th>
+			                <th ng-repeat="header in trees_headers">{{ header }}</th>
+			              </tr>
+			            </tfoot>
+			        </table>
+			    	</div>
+		        </div>
+		      </div>
+		    </div>
 		</div>
 		<div class="col-md-12">
 		    <div class="col-md-12" style="display:block;" id="active_rep_div">

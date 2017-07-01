@@ -122,6 +122,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
     	$("#active_rep_div").css({"display":"block"});
 		$("#saved_rep_div").css({"display":"none"});
 		$("#user_jobs_div").css({"display":"none"});
+		$("#trees_tab_div").css({"display":"none"});
 		$("#reports_results_table_wrapper").css({"display": "none"});
 		$('#reports_metadata_table_wrapper').css({'display':'none'});
 		$("#reports_info_table_wrapper").css({"display": "block"});
@@ -130,26 +131,43 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#act_rep").addClass("active");
 		$("#user_jobs").removeClass("active");
 		$("#saved_rep").removeClass("active");
+		$("#tree_tab").removeClass("active");
 	});
 
 	$("#user_jobs").on("click", function(){
 		$("#active_rep_div").css({"display":"none"});
 		$("#saved_rep_div").css({"display":"none"});
 		$("#user_jobs_div").css({"display":"block"});
+		$("#trees_tab_div").css({"display":"none"});
 		$("#reports_table").DataTable().draw();
 		$("#user_jobs").addClass("active");
 		$("#act_rep").removeClass("active");
 		$("#saved_rep").removeClass("active");
+		$("#tree_tab").removeClass("active");
 	});
 
 	$("#saved_rep").on("click", function(){
 		$("#active_rep_div").css({"display":"none"});
 		$("#saved_rep_div").css({"display":"block"});
 		$("#user_jobs_div").css({"display":"none"});
+		$("#trees_tab_div").css({"display":"none"});
 		$("#saved_reports_table").DataTable().draw();
 		$("#saved_rep").addClass("active");
 		$("#user_jobs").removeClass("active");
 		$("#act_rep").removeClass("active");
+		$("#tree_tab").removeClass("active");
+	});
+
+	$("#tree_tab").on("click", function(){
+		$("#active_rep_div").css({"display":"none"});
+		$("#saved_rep_div").css({"display":"none"});
+		$("#user_jobs_div").css({"display":"none"});
+		$("#trees_tab_div").css({"display":"block"});
+		$("#trees_table").DataTable().draw();
+		$("#tree_tab").addClass("active");
+		$("#user_jobs").removeClass("active");
+		$("#act_rep").removeClass("active");
+		$("#saved_rep").removeClass("active");
 	});
 
 	$("#project_search_button").on("click", function(){

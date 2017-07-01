@@ -100,7 +100,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)
 
 			for x in headers_metadata:
-				print "HEADERS META"
+				print strain_from_db.strain_metadata
 				try:
 					string_metadata.append(strain_from_db.strain_metadata[x])
 				except Exception as e:

@@ -1,4 +1,6 @@
 from app import db
+import random
+import os
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas
 
 database_correspondece = {"E.coli":Ecoli}
@@ -9,7 +11,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	file_path_profile = './app/uploads/'+file_name+'_profile.tab'
 	file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
 
-
+	if not os.path.isdir("./app/uploads"):
+		os.mkdir("./app/uploads")
+		
 	if database_to_include != "None":
 		strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
 

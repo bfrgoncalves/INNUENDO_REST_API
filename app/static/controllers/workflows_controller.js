@@ -17,6 +17,19 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 		protocols.get_protocol_types(function(results){
 			$scope.protocol_types = results.protocol_types;
+
+			options="";
+			for(x in results.protocol_types){
+				options +="<option>"+results.protocol_types[x]+"</option>";
+			}
+
+			$("#protocol_type_selector_load").append(options);
+			$(".selectpicker").selectpicker({});
+			
+			$("#protocol_type_selector_load").on("change", function(){
+				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
+			});
+			
 			workflows.set_protocol_types_object(results.protocolTypeObject);
 		});
 
@@ -34,10 +47,27 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 	$scope.loadProtocolType = function(selectedType){
 
+		$("#div_button_addto_workflow").css({display:"none"});
+
 		protocols.get_protocols_of_type(selectedType, function(results){
 			workflows.set_protocols_of_type(results.protocols);
 			$scope.property_fields = results.property_fields;
-	    	$scope.protocols_of_type = results.protocols_of_type;
+			//$scope.protocols_of_type = results.protocols_of_type;
+
+			options = "";
+	    	for(x in results.protocols_of_type){
+				options +="<option>"+results.protocols_of_type[x]+"</option>";
+			}
+
+			$("#protocol_selector_load").empty();
+			$("#protocol_selector_load").append(options);
+			$(".selectpicker").selectpicker("refresh");
+
+			$("#protocol_selector_load").on("change", function(){
+				$("#div_button_addto_workflow").css({display:"block"});
+			});
+
+			$("#protocol_selector_load").trigger("change");
 		});
 	}
 

@@ -42,14 +42,18 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 	    	$scope.protocol_parameters = results.protocol_parameters;
 	    	$scope.protocol_type = results.protocol_type;
 	    	$("#create_protocol_button").css({"display":"block"});
-	    	if($.inArray("used Software", results.protocol_parameters)){
-	    		options = "";
-	    		for(x in usedSoftware){
-	    			options += "<option>"+usedSoftware[x]+"</option>";
-	    		}
-	    		$('#select_software').append(options);
-	    		$(".selectpicker").selectpicker({});
-	    	}
+
+	    	setTimeout(function(){
+	    		if($.inArray("used Software", results.protocol_parameters)){
+		    		console.log("AQUI");
+		    		options = "";
+		    		for(x in usedSoftware){
+		    			options += "<option>"+usedSoftware[x]+"</option>";
+		    		}
+		    		$('#select_software').append(options);
+		    		$(".selectpicker").selectpicker({});
+		    	}
+	    	}, 1000);
 		});
 	}
 

@@ -17,8 +17,8 @@
 	    		<div ng-repeat="(key,type) in protocol_type" class="form-group row">
 	    			<label class="col-sm-3 col-form-label">{{key}}</label>
 	    			<div class="col-sm-9">
-		    			<select id="parameter_select" ng-if="key == 'used Parameter'" style="width:80%;">
-		    				<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>
+		    			<select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control" data-live-search="true" style="width:50%;">
+		    				<!--<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>-->
 		    			</select>
 		    			<button name="protocol_{{key}}" class="btn btn-md btn-default" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
 		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control" ng-if="type[0] == 'input' && type[1] == 'text'">

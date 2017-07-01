@@ -74,7 +74,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 	$scope.addToPipeline = function(){
 
-		workflows.add_protocol_to_workflow($scope.selectedProtocolLoad, function(results){
+		workflows.add_protocol_to_workflow($("#protocol_selector_load option:selected").text(), function(results){
 			$scope.added_protocols = results.added_protocols;
 		});
 	}

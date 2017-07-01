@@ -14,8 +14,6 @@ from app import q
 from database_functions import search_on_database, add_to_database, classify_profile
 from phyloviz_functions import send_to_phyloviz
 
-from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
-
 from worker import conn
 
 #READ CONFIG FILE

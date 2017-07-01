@@ -29,7 +29,7 @@
         <h3 class="sub-header">Workflows view</h3>
 
       	<ul id="sortable_list" class='list-group sortable pipeline-list'>
-      	  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols" value="{{protocol.id}}" protocol_name={{protocol.name}}>{{protocol.name}}<i class="fa fa-close current_workflow_close" data-toggle="tooltip" data-placement="top" title="Remove protocol from workflow" ng-click="removeFromPipeline(this)"></i></li>
+      	  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols" value="{{protocol.id}}" protocol_name={{protocol.name}}>{{protocol.name}}<i class="fa fa-close current_workflow_close" data-toggle="tooltip" data-placement="top" title="Remove protocol from workflow" ng-click="removeFromPipeline()"></i></li>
       	</ul>
 
         <div class="form-group" style="display:none;" id="workflow_form_block">

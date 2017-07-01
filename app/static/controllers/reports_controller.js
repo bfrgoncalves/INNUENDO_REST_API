@@ -321,7 +321,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		table = $('#'+table_id).DataTable();
 
-		var table_data = $.map(table.rows().data(), function(data){
+		var table_data = $.map(table.rows(".selected").data(), function(data){
 	       return data;
 	    });
  
@@ -1049,22 +1049,27 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	}
 
 	$('#phyloviz_button').click(function(){
-		
-		projects_table.get_species_names(function(results){
-			options=""
-	        results.species.map(function(d){
-	        	options += "<option>"+d.name+"</option>";
-	        	//return d.name;
-	        });
 
-	        $("#species_database").empty();
-	        $("#species_database").append(options);
-	        $(".selectpicker").selectpicker({});
-	        $(".selectpicker").selectpicker("refresh");
+		if($("#reports_results_table").DataTable().rows(".selected").data().length < 1){
+			modalAlert("Please select at least one strain for comparison.", function(){});
+		}
+		else{
+			projects_table.get_species_names(function(results){
+				options=""
+		        results.species.map(function(d){
+		        	options += "<option>"+d.name+"</option>";
+		        	//return d.name;
+		        });
 
-	        $('#sendToPHYLOViZModal').modal('show');
+		        $("#species_database").empty();
+		        $("#species_database").append(options);
+		        $(".selectpicker").selectpicker({});
+		        $(".selectpicker").selectpicker("refresh");
 
-		});
+		        $('#sendToPHYLOViZModal').modal('show');
+
+			});
+		}
 	})
 
 

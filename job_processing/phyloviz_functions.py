@@ -34,6 +34,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	count_ids = 0
 	additional_data = json.loads(additional_data)
+
+	to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 	
 	for job_id in total_j_ids:
 		body_profile = [];

@@ -17,6 +17,8 @@ import subprocess
 import random
 import string
 
+from job_processing.queue_processor import Queue_Processor
+
 phyloviz_post_parser = reqparse.RequestParser()
 '''phyloviz_post_parser.add_argument('headers_profile', dest='headers_profile', type=str, required=True, help="profile headers")
 phyloviz_post_parser.add_argument('body_profile', dest='body_profile', type=str, required=True, help="profile body")
@@ -25,11 +27,38 @@ phyloviz_post_parser.add_argument('body_metadata', dest='body_metadata', type=st
 phyloviz_post_parser.add_argument('dataset_name', dest='dataset_name', type=str, required=True, help="dataset name")
 phyloviz_post_parser.add_argument('dataset_description', dest='dataset_description', type=str, required=True, help="dataset description")'''
 
-phyloviz_post_parser.add_argument('job_ids', dest='job_ids', type=str, required=True, help="Job ids")
+phyloviz_post_parser.add_argument('job_ids', dest='job_ids', type=str, required=True, help="job ids of chewBBACA results from the platform")
 phyloviz_post_parser.add_argument('dataset_name', dest='dataset_name', type=str, required=True, help="dataset name")
 phyloviz_post_parser.add_argument('dataset_description', dest='dataset_description', type=str, required=True, help="dataset description")
 phyloviz_post_parser.add_argument('additional_data', dest='additional_data', type=str, required=True, help="additional metadata")
+phyloviz_post_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=False, default="None", help="Database to include on the analysis if required")
+phyloviz_post_parser.add_argument('max_closest', dest='max_closest', type=str, required=False, default="None", help="Maximum number of database strains to include")
 #Load job results to display on graphical interface
+
+#Defining get arguments parser
+job_get_search_parser = reqparse.RequestParser()
+job_get_search_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="redis job id")
+
+phyloviz_processor = Queue_Processor()
+
+
+class PHYLOViZResource(Resource):
+
+	@login_required
+	def post(self):
+		args=phyloviz_post_parser.parse_args()
+		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest)
+		return jobID, 201
+
+	@login_required
+	def get(self):
+		args=job_get_search_parser.parse_args()
+		jobID = phyloviz_processor.fetch_job(args.job_id)
+
+		return jobID, 200
+
+
+'''
 class PHYLOViZResource(Resource):
 
 	@login_required
@@ -138,5 +167,5 @@ class PHYLOViZResource(Resource):
 
 		return stdout, 200
 		
-
+'''
 

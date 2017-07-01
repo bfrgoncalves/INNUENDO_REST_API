@@ -12,6 +12,7 @@ import string
 from app import q
 
 from job_processing.database_functions import search_on_database, add_to_database, classify_profile
+from job_processing.phyloviz_functions import send_to_phyloviz
 
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
 
@@ -26,6 +27,15 @@ class Queue_Processor:
 		#RETURN IDS OF CLOSEST
 		job = q.enqueue_call(
             func=search_on_database, args=(strain_id, closest_number), result_ttl=5000
+        )
+
+		return job.get_id()
+
+	def send_to_phyloviz(self, job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest):
+		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
+		#RETURN IDS OF CLOSEST
+		job = q.enqueue_call(
+            func=send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest), result_ttl=5000
         )
 
 		return job.get_id()

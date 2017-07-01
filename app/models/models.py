@@ -222,7 +222,7 @@ class Ecoli(db.Model):
 	__tablename__ = "ecoli"
 	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
@@ -233,7 +233,7 @@ class Yersinia(db.Model):
 	__tablename__ = "yersinia"
 	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
@@ -244,7 +244,7 @@ class Campylobacter(db.Model):
 	__tablename__ = "campylobacter"
 	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
@@ -255,7 +255,7 @@ class Salmonella(db.Model):
 	__tablename__ = "salmonella"
 	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
 	classifier = db.Column(db.String(255))
 	allelic_profile = db.Column(JSON)
 	strain_metadata = db.Column(JSON)
@@ -266,7 +266,7 @@ class Core_Schemas(db.Model):
 	__tablename__ = "core_schemas"
 	__bind_key__ = 'mlst_database'
 	id = db.Column(db.Integer(), primary_key=True)
-	name = db.Column(db.String(255))
+	name = db.Column(db.String(255), unique=True)
 	loci = db.Column(JSON)
 	timestamp = db.Column(db.DateTime)
 

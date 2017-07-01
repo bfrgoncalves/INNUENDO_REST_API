@@ -43,6 +43,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		protocols_list.load_protocol_form(selectedType, function(results){
 			$(".to_empty").val("");
 			$('.to_empty option').remove();
+			$(".selectpicker").selectpicker("refresh");
 	    	$scope.protocol_parameters = results.protocol_parameters;
 	    	$scope.protocol_type = results.protocol_type;
 	    	$("#create_protocol_button").css({"display":"block"});

@@ -54,12 +54,15 @@ function Workflows($http){
 		},
 		save_workflow: function(){
 			var values = $('#sortable_list li').map(function() {
-			    return $(this).attr("protocol_name");
+			    return this.value;
 			});
 			list_values = values.get().join(',');
+
+			console.log(list_values);
+
+			/*
 			
 			pg_requests.add_workflow(function(response){
-				/*
 				if(response.status == 201){
 					ngs_onto_requests.ngs_onto_request_add_workflow(response.data.id, list_values, function(response){
 						//do something
@@ -71,9 +74,8 @@ function Workflows($http){
 					objects_utils.show_message('workflows_message_div', 'warning', 'An error as occurried when saving the workflow.');
 					console.log(response.statusText);
 				}
-				*/
 			})
-			
+			*/
 		}
 	}
 

@@ -24,7 +24,7 @@
 		    			<button name="protocol_{{key}}" class="btn btn-md btn-danger" ng-if="type[0] == 'button'" ng-click="removeSelectedParameter()">Remove Parameter</button>
 		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'text'">
 		    			<textarea name="protocol_{{key}}" class="form-control to_empty" ng-if="type[0] == 'textarea'"></textarea>
-						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control to_empty" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
+						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
 							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
 						</select>
 					</div>

@@ -1049,7 +1049,22 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	}
 
 	$('#phyloviz_button').click(function(){
-		$('#sendToPHYLOViZModal').modal('show');
+		
+		projects_table.get_species_names(function(results){
+			options=""
+	        results.species.map(function(d){
+	        	options += "<option>"+d.name+"</option>";
+	        	//return d.name;
+	        });
+
+	        $("#species_database").empty();
+	        $("#species_database").append(options);
+	        $(".selectpicker").selectpicker({});
+	        $(".selectpicker").selectpicker("refresh");
+
+	        $('#sendToPHYLOViZModal').modal('show');
+
+		});
 	})
 
 

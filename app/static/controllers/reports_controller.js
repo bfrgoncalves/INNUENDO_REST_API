@@ -184,6 +184,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#saved_rep").removeClass("active");
 		$("#results_trees_table").DataTable().draw();
 		$scope.getUserTrees(function(){
+			console.log("AQUI");
 			$("#results_trees_table").DataTable().draw();
 		});
 	});

@@ -3,6 +3,21 @@ function Report($http){
 	var pg_requests = new Requests(null, null, $http);
 	var interval_check_tree = {};
 
+	function modalAlert(text, callback){
+
+    	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#modalAlert #buttonSub').on("click", function(){
+    		$("#buttonCancelAlert").click();
+    		setTimeout(function(){callback()}, 400);
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }
+
 	var returned_functions = {
 		 get_user_reports: function(callback){
 		 	pg_requests.get_user_reports(function(response){

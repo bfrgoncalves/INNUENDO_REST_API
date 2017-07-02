@@ -74,6 +74,7 @@ class TreeResource(Resource):
 	@login_required
 	def get(self):
 		args=trees_get_parser.parse_args()
+		trees_to_send =[]
 
 		trees = db.session.query(Tree).filter(Tree.user_id == current_user.id, Tree.species_id == args.species_id).all()
 		if not trees:

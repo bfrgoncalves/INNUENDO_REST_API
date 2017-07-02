@@ -273,6 +273,23 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 
 		},
+		get_user_trees: function(CURRENT_SPECIES_ID, callback){
+
+		    req = {
+		        url: 'api/v1.0/phyloviz/trees', //Defined at utils.js
+		        method:'GET',
+		        params:{"species_id": CURRENT_SPECIES_ID}
+		    }
+
+		    $http(req).then(function(response){
+		    	console.log(response);
+		    	callback(response);
+	        },function(response){
+	        	console.log(response);
+	            callback(response);
+		    });
+
+		},
 		delete_combined_report: function(report_name, callback){
 
 		    req = {
@@ -785,7 +802,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 		}*/
 
-		send_to_phyloviz: function(job_ids, global_additional_data, callback){
+		send_to_phyloviz: function(job_ids, global_additional_data, species_id, callback){
 			
 			console.log('ONREQUEST');
 
@@ -798,7 +815,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	dataset_description: $('#modal_phyloviz_dataset_description').val(),
 		        	additional_data: JSON.stringify(global_additional_data),
 		        	max_closest: $("#closest_number_of_strains").val(),
-		        	database_to_include: $("#species_database option:selected").text()
+		        	database_to_include: $("#species_database option:selected").text(),
+		        	species_id: species_id
 		    	}
 		    }
 		    

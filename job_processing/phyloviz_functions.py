@@ -11,7 +11,7 @@ import datetime
 
 database_correspondece = {"E.coli":Ecoli}
 
-def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id):
+def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id):
 
 	file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 	file_path_profile = './app/uploads/'+file_name+'_profile.tab'
@@ -142,7 +142,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	if "http" in stdout:
 		phyloviz_uri = "http" + stdout.split("http")[1]
-		tree_entry = Tree(user_id=user_id, name=dataset_name, description=dataset_description, uri=phyloviz_uri, timestamp=datetime.datetime.utcnow())
+		tree_entry = Tree(user_id=user_id, name=dataset_name, description=dataset_description, uri=phyloviz_uri, timestamp=datetime.datetime.utcnow(), species_id=species_id)
 		if not tree_entry:
 			abort(404, message="An error as occurried when uploading the data".format(id))
 		db.session.add(tree_entry)

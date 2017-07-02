@@ -19,7 +19,7 @@ from resources.ngs_onto.ngs_onto_pipelines import NGSOnto_PipelineListProjectRes
 from resources.ngs_onto.ngs_onto_strains import NGSOnto_StrainsListUserResource
 from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, NGSOnto_ProcessJobID, NGSOnto_ProcessOutputResource
 from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download
-from resources.phyloviz.phyloviz import PHYLOViZResource
+from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource
 from resources.mlstdatabase.mlst_database import DatabaseSearchResource, DatabaseAddResource
 
 
@@ -66,6 +66,7 @@ api.add_resource(Job_Result_Download, '/api/v1.0/jobs/results/download/')
 ################################# PHYLOVIZ REQUESTS ###################################
 
 api.add_resource(PHYLOViZResource, '/api/v1.0/phyloviz/')
+api.add_resource(TreeResource, '/api/v1.0/phyloviz/trees/')
 
 #################################DEFINE USER REPORTS################################
 
@@ -83,6 +84,7 @@ api.add_resource(DownloadFilesResource, '/api/v1.0/downloads/')
 
 api.add_resource(DatabaseSearchResource, '/api/v1.0/mlstdatabase/search/', endpoint = 'database_search')
 api.add_resource(DatabaseAddResource, '/api/v1.0/mlstdatabase/add/', endpoint = 'database_add')
+
 
 ################################# Defining NGSOnto routes ##############################################
 

@@ -24,8 +24,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var reports_metadata_table_headers = metadata.get_minimal_fields();
 
 	var saved_reports_headers = ['Username', 'Name', 'Description'];
+	var trees_headers = ['Dataset Name', 'Description', 'Timestamp', "URI"];
 
 	var saved_reports = [];
+	var trees = [];
 
 	var run_infos = [];
 	var run_results = [];
@@ -62,6 +64,19 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
         { "data": "username" },
         { "data": "name" },
         { "data": "description" }
+    ];
+
+    var user_trees_col_defs = [
+    	{
+            "className":      'select-checkbox',
+            "orderable":      false,
+            "data":           null,
+            "defaultContent": ''
+        },
+        { "data": "name" },
+        { "data": "description" },
+        { "data": "timestamp" },
+        { "data": "uri" }
     ];
 
     var reports_info_col_defs = [
@@ -648,6 +663,20 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	}
 
+	$scope.getUserTrees = function(callback){
+		
+		reports.get_user_trees(function(response){
+			if (!response.data.message){
+			trees = response.data;
+			}
+			else trees = [];
+			console.log(response);
+			objects_utils.loadDataTables('trees_table', trees, user_trees_col_defs, trees_headers);
+			callback();
+		});
+
+	}
+
 	$scope.showReportModal = function(){
 
 		$('#saveReportModal').modal('show');
@@ -1082,7 +1111,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		getmergeResultsJobIDs(table_id_profile, function(job_ids){
 
-			reports.sendToPHYLOViZ(job_ids, global_additional_data, function(response){
+			reports.sendToPHYLOViZ(job_ids, global_additional_data, CURRENT_SPECIES_ID, function(response){
+
+				modalAlert("Your request was sent to PHYLOViZ Online server. You will be notified when the tree is ready to be visualized. All available trees can be found on the Trees tab at the Reports menu.", function(){
+
+				});
+				/*
 				var to_phyloviz = "";
 				if(response.data.indexOf("http") < 0){
 					to_phyloviz = "An error as occuried when uploading data to PHYLOViZ Online";
@@ -1097,7 +1131,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					$("#button_view_phyloviz").on("click", function(){
 						window.open('http'+response.data.split('http')[1],'_blank');
 					});
-				} 
+				}
+				*/ 
 			});
 
 		});

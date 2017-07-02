@@ -213,6 +213,7 @@ class Tree(db.Model):
 	user_id = db.Column(db.Integer())
 	name = db.Column(db.Text())
 	description = db.Column(db.Text())
+	species_id = db.Column(db.Text())
 	uri = db.Column(db.Text())
 
 

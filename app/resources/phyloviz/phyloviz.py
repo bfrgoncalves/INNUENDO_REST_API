@@ -11,6 +11,7 @@ from config import CURRENT_ROOT, JOBS_ROOT
 from app.models.models import Protocol
 from app.models.models import Strain
 from app.models.models import Report
+from app.models.models import Tree
 import json
 import requests
 import subprocess
@@ -29,6 +30,7 @@ phyloviz_post_parser.add_argument('dataset_description', dest='dataset_descripti
 
 phyloviz_post_parser.add_argument('job_ids', dest='job_ids', type=str, required=True, help="job ids of chewBBACA results from the platform")
 phyloviz_post_parser.add_argument('dataset_name', dest='dataset_name', type=str, required=True, help="dataset name")
+phyloviz_post_parser.add_argument('species_id', dest='species_id', type=str, required=True, help="sppecies id")
 phyloviz_post_parser.add_argument('dataset_description', dest='dataset_description', type=str, required=True, help="dataset description")
 phyloviz_post_parser.add_argument('additional_data', dest='additional_data', type=str, required=True, help="additional metadata")
 phyloviz_post_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=False, default="None", help="Database to include on the analysis if required")
@@ -39,6 +41,10 @@ phyloviz_post_parser.add_argument('max_closest', dest='max_closest', type=str, r
 job_get_search_parser = reqparse.RequestParser()
 job_get_search_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="redis job id")
 
+#Defining get arguments parser
+trees_get_parser = reqparse.RequestParser()
+trees_get_parser.add_argument('species_id', dest='species_id', type=str, required=True, help="redis job id")
+
 phyloviz_processor = Queue_Processor()
 
 
@@ -47,7 +53,7 @@ class PHYLOViZResource(Resource):
 	@login_required
 	def post(self):
 		args=phyloviz_post_parser.parse_args()
-		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id)
+		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id, args.species_id)
 		return jobID, 201
 
 	@login_required
@@ -61,6 +67,18 @@ class PHYLOViZResource(Resource):
 			return {"status": False, "result":"Failed"}, 200
 		else:
 			return {"status": "Pending"}, 200
+
+
+class TreeResource(Resource):
+
+	@login_required
+	def get(self):
+		args=trees_get_parser.parse_args()
+
+		trees = db.session.query(Tree).filter(Tree.user_id == current_user.id, Tree.species_id == args.species_id).all()
+		if not trees:
+			abort(404, message="No trees available")
+		return trees, 200
 
 '''
 class PHYLOViZResource(Resource):

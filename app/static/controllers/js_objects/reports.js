@@ -48,6 +48,11 @@ function Report($http){
 		 		callback(response);
 		 	});
 		 },
+		 get_user_trees: function(callback){
+		 	pg_requests.get_user_trees(CURRENT_SPECIES_ID, function(response){
+		 		callback(response);
+		 	});
+		 },
 		 get_strain_by_name: function(current_names, callback){
 		 	count = 0;
 		 	responses = [];
@@ -96,19 +101,31 @@ function Report($http){
 		  	}
 
 		 },
-		 sendToPHYLOViZ: function(job_ids, global_additional_data, callback){
-		 	pg_requests.send_to_phyloviz(job_ids, global_additional_data, function(response){
+		 sendToPHYLOViZ: function(job_ids, global_additional_data, species_id, callback){
+		 	pg_requests.send_to_phyloviz(job_ids, global_additional_data, species_id, function(response){
 		 		console.log(response);
-		 		callback(response);
 		 		interval_check_tree[response.data] = setInterval(function(){ fetch_tree_job(response.data); }, 5000)
+
 
 		 		function fetch_tree_job(redis_job_id){
 		 			pg_requests.fetch_job(redis_job_id, function(response, job_id){
 		 				console.log(response);
-		 				if(response.data.status == true) clearInterval(interval_check_tree[job_id])
-		 				else if(response.data.status == false) console.log(response.data.result);
+		 				if(response.data.status == true){
+		 					clearInterval(interval_check_tree[job_id])
+		 					modalAlert("Your tree is ready to be visualized! Go to the Trees tab at the Reports menu.", function(){
+
+				});
+		 				}
+		 				else if(response.data.status == false){
+		 					console.log(response.data.result);
+		 					modalAlert("There was an error when producing the tree at PHYLOViZ Online.", function(){
+
+				});
+		 				}
 		 			})
 		 		}
+
+		 		callback(response);
 		 	});
 		 }
 		 /*sendToPHYLOViZ: function(total_data, callback){

@@ -683,9 +683,14 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	$scope.showPHYLOViZTree = function(){
 		var tree_to_see = $("#reports_trees_table").DataTable().rows(".selected").data(function(d){
+			console.log(d);
 			return d.uri;
 		});
-		window.open(tree_to_see[0],'_blank');
+		console.log(tree_to_see);
+		if(tree_to_see.length == 0){
+			modalAlert('Please select an entry from the table first.', function(){});
+		}
+		else window.open(tree_to_see[0],'_blank');
 	}
 
 	$scope.showReportModal = function(){

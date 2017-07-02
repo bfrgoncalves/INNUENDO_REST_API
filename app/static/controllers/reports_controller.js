@@ -682,7 +682,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	}
 
 	$scope.showPHYLOViZTree = function(){
-		var tree_to_see = $("#reports_trees_table").DataTable().rows(".selected").data(function(d){
+		var tree_to_see = $.map($("#reports_trees_table").DataTable().rows(".selected").data(), function(d){
 			console.log(d);
 			return d.uri;
 		});

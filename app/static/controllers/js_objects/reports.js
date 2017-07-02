@@ -100,7 +100,7 @@ function Report($http){
 		 	pg_requests.send_to_phyloviz(job_ids, global_additional_data, function(response){
 		 		console.log(response);
 		 		callback(response);
-		 		interval_check_tree[response.job_id] = setInterval(function(){ fetch_tree_job(response.job_id); }, 5000)
+		 		interval_check_tree[response.data] = setInterval(function(){ fetch_tree_job(response.data); }, 5000)
 
 		 		function fetch_tree_job(redis_job_id){
 		 			pg_requests.fetch_job(redis_job_id, function(response, job_id){

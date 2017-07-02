@@ -788,7 +788,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		send_to_phyloviz: function(job_ids, global_additional_data, callback){
 			
 			console.log('ONREQUEST');
-			console.log($('#modal_phyloviz_dataset_name').text(), $('#modal_phyloviz_dataset_name').val())
+			console.log($('#modal_phyloviz_dataset_name').val())
+			console.log($('#modal_phyloviz_dataset_name').text())
 
 			req = {
 		        url: 'api/v1.0/phyloviz/',

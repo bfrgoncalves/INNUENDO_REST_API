@@ -36,6 +36,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var global_additional_data = {};
 
 	$scope.user_reports_table_headers = user_reports_table_headers;
+	$scope.trees_headers = trees_headers;
 	$scope.reports_info_table_headers = reports_info_table_headers;
 	$scope.reports_metadata_table_headers = reports_metadata_table_headers;
 	$scope.saved_reports_headers = saved_reports_headers;

@@ -80,7 +80,7 @@ class TreeResource(Resource):
 		if not trees:
 			abort(404, message="No trees available")
 		for tree in trees:
-					trees_to_send.append({'name': tree.name, 'description': tree.description, 'timestamp': tree.timestamp, 'uri': tree.uri})
+					trees_to_send.append({'name': tree.name, 'description': tree.description, 'timestamp': tree.timestamp.strftime("%Y-%m-%d %H:%M:%S"), 'uri': tree.uri})
 		return trees_to_send, 200
 
 '''

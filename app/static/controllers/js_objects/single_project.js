@@ -285,7 +285,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			//console.log(job_id, procedure_name, strain_id, pipeline_id, process_position, CURRENT_PROJECT_ID, process_id);
 
-			pg_requests.get_job_status(job_id, procedure_name, strain_id, pipeline_id, process_position, project_to_search, process_id, function(response){
+			pg_requests.get_job_status(job_id, procedure_name, strain_id, pipeline_id, process_position, project_to_search, process_id, function(response, this_job_id){
 				//console.log(response, tasks_to_buttons, response.data[0]);
 				//console.log(dict_of_tasks_status);
 				//console.log(response, tasks_to_buttons, current_job_status_color);
@@ -301,7 +301,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 					}
 					prevtaskid = task_id;
-					if(status == 'COMPLETED') clearInterval(periodic_check);
+					if(status == 'COMPLETED') clearInterval(intervals_running[this_job_id]);
 
 				}
 				else{
@@ -312,7 +312,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						var bah = tasks_to_buttons[task_id].replace(/ /g, "_")
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 					//}
-					clearInterval(periodic_check);
+					clearInterval(intervals_running[this_job_id]);
 				}
 				//map to workflow_id
 			})

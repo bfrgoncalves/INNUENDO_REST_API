@@ -668,10 +668,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		            callback(response);
+		            callback(response, job_id);
 		        },
 		        function(response){
-		            callback(response);
+		            callback(response, job_id);
 		    });
 
 		},
@@ -821,10 +821,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		            callback(response);
+		            callback(response, redis_job_id);
 		        },
 		        function(response){
-		            callback(response);
+		            callback(response, redis_job_id);
 		    });
 
 		}

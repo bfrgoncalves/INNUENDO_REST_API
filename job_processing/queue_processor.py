@@ -59,10 +59,5 @@ class Queue_Processor:
 	def fetch_job(self, job_key):
 		#GETS THE JOB STATUS
 		job = Job.fetch(job_key, connection=conn)
-		if job.is_finished:
-			return str(job.result), 200
-		elif job.is_failed:
-			return str(job.result), 200
-		else:
-			return "Nay!", 202
+		return job
 		

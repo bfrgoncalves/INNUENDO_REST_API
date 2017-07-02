@@ -178,11 +178,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#saved_rep_div").css({"display":"none"});
 		$("#user_jobs_div").css({"display":"none"});
 		$("#trees_tab_div").css({"display":"block"});
-		$("#trees_table").DataTable().draw();
 		$("#tree_tab").addClass("active");
 		$("#user_jobs").removeClass("active");
 		$("#act_rep").removeClass("active");
 		$("#saved_rep").removeClass("active");
+		$("#results_trees_table").DataTable().draw();
 		$scope.getUserTrees(function(){
 			$("#results_trees_table").DataTable().draw();
 		});

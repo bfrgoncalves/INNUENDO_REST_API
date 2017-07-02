@@ -48,7 +48,7 @@ class PHYLOViZResource(Resource):
 	def post(self):
 		args=phyloviz_post_parser.parse_args()
 		print "AQUI"
-		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest)
+		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id)
 		return jobID, 201
 
 	@login_required

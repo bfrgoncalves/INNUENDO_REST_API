@@ -182,7 +182,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#user_jobs").removeClass("active");
 		$("#act_rep").removeClass("active");
 		$("#saved_rep").removeClass("active");
-		//$("#reports_trees_table").DataTable().draw();
+		$("#reports_trees_table").DataTable().draw();
 		$scope.getUserTrees(function(){
 			$("#reports_trees_table").DataTable().draw();
 		});

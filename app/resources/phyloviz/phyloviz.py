@@ -57,11 +57,11 @@ class PHYLOViZResource(Resource):
 		job = phyloviz_processor.fetch_job(args.job_id)
 
 		if job.is_finished:
-			return {status: True, result:job.result}, 200
+			return {"status": True, "result":job.result}, 200
 		elif job.is_failed:
-			return {status: False, result:"Failed"}, 200
+			return {"status": False, "result":"Failed"}, 200
 		else:
-			return {status: "Pending"}, 200
+			return {"status": "Pending"}, 200
 
 '''
 class PHYLOViZResource(Resource):

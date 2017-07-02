@@ -97,6 +97,7 @@ function Report($http){
 		 },
 		 sendToPHYLOViZ: function(job_ids, global_additional_data, callback){
 		 	pg_requests.send_to_phyloviz(job_ids, global_additional_data, function(response){
+		 		console.log(response);
 		 		callback(response);
 		 	});
 		 }

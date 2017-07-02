@@ -808,6 +808,25 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        function(response){
 		            callback(response);
 		    });
+		},
+
+		fetch_job: function(redis_job_id, callback){
+
+			req = {
+		        url: 'api/v1.0/phyloviz/',
+		        method:'GET',
+		        params: {
+		        	job_id: redis_job_id
+		    	}
+		    }
+
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+
 		}
 	}
 }

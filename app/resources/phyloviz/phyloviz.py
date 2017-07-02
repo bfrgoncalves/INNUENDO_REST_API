@@ -78,7 +78,9 @@ class TreeResource(Resource):
 		trees = db.session.query(Tree).filter(Tree.user_id == current_user.id, Tree.species_id == args.species_id).all()
 		if not trees:
 			abort(404, message="No trees available")
-		return trees, 200
+		for tree in trees:
+					trees_to_send.append({'name': tree.name, 'description': tree.description, 'timestamp': tree.timestamp, 'uri': tree.uri})
+		return trees_to_send, 200
 
 '''
 class PHYLOViZResource(Resource):

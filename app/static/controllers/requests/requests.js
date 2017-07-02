@@ -788,29 +788,27 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		send_to_phyloviz: function(job_ids, global_additional_data, callback){
 			
 			console.log('ONREQUEST');
-			console.log($('#modal_phyloviz_dataset_name').val())
-			console.log($('#modal_phyloviz_dataset_name').text())
 
 			req = {
 		        url: 'api/v1.0/phyloviz/',
 		        method:'POST',
 		        data: {
 		        	job_ids: job_ids.join(","),
-		        	dataset_name: $('#modal_phyloviz_dataset_name').text(),
-		        	dataset_description: $('#modal_phyloviz_dataset_description').text(),
+		        	dataset_name: $('#modal_phyloviz_dataset_name').val(),
+		        	dataset_description: $('#modal_phyloviz_dataset_description').val(),
 		        	additional_data: JSON.stringify(global_additional_data),
 		        	max_closest: $("#closest_number_of_strains").val(),
 		        	database_to_include: $("#species_database option:selected").text()
 		    	}
 		    }
-		    /*
+		    
 		    $http(req).then(function(response){
 		            callback(response);
 		        },
 		        function(response){
 		            callback(response);
 		    });
-		    */
+		    
 		},
 
 		fetch_job: function(redis_job_id, callback){

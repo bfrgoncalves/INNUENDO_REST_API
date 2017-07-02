@@ -788,6 +788,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		send_to_phyloviz: function(job_ids, global_additional_data, callback){
 			
 			console.log('ONREQUEST');
+			console.log($('#modal_phyloviz_dataset_name').text(), $('#modal_phyloviz_dataset_name').val())
 
 			req = {
 		        url: 'api/v1.0/phyloviz/',
@@ -801,13 +802,14 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	database_to_include: $("#species_database option:selected").text()
 		    	}
 		    }
-
+		    /*
 		    $http(req).then(function(response){
 		            callback(response);
 		        },
 		        function(response){
 		            callback(response);
 		    });
+		    */
 		},
 
 		fetch_job: function(redis_job_id, callback){

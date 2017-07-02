@@ -24,7 +24,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var reports_metadata_table_headers = metadata.get_minimal_fields();
 
 	var saved_reports_headers = ['Username', 'Name', 'Description'];
-	var trees_headers = ['Dataset Name', 'Description', 'Timestamp', "URI"];
+	var trees_headers = ['Dataset Name', 'Description', 'Timestamp'];
 
 	var saved_reports = [];
 	var trees = [];
@@ -76,8 +76,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
         },
         { "data": "name" },
         { "data": "description" },
-        { "data": "timestamp" },
-        { "data": "uri" }
+        { "data": "timestamp" }
     ];
 
     var reports_info_col_defs = [
@@ -676,10 +675,17 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			}
 			else trees = [];
 			console.log(response);
-			objects_utils.loadDataTables('trees_table', trees, user_trees_col_defs, trees_headers);
+			objects_utils.loadDataTables('reports_trees_table', trees, user_trees_col_defs, trees_headers);
 			callback();
 		});
 
+	}
+
+	$scope.showPHYLOViZTree = function(){
+		var tree_to_see = $("#reports_trees_table").DataTable().rows(".selected").data(function(d){
+			return d.uri;
+		});
+		window.open(tree_to_see[0],'_blank');
 	}
 
 	$scope.showReportModal = function(){

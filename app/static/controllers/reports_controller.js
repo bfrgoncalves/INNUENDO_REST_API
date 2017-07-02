@@ -183,7 +183,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#user_jobs").removeClass("active");
 		$("#act_rep").removeClass("active");
 		$("#saved_rep").removeClass("active");
-		$scope.getUserTrees(function(){});
+		$scope.getUserTrees(function(){
+			$("#results_trees_table").DataTable().draw();
+		});
 	});
 
 	$("#project_search_button").on("click", function(){
@@ -674,7 +676,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			trees = response.data;
 			}
 			else trees = [];
-			console.log(response);
 			objects_utils.loadDataTables('reports_trees_table', trees, user_trees_col_defs, trees_headers);
 			callback();
 		});
@@ -683,10 +684,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	$scope.showPHYLOViZTree = function(){
 		var tree_to_see = $.map($("#reports_trees_table").DataTable().rows(".selected").data(), function(d){
-			console.log(d);
 			return d.uri;
 		});
-		console.log(tree_to_see);
 		if(tree_to_see.length == 0){
 			modalAlert('Please select an entry from the table first.', function(){});
 		}

@@ -35,7 +35,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			continue
 
 		if database_to_include != "None":
-			profile_query_file_path = database_functions.tab_profile_from_db(report.sample_name, database_correspondece[database_to_include], headers_correspondece[database_to_include], profile_tab_file_path)
+			#report.sample_name
+			profile_query_file_path = database_functions.tab_profile_from_db("ESC_DA8918AA.fasta", database_correspondece[database_to_include], headers_correspondece[database_to_include], profile_tab_file_path)
 	
 	if database_to_include != "None":
 		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, index_correspondece[database_to_include], max_closest)

@@ -80,11 +80,10 @@ def classify_profile(job_id, database_name):
 	
 	with open(core_headers_correspondece[database_name], 'rtU') as reader:
 		for i, line in enumerate(reader):
-			if i > 0:
-				count_core+=1
-				include_index = headers.index(line.rstrip())
-				if include_index > -1:
-					core_profile.append(profile[include_index])
+			count_core+=1
+			include_index = headers.index(line.rstrip())
+			if include_index > -1:
+				core_profile.append(profile[include_index])
 
 	print query_profle_path
 
@@ -97,6 +96,7 @@ def classify_profile(job_id, database_name):
 	#new_profile.append(report.sample_name + "\t" + new_allele)
 
 	#print string_list
+	print core_profile[0]
 
 	with open(query_profle_path, 'w') as writer:
 		writer.write(report.sample_name + "\t" + string_list)

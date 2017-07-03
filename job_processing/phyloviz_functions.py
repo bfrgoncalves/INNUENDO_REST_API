@@ -134,12 +134,19 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			string_profile = "\t".join(string_profile)
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)
 
+			#INCLUDE METADATA FROM PLATFORM IF STRAIN FROM THERE
+			if strain_from_db.platform_tag == "FP":
+				strain = db.session.query(Strain).filter(Strain.name == strain_from_db.name).first()
+				strain_metadata = json.loads(strain.strain_metadata)
+			else:
+				strain_metadata = strain_from_db.strain_metadata
+
 			for x in headers_metadata:
 				try:
 					if x == "ID":
 						string_metadata.append(strain_from_db.name)
 					else:
-						string_metadata.append(strain_from_db.strain_metadata[x])
+						string_metadata.append(strain_metadata[x])
 				except Exception as e:
 					string_metadata.append("")
 

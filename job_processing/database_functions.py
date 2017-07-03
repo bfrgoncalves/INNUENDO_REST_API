@@ -127,7 +127,6 @@ def classify_profile(job_id, database_name):
 
 	#UNCOMMENT WHEN WE GET ORDERED LISTS FROM FAST-MLST
 
-
 	if len(closest_profiles) == 0:
 		classification = "undefined"
 	else:

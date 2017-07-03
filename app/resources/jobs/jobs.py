@@ -36,6 +36,7 @@ job_get_parser.add_argument('process_position', dest='process_position', type=st
 job_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline identifier")
 job_get_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_get_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
+job_get_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to use if required")
 
 job_results_get_parser = reqparse.RequestParser()
 job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job id")
@@ -48,7 +49,7 @@ job_download_results_get_parser.add_argument('file_path', dest='file_path', type
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id):
+def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id, database_to_include):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
@@ -59,6 +60,9 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 		
 		db.session.add(report)
 		db.session.commit()
+
+		if "chewBBACA" in procedure:
+			jobID = database_processor.classify_profile(job_id, database_to_include)
 	
 		return True, job_id
 	else:
@@ -159,7 +163,7 @@ class Job_queue(Resource):
 			job_status[0] = args.job_id
 
 			if results['store_in_db'] == True:
-				added, job_id = add_data_to_db(results['job_id'], results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id)
+				added, job_id = add_data_to_db(results['job_id'], results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include)
 				
 				#DATA IS BEING ADDED AT JOB FINISHING TIME AT THE SBATCH FILES
 				#add_data_to_ngsOnto(results['paths'], args.process_id, args.project_id, args.pipeline_id)

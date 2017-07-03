@@ -680,7 +680,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	pipeline_id:pipeline_id,
 		        	process_position:process_position,
 		        	project_id:project_id,
-		        	process_id:process_id
+		        	process_id:process_id,
+		        	database_to_include: CURRENT_SPECIES_NAME
 		    	}
 		    }
 

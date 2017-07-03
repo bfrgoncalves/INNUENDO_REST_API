@@ -81,9 +81,13 @@ def classify_profile(job_id, database_name):
 	with open(core_headers_correspondece[database_name], 'rtU') as reader:
 		for i, line in enumerate(reader):
 			count_core+=1
-			include_index = headers.index(line.rstrip())
-			if include_index > -1:
-				core_profile.append(profile[include_index])
+			print line
+			try:
+				include_index = headers.index(line.rstrip())
+				if include_index > -1:
+					core_profile.append(profile[include_index])
+			except ValueError as e:
+				continue
 
 	print query_profle_path
 

@@ -116,8 +116,8 @@ def classify_profile(job_id, database_name):
 		classification = "undefined"
 	else:
 		closest_ids = []
-		for x in closest_profiles:
-			closest_ids.append(closest_profiles[x].split("\t")[0])
+		for i, x in enumerate(closest_profiles):
+			closest_ids.append(closest_profiles[i].split("\t")[0])
 		
 		#ID\tDIFERENCES
 		first_closest = closest_profiles[0].split("\t")

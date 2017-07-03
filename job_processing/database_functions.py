@@ -90,19 +90,16 @@ def classify_profile(job_id, database_name):
 			else:
 				include_index = headers.index(line.rstrip())
 				if include_index > -1:
-					count_entrou += 1
 					core_profile.append(profile[include_index])
 
 
 	with open(wg_headers_correspondece[database_name], 'r') as reader:
 		for i, line in enumerate(reader):
-			count_core+=1
 			if line.rstrip() == "FILE":
 				wg_profile.append(report.sample_name.replace(" ", "_"))
 			else:
 				include_index = headers.index(line.rstrip())
 				if include_index > -1:
-					count_entrou += 1
 					wg_profile.append(profile[include_index])
 
 	

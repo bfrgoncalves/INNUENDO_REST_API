@@ -106,7 +106,7 @@ def classify_profile(job_id, database_name):
 	print count_entrou
 
 	with open(query_profle_path, 'w') as writer:
-		writer.write(string_list)
+		writer.write(string_list+"\n")
 
 	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/3)
 

@@ -1,99 +1,56 @@
-#!flask/bin/python
+#!/usr/bin/env python
 
-import subprocess
+import csv
 import argparse
-import os
-import shutil
-import os
 
 
 def main():
+    parser = argparse.ArgumentParser(description="This program removes gens from a tab separated allele profile file")
+    parser.add_argument('-i', nargs='?', type=str, help='main matrix file from which to remove', required=True)
+    parser.add_argument('-g', nargs='?', type=str, help='list of genes to remove', required=True)
+    parser.add_argument('-o', nargs='?', type=str, help='output file name', required=True)
+    parser.add_argument("--inverse", help="list to remove is actually the one to keep", dest='inverse',
+                        action="store_true", default=False)
 
-	parser = argparse.ArgumentParser(description="This program build a db and creates the indexes for searches and correspondence files")
-	parser.add_argument('-i', nargs='?', type=str, help="results_alleles chewbbaca", required=True)
-	parser.add_argument('-c', nargs='?', type=str, help="core list", required=True)
-	parser.add_argument('-o', nargs='?', type=str, help="Output file", required=True)
+    args = parser.parse_args()
+    mainListFile = args.i
+    toRemoveListFile = args.g
+    outputfileName = args.o
+    inverse = args.inverse
 
+    if inverse:
+        FilesToRemove = ['File', 'FILE', 'file']
+    else:
+        FilesToRemove = []
+    with open(toRemoveListFile) as f:
+        for File in f:
+            File = File.rstrip('\n')
+            File = File.rstrip('\r')
+            File = (File.split('\t'))[0]
+            FilesToRemove.append(File)
+    # print FilesToRemove
 
-	args = parser.parse_args()
+    with open(mainListFile, 'rb') as tsvin, open(outputfileName + ".tsv", "wb") as csvout:
+        tsvin = csv.reader(tsvin, delimiter='\t')
 
-	core_json, core_list  = extract_core(args.i, args.c)
-	print "DONE EXTRACT... WRITTING..."
+        listindextoremove = []
+        for firstline in tsvin:
+            for gene in firstline:
+                if gene in FilesToRemove and not inverse:
+                    listindextoremove.append(firstline.index(gene))
+                elif gene not in FilesToRemove and inverse:
+                    listindextoremove.append(firstline.index(gene))
 
-	writeCoreFile(core_json, args.o)
+            for elem in reversed(listindextoremove):
+                del firstline[elem]
+            csvout.write(('\t'.join(firstline)) + "\n")
+            break
 
-	print "DONE"
-
-
-def writeCoreFile(core_json, out_file):
-	
-	first_time=True
-	
-	with open(out_file, 'w') as w:
-		all_profiles = []
-		for sample, val in core_json.items():
-			allelic_profile = []
-			loci=[]
-			loci.append("FILE")
-			allelic_profile.push(val)
-			for allele, allele_val in sample.items():
-				if allele in core_loci_list:
-					allelic_profile.append(allele_val)
-					if first_time == True:
-						loci.append(allele)
-			all_profiles.append(allelic_profile)
-			first_time = False
-		
-		w.write("\t".join(loci) + "\n")
-		
-		for profile in all_profiles:
-			w.write("\t".join(profile) +"\n")
-
-
-
-
-def extract_core(allele_file, core_file):
-
-	results_alleles_file = allele_file
-	core_loci_list_file = core_file
-
-	core_loci_list = []
-	with open(core_loci_list_file, 'rtU') as reader:
-		for line in reader:
-			line = line.splitlines()[0]
-			if len(line) > 0:
-				core_loci_list.append(line)
-
-	print core_loci_list
-	results_alleles = {}
-	results_alleles_core = {}
-	with open(results_alleles_file, 'rtU') as reader:
-		allele_classes_to_ignore = {'LNF': '0', 'INF-': '', 'NIPHEM': '0', 'NIPH': '0', 'LOTSC': '0', 'PLOT3': '0', 'PLOT5': '0', 'ALM': '0', 'ASM': '0'}
-		loci = None
-		for line in reader:
-			line = line.splitlines()[0]
-			if len(line) > 0:
-				if line.startswith('FILE'):
-					loci = line.split('\t')[1:]
-				else:
-					line = line.split('\t')
-					sample = line[0]
-					results_alleles[sample] = {}
-					results_alleles_core[sample] = {}
-					line = line[1:]
-					if len(line) != len(loci):
-						sys.exit('Different number of loci')
-					for x, allele_locus in enumerate(line):
-						if allele_locus.startswith(tuple(allele_classes_to_ignore.keys())):
-							for k, v in allele_classes_to_ignore.items():
-								allele_locus = allele_locus.replace(k, v)
-						results_alleles[sample][loci[x]] = allele_locus
-						if loci[x] in core_loci_list:
-							results_alleles_core[sample][loci[x]] = allele_locus
-
-	return results_alleles_core, core_loci_list
-
-if __name__ == '__main__':
-	main()
+        for line in tsvin:
+            for elem in reversed(listindextoremove):
+                del line[elem]
+            csvout.write(('\t'.join(line)) + "\n")
 
 
+if __name__ == "__main__":
+    main()

@@ -144,6 +144,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 					print count_no_class
 				try:
 					metadata_to_use = metadata_json[strain_id]
+					print "HAS METADATA" + strain_id
 				except KeyError as e:
 					print "No metadata for " + strain_id + ". Adding empty..."
 					m.write(strain_id + "\n")

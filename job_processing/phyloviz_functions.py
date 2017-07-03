@@ -11,7 +11,7 @@ import datetime
 import fast_mlst_functions
 import database_functions
 
-from config import wg_index_correspondece, core_index_correspondece, headers_correspondeces
+from config import wg_index_correspondece, core_index_correspondece, wg_headers_correspondece, core_headers_correspondece
 
 database_correspondece = {"E.coli":Ecoli}
 
@@ -41,7 +41,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 		if database_to_include != "None":
 			#report.sample_name
-			profile_query_file_path = database_functions.tab_profile_from_db("ESC_DA8918AA.fasta", database_correspondece[database_to_include], headers_correspondece[database_to_include], profile_tab_file_path)
+			profile_query_file_path = database_functions.tab_profile_from_db("ESC_DA8918AA.fasta", database_correspondece[database_to_include], wg_headers_correspondece[database_to_include], profile_tab_file_path)
 	
 	if database_to_include != "None":
 		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, wg_index_correspondece[database_to_include], max_closest)

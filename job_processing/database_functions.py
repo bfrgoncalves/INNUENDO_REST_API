@@ -6,7 +6,7 @@ import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report
 import fast_mlst_functions
 
-from config import wg_index_correspondece, core_index_correspondece, headers_correspondece, allele_classes_to_ignore
+from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore
 
 '''
 index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
@@ -63,11 +63,23 @@ def classify_profile(job_id, database_name):
 	to_replace = allele_classes_to_ignore
 
 	#to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
-	if first_time == True:
-		headers = headers_profile + report.report_data["run_output"]["header"]
+	headers = headers_profile + report.report_data["run_output"]["header"]
+	profile = report.report_data["run_output"]["run_output.fasta"]
 
-	new_profile = []
-	string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
+	core_profile = []
+	
+	with open(core_headers_correspondece[database_name], 'rtU') as reader:
+		for i, line in enumerate(reader):
+			if i > 0:
+				include_index = headers.index(line.rstrip())
+				if include_index > -1:
+					core_profile.append(profile[include_index])
+
+	print core_profile
+	print len(core_profile)
+
+	string_list = "\t".join(core_profile)
+	#string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
 	for k,v in to_replace.iteritems():
 		string_list = string_list.replace(k,v)

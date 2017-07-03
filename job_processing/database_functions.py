@@ -86,7 +86,6 @@ def classify_profile(job_id, database_name):
 				if include_index > -1:
 					core_profile.append(profile[include_index])
 
-	print len(core_profile)
 	print query_profle_path
 
 	string_list = "\t".join(core_profile)

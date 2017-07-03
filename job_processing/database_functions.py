@@ -68,7 +68,7 @@ def classify_profile(job_id, database_name):
 	all_profiles.append(report.sample_name + "\t" + string_list)
 
 	with open(query_profle_path, 'w') as writer:
-		writer.write("\t".join(all_profiles[0]))
+		writer.write("\t".join(all_profiles))
 
 	fast_mlst_functions.get_closest_profiles(query_profle_path, index_correspondece[database_name], 50)
 

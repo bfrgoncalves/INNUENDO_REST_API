@@ -27,3 +27,10 @@ def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 	stdout, stderr = proc.communicate()
 
 	print stdout, stderr
+
+	entries = stdout.split("\n")
+	del entry[-1]
+
+	return entries
+
+

@@ -159,7 +159,7 @@ def classify_profile(job_id, database_name):
 			proc2 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 			stdout, stderr = proc2.communicate()
 
-			status = fast_mlst_functions.update_index(query_profle_path, core_index_correspondece[database_name])
+			status = fast_mlst_functions.update_index(core_increment_profile_file_correspondece[database_name], core_index_correspondece[database_name])
 
 			print "INDEX UPDATED"
 

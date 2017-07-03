@@ -116,10 +116,13 @@ def classify_profile(job_id, database_name):
 		else:
 			classification = "undefined"
 
-	new_database_entry = database_correspondece[database_name](name = report.sample_name, classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
-	
-	db.session.add(new_database_entry)
-	db.session.commit()
+	try:
+		new_database_entry = database_correspondece[database_name](name = report.sample_name, classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
+		
+		db.session.add(new_database_entry)
+		db.session.commit()
+	except Exception as e:
+		print "ERRO"
 
 	print "ADDED TO DB...UPDATING INDEX"
 

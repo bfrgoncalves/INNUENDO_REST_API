@@ -12,7 +12,7 @@ def main():
     parser.add_argument("--inverse", help="list to remove is actually the one to keep", dest='inverse',
                         action="store_true", default=False)
 
-    parser.add_argument("--onlyreplace", help="Only replaces letters by 0", dest='inverse',
+    parser.add_argument("--onlyreplace", help="Only replaces letters by 0", dest='onlyreplace',
                         action="store_true", default=False)
 
     args = parser.parse_args()

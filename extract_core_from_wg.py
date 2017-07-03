@@ -12,6 +12,9 @@ def main():
     parser.add_argument("--inverse", help="list to remove is actually the one to keep", dest='inverse',
                         action="store_true", default=False)
 
+    parser.add_argument("--onlyreplace", help="Only replaces letters by 0", dest='inverse',
+                        action="store_true", default=False)
+
     args = parser.parse_args()
     mainListFile = args.i
     toRemoveListFile = args.g
@@ -43,20 +46,23 @@ def main():
                 elif gene not in FilesToRemove and inverse:
                     listindextoremove.append(firstline.index(gene))
 
-            for elem in reversed(listindextoremove):
-                del firstline[elem]
+            if not args.onlyreplace:
+                for elem in reversed(listindextoremove):
+                    del firstline[elem]
+            
             csvout.write(('\t'.join(firstline)) + "\n")
             break
 
         for line in tsvin:
-            for elem in reversed(listindextoremove):
-                del line[elem]
+            if not args.onlyreplace:
+                for elem in reversed(listindextoremove):
+                    del line[elem]
 
             string_list = ('\t'.join(line))
 
             for k,v in allele_classes_to_ignore.iteritems():
                 string_list = string_list.replace(k,v)
-                
+
             csvout.write(string_list + "\n")
 
 

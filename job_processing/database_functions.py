@@ -80,13 +80,14 @@ def classify_profile(job_id, database_name):
 	print query_profle_path
 
 	string_list = "\t".join(core_profile)
-	print string_list
 	print len(core_profile)
 	#string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
 	for k,v in to_replace.iteritems():
 		string_list = string_list.replace(k,v)
 	#new_profile.append(report.sample_name + "\t" + new_allele)
+
+	print string_list
 
 	with open(query_profle_path, 'w') as writer:
 		writer.write(report.sample_name + "\t" + string_list)

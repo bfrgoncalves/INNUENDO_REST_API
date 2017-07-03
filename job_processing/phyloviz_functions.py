@@ -61,7 +61,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	all_metadata = []
 	headers = []
 
-	'''
+	
 	total_j_ids = job_ids.split(",")
 
 	first_time = True
@@ -123,8 +123,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 		count_ids += 1
 
-	if strains_from_db:
-		for strain_from_db in strains_from_db:
+	if len(array_of_strains_from_db) > 0:
+		for strain_from_db in array_of_strains_from_db:
 			string_profile = []
 			string_metadata = []
 			for x in headers:
@@ -182,5 +182,5 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		return 201
 	else:
 		return 404
-	'''
+	
 	return 200

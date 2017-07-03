@@ -5,6 +5,7 @@ import string
 import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report
 import fast_mlst_functions
+import datetime
 
 from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore
 

@@ -70,6 +70,7 @@ def classify_profile(job_id, database_name):
 	core_profile = []
 	count_core = 0
 
+	print headers[0]
 	print len(headers)
 	print len(profile)
 

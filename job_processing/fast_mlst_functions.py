@@ -14,6 +14,8 @@ def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 	file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 	#result_path = profile_query_file_path + ".result"
 
+	myinput = open(profile_query_file_path)
+
 
 	command = './dependencies/fast-mlst/src/main -i '+index_path+' -q '+max_closest;
 	#command = './dependencies/fast-mlst/src/main --help';
@@ -21,7 +23,7 @@ def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 	command = command.split(' ')
 	print command
 
-	proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-	stdout, stderr = proc.communicate(input=profile_query_file_path)
+	proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=myinput)
+	stdout, stderr = proc.communicate()
 
 	print stdout, stderr

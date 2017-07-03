@@ -43,10 +43,16 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			#report.sample_name
 			profile_query_file_path = database_functions.tab_profile_from_db(report.sample_name.replace(" ", "_"), database_correspondece[database_to_include], wg_headers_correspondece[database_to_include], profile_tab_file_path)
 	
+	array_of_strains_from_db = []
+
 	if database_to_include != "None":
 		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, wg_index_correspondece[database_to_include], max_closest)
-		#strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
-
+		print list_to_query
+		for x in list_to_query:
+			strain_id = x.split("\t")[0]
+			strains_from_db = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == strain_id).first()
+			if strains_from_db:
+				array_of_strains_from_db.append(strains_from_db)
 
 	headers_profile = ["ID"]
 	headers_metadata = ["ID"]

@@ -82,17 +82,15 @@ def classify_profile(job_id, database_name):
 	with open(core_headers_correspondece[database_name], 'r') as reader:
 		for i, line in enumerate(reader):
 			count_core+=1
-			print line.rstrip()
-			try:
-				if line.rstrip() == "FILE":
-					core_profile.append(report.sample_name)
-				else:
-					include_index = headers.index(line.rstrip())
-					if include_index > -1:
-						count_entrou += 1
-						core_profile.append(profile[include_index])
-			except ValueError as e:
-				continue
+	
+			if line.rstrip() == "FILE":
+				core_profile.append(report.sample_name)
+			else:
+				include_index = headers.index(line.rstrip())
+				print include_index
+				if include_index > -1:
+					count_entrou += 1
+					core_profile.append(profile[include_index])
 
 	print query_profle_path
 

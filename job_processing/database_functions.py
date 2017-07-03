@@ -80,6 +80,7 @@ def classify_profile(job_id, database_name):
 		strain_allele_profile[header] = profile[i]
 	
 	with open(core_headers_correspondece[database_name], 'r') as reader:
+		print "ENUM", len(enumerate(reader))
 		for i, line in enumerate(reader):
 			count_core+=1
 			print line.rstrip()

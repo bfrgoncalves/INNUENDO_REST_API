@@ -35,7 +35,7 @@ def main():
             FilesToRemove.append(File)
     # print FilesToRemove
 
-    with open(mainListFile, 'rb') as tsvin, open(outputfileName + ".tsv", "wb") as csvout:
+    with open(mainListFile, 'rb') as tsvin, open(outputfileName + ".tsv", "wb") as csvout, open(outputfileName + "_headers.txt", "wb") as headers_out:
         tsvin = csv.reader(tsvin, delimiter='\t')
 
         listindextoremove = []
@@ -51,6 +51,7 @@ def main():
                     del firstline[elem]
             
             csvout.write(('\t'.join(firstline)) + "\n")
+            headers_out.write(('\n'.join(firstline)))
             break
 
         for line in tsvin:

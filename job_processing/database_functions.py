@@ -12,7 +12,7 @@ from config import wg_index_correspondece, core_index_correspondece, core_header
 index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
 headers_correspondece = {"E.coli":"./chewbbaca_database_profiles/profiles_headers/ecoli.txt"}
 '''
-
+database_correspondece = {"E.coli":Ecoli}
 
 def search_on_database(strain_id, closest_number):
 	return True
@@ -59,6 +59,8 @@ def classify_profile(job_id, database_name):
 	headers_profile = ["ID"]
 	headers = []
 
+	strain_allele_profile = {}
+
 	to_replace = allele_classes_to_ignore
 
 	#to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
@@ -67,6 +69,9 @@ def classify_profile(job_id, database_name):
 
 	core_profile = []
 	count_core = 0
+
+	for i, header in enumerate(headers):
+		strain_allele_profile[header] = profile[i]
 	
 	with open(core_headers_correspondece[database_name], 'rtU') as reader:
 		for i, line in enumerate(reader):
@@ -95,6 +100,27 @@ def classify_profile(job_id, database_name):
 	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/3)
 
 	print closest_profiles
+
+	if len(closest_profiles) == 0:
+		classification = "undefined"
+	else:
+		database_entry = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].name == closest_profiles.split("\t")[0]).first()
+
+		if database_entry:
+			classification = database_entry.classifier
+		else:
+			classification = "undefined"
+
+	new_database_entry = database_correspondece[database_name](name = report.sample_name, classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = strain_metadata, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
+	
+	db.session.add(new_database_entry)
+	db.session.commit()
+
+	print "ADDED TO DB...UPDATING INDEX"
+
+	status = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name])
+
+	print "INDEX UPDATED"
 
 	##ADD TO DB AND UPDATE INDEX
 

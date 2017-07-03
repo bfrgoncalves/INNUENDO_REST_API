@@ -157,7 +157,7 @@ def classify_profile(job_id, database_name):
 			print command
 
 			proc2 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			stdout, stderr = proc.communicate()
+			stdout, stderr = proc2.communicate()
 
 			status = fast_mlst_functions.update_index(query_profle_path, core_index_correspondece[database_name])
 

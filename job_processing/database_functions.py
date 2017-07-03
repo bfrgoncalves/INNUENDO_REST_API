@@ -70,6 +70,9 @@ def classify_profile(job_id, database_name):
 	core_profile = []
 	count_core = 0
 
+	print len(headers)
+	print len(profile)
+
 	for i, header in enumerate(headers):
 		strain_allele_profile[header] = profile[i]
 	

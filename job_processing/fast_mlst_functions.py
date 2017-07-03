@@ -6,6 +6,8 @@ import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report, Strain, Tree
 
 import subprocess
+from subprocess import call
+
 
 def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 
@@ -16,7 +18,9 @@ def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 	command = command.split(' ')
 	print command
 
-	proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	stdout, stderr = proc.communicate()
+	#proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	#stdout, stderr = proc.communicate()
+
+	call(command)
 
 	print stdout, stderr

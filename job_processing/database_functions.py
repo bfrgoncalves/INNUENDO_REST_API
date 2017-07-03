@@ -70,6 +70,7 @@ def classify_profile(job_id, database_name):
 
 	core_profile = []
 	count_core = 0
+	count_entrou = 0
 
 	print headers[0]
 	print len(headers)
@@ -78,13 +79,14 @@ def classify_profile(job_id, database_name):
 	for i, header in enumerate(headers):
 		strain_allele_profile[header] = profile[i]
 	
-	with open(core_headers_correspondece[database_name], 'rtU') as reader:
+	with open(core_headers_correspondece[database_name], 'r') as reader:
 		for i, line in enumerate(reader):
 			count_core+=1
 			print line.rstrip()
 			try:
 				include_index = headers.index(line.rstrip())
 				if include_index > -1:
+					count_entrou += 1
 					core_profile.append(profile[include_index])
 			except ValueError as e:
 				continue
@@ -102,6 +104,7 @@ def classify_profile(job_id, database_name):
 	#print string_list
 	print "FIRST", core_profile[0]
 	print "LAST", core_profile[-1]
+	print count_entrou
 
 	with open(query_profle_path, 'w') as writer:
 		writer.write(report.sample_name + "\t" + string_list)

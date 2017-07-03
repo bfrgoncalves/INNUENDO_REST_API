@@ -133,6 +133,7 @@ function Report($http){
 		 				}
 		 				else if(response.data.status == false){
 		 					console.log(response.data.result);
+		 					clearInterval(interval_check_tree[job_id])
 		 					modalAlert("There was an error when producing the tree at PHYLOViZ Online.", function(){
 
 				});

@@ -56,7 +56,7 @@ def classify_profile(job_id, database_name):
 	query_profle_path = "./chewbbaca_database_profiles/query_files/" + file_name + ".tab"
 
 
-	headers_profile = ["ID"]
+	headers_profile = []
 	headers = []
 
 	strain_allele_profile = {}

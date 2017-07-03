@@ -83,7 +83,7 @@ def classify_profile(job_id, database_name):
 		for i, line in enumerate(reader):
 			count_core+=1
 			if line.rstrip() == "FILE":
-				core_profile.append(report.sample_name)
+				core_profile.append(report.sample_name.replace(" ", "_"))
 			else:
 				include_index = headers.index(line.rstrip())
 				if include_index > -1:
@@ -123,7 +123,7 @@ def classify_profile(job_id, database_name):
 			classification = "undefined"
 
 	try:
-		new_database_entry = database_correspondece[database_name](name = report.sample_name, classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
+		new_database_entry = database_correspondece[database_name](name = report.sample_name.replace(" ", "_"), classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
 		
 		db.session.add(new_database_entry)
 		db.session.commit()

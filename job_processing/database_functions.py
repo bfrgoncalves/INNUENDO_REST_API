@@ -82,10 +82,6 @@ def classify_profile(job_id, database_name):
 	with open(core_headers_correspondece[database_name], 'r') as reader:
 		for i, line in enumerate(reader):
 			count_core+=1
-			if i == 0:
-				print "AQUI"
-				count_core-=1
-				continue
 			if line.rstrip() == "FILE":
 				core_profile.append(report.sample_name)
 			else:

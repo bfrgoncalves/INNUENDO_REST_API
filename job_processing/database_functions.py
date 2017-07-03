@@ -57,7 +57,6 @@ def classify_profile(job_id, database_name):
 
 
 	headers_profile = ["ID"]
-	all_profiles = []
 	headers = []
 
 	to_replace = allele_classes_to_ignore
@@ -67,10 +66,12 @@ def classify_profile(job_id, database_name):
 	profile = report.report_data["run_output"]["run_output.fasta"]
 
 	core_profile = []
+	count_core = 0
 	
 	with open(core_headers_correspondece[database_name], 'rtU') as reader:
 		for i, line in enumerate(reader):
 			if i > 0:
+				count_core+=1
 				include_index = headers.index(line.rstrip())
 				if include_index > -1:
 					core_profile.append(profile[include_index])
@@ -86,13 +87,10 @@ def classify_profile(job_id, database_name):
 		string_list = string_list.replace(k,v)
 	#new_profile.append(report.sample_name + "\t" + new_allele)
 
-	#print profiles
-	all_profiles.append(report.sample_name + "\t" + string_list)
-
 	with open(query_profle_path, 'w') as writer:
-		writer.write("\t".join(all_profiles))
+		writer.write(report.sample_name + "\t" + string_list)
 
-	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], 200)
+	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core)
 
 	print closest_profiles
 

@@ -125,8 +125,6 @@ def classify_profile(job_id, database_name):
 
 	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/3)
 
-	print closest_profiles
-
 	#UNCOMMENT WHEN WE GET ORDERED LISTS FROM FAST-MLST
 
 

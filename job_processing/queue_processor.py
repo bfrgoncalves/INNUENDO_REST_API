@@ -26,8 +26,8 @@ class Queue_Processor:
 		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
 		#RETURN IDS OF CLOSEST
 		job = q.enqueue_call(
-			#func=phyloviz_functions.send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id,species_id,), result_ttl=5000
-			func=database_functions.classify_profile, args=(job_ids.split(",")[0], database_to_include, ), result_ttl=5000
+			func=phyloviz_functions.send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id,species_id,), result_ttl=5000
+			#func=database_functions.classify_profile, args=(job_ids.split(",")[0], database_to_include, ), result_ttl=5000
 		)
 		return job.get_id()
 

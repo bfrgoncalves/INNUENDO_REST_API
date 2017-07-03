@@ -154,6 +154,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			all_metadata.append('\t'.join(string_metadata) + "\n")
 
 
+	if len(all_profiles) < 2:
+		return {"message":"Less than two profiles for comparison. Please try to increase the maximum number of differences."}
+
 	#WRITE PROFILE FILE
 	with open(file_path_profile, 'w') as p_file:
 		hd = [];

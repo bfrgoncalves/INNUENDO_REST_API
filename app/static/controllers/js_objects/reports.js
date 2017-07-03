@@ -127,7 +127,11 @@ function Report($http){
 		 				console.log(response);
 		 				if(response.data.status == true){
 		 					clearInterval(interval_check_tree[job_id])
-		 					modalAlert("Your tree is ready to be visualized! Go to the Trees tab at the Reports menu.", function(){
+		 					message = "Your tree is ready to be visualized! Go to the Trees tab at the Reports menu."
+		 					if(response.data.result.message != undefined){
+		 						message = response.data.result.message
+		 					}
+		 					modalAlert(message, function(){
 		 						
 							});
 		 				}

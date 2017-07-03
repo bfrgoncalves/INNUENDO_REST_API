@@ -23,7 +23,5 @@ def main():
 
 	mlst_profiles_to_db.mlst_profiles_to_db(args.i, args.c, args.m, args.d, args.p)
 
-
-
 if __name__ == '__main__':
 	main()

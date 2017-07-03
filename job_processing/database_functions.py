@@ -93,17 +93,14 @@ def classify_profile(job_id, database_name):
 	print query_profle_path
 
 	string_list = "\t".join(core_profile)
-	print len(core_profile)
+
 	#string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
 	for k,v in to_replace.iteritems():
 		string_list = string_list.replace(k,v)
-	#new_profile.append(report.sample_name + "\t" + new_allele)
 
-	#print string_list
-	print "FIRST", core_profile[0]
-	print "LAST", core_profile[-1]
-	print count_entrou
+
+
 
 	with open(query_profle_path, 'w') as writer:
 		writer.write(string_list+"\n")
@@ -112,29 +109,43 @@ def classify_profile(job_id, database_name):
 
 	print closest_profiles
 
+	#UNCOMMENT WHEN WE GET ORDERED LISTS FROM FAST-MLST
+
+
 	if len(closest_profiles) == 0:
 		classification = "undefined"
 	else:
-		database_entry = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].name == closest_profiles.split("\t")[0]).first()
-
-		if database_entry:
-			classification = database_entry.classifier
-		else:
-			classification = "undefined"
-
-	try:
-		new_database_entry = database_correspondece[database_name](name = report.sample_name.replace(" ", "_"), classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
+		closest_ids = []
+		for x in closest_profiles:
+			closest_ids.append(closest_profiles[x].split("\t")[0])
 		
-		db.session.add(new_database_entry)
-		db.session.commit()
-	except Exception as e:
-		print "ERRO"
+		#ID\tDIFERENCES
+		first_closest = closest_profiles[0].split("\t")
 
-	print "ADDED TO DB...UPDATING INDEX"
+		if report.sample_name.replace(" ", "_") in closest_ids:
+			print "ALREADY ON DB AND INDEX"
+			return True
+		else:		
+			database_entry = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].name == first_closest[0]).first()
 
-	status = fast_mlst_functions.update_index(query_profle_path, core_index_correspondece[database_name])
+			if database_entry:
+				classification = database_entry.classifier
+			else:
+				classification = "undefined"
 
-	print "INDEX UPDATED"
+			try:
+				new_database_entry = database_correspondece[database_name](name = report.sample_name.replace(" ", "_"), classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
+				
+				db.session.add(new_database_entry)
+				db.session.commit()
+			except Exception as e:
+				print "ERRO"
+
+			print "ADDED TO DB...UPDATING INDEX"
+
+			status = fast_mlst_functions.update_index(query_profle_path, core_index_correspondece[database_name])
+
+			print "INDEX UPDATED"
 
 	##ADD TO DB AND UPDATE INDEX
 

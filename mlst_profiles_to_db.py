@@ -5,6 +5,8 @@ import sys
 import json
 import os.path
 
+from config import populate_dbs, allele_classes_to_ignore, metadata_to_use, base_metadata
+
 def populate_db_ecoli(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 
 	ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
@@ -41,12 +43,12 @@ def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata, f
 
 	return 201
 
-
+'''
 populate_dbs = {"ecoli": populate_db_ecoli, "yersinia": populate_db_yersinia, "campylobacter": populate_db_campylobacter, "salmonella": populate_db_salmonella}
 allele_classes_to_ignore = {'LNF': '0', 'INF-': '', 'NIPHEM': '0', 'NIPH': '0', 'LOTSC': '0', 'PLOT3': '0', 'PLOT5': '0', 'ALM': '0', 'ASM': '0'}
 metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 'Country', 'Serotype': 'Serotype', 'Simple Patho': 'Pathotyping', 'ST(Achtman 7 Gene)': 'ST'}
 base_metadata = {'strainID':"", "Source":"", "Country":"", "Serotype":"", "Pathotyping":"", "ST":""}
-
+'''
 
 def read_chewBBACA_file_to_JSON(file_path, type_species):
 

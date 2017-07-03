@@ -11,9 +11,14 @@ import datetime
 import fast_mlst_functions
 import database_functions
 
+from config import wg_index_correspondece, core_index_correspondece, headers_correspondeces
+
 database_correspondece = {"E.coli":Ecoli}
+
+'''
 index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
 headers_correspondece = {"E.coli":"./chewbbaca_database_profiles/profiles_headers/ecoli.txt"}
+'''
 
 def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id):
 
@@ -39,7 +44,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			profile_query_file_path = database_functions.tab_profile_from_db("ESC_DA8918AA.fasta", database_correspondece[database_to_include], headers_correspondece[database_to_include], profile_tab_file_path)
 	
 	if database_to_include != "None":
-		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, index_correspondece[database_to_include], max_closest)
+		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, wg_index_correspondece[database_to_include], max_closest)
 		#strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
 
 

@@ -18,6 +18,8 @@ def main():
     outputfileName = args.o
     inverse = args.inverse
 
+    allele_classes_to_ignore = {'LNF': '0', 'INF-': '', 'NIPHEM': '0', 'NIPH': '0', 'LOTSC': '0', 'PLOT3': '0', 'PLOT5': '0', 'ALM': '0', 'ASM': '0'}
+
     if inverse:
         FilesToRemove = ['File', 'FILE', 'file']
     else:
@@ -49,7 +51,13 @@ def main():
         for line in tsvin:
             for elem in reversed(listindextoremove):
                 del line[elem]
-            csvout.write(('\t'.join(line)) + "\n")
+
+            string_list = ('\t'.join(line))
+
+            for k,v in allele_classes_to_ignore.iteritems():
+                string_list = string_list.replace(k,v)
+                
+            csvout.write(string_list + "\n")
 
 
 if __name__ == "__main__":

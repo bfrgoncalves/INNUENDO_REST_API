@@ -6,9 +6,12 @@ import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report
 import fast_mlst_functions
 
+from config import wg_index_correspondece, core_index_correspondece, headers_correspondece, allele_classes_to_ignore
+
+'''
 index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
 headers_correspondece = {"E.coli":"./chewbbaca_database_profiles/profiles_headers/ecoli.txt"}
-
+'''
 
 
 def search_on_database(strain_id, closest_number):
@@ -57,7 +60,9 @@ def classify_profile(job_id, database_name):
 	all_profiles = []
 	headers = []
 
-	to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
+	to_replace = allele_classes_to_ignore
+
+	#to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 
 
 	new_profile = []
@@ -73,11 +78,11 @@ def classify_profile(job_id, database_name):
 	with open(query_profle_path, 'w') as writer:
 		writer.write("\t".join(all_profiles))
 
-	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, index_correspondece[database_name], 7000)
+	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], 30)
 
 	print closest_profiles
 
-	##ADD TO DB
+	##ADD TO DB AND UPDATE INDEX
 
 
 

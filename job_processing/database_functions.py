@@ -18,6 +18,8 @@ def search_on_database(strain_id, closest_number):
 def add_to_database(strain_id, profile_object, classifier):
 	return True
 
+
+
 def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file_path):
 
 	print strain_id
@@ -40,6 +42,7 @@ def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file
 				w.write('\t'.join(profile_array))
 
 	return profile_tab_file_path
+
 
 
 def classify_profile(job_id, database_name):
@@ -73,6 +76,8 @@ def classify_profile(job_id, database_name):
 	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, index_correspondece[database_name], 7000)
 
 	print closest_profiles
+
+	##ADD TO DB
 
 
 

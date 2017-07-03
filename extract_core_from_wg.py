@@ -18,8 +18,11 @@ def main():
 	args = parser.parse_args()
 
 	core_json, core_list  = extract_core(args.i, args.c)
+	print "DONE EXTRACT... WRITTING..."
 
 	writeCoreFile(core_json, args.o)
+
+	print "DONE"
 
 
 def writeCoreFile(core_json, out_file):
@@ -61,6 +64,7 @@ def extract_core(allele_file, core_file):
 			if len(line) > 0:
 				core_loci_list.append(line)
 
+	print core_loci_list
 	results_alleles = {}
 	results_alleles_core = {}
 	with open(results_alleles_file, 'rtU') as reader:
@@ -91,5 +95,5 @@ def extract_core(allele_file, core_file):
 
 if __name__ == '__main__':
 	main()
-	
+
 

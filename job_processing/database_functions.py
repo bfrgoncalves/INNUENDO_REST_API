@@ -8,7 +8,7 @@ import fast_mlst_functions
 import datetime
 import subprocess
 
-from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, core_increment_profile_file_correspondece
+from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, core_increment_profile_file_correspondece, wg_increment_profile_file_correspondece
 
 '''
 index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}

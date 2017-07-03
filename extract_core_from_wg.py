@@ -22,7 +22,7 @@ def main():
 	writeCoreFile(core_json, args.o)
 
 
-def writeCoreFile(core_json, out_file);
+def writeCoreFile(core_json, out_file):
 	
 	first_time=True
 	
@@ -49,7 +49,7 @@ def writeCoreFile(core_json, out_file);
 
 
 
-def extract_core(allele_file, core_file)
+def extract_core(allele_file, core_file):
 
 	results_alleles_file = allele_file
 	core_loci_list_file = core_file

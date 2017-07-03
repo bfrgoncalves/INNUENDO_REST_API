@@ -89,3 +89,7 @@ def extract_core(allele_file, core_file):
 
 	return results_alleles_core, core_loci_list
 
+if __name__ == '__main__':
+	main()
+	
+

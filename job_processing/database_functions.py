@@ -56,19 +56,16 @@ def classify_profile(job_id, database_name):
 
 	to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 
-	if first_time == True:
-		headers = headers_profile + report.report_data["run_output"]["header"]
-		first_time = False
 
-		new_profile = []
-		string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
+	new_profile = []
+	string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
-		for k,v in to_replace.iteritems():
-			string_list = string_list.replace(k,v)
-		#new_profile.append(report.sample_name + "\t" + new_allele)
+	for k,v in to_replace.iteritems():
+		string_list = string_list.replace(k,v)
+	#new_profile.append(report.sample_name + "\t" + new_allele)
 
-		#print profiles
-		all_profiles.append(report.sample_name + "\t" + string_list)
+	#print profiles
+	all_profiles.append(report.sample_name + "\t" + string_list)
 
 	with open(query_profle_path) as writer:
 		writer.write("\t".join(all_profiles[0]))

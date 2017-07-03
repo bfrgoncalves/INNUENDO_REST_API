@@ -53,30 +53,39 @@ def read_chewBBACA_file_to_JSON(file_path, type_species):
 	results_alleles = {}
 	headers_file_path = file_path + ".headers"
 	headers_file_path = "./chewbbaca_database_profiles/profiles_headers/" + type_species + ".txt"
+	key_val_file_path = './chewbbaca_database_profiles/indexes/'+type_species+'_correspondece.tab'
 
 	with open(file_path, 'rtU') as reader:
-	    loci = None
-	    for line in reader:
-	        line = line.splitlines()[0]
-	        if len(line) > 0:
-	            if line.startswith('FILE'):
-	                loci = line.split('\t')[1:]
-	                with open(headers_file_path, 'w') as w:
-	                	w.write("\n".join(line.split('\t')))
-	            else:
-	                line = line.split('\t')
-	                sample = line[0]
-	                results_alleles[sample] = {}
-	                line = line[1:]
-	                if len(line) != len(loci):
-	                    sys.exit('Different number of loci')
-	                for x, allele_locus in enumerate(line):
-	                    if allele_locus.startswith(tuple(allele_classes_to_ignore.keys())):
-	                        for k, v in allele_classes_to_ignore.items():
-	                            allele_locus = allele_locus.replace(k, v)
-	                    results_alleles[sample][loci[x]] = allele_locus
+		with open(key_val_file_path, 'w') as w:
+		    loci = None
+		    count = 0
+		    for line in reader:
+		    	count+=1
+				line = line.splitlines()[0]
+				w.write(line.split('\t')[0]+"###"+count+"\n")
+
+		        if len(line) > 0:
+		            if line.startswith('FILE'):
+		                loci = line.split('\t')[1:]
+		                with open(headers_file_path, 'w') as w:
+		                	w.write("\n".join(line.split('\t')))
+		                print "DONE profile headers file"
+		            else:
+		                line = line.split('\t')
+		                sample = line[0]
+		                results_alleles[sample] = {}
+		                line = line[1:]
+		                if len(line) != len(loci):
+		                    sys.exit('Different number of loci')
+		                for x, allele_locus in enumerate(line):
+		                    if allele_locus.startswith(tuple(allele_classes_to_ignore.keys())):
+		                        for k, v in allele_classes_to_ignore.items():
+		                            allele_locus = allele_locus.replace(k, v)
+		                    results_alleles[sample][loci[x]] = allele_locus
 	
+	print "DONE creating index correspondence file"
 	return results_alleles
+
 
 def read_metadata_file_to_JSON(file_path):
 
@@ -158,7 +167,9 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 					metadata_to_use = base_metadata
 				populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use, platform_tag)
 
-mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
+	print "DONE IMPORTING TO DB, CREATING PROFILE HEADERS FILE AND CREATING CORRESPONDECE INDEX FILE"
+
+#mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
 
 
 

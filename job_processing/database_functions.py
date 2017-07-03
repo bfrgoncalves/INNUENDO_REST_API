@@ -34,7 +34,7 @@ def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file
 						if i != 0:
 							profile_array.append(allelic_profile[line.rstrip()])
 						else:
-							profile_array.append("query")
+							profile_array.append(str(i+1))
 				w.write('\t'.join(profile_array))
 
 	return profile_tab_file_path

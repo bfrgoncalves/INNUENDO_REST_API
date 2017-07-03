@@ -92,7 +92,7 @@ class StrainListResource(Resource):
 		if not args["Food-Bug"]:
 			s_name = args["Primary"]
 		else:
-			s_name = args["Primary"] + " " + args["Food-Bug"]
+			s_name = args["Primary"].replace(" ", "-") + "-" + args["Food-Bug"].replace(" ", "-")
 
 		strain = db.session.query(Strain).filter(Strain.name == s_name).first()
 

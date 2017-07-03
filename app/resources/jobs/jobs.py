@@ -53,10 +53,6 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
-	if "chewBBACA" in procedure:
-		jobID = database_processor.classify_profile(job_id, database_to_include)
-		print jobID
-		
 	if not report:
 		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=current_user.username, procedure=procedure, sample_name=sample)
 		if not report:
@@ -64,11 +60,10 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 		
 		db.session.add(report)
 		db.session.commit()
-		'''
+		
 		if "chewBBACA" in procedure:
 			jobID = database_processor.classify_profile(job_id, database_to_include)
-		'''
-	
+		
 		return True, job_id
 	else:
 		if report.job_id == job_id:

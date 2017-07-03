@@ -43,6 +43,7 @@ def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata, f
 
 	return 201
 
+populate_dbs = {"ecoli": populate_db_ecoli, "yersinia": populate_db_yersinia, "campylobacter": populate_db_campylobacter, "salmonella": populate_db_salmonella}
 '''
 populate_dbs = {"ecoli": populate_db_ecoli, "yersinia": populate_db_yersinia, "campylobacter": populate_db_campylobacter, "salmonella": populate_db_salmonella}
 allele_classes_to_ignore = {'LNF': '0', 'INF-': '', 'NIPHEM': '0', 'NIPH': '0', 'LOTSC': '0', 'PLOT3': '0', 'PLOT5': '0', 'ALM': '0', 'ASM': '0'}

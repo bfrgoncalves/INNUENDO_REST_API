@@ -96,7 +96,7 @@ def classify_profile(job_id, database_name):
 		string_list = string_list.replace(k,v)
 	#new_profile.append(report.sample_name + "\t" + new_allele)
 
-	print string_list
+	#print string_list
 
 	with open(query_profle_path, 'w') as writer:
 		writer.write(report.sample_name + "\t" + string_list)

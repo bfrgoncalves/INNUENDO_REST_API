@@ -77,6 +77,7 @@ def classify_profile(job_id, database_name):
 
 	print core_profile
 	print len(core_profile)
+	print query_profle_path
 
 	string_list = "\t".join(core_profile)
 	#string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
@@ -91,7 +92,7 @@ def classify_profile(job_id, database_name):
 	with open(query_profle_path, 'w') as writer:
 		writer.write("\t".join(all_profiles))
 
-	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], 30)
+	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], 200)
 
 	print closest_profiles
 

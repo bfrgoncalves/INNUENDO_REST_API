@@ -30,7 +30,7 @@ def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file
 
 			if headers_file_path != None:
 				with open(headers_file_path, 'rtU') as reader:
-					for i, line in reader:
+					for i, line in enumerate(reader):
 						if i != 0:
 							profile_array.append(allelic_profile[line.rstrip()])
 				w.write('\t'.join(profile_array))

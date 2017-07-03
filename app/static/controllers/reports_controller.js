@@ -676,6 +676,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			trees = response.data;
 			}
 			else trees = [];
+			objects_utils.destroyTable('reports_trees_table');
 			objects_utils.loadDataTables('reports_trees_table', trees, user_trees_col_defs, trees_headers);
 			callback();
 		});

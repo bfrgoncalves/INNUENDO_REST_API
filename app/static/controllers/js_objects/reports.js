@@ -128,8 +128,8 @@ function Report($http){
 		 				if(response.data.status == true){
 		 					clearInterval(interval_check_tree[job_id])
 		 					modalAlert("Your tree is ready to be visualized! Go to the Trees tab at the Reports menu.", function(){
-
-				});
+		 						
+							});
 		 				}
 		 				else if(response.data.status == false){
 		 					console.log(response.data.result);

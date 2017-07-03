@@ -6,8 +6,9 @@ import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report
 import fast_mlst_functions
 import datetime
+import subprocess
 
-from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore
+from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, core_increment_profile_file_correspondece
 
 '''
 index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
@@ -142,6 +143,21 @@ def classify_profile(job_id, database_name):
 				print "ERRO"
 
 			print "ADDED TO DB...UPDATING INDEX"
+
+			myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out")
+
+			command = 'cat '+core_increment_profile_file_correspondece[database_name]+' '+query_profle_path;
+			command = command.split(' ')
+			print command
+			proc = subprocess.Popen(command, stdout=myoutput, stderr=subprocess.PIPE)
+			stdout, stderr = proc.communicate()
+
+			command = 'mv '+core_increment_profile_file_correspondece[database_name] + ".out "+core_increment_profile_file_correspondece[database_name];
+			command = command.split(' ')
+			print command
+
+			proc2 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			stdout, stderr = proc.communicate()
 
 			status = fast_mlst_functions.update_index(query_profle_path, core_index_correspondece[database_name])
 

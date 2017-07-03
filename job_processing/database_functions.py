@@ -123,7 +123,7 @@ def classify_profile(job_id, database_name):
 
 	print "ADDED TO DB...UPDATING INDEX"
 
-	status = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name])
+	status = fast_mlst_functions.update_index(query_profle_path, core_index_correspondece[database_name])
 
 	print "INDEX UPDATED"
 

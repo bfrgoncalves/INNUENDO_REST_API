@@ -144,7 +144,7 @@ def classify_profile(job_id, database_name):
 
 			print "ADDED TO DB...UPDATING INDEX"
 
-			myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out")
+			myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out", 'w')
 
 			command = 'cat '+core_increment_profile_file_correspondece[database_name]+' '+query_profle_path;
 			command = command.split(' ')

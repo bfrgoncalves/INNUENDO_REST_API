@@ -80,15 +80,17 @@ def classify_profile(job_id, database_name):
 		strain_allele_profile[header] = profile[i]
 	
 	with open(core_headers_correspondece[database_name], 'r') as reader:
-		print "ENUM", len(enumerate(reader))
 		for i, line in enumerate(reader):
 			count_core+=1
 			print line.rstrip()
 			try:
-				include_index = headers.index(line.rstrip())
-				if include_index > -1:
-					count_entrou += 1
-					core_profile.append(profile[include_index])
+				if line.rstrip() == "FILE":
+					core_profile.append(report.sample_name)
+				else:
+					include_index = headers.index(line.rstrip())
+					if include_index > -1:
+						count_entrou += 1
+						core_profile.append(profile[include_index])
 			except ValueError as e:
 				continue
 
@@ -108,7 +110,7 @@ def classify_profile(job_id, database_name):
 	print count_entrou
 
 	with open(query_profle_path, 'w') as writer:
-		writer.write(report.sample_name + "\t" + string_list)
+		writer.write(string_list)
 
 	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/3)
 

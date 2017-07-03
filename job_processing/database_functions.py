@@ -76,11 +76,12 @@ def classify_profile(job_id, database_name):
 				if include_index > -1:
 					core_profile.append(profile[include_index])
 
-	print core_profile
 	print len(core_profile)
 	print query_profle_path
 
 	string_list = "\t".join(core_profile)
+	print string_list
+	print len(core_profile)
 	#string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
 	for k,v in to_replace.iteritems():
@@ -90,7 +91,7 @@ def classify_profile(job_id, database_name):
 	with open(query_profle_path, 'w') as writer:
 		writer.write(report.sample_name + "\t" + string_list)
 
-	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core)
+	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/3)
 
 	print closest_profiles
 

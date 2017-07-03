@@ -125,23 +125,28 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 	print "DONE metadata parse"
 	count_no_meta = 0
 	count_no_class = 0
+
+	no_results_class_path = "./app/utils/no_results_class.txt"
+
+	with open(no_results_class_path, 'w') as w:
 	
-	for strain_id, allelic_profile in chewbbaca_json.iteritems():
-		try:
-			classification_to_use = classification_json[strain_id]
-		except KeyError as e:
-			print "No classification found for " + strain_id + ". Adding undefined..."
-			classification_to_use = "undefined"
-			count_no_class += 1
-			print count_no_class
-		try:
-			metadata_to_use = metadata_json[strain_id]
-		except KeyError as e:
-			print "No metadata for " + strain_id + ". Adding empty..."
-			count_no_meta += 1
-			print count_no_meta
-			metadata_to_use = base_metadata
-		populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use, platform_tag)
+		for strain_id, allelic_profile in chewbbaca_json.iteritems():
+			try:
+				classification_to_use = classification_json[strain_id]
+			except KeyError as e:
+				print "No classification found for " + strain_id + ". Adding undefined..."
+				w.write(strain_id + "\n")
+				classification_to_use = "undefined"
+				count_no_class += 1
+				print count_no_class
+			try:
+				metadata_to_use = metadata_json[strain_id]
+			except KeyError as e:
+				print "No metadata for " + strain_id + ". Adding empty..."
+				count_no_meta += 1
+				print count_no_meta
+				metadata_to_use = base_metadata
+			populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use, platform_tag)
 
 mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
 

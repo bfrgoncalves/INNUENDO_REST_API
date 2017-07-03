@@ -83,13 +83,13 @@ def classify_profile(job_id, database_name):
 		for i, line in enumerate(reader):
 			count_core+=1
 			if line.rstrip() == "":
+				print "AQUI"
 				count_core-=1
 				continue
 			if line.rstrip() == "FILE":
 				core_profile.append(report.sample_name)
 			else:
 				include_index = headers.index(line.rstrip())
-				print include_index
 				if include_index > -1:
 					count_entrou += 1
 					core_profile.append(profile[include_index])

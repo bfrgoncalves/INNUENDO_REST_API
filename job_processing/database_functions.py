@@ -56,6 +56,7 @@ def classify_profile(job_id, database_name):
 
 	file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 	query_profle_path = "./chewbbaca_database_profiles/query_files/" + file_name + ".tab"
+	query_profle_path_wg = "./chewbbaca_database_profiles/query_files/" + file_name + "_wg.tab"
 
 
 	headers_profile = []
@@ -70,6 +71,7 @@ def classify_profile(job_id, database_name):
 	profile = report.report_data["run_output"]["run_output.fasta"]
 
 	core_profile = []
+	wg_profile = []
 	count_core = 0
 	count_entrou = 0
 
@@ -91,20 +93,38 @@ def classify_profile(job_id, database_name):
 					count_entrou += 1
 					core_profile.append(profile[include_index])
 
+
+	with open(wg_headers_correspondece[database_name], 'r') as reader:
+		for i, line in enumerate(reader):
+			count_core+=1
+			if line.rstrip() == "FILE":
+				wg_profile.append(report.sample_name.replace(" ", "_"))
+			else:
+				include_index = headers.index(line.rstrip())
+				if include_index > -1:
+					count_entrou += 1
+					wg_profile.append(profile[include_index])
+
+	
 	print query_profle_path
 
 	string_list = "\t".join(core_profile)
+
+	string_list_wg = "\t".join(wg_profile)
 
 	#string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
 	for k,v in to_replace.iteritems():
 		string_list = string_list.replace(k,v)
-
-
+		string_list_wg = string_list_wg.replace(k,v)
 
 
 	with open(query_profle_path, 'w') as writer:
 		writer.write(string_list+"\n")
+
+	with open(query_profle_path_wg, 'w') as writer:
+		writer.write(string_list_wg+"\n")
+
 
 	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/3)
 
@@ -142,7 +162,10 @@ def classify_profile(job_id, database_name):
 			except Exception as e:
 				print "ERRO"
 
-			print "ADDED TO DB...UPDATING INDEX"
+			print "ADDED TO DB..."
+
+			#FOR CORE GENOME INDEX
+			print "UPGRADING CG INDEX"
 
 			myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out", 'w')
 
@@ -160,6 +183,26 @@ def classify_profile(job_id, database_name):
 			stdout, stderr = proc2.communicate()
 
 			status = fast_mlst_functions.update_index(core_increment_profile_file_correspondece[database_name], core_index_correspondece[database_name])
+
+			#FOR WG INDEX
+			print "UPGRADING WG INDEX"
+
+			myoutput_wg = open(wg_increment_profile_file_correspondece[database_name] + ".out", 'w')
+
+			command = 'cat '+wg_increment_profile_file_correspondece[database_name]+' '+query_profle_path_wg;
+			command = command.split(' ')
+			print command
+			proc3 = subprocess.Popen(command, stdout=myoutput_wg, stderr=subprocess.PIPE)
+			stdout, stderr = proc3.communicate()
+
+			command = 'mv '+wg_increment_profile_file_correspondece[database_name] + ".out "+wg_increment_profile_file_correspondece[database_name];
+			command = command.split(' ')
+			print command
+
+			proc4 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			stdout, stderr = proc4.communicate()
+
+			status = fast_mlst_functions.update_index(wg_increment_profile_file_correspondece[database_name], wg_index_correspondece[database_name])
 
 			print "INDEX UPDATED"
 

@@ -63,7 +63,8 @@ def read_chewBBACA_file_to_JSON(file_path, type_species):
 				for line in reader:
 					count+=1
 					line = line.splitlines()[0]
-					w.write(line.split('\t')[0]+"###"+str(count)+"\n")
+					if not line.startswith('FILE'):
+						w.write(line.split('\t')[0]+"###"+str(count)+"\n")
 
 					if len(line) > 0:
 						if line.startswith('FILE'):

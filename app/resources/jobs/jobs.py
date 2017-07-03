@@ -18,6 +18,8 @@ import json
 import requests
 import os
 
+from job_processing.queue_processor import Queue_Processor
+
 job_post_parser = reqparse.RequestParser()
 job_post_parser.add_argument('protocol_ids', dest='protocol_ids', type=str, required=True, help="Protocols Ids")
 job_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="Protocols Ids")
@@ -42,6 +44,8 @@ job_download_results_get_parser = reqparse.RequestParser()
 job_download_results_get_parser.add_argument('file_path', dest='file_path', type=str, required=True, help="Job Path")
 
 #get workflow, get protocols, get protocol parameters, run process
+
+database_processor = Queue_Processor()
 
 #Add job data to db
 def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id):

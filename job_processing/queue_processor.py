@@ -22,36 +22,23 @@ execfile("config.py", config)
 
 class Queue_Processor:
 
-	def search_on_db(self, strain_id, closest_number, database_to_search):
-		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
-		#RETURN IDS OF CLOSEST
-		job = q.enqueue_call(
-            func=database_functions.search_on_database, args=(strain_id, closest_number), result_ttl=5000
-        )
-
-		return job.get_id()
-
 	def send_to_phyloviz(self, job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id):
 		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
 		#RETURN IDS OF CLOSEST
 		job = q.enqueue_call(
-			func=phyloviz_functions.send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id,species_id,), result_ttl=5000
+			#func=phyloviz_functions.send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id,species_id,), result_ttl=5000
+			func=database_functions.classify_profile, args=(job_ids.split(",")[0], database_to_include, ), result_ttl=5000
 		)
 		return job.get_id()
 
-	def add_to_db(self, strain_id, profile_object, classifier, database_to_search):
-		#ADD PROFILE TO DATABASE
+	def classify_profile(self, job_id, database_to_include):
+		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
+		#RETURN IDS OF CLOSEST
 		job = q.enqueue_call(
-            func=database_functions.add_to_database, args=(strain_id, profile_object, classifier), result_ttl=5000
-        )
+			func=database_functions.classify_profile, args=(job_id, database_to_include, ), result_ttl=5000
+		)
 		return job.get_id()
 
-	def classify_profile(self, strain_id, profile_object, database_to_search):
-		#RETURNS THE CLASSIFIER FOR A GIVEN PROFILE
-		job = q.enqueue_call(
-            func=database_functions.classify_profile, args=(strain_id, profile_object), result_ttl=5000
-        )
-		return job.get_id()
 
 	def fetch_job(self, job_key):
 		#GETS THE JOB STATUS

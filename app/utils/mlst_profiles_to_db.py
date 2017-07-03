@@ -48,9 +48,12 @@ metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 
 base_metadata = {'strainID':"", "Source":"", "Country":"", "Serotype":"", "Pathotyping":"", "ST":""}
 
 
-def read_chewBBACA_file_to_JSON(file_path):
+def read_chewBBACA_file_to_JSON(file_path, type_species):
 
 	results_alleles = {}
+	headers_file_path = file_path + ".headers"
+	headers_file_path = "./chewbbaca_database_profiles/profiles_headers/" + type_species + ".txt"
+
 	with open(file_path, 'rtU') as reader:
 	    loci = None
 	    for line in reader:
@@ -58,6 +61,8 @@ def read_chewBBACA_file_to_JSON(file_path):
 	        if len(line) > 0:
 	            if line.startswith('FILE'):
 	                loci = line.split('\t')[1:]
+	                with open(headers_file_path, 'w') as w:
+	                	w.write("\n".join(line.split('\t')))
 	            else:
 	                line = line.split('\t')
 	                sample = line[0]
@@ -117,7 +122,7 @@ def read_classification_file_to_JSON(file_path):
 	return results_classification
 
 def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_file_path, table_id, platform_tag):
-	chewbbaca_json = read_chewBBACA_file_to_JSON(chewbbaca_file_path)
+	chewbbaca_json = read_chewBBACA_file_to_JSON(chewbbaca_file_path, table_id)
 	print "DONE chewBBACA parse"
 	classification_json = read_classification_file_to_JSON(classification_file_path)
 	print "DONE classification parse"

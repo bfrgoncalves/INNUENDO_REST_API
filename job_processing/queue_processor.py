@@ -22,7 +22,7 @@ execfile("config.py", config)
 
 class Queue_Processor:
 
-	def search_on_db(self, strain_id, closest_number):
+	def search_on_db(self, strain_id, closest_number, database_to_search):
 		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
 		#RETURN IDS OF CLOSEST
 		job = q.enqueue_call(
@@ -34,22 +34,19 @@ class Queue_Processor:
 	def send_to_phyloviz(self, job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id):
 		#PERFORM QUERY ON DATABSE FOR THE PROFILE AND RUN ALEXANDREs SEARCHES
 		#RETURN IDS OF CLOSEST
-		print "PASSOU"
-		print job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest
 		job = q.enqueue_call(
 			func=phyloviz_functions.send_to_phyloviz, args=(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id,species_id,), result_ttl=5000
 		)
-		print job.get_id()
 		return job.get_id()
 
-	def add_to_db(self, strain_id, profile_object, classifier):
+	def add_to_db(self, strain_id, profile_object, classifier, database_to_search):
 		#ADD PROFILE TO DATABASE
 		job = q.enqueue_call(
             func=database_functions.add_to_database, args=(strain_id, profile_object, classifier), result_ttl=5000
         )
 		return job.get_id()
 
-	def classify_profile(self, strain_id, profile_object):
+	def classify_profile(self, strain_id, profile_object, database_to_search):
 		#RETURNS THE CLASSIFIER FOR A GIVEN PROFILE
 		job = q.enqueue_call(
             func=database_functions.classify_profile, args=(strain_id, profile_object), result_ttl=5000

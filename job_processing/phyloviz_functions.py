@@ -8,8 +8,12 @@ from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_S
 import subprocess
 import requests
 import datetime
+import fast_mlst_functions
+import database_functions
 
 database_correspondece = {"E.coli":Ecoli}
+index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
+headers_correspondece = {"E.coli":"./chewbbaca_database_profiles/profiles_headers/ecoli.txt"}
 
 def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id):
 
@@ -17,11 +21,26 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	file_path_profile = './app/uploads/'+file_name+'_profile.tab'
 	file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
 
+	profile_tab_file_path = './chewbbaca_database_profiles/query_files/'+file_name+'_profile.tab'
+
 	if not os.path.isdir("./app/uploads"):
 		os.mkdir("./app/uploads")
 
+	total_j_ids = job_ids.split(",")
+
+	for job_id in total_j_ids:
+		body_profile = [];
+		report = db.session.query(Report).filter(Report.job_id == job_id).first()
+		if not report:
+			continue
+
+		if database_to_include != "None":
+			profile_query_file_path = database_functions.tab_profile_from_db(report.sample_name, database_correspondece[database_to_include], headers_correspondece[database_to_include], profile_tab_file_path)
+	
 	if database_to_include != "None":
-		strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
+		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, index_correspondece[database_to_include], max_closest)
+		#strains_from_db = db.session.query(database_correspondece[database_to_include]).limit(int(max_closest)).all()
+
 
 	headers_profile = ["ID"]
 	headers_metadata = ["ID"]
@@ -30,7 +49,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	all_metadata = []
 	headers = []
 
-
+	'''
 	total_j_ids = job_ids.split(",")
 
 	first_time = True
@@ -140,6 +159,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	print stdout
 
+
 	if "http" in stdout:
 		phyloviz_uri = "http" + stdout.split("http")[1]
 		tree_entry = Tree(user_id=user_id, name=dataset_name, description=dataset_description, uri=phyloviz_uri, timestamp=datetime.datetime.utcnow(), species_id=species_id)
@@ -150,3 +170,5 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		return 201
 	else:
 		return 404
+	'''
+	return 200

@@ -124,7 +124,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					straind.append(strain_metadata[x])
 			for key, val in additional_data[str(count_ids)].iteritems():
 				straind.append(val)
-			straind.append("Platform tag")
+			straind.append("FP")
 
 			all_metadata.append('\t'.join(straind) + "\n")
 
@@ -163,7 +163,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				except Exception as e:
 					string_metadata.append("")
 
-			all_metadata.append('\t'.join(string_metadata) + "\n")
+			all_metadata.append('\t'.join(string_metadata))
 
 
 	if len(all_profiles) < 2:

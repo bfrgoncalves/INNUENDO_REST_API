@@ -244,7 +244,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 			# get specific process input type and uri
 			queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+newProcType+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002234>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(ppipid)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
-			
+			print queryString
 			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 			result3 = tupleQuery.evaluate()
 			jsonResult2=parseAgraphQueryRes(result3,["messageURI"])

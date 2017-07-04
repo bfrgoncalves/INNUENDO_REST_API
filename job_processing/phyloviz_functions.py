@@ -95,7 +95,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			#new_profile.append(report.sample_name + "\t" + new_allele)
 
 			#print profiles
-			strains_selected_from_plat.push(report.sample_name)
+			strains_selected_from_plat.append(report.sample_name)
 			all_profiles.append(report.sample_name + "\t" + string_list)
 
 			strain = db.session.query(Strain).filter(Strain.name == report.sample_name).first()

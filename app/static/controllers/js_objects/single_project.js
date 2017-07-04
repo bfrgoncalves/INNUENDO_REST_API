@@ -1187,10 +1187,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        			dict_strain_names[strain_names[strain_name]].push({});
 
 	        			count_pipelines_applied = 0;
+	        			console.log("PIPELINES AP", pipelines_applied);
 
 			        	for(p in pipelines_applied[strain_names[strain_name]]){
 			        		//console.log(pipelines_applied, pipelines_applied[strain_names[strain_name]]);
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
+
+			        		console.log(pi_name, buttons_to_tasks);
 			        		
 			        		//console.log(strain_names, strain_name, pi_name, dict_strain_names);
 			        		//console.log(buttons_to_tasks);			        		

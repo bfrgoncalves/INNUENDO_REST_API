@@ -61,6 +61,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	all_metadata = []
 	headers = []
 
+	strains_selected_from_plat = []
+
 	
 	total_j_ids = job_ids.split(",")
 
@@ -93,6 +95,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			#new_profile.append(report.sample_name + "\t" + new_allele)
 
 			#print profiles
+			strains_selected_from_plat.push(report.sample_name)
 			all_profiles.append(report.sample_name + "\t" + string_list)
 
 			strain = db.session.query(Strain).filter(Strain.name == report.sample_name).first()
@@ -125,6 +128,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	if len(array_of_strains_from_db) > 0:
 		for strain_from_db in array_of_strains_from_db:
+			if strain_from_db.name in strains_selected_from_plat:
+				continue
+			
 			string_profile = []
 			string_metadata = []
 			for x in headers:

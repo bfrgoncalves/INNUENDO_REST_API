@@ -51,6 +51,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	if database_to_include != "None":
 		merged_list_temp = []
+		#Merge all first max_closest for each strain and then creates a set
 		for strain_selected in array_to_process:
 			list_to_query = fast_mlst_functions.get_closest_profiles(strain_selected[0], wg_index_correspondece[database_to_include], strain_selected[1]/2)
 			print len(list_to_query)

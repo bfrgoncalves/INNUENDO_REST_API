@@ -156,7 +156,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				try:
 					if x == "ID":
 						string_metadata.append(strain_from_db.name)
-					if x == "Platform tag":
+					elif x == "Platform tag":
 						string_metadata.append(strain_from_db.platform_tag)
 					else:
 						string_metadata.append(strain_metadata[x])
@@ -184,6 +184,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		
 		for y in all_metadata:
 			p_file.write(y + "\n")
+
+	print file_path_profile
+	print file_path_metadata
 
 	command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l';
 	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';

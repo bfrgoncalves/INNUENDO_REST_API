@@ -74,38 +74,37 @@ def read_chewBBACA_file_to_JSON(file_path, type_species):
 	results_alleles = {}
 	headers_file_path = file_path + ".headers"
 	headers_file_path = "./chewbbaca_database_profiles/profiles_headers/" + type_species + ".txt"
-	key_val_file_path = './chewbbaca_database_profiles/indexes/'+type_species+'_correspondece.tab'
+	#key_val_file_path = './chewbbaca_database_profiles/indexes/'+type_species+'_correspondece.tab'
 
 	with open(file_path, 'rtU') as reader:
-		with open(key_val_file_path, 'w') as w:
-			with open(headers_file_path, 'w') as p:
-				loci = None
-				count = 0
-				for line in reader:
-					count+=1
-					line = line.splitlines()[0]
-					if not line.startswith('FILE'):
-						w.write(line.split('\t')[0]+"###"+str(count)+"\n")
+		#with open(key_val_file_path, 'w') as w:
+		with open(headers_file_path, 'w') as p:
+			loci = None
+			count = 0
+			for line in reader:
+				count+=1
+				line = line.splitlines()[0]
+				#if not line.startswith('FILE'):
+					#w.write(line.split('\t')[0]+"###"+str(count)+"\n")
 
-					if len(line) > 0:
-						if line.startswith('FILE'):
-							loci = line.split('\t')[1:]
-							p.write("\n".join(line.split('\t')))
-							print "DONE profile headers file"
-						else:
-							line = line.split('\t')
-							sample = line[0]
-							results_alleles[sample] = {}
-							line = line[1:]
-							if len(line) != len(loci):
-								sys.exit('Different number of loci')
-							for x, allele_locus in enumerate(line):
-								if allele_locus.startswith(tuple(allele_classes_to_ignore.keys())):
-									for k, v in allele_classes_to_ignore.items():
-										allele_locus = allele_locus.replace(k, v)
-								results_alleles[sample][loci[x]] = allele_locus
+				if len(line) > 0:
+					if line.startswith('FILE'):
+						loci = line.split('\t')[1:]
+						p.write("\n".join(line.split('\t')))
+						print "DONE profile headers file"
+					else:
+						line = line.split('\t')
+						sample = line[0]
+						results_alleles[sample] = {}
+						line = line[1:]
+						if len(line) != len(loci):
+							sys.exit('Different number of loci')
+						for x, allele_locus in enumerate(line):
+							if allele_locus.startswith(tuple(allele_classes_to_ignore.keys())):
+								for k, v in allele_classes_to_ignore.items():
+									allele_locus = allele_locus.replace(k, v)
+							results_alleles[sample][loci[x]] = allele_locus
 	
-	print "DONE creating index correspondence file"
 	return results_alleles
 
 

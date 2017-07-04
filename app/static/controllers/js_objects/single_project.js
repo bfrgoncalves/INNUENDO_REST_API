@@ -30,7 +30,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var ngs_onto_requests = new ngs_onto_client(CURRENT_PROJECT_ID, $http);
     var objects_utils = new Objects_Utils();
 
-    status_dict = {'R': '#42c2f4', 'PD': '#f49542', 'COMPLETED': '#42f442', 'FAILED': '#f75454'}
+    status_dict = {'R': '#42c2f4', 'PD': '#f49542', 'COMPLETED': '#42f442', 'FAILED': '#f75454', 'WARNING': '#f58f06'}
 
     function modalAlert(text, callback){
 

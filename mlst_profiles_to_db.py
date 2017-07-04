@@ -179,7 +179,6 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 					print count_no_class
 				try:
 					metadata_to_use = metadata_json[strain_id]
-					print "HAS METADATA" + strain_id
 				except KeyError as e:
 					print "No metadata for " + strain_id + ". Adding empty..."
 					m.write(strain_id + "\n")
@@ -188,7 +187,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 					metadata_to_use = base_metadata
 				populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use, platform_tag)
 
-	print "DONE IMPORTING TO DB, CREATING PROFILE HEADERS FILE AND CREATING CORRESPONDECE INDEX FILE"
+	print "DONE IMPORTING TO DB AND CREATING PROFILE HEADERS FILE"
 
 
 

@@ -1207,6 +1207,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				//dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
 
 			        		}
+
+			        		console.log(dict_strain_names[strain_names[strain_name]][1]);
 				
 				        	//var indexes = '';
 				        	//console.log(dict_strain_names);

@@ -255,7 +255,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			print jsonResult2
 			#print protocolsTypes
 			for results in jsonResult2:
-				outputURI=results["messageURI"]
+				outputURI=results["messageURI"].replace('"', '')
+				outputURI="<"+outputURI+">"
 
 			print '#####PASSOU POR AQUI###########'
 			print outputURI

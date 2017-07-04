@@ -121,6 +121,8 @@ class Job_queue(Resource):
 		data = []
 		to_send = []
 
+		print protocol_ids
+
 		counter = 0;
 		for protocol_id in protocol_ids:
 			protocol = db.session.query(Protocol).filter(Protocol.id == protocol_id).first()

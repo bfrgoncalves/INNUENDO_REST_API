@@ -1208,7 +1208,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		}
 
-			        		console.log(dict_strain_names[strain_names[strain_name]][1]);
+			        		console.log(dict_strain_names[strain_names[strain_name]][1], pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('>')[1].split('<')[0]);
 				
 				        	//var indexes = '';
 				        	//console.log(dict_strain_names);

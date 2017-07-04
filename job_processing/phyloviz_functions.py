@@ -47,8 +47,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	if database_to_include != "None":
 		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, wg_index_correspondece[database_to_include], number_of_loci/2)
-		print list_to_query
-		list_to_query = list_to_query[:max_closest] #FIlters according to the number of closest requested by the user
+		print len(list_to_query)
+		slice_object = slice(0, max_closest)
+		list_to_query = list_to_query[slice_object] #FIlters according to the number of closest requested by the user
+		print len(list_to_query)
 		for x in list_to_query:
 			strain_id = x.split("\t")[0]
 			strains_from_db = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == strain_id).first()

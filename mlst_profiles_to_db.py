@@ -5,6 +5,8 @@ import sys
 import json
 import os.path
 
+import argparse
+
 from config import allele_classes_to_ignore, metadata_to_use, base_metadata
 
 

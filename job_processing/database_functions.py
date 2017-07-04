@@ -28,6 +28,7 @@ def add_to_database(strain_id, profile_object, classifier):
 def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file_path):
 
 	print strain_id
+	count_headers = 0
 	
 	strain_to_use = db.session.query(database).filter(database.name == strain_id).first()
 
@@ -40,13 +41,14 @@ def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file
 			if headers_file_path != None:
 				with open(headers_file_path, 'rtU') as reader:
 					for i, line in enumerate(reader):
+						count_headers += 1
 						if i != 0:
 							profile_array.append(allelic_profile[line.rstrip()])
 						else:
 							profile_array.append(str(i+1))
 				w.write('\t'.join(profile_array))
 
-	return profile_tab_file_path
+	return profile_tab_file_path, count_headers
 
 
 
@@ -145,7 +147,7 @@ def classify_profile(job_id, database_name):
 
 			print database_entry.name
 			print database_entry.classifier
-			
+
 			if database_entry:
 				classification = database_entry.classifier
 			else:

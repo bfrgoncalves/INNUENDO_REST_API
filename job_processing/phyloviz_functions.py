@@ -41,13 +41,14 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 		if database_to_include != "None":
 			#report.sample_name
-			profile_query_file_path = database_functions.tab_profile_from_db(report.sample_name.replace(" ", "_"), database_correspondece[database_to_include], wg_headers_correspondece[database_to_include], profile_tab_file_path)
+			profile_query_file_path, number_of_loci = database_functions.tab_profile_from_db(report.sample_name.replace(" ", "_"), database_correspondece[database_to_include], wg_headers_correspondece[database_to_include], profile_tab_file_path)
 	
 	array_of_strains_from_db = []
 
 	if database_to_include != "None":
-		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, wg_index_correspondece[database_to_include], max_closest)
+		list_to_query = fast_mlst_functions.get_closest_profiles(profile_query_file_path, wg_index_correspondece[database_to_include], number_of_loci/2)
 		print list_to_query
+		list_to_query = list_to_query[:max_closest] #FIlters according to the number of closest requested by the user
 		for x in list_to_query:
 			strain_id = x.split("\t")[0]
 			strains_from_db = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == strain_id).first()

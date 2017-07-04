@@ -126,7 +126,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				straind.append(val)
 			straind.append("FP")
 
-			all_metadata.append('\t'.join(straind) + "\n")
+			all_metadata.append('\t'.join(straind))
 
 		count_ids += 1
 

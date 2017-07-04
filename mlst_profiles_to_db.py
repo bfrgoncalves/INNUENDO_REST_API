@@ -7,6 +7,22 @@ import os.path
 
 from config import allele_classes_to_ignore, metadata_to_use, base_metadata
 
+
+
+def main():
+    parser = argparse.ArgumentParser(description="This program populates a database according with a set of input files")
+    parser.add_argument('-i', nargs='?', type=str, help='Allelic profiles', required=True)
+    parser.add_argument('-c', nargs='?', type=str, help='classification file', required=True)
+    parser.add_argument('-m', nargs='?', type=str, help='metadata file', required=True)
+    parser.add_argument('-d', nargs='?', type=str, help='database to populate(str)', required=True)
+    parser.add_argument('-p', nargs='?', type=str, help='platform tag', required=True)
+
+    args = parser.parse_args()
+    args.i, args.c, args.m, args.d, args.p
+    mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
+
+
+
 def populate_db_ecoli(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 
 	ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
@@ -173,8 +189,10 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 
 	print "DONE IMPORTING TO DB, CREATING PROFILE HEADERS FILE AND CREATING CORRESPONDECE INDEX FILE"
 
-#mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
 
+
+if __name__ == "__main__":
+    main()
 
 
 

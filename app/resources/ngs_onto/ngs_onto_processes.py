@@ -253,7 +253,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			#print jsonResult2
 			#print protocolsTypes
 			for results in jsonResult2:
-				outputURI=results["type"]:
+				outputURI=results["type"]
 
 			print outputURI
 				

@@ -230,6 +230,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 						numberOfProcesses -= 1
 
+
 			print ppropid, ppipid, pprocid
 			print '##############################'
 			print parentProcessURI
@@ -239,10 +240,28 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			outputURI=parseAgraphStatementsRes(statements)
 			statements.close()
 
+			newProcType=listOrderedProcessTypes[numberOfProcesses+1]
+
+			# get specific process input type and uri
+			queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+newProcType+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002234>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(ppipid)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
+			
+			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+			result3 = tupleQuery.evaluate()
+			jsonResult2=parseAgraphQueryRes(result3,["messageURI"])
+			result3.close()
+			
+			#print jsonResult2
+			#print protocolsTypes
+			for results in jsonResult2:
+				outputURI=results["type"]:
+
 			print outputURI
+				
+
+			"""print outputURI
 			#print outputURI[0]
 			outputURI = dbconAg.createURI(outputURI[0]['obj'])
-			print outputURI
+			print outputURI"""
 		print numberOfProcesses, listOrderedProcessTypes
 		
 		if numberOfProcesses >= len(listOrderedProcessTypes):

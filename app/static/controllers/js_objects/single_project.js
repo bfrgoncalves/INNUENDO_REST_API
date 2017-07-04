@@ -280,7 +280,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var parts_split = tasks_to_buttons[job_id].replace(/ /g, "_").split("_");
 			var process_position = parts_split[parts_split.length-2];
-			console.log(parts_split);
 
 			//var pipeline_id = strainID_pipeline[strains_dict[strain_id]];
 

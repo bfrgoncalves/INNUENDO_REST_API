@@ -1193,7 +1193,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		//console.log(pipelines_applied, pipelines_applied[strain_names[strain_name]]);
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
 
-			        		console.log(pi_name, buttons_to_tasks);
+			        		console.log(pi_name, buttons_to_tasks,buttons_to_tasks[pi_name]);
 			        		
 			        		//console.log(strain_names, strain_name, pi_name, dict_strain_names);
 			        		//console.log(buttons_to_tasks);			        		

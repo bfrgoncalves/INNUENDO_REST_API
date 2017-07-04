@@ -301,7 +301,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 					}
 					prevtaskid = task_id;
-					if(status == 'COMPLETED') clearInterval(intervals_running[this_job_id]);
+					if(status == 'COMPLETED' || status == 'WARNING') clearInterval(intervals_running[this_job_id]);
 
 				}
 				else{

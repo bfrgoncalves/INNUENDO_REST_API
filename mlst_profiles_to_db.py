@@ -21,7 +21,7 @@ def main():
 
     args = parser.parse_args()
     args.i, args.c, args.m, args.d, args.p
-    mlst_profiles_to_db("chewbbaca_database_profiles/results_alleles_ecoli.tsv", "chewbbaca_database_profiles/Classification15_ecoli.txt", "chewbbaca_database_profiles/ecoli_info_enterobase.txt", "ecoli", "NFP")
+    mlst_profiles_to_db(args.i, args.c, args.m, args.d, args.p)
 
 
 

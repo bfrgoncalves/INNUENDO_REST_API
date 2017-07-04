@@ -250,7 +250,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			jsonResult2=parseAgraphQueryRes(result3,["messageURI"])
 			result3.close()
 			
-			#print jsonResult2
+			print jsonResult2
 			#print protocolsTypes
 			for results in jsonResult2:
 				outputURI=results["messageURI"]

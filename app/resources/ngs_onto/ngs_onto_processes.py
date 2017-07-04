@@ -255,6 +255,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			for results in jsonResult2:
 				outputURI=results["messageURI"]
 
+			print '#####PASSOU POR AQUI###########'
 			print outputURI
 				
 

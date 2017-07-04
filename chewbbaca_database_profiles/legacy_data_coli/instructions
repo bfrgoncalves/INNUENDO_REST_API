@@ -25,9 +25,12 @@ cp chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_core.tsv c
 cp chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_wg.tsv chewbbaca_database_profiles/indexes/ecoli_wg_profiles.tab
 
 ##INDEX REMOVE AND BUILD FROM PROFILE FILE
-rm chewbbaca_database_profiles/indexes/ecoli_core.index
-rm chewbbaca_database_profiles/indexes/ecoli_wg.index
+rm chewbbaca_database_profiles/indexes/ecoli_core.idx
+rm chewbbaca_database_profiles/indexes/ecoli_wg.idx
 rm chewbbaca_database_profiles/indexes/ecoli_core.ids
 rm chewbbaca_database_profiles/indexes/ecoli_wg.ids
 cat chewbbaca_database_profiles/indexes/ecoli_core_profiles.tab | ./dependencies/fast-mlst/src/main -i chewbbaca_database_profiles/indexes/ecoli_core -b
 cat chewbbaca_database_profiles/indexes/ecoli_wg_profiles.tab | ./dependencies/fast-mlst/src/main -i chewbbaca_database_profiles/indexes/ecoli_wg -b
+
+#POPULATE ECOLI DB WITH LEGACY
+flask/bin/python mlst_profiles_to_db.py -i chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli.tsv -c chewbbaca_database_profiles/legacy_data_coli/Classification15_ecoli.txt -m chewbbaca_database_profiles/legacy_data_coli/ecoli_info_new.tsv -d ecoli -p NFP

@@ -112,6 +112,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						headers_metadata.append(x)
 				for key, val in additional_data[str(count_ids)].iteritems():
 					headers_metadata.append(key)
+				headers_metadata.append("Platform tag")
 
 			first_time_m = False
 			
@@ -123,6 +124,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					straind.append(strain_metadata[x])
 			for key, val in additional_data[str(count_ids)].iteritems():
 				straind.append(val)
+			straind.append("Platform tag")
 
 			all_metadata.append('\t'.join(straind) + "\n")
 
@@ -154,6 +156,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				try:
 					if x == "ID":
 						string_metadata.append(strain_from_db.name)
+					if x == "Platform tag":
+						string_metadata.append(strain_from_db.platform_tag)
 					else:
 						string_metadata.append(strain_metadata[x])
 				except Exception as e:

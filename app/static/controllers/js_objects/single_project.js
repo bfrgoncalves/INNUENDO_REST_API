@@ -923,7 +923,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        //console.log(pipelines_applied)
 		        var pip_start_id = 0;
 		        //console.log(pipelines_applied[strain_data[counter]['strainID']])
-		        if(pipelines_applied[strain_data[counter]['strainID']] != undefined && pipelines_applied[strain_data[counter]['strainID']].length != 0) pip_start_id = parseInt(pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")[-2]);
+		        if(pipelines_applied[strain_data[counter]['strainID']] != undefined && pipelines_applied[strain_data[counter]['strainID']].length != 0){
+		        	button_name_parts_to_use = pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
+		        	pip_start_id = parseInt(button_name_parts_to_use[button_name_parts_to_use.length-2]);
+		        }
 		        //onclick="showCombinedReports(this)"
 		        //console.log(pip_start_id, pipelines_applied);
 		        if(mode == 'new'){

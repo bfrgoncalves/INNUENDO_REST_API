@@ -5,7 +5,7 @@ import sys
 import json
 import os.path
 
-from config import populate_dbs, allele_classes_to_ignore, metadata_to_use, base_metadata
+from config import allele_classes_to_ignore, metadata_to_use, base_metadata
 
 def populate_db_ecoli(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 

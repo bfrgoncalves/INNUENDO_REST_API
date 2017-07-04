@@ -256,7 +256,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			#print protocolsTypes
 			for results in jsonResult2:
 				outputURI=results["messageURI"].replace('"', '')
-				outputURI="<"+outputURI+">"
+				#outputURI="<"+outputURI+">"
 
 			print '#####PASSOU POR AQUI###########'
 			print outputURI
@@ -298,7 +298,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				dbconAg.add(prevMessageURI, RDF.TYPE, strainTypeURI)
 
 			else:
-				prevMessageURI = outputURI
+				prevMessageURI = dbconAg.createURI(outputURI)
 			#prevMessageURI = dbconAg.createURI(namespace=localNSpace+"studies/", localname=str(id2)+"/pipelines/pipeline_"+str(id3)+"/messages/message"+str(2))
 			processes_ids = []
 			print len(listOrderedProcessTypes), addedProcesses

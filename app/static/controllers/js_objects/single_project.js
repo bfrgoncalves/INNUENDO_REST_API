@@ -1217,6 +1217,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				dict_strain_names[strain_names[strain_name]][7] += 1;
 		        				dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
 
+		        				console.log('##########')
+		        				console.log(pipelinesByName[workflowName], strain_name, count_pipelines_applied);
+
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
 		        					//console.log(response, strain_name);
 		        					//console.log(dict_strain_names[strain_names[strain_name]][6]);

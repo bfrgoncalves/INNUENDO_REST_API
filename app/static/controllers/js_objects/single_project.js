@@ -1039,6 +1039,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        		pipelines_applied[strain_id_to_name[strain_id]].map(function(d, x){
 		        			console.log("BUTTON",d);
 			                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
+
+			                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
 			                //console.log('WN', workflowName);
 
 			                button_n = d.split("id")[1].split('"')[1];
@@ -1549,8 +1551,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			console.log(strain_to_real_pip, strains_dict);
 			if(Object.keys(strain_to_real_pip).length == 0){
 				button_nout = button_class.split('&&')[1].split("_")
-
-				real_p_data = [CURRENT_PROJECT_ID, button_nout[button_nout.length-1], button_nout[button_nout.length-2]]
+				console.log(button_class_to_pipeline);
+				real_p_data = [CURRENT_PROJECT_ID, button_class_to_pipeline[button_class], button_nout[button_nout.length-2]]
 			}
 			else real_p_data = strain_to_real_pip[strains_dict[buttons_to_strain_names[button_id]]][button_position-1];
 			console.log(real_p_data);

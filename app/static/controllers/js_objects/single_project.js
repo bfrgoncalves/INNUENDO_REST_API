@@ -928,7 +928,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        }
 		        //onclick="showCombinedReports(this)"
 		        //console.log(pip_start_id, pipelines_applied);
+
 		        if(mode == 'new'){
+
+		        	//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
+		        	$("." +proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&').css({"display":"none"});
+
 		        	
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
 	        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>'+
@@ -936,7 +941,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					//'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="showCombinedReports(this)"><a href="#">Add to Active Report</a></li>'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>'+
-					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
+					'<li style="display:block;" class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
 
 		        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>';
 			        
@@ -1625,6 +1630,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 									}
 									else pipelines_type_by_strain[strain_names[index]][2] = last_process;
 								}
+							}
+							else{
+								//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED. CHANGE REMOVED TAG FROM THE PREVIOUS TO BLOCK
+								index_of_removed = pipelines_applied[strain_names[index]][pipeline].indexOf(class_n);
+		        				$("." +pipelines_applied[strain_names[index]][pipeline][index_of_removed-1]).css({"display":"block"});
+
 							}
 						}
 						pipelines_applied[strain_names[index]] = new_pipapplied;

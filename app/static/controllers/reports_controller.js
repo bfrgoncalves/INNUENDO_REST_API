@@ -208,17 +208,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		})
 	});
 
-	$('#missing_data_checkbox').on("click", function(){
-		console.log("entrou");
-		if($("#missing_data_checkbox").is(":checked")){
-			console.log("checked");
-			$('#missing_data_character_div').css({"display":"block"});
-
-		}
-		else $('#missing_data_character_div').css({"display":"none"});
-	});
-
-
 	var objects_utils = new Objects_Utils();
 
 	//to be transfered when report is saved
@@ -1122,6 +1111,19 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		        $(".selectpicker").selectpicker("refresh");
 
 		        $('#sendToPHYLOViZModal').modal('show');
+
+		        setTimeout(function(){
+		        	$('#missing_data_checkbox').off("click");
+		        	$('#missing_data_checkbox').on("click", function(){
+						console.log("entrou");
+						if($("#missing_data_checkbox").is(":checked")){
+							console.log("checked");
+							$('#missing_data_character_div').css({"display":"block"});
+
+						}
+						else $('#missing_data_character_div').css({"display":"none"});
+					});
+		        }, 500);
 
 			});
 		}

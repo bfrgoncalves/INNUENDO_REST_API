@@ -1672,10 +1672,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				        strain_data[i]['Analysis'] = toAdd_analysis;
 
-				        var table = $("#strains_table").DataTable().draw();
-				        modalAlert("Procedure removed", function(){});
-
-
+				        //var table = $("#strains_table").DataTable().draw();
 
 						clearInterval(intervals_running[buttons_to_tasks[sp_name]]);
 						delete current_job_status_color[sp_name];
@@ -1684,8 +1681,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
 			}
+			modalAlert("Procedure removed", function(){});
 			//element.parentElement.parentElement.remove()
-			callback();
+			callback({strains: strain_data, indexes:strain_indexes});
 			//console.log(pipelines_applied);
 
 		},

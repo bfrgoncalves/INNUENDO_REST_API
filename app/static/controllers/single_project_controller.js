@@ -487,8 +487,12 @@ getProcessesLog = function(li){
 }
 
 removeAnalysis = function(li){
-		single_project.remove_analysis(li, function(){
-			
+		single_project.remove_analysis(li, function(strain_results){
+			for(i in strain_results.selected_indexes){
+				global_strains[i] = strain_results.strains[i];
+			}
+			objects_utils.destroyTable('strains_table');
+			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 		});
 	}
 

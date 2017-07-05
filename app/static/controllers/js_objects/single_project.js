@@ -921,6 +921,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        counter++;
 		        //console.log(pipelines_applied)
 		        var pip_start_id = 0;
+		        var last_proc_name = proc_value;
 		        //console.log(pipelines_applied[strain_data[counter]['strainID']])
 		        if(pipelines_applied[strain_data[counter]['strainID']] != undefined && pipelines_applied[strain_data[counter]['strainID']].length != 0){
 		        	button_name_parts_to_use = pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")

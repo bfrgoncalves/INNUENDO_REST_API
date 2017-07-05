@@ -315,6 +315,18 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				protocolTypeURI = dbconAg.createURI(listOrderedProtocolsURI[addedProcesses])
 				indexProp = dbconAg.createURI(namespace=obo, localname="NGS_0000081")
 				indexInt = dbconAg.createLiteral((addedProcesses+1), datatype=XMLSchema.INT)
+
+
+				# get specific process input type and uri
+				queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+listOrderedProcessTypes[addedProcesses]+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002233>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(id2)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
+				print queryString
+				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+				result5 = tupleQuery.evaluate()
+				jsonResult2=parseAgraphQueryRes(result5,["messageURI"])
+				result5.close()
+
+				for results in jsonResult2:
+					prevMessageURI=dbconAg.createURI(results["messageURI"].replace('"', ''))
 				
 				#add process and link to pipeline
 				dbconAg.add(processURI, RDF.TYPE, processTypeURI)
@@ -328,7 +340,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
 				dbconAg.add(processURI, hasInputRel, prevMessageURI)
 				
-				prevMessageURI=messageURI
+				#prevMessageURI=messageURI
 				addedProcesses+=1
 				processes_ids.append(processid)
 

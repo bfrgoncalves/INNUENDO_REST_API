@@ -1,7 +1,7 @@
 var get_sp;
 var sh;
 var pcol;
-var global_strains;
+var global_strains, project_col_defs;
 
 innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
@@ -33,7 +33,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
 	sh = strains_headers;
 
-	var project_col_defs = [
+	project_col_defs = [
     	{
             "className":      'select-checkbox',
             "orderable":      false,

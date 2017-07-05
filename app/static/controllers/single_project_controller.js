@@ -472,8 +472,8 @@ showCombinedReports = function(li){
 	single_project.show_combined_reports(li.className);
 }
 
-getProcessesOutputs = function(li, pipeline_id){
-	single_project.get_processes_outputs(li.className, pipeline_id, function(response){
+getProcessesOutputs = function(li){
+	single_project.get_processes_outputs(li.className, function(response){
 		console.log(response);
 		single_project.download_result(response, function(response){
 		})

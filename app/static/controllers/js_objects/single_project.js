@@ -12,6 +12,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     var buttons_to_pipelines = {};
     var buttons_to_processes = {};
+    var button_class_to_pipeline = {};
 
     var strain_to_real_pip = {};
 
@@ -946,7 +947,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        		console.log(pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1]);
 		        	}
 
-		        	console.log(strainID_pipeline);
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
 	        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>'+
 						'<ul class="dropdown-menu" style="position:relative;">'+
@@ -1037,6 +1037,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        		var to_add = false;
 		        		var task_failed = false;
 		        		pipelines_applied[strain_id_to_name[strain_id]].map(function(d, x){
+		        			console.log("BUTTON",d);
 			                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 			                //console.log('WN', workflowName);
 

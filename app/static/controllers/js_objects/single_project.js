@@ -592,7 +592,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 									var appliedWorkflows = [];
 									processed_pip += 1;
 
-									strain_to_real_pip[strain_id] = [];
+									//strain_to_real_pip[strain_id] = [];
 
 						            for (w in response.data){
 						            	var wf_url_parts = [];
@@ -607,7 +607,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						                wf_url_parts.push(parts[8]);
 						                //process
 						                wf_url_parts.push(parts[10]);
-						                strain_to_real_pip[strain_id].push(wf_url_parts);
+						                //strain_to_real_pip[strain_id].push(wf_url_parts);
 						            }
 						            //console.log(strain_to_real_pip);
 						            //appliedWorkflows = appliedWorkflows.reverse();

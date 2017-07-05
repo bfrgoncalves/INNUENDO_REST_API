@@ -301,7 +301,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 					}
 					prevtaskid = task_id;
-					if(status == 'COMPLETED' || status == 'WARNING') clearInterval(intervals_running[this_job_id]);
+					if(status == 'COMPLETED' || status == 'WARNING' || status == 'FAILED') clearInterval(intervals_running[this_job_id]);
 
 				}
 				else{
@@ -1063,7 +1063,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                			}
 
 			                			if(pipelines_type_by_strain[strain_id_to_name[strain_id]][2] != undefined) pipelines_type_by_strain[strain_id_to_name[strain_id]][2] = undefined;
-			                			console.log(pipeline_to_use, workflow_ids, steps);
+			                			//console.log(pipeline_to_use, workflow_ids, steps);
 
 			                			ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
 					                		//console.log(response);
@@ -1083,7 +1083,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                		});
 			                	}
 			                	else{
-			                		console.log(pipeline_to_use, workflow_ids, steps);
+			                		//console.log(pipeline_to_use, workflow_ids, steps);
 			                		ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
 				                		//console.log(response);
 					                	if(response.status == 200){
@@ -1190,13 +1190,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        			dict_strain_names[strain_names[strain_name]].push({});
 
 	        			count_pipelines_applied = 0;
-	        			console.log("PIPELINES AP", pipelines_applied);
+	        			//console.log("PIPELINES AP", pipelines_applied);
 
 			        	for(p in pipelines_applied[strain_names[strain_name]]){
 			        		//console.log(pipelines_applied, pipelines_applied[strain_names[strain_name]]);
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
 
-			        		console.log(pi_name, buttons_to_tasks,buttons_to_tasks[pi_name]);
+			        		//console.log(pi_name, buttons_to_tasks,buttons_to_tasks[pi_name]);
 			        		
 			        		//console.log(strain_names, strain_name, pi_name, dict_strain_names);
 			        		//console.log(buttons_to_tasks);			        		
@@ -1211,7 +1211,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		}
 
-			        		console.log(dict_strain_names[strain_names[strain_name]][1], pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('>')[1].split('<')[0]);
+			        		//console.log(dict_strain_names[strain_names[strain_name]][1], pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('>')[1].split('<')[0]);
 				
 				        	//var indexes = '';
 				        	//console.log(dict_strain_names);

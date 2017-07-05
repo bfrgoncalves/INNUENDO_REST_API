@@ -230,10 +230,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
 
-					print "SAJDASJDSKJASDKJ"
 					#print jsonResult
 					todelUri2=jsonResult[0]["obj"]
-					print todelUri2
 					todelUri2 = dbconAg.createURI(todelUri2)
 					dbconAg.remove(todelUri2, None,None)
 
@@ -244,7 +242,6 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					statements = dbconAg.getStatements(todelUri, None, None)
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
-					print jsonResult
 
 					numberOfProcesses -= 1
 

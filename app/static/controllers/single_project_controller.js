@@ -487,6 +487,7 @@ getProcessesLog = function(li){
 }
 
 removeAnalysis = function(li){
+		var objects_utils = new Objects_Utils();
 		single_project.remove_analysis(li, function(strain_results){
 			for(i in strain_results.selected_indexes){
 				global_strains[i] = strain_results.strains[i];

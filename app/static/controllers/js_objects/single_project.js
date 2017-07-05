@@ -1601,7 +1601,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								}
 								for(y in pipelines_type_by_strain[strain_names[index]][1]){
 									if(pipelines_type_by_strain[strain_names[index]][1][y].indexOf(class_n) < 0){
-										console.log("AQUI", class_n)
+										console.log("AQUI", class_n, pipelines_type_by_strain[strain_names[index]][1][y], pipelines_type_by_strain[strain_names[index]][1])
 										new_pipapplied_proc.push(pipelines_type_by_strain[strain_names[index]][1][y]);
 									}
 									

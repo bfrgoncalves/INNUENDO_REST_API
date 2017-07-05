@@ -199,8 +199,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	print file_path_profile
 	print file_path_metadata
 
-
-	if missing_data == True:
+	print missing_data
+	if missing_data == "True":
 		missing_data_to_use = "true"
 	else:
 		missing_data_to_use = "false"

@@ -321,7 +321,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 			
 				$(".new_pipeline_button").on('click', function(){
 					s_id=$(this).attr("strain_id");
-					
+
 					add_strain([strains_dict[$(this).attr("strain_id")]], function(results){
 						if(results.message != undefined){
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
@@ -472,8 +472,8 @@ showCombinedReports = function(li){
 	single_project.show_combined_reports(li.className);
 }
 
-getProcessesOutputs = function(li){
-	single_project.get_processes_outputs(li.className, function(response){
+getProcessesOutputs = function(li, pipeline_id){
+	single_project.get_processes_outputs(li.className, pipeline_id, function(response){
 		console.log(response);
 		single_project.download_result(response, function(response){
 		})

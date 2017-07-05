@@ -946,7 +946,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        		console.log(pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1]);
 		        	}
 
-		        	
+		        	console.log(strainID_pipeline);
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
 	        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>'+
 						'<ul class="dropdown-menu" style="position:relative;">'+

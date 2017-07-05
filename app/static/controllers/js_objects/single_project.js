@@ -981,6 +981,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        if(counter == strain_data.length-1){
 		    		//objects_utils.show_message('project_message_div', 'success', 'Procedure applied.');
 		    		modalAlert('Procedure applied.', function(){});
+		    		console.log("#####")
+		    		console.log(pipelines_type_by_strain);
 		        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
 		        }
 		        //table.cell(selected_indexes[i], -1).data(toAdd).draw(); 

@@ -1547,7 +1547,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			pipeline_id = String(strainID_pipeline[strains_dict[buttons_to_strain_names[button_id]]]);
 			console.log(strain_to_real_pip, strains_dict);
 			if(Object.keys(strain_to_real_pip).length == 0){
-				button_nout = button_class.split('&&')[0].split("_")
+				button_nout = button_class.split('&&')[1].split("_")
 
 				real_p_data = [CURRENT_PROJECT_ID, button_nout[button_nout.length-1], button_nout[button_nout.length-2]]
 			}

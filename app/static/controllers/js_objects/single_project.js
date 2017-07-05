@@ -959,7 +959,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	pipelines_type_by_strain[strain_data[counter]['strainID']] = [[],[]];
 			            pipelines_applied[strain_data[counter]['strainID']] = [];
 			        }
-			        if(String(pipelines_applied[strain_data[counter]['strainID']]).indexOf(proc_value) < 0){
+			        //ALLOW MULTIPLE EQUAL WORKFLOWS
+			        //if(String(pipelines_applied[strain_data[counter]['strainID']]).indexOf(proc_value) < 0){
 			        	try{
 				        	workflow_id_to_name[strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pipelines_applied[strain_data[counter]['strainID']].length + 1) + '_' + CURRENT_PROJECT_ID] = proc_value;
 				        }
@@ -970,7 +971,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        pipelines_applied[strain_data[counter]['strainID']].push(buttonselectedPipeline);
 			        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));
 			        	else if (type_proc == 'analysis_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][1].push(buttonselectedPipeline.replace("&&&", ""));
-			        }
+			        //}
 			        
 			        for(j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	//for(x in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
@@ -1630,7 +1631,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 											class_of_button_remove_to_replace = last_proc_name+'&&'+strain_names[index].replace(/ /g, '_')+"_"+String(count_added_to_new)+ '_' + CURRENT_PROJECT_ID+'&&&';
 								        	class_of_button_remove_to_replace = 'class="'+class_of_button_remove_to_replace+'" onclick="removeAnalysis(this)'
 								        	console.log(class_of_button_remove_to_replace);
-											pipelines_type_by_strain[strain_names[index]][1][y] = pipelines_type_by_strain[strain_names[index]][1][y].replace('style="display:block;" ' + class_of_button_remove_to_replace, 'style="display:none;" ' + class_of_button_remove_to_replace)
+											pipelines_type_by_strain[strain_names[index]][1][y] = pipelines_type_by_strain[strain_names[index]][1][y].replace('style="display:none;" ' + class_of_button_remove_to_replace, 'style="display:block;" ' + class_of_button_remove_to_replace)
 											console.log(pipelines_type_by_strain[strain_names[index]][1][y]);
 										}
 

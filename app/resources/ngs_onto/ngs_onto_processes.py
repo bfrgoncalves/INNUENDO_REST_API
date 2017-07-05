@@ -232,7 +232,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 					print "SAJDASJDSKJASDKJ"
 					#print jsonResult
-					todelUri2=jsonResult["obj"]
+					todelUri2=jsonResult[0]["obj"]
 					dbconAg.remove(todelUri2, None,None)
 
 					#todelUri = dbconAg.createURI(proc_json["StrProc"])

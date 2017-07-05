@@ -1570,6 +1570,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var count_pipeline_ids_last_parent = 0;
 			console.log(pipelines_type_by_strain);
+			console.log(class_n);
+			console.log(pipelines_applied);
 			//var first_time = true;
 
 			for(index in strain_indexes){

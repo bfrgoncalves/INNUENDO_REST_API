@@ -1581,6 +1581,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					//console.log(sp_name, strain_names[index]);
 					count_pipeline_ids_last_parent = 0;
 					//console.log(sp_name, strain_names[index], sp_name.indexOf(strain_names[index]));
+					var stored_added_pipeline = {};
 					if(sp_name.indexOf(strain_names[index].replace(/ /g, "_")) > -1){
 						for (pipeline in pipelines_applied[strain_names[index]]){
 					
@@ -1595,14 +1596,17 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								new_pipapplied.push(pipelines_applied[strain_names[index]][pipeline]);
 								
 								for(x in pipelines_type_by_strain[strain_names[index]][0]){
-									if(pipelines_type_by_strain[strain_names[index]][0][x].indexOf(class_n) < 0){
+									if(pipelines_type_by_strain[strain_names[index]][0][x].indexOf(class_n) < 0 && stored_added_pipeline[y] != true){
 										new_pipapplied_prot.push(pipelines_type_by_strain[strain_names[index]][0][x]);
+										stored_added_pipeline[y] = true;
 									}
 								}
 								for(y in pipelines_type_by_strain[strain_names[index]][1]){
-									if(pipelines_type_by_strain[strain_names[index]][1][y].indexOf(class_n) < 0){
+									if(pipelines_type_by_strain[strain_names[index]][1][y].indexOf(class_n) < 0 && stored_added_pipeline[y] != true){
+
 										console.log("AQUI", class_n, pipelines_type_by_strain[strain_names[index]][1][y], pipelines_type_by_strain[strain_names[index]][1])
 										new_pipapplied_proc.push(pipelines_type_by_strain[strain_names[index]][1][y]);
+										stored_added_pipeline[y] = true;
 									}
 									
 								}

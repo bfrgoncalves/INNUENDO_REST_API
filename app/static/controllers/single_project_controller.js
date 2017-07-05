@@ -1,6 +1,7 @@
 var get_sp;
 var sh;
 var pcol;
+var global_strains;
 
 innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
@@ -79,7 +80,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
     ];
 
-	var global_strains = [];
+	global_strains = [];
 	var global_public_strains = [];
 
 

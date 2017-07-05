@@ -231,7 +231,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 						numberOfProcesses -= 1
 
 
-			print ppropid, ppipid, pprocid
+			'''print ppropid, ppipid, pprocid
 			print '##############################'
 			print parentProcessURI
 			#get output URI from process
@@ -265,7 +265,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			"""print outputURI
 			#print outputURI[0]
 			outputURI = dbconAg.createURI(outputURI[0]['obj'])
-			print outputURI"""
+			print outputURI"""'''
 		print numberOfProcesses, listOrderedProcessTypes
 		
 		if numberOfProcesses >= len(listOrderedProcessTypes):
@@ -297,8 +297,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				strainTypeURI=dbconAg.createURI('http://rdf.ebi.ac.uk/terms/biosd/Sample')
 				dbconAg.add(prevMessageURI, RDF.TYPE, strainTypeURI)
 
-			else:
-				prevMessageURI = dbconAg.createURI(outputURI)
+			"""else:
+				prevMessageURI = dbconAg.createURI(outputURI)"""
 			#prevMessageURI = dbconAg.createURI(namespace=localNSpace+"studies/", localname=str(id2)+"/pipelines/pipeline_"+str(id3)+"/messages/message"+str(2))
 			processes_ids = []
 			print len(listOrderedProcessTypes), addedProcesses

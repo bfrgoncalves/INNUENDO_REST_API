@@ -265,7 +265,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            	if (total_pipelines == global_counter_pipelines) callback({strains:strains});
 	            });
         	}
-        	else console.log(response.statusText);
+        	else{
+        		strain_to_real_pip[strain_id] = [];
+        		console.log(response.statusText);
+        	}
         });
 	}
 

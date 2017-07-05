@@ -196,6 +196,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			rpipid = args.real_pipeline_id
 			ppipid = rpipid
 			ppropid = id
+			pprocid = 0
 			
 
 		else:

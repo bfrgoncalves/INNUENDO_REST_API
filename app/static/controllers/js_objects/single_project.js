@@ -936,7 +936,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	class_of_button_remove = proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&';
 		        	class_of_button_remove = $.trim(class_of_button_remove)
 		        	console.log(class_of_button_remove);
-		        	if(pip_start_id > 0) $("."+class_of_button_remove).css({"display":"none"});
+		        	if(pip_start_id > 0) console.log($("."+class_of_button_remove));//.css({"display":"none"});
 
 		        	
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+

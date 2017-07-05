@@ -1542,6 +1542,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			process_id = String(parseInt(buttons_to_tasks[button_id].split('_')[1]) + 1);
 			button_position = parseInt(button_id.split('_').slice(-2)[0]);
 			pipeline_id = String(strainID_pipeline[strains_dict[buttons_to_strain_names[button_id]]]);
+			console.log(strain_to_real_pip, strains_dict);
 			real_p_data = strain_to_real_pip[strains_dict[buttons_to_strain_names[button_id]]][button_position-1];
 
 			ngs_onto_requests.ngs_onto_request_get_processes_outputs(real_p_data[0], real_p_data[1], real_p_data[2], function(response){
@@ -1625,15 +1626,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								for(y in pipelines_type_by_strain[strain_names[index]][1]){
 									if(pipelines_type_by_strain[strain_names[index]][1][y].indexOf(class_n) < 0 && stored_added_pipeline[y] != true){
 										count_added_to_new += 1;
-										console.log("AQUI", class_n, pipelines_type_by_strain[strain_names[index]][1][y], pipelines_type_by_strain[strain_names[index]][1])
 										if(count_added_to_new == pipelines_applied[strain_names[index]].length - 1){
 											//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
 											last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new-1].split('<li class="')[1].split("&&")[0]
 											class_of_button_remove_to_replace = last_proc_name+'&&'+strain_names[index].replace(/ /g, '_')+"_"+String(count_added_to_new)+ '_' + CURRENT_PROJECT_ID+'&&&';
 								        	class_of_button_remove_to_replace = 'class="'+class_of_button_remove_to_replace+'" onclick="removeAnalysis(this)'
-								        	console.log(class_of_button_remove_to_replace);
 											pipelines_type_by_strain[strain_names[index]][1][y] = pipelines_type_by_strain[strain_names[index]][1][y].replace('style="display:none;" ' + class_of_button_remove_to_replace, 'style="display:block;" ' + class_of_button_remove_to_replace)
-											console.log(pipelines_type_by_strain[strain_names[index]][1][y]);
 										}
 
 										new_pipapplied_proc.push(pipelines_type_by_strain[strain_names[index]][1][y]);
@@ -1681,7 +1679,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
 			}
-			modalAlert("Procedure removed", function(){});
+			modalAlert("Procedure removed.", function(){});
 			//element.parentElement.parentElement.remove()
 			callback({strains: strain_data, indexes:strain_indexes});
 			//console.log(pipelines_applied);

@@ -193,6 +193,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		print args.strain_id, type(args.strain_id) 
 		if args.strain_id != "null":
 			strainid=args.strain_id
+			rpipid = args.real_pipeline_id
 		else:
 			ppipid = args.parent_pipeline_id
 			ppropid = args.parent_project_id
@@ -305,7 +306,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			print messageid
 			processid=addedProcesses
 			print listOrderedProcessTypes
-			
+
 			while addedProcesses < len(listOrderedProcessTypes):
 				processid+=1
 				messageid+=1

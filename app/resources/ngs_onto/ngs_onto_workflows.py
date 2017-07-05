@@ -73,6 +73,8 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["execStep","step"])
 		result.close()
+
+		print jsonResult
 		
 
 		for result in jsonResult:

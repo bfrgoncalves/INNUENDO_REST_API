@@ -130,7 +130,7 @@ def rungoeBURST(args, datasetID, currentRoot): #run the goeBURST algorithm to st
 
 	print 'Running goeBURST...'
 
-	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true' + '&missingchar=' + args.missing_char +'&missings=' + args.missing_data
+	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true' + '&missingchar=0&missings=true'
 
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]

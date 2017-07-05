@@ -1601,6 +1601,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					//console.log(sp_name, strain_names[index], sp_name.indexOf(strain_names[index]));
 					var stored_added_pipeline = {};
 					if(sp_name.indexOf(strain_names[index].replace(/ /g, "_")) > -1){
+						count_added_to_new = 0
 						for (pipeline in pipelines_applied[strain_names[index]]){
 					
 							count_pipeline_ids_last_parent += 1;
@@ -1621,8 +1622,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								}
 								for(y in pipelines_type_by_strain[strain_names[index]][1]){
 									if(pipelines_type_by_strain[strain_names[index]][1][y].indexOf(class_n) < 0 && stored_added_pipeline[y] != true){
-
+										count_added_to_new += 1;
 										console.log("AQUI", class_n, pipelines_type_by_strain[strain_names[index]][1][y], pipelines_type_by_strain[strain_names[index]][1])
+										if(count_added_to_new == pipelines_applied[strain_names[index]] - 1){
+											//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
+											last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new].split('<li class="')[1].split("&&")[0]
+											class_of_button_remove_to_replace = last_proc_name+'&&'+strain_names[index].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&';
+								        	class_of_button_remove_to_replace = 'class="'+class_of_button_remove_to_replace+'" onclick="removeAnalysis(this)'
+								        	console.log(class_of_button_remove_to_replace);
+											pipelines_type_by_strain[strain_names[index]][1][y] = pipelines_type_by_strain[strain_names[index]][1][y].replace('style="display:block;" ' + class_of_button_remove_to_replace, 'style="display:none;" ' + class_of_button_remove_to_replace)
+											console.log(pipelines_type_by_strain[strain_names[index]][1][y]);
+										}
+
 										new_pipapplied_proc.push(pipelines_type_by_strain[strain_names[index]][1][y]);
 										stored_added_pipeline[y] = true;
 									}
@@ -1639,13 +1650,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 									}
 									else pipelines_type_by_strain[strain_names[index]][2] = last_process;
 								}
-							}
-							else{
-								//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED. CHANGE REMOVED TAG FROM THE PREVIOUS TO BLOCK
-								console.log(pipelines_applied[strain_names[index]][pipeline-1].split('<li class="')[1].split('"')[0]);
-
-		        				if(pipeline-1 > 0) $("." +pipelines_applied[strain_names[index]][pipeline-1].split('<li class="')[1].split('"')[0]).css({"display":"block"});
-
 							}
 						}
 						pipelines_applied[strain_names[index]] = new_pipapplied;

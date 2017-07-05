@@ -1406,10 +1406,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						    	//console.log(pipelines_applied[s_name]);
 						    	//console.log(pipelines_applied, pipelines_applied[s_name]);
 						    	for(j in pipelines_applied[s_name]){
-						    			console.log(pipelines_applied[s_name][j], s_name, pipelines_applied);
+						    			//console.log(pipelines_applied[s_name][j], s_name, pipelines_applied);
 						    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
-						    			console.log(pipeline_id);
-						    			console.log(buttons_to_tasks);
+						    			//console.log(pipeline_id);
+						    			//console.log(buttons_to_tasks);
 						    			if(buttons_to_tasks[pipeline_id].indexOf("null")>-1){
 						    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
 						    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");

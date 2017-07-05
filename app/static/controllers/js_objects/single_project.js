@@ -932,7 +932,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        if(mode == 'new'){
 
 		        	//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
-		        	$("." +proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&').css({"display":"none"});
+		        	console.log("."+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&');
+		        	$("."+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&').css({"display":"none"});
 
 		        	
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+

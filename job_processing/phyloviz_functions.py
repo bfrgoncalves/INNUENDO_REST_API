@@ -210,7 +210,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	stdout, stderr = proc.communicate()
 
-	print stdout
+	print stdout, stderr
 
 
 	if "http" in stdout:

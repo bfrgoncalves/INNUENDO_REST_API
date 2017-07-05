@@ -20,7 +20,7 @@ index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.ind
 headers_correspondece = {"E.coli":"./chewbbaca_database_profiles/profiles_headers/ecoli.txt"}
 '''
 
-def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id):
+def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id, missing_data, missing_char):
 
 	file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
 	file_path_profile = './app/uploads/'+file_name+'_profile.tab'
@@ -199,7 +199,11 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	print file_path_profile
 	print file_path_metadata
 
-	command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l';
+
+
+
+
+	command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l' + '--missing_data ' + missing_data + '--missing_char ' + missing_char;
 	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 	command = command.split(' ')
 

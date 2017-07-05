@@ -208,6 +208,14 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		})
 	});
 
+	$('#missing_data_checkbox').on("change", function(){
+		if((missing_data_checkbox).is(":checked")){
+			$('#missing_data_character').css({"display":"block"});
+
+		}
+		else $('#missing_data_character').css({"display":"none"});
+	});
+
 
 	var objects_utils = new Objects_Utils();
 

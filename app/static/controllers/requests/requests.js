@@ -817,7 +817,9 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	additional_data: JSON.stringify(global_additional_data),
 		        	max_closest: $("#closest_number_of_strains").val(),
 		        	database_to_include: $("#species_database option:selected").text(),
-		        	species_id: species_id
+		        	species_id: species_id,
+		        	missing_data: $('#missing_data_checkbox').is(":checked"),
+		        	missing_char: $('#missing_data_character').val()
 		    	}
 		    }
 		    

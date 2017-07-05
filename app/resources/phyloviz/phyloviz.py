@@ -35,6 +35,8 @@ phyloviz_post_parser.add_argument('dataset_description', dest='dataset_descripti
 phyloviz_post_parser.add_argument('additional_data', dest='additional_data', type=str, required=True, help="additional metadata")
 phyloviz_post_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=False, default="None", help="Database to include on the analysis if required")
 phyloviz_post_parser.add_argument('max_closest', dest='max_closest', type=str, required=False, default="None", help="Maximum number of database strains to include")
+phyloviz_post_parser.add_argument('missing_data', dest='missing_data', type=str, required=False, default="None", help="If has missing data")
+phyloviz_post_parser.add_argument('missing_char', dest='missing_char', type=str, required=False, default="None", help="missing character")
 #Load job results to display on graphical interface
 
 #Defining get arguments parser
@@ -53,7 +55,7 @@ class PHYLOViZResource(Resource):
 	@login_required
 	def post(self):
 		args=phyloviz_post_parser.parse_args()
-		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id, args.species_id)
+		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id, args.species_id, args.missing_data, args.missing_char)
 		print jobID
 		return jobID, 201
 

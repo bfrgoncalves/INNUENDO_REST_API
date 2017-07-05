@@ -22,6 +22,8 @@ def main():
 	parser.add_argument('-m', nargs='?', type=str, help="Metadata", required=False)
 	parser.add_argument('-d', nargs='?', type=str, help="Dataset name", required=True)
 	parser.add_argument('-dn', nargs='?', type=str, help="Description", required=False)
+	parser.add_argument('--missing_data', nargs='?', type=str, help="Has missing data", required=False, default="true")
+	parser.add_argument('--missing_char', nargs='?', type=str, help="Missing character", required=False, default="0")
 
 	args = parser.parse_args()
 
@@ -128,7 +130,7 @@ def rungoeBURST(args, datasetID, currentRoot): #run the goeBURST algorithm to st
 
 	print 'Running goeBURST...'
 
-	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true'
+	bashCommand = 'curl --cookie jarfile -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true' + '&missingchar=' + args.missing_char +'&missings=' + args.missing_data
 
 	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
 	output = process.communicate()[0]

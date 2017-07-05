@@ -304,6 +304,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			print len(listOrderedProcessTypes), addedProcesses
 			print messageid
 			processid=addedProcesses
+			print listOrderedProcessTypes
+			
 			while addedProcesses < len(listOrderedProcessTypes):
 				processid+=1
 				messageid+=1
@@ -348,7 +350,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			print processes_ids
 		
 			return processes_ids
-		except:
+		except Exception as e:
+			print e
 			return 404
 
 	def delete(self, id):

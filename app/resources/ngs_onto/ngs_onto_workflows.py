@@ -86,9 +86,10 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 			print step
 			step_converted = map(int, step)
 			print step_converted
-			print aux2.replace('"', '')
+			print int(aux2.replace('"', ''))
 
-			if aux2.replace('"', '') in step_converted:
+			if int(aux2.replace('"', '')) in step_converted:
+				print "ENTROU", aux1
 				toremove=dbconAg.createURI(aux1)
 				dbconAg.remove(None,None,toremove)
 				dbconAg.remove(toremove,None,None)

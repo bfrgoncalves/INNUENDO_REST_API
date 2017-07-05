@@ -209,7 +209,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	});
 
 	$('#missing_data_checkbox').on("click", function(){
-		if(("#missing_data_checkbox").is(":checked")){
+		if($("#missing_data_checkbox").is(":checked")){
 			$('#missing_data_character').css({"display":"block"});
 
 		}

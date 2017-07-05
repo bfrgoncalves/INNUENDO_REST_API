@@ -231,7 +231,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					statements.close()
 
 					print "SAJDASJDSKJASDKJ"
-					print jsonresult
+					print jsonResult
 					#todelUri2=jsonresult
 					#dbconAg.remove(todelUri2, None,None)
 

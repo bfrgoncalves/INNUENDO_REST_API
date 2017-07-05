@@ -1659,6 +1659,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;
 						pipelines_type_by_strain[strain_names[index]][1] = new_pipapplied_proc;
 
+
+						toAdd_lab_protocols = ""
+						toAdd_analysis = ""
 						//UPDATE WORKFLOWS
 						for(j in pipelines_type_by_strain[strain_names[index]]){
 			        		//for(x in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){

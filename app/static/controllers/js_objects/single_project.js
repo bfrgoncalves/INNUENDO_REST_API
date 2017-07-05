@@ -939,7 +939,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	console.log(class_of_button_remove_to_replace);
 		        	if(pip_start_id > 0){
 		        		console.log(pipelines_type_by_strain[strain_data[counter]['strainID']][1]);
-		        		pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1] = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].replace(class_of_button_remove_to_replace, 'style="display:none;" ' + class_of_button_remove_to_replace)
+		        		pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1] = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].replace('style="display:block;" ' + class_of_button_remove_to_replace, 'style="display:none;" ' + class_of_button_remove_to_replace)
 		        		console.log(pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1]);
 		        	}
 

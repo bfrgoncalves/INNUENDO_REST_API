@@ -933,7 +933,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        	//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
 		        	console.log("."+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&');
-		        	if(pip_start_id > 1) $("."+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&').css({"display":"none"});
+		        	class_of_button_remove = proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&';
+		        	if(pip_start_id > 1) $("."+class_of_button_remove).css({"display":"none"});
 
 		        	
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
@@ -1634,7 +1635,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							}
 							else{
 								//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED. CHANGE REMOVED TAG FROM THE PREVIOUS TO BLOCK
-								console.log(pipeline-1);
 								console.log(pipelines_applied[strain_names[index]][pipeline-1].split('<li class="')[1].split('"')[0]);
 
 		        				if(pipeline-1 > 0) $("." +pipelines_applied[strain_names[index]][pipeline-1].split('<li class="')[1].split('"')[0]).css({"display":"block"});

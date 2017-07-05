@@ -1635,6 +1635,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							else{
 								//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED. CHANGE REMOVED TAG FROM THE PREVIOUS TO BLOCK
 								console.log(pipeline-1);
+								console.log(pipelines_applied[strain_names[index]][pipeline-1]);
 
 		        				if(pipeline-1 > 0) $("." +pipelines_applied[strain_names[index]][pipeline-1]).css({"display":"block"});
 

@@ -200,10 +200,13 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	print file_path_metadata
 
 
+	if missing_data == True:
+		missing_data_to_use = "true"
+	else:
+		missing_data_to_use = "false"
 
 
-
-	command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l' + ' --missing_data ' + missing_data + ' --missing_char ' + missing_char;
+	command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l' + ' --missing_data ' + missing_data_to_use + ' --missing_char ' + missing_char;
 	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 	command = command.split(' ')
 

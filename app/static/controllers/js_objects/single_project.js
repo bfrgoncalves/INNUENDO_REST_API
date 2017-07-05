@@ -1580,6 +1580,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			//console.log(element, element.parentElement.parentElement.remove(), pipelines_applied);
 			var strain_indexes = $.map($('#strains_table').DataTable().rows().indexes(), function(index){ return index; });
 			var strain_names = $.map($('#strains_table').DataTable().rows().data(), function(item){ console.log(item);return item.strainID; });
+			var strain_data = $.map($('#strains_table').DataTable().rows().data(), function(item){ return item; });
 			
 			var new_pipapplied = [];
 			var new_pipapplied_prot = [];
@@ -1658,6 +1659,21 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;
 						pipelines_type_by_strain[strain_names[index]][1] = new_pipapplied_proc;
 
+						//UPDATE WORKFLOWS
+						for(j in pipelines_type_by_strain[strain_names[index]]){
+			        		//for(x in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
+				        	if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j];
+		        			else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j];
+				        	//}  //toAdd += pipelines_applied[strain_data[counter]['strainID']][j];
+				        }
+
+				        strain_data[i]['Analysis'] = toAdd_analysis;
+
+				        var table = $("#strains_table").DataTable().draw();
+				        modalAlert("Procedure removed", function(){});
+
+
+
 						clearInterval(intervals_running[buttons_to_tasks[sp_name]]);
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
@@ -1665,7 +1681,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
 			}
-			element.parentElement.parentElement.remove()
+			//element.parentElement.parentElement.remove()
 			callback();
 			//console.log(pipelines_applied);
 

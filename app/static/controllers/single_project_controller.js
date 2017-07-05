@@ -488,6 +488,7 @@ getProcessesLog = function(li){
 
 removeAnalysis = function(li){
 		single_project.remove_analysis(li, function(){
+			
 		});
 	}
 

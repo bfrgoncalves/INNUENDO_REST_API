@@ -84,8 +84,11 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 			print aux1
 			print aux2
 			print step
+			step_converted = map(int, step)
+			print int(aux2)
+			print step_converted
 
-			if aux2 in step:
+			if int(aux2) in step_converted:
 				toremove=dbconAg.createURI(aux1)
 				dbconAg.remove(None,None,toremove)
 				dbconAg.remove(toremove,None,None)

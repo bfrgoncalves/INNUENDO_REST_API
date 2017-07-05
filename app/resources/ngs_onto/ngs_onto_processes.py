@@ -209,31 +209,31 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 
 
-			print ppipid, rpipid
-			if ppipid == rpipid:
-				print procJsonResult
-				for proc_json in procJsonResult:
-					if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
-						#print "PASSOU AQUI"
-						#print proc_json["StrProc"]
+		print ppipid, rpipid
+		if ppipid == rpipid:
+			print procJsonResult
+			for proc_json in procJsonResult:
+				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
+					#print "PASSOU AQUI"
+					#print proc_json["StrProc"]
 
-						todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
-						#print todelUri
-						statements = dbconAg.getStatements(todelUri, None, None)
-						jsonResult=parseAgraphStatementsRes(statements)
-						statements.close()
-						print jsonResult
+					todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
+					#print todelUri
+					statements = dbconAg.getStatements(todelUri, None, None)
+					jsonResult=parseAgraphStatementsRes(statements)
+					statements.close()
+					print jsonResult
 
-						#todelUri = dbconAg.createURI(proc_json["StrProc"])
-						dbconAg.remove(todelUri, None,None)
-						dbconAg.remove(None, None, todelUri)
+					#todelUri = dbconAg.createURI(proc_json["StrProc"])
+					dbconAg.remove(todelUri, None,None)
+					dbconAg.remove(None, None, todelUri)
 
-						statements = dbconAg.getStatements(todelUri, None, None)
-						jsonResult=parseAgraphStatementsRes(statements)
-						statements.close()
-						print jsonResult
+					statements = dbconAg.getStatements(todelUri, None, None)
+					jsonResult=parseAgraphStatementsRes(statements)
+					statements.close()
+					print jsonResult
 
-						numberOfProcesses -= 1
+					numberOfProcesses -= 1
 
 
 			'''print ppropid, ppipid, pprocid

@@ -209,11 +209,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	});
 
 	$('#missing_data_checkbox').on("click", function(){
+		console.log("entrou");
 		if($("#missing_data_checkbox").is(":checked")){
-			$('#missing_data_character').css({"display":"block"});
+			console.log("checked");
+			$('#missing_data_character_div').css({"display":"block"});
 
 		}
-		else $('#missing_data_character').css({"display":"none"});
+		else $('#missing_data_character_div').css({"display":"none"});
 	});
 
 

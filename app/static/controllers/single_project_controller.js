@@ -459,7 +459,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		single_project.remove_strains_from_project(global_strains, function(strains_results){
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
-			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, sh);
 			//modalAlert("Strains were removed from the project.", function(){});
 		});
 	}

@@ -334,6 +334,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 				for results in jsonResult2:
 					prevMessageURI=dbconAg.createURI(results["messageURI"].replace('"', ''))
+
+				print "PREV MESSAGE", prevMessageURI
 				
 				#add process and link to pipeline
 				dbconAg.add(processURI, RDF.TYPE, processTypeURI)

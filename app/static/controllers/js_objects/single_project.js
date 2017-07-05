@@ -1634,8 +1634,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							}
 							else{
 								//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED. CHANGE REMOVED TAG FROM THE PREVIOUS TO BLOCK
-								index_of_removed = pipelines_applied[strain_names[index]][pipeline].indexOf(class_n);
-		        				if(index_of_removed-1 > 0) $("." +pipelines_applied[strain_names[index]][pipeline][index_of_removed-1]).css({"display":"block"});
+								console.log(pipeline-1);
+
+		        				if(pipeline-1 > 0) $("." +pipelines_applied[strain_names[index]][pipeline-1]).css({"display":"block"});
 
 							}
 						}

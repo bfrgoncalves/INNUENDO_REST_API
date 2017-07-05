@@ -925,6 +925,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        if(pipelines_applied[strain_data[counter]['strainID']] != undefined && pipelines_applied[strain_data[counter]['strainID']].length != 0){
 		        	button_name_parts_to_use = pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
 		        	pip_start_id = parseInt(button_name_parts_to_use[button_name_parts_to_use.length-2]);
+		        	last_proc_name = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].split('<li class="')[1].split("&&")[0]
 		        }
 		        //onclick="showCombinedReports(this)"
 		        //console.log(pip_start_id, pipelines_applied);
@@ -932,9 +933,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        if(mode == 'new'){
 
 		        	//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
-
-		        	last_proc_name = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].split('<li class="')[1].split("&&")[0]
-		        	
 		        	class_of_button_remove_to_replace = last_proc_name+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&';
 		        	class_of_button_remove_to_replace = 'class="'+class_of_button_remove_to_replace+'" onclick="removeAnalysis(this)'
 		        	console.log(class_of_button_remove_to_replace);

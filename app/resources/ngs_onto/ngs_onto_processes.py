@@ -343,6 +343,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				#create output and input/output link messages to process
 				dbconAg.add(messageURI, RDF.TYPE, messageTypeURI)
 				dbconAg.add(processURI, hasOutputRel, messageURI)
+				print "PROTOCOL TYPES", protocolTypeURI, listOrderedProtocolsURI
 				dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
 				dbconAg.add(processURI, hasInputRel, prevMessageURI)
 				

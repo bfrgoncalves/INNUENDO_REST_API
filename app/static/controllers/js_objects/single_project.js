@@ -1543,7 +1543,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			button_position = parseInt(button_id.split('_').slice(-2)[0]);
 			pipeline_id = String(strainID_pipeline[strains_dict[buttons_to_strain_names[button_id]]]);
 			console.log(strain_to_real_pip, strains_dict);
-			real_p_data = strain_to_real_pip[strains_dict[buttons_to_strain_names[button_id]]][button_position-1];
+			if(Object.keys(strain_to_real_pip).length == 0){
+				button_nout = button_class.split('&&')[0].split("_")
+
+				real_p_data = [CURRENT_PROJECT_ID, button_nout[button_nout.length-1], button_nout[button_nout.length-2]]
+			}
+			else real_p_data = strain_to_real_pip[strains_dict[buttons_to_strain_names[button_id]]][button_position-1];
+			console.log(real_p_data);
 
 			ngs_onto_requests.ngs_onto_request_get_processes_outputs(real_p_data[0], real_p_data[1], real_p_data[2], function(response){
 				callback(response);

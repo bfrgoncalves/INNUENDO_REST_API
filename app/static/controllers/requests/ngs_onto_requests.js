@@ -114,7 +114,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		},
 		//////////////// Single Project Requests /////////////////////////////////////////
 		ngs_onto_request_applied_pipelines: function(pipeline_id, project_id, strain_id, callback){
-			console.log(project_id, pipeline_id);
+			//console.log(project_id, pipeline_id);
 			req = {
 		            url: 'api/v1.0/ngsonto/projects/'+project_id+'/pipelines/'+pipeline_id+'/workflows/',
 		            method:'GET'

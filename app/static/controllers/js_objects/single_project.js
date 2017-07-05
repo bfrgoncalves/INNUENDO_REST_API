@@ -998,6 +998,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    count_finished = 0;
 		    pipeline_ids = [];
 
+		    console.log("PIPELINES_APPLIED", pipelines_applied)
+
 		    for(i in selected_indexes){
 		        create_pipeline(strains[selected_indexes[i]].strainID, function(strain_id, pipeline_id){
 		        	strainID_pipeline[strain_id] = pipeline_id;
@@ -1632,7 +1634,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];
-						console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain);
+						console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
 			}
 			element.parentElement.parentElement.remove()

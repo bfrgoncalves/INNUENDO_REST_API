@@ -95,7 +95,9 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 
 	$scope.modifyStrains = function(){
 		strain_selected = [];
+		
 		var strain_selected = $.map($('#modify_strains_table').DataTable().rows('.selected').data(), function(item){
+			console.log(item);
 	        return item;
 	    });
 	    console.log(strain_selected);
@@ -109,6 +111,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    var strain_id_in_use = strain_selected[0].id;
 
 	    for(key in strain_selected[0]){
+	    	console.log(key);
 	    	$('#'+key).val(strain_selected[0][key]);
 	    }
 	    $('#modifyStrainModal').modal("show");

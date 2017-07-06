@@ -1173,12 +1173,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		count_processes += 1;
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
 			        	
-			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] != "COMPLETED" && count_processes != 1){
+			        		if((dict_of_tasks_status[buttons_to_tasks[pip_name]] != "COMPLETED" && count_processes != 1) && (dict_of_tasks_status[buttons_to_tasks[pip_name]] != "FAILED" && count_processes != 1) && (dict_of_tasks_status[buttons_to_tasks[pip_name]] != "WARNING" && count_processes != 1)){
 			        			lastprocess = count_processes-1;
 			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_names[i]]];
 			        		}
 
-			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED") has_completed = true;
+			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING") has_completed = true;
 
 			        	}
 			        	if(lastprocess != "" && has_completed == true){
@@ -1655,7 +1655,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								var pip_name = pipelines_applied[strain_names[index]][pipeline].split("id")[1].split('"')[1];
 
 								console.log(pip_name, buttons_to_tasks);
-								if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED"){
+								if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING"){
 									if(pipelines_type_by_strain[strain_names[index]][2] == undefined){
 										console.log(last_process)
 										pipelines_type_by_strain[strain_names[index]].push(last_process);

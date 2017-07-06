@@ -51,8 +51,8 @@ def main():
 	if not "datasetID" in dataset:
 		sys.exit()
 
-	if dataset["numberOfProfiles"] > 300 or dataset["profileLength"] > 100:
-		onqueue = 'true'
+	#if dataset["numberOfProfiles"] > 300 or dataset["profileLength"] > 100:
+	#	onqueue = 'true'
 	
 	goe_message = rungoeBURST(args, dataset['datasetID'], currentRoot, onqueue)
 

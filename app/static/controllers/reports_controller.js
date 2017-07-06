@@ -957,6 +957,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				process_report_data(identifier, response.data[job].report_data, response.data[job].sample_name, response.data[job].procedure_name, job, function(results, job_to_use){
 					
+					console.log("AQUI");
 					count_jobs += 1;
 
 					results[0]['job_id'] = response.data[job_to_use].job_id;

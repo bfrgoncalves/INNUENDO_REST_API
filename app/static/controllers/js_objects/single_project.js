@@ -1345,11 +1345,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			countstrains = 0;
 			count_processes = 0;
 
-			console.log('AQUI');
+			//console.log('AQUI');
 
 			var countStrain = {};
-			console.log(strain_to_real_pip);
-			console.log(strains);
+			//console.log(strain_to_real_pip);
+			//console.log(strains);
 			if (strains.length == 0) return callback({strains:[]});
 			for(i in strains){
 				//array_of_strains.push(strains[i]);
@@ -1368,8 +1368,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
 						strain_id = strain_id.trim();
-						console.log("###############");
-						console.log(response);
+						//console.log("###############");
+						//console.log(response);
 
 						//console.log(pr_ids);
 						for(l in response.data){
@@ -1682,6 +1682,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        			else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j];
 				        	//}  //toAdd += pipelines_applied[strain_data[counter]['strainID']][j];
 				        }
+
+				        console.log("ANALYSIS",toAdd_analysis);
 
 				        strain_data[i]['Analysis'] = toAdd_analysis;
 

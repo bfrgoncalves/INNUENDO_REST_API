@@ -1409,6 +1409,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						    	for(j in pipelines_applied[s_name]){
 						    			//console.log(pipelines_applied[s_name][j], s_name, pipelines_applied);
 						    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
+						    			console.log(pipeline_id);
+						    			console.log(buttons_to_tasks);
 						    			//console.log(pipeline_id);
 						    			//console.log(buttons_to_tasks);
 						    			if(buttons_to_tasks[pipeline_id].indexOf("null")>-1){

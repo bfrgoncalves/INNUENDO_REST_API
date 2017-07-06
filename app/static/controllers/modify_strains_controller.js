@@ -116,6 +116,8 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    }
 	    $('#modifyStrainModal').modal("show");
 
+	    $('#update_metadata_button').off("click");
+	    
 	    $('#update_metadata_button').on("click", function(){
 	    	updateMetadata(strain_id_in_use);
 	    });

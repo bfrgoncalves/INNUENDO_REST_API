@@ -114,7 +114,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			strain = db.session.query(Strain).filter(Strain.name == report.sample_name).first()
 
 			strain_metadata = json.loads(strain.strain_metadata)
-
 			if first_time_m == True:
 				for x in strain_metadata:
 					if x == "fileselector":
@@ -129,7 +128,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			first_time_m = False
 			
 			straind = [report.sample_name]
-			for x in strain_metadata:
+			print strain_metadata
+			for x in headers_metadata:
 				if x == "fileselector":
 					continue
 				else:
@@ -168,7 +168,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			else:
 				strain_metadata = strain_from_db.strain_metadata
 
-			print "HEADERS", len(headers_metadata)
+			#print "HEADERS", len(headers_metadata)
 			for x in headers_metadata:
 				try:
 					if x == "ID":
@@ -182,7 +182,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				except Exception as e:
 					string_metadata.append("")
 
-			print "METADATA",len(string_metadata)
+			#print "METADATA",len(string_metadata)
 			all_metadata.append('\t'.join(string_metadata))
 
 

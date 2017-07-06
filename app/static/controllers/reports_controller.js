@@ -1005,9 +1005,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				function reports_last_steps(){
 
-					if(count_jobs == total_jobs) {
+					if(count_jobs == total_jobs && problematic_jobs.length != total_jobs) {
 						procedure_to_show = Object.keys(global_results_dict)[0];
-						
 						run_infos=global_results_dict[procedure_to_show][0];
 						run_results=global_results_dict[procedure_to_show][1];
 
@@ -1111,9 +1110,21 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							callback();
 						
 						}, 500);
-						
-						
+					}
+					else{
+						$('#waiting_spinner').css({display:'none'}); 
+						$('#reports_container').css({display:"block"});
 
+						modal_alert_message = 'There is a problem with the analysis from this project.';
+						if(problematic_jobs.length > 0){
+							modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
+							for(pj in problematic_jobs){
+								modal_alert_message += problematic_jobs[pj] + ", ";
+							}
+							modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
+							modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
+						}
+						modalAlert(modal_alert_message, function(){});
 					}
 				}
 

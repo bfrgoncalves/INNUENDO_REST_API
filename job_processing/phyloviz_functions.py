@@ -124,6 +124,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				for key, val in additional_data[str(count_ids)].iteritems():
 					headers_metadata.append(key)
 				headers_metadata.append("Platform tag")
+				headers_metadata.append("Classifier")
 
 			first_time_m = False
 			
@@ -136,7 +137,11 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			for key, val in additional_data[str(count_ids)].iteritems():
 				straind.append(val)
 			straind.append("FP")
-
+			strain_at_db_but_clicked = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == report.sample_name).first()
+			if strain_at_db_but_clicked:
+				straind.append(strain_at_db_but_clicked.classifier)
+			else:
+				straind.append("undefined")
 			all_metadata.append('\t'.join(straind))
 
 		count_ids += 1

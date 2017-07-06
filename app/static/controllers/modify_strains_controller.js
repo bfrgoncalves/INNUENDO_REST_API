@@ -111,13 +111,12 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	    var strain_id_in_use = strain_selected[0].id;
 
 	    for(key in strain_selected[0]){
-	    	console.log(key);
 	    	$('#'+key).val(strain_selected[0][key]);
 	    }
 	    $('#modifyStrainModal').modal("show");
 
 	    $('#update_metadata_button').off("click");
-	    
+
 	    $('#update_metadata_button').on("click", function(){
 	    	updateMetadata(strain_id_in_use);
 	    });

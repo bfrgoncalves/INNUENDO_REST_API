@@ -181,6 +181,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				except Exception as e:
 					string_metadata.append("")
 
+			print len(string_metadata)
 			all_metadata.append('\t'.join(string_metadata))
 
 

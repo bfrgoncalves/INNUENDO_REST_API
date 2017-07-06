@@ -408,7 +408,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			}
 		}
 
-		else if(procedure.indexOf('PathoTyping') > -1){
+		else if(procedure.indexOf('PathoTyping') > -1 || procedure.indexOf('Pathotyping') > -1){
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
 			aux_info["Status"] = "Done";

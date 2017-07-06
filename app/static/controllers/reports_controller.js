@@ -930,12 +930,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			total_jobs = response.data.length;
 			count_jobs = 0;
+			problematic_jobs = []
 
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
-
+				consol.log("LENGTH", Object.keys(response.data[job].report_data).length);
 				if (Object.keys(response.data[job].report_data).length == 0){
-					modalAlert('Failed to load report with job id '+response.data[job].job_id+'.', function(){});
+					problematic_jobs.push(response.data[job].job_id);
 					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
 					count_jobs += 1;
 					continue;
@@ -1076,7 +1077,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 							objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
 							
-							modalAlert('Reports added to the project.', function(){});
+							modal_alert_message = 'Reports added to the project.';
+							if(problematic_jobs.length > 0){
+								modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
+								for(pj in problematic_jobs){
+									modal_alert_message += problematic_jobs[pj] + ", ";
+								}
+								modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
+								modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
+							}
+							modalAlert(modal_alert_message, function(){});
 							//objects_utils.show_message('s_report_message_div', 'success', 'Reports added to the project.')
 							$('#reports_info_table_wrapper').css({'display':'block'});
 							$('#reports_results_table_wrapper').css({'display':'none'});

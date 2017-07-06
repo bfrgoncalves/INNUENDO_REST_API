@@ -843,6 +843,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 								if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
+									console.log(i, global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]]);
 									console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
 									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];

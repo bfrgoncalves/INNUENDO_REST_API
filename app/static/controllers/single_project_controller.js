@@ -458,9 +458,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	$scope.removeStrainsFromProject = function(){
 
 		single_project.remove_strains_from_project(global_strains, function(strains_results){
-			objects_utils.destroyTable('strains_table');
-			global_strains = strains_results.strains;
-			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			if (strains_results == "no_select") modalAlert("Please select a strain to remove.", function(){});
+			else{
+				objects_utils.destroyTable('strains_table');
+				global_strains = strains_results.strains;
+				objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			}
 			//modalAlert("Strains were removed from the project.", function(){});
 		});
 	}

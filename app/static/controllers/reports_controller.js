@@ -1040,7 +1040,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				function reports_last_steps(){
 
-					if(count_jobs == total_jobs && problematic_jobs.length != total_jobs) {
+					if(count_jobs == total_jobs && problematic_jobs.length != total_jobs && already_added_jobs != total_jobs) {
 						procedure_to_show = Object.keys(global_results_dict)[0];
 						run_infos=global_results_dict[procedure_to_show][0];
 						run_results=global_results_dict[procedure_to_show][1];

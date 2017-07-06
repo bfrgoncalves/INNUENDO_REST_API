@@ -934,16 +934,23 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
-				console.log("LENGTH", Object.keys(response.data[job].report_data).length, Object.keys(response.data[job].report_data));
+				console.log("LENGTH", Object.keys(response.data[job].report_data).length, Object.keys(response.data[job].report_data), );
 				if (Object.keys(response.data[job].report_data).length == 0){
 					problematic_jobs.push(response.data[job].job_id);
 					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
 					count_jobs += 1;
 					continue;
 				}
-				
-				if(response.data[job].procedure_name.indexOf("INNUca") > -1) identifier = Object.keys(response.data[job].report_data.run_info)[0];
-				else identifier = "";
+				try{
+					if(response.data[job].procedure_name.indexOf("INNUca") > -1) identifier = Object.keys(response.data[job].report_data.run_info)[0];
+					else identifier = "";
+				}
+				catch(err){
+					problematic_jobs.push(response.data[job].job_id);
+					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
+					count_jobs += 1;
+					continue;
+				}
 
 				//if(identifier == "stats") response.data[job].report_data.shift();
 

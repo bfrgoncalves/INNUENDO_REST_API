@@ -200,8 +200,8 @@ def rungoeBURST(args, datasetID, currentRoot, onqueue): #run the goeBURST algori
 		else:
 			bashCommand = 'curl --cookie '+args.t+' -X GET '+currentRoot+'/api/algorithms/goeBURST?dataset_id='+ datasetID + '&save=true&missings=true&missingchar=' + str(args.mc) + '&analysis_method=' + args.am + '&missing_threshold='+str(missing_T)+'&onqueue=' + onqueue + '&parent_id=' + parent_id
 		
-		process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
-		output = json.loads(process.communicate()[0])
+	process = subprocess.Popen(bashCommand.split(), stdout=subprocess.PIPE)
+	output = json.loads(process.communicate()[0])
 
 	return output
 

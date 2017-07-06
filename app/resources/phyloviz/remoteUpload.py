@@ -185,6 +185,8 @@ def rungoeBURST(args, datasetID, currentRoot, onqueue): #run the goeBURST algori
 	else:
 		parent_id = 'false'
 
+	print onqueue
+
 	if not args.t:
 		login(args, currentRoot)
 		print 'Running goeBURST...'

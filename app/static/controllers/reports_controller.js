@@ -951,6 +951,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				run_identifiers.push(identifier);
 
 				//if(identifier == "stats") continue:
+				console.log(response.data[job].job_id, current_job_ids);
+				console.log("BAH")
 
 				if ($.inArray(response.data[job].job_id, current_job_ids) != -1){
 					count_jobs += 1;

@@ -1000,6 +1000,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				if ($.inArray(response.data[job].job_id, current_job_ids) != -1){
 					count_jobs += 1;
+					reports_last_steps();
 					continue;
 				}
 

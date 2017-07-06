@@ -861,6 +861,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							
 						}
 						else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
+							console.log(global_results_dict, $scope.report_procedures, procedure);
 							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i]);
 							console.log(el);
 							global_additional_data[i] = {};

@@ -934,11 +934,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
-				console.log("LENGTH", Object.keys(response.data[job].report_data).length, Object.keys(response.data[job].report_data), );
+				console.log("LENGTH", Object.keys(response.data[job].report_data).length, Object.keys(response.data[job].report_data));
 				if (Object.keys(response.data[job].report_data).length == 0){
 					problematic_jobs.push(response.data[job].job_id);
 					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
 					count_jobs += 1;
+					reports_last_steps();
 					continue;
 				}
 				try{
@@ -949,6 +950,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					problematic_jobs.push(response.data[job].job_id);
 					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
 					count_jobs += 1;
+					reports_last_steps();
 					continue;
 				}
 
@@ -995,6 +997,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					if ($scope.report_procedures.indexOf(response.data[job_to_use].procedure_name.replace(/ /g,"_")) < 0 && response.data[job_to_use].procedure_name != null){
 						$scope.report_procedures.push(response.data[job_to_use].procedure_name.replace(/ /g,"_"));
 					}
+
+					reports_last_steps();
+
+					
+				});
+
+				function reports_last_steps(){
 
 					if(count_jobs == total_jobs) {
 						procedure_to_show = Object.keys(global_results_dict)[0];
@@ -1106,7 +1115,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						
 
 					}
-				});
+				}
 
 			}
 			

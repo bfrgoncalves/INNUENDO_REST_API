@@ -174,6 +174,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						string_metadata.append(strain_from_db.name)
 					elif x == "Platform tag":
 						string_metadata.append(strain_from_db.platform_tag)
+					elif x == "Classifier":
+						string_metadata.append(strain_from_db.classifier)
 					else:
 						string_metadata.append(strain_metadata[x])
 				except Exception as e:

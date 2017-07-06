@@ -934,7 +934,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
-				consol.log("LENGTH", Object.keys(response.data[job].report_data).length);
+				console.log("LENGTH", Object.keys(response.data[job].report_data).length);
 				if (Object.keys(response.data[job].report_data).length == 0){
 					problematic_jobs.push(response.data[job].job_id);
 					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')

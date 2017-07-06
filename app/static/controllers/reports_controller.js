@@ -963,6 +963,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			total_jobs = response.data.length;
 			count_jobs = 0;
 			problematic_jobs = []
+			already_added_jobs = 0;
 
 			for(job in response.data){
 				//console.log(response.data[job].report_data);
@@ -999,6 +1000,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				console.log("BAH")
 
 				if ($.inArray(response.data[job].job_id, current_job_ids) != -1){
+					already_added_jobs += 1;
 					count_jobs += 1;
 					reports_last_steps();
 					continue;
@@ -1144,7 +1146,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						
 						}, 500);
 					}
-					else{
+					else if(problematic_jobs.length == total_jobs){
 						$('#waiting_spinner').css({display:'none'}); 
 						$('#reports_container').css({display:"block"});
 
@@ -1159,6 +1161,15 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						}
 						modalAlert(modal_alert_message, function(){});
 					}
+					else if(already_added_jobs == total_jobs){
+						$('#waiting_spinner').css({display:'none'}); 
+						$('#reports_container').css({display:"block"});
+
+						modal_alert_message = 'Reports were already added.';
+						modalAlert(modal_alert_message, function(){});
+					}
+
+					already_added_jobs
 				}
 
 			}

@@ -130,12 +130,16 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			straind = [report.sample_name]
 			print strain_metadata
 			for x in headers_metadata:
-				if x == "fileselector":
+				try:
+					if x == "fileselector":
+						continue
+					if x == "ID":
+						continue
+
+					else:
+						straind.append(strain_metadata[x].replace(" ", "-"))
+				except KeyError:
 					continue
-				if x == "ID":
-					continue
-				else:
-					straind.append(strain_metadata[x].replace(" ", "-"))
 			for key, val in additional_data[str(count_ids)].iteritems():
 				straind.append(val)
 			straind.append("FP")

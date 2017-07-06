@@ -1014,6 +1014,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var selected_indexes = $.map(table.rows('.selected').indexes(), function(index){
 		        return index;
 		    });
+
+		    //CASE THERE ARE NO STRAINS SELECTED
+		    if(selected_indexes.length == 0){
+		    	modalAlert('Please select at least one strain before running any analysis.', function(){});
+		    	return callback(false);
+		    }
+		    
 		    index_length = selected_indexes.length;
 		    count_finished = 0;
 		    pipeline_ids = [];
@@ -1048,11 +1055,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                
 			                //workflow_ids.push(pipelinesByName[workflowName]);
 			                //console.log(current_job_status_color[button_n]);
-			                if(current_job_status_color[button_n] == "#f75454") task_failed = true;
-			                //console.log(task_failed);
-			                
-			                if(buttons_to_tasks[button_n] == undefined || task_failed == true){
-			                	if(task_failed == true) clearInterval(intervals_running[buttons_to_tasks[button_n]]);
+
+			                //IF FAILED DONT RUN
+			                //if(current_job_status_color[button_n] == "#f75454") task_failed = true;
+			                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
+			                if(buttons_to_tasks[button_n] == undefined){
+			                	//if(task_failed == true) clearInterval(intervals_running[buttons_to_tasks[button_n]]);
 			                	
 			                	buttons_to_tasks[button_n] = undefined;
 

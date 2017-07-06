@@ -786,7 +786,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		else to_use = strain_names;
 		reports.get_strain_by_name(to_use, function(strain_data){
 
-			console.log($scope.report_procedures);
+			//console.log($scope.report_procedures);
 
 			$.each(strain_data, function(i, el){
 				isthere = false;
@@ -797,8 +797,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			            for(procedure in $scope.report_procedures){
 							if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
-								console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
-								console.log(el);
+								//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
+								//console.log(el);
 								global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 									if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
@@ -808,8 +808,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								}
 							}
 							else if($scope.report_procedures[procedure].indexOf("PathoTyping") > -1){
-								console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][j]);
-								console.log(el);
+								//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][j]);
+								//console.log(el);
 								global_additional_data[j] = {};
 								for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 									if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
@@ -820,8 +820,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								
 							}
 							else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
-								console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][j]);
-								console.log(el);
+								//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][j]);
+								//console.log(el);
 								global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["INNUca"]){
 									if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
@@ -838,8 +838,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				if(!isthere){
 					for(procedure in $scope.report_procedures){
 						if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
-							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
-							console.log(el);
+							//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
+							//console.log(el);
 							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 								if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){

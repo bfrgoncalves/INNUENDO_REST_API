@@ -289,7 +289,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		single_project.save_pipelines(function(run){
 			console.log('Save');
 			if(run == true) single_project.run_pipelines();
-			else modalAlert('All processes for that strain have been run.', function(){});
+			else if(run != "no_select") modalAlert('All processes for that strain have been run.', function(){});
 			//else objects_utils.show_message('project_message_div', 'warning', 'All processes for that strain have been run.');
 			console.log('Run');
 		});

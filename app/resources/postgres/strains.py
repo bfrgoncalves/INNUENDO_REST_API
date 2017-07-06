@@ -132,6 +132,8 @@ class StrainListResource(Resource):
 		print args
 
 		strain = db.session.query(Strain).filter(Strain.id == args["strain_id"]).first()
+
+		print strain
 		
 		if not strain:
 			abort(404, message="An error as occurried")

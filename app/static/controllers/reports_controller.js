@@ -1160,6 +1160,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
 						}
 						modalAlert(modal_alert_message, function(){});
+						callback();
 					}
 					else if(already_added_jobs == total_jobs){
 						$('#waiting_spinner').css({display:'none'}); 
@@ -1167,9 +1168,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 						modal_alert_message = 'Reports were already added.';
 						modalAlert(modal_alert_message, function(){});
+						callback();
 					}
-
-					already_added_jobs
 				}
 
 			}

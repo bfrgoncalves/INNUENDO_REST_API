@@ -802,8 +802,14 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 									if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
-										current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
-										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+										try{
+											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+										}
+										catch(err){
+											console.log("No chewbbaca for this strain");
+										}
+										
 									}
 								}
 							}
@@ -813,8 +819,14 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								global_additional_data[j] = {};
 								for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 									if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
-										current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+										try{
+											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+										}
+										catch(err){
+											console.log("No pathotyping for this strain")
+										}
+										
 									}
 								}
 								
@@ -825,8 +837,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["INNUca"]){
 									if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
-										current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
-										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+										try{
+											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+										}
+										catch(err){
+											console.log("No innuca for this strain")
+										}
 									}
 								}
 								
@@ -843,10 +860,14 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 								if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
-									console.log(i, global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]]);
-									console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
-									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
-									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+									try{
+										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+									}
+									catch(err){
+										console.log("No chewbbaca procedure for this strain");
+									}
+									
 								}
 							}
 						}
@@ -856,22 +877,30 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 								if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
-									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+									try{
+										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+									}
+									catch(err){
+										console.log("No pathotyping procedure for this strain");
+									}
+									
 								}
 							}
 							
 						}
 						else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
-							console.log(global_results_dict, $scope.report_procedures, procedure);
-							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i]);
-							console.log(el);
 							global_additional_data[i] = {};
 							console.log(i);
 							for(a in ANALYSYS_PARAMETERS["INNUca"]){
 								if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
-									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
-									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+									try{
+										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+									}
+									catch(err){
+										console.log("No INNUca procedure for this strain");
+									}
 								}
 							}
 							

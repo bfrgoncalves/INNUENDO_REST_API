@@ -178,9 +178,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					elif x == "Classifier":
 						string_metadata.append(strain_from_db.classifier)
 					else:
-						string_metadata.append(strain_metadata[x])
+						string_metadata.append(strain_metadata[x].replace(" ", "-"))
 				except Exception as e:
-					string_metadata.append("undefined")
+					string_metadata.append("")
 
 			print "METADATA",len(string_metadata)
 			all_metadata.append('\t'.join(string_metadata))

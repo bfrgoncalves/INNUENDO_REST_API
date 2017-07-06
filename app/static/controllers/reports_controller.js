@@ -651,9 +651,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		//current_job_ids = []
 
-		show_results_and_info(null, function(){
+		show_results_and_info(null, function(show_metadata){
 			console.log(global_results_dict);
-			show_strains_metadata(null);
+			if(show_metadata) show_strains_metadata(null);
 		});
 
 		//objects_utils.show_message('s_report_message_div', 'success', 'Report was added to Active Report tab.')
@@ -760,8 +760,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    current_strains_data = [];
 	    current_job_ids = [];
 
-	    show_results_and_info(selected_job_ids, function(){
-	    	show_strains_metadata(current_names);
+	    show_results_and_info(selected_job_ids, function(show_metadata){
+	    	if(show_metadata) show_strains_metadata(current_names);
 	    });
 	    //show_strains_metadata(current_names);
 
@@ -1142,7 +1142,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							$('#reports_results_table_wrapper').css({'display':'none'});
 							$('#reports_metadata_table_wrapper').css({'display':'none'});
 
-							callback();
+							callback(true);
 						
 						}, 500);
 					}
@@ -1160,10 +1160,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
 						}
 						modalAlert(modal_alert_message, function(){});
-						$('#reports_info_table_wrapper').css({'display':'block'});
-						$('#reports_results_table_wrapper').css({'display':'none'});
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
-						callback();
+
+						callback(false);
 					}
 					else if(already_added_jobs == total_jobs){
 						$('#waiting_spinner').css({display:'none'}); 
@@ -1171,10 +1169,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 						modal_alert_message = 'Reports were already added.';
 						modalAlert(modal_alert_message, function(){});
-						$('#reports_info_table_wrapper').css({'display':'block'});
-						$('#reports_results_table_wrapper').css({'display':'none'});
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
-						callback();
+
+						callback(false);
 					}
 				}
 

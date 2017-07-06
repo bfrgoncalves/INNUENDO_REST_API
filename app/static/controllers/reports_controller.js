@@ -865,9 +865,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i]);
 							console.log(el);
 							global_additional_data[i] = {};
+							console.log(i);
 							for(a in ANALYSYS_PARAMETERS["INNUca"]){
 								if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
-
+									console.log(i);
 									el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 									global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 								}

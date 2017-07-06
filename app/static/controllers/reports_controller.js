@@ -1161,6 +1161,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						}
 						modalAlert(modal_alert_message, function(){});
 
+						objects_utils.destroyTable('reports_info_table');
+						objects_utils.destroyTable('reports_results_table');
+
+						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+						objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
+						
+						$('#reports_info_table_wrapper').css({'display':'none'});
+						$('#reports_results_table_wrapper').css({'display':'block'});
+						$('#reports_metadata_table_wrapper').css({'display':'none'});
+
 						callback(false);
 					}
 					else if(already_added_jobs == total_jobs){
@@ -1169,6 +1179,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 						modal_alert_message = 'Reports were already added.';
 						modalAlert(modal_alert_message, function(){});
+
+						objects_utils.destroyTable('reports_info_table');
+						objects_utils.destroyTable('reports_results_table');
+
+						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+						objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
+						
+						$('#reports_info_table_wrapper').css({'display':'none'});
+						$('#reports_results_table_wrapper').css({'display':'block'});
+						$('#reports_metadata_table_wrapper').css({'display':'none'});
 
 						callback(false);
 					}

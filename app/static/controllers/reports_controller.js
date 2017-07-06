@@ -360,6 +360,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		var pos = 0;
 		var other_pos = 0;
 
+		console.log(procedure);
+
 		if(procedure.indexOf('INNUca') > -1){
 
 			console.log(identifier);
@@ -405,8 +407,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			return callback([aux_info, aux_results], job);
 			}
 		}
-
-		console.log(procedure);
 
 		else if(procedure.indexOf('PathoTyping') > -1){
 			var aux_info = {};

@@ -1160,6 +1160,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
 						}
 						modalAlert(modal_alert_message, function(){});
+						$('#reports_info_table_wrapper').css({'display':'block'});
+						$('#reports_results_table_wrapper').css({'display':'none'});
+						$('#reports_metadata_table_wrapper').css({'display':'none'});
 						callback();
 					}
 					else if(already_added_jobs == total_jobs){
@@ -1168,6 +1171,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 						modal_alert_message = 'Reports were already added.';
 						modalAlert(modal_alert_message, function(){});
+						$('#reports_info_table_wrapper').css({'display':'block'});
+						$('#reports_results_table_wrapper').css({'display':'none'});
+						$('#reports_metadata_table_wrapper').css({'display':'none'});
 						callback();
 					}
 				}

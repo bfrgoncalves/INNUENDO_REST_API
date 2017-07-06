@@ -168,6 +168,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			else:
 				strain_metadata = strain_from_db.strain_metadata
 
+			print "HEADERS", len(headers_metadata)
 			for x in headers_metadata:
 				try:
 					if x == "ID":
@@ -181,7 +182,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				except Exception as e:
 					string_metadata.append("")
 
-			print len(string_metadata)
+			print "METADATA",len(string_metadata)
 			all_metadata.append('\t'.join(string_metadata))
 
 

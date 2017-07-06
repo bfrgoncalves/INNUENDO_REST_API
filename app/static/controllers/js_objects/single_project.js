@@ -1018,7 +1018,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    //CASE THERE ARE NO STRAINS SELECTED
 		    if(selected_indexes.length == 0){
 		    	modalAlert('Please select at least one strain before running any analysis.', function(){});
-		    	return callback(false);
+		    	return callback("no_select");
 		    }
 		    
 		    index_length = selected_indexes.length;

@@ -11,7 +11,7 @@ import datetime
 import fast_mlst_functions
 import database_functions
 
-from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore
+from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, BASE_ROOT
 
 database_correspondece = {"E.coli":Ecoli}
 
@@ -220,8 +220,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	else:
 		missing_data_to_use = "false"
 
+	#command = 'python ./app/resources/phyloviz/remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -am '+analysis_method+' -root '+config.final_root+' -mc ' + req.body.missingschar + ' -mt ' + missing_threshold + ' -sdt profile -sd uploads/'+profileName+' -d "'+req.body.name+'" -dn "'+req.body.description+'" -m uploads/'+metadataName+' -pid ' + parent_id;
 
-	command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l' + ' --missing_data ' + missing_data_to_use + ' --missing_char ' + missing_char;
+	command = 'python ./app/resources/phyloviz/remoteUpload.py -cd '+BASE_ROOT+' -am core -root '+BASE_ROOT+' -mc ' + missing_char + ' -mt 0 -sdt profile -sd ' + file_path_profile + ' -d "'+dataset_name+'" -dn "'+dataset_description+'" -m '+ file_path_metadata +' -pid ' + parent_id;
+	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l' + ' --missing_data ' + missing_data_to_use + ' --missing_char ' + missing_char;
 	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 	command = command.split(' ')
 

@@ -132,6 +132,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			for x in headers_metadata:
 				if x == "fileselector":
 					continue
+				if x == "ID":
+					continue
 				else:
 					straind.append(strain_metadata[x].replace(" ", "-"))
 			for key, val in additional_data[str(count_ids)].iteritems():

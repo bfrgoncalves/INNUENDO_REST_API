@@ -1685,7 +1685,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				        console.log("ANALYSIS",toAdd_analysis);
 
-				        strain_data[i]['Analysis'] = toAdd_analysis;
+				        strain_data[index]['Analysis'] = toAdd_analysis;
 
 				        //var table = $("#strains_table").DataTable().draw();
 

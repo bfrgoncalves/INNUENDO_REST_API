@@ -410,6 +410,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
 			aux_info["Status"] = "Done";
+			console.log("ENTROU", report_data.run_output)
 			
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
@@ -417,8 +418,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				if(x == 'header') continue;
 				aux_results[x] = report_data.run_output[x]
 
-			return callback([aux_info, aux_results], job);
+			//return callback([aux_info, aux_results], job);
 			}
+			return callback([aux_info, aux_results], job);
 		}
 	}
 

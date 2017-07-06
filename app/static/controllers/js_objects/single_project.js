@@ -1405,6 +1405,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						    	var s_name = strain_data[x]['strainID'];
 						    	//console.log(pipelines_applied[s_name]);
 						    	//console.log(pipelines_applied, pipelines_applied[s_name]);
+						    	console.log(pipelines_applied);
 						    	for(j in pipelines_applied[s_name]){
 						    			//console.log(pipelines_applied[s_name][j], s_name, pipelines_applied);
 						    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];

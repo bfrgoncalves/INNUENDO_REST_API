@@ -1016,9 +1016,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var strain_names = $.map($('#strains_table').DataTable().rows('.selected').data(), function(item){ return item['strainID']; });
 		    count_passed = 0;
 		    for(sn in strain_names){
-		    	console.log(strain_names[sn], pipelines_applied);
 		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
-		    		console.log("AQUI");
 		    		pipelines_applied[strain_names[sn]].map(function(d, x){
 		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 
@@ -1034,19 +1032,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                //IF FAILED DONT RUN
 		                //if(current_job_status_color[button_n] == "#f75454") task_failed = true;
 		                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
-		                console.log(button_n, buttons_to_tasks, dict_of_tasks_status);
 		                if(buttons_to_tasks[button_n] != undefined){
 		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R") return callback(true);
 		                }
 		            });
 		            count_passed +=1;
-		            console.log(count_passed)
-		            if(count_passed == strain_names.length) console.log("passou1");
+		            //console.log(count_passed)
+		            if(count_passed == strain_names.length) return callback(false);
 		    	}
 		    	else{
 		    		count_passed += 1;
-		    		console.log(count_passed)
-		    		if(count_passed == strain_names.length) console.log("passou2");
+		    		//console.log(count_passed)
+		    		if(count_passed == strain_names.length) return callback(false);
 		    	}
 		    }
 		    //return callback(false);

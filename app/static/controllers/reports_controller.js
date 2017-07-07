@@ -796,7 +796,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			global_additional_data_strains = global_additional_data_strains.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
 
 
-			$.each(strain_data, function(i, el){
+			$.each(global_additional_data_strains, function(i, el){
 				isthere = false;
 				for(j in current_strains_data){
 					console.log(current_strains_data);

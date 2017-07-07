@@ -401,11 +401,11 @@ class NGSOnto_ProcessJobID(Resource):
 				#processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(x))
 				processURI = localNSpace+"projects/"+str(id)+"/pipelines/"+str(id2)+"/processes/"+str(x)
 				queryString = "SELECT ?jobid  WHERE {<"+processURI+"> obo:NGS_0000089 ?jobid}"
-				print queryString
+				#print queryString
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				jsonResult2=parseAgraphQueryRes(result,["jobid"])
-				print jsonResult2
+				#print jsonResult2
 				jsonResult2[0]["process_id"] = x
 				job_ids.append(jsonResult2)
 

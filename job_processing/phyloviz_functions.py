@@ -87,6 +87,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 	
+
 	for job_id in total_j_ids:
 		body_profile = [];
 		report = db.session.query(Report).filter(Report.job_id == job_id).first()
@@ -120,8 +121,15 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						continue
 					else:
 						headers_metadata.append(x)
-				for key, val in additional_data[str(count_ids)].iteritems():
-					headers_metadata.append(key)
+
+				count_metadata_added = 0
+
+				for all_additional_data in total_j_ids:
+					for key, val in additional_data[str(count_metadata_added)].iteritems():
+						if key not in headers_metadata:
+							headers_metadata.append(key)
+					count_metadata_added += 1
+				
 				headers_metadata.append("Platform tag")
 				headers_metadata.append("Classifier")
 
@@ -136,13 +144,17 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					if x == "ID":
 						continue
 					else:
-						straind.append(strain_metadata[x].replace(" ", "-"))
+						straind.append(strain_metadata[x])
 				except KeyError:
-					straind.append("NA")
+					print additional_data
+					is_added = False
+					for key, val in additional_data[str(count_ids)].iteritems():
+						if key == x:
+							is_added = True
+							straind.append(val)
+					if is_added = False:
+						straind.append("NA")
 					continue
-			print additional_data
-			for key, val in additional_data[str(count_ids)].iteritems():
-				straind.append(val)
 			straind.append("FP")
 			strain_at_db_but_clicked = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == report.sample_name).first()
 			if strain_at_db_but_clicked:

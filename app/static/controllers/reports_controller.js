@@ -792,8 +792,14 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			//console.log($scope.report_procedures);
 			console.log(strain_data);
-			global_additional_data_strains = global_additional_data_strains.join(strain_data);
-			global_additional_data_strains = global_additional_data_strains.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+			for(st in strain_data){
+				if (!$.inArray(strain_data[st], global_additional_data_strains)){
+					global_additional_data_strains.push(strain_data[st]);
+				}
+			}
+			//global_additional_data_strains = global_additional_data_strains.join(strain_data);
+
+			console.log(global_additional_data_strains);
 
 
 			$.each(global_additional_data_strains, function(i, el){

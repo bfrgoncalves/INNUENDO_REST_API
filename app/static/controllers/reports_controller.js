@@ -791,11 +791,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		reports.get_strain_by_name(to_use, function(strain_data){
 
 			//console.log($scope.report_procedures);
+			var newglobal = [];
+
 			console.log(strain_data);
 			for(st in strain_data){
-				if (!$.inArray(strain_data[st], global_additional_data_strains)){
-					global_additional_data_strains.push(strain_data[st]);
-				}
+				global_additional_data_strains.push(strain_data[st]);
 			}
 			//global_additional_data_strains = global_additional_data_strains.join(strain_data);
 

@@ -291,7 +291,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		single_project.check_if_pending(function(haspending){
 			console.log(haspending);
 			if(haspending == true){
-				modalAlert('One or more of the selected strains have jobs already submitted. Please wait until they finish before submit new jobs for that those strains.', function(){});
+				modalAlert('One or more of the selected strains have jobs already submitted. Please wait until they finish before submit new jobs for those strains.', function(){});
 				$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 			}
 			else{

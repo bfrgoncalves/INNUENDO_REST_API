@@ -135,10 +135,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						continue
 					if x == "ID":
 						continue
-
 					else:
 						straind.append(strain_metadata[x].replace(" ", "-"))
 				except KeyError:
+					straind.append("NA")
 					continue
 			print additional_data
 			for key, val in additional_data[str(count_ids)].iteritems():
@@ -148,7 +148,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			if strain_at_db_but_clicked:
 				straind.append(strain_at_db_but_clicked.classifier)
 			else:
-				straind.append("undefined")
+				straind.append("NA")
 			all_metadata.append('\t'.join(straind))
 
 		count_ids += 1

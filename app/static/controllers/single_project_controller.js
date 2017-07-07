@@ -286,7 +286,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	}
 
 	$scope.runPipelines = function(){
-		$('#jumbotron').fadeTo("slow", 0.5).css('pointer-events','none');
+		$('#button_run_strain').fadeTo("slow", 0.1).css('pointer-events','none');
 
 		single_project.check_if_pending(function(haspending){
 			if(haspending){

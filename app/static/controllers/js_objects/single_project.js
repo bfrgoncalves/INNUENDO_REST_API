@@ -1034,6 +1034,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                //IF FAILED DONT RUN
 		                //if(current_job_status_color[button_n] == "#f75454") task_failed = true;
 		                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
+		                console.log(button_n, buttons_to_tasks);
 		                if(buttons_to_tasks[button_n] != undefined){
 		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R") return callback(true);
 		                }

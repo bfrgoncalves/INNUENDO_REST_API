@@ -827,6 +827,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										try{
 											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+											if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 										}
 										catch(err){
 											console.log("No chewbbaca for this strain");
@@ -844,6 +845,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										try{
 											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+											if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
+											else global_additional_data[i][a].trim();
 										}
 										catch(err){
 											console.log("No pathotyping for this strain")
@@ -862,6 +865,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										try{
 											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+											if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 										}
 										catch(err){
 											console.log("No innuca for this strain")
@@ -885,6 +889,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									try{
 										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
+										if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 									}
 									catch(err){
 										console.log("No chewbbaca procedure for this strain");
@@ -902,6 +907,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									try{
 										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
+										if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
+										else global_additional_data[i][a].trim();
 									}
 									catch(err){
 										console.log("No pathotyping procedure for this strain");
@@ -919,6 +926,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									try{
 										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][i][a];
+										if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 									}
 									catch(err){
 										console.log("No INNUca procedure for this strain");

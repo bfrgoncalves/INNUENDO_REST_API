@@ -127,7 +127,7 @@ def classify_profile(job_id, database_name):
 			writer.write(string_list_wg+"\n")
 
 
-		closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/3)
+		closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core)
 
 		#UNCOMMENT WHEN WE GET ORDERED LISTS FROM FAST-MLST
 

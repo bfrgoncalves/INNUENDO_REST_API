@@ -209,11 +209,12 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 
 
-
-		print ppipid, rpipid
 		if ppipid == rpipid:
 			print procJsonResult
+			print "TESTTTTT"
+			print ppipid, rpipid
 			for proc_json in procJsonResult:
+				print proc_json
 				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 					#print "PASSOU AQUI"
 					#print proc_json["StrProc"]

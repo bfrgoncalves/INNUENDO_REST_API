@@ -153,7 +153,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 							is_added = True
 							straind.append(val)
 					if is_added == False:
-						if x != "Platform tag" && x != "Classifier":
+						if x != "Platform tag" and x != "Classifier":
 							straind.append("NA")
 					continue
 			straind.append("FP")

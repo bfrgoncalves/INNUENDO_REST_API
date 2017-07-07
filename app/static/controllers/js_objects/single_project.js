@@ -1015,6 +1015,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		    var strain_names = $.map($('#strains_table').DataTable().rows('.selected').data(), function(item){ return item['strainID']; });
 		    count_passed = 0;
+		    has_pending = false;
 		    for(sn in strain_names){
 		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
 		    		pipelines_applied[strain_names[sn]].map(function(d, x){
@@ -1034,17 +1035,19 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
 		                console.log(buttons_to_tasks, button_n, dict_of_tasks_status);
 		                if(buttons_to_tasks[button_n] != undefined){
-		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R") return callback(true);
+		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R"){
+		                		has_pending = true;
+		                	}
 		                }
 		            });
 		            count_passed +=1;
 		            //console.log(count_passed)
-		            if(count_passed == strain_names.length) return callback(false);
+		            if(count_passed == strain_names.length) return callback(has_pending);
 		    	}
 		    	else{
 		    		count_passed += 1;
 		    		//console.log(count_passed)
-		    		if(count_passed == strain_names.length) return callback(false);
+		    		if(count_passed == strain_names.length) return callback(has_pending);
 		    	}
 		    }
 		    //return callback(false);

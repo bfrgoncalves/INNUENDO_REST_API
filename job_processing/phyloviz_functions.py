@@ -152,7 +152,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						if key == x:
 							is_added = True
 							straind.append(val)
-					if is_added = False:
+					if is_added == False:
 						straind.append("NA")
 					continue
 			straind.append("FP")

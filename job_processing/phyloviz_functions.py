@@ -140,6 +140,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						straind.append(strain_metadata[x].replace(" ", "-"))
 				except KeyError:
 					continue
+			print additional_data
 			for key, val in additional_data[str(count_ids)].iteritems():
 				straind.append(val)
 			straind.append("FP")

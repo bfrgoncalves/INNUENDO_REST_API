@@ -1314,7 +1314,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        							task_ids_to_map.push(task_ids[s]);
 					        						}
 
-					        						console.log(processes_to_map, dict_strain_names[strain_names[strain_name]][4])
+					        						console.log(task_ids_to_map, dict_strain_names[strain_names[strain_name]][4])
 
 					        						processes_to_map = task_ids_to_map.map(function(x){
 					        							//console.log(x, dict_strain_names[strain_names[strain_name]]);

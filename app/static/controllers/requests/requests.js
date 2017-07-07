@@ -806,6 +806,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		send_to_phyloviz: function(job_ids, global_additional_data, species_id, callback){
 			
 			console.log('ONREQUEST');
+			console.log(global_additional_data);
 
 			req = {
 		        url: 'api/v1.0/phyloviz/',

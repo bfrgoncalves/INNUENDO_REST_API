@@ -55,6 +55,7 @@ class PHYLOViZResource(Resource):
 	@login_required
 	def post(self):
 		args=phyloviz_post_parser.parse_args()
+		print args.additional_data
 		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id, args.species_id, args.missing_data, args.missing_char)
 		print jobID
 		return jobID, 201

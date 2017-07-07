@@ -1041,10 +1041,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                }
 		            });
 		            count_passed +=1;
+		            console.log(count_passed)
 		            if(count_passed == strain_names.length) console.log("passou1");
 		    	}
 		    	else{
 		    		count_passed += 1;
+		    		console.log(count_passed)
 		    		if(count_passed == strain_names.length) console.log("passou2");
 		    	}
 		    }

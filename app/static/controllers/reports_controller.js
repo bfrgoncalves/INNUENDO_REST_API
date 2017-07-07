@@ -807,13 +807,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			}
 			//global_additional_data_strains = global_additional_data_strains.join(strain_data);
 
-			console.log(global_additional_data_strains);
-
-
 			$.each(global_additional_data_strains, function(i, el){
 				isthere = false;
 				for(j in current_strains_data){
-					console.log(current_strains_data);
 					if (current_strains_data[j].Sample === el.Sample) {
 			            isthere=true;
 
@@ -847,6 +843,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 											if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 											else global_additional_data[i][a].trim();
+											console.log(global_additional_data[i][a]);
 										}
 										catch(err){
 											console.log("No pathotyping for this strain")
@@ -899,8 +896,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							}
 						}
 						else if($scope.report_procedures[procedure].indexOf("PathoTyping") > -1 || $scope.report_procedures[procedure].indexOf("Pathotyping") > -1){
-							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i]);
-							console.log(el);
+							//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i]);
+							//console.log(el);
 							if(global_additional_data[i] == undefined) global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 								if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
@@ -909,6 +906,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 										if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 										else global_additional_data[i][a].trim();
+										console.log(global_additional_data[i][a]);
 									}
 									catch(err){
 										console.log("No pathotyping procedure for this strain");

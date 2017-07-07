@@ -1034,7 +1034,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                //IF FAILED DONT RUN
 		                //if(current_job_status_color[button_n] == "#f75454") task_failed = true;
 		                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
-		                console.log(button_n, buttons_to_tasks);
+		                console.log(button_n, buttons_to_tasks, dict_of_tasks_status);
 		                if(buttons_to_tasks[button_n] != undefined){
 		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R") return callback(true);
 		                }
@@ -1376,7 +1376,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        								if (count_strains_added_run == strain_names.length){
 		        									modalAlert("Jobs for all the selected strains have been submitted", function(){});
-		        									$('#jumbotron').fadeTo("slow", 1).css('pointer-events','auto');
+		        									$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 		        								}
 		        							})
 					        			})

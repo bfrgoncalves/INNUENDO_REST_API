@@ -286,7 +286,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	}
 
 	$scope.runPipelines = function(){
-		$('#button_run_strain').fadeTo("slow", 0.1).css('pointer-events','none');
+		$('#button_run_strain').fadeTo("slow", 0.5).css('pointer-events','none');
 
 		single_project.check_if_pending(function(haspending){
 			if(haspending){
@@ -297,7 +297,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				if(run == true) single_project.run_pipelines();
 				else if(run != "no_select") {
 					modalAlert('All processes for that strain have been run.', function(){});
-					$('#jumbotron').fadeTo("slow", 1).css('pointer-events','auto');
+					$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 				}
 				//else objects_utils.show_message('project_message_div', 'warning', 'All processes for that strain have been run.');
 				console.log('Run');

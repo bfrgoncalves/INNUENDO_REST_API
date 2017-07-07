@@ -794,8 +794,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			var newglobal = [];
 
 			console.log(strain_data);
+
 			for(st in strain_data){
-				global_additional_data_strains.push(strain_data[st]);
+				isThere = false;
+				for(gs in global_additional_data_strains){
+					if(global_additional_data_strains[gs].Sample == strain_data[st].Sample){
+						isThere = true
+						break
+					}
+				}
+				if(isThere == false) global_additional_data_strains.push(strain_data[st]);
 			}
 			//global_additional_data_strains = global_additional_data_strains.join(strain_data);
 

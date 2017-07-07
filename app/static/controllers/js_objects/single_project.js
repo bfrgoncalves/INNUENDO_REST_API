@@ -1018,7 +1018,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    for(sn in strain_names){
 		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
 
-		    		pipelines_applied[strain_id_to_name[strain_id]].map(function(d, x){
+		    		pipelines_applied[strain_names[sn]].map(function(d, x){
 		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 
 		                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id

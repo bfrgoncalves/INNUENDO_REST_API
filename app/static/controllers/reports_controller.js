@@ -821,7 +821,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
 								//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
 								//console.log(el);
-								global_additional_data[i] = {};
+								if(global_additional_data[i] == undefined) global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 									if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
 										try{
@@ -838,7 +838,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							else if($scope.report_procedures[procedure].indexOf("PathoTyping") > -1 || $scope.report_procedures[procedure].indexOf("Pathotyping") > -1){
 								//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][j]);
 								//console.log(el);
-								global_additional_data[j] = {};
+								if(global_additional_data[i] == undefined) global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 									if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
 										try{
@@ -856,7 +856,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
 								//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["INNUca"]][j]);
 								//console.log(el);
-								global_additional_data[i] = {};
+								if(global_additional_data[i] == undefined) global_additional_data[i] = {};
 								for(a in ANALYSYS_PARAMETERS["INNUca"]){
 									if(ANALYSYS_PARAMETERS["INNUca"][a] == true){
 										try{
@@ -879,7 +879,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						if($scope.report_procedures[procedure].indexOf("chewBBACA") > -1){
 							//console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i]);
 							//console.log(el);
-							global_additional_data[i] = {};
+							if(global_additional_data[i] == undefined) global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 								if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
 									try{
@@ -896,7 +896,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						else if($scope.report_procedures[procedure].indexOf("PathoTyping") > -1 || $scope.report_procedures[procedure].indexOf("Pathotyping") > -1){
 							console.log(global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i]);
 							console.log(el);
-							global_additional_data[i] = {};
+							if(global_additional_data[i] == undefined) global_additional_data[i] = {};
 							for(a in ANALYSYS_PARAMETERS["PathoTyping"]){
 								if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
 									try{
@@ -912,7 +912,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							
 						}
 						else if($scope.report_procedures[procedure].indexOf("INNUca") > -1){
-							global_additional_data[i] = {};
+							if(global_additional_data[i] == undefined) global_additional_data[i] = {};
 							console.log(i);
 							for(a in ANALYSYS_PARAMETERS["INNUca"]){
 								if(ANALYSYS_PARAMETERS["INNUca"][a] == true){

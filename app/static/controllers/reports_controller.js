@@ -34,6 +34,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	var global_results_dict = {};
 	var global_additional_data = {};
+	var global_additional_data_strains = [];
 
 	$scope.user_reports_table_headers = user_reports_table_headers;
 	$scope.trees_headers = trees_headers;
@@ -785,6 +786,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		if(strain_names==null) to_use = null;
 		else to_use = strain_names;
+
+		console.log(to_use);
 		reports.get_strain_by_name(to_use, function(strain_data){
 
 			//console.log($scope.report_procedures);

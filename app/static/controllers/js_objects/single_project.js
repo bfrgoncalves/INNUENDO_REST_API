@@ -1192,6 +1192,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING") has_completed = true;
 
 			        	}
+			        	console.log(lastprocess, has_completed);
+			        	
 			        	if(lastprocess != "" && has_completed == true){
 			        		pip_id_of_parents.push(CURRENT_PROJECT_ID);
 			        		pip_id_of_parents.push(last_pipeline_id);

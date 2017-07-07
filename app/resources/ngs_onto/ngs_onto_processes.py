@@ -283,7 +283,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			print outputURI"""'''
 		print numberOfProcesses, listOrderedProcessTypes
 		
-		if numberOfProcesses >= len(listOrderedProcessTypes):
+		"""if numberOfProcesses >= len(listOrderedProcessTypes):
 			queryString = "SELECT ?pid ?Index  WHERE {<"+pipelineStr+"> obo:BFO_0000051 ?pid. ?pid obo:NGS_0000081 ?Index.} ORDER BY ASC(?Index)"
 			#print queryString
 			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
@@ -298,7 +298,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			print "################BAH"
 			print processes_ids
 
-			return processes_ids, 200
+			return processes_ids, 200"""
 		
 		try:
 			addedProcesses=numberOfProcesses

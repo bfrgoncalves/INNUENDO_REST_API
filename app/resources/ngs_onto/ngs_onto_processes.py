@@ -401,6 +401,7 @@ class NGSOnto_ProcessJobID(Resource):
 				#processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(x))
 				processURI = localNSpace+"projects/"+str(id)+"/pipelines/"+str(id2)+"/processes/"+str(x)
 				queryString = "SELECT ?jobid  WHERE {<"+processURI+"> obo:NGS_0000089 ?jobid}"
+				print queryString
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				jsonResult2=parseAgraphQueryRes(result,["jobid"])

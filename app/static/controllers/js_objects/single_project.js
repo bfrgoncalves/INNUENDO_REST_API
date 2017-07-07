@@ -1327,7 +1327,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        								//console.log(strainID_pipeline, strain_name);
 		        								for(tk in response.data.tasks){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
-		        									if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
+		        									//if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 		        								}
 		        							})
 					        			})

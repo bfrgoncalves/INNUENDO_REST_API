@@ -1040,7 +1040,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		    	}
 		    }
-		    return callback(false);
+		    //return callback(false);
 
 
 

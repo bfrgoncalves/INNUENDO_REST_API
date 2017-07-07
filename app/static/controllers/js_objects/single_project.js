@@ -1220,7 +1220,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		count_processes += 1;
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
 			        		if((dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING")){
-			        			console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]], count_processes);
+			        			//console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]], count_processes);
 			        			lastprocess = count_processes;
 			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_names[i]]];
 			        		}
@@ -1228,7 +1228,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING") has_completed = true;
 
 			        	}
-			        	console.log(lastprocess, has_completed);
+			        	//console.log(lastprocess, has_completed);
 
 			        	if(lastprocess != "" && has_completed == true){
 			        		pip_id_of_parents.push(CURRENT_PROJECT_ID);
@@ -1352,7 +1352,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        							task_ids_to_map.push(task_ids[s]);
 					        						}
 
-					        						console.log(task_ids_to_map, dict_strain_names[strain_names[strain_name]][4])
+					        						//console.log(task_ids_to_map, dict_strain_names[strain_names[strain_name]][4])
 
 					        						processes_to_map = task_ids_to_map.map(function(x){
 					        							//console.log(x, dict_strain_names[strain_names[strain_name]]);
@@ -1421,7 +1421,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				countStrain[strains[i].strainID] = 0;
 
-				console.log(strain_processes);
+				//console.log(strain_processes);
 
 				for(s_p in strain_processes){
 
@@ -1568,10 +1568,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			button_parts = button_text.split('&&');
 			button_id = button_text.split('&&')[1];
 			workflow_name = button_text.split('&&')[0];
-			console.log(button_parts);
+			//console.log(button_parts);
 			if(button_parts.length > 2){
 				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflow_name], "", 0, function(response, strain_name, count_pip_app){
-					console.log(response);
+					//console.log(response);
 					indexes = "";
 					for(k=response.data.length-1; k>=0;k--){
     					parts = response.data[k].protocol.split('/');
@@ -1610,21 +1610,21 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			process_id = String(parseInt(buttons_to_tasks[button_id].split('_')[1]) + 1);
 			button_position = parseInt(button_id.split('_').slice(-2)[0]);
 			pipeline_id = String(strainID_pipeline[strains_dict[buttons_to_strain_names[button_id]]]);
-			console.log(strain_to_real_pip, strains_dict);
+			//console.log(strain_to_real_pip, strains_dict);
 			if(Object.keys(strain_to_real_pip).length == 0){
 				button_nout = button_class.split('&&')[1].split("_")
-				console.log(button_class_to_pipeline);
+				//console.log(button_class_to_pipeline);
 				real_p_data = [CURRENT_PROJECT_ID, button_class_to_pipeline[button_class], button_nout[button_nout.length-2]]
 			}
 			else real_p_data = strain_to_real_pip[strains_dict[buttons_to_strain_names[button_id]]][button_position-1];
-			console.log(real_p_data);
+			//console.log(real_p_data);
 
 			ngs_onto_requests.ngs_onto_request_get_processes_outputs(real_p_data[0], real_p_data[1], real_p_data[2], function(response){
 				callback(response);
 			});
 		},
 		download_result: function(response, callback){
-			console.log("Download", response);
+			//console.log("Download", response);
 			if(response.data.length == 0){
 				return modalAlert('The requested file is not available.', function(){});
 				//return objects_utils.show_message('project_message_div', 'warning', 'The requested file is not available.');
@@ -1636,7 +1636,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			});
 		},
 		download_log: function(response, callback){
-			console.log("Download", response);
+			//console.log("Download", response);
 			if(response.data.length == 0){
 				return modalAlert('The requested file is not available.', function(){});
 				//return objects_utils.show_message('project_message_div', 'warning', 'The requested file is not available.');
@@ -1651,7 +1651,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var class_n = element.className;
 			var sp_name = class_n.split('&&')[1];
 			var button_m = element.parentElement.parentElement.getElementsByTagName("button")[0];
-			console.log(button_m);
+			//console.log(button_m);
 			//console.log(element, element.parentElement.parentElement.remove(), pipelines_applied);
 			var strain_indexes = $.map($('#strains_table').DataTable().rows().indexes(), function(index){ return index; });
 			var strain_names = $.map($('#strains_table').DataTable().rows().data(), function(item){ console.log(item);return item.strainID; });
@@ -1664,9 +1664,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var last_process = "";
 
 			var count_pipeline_ids_last_parent = 0;
-			console.log(pipelines_type_by_strain);
-			console.log(class_n);
-			console.log(pipelines_applied);
+			//console.log(pipelines_type_by_strain);
+			//console.log(class_n);
+			//console.log(pipelines_applied);
 			//var first_time = true;
 
 			for(index in strain_indexes){
@@ -1682,7 +1682,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						for (pipeline in pipelines_applied[strain_names[index]]){
 					
 							count_pipeline_ids_last_parent += 1;
-							console.log(dict_of_tasks_status);
+							//console.log(dict_of_tasks_status);
 							last_process = count_pipeline_ids_last_parent;
 							
 							
@@ -1716,10 +1716,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 								var pip_name = pipelines_applied[strain_names[index]][pipeline].split("id")[1].split('"')[1];
 
-								console.log(pip_name, buttons_to_tasks);
+								//console.log(pip_name, buttons_to_tasks);
 								if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING"){
 									if(pipelines_type_by_strain[strain_names[index]][2] == undefined){
-										console.log(last_process)
+										//console.log(last_process)
 										pipelines_type_by_strain[strain_names[index]].push(last_process);
 									}
 									else pipelines_type_by_strain[strain_names[index]][2] = last_process;
@@ -1742,7 +1742,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        	//}  //toAdd += pipelines_applied[strain_data[counter]['strainID']][j];
 				        }
 
-				        console.log("ANALYSIS",toAdd_analysis);
+				        //console.log("ANALYSIS",toAdd_analysis);
 
 				        strain_data[index]['Analysis'] = toAdd_analysis;
 
@@ -1778,14 +1778,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	var lines = this.result.split('\n');
 		      	firstLine = true;
 		      	strains_object = {};
-		      	console.log(lines);
+		      	//console.log(lines);
 
 		      	strains_object['body'] = [];
 		      	
 		      	//parse file
 		      	for(i in lines){
 		      		line  = lines[i].split(separator);
-		      		console.log(line);
+		      		//console.log(line);
 		      		var array_to_use = [];
 
 		      		//console.log(line);
@@ -1817,7 +1817,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      				$('#'+hline_to_use[x] + " option").filter(function() {
 							    //may want to use $.trim in here
 							    if($(this).text().trim().indexOf(bline_to_use[x].trim()) > -1){
-							    	console.log(hline_to_use[x], bline_to_use[x]);
+							    	//console.log(hline_to_use[x], bline_to_use[x]);
 							    	return bline_to_use[x];
 							    }
 							    //console.log($(this).text().replace(" ",""), bline_to_use[x].trim());
@@ -1829,7 +1829,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		}
 		      		setTimeout(function(){
 		      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
-		      			console.log("ENTER");
+		      			//console.log("ENTER");
 		      			if(strains_object['body'].length != 0) add_to_database();
 		      			else console.log("DONE");
 		      		}, 1000);

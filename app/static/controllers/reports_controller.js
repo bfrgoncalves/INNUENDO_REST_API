@@ -1130,9 +1130,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							modal_alert_message = 'Reports added to the project.';
 							if(problematic_jobs.length > 0){
 								modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
+								p_jobs = ""
 								for(pj in problematic_jobs){
-									modal_alert_message += problematic_jobs[pj] + ", ";
+									p_jobs += problematic_jobs[pj] + ", ";
 								}
+								modal_alert_message += p_jobs
 								modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
 								modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
 							}
@@ -1153,9 +1155,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						modal_alert_message = 'There is a problem with the analysis from this project.';
 						if(problematic_jobs.length > 0){
 							modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
+							p_jobs = ""
 							for(pj in problematic_jobs){
-								modal_alert_message += problematic_jobs[pj] + ", ";
+								p_jobs += problematic_jobs[pj] + ", ";
 							}
+							modal_alert_message += p_jobs
 							modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
 							modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
 						}

@@ -1019,7 +1019,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    	console.log(strain_names[sn], pipelines_applied);
 		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
 		    		console.log("AQUI");
-		    		count_passed += 1;
 		    		pipelines_applied[strain_names[sn]].map(function(d, x){
 		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 

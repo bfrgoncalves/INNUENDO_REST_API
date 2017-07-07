@@ -153,7 +153,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 							is_added = True
 							straind.append(val)
 					if is_added == False:
-						straind.append("NA")
+						if x != "Platform tag" && x != "Classifier":
+							straind.append("NA")
 					continue
 			straind.append("FP")
 			strain_at_db_but_clicked = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == report.sample_name).first()

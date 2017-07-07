@@ -289,20 +289,22 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		$('#button_run_strain').fadeTo("slow", 0.5).css('pointer-events','none');
 
 		single_project.check_if_pending(function(haspending){
-			console.log(haspending);
+			//console.log(haspending);
 			if(haspending){
 				modalAlert('One or more of the selected strains have jobs already submitted. Please wait until they finish before submit new jobs for that those strains.', function(){});
 			}
-			single_project.save_pipelines(function(run){
-				console.log('Save');
-				if(run == true) single_project.run_pipelines();
-				else if(run != "no_select") {
-					modalAlert('All processes for that strain have been run.', function(){});
-					$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
-				}
-				//else objects_utils.show_message('project_message_div', 'warning', 'All processes for that strain have been run.');
-				console.log('Run');
-			});
+			else{
+				single_project.save_pipelines(function(run){
+					console.log('Save');
+					if(run == true) single_project.run_pipelines();
+					else if(run != "no_select") {
+						modalAlert('All processes for that strain have been run.', function(){});
+						$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+					}
+					//else objects_utils.show_message('project_message_div', 'warning', 'All processes for that strain have been run.');
+					console.log('Run');
+				});
+			}
 		})
 	}
 

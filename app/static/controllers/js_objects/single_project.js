@@ -1014,11 +1014,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var table = $('#strains_table').DataTable();
 
 		    var strain_names = $.map($('#strains_table').DataTable().rows('.selected').data(), function(item){ return item['strainID']; });
-
+		    count_passed = 0;
 		    for(sn in strain_names){
 		    	console.log(strain_names[sn], pipelines_applied);
 		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
 		    		console.log("AQUI");
+		    		count_passed += 1;
 		    		pipelines_applied[strain_names[sn]].map(function(d, x){
 		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 
@@ -1039,7 +1040,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R") return callback(true);
 		                }
 		            });
-
+		            count_passed +=1;
+		            if(count_passed == strain_names.length) console.log("passou1");
+		    	}
+		    	else{
+		    		count_passed += 1;
+		    		if(count_passed == strain_names.length) console.log("passou2");
 		    	}
 		    }
 		    //return callback(false);

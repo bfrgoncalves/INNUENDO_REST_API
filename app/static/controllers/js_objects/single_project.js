@@ -1009,6 +1009,42 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    
 		    }
 		},
+		check_if_pending: function(callback){
+
+			var table = $('#strains_table').DataTable();
+
+		    var strain_names = $.map($('#strains_table').DataTable().rows('.selected').data(), function(item){ return item['strainID']; });
+
+		    for(sn in strain_names){
+		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
+
+		    		pipelines_applied[strain_id_to_name[strain_id]].map(function(d, x){
+		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
+
+		                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
+		                //console.log('WN', workflowName);
+
+		                button_n = d.split("id")[1].split('"')[1];
+		                //steps.push(x+1);
+		                
+		                //workflow_ids.push(pipelinesByName[workflowName]);
+		                //console.log(current_job_status_color[button_n]);
+
+		                //IF FAILED DONT RUN
+		                //if(current_job_status_color[button_n] == "#f75454") task_failed = true;
+		                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
+		                if(buttons_to_tasks[button_n] != undefined){
+		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD") return callback(true);
+		                }
+		            });
+
+		    	}
+		    }
+		    return callback(false);
+
+
+
+		},
 		save_pipelines: function(callback){
 
 			var table = $('#strains_table').DataTable();
@@ -1154,6 +1190,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    countFinished = 0;
 		    var dict_strain_names = {};
 		    var put_i = [];
+		    var count_strains_added_run = 0;
 
 		    for(i in strain_names){
 
@@ -1284,7 +1321,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        			//console.log(strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6]);
 					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], function(response, strain_name){
 					        				console.log('RUNNING JOB');
-
 					        				task_ids = [];
 					        				task_ids_to_map = [];
 

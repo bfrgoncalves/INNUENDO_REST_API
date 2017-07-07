@@ -932,6 +932,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				}
 			});
 
+			console.log(global_additional_data);
+
 			current_strain_names = $.map(current_strains_data, function(data){
 				return data.Sample;
 			})

@@ -1016,8 +1016,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var strain_names = $.map($('#strains_table').DataTable().rows('.selected').data(), function(item){ return item['strainID']; });
 
 		    for(sn in strain_names){
+		    	console.log(strain_names[sn], pipelines_applied);
 		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
-
+		    		console.log("AQUI");
 		    		pipelines_applied[strain_names[sn]].map(function(d, x){
 		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 

@@ -782,7 +782,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	function show_strains_metadata(strain_names){
 
 		
-		//global_additional_data = {};
+		global_additional_data = {};
 
 		if(strain_names==null) to_use = null;
 		else to_use = strain_names;
@@ -792,6 +792,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			//console.log($scope.report_procedures);
 			console.log(strain_data);
+			global_additional_data_strains = global_additional_data_strains.join(strain_data);
+			global_additional_data_strains = global_additional_data_strains.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+
 
 			$.each(strain_data, function(i, el){
 				isthere = false;

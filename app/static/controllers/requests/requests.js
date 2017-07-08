@@ -608,7 +608,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	                callback(response);
 	        });
 		},
-		check_if_pipeline_exists: function(strain_id, callback){
+		check_if_pipeline_exists: function(strain_id, strainID, callback){
 			req = {
 	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
 	            method:'GET',
@@ -618,10 +618,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 	        }
 	        $http(req).then(function(response){
-	               callback(response, strain_id);
+	               callback(response, strain_id, strainID);
 	            },
 	            function(response){
-	               callback(response, strain_id);
+	               callback(response, strain_id, strainID);
 	        });
 		},
 		add_pipeline: function(strain_id, parent_pipeline_id, parent_project_id, callback){

@@ -180,7 +180,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			});
 		}
 
-		pg_requests.check_if_pipeline_exists(strain_id, function(response, strainid){
+		pg_requests.check_if_pipeline_exists(strain_id, null, function(response, strainid, not_used){
 			if(response.status == 200){
 				//console.log(response);
 
@@ -860,11 +860,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				                to_use.map(function(d){
 				                    if (d.strainID != response.data.strainID) new_strains.push(d);
 				                    else{
-				                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], function(response, strainid){
+				                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], response.data.strainID, function(response, strainid, strainID){
 				                    		if(response.status == 200){
-				                    			console.log(response, pipelines_applied, strainid);
+				                    			console.log(response, pipelines_applied, strainID);
 
-				                    			if(response.data.length > 0 && Object.keys(pipelines_applied).length != 0 && pipelines_applied[strainid].length > 0){
+				                    			if(response.data.length > 0 && Object.keys(pipelines_applied).length != 0 && pipelines_applied[strainID].length > 0){
 				                    				modalAlert("The applied pipeline is being used in other projects. A so, the strain will be removed from the project but the pipeline will still be available.", function(){
 					                    				pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
 					                    					console.log(response, "DONE");

@@ -90,8 +90,12 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			$("#protocol_selector_load").off("change");
 			
 			$("#protocol_selector_load").on("change", function(){
-				console.log("BAH");
-				$scope.loadProtocol($("#protocol_selector_load option:selected").text());
+				protocols_list.load_protocol($("#protocol_selector_load option:selected").text(), function(results){
+					$scope.$apply(function(){
+						$scope.selected_protocol = results.protocol;
+					})
+					$("#div_protocol_show").css({display:"block"});
+				});
 			});
 
 			$("#protocol_selector_load").trigger("change");
@@ -105,9 +109,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		$("#div_protocol_show").css({display:"none"});
 		console.log("AQUI");
 		protocols_list.load_protocol(selectedProtocol, function(results){
-			$scope.$apply(function(){
-				$scope.selected_protocol = results.protocol;
-			})
+			$scope.selected_protocol = results.protocol;
 			$("#div_protocol_show").css({display:"block"});
 		});
 

@@ -294,6 +294,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 				modalAlert('One or more of the selected strains have jobs already submitted. Please wait until they finish before submit new jobs for those strains.', function(){});
 				$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 			}
+			else if(haspending == "no_selected"){
+				modalAlert('Please select at least one strain to run analysis.', function(){});
+				$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+			}
 			else{
 				single_project.save_pipelines(function(run){
 					console.log('Save');

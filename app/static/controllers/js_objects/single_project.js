@@ -1014,41 +1014,47 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var table = $('#strains_table').DataTable();
 
 		    var strain_names = $.map($('#strains_table').DataTable().rows('.selected').data(), function(item){ return item['strainID']; });
-		    count_passed = 0;
-		    has_pending = false;
-		    for(sn in strain_names){
-		    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
-		    		pipelines_applied[strain_names[sn]].map(function(d, x){
-		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
+		    
+		    if(strain_names.length == 0){
+		    	return callback("no_selected");
+		    }
+		    else{
+		    	count_passed = 0;
+			    has_pending = false;
+			    for(sn in strain_names){
+			    	if(pipelines_applied.hasOwnProperty(strain_names[sn])){
+			    		pipelines_applied[strain_names[sn]].map(function(d, x){
+			                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 
-		                //button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
-		                //console.log('WN', workflowName);
+			                //button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
+			                //console.log('WN', workflowName);
 
-		                button_n = d.split("id")[1].split('"')[1];
-		                //steps.push(x+1);
-		                
-		                //workflow_ids.push(pipelinesByName[workflowName]);
-		                //console.log(current_job_status_color[button_n]);
+			                button_n = d.split("id")[1].split('"')[1];
+			                //steps.push(x+1);
+			                
+			                //workflow_ids.push(pipelinesByName[workflowName]);
+			                //console.log(current_job_status_color[button_n]);
 
-		                //IF FAILED DONT RUN
-		                //if(current_job_status_color[button_n] == "#f75454") task_failed = true;
-		                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
-		                //console.log(buttons_to_tasks, button_n, dict_of_tasks_status);
-		                if(buttons_to_tasks[button_n] != undefined){
-		                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R"){
-		                		has_pending = true;
-		                	}
-		                }
-		            });
-		            count_passed +=1;
-		            //console.log(count_passed)
-		            if(count_passed == strain_names.length) return callback(has_pending);
-		    	}
-		    	else{
-		    		count_passed += 1;
-		    		//console.log(count_passed)
-		    		if(count_passed == strain_names.length) return callback(has_pending);
-		    	}
+			                //IF FAILED DONT RUN
+			                //if(current_job_status_color[button_n] == "#f75454") task_failed = true;
+			                //if(buttons_to_tasks[button_n] == undefined || task_failed == true){
+			                //console.log(buttons_to_tasks, button_n, dict_of_tasks_status);
+			                if(buttons_to_tasks[button_n] != undefined){
+			                	if(dict_of_tasks_status[buttons_to_tasks[button_n]] == "PD" || dict_of_tasks_status[buttons_to_tasks[button_n]] == "R"){
+			                		has_pending = true;
+			                	}
+			                }
+			            });
+			            count_passed +=1;
+			            //console.log(count_passed)
+			            if(count_passed == strain_names.length) return callback(has_pending);
+			    	}
+			    	else{
+			    		count_passed += 1;
+			    		//console.log(count_passed)
+			    		if(count_passed == strain_names.length) return callback(has_pending);
+			    	}
+			    }
 		    }
 		    //return callback(false);
 

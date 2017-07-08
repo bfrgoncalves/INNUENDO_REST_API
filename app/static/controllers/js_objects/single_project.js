@@ -645,7 +645,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 
 			        }
-			        else callback(available_workflows, strainids, total_pips, strains_dict);
+			        else callback(total_wf, strainids, total_pips, strains_dict);
 				});
 
 			}

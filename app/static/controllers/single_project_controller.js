@@ -320,7 +320,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		single_project.get_public_strain_applied_pipelines(strain_ids, function(applied_workflows, strain_ids, pipelines_ids, strains_dict){
 			console.log(applied_workflows, strain_ids, pipelines_ids, strains_dict);
 
-
 			$scope.available_strain_pipelines = applied_workflows;
 			$scope.available_pipelines_ids = pipelines_ids;
 

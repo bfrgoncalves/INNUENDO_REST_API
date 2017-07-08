@@ -34,3 +34,12 @@ cat chewbbaca_database_profiles/indexes/ecoli_wg_profiles.tab | ./dependencies/f
 
 #POPULATE ECOLI DB WITH LEGACY
 flask/bin/python mlst_profiles_to_db.py -i chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli.tsv -c chewbbaca_database_profiles/legacy_data_coli/Classification15_ecoli.txt -m chewbbaca_database_profiles/legacy_data_coli/ecoli_info_new.tsv -d ecoli -p NFP
+
+
+##FOR EACH MACHINE
+
+- START THE SCREENS
+- for each: export PYTHONPATH=/home/cloud-user/agraph-6.2.1-client-python/src/
+
+- LAUNCH agraph: ./agraph/bin/agraph-control --config agraph/lib/agraph.cfg start
+- RESTART /etc/init.d/nscd restart

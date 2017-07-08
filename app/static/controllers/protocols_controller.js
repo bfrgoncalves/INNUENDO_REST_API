@@ -87,7 +87,10 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			$("#protocol_selector_load").append(options);
 			$(".selectpicker").selectpicker("refresh");
 
+			$("#protocol_selector_load").off("change");
+			
 			$("#protocol_selector_load").on("change", function(){
+				console.log("BAH");
 				$scope.loadProtocol($("#protocol_selector_load option:selected").text());
 			});
 
@@ -100,6 +103,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 	$scope.loadProtocol = function(selectedProtocol){
 
 		$("#div_protocol_show").css({display:"none"});
+		console.log("AQUI");
 		protocols_list.load_protocol(selectedProtocol, function(results){
 			$scope.selected_protocol = results.protocol;
 			$("#div_protocol_show").css({display:"block"});

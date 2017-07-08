@@ -147,9 +147,6 @@ def classify_profile(job_id, database_name):
 			else:		
 				database_entry = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].name == first_closest[0]).first()
 
-				print database_entry.name
-				print database_entry.classifier
-
 				if database_entry:
 					classification = database_entry.classifier
 				else:

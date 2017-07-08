@@ -1021,7 +1021,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    		pipelines_applied[strain_names[sn]].map(function(d, x){
 		                workflowName = d.split('button')[1].split('>')[1].split('</')[0];
 
-		                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
+		                //button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
 		                //console.log('WN', workflowName);
 
 		                button_n = d.split("id")[1].split('"')[1];

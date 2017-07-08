@@ -98,7 +98,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 				});
 			});
 
-			$("#protocol_selector_load").trigger("change");
+			setTimeout(function(){$("#protocol_selector_load").trigger("change");},300);
 
 
 		});

@@ -105,7 +105,9 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		$("#div_protocol_show").css({display:"none"});
 		console.log("AQUI");
 		protocols_list.load_protocol(selectedProtocol, function(results){
-			$scope.selected_protocol = results.protocol;
+			$scope.$apply(function(){
+				$scope.selected_protocol = results.protocol;
+			})
 			$("#div_protocol_show").css({display:"block"});
 		});
 

@@ -43,3 +43,4 @@ flask/bin/python mlst_profiles_to_db.py -i chewbbaca_database_profiles/legacy_da
 
 - LAUNCH agraph: ./agraph/bin/agraph-control --config agraph/lib/agraph.cfg start
 - RESTART /etc/init.d/nscd restart
+- Change slurm.conf file. Name of the nomes

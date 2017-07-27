@@ -1,3 +1,11 @@
+/*
+Main controller - Main controller of the application. Defines global variables and the innuendoApp global controller.
+Global configuration of the app is also defined here.
+	- Analysyis parameters for metadata
+	- location of information and results for each program
+*/
+
+//Define global controller 
 var innuendoApp = angular.module("innuendoApp", []);
 
 var CURRENT_PROJECT_ID = "";
@@ -8,13 +16,8 @@ var CURRENT_SPECIES_NAME = "";
 var CURRENT_USER_NAME = current_user_name;
 var CURRENT_JOBS_ROOT = jobs_root;
 
-console.log(CURRENT_USER_NAME);
-
 var CURRENT_JOB_ID = "";
 var CURRENT_PROJECT_NAME_ID = "";
-
-console.log(jobs_root);
-
 
 var current_job_status_color = {};
 
@@ -22,20 +25,16 @@ var protocols = {};
 var protocol_types = [];
 
 /*
-*
-*
 DEFINE ANALYSIS PARAMETERS FOR METADATA
-*
-*
 */
-
 var ANALYSYS_PARAMETERS = {"INNUca": {"#samples":false, "MLST_ST": true, "MLST_scheme": true, "Pilon_changes": false, "Pilon_contigs_changed": false, "SPAdes_filtered_bp": false, "SPAdes_filtered_contigs": false, "SPAdes_number_bp": false, "assembly_coverage_filtered": true, "assembly_coverage_initial": false, "final_assembly": false, "first_coverage": false, "mapped_reads_percentage": false, "mapping_filtered_bp": true, "mapping_filtered_contigs": true, "pear_assembled_reads": false, "pear_discarded_reads": false, "pear_unassembled_reads": false, "second_Coverage": false, "trueCoverage_absent_genes": false, "trueCoverage_multiple_alleles": false, "trueCoverage_sample_coverage": true},
 						   "chewBBACA": {"EXC": true, "INF": true, "LNF": true, "PLOT": true, "NIPH": true, "ALM": true, "ASM": true},
 						   "PathoTyping": {"result":true}
 						  };
 
 var INFO_OR_RESULTS = {"chewBBACA": 0, "PathoTyping": 1, "INNUca": 1}
-
+/*
+*/
 
 $('a').click(function(){
 	$(this).parent().addClass("active").siblings().removeClass("active");

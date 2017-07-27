@@ -22,6 +22,11 @@ from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download
 from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource
 from resources.mlstdatabase.mlst_database import DatabaseSearchResource, DatabaseAddResource
 
+'''
+API:
+	- defines all the routes for the application
+'''
+
 
 #Setup API
 api = Api(app)

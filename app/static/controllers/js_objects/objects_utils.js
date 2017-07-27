@@ -1,3 +1,22 @@
+/*
+Object_Utils Object - An object with all functions used in the metadata management
+ - format
+ - format_analysis
+ - format_lab_protocols
+ - searchableTable
+ - nestedTable
+ - tableFromData
+ - apply_pipeline_to_strain
+ - show_message
+ - destroyTable
+ - updateTable
+ - loadDataTables
+ - loadTableFromArrayData
+*/
+
+/*
+Launch a object_utils instance
+*/
 function Objects_Utils(){
 
 	var metadata = new Metadata();
@@ -12,14 +31,10 @@ function Objects_Utils(){
 
 	    toUse = [];
 	    isThere = true;
-	    //console.log(visible_headers);
-
-	    console.log(d);
 
     	for(keys in d){
     		isThere = false;
     		for(header in visible_headers){
-    			//console.log(convert_dict[visible_headers[header]], keys, table_id.indexOf('reports_metadata') <0, table_id);
     			if (table_id.indexOf('reports') > -1 && table_id.indexOf('reports_metadata') < 0){
     				if(visible_headers[header] == keys){
 		    			isThere = true;
@@ -42,8 +57,6 @@ function Objects_Utils(){
 	    		}
 	    	}
 	    }
-
-	    console.log("TOUSE", toUse);
 	    for(x in toUse){
 	    	if(toUse[x][0] == 'job_id' || toUse[x][0] == undefined || toUse[x][0] == 'Analysis')continue;
 	    	tr_headers += '<td><b>'+toUse[x][0]+'</b></td>';
@@ -96,7 +109,6 @@ function Objects_Utils(){
 
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
-	    	//"scrollY": "200px",
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
@@ -227,9 +239,7 @@ function Objects_Utils(){
 
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
-	    	//"scrollY": "200px",
   			"scrollCollapse": true,
-	    	//"scrollX": true,
 	        paging:false,
 	        "pageLength": page_length,
 	        select: {
@@ -274,7 +284,6 @@ function Objects_Utils(){
 	        var selected_indexes = $.map(table.rows().indexes(), function(index){
 	            return index;
 	        });
-	        //console.log(selected_indexes);
 
 	        var strain_data = $.map(table.rows().data(), function(item){
 	            return item;
@@ -296,11 +305,9 @@ function Objects_Utils(){
 	                var s_name = strain_data[i]['strainID'];
 
 	                if(s_name == strain_name){
-	                	//onclick="showCombinedReports(this)"
 	                	buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
 		        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>'+
   						'<ul class="dropdown-menu" style="position:relative;">'+
-    					//'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="showCombinedReports(this)"><a href="#">Add to Active Report</a></li>'+
     					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
     					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>';
     					
@@ -308,8 +315,6 @@ function Objects_Utils(){
 			        	else buttonselectedPipeline += '<li style="display:none;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
 
 			        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>';
-	                	
-	                	//buttonselectedPipeline = '<button class="btn btn-sm btn-default" onclick="showCombinedReports(this)" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+'">'+ pipelinesByID[workflow_id] + '</button>';
 	                    
 	                    if(!pipelines_applied.hasOwnProperty(strain_name)){
 	                    	pipelines_type_by_strain[strain_name] = [[],[]];
@@ -325,15 +330,10 @@ function Objects_Utils(){
 	                    workflow_names.push(pipelinesByID[workflow_id]);
 	                    workflowids.push(strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID);
 	                    break;
-
-	                    //table.cell(selected_indexes[i], -1).data(toAdd);
 	                }
-	            
 	            }
 	            if(count == workflow_ids.length) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
 	        }
-
-	        //table.draw();
 	    },
 	    show_message: function(element, type, message){
 
@@ -346,9 +346,7 @@ function Objects_Utils(){
 		},
 		destroyTable: function(table_id){
 		    if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
-		      //$('#' + table_id).DataTable().clear();
 		      $('#' + table_id).DataTable().destroy();
-		      
 		      if(table_id == 'merged_results_table') $('#' + table_id).empty();
 		    }
 		},
@@ -364,7 +362,6 @@ function Objects_Utils(){
 	        if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
 	          return false;
 	        }
-
 	        if (table_id.indexOf('reports') > -1 || table_id.indexOf('strains_table') > -1) searchableTable(table_id, columnDefinitions, table_values, visible_headers);
 			else nestedTable(table_id, columnDefinitions, table_values, visible_headers);
 

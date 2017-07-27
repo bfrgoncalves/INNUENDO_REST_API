@@ -20,6 +20,13 @@ import os
 
 from job_processing.queue_processor import Queue_Processor
 
+'''
+Jobs resources:
+	- send job to slurm
+	- add results to database
+	- classify profile using fast-mlst
+'''
+
 job_post_parser = reqparse.RequestParser()
 job_post_parser.add_argument('protocol_ids', dest='protocol_ids', type=str, required=True, help="Protocols Ids")
 job_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="Protocols Ids")
@@ -44,7 +51,6 @@ job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=
 job_download_results_get_parser = reqparse.RequestParser()
 job_download_results_get_parser.add_argument('file_path', dest='file_path', type=str, required=True, help="Job Path")
 
-#get workflow, get protocols, get protocol parameters, run process
 
 database_processor = Queue_Processor()
 
@@ -66,11 +72,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 		
 		db.session.add(report)
 		db.session.commit()
-		'''
-		if "chewBBACA" in procedure:
-			print "CLASSIFY"
-			jobID = database_processor.classify_profile(job_id, database_to_include)
-		'''
+
 		return True, job_id
 	else:
 		if report.job_id == job_id:
@@ -94,27 +96,6 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 			return True, job_id
 
-
-def add_data_to_ngsOnto(paths, process_id, project_id, pipeline_id):
-	print paths
-	print process_id, project_id, pipeline_id
-	print OUTPUT_URL.replace('<int:id>', project_id).replace('<int:id2>', pipeline_id).replace('<int:id3>', process_id)
-	path_stats = ""
-	path_output = ""
-	path_info = ""
-	for x in paths:
-		if "stats" in x:
-			path_stats = x
-		elif "info" in x:
-			path_info = x
-		elif "output" in x:
-			path_output = x
-	
-	print path_stats, path_info, path_output
-	request = requests.post(OUTPUT_URL.replace('<int:id>', project_id).replace('<int:id2>', pipeline_id).replace('<int:id3>', process_id), data={'run_stats':path_stats, 'run_info':path_info, 'output':path_output})
-	#results = requests.json()
-	#print request
-	#return results
 
 #Run jobs using slurm and get job status
 class Job_queue(Resource):
@@ -150,10 +131,10 @@ class Job_queue(Resource):
 				to_send.append("null")
 				#print data
 			counter += 1
-		print data
+
 		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data)})
 		to_send.append(request.json()['jobID'])
-		print to_send
+
 		return to_send, 200
 
 	@login_required
@@ -171,9 +152,6 @@ class Job_queue(Resource):
 
 			if results['store_in_db'] == True:
 				added, job_id = add_data_to_db(results['job_id'], results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include)
-				
-				#DATA IS BEING ADDED AT JOB FINISHING TIME AT THE SBATCH FILES
-				#add_data_to_ngsOnto(results['paths'], args.process_id, args.project_id, args.pipeline_id)
 
 			return job_status, 200
 		else:
@@ -186,7 +164,6 @@ class Job_results(Resource):
 	def get(self):
 		args = job_results_get_parser.parse_args()
 		report = db.session.query(Report).filter(Report.job_id == args.job_id).first()
-		print report.report_data
 		return report.report_data
 
 #Load job results to display on graphical interface

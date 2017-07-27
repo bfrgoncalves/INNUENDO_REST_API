@@ -1,3 +1,12 @@
+/*
+Object with functions to deal with the Projects controller
+	- get_species_names
+	- get_projects_from_species
+	- add_project
+	- delete_project
+	- load_project
+*/
+
 function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 
 	var projects = [], other_projects = [], species = [];
@@ -25,8 +34,10 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 
     var returned_functions = {
 
+    	/*
+    	Get all the available species names
+    	*/
     	get_species_names: function(callback){
-
     		pg_requests.get_species_names(function(response){
 	        	if(response.status == 200){
 		            callback({species:response.data, CURRENT_SPECIES_NAME:response.data[0].name, CURRENT_SPECIES_ID:response.data[0].id});
@@ -34,6 +45,11 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 	        	else console.log(response.statusText);
 	        })
     	},
+
+    	/*
+    	Get all projects available from the current species.
+    	Can be from other users or only for the current user
+    	*/
     	get_projects_from_species: function(species_id, is_others, callback){
 
     		pg_requests.get_species_projects(species_id, is_others, function(response){
@@ -58,11 +74,15 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		        else {
 		        	if(!is_others) projects = [];
 		        	else other_projects = [];
-	        		console.log(response.statusText);
 	        		callback([]);
 	        	}
 	        });
     	},
+
+    	/*
+    	Add a new project to the database.
+    	It adds to the postgresql and to the ngsonto
+    	*/
     	add_project: function(callback){
     		pg_requests.add_project_to_database(function(response){
     			if (response.status == 201){
@@ -72,13 +92,16 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 	    			projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id});
 		            $('#newProjectModal').modal('hide');
 		            modalAlert('Project created.', function(){});
-		            //objects_utils.show_message('projects_message_div', 'success', 'Project created.');
 		            callback({projects: projects});
 		        }
 		        else modalAlert('An error as occuried when creating the new project.', function(){});
-		        //else objects_utils.show_message('new_project_message_div', 'warning', 'An error as occuried when creating the new project.');
     		})
     	},
+
+    	/*
+    	Deletes a project from the database.
+    	It adds a tag to the project on the database. Dont really removes it.
+    	*/
     	delete_project: function(callback){
 
     		var project_indexes = $.map($('#projects_table').DataTable().rows('.selected').indexes(), function(index){
@@ -93,7 +116,6 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		    	modalAlert("By accepting this option you are removing the project/projects from the application. Do you really want proceed?", function(){
 
 		    		for(i in project_indexes){
-				    	console.log(projects);
 				        var project_id = projects[project_indexes[i]].id;
 				        pg_requests.delete_project_from_database(project_id, function(response){
 				        	count_to_delete+=1;
@@ -103,18 +125,18 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 					                if (d.id != project_id) new_projects.push(d);
 					            })
 					            projects = new_projects;
-					            //objects_utils.show_message('projects_message_div', 'success', 'Project deleted.');
-
 				        	}
-				        	else console.log(response.statusText);
 				        	if(count_to_delete == total_to_delete) callback({projects: projects});
-
 				        });
 				    }
 		    	});
 
 		    }
     	},
+
+    	/*
+    	Loads a Project from the database
+    	*/
     	load_project: function(table_id, CURRENT_PROJECT_ID, pass, callback){
 
     		selected_indexes = [];
@@ -129,7 +151,6 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		    
 		    if (selected_indexes.length == 0 && pass != true){
 		    	modalAlert('Please select a project first.', function(){});
-		        //objects_utils.show_message('projects_message_div', 'warning', 'Please select a project first.');
 		    }
 		    else{
 		    	pg_requests.load_project(CURRENT_PROJECT_ID, function(response){

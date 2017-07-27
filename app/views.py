@@ -1,10 +1,15 @@
-from flask import render_template, flash, redirect, session, url_for, request, g #a function from the flask framework. Uses Jinja2 templating engine
+from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_security import login_required, current_user, utils, roles_required
 import json
-#from flask.ext.security.utils import get_hmac #Encrypts according to the config paramaters
 from app import app
 import requests
 from config import JOBS_ROOT
+
+'''
+Views:
+	- Define the index route of the application
+'''
+
 
 def getID(current_user):
 	if current_user.is_authenticated:
@@ -14,9 +19,7 @@ def getID(current_user):
 
 @app.route('/')
 @app.route('/index')
-#@login_required #Using this decorator, only login users are allowed to view the index page
 def index():
-	print current_user
 	current_user_id = getID(current_user)
 	username = ""
 	if current_user.is_authenticated:
@@ -24,7 +27,6 @@ def index():
 	try:
 		if current_user.gid == "501":
 			show_protocols = True
-			print "AQUI"
 		else:
 			show_protocols = False
 	except Exception, e:

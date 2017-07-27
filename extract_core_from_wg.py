@@ -3,6 +3,11 @@
 import csv
 import argparse
 
+'''
+This program removes genes from a tab delimited file according to a list.
+Allows only replacing chewBBACA tags by 0
+'''
+
 
 def main():
     parser = argparse.ArgumentParser(description="This program removes gens from a tab separated allele profile file")

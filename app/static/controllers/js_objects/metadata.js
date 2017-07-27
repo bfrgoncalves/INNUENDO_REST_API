@@ -1,8 +1,21 @@
+/*
+Metadata Object - An object with all functions used in the metadata management
+ - add_owner
+ - get_fields
+ - get_dict_fields
+ - get_dict_fields_reverse
+ - get_minimal_fields
+*/
+
+/*
+Launch a metadata instance
+*/
 function Metadata(){
 
 	var metadata_object = {};
 	var data_owner = "";
 
+	//Type of html input to be generated for each of the metadata fields on the new strain form
 	var fields = {
 
 		"Strain Identifier": [ {"Primary": "text"}, {"Food-Bug": "text"}],
@@ -14,6 +27,7 @@ function Metadata(){
 		"Location": [{"Location": "text disabled"}]
 	}
 
+	//Conversion from the metadata fields stored in the db to how we want to see them on a table
 	var dict_fields = {
 		"Strain Name": "strainID",
 		"Species ID": "species_id",
@@ -33,6 +47,7 @@ function Metadata(){
 		"Analysis": "Analysis"
 	}
 
+	//Conversion from the metadata fields stored in the db to how we want to see them on a table (Reverse)
 	var dict_fields_reverse = {
 		"strainID":"Strain Name",
 		"species_id":"Species ID",
@@ -52,22 +67,43 @@ function Metadata(){
 		"Analysis": "Analysis"
 	}
 
+	//The minimum headers to be seen on a table
 	var minimal_headers = ["Strain Name", "Species ID", "Source", "Location", "Received Date", "Sampling Date"];
 
 	return {
+
+		/*
+		Add a owner
+		*/
 		add_owner: function(owner_info){
 			fields["Submitter"][0]["data"] = owner_info;
 			return owner_info;
 		},
+
+		/*
+		Get the html input correspondence object
+		*/
 		get_fields: function(){
 			return fields;
 		},
+
+		/*
+		Get the conversion fields object
+		*/
 		get_dict_fields: function(){
 			return dict_fields;
 		},
+
+		/*
+		Get the conversion fields object (reverse)
+		*/
 		get_dict_fields_reverse: function(){
 			return dict_fields_reverse;
 		},
+
+		/*
+		Get the minimal headers
+		*/
 		get_minimal_fields: function(){
 			return minimal_headers;
 		}

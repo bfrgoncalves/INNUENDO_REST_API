@@ -7,6 +7,13 @@ from app.models.models import Pipeline, Workflow, Process
 from flask_security import current_user, login_required, roles_required
 import datetime
 
+'''
+Postgres pipeline resources:
+	- add pipeline
+	- remove pipeline
+	- get all pipelines
+'''
+
 #Defining post arguments parser
 pipeline_post_parser = reqparse.RequestParser()
 pipeline_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="Strain id")

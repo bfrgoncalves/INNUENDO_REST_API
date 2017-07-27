@@ -1,3 +1,17 @@
+/*
+Protocol_List Object - An object with all functions used in the protocols controller
+ - get_protocol_types
+ - add_protocol
+ - load_protocol_form
+ - get_protocols_of_type
+ - load_protocol
+ - get_protocol_fields
+ - get_current_protocol_type
+*/
+
+/*
+Launch a protocol_list instance
+*/
 function Protocol_List($http){
 
 	var file_formats = ["fastq", "gbk", "bam", "sam"];
@@ -27,6 +41,9 @@ function Protocol_List($http){
 
 	var returned_functions = {
 
+		/*
+		Get the types of protocols from the ngsonto
+		*/
 		get_protocol_types: function(callback){
 			
 			ngs_onto_requests.ngs_onto_get_protocol_types(function(response){
@@ -39,11 +56,16 @@ function Protocol_List($http){
 		        callback({protocol_types: protocol_types, protocolTypeObject:protocolTypeObject});
 			});
 		},
+
+		/*
+		Add a protocol
+		*/
 		add_protocol: function(callback){
 			
 			form_serialized = $('#new_protocol_form').serializeArray();
 			var protocol_object = {};
 
+			//Parse the information to send to postgresql
 			if ( $( "#parameter_select" ).length ) {
 		 		var options = $('#parameter_select option');
 		 		var values = {};
@@ -59,23 +81,25 @@ function Protocol_List($http){
 				protocol_object[form_serialized[i].name.split('_')[1]] = form_serialized[i].value;
 			}
 
-			console.log(protocol_object);
-
+			//Send the protocol to the database
 			pg_requests.create_protocol(protocol_object, function(response){
 				if(response.status == 201){
 					new_protocol_id = response.data.id;
+					//Add the protocol to the ngsonto
 					ngs_onto_requests.ngs_onto_request_create_protocol(protocolTypeObject, currentProtocolType, new_protocol_id, function(response){
-						//do something
 						callback({message: "protocol added to ngs onto"});
 						objects_utils.show_message('protocols_message_div', 'success', 'Protocol saved.');
 					})
 				}
 				else{
-					console.log(response.statusText);
 					objects_utils.show_message('protocols_message_div', 'warning', 'An error as occurried when saving the protocol.');
 				} 
 			});
 		},
+
+		/*
+		Load the form to construct a protocol
+		*/
 		load_protocol_form: function(selectedType, callback){
 
 			selectedNewProtocolType = selectedType;
@@ -91,6 +115,10 @@ function Protocol_List($http){
 		    	callback({protocol_type:protocol_type, protocol_parameters:protocol_parameters});
 			});
 		},
+
+		/*
+		Get the available protocols of a given type
+		*/
 		get_protocols_of_type: function(selectedType, callback){
 			pg_requests.get_protocols_of_type(selectedType, function(response){
 				if(response.status == 200){
@@ -114,18 +142,24 @@ function Protocol_List($http){
 					protocols_of_type = [];
 					property_fields = [];
 					callback({protocols_of_type:protocols_of_type, property_fields:property_fields, protocols:protocols});
-					console.log(response.statusText);
 				}
 			})
 		},
+
+		/*
+		Load a protocol to show its fields
+		*/
 		load_protocol: function(selectedProtocol, callback){
 
 			callback({protocol:protocols[selectedProtocol]});
 
 		},
+
+		/*
+		Get the fields to create a new protocol
+		*/
 		get_protocol_fields: function(uri, callback){
 			ngs_onto_requests.ngs_onto_get_protocol_fields(uri, function(response){
-				console.log(response);
 		        property_fields = [];
 		    	for(i in response.data){
 		    		if(property_fields.indexOf(response.data[i].plabel.split('"')[1]) < 0) property_fields.push(response.data[i].plabel.split('"')[1])
@@ -136,6 +170,10 @@ function Protocol_List($http){
 		        callback({property_fields:property_fields});
 			});
 		},
+
+		/*
+		Get the type of the current protocol
+		*/
 		get_current_protocol_type: function(callback){
 			callback({currentProtocolType: currentProtocolType});
 		}

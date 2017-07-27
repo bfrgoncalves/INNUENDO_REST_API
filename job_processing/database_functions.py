@@ -11,23 +11,15 @@ import subprocess
 from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, core_increment_profile_file_correspondece, wg_increment_profile_file_correspondece
 
 '''
-index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
-headers_correspondece = {"E.coli":"./chewbbaca_database_profiles/profiles_headers/ecoli.txt"}
+Database Functions:
+	- Classify a profile based on Fast-MLST (https://github.com/aplf/fast-mlst) by using the closest strain classifier from the profiles db 
 '''
+
 database_correspondece = {"E.coli":Ecoli}
-
-def search_on_database(strain_id, closest_number):
-	return True
-
-
-def add_to_database(strain_id, profile_object, classifier):
-	return True
-
 
 
 def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file_path):
 
-	print strain_id
 	count_headers = 0
 	
 	strain_to_use = db.session.query(database).filter(database.name == strain_id).first()
@@ -79,10 +71,6 @@ def classify_profile(job_id, database_name):
 		count_core = 0
 		count_entrou = 0
 
-		print headers[0]
-		print len(headers)
-		print len(profile)
-
 		for i, header in enumerate(headers):
 			strain_allele_profile[header] = profile[i]
 		
@@ -106,14 +94,10 @@ def classify_profile(job_id, database_name):
 					if include_index > -1:
 						wg_profile.append(profile[include_index])
 
-		
-		print query_profle_path
-
 		string_list = "\t".join(core_profile)
 
 		string_list_wg = "\t".join(wg_profile)
 
-		#string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
 		for k,v in to_replace.iteritems():
 			string_list = string_list.replace(k,v)
@@ -129,8 +113,6 @@ def classify_profile(job_id, database_name):
 
 		closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/2)
 
-		#UNCOMMENT WHEN WE GET ORDERED LISTS FROM FAST-MLST
-
 		if len(closest_profiles) == 0:
 			classification = "undefined"
 		else:
@@ -138,7 +120,7 @@ def classify_profile(job_id, database_name):
 			for i, x in enumerate(closest_profiles):
 				closest_ids.append(closest_profiles[i].split("\t")[0])
 			
-			#ID\tDIFERENCES
+			#ID\tDIFFERENCES
 			first_closest = closest_profiles[0].split("\t")
 
 			if report.sample_name.replace(" ", "_") in closest_ids:

@@ -1,3 +1,9 @@
+/*
+Overview controller - Controller of the first page of the application.
+Uses:
+	- project_table object
+	- pg_requests object
+*/
 
 innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
@@ -19,13 +25,11 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 			$("#load_species_row").css({"display":"none"});
 		}
 		else{
-
+			//Get available species and add then to the dropdown menu
 			projects_table.get_species_names(function(results){
 	        	$scope.species = results.species;
 		        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
 		        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
-
-		        console.log(CURRENT_SPECIES_NAME, CURRENT_SPECIES_ID, results.species);
 
 		        var t_use = "";
 				for(r in results.species){
@@ -38,7 +42,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 	        });
 		}
-
+		//Get metadata parameters available on reports defined by the user for each program
 		pg_requests.get_user_parameters(function(response){
 			if(response.data.analysis_parameters_object != undefined) ANALYSYS_PARAMETERS = JSON.parse(response.data.analysis_parameters_object);
 		});
@@ -46,6 +50,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 	}
 
 	$scope.load_species = function(){
+		//Get species name and ID. Launch the Projects view for that species
     	CURRENT_SPECIES_NAME = $('#species_select_drop option:selected').text();
         CURRENT_SPECIES_ID = $('#species_select_drop option:selected').attr("species_id");
         $scope.selectedTemplate.path = 'static/html_components/projects_view.html';

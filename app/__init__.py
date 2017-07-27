@@ -16,6 +16,19 @@ from config import basedir,AG_HOST,AG_PORT,AG_REPOSITORY,AG_USER,AG_PASSWORD, ap
 #IMPORT CONNECTION FROM THE WORKER REDIS
 from worker import conn
 
+'''
+App route:
+	- Defining the global app instance.
+	- Launching triplestore client.
+	- Set the redis queue
+	- Set the mailer
+
+	- Load all the other files required for the application to work:
+		- views (load the index page of the pplication)
+		- models (load all the datatabase Resource models)
+		- api (load all the app end-points)
+		- app_configuration (before first request and override login post of the flask-login package to deal with ldap)
+'''
 
 
 #Setup app
@@ -47,18 +60,11 @@ from flask_mail import Mail
 #initialize mailer
 mail = Mail(app)
 
-# Initialize Flask-Admin
-#admin = Admin(app)
-
-# Add Flask-Admin views for Users and Roles
-#admin.add_view(UserAdmin(User, db.session))
-#admin.add_view(RoleAdmin(Role, db.session))
-
 
 #setup agraph
 server= AllegroGraphServer(AG_HOST, AG_PORT, AG_USER, AG_PASSWORD)
 catalog = server.openCatalog()             ## default rootCatalog
-#print "Available repositories in catalog '%s':  %s" % (catalog.getName(), catalog.listRepositories())    
+   
 myRepository = catalog.getRepository(AG_REPOSITORY, Repository.OPEN)
 myRepository.initialize()
 dbconAg = myRepository.getConnection()

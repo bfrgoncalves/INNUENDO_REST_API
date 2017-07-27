@@ -68,14 +68,12 @@ class ProjectUserResource(Resource):
 		if not project:
 			abort(404, message="Project {} doesn't exist".format(id))
 		project.is_removed = True
-		#db.session.delete(project)
 		db.session.commit()
 		return project, 204
 
 
 class ProjectListUserResource(Resource):
 
-	#@auth_token_required
 	@login_required
 	@marshal_with(all_project_fields)
 	def get(self):

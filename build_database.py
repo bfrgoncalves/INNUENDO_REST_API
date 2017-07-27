@@ -5,10 +5,11 @@ import argparse
 import os
 import shutil
 import os
-
 import mlst_profiles_to_db
 
-
+'''
+Program to load profiles and metadata to a defined db
+'''
 def main():
 
 	parser = argparse.ArgumentParser(description="This program build a db and creates the indexes for searches and correspondence files")

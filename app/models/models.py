@@ -4,6 +4,11 @@ from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
 from config import LDAP_PROVIDER_URL, baseDN
 
+'''
+Models:
+	- Defines every model to be used on the postgres database
+'''
+
 #Secondary role table
 roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')), db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')), info={'bind_key': 'innuendo_database'})
 pipelines_workflows = db.Table('pipelines_workflows', db.Column('pipeline_id', db.Integer(), db.ForeignKey('pipelines.id')), db.Column('workflow_id', db.Integer(), db.ForeignKey('workflows.id')), info={'bind_key': 'innuendo_database'})
@@ -35,7 +40,6 @@ class User(db.Model, UserMixin):
 	def try_login(email, password):
 		conn = get_ldap_connection()
 		try:
-			print email, password
 			conn.simple_bind_s("cn="+email+",ou=users,dc=innuendo,dc=com", password)
 		except Exception as e:
 			return False
@@ -45,7 +49,6 @@ class User(db.Model, UserMixin):
 		for dn, entry in result:
 			DN = str(dn)
 			Entry = entry
-			print DN
 			print Entry
 			break
 

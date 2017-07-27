@@ -8,6 +8,11 @@ import ldap
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
 
+'''
+App configuration:
+    - Set of functions to be applied before the first app request and an handle override for the flask-login post function
+'''
+
 
 # Executes before the first request is processed.
 @app.before_first_request
@@ -43,11 +48,6 @@ def before_first_request():
 
     db.session.commit()
 
-    # Give one User has the "end-user" role, while the other has the "admin" role. (This will have no effect if the
-    # Users already have these Roles.) Again, commit any database changes.
-    #user_datastore.add_role_to_user(app.config['ADMIN_EMAIL'], 'admin')
-    #db.session.commit()
-
 
 @app.login_manager.request_loader
 def load_user_from_request(request):
@@ -77,6 +77,7 @@ def load_user_from_request(request):
         login_user(user)
         return user
 
+
 @user_registered.connect_via(app) #overrides the handler function to add a default role to a registered user
 def user_registered_handler(app, user, confirm_token):
 
@@ -95,9 +96,3 @@ def user_registered_handler(app, user, confirm_token):
     userType = dbconAg.createURI(namespace=dcterms, localname="Agent")
     dbconAg.add(UserURI, RDF.TYPE, userType)
 
-    '''
-    ############## CREATE USER ON CONTROLLER ##############################
-    r = requests.post('http://' + SFTP_HOST + '/controller/v1.0/users', data = {'username': user.email})
-    print r.json()
-    return 200
-    '''

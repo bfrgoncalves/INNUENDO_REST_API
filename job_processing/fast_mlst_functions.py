@@ -8,18 +8,19 @@ from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_S
 import subprocess
 from subprocess import call
 
+'''
+Fast-MLST (https://github.com/aplf/fast-mlst) functions:
+	- update index files used for the rapid search of the closest profiles
+	- Search for closest profiles. Gives a list of the closest profiles with a length of max_closest
+'''
+
 
 def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 
 	file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-	#result_path = profile_query_file_path + ".result"
-
 	myinput = open(profile_query_file_path)
 
-
 	command = './dependencies/fast-mlst/src/main -i '+index_path+' -q '+str(max_closest);
-	#command = './dependencies/fast-mlst/src/main --help';
-	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 	command = command.split(' ')
 	print command
 
@@ -36,14 +37,10 @@ def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 def update_index(profile_query_file_path, index_path):
 
 	file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-	#result_path = profile_query_file_path + ".result"
-
 	myinput = open(profile_query_file_path)
 
 
 	command = './dependencies/fast-mlst/src/main -i '+index_path+' -b';
-	#command = './dependencies/fast-mlst/src/main --help';
-	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 	command = command.split(' ')
 	print command
 

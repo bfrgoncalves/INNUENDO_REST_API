@@ -16,8 +16,9 @@ from config import wg_index_correspondece, core_index_correspondece, core_header
 database_correspondece = {"E.coli":Ecoli}
 
 '''
-index_correspondece = {"E.coli":"./chewbbaca_database_profiles/indexes/ecoli.index"}
-headers_correspondece = {"E.coli":"./chewbbaca_database_profiles/profiles_headers/ecoli.txt"}
+PHYLOViZ Online (https://github.com/bfrgoncalves/Online-PhyloViZ) functions:
+	- Allows sending a set of profiles to PHYLOViZ Online according to the closest profiles in a database to a given set of profiles. This comparison is made using Fast-MLST (https://github.com/aplf/fast-mlst)
+	- It gets the max_closest profiles to each of the given profiles and then creates a set. The result is sent to PHYLOViZ Online with the corresponding metadata
 '''
 
 def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data, database_to_include, max_closest, user_id, species_id, missing_data, missing_char):
@@ -41,7 +42,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			continue
 
 		if database_to_include != "None":
-			#report.sample_name
 			profile_query_file_path, number_of_loci = database_functions.tab_profile_from_db(report.sample_name.replace(" ", "_"), database_correspondece[database_to_include], wg_headers_correspondece[database_to_include], profile_tab_file_path)
 			array_to_process.append([profile_query_file_path, number_of_loci])
 	
@@ -54,13 +54,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		#Merge all first max_closest for each strain and then creates a set
 		for strain_selected in array_to_process:
 			list_to_query = fast_mlst_functions.get_closest_profiles(strain_selected[0], wg_index_correspondece[database_to_include], strain_selected[1]/2)
-			print len(list_to_query)
 			merged_list_temp = merged_list_temp + list_to_query[:int(max_closest)]
 		
 		merged_list = list(set(merged_list_temp))
 
-		#list_to_query = list_to_query[:int(max_closest)] #FIlters according to the number of closest requested by the user
-		print len(merged_list)
 		for x in merged_list:
 			strain_id = x.split("\t")[0]
 			strains_from_db = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == strain_id).first()
@@ -90,13 +87,11 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	for job_id in total_j_ids:
 		body_profile = [];
+		#Get profiles from the chewBBACA report
 		report = db.session.query(Report).filter(Report.job_id == job_id).first()
 		if not report:
 			continue
 		else:
-			#print report.report_data["run_output"]
-			#print report.sample_name
-
 			if first_time == True:
 				headers = headers_profile + report.report_data["run_output"]["header"]
 				first_time = False
@@ -106,9 +101,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 			for k,v in to_replace.iteritems():
 				string_list = string_list.replace(k,v)
-			#new_profile.append(report.sample_name + "\t" + new_allele)
 
-			#print profiles
 			strains_selected_from_plat.append(report.sample_name)
 			all_profiles.append(report.sample_name + "\t" + string_list)
 
@@ -136,7 +129,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			first_time_m = False
 			
 			straind = [report.sample_name]
-			print strain_metadata
+
 			for x in headers_metadata:
 				try:
 					if x == "fileselector":
@@ -146,7 +139,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					else:
 						straind.append(strain_metadata[x])
 				except KeyError:
-					print additional_data
 					is_added = False
 					for key, val in additional_data[str(count_ids)].iteritems():
 						if key == x:
@@ -182,7 +174,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 			#INCLUDE METADATA FROM PLATFORM IF STRAIN FROM THERE
 			if strain_from_db.platform_tag == "FP":
-				print "FROM PLATFORM"
 				strain = db.session.query(Strain).filter(Strain.name == strain_from_db.name).first()
 				strain_metadata = json.loads(strain.strain_metadata)
 			else:
@@ -228,19 +219,13 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	print file_path_profile
 	print file_path_metadata
 
-	print missing_data
 	if missing_data == "True":
 		missing_data_to_use = "true"
-		command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -cd '+phyloviz_root+' -am core -root '+phyloviz_root+' -mc ' + missing_char + ' -mt 0 -sdt profile -sd ' + file_path_profile + ' -d "'+dataset_name+'" -dn "'+dataset_description+'" -m '+ file_path_metadata;
+		command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -cd '+phyloviz_root+' -am core -root '+phyloviz_root+' -mc ' + missing_char + ' -mt 0 -sdt profile -sd ' + file_path_profile + ' -d '+dataset_name.replace(" ", "_")+' -dn '+dataset_description.replace(" ", "_")+' -m '+ file_path_metadata;
 	else:
 		missing_data_to_use = "false"
-		command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -cd '+phyloviz_root+' -root '+phyloviz_root+' -sdt profile -sd ' + file_path_profile + ' -d "'+dataset_name+'" -dn "'+dataset_description+'" -m '+ file_path_metadata +' -pid ' + parent_id;
+		command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -cd '+phyloviz_root+' -root '+phyloviz_root+' -sdt profile -sd ' + file_path_profile + ' -d '+dataset_name.replace(" ", "_")+' -dn '+dataset_description.replace(" ", "_")+' -m '+ file_path_metadata +' -pid ' + parent_id;
 
-	#command = 'python ./app/resources/phyloviz/remoteUpload.py -t '+cookie_string+' -cd '+config.final_root+' -am '+analysis_method+' -root '+config.final_root+' -mc ' + req.body.missingschar + ' -mt ' + missing_threshold + ' -sdt profile -sd uploads/'+profileName+' -d "'+req.body.name+'" -dn "'+req.body.description+'" -m uploads/'+metadataName+' -pid ' + parent_id;
-
-	#command = 'python ./app/resources/phyloviz/remoteUpload.py -cd '+BASE_ROOT+' -am core -root '+BASE_ROOT+' -mc ' + missing_char + ' -mt 0 -sdt profile -sd ' + file_path_profile + ' -d "'+dataset_name+'" -dn "'+dataset_description+'" -m '+ file_path_metadata +' -pid ' + parent_id;
-	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -m '+ file_path_metadata +' -d ' + dataset_name + ' -dn ' + dataset_description + '-l' + ' --missing_data ' + missing_data_to_use + ' --missing_char ' + missing_char;
-	#command = 'python ./app/resources/phyloviz/remoteUpload.py -u innuendo_demo -p innuendo_demo -sdt profile -sd ' + file_path_profile + ' -d ' + args.dataset_name + ' -dn ' + args.dataset_description + '-l';
 	command = command.split(' ')
 
 	print command

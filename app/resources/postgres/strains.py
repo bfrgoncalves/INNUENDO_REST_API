@@ -89,10 +89,10 @@ class StrainListResource(Resource):
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
 
-		if not args["Food-Bug"]:
+		if not args["Case ID"]:
 			s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-")
 		else:
-			s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-") + "-" + args["Food-Bug"].replace(" ", "-").replace(".", "-").replace("#", "-")
+			s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-") + "-" + args["Case ID"].replace(" ", "-").replace(".", "-").replace("#", "-")
 
 		strain = db.session.query(Strain).filter(Strain.name == s_name).first()
 

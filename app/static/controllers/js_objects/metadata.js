@@ -41,7 +41,7 @@ function Metadata(){
 		"File 2": "File_2",
 		"Primary": "Primary",
 		"Sampling Date": "SamplingDate",
-		"Food-Bug": "Food-Bug",
+		"Case ID": "Case ID",
 		"Additional Info": "AdditionalInformation",
 		"More Info": "More Info",
 		"Analysis": "Analysis"
@@ -61,7 +61,7 @@ function Metadata(){
 		"File_2": "File 2",
 		"Primary":"Primary",
 		"SamplingDate":"Sampling Date",
-		"Food-Bug":"Food-Bug",
+		"Case ID":"Case ID",
 		"AdditionalInformation":"Additional Info",
 		"More Info": "More Info",
 		"Analysis": "Analysis"

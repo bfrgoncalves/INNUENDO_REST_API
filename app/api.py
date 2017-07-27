@@ -20,7 +20,6 @@ from resources.ngs_onto.ngs_onto_strains import NGSOnto_StrainsListUserResource
 from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, NGSOnto_ProcessJobID, NGSOnto_ProcessOutputResource
 from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download
 from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource
-from resources.mlstdatabase.mlst_database import DatabaseSearchResource, DatabaseAddResource
 
 '''
 API:
@@ -84,12 +83,6 @@ api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
 
 api.add_resource(GetFilesResource, '/api/v1.0/files/')
 api.add_resource(DownloadFilesResource, '/api/v1.0/downloads/')
-
-#################################MLST DATABASE ROUTES ###################################
-
-api.add_resource(DatabaseSearchResource, '/api/v1.0/mlstdatabase/search/', endpoint = 'database_search')
-api.add_resource(DatabaseAddResource, '/api/v1.0/mlstdatabase/add/', endpoint = 'database_add')
-
 
 ################################# Defining NGSOnto routes ##############################################
 

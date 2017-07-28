@@ -486,7 +486,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						else{
 							strainID_pipeline[response.data[i].strain_id] = response.data[i].id;
-			                strainid_processes_buttons[response.data[i].strain_id] = [{}];xw
+			                strainid_processes_buttons[response.data[i].strain_id] = [{}];
 			                get_and_apply_pipeline(total_pipelines, response.data[i].id, response.data[i].strain_id, CURRENT_PROJECT_ID, null, function(response){
 			                	callback(response);
 			                })

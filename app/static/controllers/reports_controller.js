@@ -1002,7 +1002,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			if(response == null){
 				modalAlert('Please select a report first.', function(){});
-				//objects_utils.show_message('s_report_message_div', 'warning', 'Please select a report first.')
 				return;
 			}
 
@@ -1024,7 +1023,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				console.log("LENGTH", Object.keys(response.data[job].report_data).length, Object.keys(response.data[job].report_data));
 				if (Object.keys(response.data[job].report_data).length == 0){
 					problematic_jobs.push(response.data[job].job_id);
-					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
 					count_jobs += 1;
 					reports_last_steps();
 					continue;
@@ -1035,23 +1033,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				}
 				catch(err){
 					problematic_jobs.push(response.data[job].job_id);
-					//objects_utils.show_message('s_report_message_div', 'warning', 'Failed to load report with job id '+response.data[job].job_id+'.')
 					count_jobs += 1;
 					reports_last_steps();
 					continue;
 				}
-
-				//if(identifier == "stats") response.data[job].report_data.shift();
-
-				//console.log(response.data[job].report_data);
-
-				//identifier = Object.keys(response.data[job].report_data[0])[0];
 				
 				run_identifiers.push(identifier);
-
-				//if(identifier == "stats") continue:
-				console.log(response.data[job].job_id, current_job_ids);
-				console.log("BAH")
 
 				if ($.inArray(response.data[job].job_id, current_job_ids) != -1){
 					already_added_jobs += 1;
@@ -1062,7 +1049,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				process_report_data(identifier, response.data[job].report_data, response.data[job].sample_name, response.data[job].procedure_name, job, function(results, job_to_use){
 					
-					console.log("AQUI");
 					count_jobs += 1;
 
 					results[0]['job_id'] = response.data[job_to_use].job_id;
@@ -1205,6 +1191,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							$('#reports_info_table_wrapper').css({'display':'block'});
 							$('#reports_results_table_wrapper').css({'display':'none'});
 							$('#reports_metadata_table_wrapper').css({'display':'none'});
+
+							$("run_info_" + q[p]).trigger("click");
 
 							callback(true);
 						

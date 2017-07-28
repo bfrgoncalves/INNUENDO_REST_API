@@ -43,6 +43,7 @@ def get_profiles_object(database_to_use, genes_to_remove_file_path):
 			FilesToRemove.append(File)
 
 		for strain in results:
+			print "Searching strain " + strain.name
 			allelic_profile = strain.allelic_profile
 			strain_wg_object[strain.name] = {}
 			strain_core_object[strain.name] = {}

@@ -31,27 +31,27 @@ def get_profiles_object(database_to_use, genes_to_remove_file_path):
 
 	results = db.session.query(database_corespondence[database_to_use]).all()
 
-    FilesToRemove = []
-    strain_wg_object = {}
-    strain_core_object = {}
+	FilesToRemove = []
+	strain_wg_object = {}
+	strain_core_object = {}
 
-    with open(genes_to_remove_file_path) as f:
-        for File in f:
-            File = File.rstrip('\n')
-            File = File.rstrip('\r')
-            File = (File.split('\t'))[0]
-            FilesToRemove.append(File)
+	with open(genes_to_remove_file_path) as f:
+		for File in f:
+			File = File.rstrip('\n')
+			File = File.rstrip('\r')
+			File = (File.split('\t'))[0]
+			FilesToRemove.append(File)
 
-    for strain in results:
-    	allelic_profile = strain.allelic_profile
-    	strain_wg_object[strain.name] = {}
-    	strain_core_object[strain.name] = {}
-    	for key, val in allelic_profile.iteritems():
-    		if key not in FilesToRemove:
-    			strain_wg_object[strain.name][key] = val
-    		else if key in FilesToRemove:
-    			strain_wg_object[strain.name][key] = val
-    			strain_core_object[strain.name][key] = val
+		for strain in results:
+			allelic_profile = strain.allelic_profile
+			strain_wg_object[strain.name] = {}
+			strain_core_object[strain.name] = {}
+			for key, val in allelic_profile.iteritems():
+				if key not in FilesToRemove:
+					strain_wg_object[strain.name][key] = val
+				else if key in FilesToRemove:
+					strain_wg_object[strain.name][key] = val
+					strain_core_object[strain.name][key] = val
 
 	return strain_core_object, strain_wg_object
 

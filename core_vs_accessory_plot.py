@@ -84,8 +84,6 @@ def compute_distances(strain_core_object, strain_wg_object):
 			count_diff_wg = 0
 			number_of_differences_core = differences(strain_core_object[strain_1], strain_core_object[strain_2])
 			number_of_differences_wg = differences(strain_wg_object[strain_1], strain_wg_object[strain_2])
-
-			print number_of_differences_core
 			columns_core.append(count_diff_core)
 			columns_wg.append(count_diff_wg)
 		

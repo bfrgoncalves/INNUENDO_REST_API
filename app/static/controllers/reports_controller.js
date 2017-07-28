@@ -1115,7 +1115,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									$('#phyloviz_button').css({display:"none"});
 
-									$scope.currently_showing = "Run information " + to_check
+									$scope.$apply(function(){
+										$scope.currently_showing = "Run information " + to_check;
+									})
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
@@ -1137,7 +1139,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									sp = this.id.split('_');
 									to_check = sp.splice(2, sp.length).join('_');
 
-									$scope.currently_showing = "Run results " + to_check
+									$scope.$apply(function(){
+										$scope.currently_showing = "Run results " + to_check;
+									})
 
 									if(to_check.indexOf('chewBBACA') > -1) $('#phyloviz_button').css({display:"block"});
 									else $('#phyloviz_button').css({display:"none"});

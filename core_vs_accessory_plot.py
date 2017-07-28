@@ -32,8 +32,8 @@ def get_profiles_object(database_to_use, genes_to_remove_file_path):
 	results = db.session.query(database_corespondence[database_to_use]).all()
 
 	FilesToRemove = []
-	strain_wg_object = {}
-	strain_core_object = {}
+	strain_wg_object = []
+	strain_core_object = []
 
 	with open(genes_to_remove_file_path) as f:
 		for File in f:
@@ -42,21 +42,23 @@ def get_profiles_object(database_to_use, genes_to_remove_file_path):
 			File = (File.split('\t'))[0]
 			FilesToRemove.append(File)
 
+		count_strains = -1
+
 		for strain in results:
 			print "Searching strain " + strain.name
 
-			if not hasattr(strain_wg_object, strain.name):
-				strain_wg_object[strain.name] = {}
-				strain_core_object[strain.name] = {}
+			strain_wg_object.append({})
+			strain_core_object.append({})
+			count_strains += 1
 			
 			allelic_profile = strain.allelic_profile
 
 			for removable in FilesToRemove:
-				if not hasattr(strain_core_object[strain.name], removable):
-					strain_core_object[strain.name][removable] = allelic_profile[removable]
+				if not hasattr(strain_core_object[count_strains], removable):
+					strain_core_object[count_strains][removable] = allelic_profile[removable]
 
 			for key, val in allelic_profile.iteritems():
-				strain_core_object[strain.name][key] = val
+				strain_core_object[count_strains][key] = val
 
 
 	return strain_core_object, strain_wg_object
@@ -67,12 +69,12 @@ def compute_distances(strain_core_object, strain_wg_object):
 	rows_core = []
 	rows_wg = []
 
-	for strain_1 in strain_core_object:
+	for strain_1 in range(0, len(strain_core_object)):
 		print "RUNNING strain " + strain_1
 		columns_core = []
 		columns_wg = []
 		
-		for strain_2 in strain_core_object:
+		for strain_2 in range(strain_1 + 1, len(strain_core_object)):
 			count_diff_core = 0
 			count_diff_wg = 0
 			for locus in strain_core_object[strain_1]:

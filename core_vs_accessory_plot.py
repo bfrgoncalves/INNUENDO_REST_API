@@ -70,7 +70,7 @@ def compute_distances(strain_core_object, strain_wg_object):
 	rows_wg = []
 
 	for strain_1 in range(0, len(strain_core_object)):
-		print "RUNNING strain " + strain_1
+		print "RUNNING strain " + str(strain_1)
 		columns_core = []
 		columns_wg = []
 		

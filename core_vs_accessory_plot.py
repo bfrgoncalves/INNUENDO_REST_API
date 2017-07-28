@@ -44,7 +44,7 @@ def get_profiles_object(database_to_use, genes_to_remove_file_path):
 
 		for strain in results:
 			print "Searching strain " + strain.name
-			
+
 			if not hasattr(strain_wg_object, strain.name):
 				strain_wg_object[strain.name] = {}
 				strain_core_object[strain.name] = {}
@@ -74,15 +74,15 @@ def compute_distances(strain_core_object, strain_wg_object):
 		
 		for strain_2 in strain_core_object:
 			count_diff_core = 0
-			count_diff_accesory = 0
+			count_diff_wg = 0
 			for locus in strain_core_object[strain_1]:
 				if strain_core_object[strain_1][locus] != strain_core_object[strain_2][locus]:
 					count_diff_core += 1
 			columns_core.append(count_diff_core)
 			for locus in strain_wg_object[strain_1]:
 				if strain_wg_object[strain_1][locus] != strain_wg_object[strain_2][locus]:
-					count_diff_accessory += 1
-			columns_wg.append(count_diff_accessory)
+					count_diff_wg += 1
+			columns_wg.append(count_diff_wg)
 		
 		rows_core.append(columns_core)
 		rows_wg.append(columns_wg)

@@ -83,6 +83,11 @@ def compute_distances(strain_core_object, strain_wg_object):
 
 	return rows_core, rows_wg
 
+
 def plot_distances(core_distances, accesory_distances):
 
 	return 200
+
+
+if __name__ == "__main__":
+    main()

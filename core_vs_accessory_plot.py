@@ -44,15 +44,20 @@ def get_profiles_object(database_to_use, genes_to_remove_file_path):
 
 		for strain in results:
 			print "Searching strain " + strain.name
+			
+			if not hasattr(strain_wg_object, strain.name):
+				strain_wg_object[strain.name] = {}
+				strain_core_object[strain.name] = {}
+			
 			allelic_profile = strain.allelic_profile
-			strain_wg_object[strain.name] = {}
-			strain_core_object[strain.name] = {}
+
+			for removable in FilesToRemove:
+				if not hasattr(strain_core_object[strain.name], removable):
+					strain_core_object[strain.name][removable] = allelic_profile[removable]
+
 			for key, val in allelic_profile.iteritems():
-				if key not in FilesToRemove:
-					strain_wg_object[strain.name][key] = val
-				elif key in FilesToRemove:
-					strain_wg_object[strain.name][key] = val
-					strain_core_object[strain.name][key] = val
+				strain_core_object[strain.name][key] = val
+
 
 	return strain_core_object, strain_wg_object
 

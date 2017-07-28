@@ -47,18 +47,18 @@ def get_profiles_object(database_to_use, genes_to_remove_file_path):
 		for strain in results:
 			print "Searching strain " + strain.name
 
-			strain_wg_object.append({})
-			strain_core_object.append({})
+			strain_wg_object.append([])
+			strain_core_object.append([])
 			count_strains += 1
 			
 			allelic_profile = strain.allelic_profile
 
 			for removable in FilesToRemove:
 				if not hasattr(strain_core_object[count_strains], removable):
-					strain_core_object[count_strains][removable] = allelic_profile[removable]
+					strain_core_object[count_strains].append(allelic_profile[removable])
 
 			for key, val in allelic_profile.iteritems():
-				strain_core_object[count_strains][key] = val
+				strain_core_object[count_strains].append(val)
 
 
 	return strain_core_object, strain_wg_object
@@ -69,6 +69,11 @@ def compute_distances(strain_core_object, strain_wg_object):
 	rows_core = []
 	rows_wg = []
 
+	def differences(a, b):
+		if len(a) != len(b):
+			raise ValueError("Lists of different length.")
+		return sum(i != j for i, j in zip(a, b))
+
 	for strain_1 in range(0, len(strain_core_object)):
 		print "RUNNING strain " + str(strain_1)
 		columns_core = []
@@ -77,13 +82,11 @@ def compute_distances(strain_core_object, strain_wg_object):
 		for strain_2 in range(strain_1 + 1, len(strain_core_object)):
 			count_diff_core = 0
 			count_diff_wg = 0
-			for locus in strain_core_object[strain_1]:
-				if strain_core_object[strain_1][locus] != strain_core_object[strain_2][locus]:
-					count_diff_core += 1
+			number_of_differences_core = differences(strain_core_object[strain_1], strain_core_object[strain_2])
+			number_of_differences_wg = differences(strain_wg_object[strain_1], strain_wg_object[strain_2])
+
+			print number_of_differences_core
 			columns_core.append(count_diff_core)
-			for locus in strain_wg_object[strain_1]:
-				if strain_wg_object[strain_1][locus] != strain_wg_object[strain_2][locus]:
-					count_diff_wg += 1
 			columns_wg.append(count_diff_wg)
 		
 		rows_core.append(columns_core)

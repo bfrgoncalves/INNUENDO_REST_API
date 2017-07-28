@@ -17,6 +17,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$scope.saved_reports_headers = [];
 
 	$scope.projects_names = [];
+	$scope.currently_showing = "";
 
 	var user_reports = [];
 	var user_reports_table_headers = ['Username', 'Run identifier', 'Sample', 'Procedure'];
@@ -983,6 +984,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						$('#reports_results_table_wrapper').css({'display':'none'});
 						$('#reports_metadata_table_wrapper').css({'display':'block'});
 						$('#reports_metadata_table').DataTable().draw();
+						$scope.$apply(function(){
+							$scope.currently_showing = "Strains Metadata";
+						})
 					});
 				}, 200)
 			}

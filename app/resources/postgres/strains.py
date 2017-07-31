@@ -89,6 +89,7 @@ class StrainListResource(Resource):
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
 
+		print args
 		if not args["Case ID"]:
 			s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-")
 		else:

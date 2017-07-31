@@ -1194,11 +1194,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							$('#reports_results_table_wrapper').css({'display':'none'});
 							$('#reports_metadata_table_wrapper').css({'display':'none'});
 
-							console.log(q[p]);
-							setTimeout(function(){
-								console.log("AQUI CLICK")
-								$("run_info_" + q[p]).trigger("click");
-							},1500);
+							$("#run_info_" + q[p]).trigger("click");
 
 							callback(true);
 						

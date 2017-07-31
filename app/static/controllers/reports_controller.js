@@ -656,9 +656,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		show_results_and_info(null, function(show_metadata){
 			console.log(global_results_dict);
 			if(show_metadata) show_strains_metadata(null);
-			setTimeout(function(){
-				$("run_info_" + q[p]).trigger("click");
-			},500);
 		});
 
 		//objects_utils.show_message('s_report_message_div', 'success', 'Report was added to Active Report tab.')
@@ -1194,6 +1191,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							$('#reports_info_table_wrapper').css({'display':'block'});
 							$('#reports_results_table_wrapper').css({'display':'none'});
 							$('#reports_metadata_table_wrapper').css({'display':'none'});
+
+							console.log(q[p]);
+							setTimeout(function(){
+								$("run_info_" + q[p]).trigger("click");
+							},500);
 
 							callback(true);
 						

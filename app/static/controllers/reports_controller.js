@@ -1128,6 +1128,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									sp = this.id.split('_');
 									to_check = sp.splice(2, sp.length).join('_');
+									console.log("CLICKED");
 
 									$scope.$apply(function(){
 										$scope.currently_showing = "Run results " + to_check;

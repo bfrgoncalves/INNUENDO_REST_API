@@ -1195,7 +1195,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							console.log(q[p]);
 							setTimeout(function(){
 								$("run_info_" + q[p]).trigger("click");
-							},500);
+							},1500);
 
 							callback(true);
 						

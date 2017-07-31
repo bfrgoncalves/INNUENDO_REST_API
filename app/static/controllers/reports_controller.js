@@ -1102,6 +1102,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									sp = this.id.split('_');
 									to_check = sp.splice(2, sp.length).join('_');
+									console.log("CLICKED info");
 
 									$('#phyloviz_button').css({display:"none"});
 

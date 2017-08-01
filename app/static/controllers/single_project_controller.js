@@ -297,8 +297,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                	objects_utils.destroyTable('strains_table');
 
 		                	if(strains_results.strains == "no_pipelines"){	
-		                		console.log("AQUI");	                		
-		                		objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+		                		headers_defs = set_headers(global_strains);	                		
+		                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			                	$('#waiting_spinner').css({display:'none'}); 
 								$('#single_project_controller_div').css({display:'block'}); 
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();

@@ -55,7 +55,7 @@ function set_headers(global_strains){
 					p_col_defs.push({"data":x});
 				}
 				else p_col_defs.push({"data":x, "visible":false});
-				strains_headers.push(matching_fields[x]);
+				strains_headers.push(matching_fields[x] == undefined ? x:matching_fields[x]);
 			}
 		}
 

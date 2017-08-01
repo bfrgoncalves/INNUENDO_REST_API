@@ -28,12 +28,6 @@ function set_headers(global_strains){
 	        { "data": "Submitter", "visible":false },
 	        { "data": "File_2", "visible":false },
 	        { "data": "Location" },
-	        {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	        }
 
 	    ];
 	}
@@ -1065,7 +1059,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							})
 						});
 					}, 200)
-				}, 1000)
+				}, 500)
 
 			}
 

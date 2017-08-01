@@ -261,7 +261,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 							$("#file_text").val(this.files[0].name);
 						})
 
-
+		                $('#get_template_file').on('click', function(e){
+						    single_project.get_template_strain_file();
+						});
 		                /*
 		                Set the jQuery button click for adding an already available pipeline for a given strain
 		                */

@@ -773,6 +773,22 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			
 		},
 
+		download_template_strain_file: function(callback){
+
+			req = {
+		        url: '/api/v1.0/templates/batch_submission/',
+		        method:'GET'
+		    }
+
+			$http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		            callback(response);
+		    });
+			
+		},
+
 		//////////////////////////// SEND TO PHYLOVIZ ////////////////////////////////////////
 		/*send_to_phyloviz: function(profile_data, metadata, callback){
 			

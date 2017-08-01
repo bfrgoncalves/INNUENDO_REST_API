@@ -1420,6 +1420,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			});
 		},
 
+		get_template_strain_file:function(){
+			pg_requests.download_template_strain_file(function(response){
+				console.log(response);
+			});
+		},
+
 		/*
 	    Remove the last workflow button for a given strain
 	    The remove is only saved when a job is run again for that strain

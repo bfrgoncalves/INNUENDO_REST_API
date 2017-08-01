@@ -20,6 +20,7 @@ from resources.ngs_onto.ngs_onto_strains import NGSOnto_StrainsListUserResource
 from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, NGSOnto_ProcessJobID, NGSOnto_ProcessOutputResource
 from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download
 from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource
+from resources.file_resources.file_resources import TemplateResource
 
 '''
 API:
@@ -71,6 +72,10 @@ api.add_resource(Job_Result_Download, '/api/v1.0/jobs/results/download/')
 
 api.add_resource(PHYLOViZResource, '/api/v1.0/phyloviz/')
 api.add_resource(TreeResource, '/api/v1.0/phyloviz/trees/')
+
+################################# TEMPLATES FILES ###################################
+
+api.add_resource(TemplateResource, '/api/v1.0/templates/batch_submission/')
 
 #################################DEFINE USER REPORTS################################
 

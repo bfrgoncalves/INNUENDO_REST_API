@@ -120,7 +120,8 @@ function Objects_Utils(){
 	        buttons: [
 	        	'selectAll',
 	        	'selectNone',
-	            'csv'
+	            'csv',
+	            'colvis'
 	        ],
 	        columns: columnDefinitions,
 	        "data": data
@@ -247,7 +248,8 @@ function Objects_Utils(){
 	            selector: 'td:first-child'
 	        },
 	        buttons: [
-	            'csv'
+	            'csv',
+	            'colvis'
 	        ],
 	        columns: columnDefinitions,
 	        "data": data

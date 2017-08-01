@@ -40,7 +40,7 @@ Uses:
 
 
 //Initialize the Single Project Controller and enclosure all its functions
-innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
+innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeout) {
 
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 

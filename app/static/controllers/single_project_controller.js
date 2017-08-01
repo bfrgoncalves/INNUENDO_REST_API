@@ -245,8 +245,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 							        }
 		                		];
 		                		
-		                		for(x in global_strains){
-		                			console.log(global_strains[x]);
+		                		for(x in global_strains[0]){
 		                			p_col_defs.push({"data":x});
 		                		}
 

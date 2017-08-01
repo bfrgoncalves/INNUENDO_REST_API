@@ -534,6 +534,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		    objects_utils.destroyTable('public_strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    headers_defs = set_headers(global_public_strains);
+		    console.log(headers_defs, strains_headers);
 		    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
 		    callback();
 		});

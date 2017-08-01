@@ -775,6 +775,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		download_template_strain_file: function(callback){
 
+			console.log(CURRENT_JOBS_ROOT);
 			url = CURRENT_JOBS_ROOT + 'api/v1.0/templates/batch_submission/'
 			req = {
 		        url: 'api/v1.0/templates/batch_submission/',

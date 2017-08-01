@@ -266,11 +266,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						        console.log($scope.strains_headers);
 
 						        setTimeout(function(){
-						        	objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
+						        	//objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
 				                	$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
-					                	objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
+					                	//objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
 					                	$('#waiting_spinner').css({display:'none'}); 
 										$('#single_project_controller_div').css({display:'block'}); 
 										$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();

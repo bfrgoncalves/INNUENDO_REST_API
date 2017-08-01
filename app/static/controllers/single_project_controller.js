@@ -235,6 +235,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		                	else{
 
 		                		global_strains = strains_results.strains;
+		                		matching_fields = metadata.get_dict_fields_reverse();
+		                		strains_headers = [];
 
 		                		var p_col_defs = [
 		                			{
@@ -247,6 +249,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		                		
 		                		for(x in global_strains[0]){
 		                			p_col_defs.push({"data":x});
+		                			strains_headers.push(matching_fields[x]);
 		                		}
 
 		                		p_col_defs.push({
@@ -257,6 +260,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						        });
 
 						        console.log(p_col_defs);
+
+						        $scope.strains_headers = strains_headers;
+
 
 			                	objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
 			                	$scope.getIdsFromProjects(function(strains_results){

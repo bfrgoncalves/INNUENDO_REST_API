@@ -121,7 +121,10 @@ function Objects_Utils(){
 	        	'selectAll',
 	        	'selectNone',
 	            'csv',
-	            'colvis'
+	            {
+		            extend: 'colvis',
+	                collectionLayout: 'fixed two-column'
+	            }
 	        ],
 	        columns: columnDefinitions,
 	        "data": data
@@ -249,7 +252,10 @@ function Objects_Utils(){
 	        },
 	        buttons: [
 	            'csv',
-	            'colvis'
+	            {
+		            extend: 'colvis',
+	                collectionLayout: 'fixed two-column'
+	            }
 	        ],
 	        columns: columnDefinitions,
 	        "data": data

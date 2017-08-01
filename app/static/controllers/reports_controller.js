@@ -57,15 +57,7 @@ function set_headers(global_strains){
 				else p_col_defs.push({"data":x, "visible":false});
 				strains_headers.push(matching_fields[x] == undefined ? x:matching_fields[x]);
 			}
-		}
-
-		p_col_defs.push({
-	        "className":      'details-control',
-	        "orderable":      false,
-	        "data":           null,
-	        "defaultContent": '<div><!--<button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>--><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	    });
-		
+		}		
 	}
 
     return [p_col_defs, strains_headers]
@@ -1059,8 +1051,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 					reports_metadata_table_headers = headers_defs[1];
 
-					console.log(current_strains_data, headers_defs[0], reports_metadata_table_headers)
-
 					objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs[0], reports_metadata_table_headers);
 
 					$('#reports_metadata_table_wrapper').css({'display':'none'});
@@ -1075,7 +1065,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							})
 						});
 					}, 200)
-				},2000)
+				},500)
 
 			}
 

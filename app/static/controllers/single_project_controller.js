@@ -42,6 +42,7 @@ Uses:
 function set_headers(global_strains){
 	var metadata = new Metadata();
 	matching_fields = metadata.get_dict_fields_reverse();
+	minimal_fields = metadata.get_default_headers();
 	var strains_headers = []
 
 	var p_col_defs = [
@@ -55,7 +56,10 @@ function set_headers(global_strains){
 	
 	for(x in global_strains[0]){
 		if (x != "Analysis" && x != "id" && x != "species_id"){
-			p_col_defs.push({"data":x, "visible":false});
+			if(x in minimal_fields){
+				p_col_defs.push({"data":x});
+			}
+			else p_col_defs.push({"data":x, "visible":false});
 			strains_headers.push(x);
 		}
 	}

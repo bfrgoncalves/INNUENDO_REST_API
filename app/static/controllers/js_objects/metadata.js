@@ -69,6 +69,7 @@ function Metadata(){
 
 	//The minimum headers to be seen on a table
 	var minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location"];
+	var default_headers = ["Strain Name", "Received Date", "Source", "Sampling Date", "Location"];
 
 	return {
 
@@ -106,6 +107,13 @@ function Metadata(){
 		*/
 		get_minimal_fields: function(){
 			return minimal_headers;
+		},
+
+		/*
+		Get default headers
+		*/
+		get_default_headers: function(){
+			return default_headers;
 		}
 	}
 }

@@ -68,7 +68,7 @@ function Metadata(){
 	}
 
 	//The minimum headers to be seen on a table
-	var minimal_headers = ["Strain Name", "Species ID", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location"];
+	var minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location"];
 
 	return {
 

@@ -127,7 +127,7 @@ table.display{
     text-align:center;
 }
 
-.buttons-colvis {
+.dt-button.buttons-collection.buttons-colvis {
   background-color: blue;
   color: white;
 }

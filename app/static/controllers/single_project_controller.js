@@ -183,7 +183,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 	Loads a complete project. Gets the workflows, the strains and the applied pipelines for those strains
 	*/
 	$scope.showProject = function(){
-	    setTimeout(function(){
+	    $timeout(function(){
 
 	    	//Get the files available on the user folder on the server side
 			single_project.get_user_files(function(response){
@@ -265,7 +265,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
 						        console.log($scope.strains_headers);
 
-						        setTimeout(function(){
+						        $timeout(function(){
 						        	//objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
 				                	$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');

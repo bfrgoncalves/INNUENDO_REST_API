@@ -235,7 +235,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		                	else{
 
 		                		global_strains = strains_results.strains;
-		                		/*matching_fields = metadata.get_dict_fields_reverse();
+		                		matching_fields = metadata.get_dict_fields_reverse();
 		                		strains_headers = [];
 
 		                		var p_col_defs = [
@@ -263,18 +263,19 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						        $scope.$apply(function(){
 						        	$scope.strains_headers = strains_headers;
 						        });
-						        console.log($scope.strains_headers);*/
+						        console.log($scope.strains_headers);
 
-
-			                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-			                	$scope.getIdsFromProjects(function(strains_results){
-			                		objects_utils.destroyTable('strains_table');
-				                	global_strains = strains_results.strains;
-				                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-				                	$('#waiting_spinner').css({display:'none'}); 
-									$('#single_project_controller_div').css({display:'block'}); 
-									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
-			                	});
+						        setTimeout(function(){
+						        	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+				                	$scope.getIdsFromProjects(function(strains_results){
+				                		objects_utils.destroyTable('strains_table');
+					                	global_strains = strains_results.strains;
+					                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+					                	$('#waiting_spinner').css({display:'none'}); 
+										$('#single_project_controller_div').css({display:'block'}); 
+										$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
+				                	});
+						        }, 1000);
 
 		                	}
 		                });

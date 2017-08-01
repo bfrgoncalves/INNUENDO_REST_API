@@ -45,32 +45,66 @@ function set_headers(global_strains){
 	minimal_fields = metadata.get_default_headers();
 	var strains_headers = []
 
-	var p_col_defs = [
-		{
-            "className":      'select-checkbox',
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": ''
-        }
-	];
-	
-	for(x in global_strains[0]){
-		if (x != "Analysis" && x != "id" && x != "species_id"){
-			if($.inArray(matching_fields[x], minimal_fields) > -1){
-				console.log(matching_fields[x], minimal_fields);
-				p_col_defs.push({"data":x});
-			}
-			else p_col_defs.push({"data":x, "visible":false});
-			strains_headers.push(x);
-		}
-	}
+	if(global_strains.length == 0){
 
-	p_col_defs.push({
-        "className":      'details-control',
-        "orderable":      false,
-        "data":           null,
-        "defaultContent": '<div><!--<button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>--><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-    });
+		var p_col_defs = [
+	    	{
+	            "className":      'select-checkbox',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	        },
+	        { "data": "strainID" },
+	        { "data": "SampleReceivedDate" },
+	        { "data": "source_Source" },
+	        { "data": "AdditionalInformation" },
+	        { "data": "File_1" },
+	        { "data": "Primary" },
+	        { "data": "SamplingDate" },
+	        { "data": "Owner" },
+	        { "data": "Food-Bug" },
+	        { "data": "Submitter" },
+	        { "data": "File_2" },
+	        { "data": "Location" },
+	        {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	        }
+
+	    ];
+	}
+	else{
+
+		var p_col_defs = [
+			{
+	            "className":      'select-checkbox',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	        }
+		];
+		
+		for(x in global_strains[0]){
+			if (x != "Analysis" && x != "id" && x != "species_id"){
+				if($.inArray(matching_fields[x], minimal_fields) > -1){
+					console.log(matching_fields[x], minimal_fields);
+					p_col_defs.push({"data":x});
+				}
+				else p_col_defs.push({"data":x, "visible":false});
+				strains_headers.push(x);
+			}
+		}
+
+		p_col_defs.push({
+	        "className":      'details-control',
+	        "orderable":      false,
+	        "data":           null,
+	        "defaultContent": '<div><!--<button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>--><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	    });
+		
+	}
 
     return [p_col_defs, strains_headers]
 }

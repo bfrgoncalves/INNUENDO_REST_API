@@ -775,12 +775,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		download_template_strain_file: function(callback){
 
-			console.log(CURRENT_JOBS_ROOT);
-			url = CURRENT_JOBS_ROOT + 'api/v1.0/templates/batch_submission/'
-			req = {
-		        url: 'api/v1.0/templates/batch_submission/',
-		        method:'GET'
-		    }
+			console.log(window.location.hostname);
+			url = window.location.hostname + 'api/v1.0/templates/batch_submission/'
 
 			var link = document.createElement("a");
 		    link.href = url;

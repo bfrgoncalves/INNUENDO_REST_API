@@ -256,11 +256,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
 						        });
 
-			                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			                	objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
 			                	$scope.getIdsFromProjects(function(strains_results){
 			                		objects_utils.destroyTable('strains_table');
 				                	global_strains = strains_results.strains;
-				                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+				                	objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
 				                	$('#waiting_spinner').css({display:'none'}); 
 									$('#single_project_controller_div').css({display:'block'}); 
 									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();

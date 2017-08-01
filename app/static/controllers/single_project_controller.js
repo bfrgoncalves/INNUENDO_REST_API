@@ -565,6 +565,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 				callback();
 			}
 			else{
+				console.log("BAH");
+				console.log(global_strains, project_col_defs, strains_headers)
 				objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 				callback();
 			}

@@ -15,5 +15,5 @@ class TemplateResource(Resource):
 
 	@login_required
 	def get(self):
-		templates_folder = 'app/static/file_templates/'
+		templates_folder = 'app/static/file_templates'
 		return send_from_directory(directory=templates_folder, filename="template_strain_batch_submission.tab")

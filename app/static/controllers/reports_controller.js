@@ -1052,6 +1052,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				headers_defs = set_headers(current_strains_data);
 
+				console.log(current_strains_data, headers_defs[0], reports_metadata_table_headers)
+
 				objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs[0], reports_metadata_table_headers);
 
 				$('#reports_metadata_table_wrapper').css({'display':'none'});

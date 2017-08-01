@@ -226,6 +226,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                	objects_utils.destroyTable('strains_table');
 
 		                	if(strains_results.strains == "no_pipelines"){
+		                		console.log("AQUI");
 		                		
 		                		objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 			                	$('#waiting_spinner').css({display:'none'}); 

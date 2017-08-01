@@ -16,7 +16,7 @@ class TemplateResource(Resource):
 
 	@login_required
 	def get(self):
-		templates_folder = 'app/static/file_templates'
+		templates_folder = 'static/file_templates'
 		file_path = os.path.join(templates_folder, "template_strain_batch_submission.tab")
 		print file_path
 		try:

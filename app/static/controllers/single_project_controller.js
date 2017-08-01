@@ -65,7 +65,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
 	var strains_headers = metadata.get_minimal_fields();
 
-	$scope.strains_headers = strains_headers;
+	//$scope.strains_headers = strains_headers;
 
 	sh = strains_headers;
 

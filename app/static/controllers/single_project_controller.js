@@ -262,7 +262,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
             			$scope.getAppliedPipelines(null, function(strains_results){
 		                	objects_utils.destroyTable('strains_table');
 
-		                	if(strains_results.strains == "no_pipelines"){		                		
+		                	if(strains_results.strains == "no_pipelines"){	
+		                		console.log("AQUI");	                		
 		                		objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 			                	$('#waiting_spinner').css({display:'none'}); 
 								$('#single_project_controller_div').css({display:'block'}); 

@@ -775,17 +775,17 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		download_template_strain_file: function(callback){
 
+			url = CURRENT_JOBS_ROOT + 'api/v1.0/templates/batch_submission/'
 			req = {
 		        url: 'api/v1.0/templates/batch_submission/',
 		        method:'GET'
 		    }
 
-			$http(req).then(function(response){
-		            callback(response);
-		        },
-		        function(response){
-		            callback(response);
-		    });
+			var link = document.createElement("a");
+		    link.href = url;
+		    link.click();
+		    link.remove();
+		    callback();
 			
 		},
 

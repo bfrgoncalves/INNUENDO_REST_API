@@ -54,10 +54,10 @@ function set_headers(global_strains){
         }
 	];
 	
-	console.log(minimal_fields);
 	for(x in global_strains[0]){
 		if (x != "Analysis" && x != "id" && x != "species_id"){
 			if($.inArray(x, minimal_fields)){
+				console.log(x, minimal_fields);
 				p_col_defs.push({"data":x});
 			}
 			else p_col_defs.push({"data":x, "visible":false});

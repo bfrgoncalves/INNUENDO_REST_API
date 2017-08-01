@@ -536,7 +536,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
-			objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			//objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 			callback();
 		});
 	}

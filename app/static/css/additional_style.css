@@ -126,3 +126,8 @@ table.display{
 .nav-tabs, .nav-pills {
     text-align:center;
 }
+
+.buttons-colvis {
+  background-color: blue;
+  color: white;
+}

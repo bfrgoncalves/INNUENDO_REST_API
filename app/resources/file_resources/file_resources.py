@@ -1,5 +1,5 @@
 from app import app, db
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with, send_from_directory #filters data according to some fields
 from flask_security import current_user
 from flask import jsonify
 

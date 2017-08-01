@@ -560,6 +560,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
 			headers_defs = set_headers(global_strains);
+			console.log(global_strains, headers_defs);
 			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			callback();
 		});

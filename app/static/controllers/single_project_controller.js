@@ -533,7 +533,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		single_project.get_strains(false, function(strains_results){
 		    objects_utils.destroyTable('strains_table');
 		    global_public_strains = strains_results.public_strains;
-		    //objects_utils.loadDataTables('public_strains_table', global_public_strains, public_project_col_defs, strains_headers);
+		    headers_defs = set_headers(global_strains);
+		    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
 		    callback();
 		});
 
@@ -546,7 +547,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
-			//objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+			headers_defs = set_headers(global_strains);
+			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			callback();
 		});
 	}

@@ -39,6 +39,38 @@ Uses:
 */
 
 
+function set_headers(global_strains){
+	var metadata = new Metadata();
+	matching_fields = metadata.get_dict_fields_reverse();
+	var strains_headers = []
+
+	var p_col_defs = [
+		{
+            "className":      'select-checkbox',
+            "orderable":      false,
+            "data":           null,
+            "defaultContent": ''
+        }
+	];
+	
+	for(x in global_strains[0]){
+		if (x != "Analysis"){
+			p_col_defs.push({"data":x});
+			strains_headers.push(x);
+		}
+	}
+
+	p_col_defs.push({
+        "className":      'details-control',
+        "orderable":      false,
+        "data":           null,
+        "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+    });
+
+    return [p_col_defs, strains_headers]
+}
+
+
 //Initialize the Single Project Controller and enclosure all its functions
 innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeout) {
 
@@ -236,37 +268,14 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                	else{
 
 		                		global_strains = strains_results.strains;
-		                		matching_fields = metadata.get_dict_fields_reverse();
 
-		                		var p_col_defs = [
-		                			{
-							            "className":      'select-checkbox',
-							            "orderable":      false,
-							            "data":           null,
-							            "defaultContent": ''
-							        }
-		                		];
+		                		headers_defs = set_headers(global_strains);
 		                		
-		                		for(x in global_strains[0]){
-		                			p_col_defs.push({"data":x});
-		                		}
-
-		                		p_col_defs.push({
-						            "className":      'details-control',
-						            "orderable":      false,
-						            "data":           null,
-						            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-						        });
-
-						        console.log(strains_headers);
-						        console.log(p_col_defs);
-
-
-					        	objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
+					        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			                	$scope.getIdsFromProjects(function(strains_results){
 			                		objects_utils.destroyTable('strains_table');
 				                	global_strains = strains_results.strains;
-				                	objects_utils.loadDataTables('strains_table', global_strains, p_col_defs, strains_headers);
+				                	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				                	$('#waiting_spinner').css({display:'none'}); 
 									$('#single_project_controller_div').css({display:'block'}); 
 									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();

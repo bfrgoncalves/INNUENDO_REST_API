@@ -123,6 +123,7 @@ function Objects_Utils(){
 	            'csv',
 	            'colvis'
 	        ],
+	        columnDefs: [ {visible: false, targets: [ 3, 5, 8, 7, 13 ]}],
 	        columns: columnDefinitions,
 	        "data": data
 	    });

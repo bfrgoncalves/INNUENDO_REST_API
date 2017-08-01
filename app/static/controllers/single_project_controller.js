@@ -54,7 +54,7 @@ function set_headers(global_strains){
 	];
 	
 	for(x in global_strains[0]){
-		if (x != "Analysis" && x != "id"){
+		if (x != "Analysis" && x != "id" && x != "species_id"){
 			p_col_defs.push({"data":x});
 			strains_headers.push(x);
 		}

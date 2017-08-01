@@ -227,7 +227,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 
 		                	if(strains_results.strains == "no_pipelines"){
 		                		
-		                		objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
+		                		//objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 			                	$('#waiting_spinner').css({display:'none'}); 
 								$('#single_project_controller_div').css({display:'block'}); 
 								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();

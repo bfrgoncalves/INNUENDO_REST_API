@@ -226,6 +226,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		                	objects_utils.destroyTable('strains_table');
 
 		                	if(strains_results.strains == "no_pipelines"){
+		                		
 		                		objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 			                	$('#waiting_spinner').css({display:'none'}); 
 								$('#single_project_controller_div').css({display:'block'}); 
@@ -234,6 +235,26 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 		                	else{
 
 		                		global_strains = strains_results.strains;
+
+		                		var p_col_defs = [
+		                			{
+							            "className":      'select-checkbox',
+							            "orderable":      false,
+							            "data":           null,
+							            "defaultContent": ''
+							        }
+		                		];
+		                		
+		                		for(x in global_strains){
+		                			p_col_defs.push({"data":x});
+		                		}
+
+		                		p_col_defs.push({
+						            "className":      'details-control',
+						            "orderable":      false,
+						            "data":           null,
+						            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+						        });
 
 			                	objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
 			                	$scope.getIdsFromProjects(function(strains_results){

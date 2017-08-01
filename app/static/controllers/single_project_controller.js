@@ -236,7 +236,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		                		global_strains = strains_results.strains;
 		                		matching_fields = metadata.get_dict_fields_reverse();
-		                		strains_headers = [];
 
 		                		var p_col_defs = [
 		                			{
@@ -249,7 +248,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                		
 		                		for(x in global_strains[0]){
 		                			p_col_defs.push({"data":x});
-		                			strains_headers.push(matching_fields[x]);
 		                		}
 
 		                		p_col_defs.push({

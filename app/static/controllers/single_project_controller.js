@@ -593,17 +593,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
-			if(global_strains.length != 0){
-				headers_defs = set_headers(global_strains);
-				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-				callback();
-			}
-			else{
-				console.log("BAH");
-				console.log(global_strains, project_col_defs, strains_headers)
-				objects_utils.loadDataTables('strains_table', global_strains, project_col_defs, strains_headers);
-				callback();
-			}
+			headers_defs = set_headers(global_strains);
+			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+			callback();
+
 		});
 	}
 

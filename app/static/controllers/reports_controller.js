@@ -1065,7 +1065,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							})
 						});
 					}, 200)
-				},500)
+				}, 1000)
 
 			}
 

@@ -1,3 +1,78 @@
+
+
+
+function set_headers(global_strains){
+	var metadata = new Metadata();
+	matching_fields = metadata.get_dict_fields_reverse();
+	minimal_fields = metadata.get_default_headers();
+	var strains_headers = []
+
+	if(global_strains.length == 0){
+
+		var p_col_defs = [
+	    	{
+	            "className":      'select-checkbox',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	        },
+	        { "data": "strainID" },
+	        { "data": "SampleReceivedDate" },
+	        { "data": "source_Source" },
+	        { "data": "AdditionalInformation", "visible":false },
+	        { "data": "File_1", "visible":false },
+	        { "data": "Primary" , "visible":false},
+	        { "data": "SamplingDate" },
+	        { "data": "Owner", "visible":false },
+	        { "data": "Food-Bug", "visible":false },
+	        { "data": "Submitter", "visible":false },
+	        { "data": "File_2", "visible":false },
+	        { "data": "Location" },
+	        {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	        }
+
+	    ];
+	}
+	else{
+
+		var p_col_defs = [
+			{
+	            "className":      'select-checkbox',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	        }
+		];
+		
+		for(x in global_strains[0]){
+			if (x != "Analysis" && x != "id" && x != "species_id"){
+				if($.inArray(matching_fields[x], minimal_fields) > -1){
+					console.log(matching_fields[x], minimal_fields);
+					p_col_defs.push({"data":x});
+				}
+				else p_col_defs.push({"data":x, "visible":false});
+				strains_headers.push(x);
+			}
+		}
+
+		p_col_defs.push({
+	        "className":      'details-control',
+	        "orderable":      false,
+	        "data":           null,
+	        "defaultContent": '<div><!--<button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>--><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	    });
+		
+	}
+
+    return [p_col_defs, strains_headers]
+}
+
+
+
 innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
@@ -975,7 +1050,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				console.log(current_strains_data);
 
-				objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
+				headers_defs = set_headers(current_strains_data);
+
+				objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs[0], reports_metadata_table_headers);
 
 				$('#reports_metadata_table_wrapper').css({'display':'none'});
 				setTimeout(function(){

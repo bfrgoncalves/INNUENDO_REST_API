@@ -274,7 +274,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 										$('#single_project_controller_div').css({display:'block'}); 
 										$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 				                	});
-						        }, 1000);
+						        }, 2000);
 
 		                	}
 		                });

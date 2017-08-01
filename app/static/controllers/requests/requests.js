@@ -776,7 +776,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		download_template_strain_file: function(callback){
 
 			req = {
-		        url: '/api/v1.0/templates/batch_submission/',
+		        url: 'api/v1.0/templates/batch_submission/',
 		        method:'GET'
 		    }
 

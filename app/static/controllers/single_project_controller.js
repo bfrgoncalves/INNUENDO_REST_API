@@ -260,8 +260,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http) {
 						        });
 
 						        console.log(p_col_defs);
-
-						        $scope.strains_headers = strains_headers;
+						        $scope.$apply(function(){
+						        	$scope.strains_headers = strains_headers;
+						        });
 						        console.log($scope.strains_headers);
 
 

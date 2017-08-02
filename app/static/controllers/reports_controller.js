@@ -1176,7 +1176,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									headers_defs_info = set_headers(run_infos);
 									headers_defs_results = set_headers(run_results);
-									
+
 									$scope.$apply(function(){
 										$scope.currently_showing = "Run information " + to_check;
 										$scope.reports_info_table_headers = headers_defs_info[1];
@@ -1185,6 +1185,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
+
+									console.log("AQUI");
 
 									objects_utils.destroyTable('reports_info_table');
 									objects_utils.destroyTable('reports_results_table');

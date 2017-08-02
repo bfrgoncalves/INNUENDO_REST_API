@@ -1255,6 +1255,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							$('#waiting_spinner').css({display:'none'}); 
 							$('#reports_container').css({display:"block"});
 
+							objects_utils.destroyTable('reports_info_table');
+							objects_utils.destroyTable('reports_results_table');
+
 							setTimeout(function(){
 								headers_defs_info = set_headers(run_infos);
 								headers_defs_results = set_headers(run_results);

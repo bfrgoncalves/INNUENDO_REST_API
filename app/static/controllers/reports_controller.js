@@ -70,6 +70,7 @@ function create_table_headers(array_of_headers){
 }
 
 function restore_table_headers(table_id, table_headers){
+	console.log(create_table_headers(table_headers));
 	$('#'+table_id+' thead').empty();
 	$('#'+table_id+' thead').append(create_table_headers(table_headers));
 	$('#'+table_id+' tfoot').empty();

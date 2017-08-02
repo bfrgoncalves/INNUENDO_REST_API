@@ -1,7 +1,7 @@
 
 
 
-function set_headers(global_strains){
+function set_headers_reports(global_strains){
 	var metadata = new Metadata();
 	matching_fields = metadata.get_dict_fields_reverse();
 	minimal_fields = metadata.get_default_headers();
@@ -1018,7 +1018,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$('#reports_metadata_table thead').css({'visibility':'visible'});
 				$('#reports_metadata_table tfoot').css({'visibility':'visible'});
 
-				headers_defs = set_headers(current_strains_data);
+				headers_defs = set_headers_reports(current_strains_data);
 				
 				reports_metadata_table_headers = headers_defs[1];
 				
@@ -1159,8 +1159,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									$('#phyloviz_button').css({display:"none"});
 
-									headers_defs_info = set_headers(run_infos);
-									headers_defs_results = set_headers(run_results);
+									headers_defs_info = set_headers_reports(run_infos);
+									headers_defs_results = set_headers_reports(run_results);
 
 									$scope.$apply(function(){
 										$scope.currently_showing = "Run information " + to_check;
@@ -1194,8 +1194,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									sp = this.id.split('_');
 									to_check = sp.splice(2, sp.length).join('_');
 
-									headers_defs_info = set_headers(run_infos);
-									headers_defs_results = set_headers(run_results);
+									headers_defs_info = set_headers_reports(run_infos);
+									headers_defs_results = set_headers_reports(run_results);
 
 									$scope.$apply(function(){
 										$scope.currently_showing = "Run results " + to_check;
@@ -1250,8 +1250,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							objects_utils.destroyTable('reports_info_table');
 							objects_utils.destroyTable('reports_results_table');
 
-							headers_defs_info = set_headers(run_infos);
-							headers_defs_results = set_headers(run_results);
+							headers_defs_info = set_headers_reports(run_infos);
+							headers_defs_results = set_headers_reports(run_results);
 							
 							reports_info_table_headers = headers_defs_info[1];
 							reports_results_table_headers = headers_defs_results[1];
@@ -1310,8 +1310,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						objects_utils.destroyTable('reports_info_table');
 						objects_utils.destroyTable('reports_results_table');
 
-						headers_defs_info = set_headers(run_infos);
-						headers_defs_results = set_headers(run_results);
+						headers_defs_info = set_headers_reports(run_infos);
+						headers_defs_results = set_headers_reports(run_results);
 
 						reports_info_table_headers = headers_defs_info[1];
 						reports_results_table_headers = headers_defs_results[1];
@@ -1339,8 +1339,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						objects_utils.destroyTable('reports_info_table');
 						objects_utils.destroyTable('reports_results_table');
 
-						headers_defs_info = set_headers(run_infos);
-						headers_defs_results = set_headers(run_results);
+						headers_defs_info = set_headers_reports(run_infos);
+						headers_defs_results = set_headers_reports(run_results);
 
 						reports_info_table_headers = headers_defs_info[1];
 						reports_results_table_headers = headers_defs_results[1];
@@ -1561,9 +1561,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			objects_utils.destroyTable('reports_results_table');
 			objects_utils.destroyTable('reports_metadata_table');
 
-			headers_defs_info = set_headers(run_infos);
-			headers_defs_results = set_headers(run_results);
-			headers_defs_metadata = set_headers(current_strains_data);
+			headers_defs_info = set_headers_reports(run_infos);
+			headers_defs_results = set_headers_reports(run_results);
+			headers_defs_metadata = set_headers_reports(current_strains_data);
 
 			reports_info_table_headers = headers_defs_info[1];
 			reports_results_table_headers = headers_defs_results[1];
@@ -1603,9 +1603,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		objects_utils.destroyTable('reports_results_table');
 		objects_utils.destroyTable('reports_metadata_table');
 
-		headers_defs_info = set_headers(run_infos);
-		headers_defs_results = set_headers(run_results);
-		headers_defs_metadata = set_headers(current_strains_data);
+		headers_defs_info = set_headers_reports(run_infos);
+		headers_defs_results = set_headers_reports(run_results);
+		headers_defs_metadata = set_headers_reports(current_strains_data);
 
 		reports_info_table_headers = headers_defs_info[1];
 		reports_results_table_headers = headers_defs_results[1];

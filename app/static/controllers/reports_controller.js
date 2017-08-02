@@ -1286,6 +1286,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 							restore_table_headers('reports_info_table', reports_info_table_headers, function(){
 								restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+									objects_utils.destroyTable('reports_info_table');
+									objects_utils.destroyTable('reports_results_table');
 									//objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 									//objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 									modal_alert_message = 'Reports added to the project.';

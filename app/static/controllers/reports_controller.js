@@ -1309,7 +1309,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									//$("#run_info_" + q[p]).trigger("click");
 
-									callback(true);
+									//callback(true);
 								});
 							});
 						

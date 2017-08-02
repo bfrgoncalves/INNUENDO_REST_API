@@ -69,13 +69,15 @@ function create_table_headers(array_of_headers){
 	return headers_html;
 }
 
-function restore_table_headers(table_id, table_headers){
+function restore_table_headers(table_id, table_headers, callback){
 	console.log(create_table_headers(table_headers));
 	$('#'+table_id+' thead').empty();
 	$('#'+table_id+' thead').append(create_table_headers(table_headers));
 	console.log($('#'+table_id+' thead'));
 	$('#'+table_id+' tfoot').empty();
 	$('#'+table_id+' tfoot').append(create_table_headers(table_headers));
+
+	callback();
 }
 
 
@@ -592,12 +594,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									$('#reports_controller_div').css({display:'block'});
 									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 									//console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
-									restore_table_headers('reports_info_table', reports_info_table_headers);
-									restore_table_headers('reports_results_table', reports_info_table_headers);
-									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-									objects_utils.loadDataTables('reports_results_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-									$("#reports_results_table_wrapper").css({"display": "none"});
-									$('.selectpicker').selectpicker({});
+									restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+										restore_table_headers('reports_results_table', reports_info_table_headers, function(){
+											objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+											objects_utils.loadDataTables('reports_results_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+											$("#reports_results_table_wrapper").css({"display": "none"});
+											$('.selectpicker').selectpicker({});
+										});
+									});
+
+
 								});
 							})
 					    }
@@ -1050,21 +1056,21 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				
 				reports_metadata_table_headers = headers_defs[1];
 				
-				restore_table_headers('reports_metadata_table', reports_metadata_table_headers);
-				objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs[0], reports_metadata_table_headers);
-
-				$('#reports_metadata_table_wrapper').css({'display':'none'});
-				setTimeout(function(){
-					$('#strains_metadata').on('click', function(){
-						$('#reports_info_table_wrapper').css({'display':'none'});
-						$('#reports_results_table_wrapper').css({'display':'none'});
-						$('#reports_metadata_table_wrapper').css({'display':'block'});
-						$('#reports_metadata_table').DataTable().draw();
-						$scope.$apply(function(){
-							$scope.currently_showing = "Strains Metadata";
-						})
-					});
-				}, 200)
+				restore_table_headers('reports_metadata_table', reports_metadata_table_headers, function(){
+					objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs[0], reports_metadata_table_headers);
+					$('#reports_metadata_table_wrapper').css({'display':'none'});
+					setTimeout(function(){
+						$('#strains_metadata').on('click', function(){
+							$('#reports_info_table_wrapper').css({'display':'none'});
+							$('#reports_results_table_wrapper').css({'display':'none'});
+							$('#reports_metadata_table_wrapper').css({'display':'block'});
+							$('#reports_metadata_table').DataTable().draw();
+							$scope.$apply(function(){
+								$scope.currently_showing = "Strains Metadata";
+							})
+						});
+					}, 200)
+				});
 
 
 			}
@@ -1204,15 +1210,17 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									console.log(run_infos, headers_defs_info[0], reports_info_table_headers);
 
-									restore_table_headers('reports_info_table', reports_info_table_headers);
-									restore_table_headers('reports_results_table', reports_results_table_headers);
+									restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+										restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+											objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
+											objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
-									objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-									objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
-
-									$('#reports_info_table_wrapper').css({'display':'block'});
-									$('#reports_results_table_wrapper').css({'display':'none'});
-									$('#reports_metadata_table_wrapper').css({'display':'none'});
+											$('#reports_info_table_wrapper').css({'display':'block'});
+											$('#reports_results_table_wrapper').css({'display':'none'});
+											$('#reports_metadata_table_wrapper').css({'display':'none'});
+										});
+									});
+									
 
 								});
 
@@ -1274,33 +1282,33 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							reports_info_table_headers = headers_defs_info[1];
 							reports_results_table_headers = headers_defs_results[1];
 
-							restore_table_headers('reports_info_table', reports_info_table_headers);
-							restore_table_headers('reports_results_table', reports_results_table_headers);
-							
-							setTimeout(function(){
-								objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-								objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
-								modal_alert_message = 'Reports added to the project.';
-								if(problematic_jobs.length > 0){
-									modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
-									p_jobs = ""
-									for(pj in problematic_jobs){
-										p_jobs += problematic_jobs[pj] + ", ";
+							restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+								restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+									objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
+									objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
+									modal_alert_message = 'Reports added to the project.';
+									if(problematic_jobs.length > 0){
+										modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
+										p_jobs = ""
+										for(pj in problematic_jobs){
+											p_jobs += problematic_jobs[pj] + ", ";
+										}
+										modal_alert_message += p_jobs
+										modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
+										modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
 									}
-									modal_alert_message += p_jobs
-									modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
-									modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
-								}
-								modalAlert(modal_alert_message, function(){});
-								//objects_utils.show_message('s_report_message_div', 'success', 'Reports added to the project.')
-								$('#reports_info_table_wrapper').css({'display':'block'});
-								$('#reports_results_table_wrapper').css({'display':'none'});
-								$('#reports_metadata_table_wrapper').css({'display':'none'});
+									modalAlert(modal_alert_message, function(){});
+									//objects_utils.show_message('s_report_message_div', 'success', 'Reports added to the project.')
+									$('#reports_info_table_wrapper').css({'display':'block'});
+									$('#reports_results_table_wrapper').css({'display':'none'});
+									$('#reports_metadata_table_wrapper').css({'display':'none'});
 
-								//$("#run_info_" + q[p]).trigger("click");
+									//$("#run_info_" + q[p]).trigger("click");
 
-								callback(true);
-							}, 500)
+									callback(true);
+								});
+							});
+						
 						
 						}, 500);
 					}

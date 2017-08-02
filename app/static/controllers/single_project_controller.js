@@ -87,7 +87,7 @@ function set_headers_single_project(global_strains){
 		];
 		
 		for(x in global_strains[0]){
-			if (x != "Analysis" && x != "id" && x != "species_id"){
+			if (x != "Analysis" && x != "id" && x != "species_id" && x != "lab_protocols"){
 				if($.inArray(matching_fields[x], minimal_fields) > -1){
 					p_col_defs.push({"data":x});
 				}

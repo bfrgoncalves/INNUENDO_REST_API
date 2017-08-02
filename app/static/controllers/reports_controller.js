@@ -1282,6 +1282,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							reports_info_table_headers = headers_defs_info[1];
 							reports_results_table_headers = headers_defs_results[1];
 
+							console.log(headers_defs_info);
+
 							restore_table_headers('reports_info_table', reports_info_table_headers, function(){
 								restore_table_headers('reports_results_table', reports_results_table_headers, function(){
 									//objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);

@@ -295,20 +295,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var results_to_use = [];
 	var current_strains_data = [];
 
-	setTimeout(function(){ 
-		$('#waiting_spinner').css({display:'none'}); 
-		$('#reports_controller_div').css({display:'block'});
-		//$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-
-		restore_table_headers('reports_info_table', reports_info_table_headers);
-		restore_table_headers('reports_results_table', reports_info_table_headers);
-
-		objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-		objects_utils.loadDataTables('reports_results_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-		$("#reports_results_table_wrapper").css({"display": "none"});
-		$('.selectpicker').selectpicker({});
-	}, 2000);
-
 	$('#project_selector').on("change", function(){
 
 		$('#waiting_spinner').css({display:'block'}); 
@@ -607,6 +593,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									restore_table_headers('reports_info_table', reports_info_table_headers);
 									restore_table_headers('reports_results_table', reports_info_table_headers);
 									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+									objects_utils.loadDataTables('reports_results_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+									$("#reports_results_table_wrapper").css({"display": "none"});
+									$('.selectpicker').selectpicker({});
 								});
 							})
 					    }

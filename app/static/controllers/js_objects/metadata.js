@@ -65,7 +65,7 @@ function Metadata(){
 		"AdditionalInformation":"Additional Info",
 		"More Info": "More Info",
 		"Analysis": "Analysis",
-		"Process ID": "job_id"
+		"Process ID": "job_id",
 		"Sample": "Sample"
 	}
 

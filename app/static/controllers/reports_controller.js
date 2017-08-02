@@ -1291,7 +1291,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$('#reports_results_table_wrapper').css({'display':'none'});
 								$('#reports_metadata_table_wrapper').css({'display':'none'});
 
-								$("#run_info_" + q[p]).trigger("click");
+								//$("#run_info_" + q[p]).trigger("click");
 
 								callback(true);
 

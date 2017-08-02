@@ -65,13 +65,13 @@ function Metadata(){
 		"AdditionalInformation":"Additional Info",
 		"More Info": "More Info",
 		"Analysis": "Analysis",
-		"Process ID": "job_id",
+		"job_id": "Run Identifier",
 		"Sample": "Sample"
 	}
 
 	//The minimum headers to be seen on a table
 	var minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location", "Sample", "Process ID"];
-	var default_headers = ["Strain Name", "Received Date", "Source", "Sampling Date", "Location", "Sample", "Process ID"];
+	var default_headers = ["Strain Name", "Received Date", "Source", "Sampling Date", "Location", "Sample", "Run Identifier"];
 
 	return {
 

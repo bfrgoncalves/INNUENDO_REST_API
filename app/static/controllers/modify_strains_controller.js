@@ -81,14 +81,20 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 		single_project.get_strains(true, function(strains_results){
 		    objects_utils.destroyTable('modify_strains_table');
 		    global_public_strains = strains_results.public_strains;
-		    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
+		    headers_defs = set_headers_reports(global_public_strains);
+				
+			strains_headers = headers_defs[1];
+			
+			objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, function(){
+		    	objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
 
-		    global_public_strains.map(function(d){
-		    	strain_name_to_id[d.strainID] = d.id;
-		    });
-		    $('#waiting_spinner').css({display:'none'});
-		    $('#modify_strains_controller_div').css({display:'block'}); 
-		    $("#modify_strains_table").DataTable().draw();
+			    global_public_strains.map(function(d){
+			    	strain_name_to_id[d.strainID] = d.id;
+			    });
+			    $('#waiting_spinner').css({display:'none'});
+			    $('#modify_strains_controller_div').css({display:'block'}); 
+			    $("#modify_strains_table").DataTable().draw();
+			});
 		});
 
 	}
@@ -128,10 +134,14 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			single_project.get_strains(true, function(strains_results){
 			    objects_utils.destroyTable('modify_strains_table');
 			    global_public_strains = strains_results.public_strains;
-			    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
-			
-				modalAlert("Strain metadata was modified.", function(){
-
+			    headers_defs = set_headers_reports(global_public_strains);
+				
+				strains_headers = headers_defs[1];
+				
+				objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, function(){
+				    objects_utils.loadDataTables('modify_strains_table', global_public_strains, public_project_col_defs, strains_headers);
+						modalAlert("Strain metadata was modified.", function(){
+					});
 				});
 			});
 		});

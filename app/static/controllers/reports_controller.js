@@ -153,12 +153,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
         },
         { "data": "Sample" },
         { "data": "job_id" },
-        {
-            "className":      'details-control',
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": '<div style="width:100%;text-align:center;"><button class="details-control btn-default"><i class="fa fa-lg fa-info"></i></button></div>'
-        }
     ];
 
     var reports_metadata_col_defs = [

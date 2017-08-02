@@ -358,6 +358,7 @@ function Objects_Utils(){
 		      console.log("DESTROYED" + table_id)
 		      if(table_id == 'merged_results_table') $('#' + table_id).empty();
 		    }
+		    else console.log("NOTDT" + table_id)
 		},
 		updateTable: function(table_id, data){
 			table = $('#' + table_id).DataTable();

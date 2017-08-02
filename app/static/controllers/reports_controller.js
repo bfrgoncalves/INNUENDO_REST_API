@@ -1272,10 +1272,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								reports_results_table_headers = headers_defs_results[1];
 
 								console.log(run_infos, headers_defs_info[0], reports_info_table_headers);
-
-								objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-								console.log("DONE");
-								objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
+								setTimeout(function(){
+									objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
+									console.log("DONE");
+									objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
+								},1000);
 								
 
 								modal_alert_message = 'Reports added to the project.';

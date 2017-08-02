@@ -297,28 +297,33 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                	objects_utils.destroyTable('strains_table');
 
 		                	if(strains_results.strains == "no_pipelines"){	
-		                		headers_defs = set_headers_single_project(global_strains);	                		
-		                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-			                	$('#waiting_spinner').css({display:'none'}); 
-								$('#single_project_controller_div').css({display:'block'}); 
-								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
+		                		headers_defs = set_headers_single_project(global_strains);
+		                		strains_headers = headers_defs[1];
+		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	                		
+			                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				                	$('#waiting_spinner').css({display:'none'}); 
+									$('#single_project_controller_div').css({display:'block'}); 
+									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
+								});
 		                	}
 		                	else{
 
 		                		global_strains = strains_results.strains;
 
 		                		headers_defs = set_headers_single_project(global_strains);
-		                		console.log(headers_defs);
-		                		
-					        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-			                	$scope.getIdsFromProjects(function(strains_results){
-			                		objects_utils.destroyTable('strains_table');
-				                	global_strains = strains_results.strains;
-				                	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-				                	$('#waiting_spinner').css({display:'none'}); 
-									$('#single_project_controller_div').css({display:'block'}); 
-									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
-			                	});
+
+		                		strains_headers = headers_defs[1];
+		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+						        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				                	$scope.getIdsFromProjects(function(strains_results){
+				                		objects_utils.destroyTable('strains_table');
+					                	global_strains = strains_results.strains;
+					                	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+					                	$('#waiting_spinner').css({display:'none'}); 
+										$('#single_project_controller_div').css({display:'block'}); 
+										$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
+				                	});
+				                });
 
 
 		                	}
@@ -358,7 +363,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 												objects_utils.destroyTable('strains_table');
 							                	global_strains = strains_results.strains;
 							                	headers_defs = set_headers_single_project(global_strains);
-							                	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+							                	objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+							                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+							                	});
 											}
 							        });
 								}
@@ -409,7 +416,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			}
 			objects_utils.destroyTable('strains_table');
 			headers_defs = set_headers_single_project(global_strains);
-			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+			});
 		});
 	}
 
@@ -472,12 +481,16 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Strain already on project.</b></p>');
 							objects_utils.destroyTable('strains_table');
 							headers_defs = set_headers_single_project(global_strains);
-							objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+							objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+								objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+							});
 						}
 						else if(results.prevent){
 							objects_utils.destroyTable('strains_table');
 							headers_defs = set_headers_single_project(global_strains);
-							objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+							objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+								objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+							});
 						}
 						else{
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
@@ -513,11 +526,13 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
 					                	headers_defs = set_headers_single_project(global_strains);
-					                	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-					                	$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
-										$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
-										modalAlert("Strains were added to the project.", function(){});
-					                	callback({strain_id:strain_id});
+					                	objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+					                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+						                	$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
+											$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
+											modalAlert("Strains were added to the project.", function(){});
+						                	callback({strain_id:strain_id});
+						                });
 				                	});
 								})
 							}
@@ -539,8 +554,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
-			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-			callback(strains_results);
+			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				callback(strains_results);
+			});
 		});
 	}
 
@@ -566,7 +583,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
-			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+			});
 		});
 	}
 
@@ -579,9 +598,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		    objects_utils.destroyTable('public_strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    headers_defs = set_headers_single_project(global_public_strains);
-		    console.log(headers_defs, strains_headers);
-		    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
-		    callback();
+		    objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+			    console.log(headers_defs, strains_headers);
+			    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
+			    callback();
+			});
 		});
 
 	}
@@ -594,9 +615,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
-			console.log(global_strains, headers_defs[0], strains_headers)
-			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-			callback();
+			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+				console.log(global_strains, headers_defs[0], strains_headers)
+				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				callback();
+			});
 
 		});
 	}
@@ -611,8 +634,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
-			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-			modalAlert("Strains were added to the project.", function(){});
+			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				modalAlert("Strains were added to the project.", function(){});
+			});
 		});
 
 	}
@@ -628,7 +653,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 				objects_utils.destroyTable('strains_table');
 				global_strains = strains_results.strains;
 				headers_defs = set_headers_single_project(global_strains);
-				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+					objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				});
 			}
 		});
 	}
@@ -676,7 +703,9 @@ removeAnalysis = function(li){
 		}
 		objects_utils.destroyTable('strains_table');
 		headers_defs = set_headers_single_project(global_strains);
-		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
+		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
+		});
 	});
 }
 
@@ -702,9 +731,11 @@ newPipelineFromFile = function(element){
 		objects_utils.destroyTable('strains_table');
 		global_strains = strains_results.strains;
 		headers_defs = set_headers_single_project(global_strains);
-		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
-		$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
-		$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
-		modalAlert('Strain added to the project.', function(){});
+		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
+			$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
+			$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
+			modalAlert('Strain added to the project.', function(){});
+		});
 	});
 }

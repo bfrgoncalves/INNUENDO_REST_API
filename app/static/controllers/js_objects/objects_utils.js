@@ -283,12 +283,14 @@ function Objects_Utils(){
 
 	}
 
-	function create_table_headers(array_of_headers){
+	function create_table_headers(array_of_headers, has_analysis){
 		headers_html = "<tr><th></th>";
 
 		for(x in array_of_headers){
-			headers_html += "<th>" + array_of_headers[x] + "</th>"
+			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
+
+		if(has_analysis) headers_html += "<th></th>";
 
 		headers_html += "</tr>";
 		
@@ -397,12 +399,12 @@ function Objects_Utils(){
 
 		},
 
-		restore_table_headers: function(table_id, table_headers, callback){
+		restore_table_headers: function(table_id, table_headers, has_analysis, callback){
 
 			$('#'+table_id+' thead > tr').remove();
-			$('#'+table_id+' thead').append(create_table_headers(table_headers));
+			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis));
 			$('#'+table_id+' tfoot > tr').remove();
-			$('#'+table_id+' tfoot').append(create_table_headers(table_headers));
+			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
 
 			callback();
 		}

@@ -57,30 +57,6 @@ function set_headers(global_strains){
     return [p_col_defs, strains_headers]
 }
 
-function create_table_headers(array_of_headers){
-	headers_html = "<tr><th></th>";
-
-	for(x in array_of_headers){
-		headers_html += "<th>" + array_of_headers[x] + "</th>"
-	}
-
-	headers_html += "</tr>";
-	
-	return headers_html;
-}
-
-function restore_table_headers(table_id, table_headers, callback){
-	console.log(create_table_headers(table_headers));
-	$('#'+table_id+' thead > tr').remove();
-	$('#'+table_id+' thead').append(create_table_headers(table_headers));
-	console.log($('#'+table_id+' thead'));
-	$('#'+table_id+' tfoot > tr').remove();
-	$('#'+table_id+' tfoot').append(create_table_headers(table_headers));
-
-	callback();
-}
-
-
 
 innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
@@ -594,8 +570,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									$('#reports_controller_div').css({display:'block'});
 									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 									//console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
-									restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-										restore_table_headers('reports_results_table', reports_info_table_headers, function(){
+									object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+										object_utils.restore_table_headers('reports_results_table', reports_info_table_headers, function(){
 											objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 											objects_utils.loadDataTables('reports_results_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 											$("#reports_results_table_wrapper").css({"display": "none"});
@@ -1046,7 +1022,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				
 				reports_metadata_table_headers = headers_defs[1];
 				
-				restore_table_headers('reports_metadata_table', reports_metadata_table_headers, function(){
+				object_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, function(){
 					objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs[0], reports_metadata_table_headers);
 					$('#reports_metadata_table_wrapper').css({'display':'none'});
 					setTimeout(function(){
@@ -1199,8 +1175,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									console.log(run_infos, headers_defs_info[0], reports_info_table_headers);
 
-									restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-										restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+									object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+										object_utils.restore_table_headers('reports_results_table', reports_results_table_headers, function(){
 											objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 											objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
@@ -1237,8 +1213,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									reports_info_table_headers = headers_defs_info[1];
 									reports_results_table_headers = headers_defs_results[1];
 
-									restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-										restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+									object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+										object_utils.restore_table_headers('reports_results_table', reports_results_table_headers, function(){
 											objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 											objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
@@ -1282,8 +1258,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 							console.log(headers_defs_info);
 
-							restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-								restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+							object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+								object_utils.restore_table_headers('reports_results_table', reports_results_table_headers, function(){
 									objects_utils.destroyTable('reports_info_table');
 									objects_utils.destroyTable('reports_results_table');
 									objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
@@ -1340,8 +1316,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						reports_info_table_headers = headers_defs_info[1];
 						reports_results_table_headers = headers_defs_results[1];
 
-						restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-							restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+						object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+							object_utils.restore_table_headers('reports_results_table', reports_results_table_headers, function(){
 								objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 								objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
@@ -1369,8 +1345,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						reports_info_table_headers = headers_defs_info[1];
 						reports_results_table_headers = headers_defs_results[1];
 
-						restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-							restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+						object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+							object_utils.restore_table_headers('reports_results_table', reports_results_table_headers, function(){
 								objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 								objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
@@ -1593,9 +1569,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			reports_results_table_headers = headers_defs_results[1];
 			reports_metadata_table_headers = headers_defs_metadata[1];
 
-			restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-				restore_table_headers('reports_results_table', reports_results_table_headers, function(){
-					restore_table_headers('reports_metadata_table', reports_metadata_table_headers, function(){
+			object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+				object_utils.restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+					object_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, function(){
 						objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 						objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs_metadata[0], reports_metadata_table_headers);
@@ -1635,9 +1611,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		reports_results_table_headers = headers_defs_results[1];
 		reports_metadata_table_headers = headers_defs_metadata[1];
 
-		restore_table_headers('reports_info_table', reports_info_table_headers, function(){
-			restore_table_headers('reports_results_table', reports_results_table_headers, function(){
-				restore_table_headers('reports_metadata_table', reports_metadata_table_headers, function(){
+		object_utils.restore_table_headers('reports_info_table', reports_info_table_headers, function(){
+			object_utils.restore_table_headers('reports_results_table', reports_results_table_headers, function(){
+				object_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, function(){
 					objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 					objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 					objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs_metadata[0], reports_metadata_table_headers);

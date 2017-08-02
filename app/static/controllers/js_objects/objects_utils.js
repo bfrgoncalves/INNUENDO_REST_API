@@ -290,9 +290,11 @@ function Objects_Utils(){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis) headers_html += "<th></th>";
+		if(has_analysis == true) headers_html += "<th></th>";
 
 		headers_html += "</tr>";
+
+		console.log(headers_html);
 		
 		return headers_html;
 	}

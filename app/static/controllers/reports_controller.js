@@ -83,6 +83,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var user_reports = [];
 	var user_reports_table_headers = ['Username', 'Run identifier', 'Sample', 'Procedure'];
 	var reports_info_table_headers = ['Sample', 'Run Identifier'];
+	var reports_results_table_headers = ['Sample', 'Run Identifier'];
 	var reports_metadata_table_headers = metadata.get_minimal_fields();
 
 	var saved_reports_headers = ['Username', 'Name', 'Description'];

@@ -86,6 +86,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			strains_headers = headers_defs[1];
 			
 			objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, function(){
+				console.log(global_public_strains, strains_headers[0], strains_headers);
 		    	objects_utils.loadDataTables('modify_strains_table', global_public_strains, strains_headers[0], strains_headers);
 
 			    global_public_strains.map(function(d){

@@ -101,6 +101,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$scope.user_reports_table_headers = user_reports_table_headers;
 	$scope.trees_headers = trees_headers;
 	$scope.reports_info_table_headers = reports_info_table_headers;
+	$scope.reports_results_table_headers = reports_results_table_headers;
 	$scope.reports_metadata_table_headers = reports_metadata_table_headers;
 	$scope.saved_reports_headers = saved_reports_headers;
 	$scope.species_in_use = CURRENT_SPECIES_NAME;
@@ -1246,9 +1247,24 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							$('#waiting_spinner').css({display:'none'}); 
 							$('#reports_container').css({display:"block"});
 
-							objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-							objects_utils.loadDataTables('reports_results_table', run_results, reports_info_col_defs, reports_info_table_headers);
-							
+							setTimeout(function(){
+								headers_defs_info = set_headers(run_infos);
+								headers_defs_results = set_headers(run_results);
+								
+								$scope.$apply(function(){
+									$scope.reports_info_table_headers = headers_defs_info[1];
+									$scope.reports_results_table_headers = headers_defs_results[1];
+								})	
+
+								reports_info_table_headers = headers_defs[1];
+								reports_results_table_headers = headers_defs[1];
+
+								objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
+								objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_info_table_headers);
+								
+								
+							}, 200);
+
 							modal_alert_message = 'Reports added to the project.';
 							if(problematic_jobs.length > 0){
 								modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';

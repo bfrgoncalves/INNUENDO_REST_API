@@ -355,6 +355,7 @@ function Objects_Utils(){
 		destroyTable: function(table_id){
 		    if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
 		      $('#' + table_id).DataTable().destroy();
+		      console.log("DESTROYED" + table_id)
 		      if(table_id == 'merged_results_table') $('#' + table_id).empty();
 		    }
 		},

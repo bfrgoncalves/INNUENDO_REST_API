@@ -89,7 +89,6 @@ function set_headers_single_project(global_strains){
 		for(x in global_strains[0]){
 			if (x != "Analysis" && x != "id" && x != "species_id"){
 				if($.inArray(matching_fields[x], minimal_fields) > -1){
-					console.log(matching_fields[x], minimal_fields);
 					p_col_defs.push({"data":x});
 				}
 				else p_col_defs.push({"data":x, "visible":false});
@@ -635,7 +634,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
-				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+				console.log(global_strains, headers_defs[0], strains_headers);
+				//objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				modalAlert("Strains were added to the project.", function(){});
 			});
 		});

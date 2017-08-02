@@ -1262,6 +1262,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$scope.$apply(function(){
 									$scope.reports_info_table_headers = headers_defs_info[1];
 									$scope.reports_results_table_headers = headers_defs_results[1];
+									console.log($scope.reports_results_table_headers, $scope.reports_info_table_headers);
 								})	
 
 								reports_info_table_headers = headers_defs_info[1];

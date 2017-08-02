@@ -1296,7 +1296,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 								callback(true);
 
-							}, 500);
+							}, 1000);
 						
 						}, 500);
 					}

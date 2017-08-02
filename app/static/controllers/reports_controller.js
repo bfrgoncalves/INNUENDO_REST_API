@@ -1188,8 +1188,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									console.log("AQUI");
 
-									objects_utils.destroyTable('reports_info_table');
-									objects_utils.destroyTable('reports_results_table');
+									//objects_utils.destroyTable('reports_info_table');
+									//objects_utils.destroyTable('reports_results_table');
 
 									reports_info_table_headers = headers_defs_info[1];
 									reports_results_table_headers = headers_defs_results[1];

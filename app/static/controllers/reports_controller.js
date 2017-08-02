@@ -604,6 +604,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									$('#reports_controller_div').css({display:'block'});
 									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
 									//console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
+									restore_table_headers('reports_info_table', reports_info_table_headers);
+									restore_table_headers('reports_results_table', reports_info_table_headers);
 									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
 								});
 							})

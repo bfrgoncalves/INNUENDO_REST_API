@@ -1172,6 +1172,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									to_check = sp.splice(2, sp.length).join('_');
 									console.log("CLICKED info");
 
+									objects_utils.destroyTable('reports_info_table');
+									objects_utils.destroyTable('reports_results_table');
+
 									$('#phyloviz_button').css({display:"none"});
 
 									headers_defs_info = set_headers(run_infos);
@@ -1187,9 +1190,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									run_results=global_results_dict[to_check][1];
 
 									console.log("AQUI");
-
-									//objects_utils.destroyTable('reports_info_table');
-									//objects_utils.destroyTable('reports_results_table');
 
 									reports_info_table_headers = headers_defs_info[1];
 									reports_results_table_headers = headers_defs_results[1];

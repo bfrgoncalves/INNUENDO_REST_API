@@ -134,7 +134,9 @@ function Objects_Utils(){
 	    });
 
 	    // Apply the search
-        $( '#' + table_id + ' tfoot input').on( 'keyup change', function () {
+        $('#' + table_id + ' tfoot input').on( 'keyup change', function () {
+        	console.log("PASSOU");
+        	console.log(this.value);
             table.column( $(this).parent().index()+':visible' )
 	            	.search( this.value )
 	            	.draw();
@@ -146,12 +148,12 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 
-	    clickedTimes = {}
+	    /*clickedTimes = {}
 	    clickedTimes["details"] = 0;
 	    clickedTimes["analysis"] = 0;
-	    clickedTimes["protocols"] = 0;
+	    clickedTimes["protocols"] = 0;*/
 
-	    $('#'+table_id+' tbody').on('click', 'button.details-control', function () {
+	    /*$('#'+table_id+' tbody').on('click', 'button.details-control', function () {
 	        if(table_id.indexOf('strains_table') > - 1 || table_id.indexOf('reports') > - 1){
 
 	        	clickedTimes["details"] += 1;
@@ -176,21 +178,17 @@ function Objects_Utils(){
 		            }
 		        }
 	        }
-	    } );
+	    } );*/
 
 	    $('#'+table_id+' tbody').on('click', 'button.analysis-control', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 
-	        	clickedTimes["analysis"] += 1;
+	        	/*clickedTimes["analysis"] += 1;
 	        	clickedTimes["details"] = 0;
-	    		clickedTimes["protocols"] = 0;
-
-
+	    		clickedTimes["protocols"] = 0;*/
 	        	var tr = $(this).closest('tr');
 		        var row = $('#'+table_id).DataTable().row( tr );
-	            if(clickedTimes["analysis"] == 2 && row.child.isShown()){
-	            	clickedTimes["analysis"] = 0;
-	            	// This row is already open - close it
+	            if(row.child.isShown()){
 		            row.child.hide();
 		            tr.removeClass('shown');
 	            }
@@ -206,7 +204,7 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	    $('#'+table_id+' tbody').on('click', 'button.lab-protocols-control', function () {
+	    /*$('#'+table_id+' tbody').on('click', 'button.lab-protocols-control', function () {
 
 	        if(table_id.indexOf('strains_table') > - 1){
 
@@ -229,7 +227,7 @@ function Objects_Utils(){
 		            tr.addClass('shown');
 		        }
 	        }
-	    } );
+	    } );*/
 
 	}
 

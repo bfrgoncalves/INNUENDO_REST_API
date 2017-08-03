@@ -97,7 +97,7 @@ function Objects_Utils(){
 	function searchableTable(table_id, columnDefinitions, data, visible_headers){
 
 		$('#' + table_id + ' tfoot th').each( function () {
-	        var title = $(this).text();
+	        var title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
 	        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
 	    } );
 
@@ -137,12 +137,10 @@ function Objects_Utils(){
 	    table.columns().every( function () {
 	        var that = this;
 	 
-	        $( 'input', this.footer() ).on( 'keyup change', function () {
-	            if ( that.search() !== this.value ) {
-	                that
-	                    .search( this.value )
-	                    .draw();
-	            }
+	        $( '#' + table_id + ' tfoot input').on( 'keyup change', function () {
+	            table.column( $(this).parent().index()+':visible' )
+		            	.search( this.value )
+		            	.draw();
 	        } );
 	    } );
 	    

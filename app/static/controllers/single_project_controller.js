@@ -588,7 +588,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			});
-			$("#change_type_to_form").trigger("click");
+			setTimeout(function(){
+				$("#change_type_to_form").trigger("click");
+			}, 300);
 		});
 	}
 

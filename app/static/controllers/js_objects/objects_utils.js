@@ -139,6 +139,7 @@ function Objects_Utils(){
 	 
 	        $( 'input', this.footer() ).on( 'keyup change', function () {
 	        	console.log("PASSOU");
+	        	console.log(this.footer(), $(this).parent().index(), this.value);
 	            table
 		            .column( $(this).parent().index()+':visible' )
 		            .search( this.value )

@@ -192,7 +192,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	var global_public_strains = [];
 
 
-	function modalAlert(text, callback){
+	/*function modalAlert(text, callback){
 
     	$('#modalAlert #buttonSub').off("click");
     	$('#modalAlert .modal-body').empty();
@@ -201,6 +201,25 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
     	$('#modalAlert #buttonSub').on("click", function(){
     		$("#buttonCancelAlert").click();
     		setTimeout(function(){callback()}, 400);
+    	})
+
+    	$('#modalAlert').modal("show");
+
+    }*/
+
+    function modalAlert(text, callback){
+
+    	$('#buttonSub').off("click");
+    	$('#buttonCancelAlert').off("click");
+
+    	$('#modalAlert .modal-body').empty();
+    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+
+    	$('#buttonSub').one("click", function(){
+    		$('#modalAlert').modal("hide");
+    		console.log("Alert");
+
+    		setTimeout(function(){return callback()}, 400);
     	})
 
     	$('#modalAlert').modal("show");

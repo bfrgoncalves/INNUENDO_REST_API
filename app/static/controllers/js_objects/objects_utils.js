@@ -138,12 +138,12 @@ function Objects_Utils(){
 	        var that = this;
 	 
 	        $( 'input', this.footer() ).on( 'keyup change', function () {
-	        	console.log("PASSOU");
-	        	console.log($(this).parent().index(), this.value);
-	            table
-		            .column( $(this).parent().index() )
-		            .search( this.value )
-		            .draw();
+	        	console.log(that.search(), this.value)
+	            if ( that.search() !== this.value ) {
+	                that
+	                    .search( this.value )
+	                    .draw();
+	            }
 	        } );
 	    } );
 	    

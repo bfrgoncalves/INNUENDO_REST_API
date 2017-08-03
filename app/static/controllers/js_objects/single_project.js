@@ -75,7 +75,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     	$('#buttonSub').one("click", function(){
     		$('#modalAlert').modal("hide");
-    		setTimeout(function(){callback()}, 400);
+
+    		setTimeout(function(){return callback()}, 400);
     	})
 
     	$('#modalAlert').modal("show");
@@ -86,20 +87,20 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     	$('#buttonSub').off("click");
     	$('#buttonCancelAlert').off("click");
-    	
+
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
     	$('#buttonSub').one("click", function(){
     		//$('#buttonSub').off("click");
     		$('#modalAlert').modal("hide");
-    		setTimeout(function(){callback(true)}, 400);
+    		setTimeout(function(){return callback(true)}, 400);
     	})
 
     	$('#buttonCancelAlert').one("click", function(){
     		//$('#buttonCancelAlert').off("click");
     		$('#modalAlert').modal("hide");
-    		setTimeout(function(){callback(false)}, 400);
+    		setTimeout(function(){return callback(false)}, 400);
     	})
 
     	$('#modalAlert').modal("show");

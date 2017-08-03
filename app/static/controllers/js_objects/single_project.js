@@ -106,6 +106,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     */
     function add_strain_to_project(strain_name, callback){
 
+    	console.log("AQUI");
+
 		pg_requests.add_strain_to_project(strain_name, function(response){
 			if(response.status == 200){
 

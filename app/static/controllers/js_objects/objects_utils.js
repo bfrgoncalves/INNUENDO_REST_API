@@ -296,10 +296,7 @@ function Objects_Utils(){
 
 		if(has_analysis == true) headers_html += "<th></th>";
 
-		headers_html += "</tr>";
-
-		console.log(headers_html);
-		
+		headers_html += "</tr>";		
 		return headers_html;
 	}
 

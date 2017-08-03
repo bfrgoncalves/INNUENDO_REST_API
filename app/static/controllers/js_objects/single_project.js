@@ -686,7 +686,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							to_append += '</div><div class="row"><hr size="30">';
 							
 							if(is_from_file == true) $('#status_upload_from_file').append(to_append);
-							else modalAlert(to_append, function{});
+							else modalAlert(to_append, function(){});
 						}
 						
 						pg_requests.get_project_strains_2(response.data.id, false, function(response, strain_id, is_there){

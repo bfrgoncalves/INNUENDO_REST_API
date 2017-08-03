@@ -70,7 +70,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
-    	$('#modalAlert #buttonSub').one("click", function(){
+    	$('#buttonSub').one("click", function(){
     		$('#modalAlert').modal("hide");
     		setTimeout(function(){callback()}, 400);
     	})

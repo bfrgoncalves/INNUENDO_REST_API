@@ -107,7 +107,7 @@ function Objects_Utils(){
 	    if(table_id == "modify_strains_table" || table_id == "reports_trees_table") selection_style = "single";
 	    else selection_style = "multi";
 
-	    table = $('#' + table_id).DataTable({
+	    var table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
   			"scrollCollapse": true,
 	    	"scrollX": true,
@@ -142,7 +142,7 @@ function Objects_Utils(){
 	            	.draw();
         } );
 	    
-	    table.columns.adjust().draw();
+	    //table.columns.adjust().draw();
 
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');

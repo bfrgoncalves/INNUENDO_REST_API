@@ -136,14 +136,13 @@ function Objects_Utils(){
 	    // Apply the search
 	    table.columns().every( function () {
 	        var that = this;
+	        var table_to_search = table;
 	 
 	        $( 'input', this.footer() ).on( 'keyup change', function () {
-	        	console.log(that.search(), this.value)
-	            if ( that.search() !== this.value ) {
-	                that
-	                    .search( this.value )
-	                    .draw();
-	            }
+	        	table_to_search
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
 	        } );
 	    } );
 	    

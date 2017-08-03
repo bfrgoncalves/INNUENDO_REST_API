@@ -83,11 +83,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     function modalAlertAddSameFiles(text, callback){
 
     	$('#modalAlert #buttonSub').off("click");
+    	$('#modalAlert #buttonCancelAlert').off("click");
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
     	$('#modalAlert #buttonSub').on("click", function(){
-    		$("#buttonCancelAlert").click();
+    		$('#modalAlert #buttonSub').off("click");
     		setTimeout(function(){callback(true)}, 400);
     	})
 

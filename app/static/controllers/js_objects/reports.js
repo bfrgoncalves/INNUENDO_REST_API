@@ -140,7 +140,7 @@ function Report($http){
 		 			to_send.Sample = response.data.strainID;
 		 			to_send.project_name = project_name;
 		 			responses.push(to_send);
-		 			if(count == current_names.length) callback(responses);
+		 			if(count == current_names.length) callback(responses, project_name);
 
 		 		});
 		 	}

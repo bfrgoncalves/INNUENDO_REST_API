@@ -138,9 +138,11 @@ function Objects_Utils(){
 	        var that = this;
 	 
 	        $( '#' + table_id + ' tfoot input').on( 'keyup change', function () {
-	            table.column( $(this).parent().index()+':visible' )
-		            	.search( this.value )
-		            	.draw();
+	            if ( that.search() !== this.value ) {
+	                that
+	                    .search( this.value )
+	                    .draw();
+	            }
 	        } );
 	    } );
 	    

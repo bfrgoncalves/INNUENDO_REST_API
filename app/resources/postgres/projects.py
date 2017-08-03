@@ -102,7 +102,7 @@ class ProjectListUserResource(Resource):
 			db.session.add(project)
 			db.session.commit()
 		except Exception as e:
-			abort(409, message=str(e))
+			abort(409, message="Project name already exists.")
 		return project, 201
 
 

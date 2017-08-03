@@ -96,7 +96,7 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		        }
 		        else if(response.status == 409){
 		        	console.log(response);
-		        	modalAlert('An error as occuried when creating the new project.', function(){});
+		        	modalAlert('An error as occuried when creating the new project.\n' + response.data.message, function(){});
 		        }
 		        else modalAlert('An error as occuried when creating the new project.', function(){});
     		})

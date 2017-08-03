@@ -756,7 +756,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							to_append += '<div class="col-md-8"><p><b>Strain ' + response.data.strainID + '</b></p>';
 							to_append += '<p>Strain added to the Project!</p>';
 							to_append += '</div></div><hr size="30">';
-							$('#status_upload_from_file').append(to_append);
+							if(is_from_file == true) $('#status_upload_from_file').append(to_append);
+							else modalAlert(to_append, function(){});
 		        			callback(results);
 			            });
 					}

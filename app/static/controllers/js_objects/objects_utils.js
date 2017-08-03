@@ -157,12 +157,12 @@ function Objects_Utils(){
 	    clickedTimes["analysis"] = 0;
 	    clickedTimes["protocols"] = 0;
 
-	    $('#'+table_id+' tbody').on('click', 'button.details-control', function () {
+	    /*$('#'+table_id+' tbody').on('click', 'button.details-control', function () {
 	        if(table_id.indexOf('strains_table') > - 1 || table_id.indexOf('reports') > - 1){
 
 	        	/*clickedTimes["details"] += 1;
 	        	clickedTimes["analysis"] = 0;
-	    		clickedTimes["protocols"] = 0;*/
+	    		clickedTimes["protocols"] = 0;
 
 	        	var tr = $(this).closest('tr');
 		        var row = $('#'+table_id).DataTable().row( tr );
@@ -181,20 +181,19 @@ function Objects_Utils(){
 		            }
 		        }
 	        }
-	    } );
+	    } );*/
 
-	   /* $('#'+table_id+' tbody').on('click', 'button.analysis-control', function () {
+	   $('#'+table_id+' tbody').on('click', 'button.analysis-control', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 
-	        	clickedTimes["analysis"] += 1;
+	        	/*clickedTimes["analysis"] += 1;
 	        	clickedTimes["details"] = 0;
-	    		clickedTimes["protocols"] = 0;
+	    		clickedTimes["protocols"] = 0;*/
 
 
 	        	var tr = $(this).closest('tr');
 		        var row = $('#'+table_id).DataTable().row( tr );
-	            if(clickedTimes["analysis"] == 2 && row.child.isShown()){
-	            	clickedTimes["analysis"] = 0;
+	            if(row.child.isShown()){
 	            	// This row is already open - close it
 		            row.child.hide();
 		            tr.removeClass('shown');
@@ -211,7 +210,7 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	    $('#'+table_id+' tbody').on('click', 'button.lab-protocols-control', function () {
+	    /*$('#'+table_id+' tbody').on('click', 'button.lab-protocols-control', function () {
 
 	        if(table_id.indexOf('strains_table') > - 1){
 

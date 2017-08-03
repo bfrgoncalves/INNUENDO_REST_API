@@ -129,6 +129,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            if(has_same_files == true){
 	            	message = "<p><b>Some files associated with this strain are already being used in this Project:</b></p><p>"+message_to_add+"</p><p><b>Do you want to proceed?</b></p>";
 	            	modalAlertAddSameFiles(message, function(toadd){
+	            		console.log(toadd);
 	            		if(toadd == true) continue_adding();
 	            		else{
 	            			pg_requests.remove_strain_from_project(strain_name, function(response){

@@ -112,6 +112,7 @@ function Objects_Utils(){
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
+	        colReorder: true,
 	        "pageLength": page_length,
 	        select: {
 	            style:    selection_style,
@@ -245,6 +246,7 @@ function Objects_Utils(){
 	    	dom: 'Blfrtip',
   			"scrollCollapse": true,
 	        paging:false,
+	        colReorder: true,
 	        "pageLength": page_length,
 	        select: {
 	            style:    'os',

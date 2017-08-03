@@ -121,9 +121,9 @@ class StrainListResource(Resource):
 			file_2 = ""
 			print args
 			try:
-				if args["File_1"] and json.loads(strain.strain_metadata)["File_1"] == args["File_1"]:
+				if args["File_1"] and (json.loads(strain.strain_metadata)["File_1"] == args["File_1"] or json.loads(strain.strain_metadata)["File_1"] != args["File_1"]):
 					strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
-				if args["File_2"] and json.loads(strain.strain_metadata)["File_2"] == args["File_2"]:
+				if args["File_2"] and (json.loads(strain.strain_metadata)["File_2"] == args["File_2"] or json.loads(strain.strain_metadata)["File_2"] != args["File_2"]):
 					strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 			except KeyError as e:
 				print e

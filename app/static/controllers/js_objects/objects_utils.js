@@ -141,7 +141,7 @@ function Objects_Utils(){
 	        	console.log("PASSOU");
 	        	console.log($(this).parent().index(), this.value);
 	            table
-		            .column( $(this).parent().index()+':visible' )
+		            .column( $(this).parent().index() )
 		            .search( this.value )
 		            .draw();
 	        } );

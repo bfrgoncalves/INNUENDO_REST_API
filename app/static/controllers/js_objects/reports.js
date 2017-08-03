@@ -139,6 +139,7 @@ function Report($http){
 		 			var to_send = JSON.parse(response.data.strain_metadata);
 		 			to_send.Sample = response.data.strainID;
 		 			to_send.project_name = project_name;
+		 			to_send.classifier = response.data.classifier;
 		 			responses.push(to_send);
 		 			if(count == current_names.length) callback(responses, project_name);
 

@@ -4,7 +4,7 @@ from flask_security import current_user
 from flask import jsonify, request
 import json
 
-from app.models.models import Strain, Project, projects_strains
+from app.models.models import Strain, Project, projects_strains, Ecoli, Yersinia, Salmonella, Campylobacter
 from flask_security import current_user, login_required, roles_required
 import datetime
 
@@ -31,7 +31,8 @@ strain_fields = {
 	'strain_metadata': fields.String,
 	'species_id': fields.String,
 	'file_1': fields.String,
-	'file_2': fields.String
+	'file_2': fields.String,
+	'classifier': fields.String
 }
 
 #Defining metadata fields
@@ -47,6 +48,24 @@ class StrainResource(Resource):
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
 		strain = db.session.query(Strain).filter(Strain.name == name).first()
+
+		#SEARCH FOR CLASSIFICATION ON EACH DB
+		e_results = db.session.query(Ecoli).filter(Ecoli.name == name).first()
+		if not e_results:
+			y_results = db.session.query(Yersinia).filter(Yersinia.name == name).first()
+			if not y_results:
+				c_results = db.session.query(Campylobacter).filter(Campylobacter.name == name).first()
+				if not c_results:
+					s_results = db.session.query(Salmonella).filter(Salmonella.name == name).first()
+					if not s_results:
+						strain.classifier = "NA"
+				else:
+					strain.classifier = c_results.classifier
+			else:
+				strain.classifier = y_results.classifier
+		else:
+			strain.classifier = e_results.classifier
+
 		if not strain:
 			abort(404, message="No strain available")
 		return strain, 200

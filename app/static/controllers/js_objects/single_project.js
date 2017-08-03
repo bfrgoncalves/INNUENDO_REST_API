@@ -67,12 +67,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     function modalAlert(text, callback){
 
-    	$('#modalAlert #buttonSub').off("click");
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
-    	$('#modalAlert #buttonSub').on("click", function(){
-    		$("#buttonCancelAlert").click();
+    	$('#modalAlert #buttonSub').one("click", function(){
+    		$('#modalAlert').modal("hide");
     		setTimeout(function(){callback()}, 400);
     	})
 
@@ -89,11 +88,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     	$('#buttonSub').one("click", function(){
     		//$('#buttonSub').off("click");
+    		$('#modalAlert').modal("hide");
     		setTimeout(function(){callback(true)}, 400);
     	})
 
     	$('#buttonCancelAlert').one("click", function(){
     		//$('#buttonCancelAlert').off("click");
+    		$('#modalAlert').modal("hide");
     		setTimeout(function(){callback(false)}, 400);
     	})
 

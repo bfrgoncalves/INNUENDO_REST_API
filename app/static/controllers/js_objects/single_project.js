@@ -82,18 +82,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     function modalAlertAddSameFiles(text, callback){
 
-    	$('#modalAlert #buttonSub').off("click");
-    	$('#modalAlert #buttonCancelAlert').off("click");
+    	$('#buttonSub').off("click");
+    	$('#buttonCancelAlert').off("click");
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
-    	$('#modalAlert #buttonSub').on("click", function(){
-    		$('#modalAlert #buttonSub').off("click");
+    	$('#buttonSub').on("click", function(){
+    		$('#buttonSub').off("click");
     		setTimeout(function(){callback(true)}, 400);
     	})
 
-    	$('#modalAlert #buttonCancelAlert').on("click", function(){
-    		$('#modalAlert #buttonCancelAlert').off("click");
+    	$('#buttonCancelAlert').on("click", function(){
+    		$('#buttonCancelAlert').off("click");
     		setTimeout(function(){callback(false)}, 400);
     	})
 

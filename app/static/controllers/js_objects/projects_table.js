@@ -94,7 +94,10 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 		            modalAlert('Project created.', function(){});
 		            callback({projects: projects});
 		        }
-		        else modalAlert('An error as occuried when creating the new project.', function(){});
+		        else {
+		        	console.log(response);
+		        	modalAlert('An error as occuried when creating the new project.', function(){});
+		        }
     		})
     	},
 

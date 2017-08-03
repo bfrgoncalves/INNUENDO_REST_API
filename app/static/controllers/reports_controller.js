@@ -836,7 +836,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		if(strain_names==null) to_use = null;
 		else to_use = strain_names;
 
-		reports.get_strain_by_name(to_use, function(strain_data){
+		reports.get_strain_by_name(to_use, $( "#project_selector option:selected" ).text(), function(strain_data){
+
+			console.log(strain_data);
 
 			//console.log($scope.report_procedures);
 			var newglobal = [];
@@ -1069,8 +1071,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			already_added_jobs = 0;
 
 			for(job in response.data){
-				//console.log(response.data[job].report_data);
-				console.log("LENGTH", Object.keys(response.data[job].report_data).length, Object.keys(response.data[job].report_data));
 				if (Object.keys(response.data[job].report_data).length == 0){
 					problematic_jobs.push(response.data[job].job_id);
 					count_jobs += 1;
@@ -1276,7 +1276,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
 									}
 									modalAlert(modal_alert_message, function(){});
-									//objects_utils.show_message('s_report_message_div', 'success', 'Reports added to the project.')
 									$('#reports_info_table_wrapper').css({'display':'block'});
 									$('#reports_results_table_wrapper').css({'display':'none'});
 									$('#reports_metadata_table_wrapper').css({'display':'none'});

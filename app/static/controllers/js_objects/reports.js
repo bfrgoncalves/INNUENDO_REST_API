@@ -117,7 +117,7 @@ function Report($http){
 		/*
 		Get the strain data according to its name
 		*/
-		 get_strain_by_name: function(current_names, callback){
+		 get_strain_by_name: function(current_names, project_name, callback){
 		 	count = 0;
 		 	responses = [];
 
@@ -138,6 +138,7 @@ function Report($http){
 		 			count+=1;
 		 			var to_send = JSON.parse(response.data.strain_metadata);
 		 			to_send.Sample = response.data.strainID;
+		 			to_send.project_name = project_name;
 		 			responses.push(to_send);
 		 			if(count == current_names.length) callback(responses);
 

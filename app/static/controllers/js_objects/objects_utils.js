@@ -137,7 +137,7 @@ function Objects_Utils(){
 	    table.columns().every( function () {
 	        var that = this;
 	 
-	        $( '#' + table_id + ' tfoot input').on( 'keyup change', function () {
+	        $( 'input', this.footer() ).on( 'keyup change', function () {
 	            if ( that.search() !== this.value ) {
 	                that
 	                    .search( this.value )

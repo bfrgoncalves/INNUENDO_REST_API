@@ -665,7 +665,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		/*
 	    Add a new strain
 	    */
-		add_new_strain: function(callback){
+		add_new_strain: function(is_from_file, callback){
 
 			if($("#fromfilebutton").hasClass("active")) $('#add_pip_from_fileSubmit').css({"display":"block"});
 
@@ -684,7 +684,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							to_append += '</div><div class="col-md-4" id="file_col_'+response.data.strainID.replace(/ /g,"_")+'"><button strain_name="'+response.data.strainID+'" class="btn btn-md btn-primary" onclick="checkPipelineFromFile(this)">Check Pipelines</button>';
 							to_append += '</div>';
 							to_append += '</div><div class="row"><hr size="30">';
-							$('#status_upload_from_file').append(to_append);
+							
+							if(is_from_file == true) $('#status_upload_from_file').append(to_append);
+							else modalAlert(to_append, function{});
 						}
 						
 						pg_requests.get_project_strains_2(response.data.id, false, function(response, strain_id, is_there){
@@ -1540,6 +1542,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var reader = new FileReader();
 
+			trigger_from_file_load = true;
+
 	      	reader.onload = function(f){
 		      	var lines = this.result.split('\n');
 		      	firstLine = true;
@@ -1583,6 +1587,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						else $('#'+hline_to_use[x]).val(bline_to_use[x]);
 		      		}
 		      		setTimeout(function(){
+		      			$('#change_type_to_file').trigger("click");
 		      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 		      			if(strains_object['body'].length != 0) add_to_database();
 		      			else console.log("DONE");

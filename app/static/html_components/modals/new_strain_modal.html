@@ -15,6 +15,8 @@
 		  <li class="active"><a data-toggle="tab" href="#newstrain_menu">New</a></li>
 		</ul>
 		<div class="tab-content">
+			<button type="hidden" id="change_type_to_file" ng-click="change_type_to_file()">
+			<button type="hidden" id="change_type_to_form" ng-click="change_type_to_form()">
 			<div id="newstrain_menu" class="tab-pane fade in active tab-container" style="text-align:left;">
 				<form role="form" id="new_strain_form" ng-submit="add_New_Strain()">
 					<input type="hidden" name="species_id" ng-value="species_id">

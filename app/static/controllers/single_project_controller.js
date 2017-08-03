@@ -139,6 +139,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 	sh = strains_headers;
 
+	//Used to check if the strain added come from file or app form.
+	var trigger_from_file_load = false,
+
 	project_col_defs = [
     	{
             "className":      'select-checkbox',
@@ -576,7 +579,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	Add a new strain to the project. The pipeline is only created at run time
 	*/
 	$scope.add_New_Strain = function(){
-		single_project.add_new_strain(function(strains_results){
+		single_project.add_new_strain(trigger_from_file_load, function(strains_results){
 			if(strains_results.already_there) return;
 			modalAlert('Strain added to the project.', function(){});
 			objects_utils.destroyTable('strains_table');
@@ -585,7 +588,18 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			});
+			$("#change_type_to_form").trigger("click");
 		});
+	}
+
+	$scope.change_type_to_form = function(){
+		trigger_from_file_load = false;
+		console.log(trigger_from_file_load);
+	}
+
+	$scope.change_type_to_file = function(){
+		trigger_from_file_load = true;
+		console.log(trigger_from_file_load);
 	}
 
 	/*

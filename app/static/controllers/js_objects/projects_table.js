@@ -19,13 +19,17 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 
     function modalAlert(text, callback){
 
-    	$('#modalAlert #buttonSub').off("click");
+    	$('#buttonSub').off("click");
+    	$('#buttonCancelAlert').off("click");
+
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
 
-    	$('#modalAlert #buttonSub').on("click", function(){
-    		$("#buttonCancelAlert").click();
-    		setTimeout(function(){callback()}, 400);
+    	$('#buttonSub').one("click", function(){
+    		$('#modalAlert').modal("hide");
+    		console.log("Alert");
+
+    		setTimeout(function(){return callback()}, 400);
     	})
 
     	$('#modalAlert').modal("show");

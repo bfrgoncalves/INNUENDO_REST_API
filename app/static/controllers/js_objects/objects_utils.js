@@ -134,17 +134,11 @@ function Objects_Utils(){
 	    });
 
 	    // Apply the search
-	    table.columns().every( function () {
-	        var that = this;
-	 
-	        $( 'input', this.footer() ).on( 'keyup change', function () {
-	            if ( that.search() !== this.value ) {
-	                that
-	                    .search( this.value )
-	                    .draw();
-	            }
-	        } );
-	    } );
+        $( '#' + table_id + ' tfoot input').on( 'keyup change', function () {
+            table.column( $(this).parent().index()+':visible' )
+	            	.search( this.value )
+	            	.draw();
+        } );
 	    
 	    table.columns.adjust().draw();
 

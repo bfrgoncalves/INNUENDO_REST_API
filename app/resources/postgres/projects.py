@@ -94,14 +94,15 @@ class ProjectListUserResource(Resource):
 		args=project_post_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
-		try:
-			project = Project(species_id=args.species_id, description=args.description, user_id=current_user.id, name=args.name, timestamp=datetime.datetime.utcnow())
-		except Exception as e:
-			abort(409, message=str(e))
+		project = Project(species_id=args.species_id, description=args.description, user_id=current_user.id, name=args.name, timestamp=datetime.datetime.utcnow())
 		if not project:
 			abort(404, message="An error as occurried when uploading the data".format(id))
-		db.session.add(project)
-		db.session.commit()
+
+		try:
+			db.session.add(project)
+			db.session.commit()
+		except Exception as e:
+			abort(409, message=str(e))
 		return project, 201
 
 

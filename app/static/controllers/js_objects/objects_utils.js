@@ -134,7 +134,8 @@ function Objects_Utils(){
 	    });
 
 	    // Apply the search
-        $('#' + table_id + ' th tfoot input').on( 'keyup change', function () {
+	    $('#'+table_id+' tfoot input').off('keyup change');
+        $('#'+table_id+' tfoot input').on( 'keyup change', function () {
         	console.log("PASSOU");
         	console.log(this.value);
             table.column( $(this).parent().index()+':visible' )

@@ -141,7 +141,7 @@ function Objects_Utils(){
 				    console.log($('#'+table_id+' tbody').find("tr.selected").find("button.analysis-control"));
 				    console.log($('#'+table_id+' tbody').find("tr.selected > button.analysis-control"));
 				    console.log($('#'+table_id+' tbody').find("tr.selected"));
-                   //$('#'+table_id+' tbody').find("tr.selected button.analysis-control").trigger("click");
+                    $('#'+table_id+' tbody').find("tr.selected th button.analysis-control").trigger("click");
             }
 	    });
 

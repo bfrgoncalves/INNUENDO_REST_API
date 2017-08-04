@@ -114,6 +114,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 	current_scope_template = $scope.selectedTemplate.path;
 	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
+	else $("#backbutton").css({"display":"none"});
 
 	$("#backbutton").off("click");
 	$("#backbutton").on("click", function(){

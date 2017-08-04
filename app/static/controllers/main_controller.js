@@ -36,6 +36,9 @@ var INFO_OR_RESULTS = {"chewBBACA": 0, "PathoTyping": 1, "INNUca": 1}
 /*
 */
 
+var PREVIOUS_PAGE_ARRAY = [];
+var current_scope_template = "";
+
 $('a').click(function(){
 	$(this).parent().addClass("active").siblings().removeClass("active");
 });
@@ -43,7 +46,6 @@ $('a').click(function(){
 function tclick(){
 	$("#button_ham_navbar")[0].click();
 }
-
 
 setTimeout(function(){
 	$('#overviewLink').trigger('click');
@@ -57,13 +59,19 @@ setTimeout(function(){
 	});
 
 	$(".dropdiv ul li").on("click", function(){
+		PREVIOUS_PAGE_ARRAY.push(current_scope_template);
+		console.log(PREVIOUS_PAGE_ARRAY);
 		tclick();
 	})
 
 	$("#sidebar-wrapper ul li").not('.navbar ul .drop').on("click", function(){
+		PREVIOUS_PAGE_ARRAY.push(current_scope_template);
+		console.log(PREVIOUS_PAGE_ARRAY);
 		tclick();
 	})
 	$(".nav-list li").on("click", function(){
+		PREVIOUS_PAGE_ARRAY.push(current_scope_template);
+		console.log(PREVIOUS_PAGE_ARRAY);
 		tclick();
 	})
 

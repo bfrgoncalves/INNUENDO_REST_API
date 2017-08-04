@@ -7,6 +7,8 @@ Uses:
 
 innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$scope.showSpeciesDrop = function(){
 
 		$("#projects_button_li").css({"display":"none"});

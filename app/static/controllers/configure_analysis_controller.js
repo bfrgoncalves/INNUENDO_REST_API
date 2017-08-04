@@ -1,6 +1,8 @@
 
 innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $http) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
 	var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);

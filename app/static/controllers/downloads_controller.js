@@ -1,5 +1,7 @@
 innuendoApp.controller("downloadsCtrl", function($scope, $http) {
 
+    current_scope_template = $scope.selectedTemplate.path;
+
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
     $("#reset_strain").on("click", function(){

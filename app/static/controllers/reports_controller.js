@@ -60,6 +60,8 @@ function set_headers_reports(global_strains){
 
 innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 	reports = new Report($http);

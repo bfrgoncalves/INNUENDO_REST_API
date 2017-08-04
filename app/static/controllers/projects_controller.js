@@ -7,6 +7,8 @@ Uses:
 
 innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
 	$("#projects_button_li").css({"display":"block"});

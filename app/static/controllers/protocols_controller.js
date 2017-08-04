@@ -1,5 +1,7 @@
 innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$scope.protocol_type = {};
 	$scope.protocols_of_type = [];
 	$scope.protocolTypeParameters = {};

@@ -1,6 +1,8 @@
 
 innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
 	var objects_utils = new Objects_Utils();

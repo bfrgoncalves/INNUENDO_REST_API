@@ -1,5 +1,7 @@
 innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$scope.added_protocols = {};
 	$scope.class_options = ["Classifier", "Procedure"];
 

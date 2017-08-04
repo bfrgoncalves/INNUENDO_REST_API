@@ -112,6 +112,8 @@ function set_headers_single_project(global_strains){
 //Initialize the Single Project Controller and enclosure all its functions
 innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeout) {
 
+	current_scope_template = $scope.selectedTemplate.path;
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 	$scope.project = {};

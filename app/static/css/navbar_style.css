@@ -54,6 +54,6 @@ footer {
     top: 0;
     width: 50%;
   }
-  #offcanvasleft,#offcanvasright,#backbutton{margin-top:10px; margin-left:10px; background-color:white;}
+  #offcanvasleft,#offcanvasright{margin-top:10px; margin-left:10px; background-color:white;}
   #navbarlogbutton {margin-top:10px; float:right; margin-right:10px; background-color:white;}
 }

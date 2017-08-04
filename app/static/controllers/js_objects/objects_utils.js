@@ -130,7 +130,8 @@ function Objects_Utils(){
 	            }
 	        ],
 	        columns: columnDefinitions,
-	        "data": data
+	        "data": data,
+	        "stateSave":true
 	    });
 
 	    // Apply the search
@@ -262,7 +263,8 @@ function Objects_Utils(){
 	            }
 	        ],
 	        columns: columnDefinitions,
-	        "data": data
+	        "data": data,
+	        "stateSave":true
 	    });
 
 	    table.columns.adjust().draw();

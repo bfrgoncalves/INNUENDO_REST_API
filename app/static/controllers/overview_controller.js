@@ -16,6 +16,8 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 	$("#backbutton").on("click", function(){
 		$scope.$apply(function(){
 			$scope.selectedTemplate.path = PREVIOUS_PAGE_ARRAY.pop();
+			if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
+			else $("#backbutton").css({"display":"none"});
 		})
 	});
 

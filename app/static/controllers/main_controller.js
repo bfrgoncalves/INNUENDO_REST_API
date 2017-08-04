@@ -64,15 +64,15 @@ setTimeout(function(){
 		tclick();
 	})
 
-	$("#sidebar-wrapper ul li").not('.navbar ul .drop').on("click", function(){
+	$("#sidebar-wrapper ul li").not('.dropdiv ul li').on("click", function(){
 		PREVIOUS_PAGE_ARRAY.push(current_scope_template);
 		console.log(PREVIOUS_PAGE_ARRAY);
 		tclick();
 	})
-	$(".nav-list li").on("click", function(){
+	/*$(".nav-list li").on("click", function(){
 		PREVIOUS_PAGE_ARRAY.push(current_scope_template);
 		console.log(PREVIOUS_PAGE_ARRAY);
 		tclick();
-	})
+	})*/
 
 }, 800);

@@ -611,6 +611,19 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								});
 							})
 					    }
+					    else{
+					    	$('#waiting_spinner').css({display:'none'}); 
+							$('#reports_controller_div').css({display:'block'});
+							objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
+								objects_utils.restore_table_headers('reports_results_table', reports_info_table_headers, false, function(){
+									objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+									objects_utils.loadDataTables('reports_results_table', run_infos, reports_info_col_defs, reports_info_table_headers);
+									$("#reports_results_table_wrapper").css({"display": "none"});
+									$('.selectpicker').selectpicker({});
+								});
+							});
+							modalAlert("There are no projects associated with this species. Create a project and run some analyses to be able to visualize their reports.")
+					    }
 				    });
 				});
 			});

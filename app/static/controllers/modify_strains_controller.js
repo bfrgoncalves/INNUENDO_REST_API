@@ -110,6 +110,8 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 		    objects_utils.destroyTable('modify_strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    headers_defs = set_headers_reports(global_public_strains);
+
+		    console.log(global_public_strains, headers_defs);
 				
 			strains_headers = headers_defs[1];
 			

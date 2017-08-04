@@ -167,6 +167,8 @@ function Objects_Utils(){
 	    	table.rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 	    }
 
+	    $('#'+table_id+' tbody tr.selected button.analysis-control').trigger("click");
+
 	    clickedTimes = {}
 	    clickedTimes["details"] = 0;
 	    clickedTimes["analysis"] = 0;

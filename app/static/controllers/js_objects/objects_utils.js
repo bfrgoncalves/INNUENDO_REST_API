@@ -161,7 +161,6 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody tr').on('click');
 
 	    $('#'+table_id+' tbody').on('click', 'tr', function () {
-	    	console.log(this);
 	    	if(CURRENT_TABLE_ROWS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 	    	if($.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( this ).index());

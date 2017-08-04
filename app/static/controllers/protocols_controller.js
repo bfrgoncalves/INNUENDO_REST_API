@@ -1,6 +1,7 @@
 innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 	current_scope_template = $scope.selectedTemplate.path;
+	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 
 	$scope.protocol_type = {};
 	$scope.protocols_of_type = [];

@@ -113,6 +113,7 @@ function set_headers_single_project(global_strains){
 innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeout) {
 
 	current_scope_template = $scope.selectedTemplate.path;
+	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 

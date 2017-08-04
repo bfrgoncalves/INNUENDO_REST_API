@@ -9,6 +9,8 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 	current_scope_template = $scope.selectedTemplate.path;
 
+	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
+
 	$scope.showSpeciesDrop = function(){
 
 		$("#projects_button_li").css({"display":"none"});

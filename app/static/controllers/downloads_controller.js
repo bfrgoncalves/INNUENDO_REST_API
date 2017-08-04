@@ -1,6 +1,7 @@
 innuendoApp.controller("downloadsCtrl", function($scope, $http) {
 
     current_scope_template = $scope.selectedTemplate.path;
+    if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 

@@ -1,6 +1,7 @@
 innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 	current_scope_template = $scope.selectedTemplate.path;
+	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 
 	$scope.added_protocols = {};
 	$scope.class_options = ["Classifier", "Procedure"];

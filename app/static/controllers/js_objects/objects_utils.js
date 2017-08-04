@@ -134,7 +134,7 @@ function Objects_Utils(){
 	        "stateSave":true,
 	        "initComplete": function() {
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
-				    	table.rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+				    	$('#'+table_id+' tbody').DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 				    }
 				    console.log($('#'+table_id+' tbody').find("tr.selected button.analysis-control"));
 				    console.log($('#'+table_id+' tbody').find("tr.selected th button.analysis-control"));

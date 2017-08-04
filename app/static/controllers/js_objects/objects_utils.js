@@ -131,7 +131,10 @@ function Objects_Utils(){
 	        ],
 	        columns: columnDefinitions,
 	        "data": data,
-	        "stateSave":true
+	        "stateSave":true,
+	        "initComplete": function() {
+                   $('#'+table_id+' tr').trigger("click");
+            }
 	    });
 
 	    // Apply the search
@@ -224,11 +227,6 @@ function Objects_Utils(){
 		        }
 	        }
 	    } );
-
-	   setTimeout(function(){
-	    	console.log("SELECT");
-	    	$('#'+table_id+' tr').trigger("click");
-	    }, 1000);
 
 	    /*$('#'+table_id+' tbody').on('click', 'button.lab-protocols-control', function () {
 

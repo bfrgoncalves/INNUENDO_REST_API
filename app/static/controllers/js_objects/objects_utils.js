@@ -136,11 +136,6 @@ function Objects_Utils(){
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 				    }
-				    console.log($('#'+table_id+' tbody').find("tr.selected button.analysis-control"));
-				    console.log($('#'+table_id+' tbody').find("tr.selected th button.analysis-control"));
-				    console.log($('#'+table_id+' tbody').find("tr.selected").find("button.analysis-control"));
-				    console.log($('#'+table_id+' tbody').find("tr.selected > button.analysis-control"));
-				    console.log($('#'+table_id+' tbody').find("tr.selected"));
                     $('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
             }
 	    });
@@ -170,6 +165,10 @@ function Objects_Utils(){
 	    	if(CURRENT_TABLE_ROWS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 	    	if($.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( this ).index());
+	    	}
+	    	else{
+	    		var index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( this ).index());
+	    		CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
 	    	}
 	    	console.log(CURRENT_TABLE_ROWS_SELECTED);
 	    } );

@@ -133,7 +133,10 @@ function Objects_Utils(){
 	        "data": data,
 	        "stateSave":true,
 	        "initComplete": function() {
-                   $('#'+table_id+' tr').trigger("click");
+	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
+				    	table.rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+				    }
+                   $('#'+table_id+' tbody').find("tr.selected").trigger("click");
             }
 	    });
 
@@ -165,10 +168,6 @@ function Objects_Utils(){
 	    	}
 	    	console.log(CURRENT_TABLE_ROWS_SELECTED);
 	    } );
-
-	    for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
-	    	table.rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
-	    }
 
 	    clickedTimes = {}
 	    clickedTimes["details"] = 0;

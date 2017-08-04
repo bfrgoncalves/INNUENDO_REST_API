@@ -11,6 +11,13 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 
+	$("#backbutton").off("click");
+	$("#backbutton").on("click", function(){
+		$scope.$apply(function(){
+			$scope.selectedTemplate.path = PREVIOUS_PAGE_ARRAY.pop();
+		})
+	});
+
 	$scope.showSpeciesDrop = function(){
 
 		$("#projects_button_li").css({"display":"none"});

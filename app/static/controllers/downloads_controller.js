@@ -3,6 +3,13 @@ innuendoApp.controller("downloadsCtrl", function($scope, $http) {
     current_scope_template = $scope.selectedTemplate.path;
     if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 
+    $("#backbutton").off("click");
+    $("#backbutton").on("click", function(){
+        $scope.$apply(function(){
+            $scope.selectedTemplate.path = PREVIOUS_PAGE_ARRAY.pop();
+        })
+    });
+
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
     $("#reset_strain").on("click", function(){

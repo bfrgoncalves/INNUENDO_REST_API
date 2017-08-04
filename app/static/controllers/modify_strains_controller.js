@@ -4,6 +4,13 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	current_scope_template = $scope.selectedTemplate.path;
 	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 
+	$("#backbutton").off("click");
+	$("#backbutton").on("click", function(){
+		$scope.$apply(function(){
+			$scope.selectedTemplate.path = PREVIOUS_PAGE_ARRAY.pop();
+		})
+	});
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
 	var objects_utils = new Objects_Utils();

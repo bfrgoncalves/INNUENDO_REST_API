@@ -328,7 +328,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		                	if(strains_results.strains == "no_pipelines"){	
 		                		headers_defs = set_headers_single_project(global_strains);
-		                		strains_headers = headers_defs[1];
+		                		if(headers_defs[1].length != 0) strains_headers = headers_defs[1];
 		                		console.log(global_strains, headers_defs[0], strains_headers);
 		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	                		
 			                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);

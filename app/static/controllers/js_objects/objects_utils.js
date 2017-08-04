@@ -167,11 +167,6 @@ function Objects_Utils(){
 	    	table.rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 	    }
 
-	    setTimeout(function(){
-	    	console.log("SELECT");
-	    	$('#'+table_id+' > tr.selected > button.analysis-control').trigger("click");
-	    }, 1000);
-
 	    clickedTimes = {}
 	    clickedTimes["details"] = 0;
 	    clickedTimes["analysis"] = 0;
@@ -229,6 +224,11 @@ function Objects_Utils(){
 		        }
 	        }
 	    } );
+
+	   setTimeout(function(){
+	    	console.log("SELECT");
+	    	$('#'+table_id+' tr.selected').trigger("click");
+	    }, 1000);
 
 	    /*$('#'+table_id+' tbody').on('click', 'button.lab-protocols-control', function () {
 

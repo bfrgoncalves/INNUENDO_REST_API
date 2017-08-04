@@ -65,12 +65,12 @@ setTimeout(function(){
 	})
 
 	$("#sidebar-wrapper ul li").not('.navbar ul .drop, .dropdiv ul li').on("click", function(){
-		PREVIOUS_PAGE_ARRAY.push(current_scope_template);
+		PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID, CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID, CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT, CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID]);
 		console.log(PREVIOUS_PAGE_ARRAY);
 		tclick();
 	})
 	$(".nav-list li").not('.dropdiv ul li').on("click", function(){
-		PREVIOUS_PAGE_ARRAY.push(current_scope_template);
+		PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID, CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID, CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT, CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID]);
 		console.log(PREVIOUS_PAGE_ARRAY);
 		tclick();
 	})

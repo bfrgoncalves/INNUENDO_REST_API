@@ -8,7 +8,20 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 	$("#backbutton").off("click");
 	$("#backbutton").on("click", function(){
 		$scope.$apply(function(){
-			$scope.selectedTemplate.path = PREVIOUS_PAGE_ARRAY.pop();
+			session_array = PREVIOUS_PAGE_ARRAY.pop();
+
+			CURRENT_PROJECT_ID = session_array[1];
+			CURRENT_JOB_MINE = session_array[2];
+			CURRENT_PROJECT = session_array[3];
+			CURRENT_SPECIES_ID = session_array[4];
+			CURRENT_SPECIES_NAME = session_array[5];
+			CURRENT_USER_NAME = session_array[6];
+			CURRENT_JOBS_ROOT = session_array[7];
+
+			CURRENT_JOB_ID = session_array[8];
+			CURRENT_PROJECT_NAME_ID = session_array[9];
+
+			$scope.selectedTemplate.path = session_array[0];
 		})
 	});
 

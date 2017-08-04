@@ -158,7 +158,7 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
-	    $('#'+table_id+' tbody tr').off('click');
+	    $('#'+table_id+' tbody').off('click', 'tr');
 
 	    console.log(table_id);
 	    $('#'+table_id+' tbody').on('click', 'tr', function () {

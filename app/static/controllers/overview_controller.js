@@ -81,7 +81,7 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 		//Get species name and ID. Launch the Projects view for that species
     	CURRENT_SPECIES_NAME = $('#species_select_drop option:selected').text();
         CURRENT_SPECIES_ID = $('#species_select_drop option:selected').attr("species_id");
-        PREVIOUS_PAGE_ARRAY.push(current_scope_template);
+        PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID, CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID, CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT, CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID]);
         $scope.selectedTemplate.path = 'static/html_components/projects_view.html';
 	}
 

@@ -167,7 +167,10 @@ function Objects_Utils(){
 	    	table.rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 	    }
 
-	    $('#'+table_id+' tbody tr.selected .analysis-control').trigger("click");
+	    setTimeout(function(){
+	    	console.log("SELECT");
+	    	$('#'+table_id+' > tr.selected > button.analysis-control').trigger("click");
+	    }, 1000);
 
 	    clickedTimes = {}
 	    clickedTimes["details"] = 0;

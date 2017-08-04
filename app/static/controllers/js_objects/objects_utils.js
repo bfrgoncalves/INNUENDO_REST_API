@@ -136,7 +136,10 @@ function Objects_Utils(){
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 				    	table.rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 				    }
-                   $('#'+table_id+' tbody').find("tr.selected button.analysis-control").trigger("click");
+				    console.log($('#'+table_id+' tbody').find("tr.selected button.analysis-control"));
+				    console.log($('#'+table_id+' tbody').find("tr.selected").find("button.analysis-control"));
+				    console.log($('#'+table_id+' tbody').find("tr.selected > button.analysis-control"));
+                   //$('#'+table_id+' tbody').find("tr.selected button.analysis-control").trigger("click");
             }
 	    });
 

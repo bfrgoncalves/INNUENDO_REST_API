@@ -622,7 +622,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									$('.selectpicker').selectpicker({});
 								});
 							});
-							modalAlert("There are no projects associated with this species. Create a project and run some analyses to be able to visualize their reports.")
+							modalAlert("There are no projects associated with this species. Create a project and run some analyses to be able to visualize their reports.", function(){});
 					    }
 				    });
 				});

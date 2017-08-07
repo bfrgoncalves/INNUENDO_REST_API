@@ -134,8 +134,15 @@ function Objects_Utils(){
 	        "stateSave":true,
 	        "initComplete": function() {
 	        		console.log(CURRENT_TABLE_ROWS_SELECTED);
+	        		var already_added = [];
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
+	        			already_added.push(table_id][r]);
 				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+				    }
+				    for(j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){
+				    	if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added == -1)){
+				    		$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j]).select();
+				    	}
 				    }
                     $('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
             }
@@ -215,15 +222,21 @@ function Objects_Utils(){
 	        	var tr = $(this).closest('tr');
 	        	//tr = $(tr).addClass("child_row");
 		        var row = $('#'+table_id).DataTable().row( tr );
+		        var index_r = $('#'+table_id).DataTable().row( tr ).index();
 	            if(row.child.isShown()){
 	            	// This row is already open - close it
 		            row.child.hide();
 		            tr.removeClass('shown');
+		            var index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
+	    			CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
 	            }
 		        else {
 		            // Open this row
 		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
 		            tr.addClass('shown');
+
+		            if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED['#'+table_id] == undefined) CURRENT_TABLE_ROW_ANALYSIS_SELECTED['#'+table_id] = [];
+		            CURRENT_TABLE_ROW_ANALYSIS_SELECTED['#'+table_id].push(index_r);
 
 		            for(x in current_job_status_color){
 		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});

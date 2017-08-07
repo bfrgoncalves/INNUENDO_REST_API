@@ -137,14 +137,10 @@ function Objects_Utils(){
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 	        			already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
 				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
-				    	console.log("PASSOU");
 				    }
-				    count_clicked = 0;
 				    for(j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){
 				    	if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added) == -1){
-				    		//console.log("AQUI", CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], $('#'+table_id+' tbody tr').eq(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j] + count_clicked + 1), CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j] + count_clicked);
-				    		$('#'+table_id+' tbody').find("tr:eq("+String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j] + count_clicked)+") td button.analysis-control").addClass("button_table_to_trigger");
-				    		count_clicked += 1;
+				    		$('#'+table_id+' tbody').find("tr:eq("+String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j])+") td button.analysis-control").addClass("button_table_to_trigger");
 				    	}
 				    }
 

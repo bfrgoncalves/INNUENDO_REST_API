@@ -138,6 +138,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		})
 	});
 
+	console.log(CURRENT_TABLE_ROW_ANALYSIS_SELECTED, CURRENT_TABLE_ROWS_SELECTED);
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 	$scope.project = {};

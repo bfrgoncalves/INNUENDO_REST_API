@@ -230,7 +230,6 @@ function Objects_Utils(){
 		            tr.removeClass('shown');
 		            var index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
 	    			CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
-	    			console.log(CURRENT_TABLE_ROW_ANALYSIS_SELECTED);
 	            }
 		        else {
 		            // Open this row
@@ -238,7 +237,6 @@ function Objects_Utils(){
 		            tr.addClass('shown');
 
 		            if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];
-		            console.log(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]);
 		            if($.inArray(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) == -1){
 			    		CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].push(index_r);
 			    	}

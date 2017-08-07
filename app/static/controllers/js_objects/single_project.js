@@ -1451,7 +1451,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var sp_name = class_n.split('&&')[1];
 			var button_m = element.parentElement.parentElement.getElementsByTagName("button")[0];
 			var strain_indexes = $.map($('#strains_table').DataTable().rows().indexes(), function(index){ return index; });
-			var strain_names = $.map($('#strains_table').DataTable().rows().data(), function(item){ console.log(item);return item.strainID; });
+			var strain_names = $.map($('#strains_table').DataTable().rows().data(), function(item){ return item.strainID; });
 			var strain_data = $.map($('#strains_table').DataTable().rows().data(), function(item){ return item; });
 			
 			var new_pipapplied = [];
@@ -1528,7 +1528,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];
-						console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
+						//console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
 			}
 			modalAlert("Procedure removed.", function(){});

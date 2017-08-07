@@ -133,6 +133,7 @@ function Objects_Utils(){
 	        "data": data,
 	        "stateSave":true,
 	        "initComplete": function() {
+	        		console.log(CURRENT_TABLE_ROWS_SELECTED);
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 				    }

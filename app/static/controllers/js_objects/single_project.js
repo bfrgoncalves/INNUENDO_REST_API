@@ -924,6 +924,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>';
 			        
 			        console.log(buttonselectedPipeline);
+			        console.log(pipelines_applied[strain_data[counter]['strainID']]);
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
 			        	pipelines_type_by_strain[strain_data[counter]['strainID']] = [[],[]];

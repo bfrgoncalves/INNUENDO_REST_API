@@ -235,6 +235,7 @@ function Objects_Utils(){
 		            tr.addClass('shown');
 
 		            if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];
+		            console.log(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]);
 		            if($.inArray(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) == -1){
 			    		CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].push(index_r);
 			    	}

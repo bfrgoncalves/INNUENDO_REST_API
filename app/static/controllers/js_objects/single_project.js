@@ -922,9 +922,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					'<li style="display:block;" class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
 
 		        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>';
-			        
-			        console.log(buttonselectedPipeline);
-			        console.log(pipelines_applied[strain_data[counter]['strainID']]);
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
 			        	pipelines_type_by_strain[strain_data[counter]['strainID']] = [[],[]];
@@ -941,15 +938,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        pipelines_applied[strain_data[counter]['strainID']].push(buttonselectedPipeline);
 		        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));
 		        	else if (type_proc == 'analysis_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][1].push(buttonselectedPipeline.replace("&&&", ""));
-			        
-			        console.log(pipelines_type_by_strain[strain_data[counter]['strainID']][1]);
+
 			        for(j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	for(o in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
 			        		if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 	        				else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 			        	}
-			        	
-	        			console.log(toAdd_analysis);
 			        }
 			    }
 		        else if(mode=='same'){

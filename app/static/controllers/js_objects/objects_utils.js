@@ -140,9 +140,12 @@ function Objects_Utils(){
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 	        			already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
 				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+				    	if($.inArray(CURRENT_TABLE_ROWS_SELECTED[table_id][r], CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) == -1){
+				    		CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
+				    	}
 				    }
 				    for(j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){
-				    	if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added == -1)){
+				    	if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added) == -1){
 				    		$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j]).select();
 				    	}
 				    }

@@ -134,6 +134,8 @@ function Objects_Utils(){
 	        "stateSave":true,
 	        "initComplete": function() {
 	        		console.log(CURRENT_TABLE_ROWS_SELECTED);
+	        		console.log(CURRENT_TABLE_ROW_ANALYSIS_SELECTED);
+
 	        		var already_added = [];
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 	        			already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);

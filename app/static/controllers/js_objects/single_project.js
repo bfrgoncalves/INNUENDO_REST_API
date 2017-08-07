@@ -942,6 +942,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));
 		        	else if (type_proc == 'analysis_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][1].push(buttonselectedPipeline.replace("&&&", ""));
 			        
+			        console.log(pipelines_type_by_strain[strain_data[counter]['strainID']][1]);
 			        for(j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j];
 	        			else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j];

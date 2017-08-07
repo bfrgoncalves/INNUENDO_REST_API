@@ -145,7 +145,9 @@ function Objects_Utils(){
 				    		$('#'+table_id+' tbody').find("tr:eq("+String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j])+") td button.analysis-control").trigger("click");
 				    	}
 				    }
-                    $('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
+				    setTimeout(function(){
+				    	$('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
+				    }, 300);
             }
 	    });
 

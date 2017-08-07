@@ -213,7 +213,7 @@ function Objects_Utils(){
 
 
 	        	var tr = $(this).closest('tr');
-	        	tr = $(tr).addClass("child_row");
+	        	//tr = $(tr).addClass("child_row");
 		        var row = $('#'+table_id).DataTable().row( tr );
 	            if(row.child.isShown()){
 	            	// This row is already open - close it
@@ -222,7 +222,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( format_analysis(row.data(), table_id) ).show();
+		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
 		            tr.addClass('shown');
 
 		            for(x in current_job_status_color){

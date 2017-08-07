@@ -136,7 +136,7 @@ function Objects_Utils(){
 	        		console.log(CURRENT_TABLE_ROWS_SELECTED);
 	        		var already_added = [];
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
-	        			already_added.push(table_id][r]);
+	        			already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
 				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
 				    }
 				    for(j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){

@@ -160,7 +160,6 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
 
-	    console.log(table_id);
 	    $('#'+table_id+' tbody tr').on('click', 'td:first', function () {
 	    	if(CURRENT_TABLE_ROWS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 	    	if($.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
@@ -170,7 +169,6 @@ function Objects_Utils(){
 	    		var index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( this ).index());
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
 	    	}
-	    	console.log(CURRENT_TABLE_ROWS_SELECTED);
 	    } );
 
 	    clickedTimes = {}

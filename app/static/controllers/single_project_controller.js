@@ -699,7 +699,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 				global_strains = strains_results.strains;
 				headers_defs = set_headers_single_project(global_strains);
 				objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
-					console.log(global_strains, headers_defs[0], strains_headers);
+					CURRENT_TABLE_ROWS_SELECTED['strains_table'] = [];
 					objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				});
 			}

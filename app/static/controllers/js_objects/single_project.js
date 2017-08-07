@@ -944,15 +944,20 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        
 			        console.log(pipelines_type_by_strain[strain_data[counter]['strainID']][1]);
 			        for(j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
-			        	if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j];
-	        			else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j];
+			        	for(o in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
+			        		if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
+	        				else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
+			        	}
+			        	
 	        			console.log(toAdd_analysis);
 			        }
 			    }
 		        else if(mode=='same'){
 		        	for(j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
-			        	if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j];
-	        			else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j];
+			        	for(o in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
+			        		if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
+	        				else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
+			        	}
 			        }
 		        }
 

@@ -213,6 +213,7 @@ function Objects_Utils(){
 
 
 	        	var tr = $(this).closest('tr');
+	        	tr = $(tr).addClass("child_row");
 		        var row = $('#'+table_id).DataTable().row( tr );
 	            if(row.child.isShown()){
 	            	// This row is already open - close it

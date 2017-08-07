@@ -131,6 +131,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 			CURRENT_JOB_ID = session_array[8];
 			CURRENT_PROJECT_NAME_ID = session_array[9];
+			CURRENT_TABLE_ROWS_SELECTED = session_array[10];
+			CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
 
 			$scope.selectedTemplate.path = session_array[0];
 		})
@@ -589,6 +591,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
+			CURRENT_TABLE_ROWS_SELECTED['strains_table'] = [];
+			CURRENT_TABLE_ROW_ANALYSIS_SELECTED['strains_table'] = [];
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				callback(strains_results);
@@ -618,6 +622,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
+			CURRENT_TABLE_ROWS_SELECTED['strains_table'] = [];
+			CURRENT_TABLE_ROW_ANALYSIS_SELECTED['strains_table'] = [];
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			});
@@ -647,7 +653,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		    global_public_strains = strains_results.public_strains;
 		    headers_defs = set_headers_single_project(global_public_strains);
 		    objects_utils.restore_table_headers('public_strains_table', strains_headers, true, function(){	
-			    console.log(headers_defs, strains_headers);
 			    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
 			    callback();
 			});
@@ -664,9 +669,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
-				console.log(global_strains, headers_defs[0], strains_headers)
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-				console.log("AQUI");
 				callback();
 			});
 

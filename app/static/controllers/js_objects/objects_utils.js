@@ -133,9 +133,6 @@ function Objects_Utils(){
 	        "data": data,
 	        "stateSave":true,
 	        "initComplete": function() {
-	        		console.log(CURRENT_TABLE_ROWS_SELECTED);
-	        		console.log(CURRENT_TABLE_ROW_ANALYSIS_SELECTED);
-
 	        		var already_added = [];
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 	        			already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
@@ -179,7 +176,6 @@ function Objects_Utils(){
 	    		var index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( this ).index());
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
 	    	}
-	    	console.log(CURRENT_TABLE_ROWS_SELECTED);
 	    } );
 
 	    clickedTimes = {}

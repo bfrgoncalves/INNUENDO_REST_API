@@ -27,6 +27,10 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		})
 	});
 
+	//RESET ROW SELECTION
+	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
+	CURRENT_TABLE_ROWS_SELECTED = {}
+
 	$scope.added_protocols = {};
 	$scope.class_options = ["Classifier", "Procedure"];
 

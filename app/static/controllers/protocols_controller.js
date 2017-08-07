@@ -26,6 +26,10 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		})
 	});
 
+	//RESET ROW SELECTION
+	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
+	CURRENT_TABLE_ROWS_SELECTED = {}
+
 	$scope.protocol_type = {};
 	$scope.protocols_of_type = [];
 	$scope.protocolTypeParameters = {};

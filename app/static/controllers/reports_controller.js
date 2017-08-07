@@ -86,6 +86,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		})
 	});
 
+	//RESET ROW SELECTION
+	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
+	CURRENT_TABLE_ROWS_SELECTED = {}
+
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
 
 	reports = new Report($http);

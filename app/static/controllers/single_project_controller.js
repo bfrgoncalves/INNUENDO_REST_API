@@ -347,7 +347,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		                		strains_headers = headers_defs[1];
 		                		sh = headers_defs[1];
-		                		
+
 		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 						        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				                	$scope.getIdsFromProjects(function(strains_results){
@@ -754,7 +754,7 @@ removeAnalysis = function(li){
 		}
 		objects_utils.destroyTable('strains_table');
 		headers_defs = set_headers_single_project(global_strains);
-		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+		objects_utils.restore_table_headers('strains_table', sh, true, function(){	
 			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
 		});
 	});
@@ -782,7 +782,7 @@ newPipelineFromFile = function(element){
 		objects_utils.destroyTable('strains_table');
 		global_strains = strains_results.strains;
 		headers_defs = set_headers_single_project(global_strains);
-		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+		objects_utils.restore_table_headers('strains_table', sh, true, function(){	
 			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
 			$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
 			$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');

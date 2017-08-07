@@ -169,6 +169,7 @@ function Objects_Utils(){
 	    		var index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( this ).index());
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
 	    	}
+	    	console.log(CURRENT_TABLE_ROWS_SELECTED);
 	    } );
 
 	    clickedTimes = {}

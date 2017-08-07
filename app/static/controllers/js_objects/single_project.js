@@ -944,6 +944,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        for(j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	if(j == 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j];
 	        			else if (j==1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j];
+	        			console.log(toAdd_analysis);
 			        }
 			    }
 		        else if(mode=='same'){
@@ -953,7 +954,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        }
 		        }
 
-		        console.log(toAdd_analysis);
+		        //console.log(toAdd_analysis);
 
 		        if(type_proc == 'lab_protocol') strain_data[i]['lab_protocols'] = toAdd_lab_protocols;
 	        	else if (type_proc == 'analysis_protocol') strain_data[i]['Analysis'] = toAdd_analysis;

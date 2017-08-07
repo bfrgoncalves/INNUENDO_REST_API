@@ -23,7 +23,7 @@ function Objects_Utils(){
 
 	function format ( d, visible_headers, table_id ) {
 	    // `d` is the original data object for the row
-	    tr_string='<tbody><tr>';
+	    tr_string='<tbody><tr class="child_row">';
 	    tr_headers = '<thead><tr>';
 
 	    var convert_dict = metadata.get_dict_fields();
@@ -74,7 +74,7 @@ function Objects_Utils(){
 	    // `d` is the original data object for the row
 	    tr_string='';
 
-    	tr_string += '<tr>'+
+    	tr_string += '<tr class="child_row">'+
 	            '<td><b>Analysis</b></td>'+
 	            '<td colspan="6">'+d.Analysis+'</td>'+
 	        '</tr>';
@@ -86,7 +86,7 @@ function Objects_Utils(){
 	    // `d` is the original data object for the row
 	    tr_string='';
 
-    	tr_string += '<tr>'+
+    	tr_string += '<tr class="child_row">'+
 	            '<td><b>Lab Protocols</b></td>'+
 	            '<td colspan="6">'+d.lab_protocols+'</td>'+
 	        '</tr>';
@@ -161,7 +161,7 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
 
-	    $('#'+table_id+' tbody tr').on('click', 'td:first', function () {
+	    $('#'+table_id+' tbody tr').on('click', 'td:first:not(.child_row)', function () {
 	    	if(CURRENT_TABLE_ROWS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 	    	if($.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( this ).index());

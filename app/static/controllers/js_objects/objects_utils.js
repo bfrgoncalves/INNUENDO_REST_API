@@ -137,6 +137,7 @@ function Objects_Utils(){
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
 	        			already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
 				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+				    	console.log("PASSOU");
 				    }
 				    for(j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){
 				    	if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added) == -1){

@@ -158,10 +158,10 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
-	    $('#'+table_id+' tbody').off('click', 'tr');
+	    $('#'+table_id+' tbody tr').off('click', 'td:first');
 
 	    console.log(table_id);
-	    $('#'+table_id+' tbody').on('click', 'tr td:first', function () {
+	    $('#'+table_id+' tbody tr').on('click', 'td:first', function () {
 	    	if(CURRENT_TABLE_ROWS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 	    	if($.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( this ).index());

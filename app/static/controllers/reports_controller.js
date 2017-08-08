@@ -1208,7 +1208,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 					if(count_jobs == total_jobs && problematic_jobs.length != total_jobs && already_added_jobs != total_jobs) {
 						procedure_to_show = Object.keys(global_results_dict)[0];
-						console.log(procedure_to_show);
 						run_infos=global_results_dict[procedure_to_show][0];
 						run_results=global_results_dict[procedure_to_show][1];
 
@@ -1331,41 +1330,31 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 							headers_defs_info = set_headers_reports(run_infos, procedure_to_show);
 							headers_defs_results = set_headers_reports(run_results, procedure_to_show);
-
-							current_procedure = procedure_to_show;
 							
 							reports_info_table_headers = headers_defs_info[1];
 							reports_results_table_headers = headers_defs_results[1];
 
 							console.log(headers_defs_info);
 
-							objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
-								objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
-									objects_utils.destroyTable('reports_info_table');
-									objects_utils.destroyTable('reports_results_table');
-									objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-									objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
-									modal_alert_message = 'Reports added to the project.';
-									if(problematic_jobs.length > 0){
-										modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
-										p_jobs = ""
-										for(pj in problematic_jobs){
-											p_jobs += problematic_jobs[pj] + ", ";
-										}
-										modal_alert_message += p_jobs
-										modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
-										modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
-									}
-									modalAlert(modal_alert_message, function(){});
-									$('#reports_info_table_wrapper').css({'display':'block'});
-									$('#reports_results_table_wrapper').css({'display':'none'});
-									$('#reports_metadata_table_wrapper').css({'display':'none'});
+							modal_alert_message = 'Reports added to the project.';
+							if(problematic_jobs.length > 0){
+								modal_alert_message += '\nCould not load some projects. There seems to a be a problem with them. Job ids: ';
+								p_jobs = ""
+								for(pj in problematic_jobs){
+									p_jobs += problematic_jobs[pj] + ", ";
+								}
+								modal_alert_message += p_jobs
+								modal_alert_message = modal_alert_message.substr(0, modal_alert_message.length-1);
+								modal_alert_message += modal_alert_message + "\n Try do re-do the analysis for the procedures with those job ids."
+							}
+							modalAlert(modal_alert_message, function(){});
+							$('#reports_info_table_wrapper').css({'display':'block'});
+							$('#reports_results_table_wrapper').css({'display':'none'});
+							$('#reports_metadata_table_wrapper').css({'display':'none'});
 
-									$("#run_info_" + q[p]).trigger("click");
+							$("#run_info_" + q[p]).trigger("click");
 
-									callback(true);
-								});
-							});
+							callback(true);
 						
 						
 						}, 500);

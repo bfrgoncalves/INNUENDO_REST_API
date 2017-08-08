@@ -72,7 +72,25 @@ function set_headers_reports(global_strains, procedure){
 
 function download_profile(button){
 
-	console.log($('#reports_results_table').DataTable().rows($(button).closest("tr")).data());
+	profile_data = $('#reports_results_table').DataTable().rows($(button).closest("tr")).data()[0];
+	var headers = Object.keys(profile_data);
+
+	var real_headers = ["Sample"]
+	var body_p = [profile_data.Sample];
+	var final_string = ""
+
+
+	for(x in headers){
+		if(headers[x] != "Sample" && headers[x] != "job_id"){
+			real_headers.push(headers[x]);
+			body_p.push(profile_data[headers[x]]);
+		}
+	}
+
+	final_string += real_headers.join("\t") + "\n" + body_p.join("\t");
+
+	uriContent = "data:application/octet-stream," + encodeURIComponent(final_string);
+	window.open(uriContent, 'profile_' + profile_data.Sample + ".tab");
 }
 
 

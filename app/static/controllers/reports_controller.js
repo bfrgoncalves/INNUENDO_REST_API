@@ -89,7 +89,16 @@ function download_profile(button){
 
 	final_string += real_headers.join("\t") + "\n" + body_p.join("\t");
 
-	uriContent = "data:application/octet-stream," + encodeURIComponent(final_string) + ";download:profile_" + profile_data.Sample + ".tab"
+	uriContent = "data:application/octet-stream," + encodeURIComponent(final_string);
+	
+	var downloadLink = document.createElement("a");
+	downloadLink.href = uriContent;
+	downloadLink.download = "profile_" + profile_data.Sample + ".tab";
+
+	document.body.appendChild(downloadLink);
+	downloadLink.click();
+	document.body.removeChild(downloadLink);
+
 	window.open(uriContent, 'profile_' + profile_data.Sample + ".tab");
 }
 

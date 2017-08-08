@@ -1272,6 +1272,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									to_check = sp.splice(2, sp.length).join('_');
 									current_procedure = to_check;
 
+									console.log(run_infos, run_results)
+
 									headers_defs_info = set_headers_reports(run_infos, to_check);
 									headers_defs_results = set_headers_reports(run_results, to_check);
 

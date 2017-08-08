@@ -31,7 +31,7 @@ function set_headers_reports(global_strains, procedure){
 
 	    ];
 	}
-	else if(procedure != null && procedure.indexOf("chewBBACA") > -1){
+	else if(procedure != null && procedure.indexOf("results_info_chewBBACA") > -1){
 
 		var p_col_defs = [
 	    	{
@@ -1227,9 +1227,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$('#run_info_' + q[p]).on('click', function(){
 
 									sp = this.id.split('_');
+									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');
 									console.log("CLICKED info");
-									current_procedure = to_check;
+									current_procedure = selected_id;
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
@@ -1244,8 +1245,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									$('#phyloviz_button').css({display:"none"});
 
-									headers_defs_info = set_headers_reports(run_infos, to_check);
-									headers_defs_results = set_headers_reports(run_results, to_check);
+									headers_defs_info = set_headers_reports(run_infos, selected_id);
+									headers_defs_results = set_headers_reports(run_results, selected_id);
 
 									$scope.$apply(function(){
 										$scope.currently_showing = "Run information " + to_check;
@@ -1263,7 +1264,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
 										objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
 											objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-											//objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
+											objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
 											$('#reports_info_table_wrapper').css({'display':'block'});
 											$('#reports_results_table_wrapper').css({'display':'none'});
@@ -1277,8 +1278,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								$('#results_info_' + q[p]).on('click',function(){
 
 									sp = this.id.split('_');
+									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');
-									current_procedure = to_check;
+									current_procedure = selected_id;
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
@@ -1288,8 +1290,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									console.log(run_infos, run_results)
 
-									headers_defs_info = set_headers_reports(run_infos, to_check);
-									headers_defs_results = set_headers_reports(run_results, to_check);
+									headers_defs_info = set_headers_reports(run_infos, selected_id);
+									headers_defs_results = set_headers_reports(run_results, selected_id);
 
 									$scope.$apply(function(){
 										$scope.currently_showing = "Run results " + to_check;

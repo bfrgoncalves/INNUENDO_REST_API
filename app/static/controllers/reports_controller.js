@@ -67,7 +67,6 @@ function set_headers_reports(global_strains, procedure){
 		for(x in global_strains[0]){
 			if (x != "Analysis" && x != "id" && x != "species_id"){
 				if($.inArray(matching_fields[x], minimal_fields) > -1){
-					console.log(matching_fields[x], minimal_fields);
 					p_col_defs.push({"data":x});
 				}
 				else p_col_defs.push({"data":x, "visible":false});
@@ -1234,7 +1233,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									sp = this.id.split('_');
 									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');
-									console.log("CLICKED info");
 									current_procedure = 'run_info_'+to_check;
 
 									run_infos=global_results_dict[to_check][0];
@@ -1242,8 +1240,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									objects_utils.destroyTable('reports_info_table');
 									objects_utils.destroyTable('reports_results_table');
-
-									console.log(run_infos, run_results)
 
 									objects_utils.destroyTable('reports_info_table');
 									objects_utils.destroyTable('reports_results_table');
@@ -1263,8 +1259,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									reports_info_table_headers = headers_defs_info[1];
 									reports_results_table_headers = headers_defs_results[1];
-
-									console.log(headers_defs_info[0], headers_defs_info[1], headers_defs_results[0], headers_defs_results[1], run_infos, run_results);
 
 									objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
 										objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
@@ -1354,8 +1348,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							
 							reports_info_table_headers = headers_defs_info[1];
 							reports_results_table_headers = headers_defs_results[1];
-
-							console.log(headers_defs_info);
 
 							modal_alert_message = 'Reports added to the project.';
 							if(problematic_jobs.length > 0){
@@ -1666,28 +1658,28 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			objects_utils.destroyTable('reports_results_table');
 			objects_utils.destroyTable('reports_metadata_table');
 
-			headers_defs_info = set_headers_reports(run_infos, current_procedure);
-			headers_defs_results = set_headers_reports(run_results, current_procedure);
-			headers_defs_metadata = set_headers_reports(current_strains_data, null);
+			//headers_defs_info = set_headers_reports(run_infos, current_procedure);
+			//headers_defs_results = set_headers_reports(run_results, current_procedure);
+			//headers_defs_metadata = set_headers_reports(current_strains_data, null);
 
-			reports_info_table_headers = headers_defs_info[1];
-			reports_results_table_headers = headers_defs_results[1];
-			reports_metadata_table_headers = headers_defs_metadata[1];
+			//reports_info_table_headers = headers_defs_info[1];
+			//reports_results_table_headers = headers_defs_results[1];
+			//reports_metadata_table_headers = headers_defs_metadata[1];
 
-			objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
-				objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
-					objects_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, false, function(){
-						objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-						objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
-						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs_metadata[0], reports_metadata_table_headers);
+			//objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
+			//	objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
+					//objects_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, false, function(){
+			objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
+			objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
+			objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs_metadata[0], reports_metadata_table_headers);
 
-						for(j in table_ids){
-							if(table_ids[j] != id_to_use) $('#'+table_ids[j]+'_wrapper').css({'display':'none'});
-							else $('#'+table_ids[j]+'_wrapper').css({'display':'block'});
-						}
-					});
-				});
-			});
+			for(j in table_ids){
+				if(table_ids[j] != id_to_use) $('#'+table_ids[j]+'_wrapper').css({'display':'none'});
+				else $('#'+table_ids[j]+'_wrapper').css({'display':'block'});
+			}
+					//});
+				//});
+			//});
 
 		}
 		else return;

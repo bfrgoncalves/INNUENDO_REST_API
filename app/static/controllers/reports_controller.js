@@ -1226,6 +1226,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 								$('#run_info_' + q[p]).on('click', function(){
 
+									$('#reports_results_table').css({"display":"none"});
+									$('#reports_info_table').css({"display":"block"});
+
 									sp = this.id.split('_');
 									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');
@@ -1236,7 +1239,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									run_results=global_results_dict[to_check][1];
 
 									objects_utils.destroyTable('reports_info_table');
-									//objects_utils.destroyTable('reports_results_table');
+									objects_utils.destroyTable('reports_results_table');
 
 									console.log(run_infos, run_results)
 
@@ -1277,6 +1280,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 								$('#results_info_' + q[p]).on('click',function(){
 
+									$('#reports_results_table').css({"display":"block"});
+									$('#reports_info_table').css({"display":"none"});
+
 									sp = this.id.split('_');
 									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');
@@ -1285,7 +1291,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
 
-									//objects_utils.destroyTable('reports_info_table');
+									objects_utils.destroyTable('reports_info_table');
 									objects_utils.destroyTable('reports_results_table');
 
 									console.log(run_infos, run_results)

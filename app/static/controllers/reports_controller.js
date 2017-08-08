@@ -1234,6 +1234,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
 
+									objects_utils.destroyTable('reports_info_table');
+									objects_utils.destroyTable('reports_results_table');
+
 									console.log(run_infos, run_results)
 
 									objects_utils.destroyTable('reports_info_table');
@@ -1279,6 +1282,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
+
+									objects_utils.destroyTable('reports_info_table');
+									objects_utils.destroyTable('reports_results_table');
 
 									console.log(run_infos, run_results)
 

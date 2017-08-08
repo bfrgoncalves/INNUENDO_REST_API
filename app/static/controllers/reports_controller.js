@@ -89,7 +89,7 @@ function download_profile(button){
 
 	final_string += real_headers.join("\t") + "\n" + body_p.join("\t");
 
-	uriContent = "data:application/octet-stream," + encodeURIComponent(final_string);
+	uriContent = "data:application/octet-stream," + encodeURIComponent(final_string) + ";download:profile_" + profile_data.Sample + ".tab"
 	window.open(uriContent, 'profile_' + profile_data.Sample + ".tab");
 }
 

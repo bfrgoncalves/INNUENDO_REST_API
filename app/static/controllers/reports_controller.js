@@ -1231,6 +1231,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									console.log("CLICKED info");
 									current_procedure = to_check;
 
+									run_infos=global_results_dict[to_check][0];
+									run_results=global_results_dict[to_check][1];
+
 									console.log(run_infos, run_results)
 
 									objects_utils.destroyTable('reports_info_table');
@@ -1273,6 +1276,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									sp = this.id.split('_');
 									to_check = sp.splice(2, sp.length).join('_');
 									current_procedure = to_check;
+
+									run_infos=global_results_dict[to_check][0];
+									run_results=global_results_dict[to_check][1];
 
 									console.log(run_infos, run_results)
 

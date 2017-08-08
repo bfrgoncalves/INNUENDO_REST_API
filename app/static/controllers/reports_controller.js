@@ -832,16 +832,21 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		else if($('#reports_metadata_table_wrapper').css('display') == 'block') var table_id = 'reports_metadata_table';
 		else return;
 
-		mergeResultsData(table_id, function(results){
-			objects_utils.destroyTable('merged_results_table');
-		    objects_utils.loadTableFromArrayData('merged_results_table', results[0], results[1]);
+		if (current_procedure.indexOf("results_info_chewBBACA") > -1){
+			modalAlert("chewBBACA results have too many columns to be visualized. To get the profiles, check the \"Profile\" button of each result row.")
+		}
+		else{
+			mergeResultsData(table_id, function(results){
+				objects_utils.destroyTable('merged_results_table');
+			    objects_utils.loadTableFromArrayData('merged_results_table', results[0], results[1]);
 
-			$('#MergedTableModal').modal('show');
-			
-			setTimeout(function(){
-				$('#merged_results_table').DataTable().columns.adjust().draw();
-			},200);
-		});		
+				$('#MergedTableModal').modal('show');
+				
+				setTimeout(function(){
+					$('#merged_results_table').DataTable().columns.adjust().draw();
+				},200);
+			});
+		}		
 	},
 
 	$scope.saveReport = function(){

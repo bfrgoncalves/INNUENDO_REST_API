@@ -1658,9 +1658,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			objects_utils.destroyTable('reports_results_table');
 			objects_utils.destroyTable('reports_metadata_table');
 
-			//headers_defs_info = set_headers_reports(run_infos, current_procedure);
-			//headers_defs_results = set_headers_reports(run_results, current_procedure);
-			//headers_defs_metadata = set_headers_reports(current_strains_data, null);
+			headers_defs_info = set_headers_reports(run_infos, current_procedure);
+			headers_defs_results = set_headers_reports(run_results, current_procedure);
+			headers_defs_metadata = set_headers_reports(current_strains_data, null);
 
 			//reports_info_table_headers = headers_defs_info[1];
 			//reports_results_table_headers = headers_defs_results[1];

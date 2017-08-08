@@ -1235,7 +1235,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');
 									console.log("CLICKED info");
-									current_procedure = to_check;
+									current_procedure = 'run_info_'+to_check;
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
@@ -1285,7 +1285,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									sp = this.id.split('_');
 									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');
-									current_procedure = to_check;
+									current_procedure = 'results_info_'+to_check;
 
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];

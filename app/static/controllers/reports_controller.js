@@ -50,7 +50,7 @@ function set_headers_reports(global_strains, procedure){
 
 	    ];
 
-	    strains_headers = ["", "Run Identifier", ""]
+	    strains_headers = ["Run Identifier", ""]
 	}
 	else{
 

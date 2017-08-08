@@ -16,20 +16,12 @@ function set_headers_reports(global_strains, procedure){
 	            "data":           null,
 	            "defaultContent": ''
 	        },
-	        { "data": "strainID" },
-	        { "data": "SampleReceivedDate" },
-	        { "data": "source_Source" },
-	        { "data": "AdditionalInformation", "visible":false },
-	        { "data": "File_1", "visible":false },
-	        { "data": "Primary" , "visible":false},
-	        { "data": "SamplingDate" },
-	        { "data": "Owner", "visible":false },
-	        { "data": "Food-Bug", "visible":false },
-	        { "data": "Submitter", "visible":false },
-	        { "data": "File_2", "visible":false },
-	        { "data": "Location" },
+	        { "data": "Sample" },
+	        { "data": "job_id" }
 
 	    ];
+
+	    strains_headers = ["Sample","Run Identifier"]
 	}
 	else if(procedure != null && procedure.indexOf("results_info_chewBBACA") > -1){
 
@@ -1666,20 +1658,22 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			reports_results_table_headers = headers_defs_results[1];
 			reports_metadata_table_headers = headers_defs_metadata[1];
 
-			//objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
-			//	objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
-					//objects_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, false, function(){
-			objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-			objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
-			objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs_metadata[0], reports_metadata_table_headers);
+			console.log(headers_defs_info, headers_defs_results, headers_defs_metadata)
 
-			for(j in table_ids){
-				if(table_ids[j] != id_to_use) $('#'+table_ids[j]+'_wrapper').css({'display':'none'});
-				else $('#'+table_ids[j]+'_wrapper').css({'display':'block'});
-			}
-					//});
-				//});
-			//});
+			objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
+				objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
+					objects_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, false, function(){
+						objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
+						objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
+						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs_metadata[0], reports_metadata_table_headers);
+
+						for(j in table_ids){
+							if(table_ids[j] != id_to_use) $('#'+table_ids[j]+'_wrapper').css({'display':'none'});
+							else $('#'+table_ids[j]+'_wrapper').css({'display':'block'});
+						}
+					});
+				});
+			});
 
 		}
 		else return;

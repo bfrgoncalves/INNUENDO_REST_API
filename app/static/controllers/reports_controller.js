@@ -40,7 +40,7 @@ function set_headers_reports(global_strains, procedure){
 	            "data":           null,
 	            "defaultContent": ''
 	        },
-	        { "data": "strainID" },
+	        { "data": "Sample" },
 	        { "data": "job_id" },
 	        {
 	            "className":      'get_results',

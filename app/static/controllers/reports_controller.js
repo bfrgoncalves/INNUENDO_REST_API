@@ -31,7 +31,7 @@ function set_headers_reports(global_strains, procedure){
 
 	    ];
 	}
-	else if(procedure.indexOf("chewBBACA") > -1){
+	else if(procedure != null && procedure.indexOf("chewBBACA") > -1){
 
 		var p_col_defs = [
 	    	{
@@ -40,6 +40,7 @@ function set_headers_reports(global_strains, procedure){
 	            "data":           null,
 	            "defaultContent": ''
 	        },
+	        { "data": "strainID" },
 	        { "data": "job_id" },
 	        {
 	            "className":      'get_results',
@@ -50,7 +51,7 @@ function set_headers_reports(global_strains, procedure){
 
 	    ];
 
-	    strains_headers = ["Run Identifier", ""]
+	    strains_headers = ["Sample","Run Identifier", ""]
 	}
 	else{
 

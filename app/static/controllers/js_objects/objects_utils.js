@@ -447,6 +447,7 @@ function Objects_Utils(){
 		restore_table_headers: function(table_id, table_headers, has_analysis, callback){
 
 			$('#'+table_id+' thead > tr').remove();
+			$('#'+table_id+' tbody > tr').remove();
 			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis));
 			$('#'+table_id+' tfoot > tr').remove();
 			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));

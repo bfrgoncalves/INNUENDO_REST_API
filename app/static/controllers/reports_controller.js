@@ -1662,9 +1662,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			headers_defs_results = set_headers_reports(run_results, current_procedure);
 			headers_defs_metadata = set_headers_reports(current_strains_data, null);
 
-			//reports_info_table_headers = headers_defs_info[1];
-			//reports_results_table_headers = headers_defs_results[1];
-			//reports_metadata_table_headers = headers_defs_metadata[1];
+			reports_info_table_headers = headers_defs_info[1];
+			reports_results_table_headers = headers_defs_results[1];
+			reports_metadata_table_headers = headers_defs_metadata[1];
 
 			//objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
 			//	objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){

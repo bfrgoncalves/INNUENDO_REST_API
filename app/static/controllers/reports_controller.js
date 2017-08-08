@@ -72,8 +72,7 @@ function set_headers_reports(global_strains, procedure){
 
 function download_profile(button){
 
-	console.log($(button).closest("tr"));
-
+	console.log($('#reports_results_table').DataTable().rows($(button).closest("tr")).data());
 }
 
 

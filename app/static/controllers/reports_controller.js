@@ -946,6 +946,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										}
 										catch(err){
 											console.log("No chewbbaca for this strain");
+											current_strains_data[i][a] = "NA";
+											global_additional_data[i][a] = "NA";
 										}
 										
 									}
@@ -1013,6 +1015,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 							for(a in ANALYSYS_PARAMETERS["chewBBACA"]){
 								if(ANALYSYS_PARAMETERS["chewBBACA"][a] == true){
 									try{
+										console.log()
 										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["chewBBACA"]][i][a];
 										console.log(el[a])
 										if(el[a] == undefined) el[a] = "NA";
@@ -1025,6 +1028,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									}
 									catch(err){
 										console.log("No chewbbaca procedure for this strain");
+										el[a] = "NA";
+										global_additional_data[i][a] = "NA";
 									}
 									
 								}
@@ -1048,6 +1053,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									}
 									catch(err){
 										console.log("No pathotyping procedure for this strain");
+										el[a] = "NA";
+										global_additional_data[i][a] = "NA";
 									}
 									
 								}
@@ -1070,6 +1077,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									}
 									catch(err){
 										console.log("No INNUca procedure for this strain");
+										el[a] = "NA";
+										global_additional_data[i][a] = "NA";
 									}
 								}
 							}

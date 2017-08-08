@@ -38,7 +38,7 @@ function set_headers_reports(global_strains, procedure){
 	            "className":      'get_results',
 	            "orderable":      false,
 	            "data":           null,
-	            "defaultContent": '<div><button class="analysis-control btn-warning" onclick="download_profile()">Profile</button></div>'
+	            "defaultContent": '<div><button class="analysis-control btn-warning" onclick="download_profile(this)">Profile</button></div>'
 	        }
 
 	    ];
@@ -68,6 +68,12 @@ function set_headers_reports(global_strains, procedure){
 	}
 
     return [p_col_defs, strains_headers]
+}
+
+function download_profile(button){
+
+	console.log($(button).closest("tr"));
+
 }
 
 
@@ -1736,3 +1742,5 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 
 });
+
+

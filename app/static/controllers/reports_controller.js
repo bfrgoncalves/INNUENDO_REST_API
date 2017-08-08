@@ -1231,6 +1231,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									console.log("CLICKED info");
 									current_procedure = to_check;
 
+									console.log(run_infos, run_results)
+
 									objects_utils.destroyTable('reports_info_table');
 									objects_utils.destroyTable('reports_results_table');
 

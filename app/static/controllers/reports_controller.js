@@ -1608,6 +1608,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		    var inter_results = [];
 		    var inter_meta = [];
 
+		    console.log(keys, global_results_dict);
+
 		    for(i in keys){
 		    	for(k in global_results_dict[keys[i]][0]){
 		    		if($.inArray(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids) == -1){

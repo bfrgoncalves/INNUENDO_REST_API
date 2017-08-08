@@ -1236,7 +1236,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									run_results=global_results_dict[to_check][1];
 
 									objects_utils.destroyTable('reports_info_table');
-									objects_utils.destroyTable('reports_results_table');
+									//objects_utils.destroyTable('reports_results_table');
 
 									console.log(run_infos, run_results)
 
@@ -1246,7 +1246,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									$('#phyloviz_button').css({display:"none"});
 
 									headers_defs_info = set_headers_reports(run_infos, selected_id);
-									headers_defs_results = set_headers_reports(run_results, selected_id);
+									//headers_defs_results = set_headers_reports(run_results, selected_id);
 
 									$scope.$apply(function(){
 										$scope.currently_showing = "Run information " + to_check;
@@ -1262,14 +1262,14 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									console.log(headers_defs_info[0], headers_defs_info[1], headers_defs_results[0], headers_defs_results[1], run_infos, run_results);
 
 									objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
-										objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
+										//objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
 											objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
-											objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
+											//objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
 											$('#reports_info_table_wrapper').css({'display':'block'});
 											$('#reports_results_table_wrapper').css({'display':'none'});
 											$('#reports_metadata_table_wrapper').css({'display':'none'});
-										});
+										//});
 									});
 									
 
@@ -1285,12 +1285,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									run_infos=global_results_dict[to_check][0];
 									run_results=global_results_dict[to_check][1];
 
-									objects_utils.destroyTable('reports_info_table');
+									//objects_utils.destroyTable('reports_info_table');
 									objects_utils.destroyTable('reports_results_table');
 
 									console.log(run_infos, run_results)
 
-									headers_defs_info = set_headers_reports(run_infos, selected_id);
+									//headers_defs_info = set_headers_reports(run_infos, selected_id);
 									headers_defs_results = set_headers_reports(run_results, selected_id);
 
 									$scope.$apply(function(){
@@ -1309,16 +1309,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									reports_info_table_headers = headers_defs_info[1];
 									reports_results_table_headers = headers_defs_results[1];
 
-									objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
+									//objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
 										objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
-											objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
+											//objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 											objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
 											$('#reports_info_table_wrapper').css({'display':'none'});
 											$('#reports_results_table_wrapper').css({'display':'block'});
 											$('#reports_metadata_table_wrapper').css({'display':'none'});
 										});
-									});
+									//});
 								});
 
 							}

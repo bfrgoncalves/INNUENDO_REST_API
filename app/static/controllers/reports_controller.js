@@ -1220,8 +1220,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						setTimeout(function(){
 							for(p in q){
 
-								$('#run_info_' + q[p]).unbind( "click" );
-								$('#results_info_' + q[p]).unbind( "click" );
+								$('#run_info_' + q[p]).off( "click" );
+								$('#results_info_' + q[p]).off( "click" );
 
 
 								$('#run_info_' + q[p]).on('click', function(){

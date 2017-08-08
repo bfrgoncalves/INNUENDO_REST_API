@@ -46,7 +46,7 @@ function set_headers_reports(global_strains, procedure){
 	            "className":      'get_results',
 	            "orderable":      false,
 	            "data":           null,
-	            "defaultContent": '<div><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Get Results">Get Profile</i></button></div>'
+	            "defaultContent": '<div><button class="analysis-control btn-warning" onclick="download_profile()">Profile</button></div>'
 	        }
 
 	    ];

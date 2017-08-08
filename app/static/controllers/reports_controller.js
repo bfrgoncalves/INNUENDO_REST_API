@@ -1609,20 +1609,23 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		    var inter_meta = [];
 
 		    for(i in keys){
-		    	for(k in global_results_dict[keys[i]][0]){
-		    		if($.inArray(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids) == -1){
-		    			console.log(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids, run_infos[k])
-		    			inter_info.push(run_infos[k]);
-		    		}
-			    }
-			    global_results_dict[keys[i]][0] = inter_info;
+		    	console.log(current_procedure, keys[i]);
+		    	if(current_procedure.indexOf(keys[i]) > -1){
+		    		for(k in global_results_dict[keys[i]][0]){
+			    		if($.inArray(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids) == -1){
+			    			console.log(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids, run_infos[k])
+			    			inter_info.push(run_infos[k]);
+			    		}
+				    }
+				    global_results_dict[keys[i]][0] = inter_info;
 
-			    for(k in global_results_dict[keys[i]][1]){
-		    		if($.inArray(global_results_dict[keys[i]][1][k].Sample, selected_sample_ids) == -1){
-		    			inter_results.push(run_results[k]);
-		    		}
-			    }
-			    global_results_dict[keys[i]][1] = inter_results;
+				    for(k in global_results_dict[keys[i]][1]){
+			    		if($.inArray(global_results_dict[keys[i]][1][k].Sample, selected_sample_ids) == -1){
+			    			inter_results.push(run_results[k]);
+			    		}
+				    }
+				    global_results_dict[keys[i]][1] = inter_results;
+		    	}
 		    }
 
 		    var inter_info = [];

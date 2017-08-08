@@ -1277,9 +1277,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 								$('#results_info_' + q[p]).on('click',function(){
 
-									$('#reports_results_table').css({"display":"block"});
-									$('#reports_info_table').css({"display":"none"});
-
 									sp = this.id.split('_');
 									selected_id = this.id;
 									to_check = sp.splice(2, sp.length).join('_');

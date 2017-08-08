@@ -833,7 +833,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		else return;
 
 		if (current_procedure.indexOf("results_info_chewBBACA") > -1){
-			modalAlert("chewBBACA results have too many columns to be visualized. To get the profiles, check the \"Profile\" button of each result row.")
+			modalAlert("chewBBACA results have too many columns to be visualized. To get the profiles, check the \"Profile\" button of each result row.", function(){});
 		}
 		else{
 			mergeResultsData(table_id, function(results){

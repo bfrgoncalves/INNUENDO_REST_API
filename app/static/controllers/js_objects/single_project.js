@@ -682,6 +682,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		add_new_strain: function(is_from_file, callback){
 
 			if($("#fromfilebutton").hasClass("active")) $('#add_pip_from_fileSubmit').css({"display":"block"});
+			if($("#fromfilebutton").hasClass("active")) $('#add_new_pip_from_fileSubmit').css({"display":"block"});
 
 			pg_requests.add_new_strain(function(response){
 				if(response.status == 200 || response.status == 201){

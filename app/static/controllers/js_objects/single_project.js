@@ -1637,15 +1637,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      			if(strains_object['body'].length != 0) add_to_database();
 			      			else {
 			      				console.log("DONE");
-			      				hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
+			      				hline_to_use.map(function(a){ $("#"+a.val("")});
 			      			}
 		      			}
-		      			else if(no_identifier == true){
+		      			else if(files_in_user_folder < 2){
 		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");
-				      				hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
+				      				hline_to_use.map(function(a){ $("#"+a).val("")});
 				      			}
 		      				});
 		      			}
@@ -1655,12 +1655,21 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				      			$('#Submitter').val(CURRENT_USER_NAME);
 		      				});
 		      			}
-		      			else{
+		      			else if(no_identifier == true){
 		      				modalAlert("One of the entries does not have a valid identifier.", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");
-				      				hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
+				      				hline_to_use.map(function(a){ $("#"+a).val("")});
+				      			}
+		      				});
+		      			}
+		      			else{
+		      				modalAlert("An unexpected error as occuried when adding the strain " + identifier_s + ".", function(){
+		      					if(strains_object['body'].length != 0) add_to_database();
+		      					else {
+				      				console.log("DONE");
+				      				hline_to_use.map(function(a){ $("#"+a).val("")});
 				      			}
 		      				});
 		      			}

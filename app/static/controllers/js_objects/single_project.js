@@ -1597,7 +1597,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			var bline_to_use = line_to_use;
 		      			if (hline_to_use[x].indexOf("Primary-Identifier") > -1){
 		      				if (bline_to_use[x] != "") no_identifier = false;
-		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[x+1]).replace(/ /g, "-")
+		      				console.log(x);
+		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[x]).replace(/ /g, "-")
 		      			}
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){

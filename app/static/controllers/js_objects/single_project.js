@@ -1640,15 +1640,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      				hline_to_use.map(function(a){ $("#"+a).val("")});
 			      			}
 		      			}
-		      			else if(files_in_user_folder < 2){
-		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
-		      					if(strains_object['body'].length != 0) add_to_database();
-		      					else {
-				      				console.log("DONE");
-				      				hline_to_use.map(function(a){ $("#"+a).val("")});
-				      			}
-		      				});
-		      			}
 		      			else if(bad_submitter == true){
 		      				modalAlert("The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").", function(){
 				      			hline_to_use.map(function(a){ $("#"+a).val("")});
@@ -1657,6 +1648,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else if(no_identifier == true){
 		      				modalAlert("One of the entries does not have a valid identifier.", function(){
+		      					if(strains_object['body'].length != 0) add_to_database();
+		      					else {
+				      				console.log("DONE");
+				      				hline_to_use.map(function(a){ $("#"+a).val("")});
+				      			}
+		      				});
+		      			}
+		      			else if(files_in_user_folder < 2){
+		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");

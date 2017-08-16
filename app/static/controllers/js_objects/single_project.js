@@ -1595,10 +1595,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		for (x in line_to_use){
 		      			var hline_to_use = strains_object['headers'];
 		      			var bline_to_use = line_to_use;
-
 		      			if (hline_to_use[x].indexOf("Primary-Identifier") > -1){
 		      				if (bline_to_use[x] != "") no_identifier = false;
-		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use["Food-Bug"]).replace(/ /g, "-")
+		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[x+1]).replace(/ /g, "-")
 		      			}
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
@@ -1645,7 +1644,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      				});
 		      			}
 
-		      		}, 700);
+		      		}, 500);
 
 		      	}
 

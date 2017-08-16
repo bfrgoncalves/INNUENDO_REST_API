@@ -1642,7 +1642,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      				hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
 			      			}
 		      			}
-		      			else if (no_identifier != true){
+		      			else if(no_identifier == true){
 		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
@@ -1651,7 +1651,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				      			}
 		      				});
 		      			}
-		      			else if (bad_submitter == true){
+		      			else if(bad_submitter == true){
 		      				modalAlert("The submitter on the batch file must be " + CURRENT_USER_NAME + ".", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {

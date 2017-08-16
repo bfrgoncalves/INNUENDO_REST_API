@@ -1637,7 +1637,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      			if(strains_object['body'].length != 0) add_to_database();
 			      			else {
 			      				console.log("DONE");
-			      				hline_to_use.map(function(a){ $("#"+a.val("")});
+			      				hline_to_use.map(function(a){ $("#"+a).val("")});
 			      			}
 		      			}
 		      			else if(files_in_user_folder < 2){

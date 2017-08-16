@@ -411,6 +411,32 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 							        });
 								}
 							}
+							else modalAlert("There are no strains available without pipelines already available.")
+						})
+
+						$('#add_new_pip_from_fileSubmit').on("click", function(){
+							strains_new_without_pip = single_project.get_added_by_file_strains();
+							keys_no_pip = Object.keys(strains_new_without_pip);
+							counter = 0;
+							if(keys_no_pip.length != 0){
+								for(z in strains_new_without_pip){
+									single_project.add_strain_to_project(strains_new_without_pip[z][1], function(strains_results, strain_name){
+											counter += 1;
+											$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
+											$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
+											
+											if(counter == keys_no_pip.length){
+												objects_utils.destroyTable('strains_table');
+							                	global_strains = strains_results.strains;
+							                	headers_defs = set_headers_single_project(global_strains);
+							                	objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+							                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+							                	});
+											}
+							        });
+								}
+							}
+							else modalAlert("There are no strains available to add pipelines.")
 						})
 
             		});

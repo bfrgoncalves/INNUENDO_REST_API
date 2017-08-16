@@ -58,6 +58,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var workflow_id_to_name = {};
     var global_counter_pipelines = 0;
     var strains_without_pip = {};
+    var strains_new_without_pip = {};
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     var ngs_onto_requests = new ngs_onto_client(CURRENT_PROJECT_ID, $http);
     var objects_utils = new Objects_Utils();
@@ -687,6 +688,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					
 					var to_append = '<div class="row">';
 					strain_id_to_name[response.data.id] = response.data.strainID;
+					strains_new_without_pip[response.data.id] = [response.data.id, strain_id_to_name[response.data.id]];
 					
 					if(response.status == 200){
 						if(response.data.file_1 != "" || response.data.file_2 != ""){
@@ -800,6 +802,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	    */
 		get_no_pip_strains: function(callback){
 			return strains_without_pip;
+		},
+
+		/*
+	    Get strain ids added by file
+	    */
+		get_added_by_file_strains: function(callback){
+			return strains_new_without_pip;
 		},
 
 		/*

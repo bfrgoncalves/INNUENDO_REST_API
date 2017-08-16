@@ -1627,7 +1627,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      			}
 		      			}
 		      			else if (no_identifier != true){
-		      				modalAlert("One or more files for strain " + identifier_s + "are not available on the user folder.", function(){
+		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");

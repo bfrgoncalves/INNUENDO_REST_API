@@ -719,7 +719,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								already_there = true;
 								$('#file_col_'+onproject.replace(/ /g,"_")).empty();
 								$('#file_col_'+onproject.replace(/ /g,"_")).append("Strain already on project");
-								callback({"already_there":already_there});
+								callback({"already_there":already_there}, is_from_file);
 							}
 							else{
 								//Check if that strain already has some pipelines applied to it. Case it isnt really new.
@@ -737,7 +737,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 													results.already_there = true;
 													$('#file_col_'+onproject.replace(/ /g,"_")).empty();
 													$('#file_col_'+onproject.replace(/ /g,"_")).append("Strain already on project");
-								        			callback(results);
+								        			callback(results, is_from_file);
 									            });
 											}
 											//break;
@@ -761,7 +761,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							to_append += '</div></div><hr size="30">';
 							if(is_from_file == true) $('#status_upload_from_file').append(to_append);
 							else modalAlert(to_append, function(){});
-		        			callback(results);
+		        			callback(results, is_from_file);
 			            });
 					}
 				}

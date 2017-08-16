@@ -646,9 +646,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	Add a new strain to the project. The pipeline is only created at run time
 	*/
 	$scope.add_New_Strain = function(){
-		single_project.add_new_strain(trigger_from_file_load, function(strains_results){
+		single_project.add_new_strain(trigger_from_file_load, function(strains_results, is_from_file){
 			if(strains_results.already_there) return;
-			modalAlert('Strain added to the project.', function(){});
+			if(is_from_file != true) modalAlert('Strain added to the project.', function(){});
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);

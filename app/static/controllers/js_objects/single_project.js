@@ -1652,7 +1652,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      				});
 		      			}
 		      			else if(bad_submitter == true){
-		      				modalAlert("The submitter on the batch file must be " + CURRENT_USER_NAME + ".", function(){
+		      				modalAlert("The submitter on the batch file must be the user you are logged in. (" + CURRENT_USER_NAME + ").", function(){
 				      			hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
 		      				});
 		      			}

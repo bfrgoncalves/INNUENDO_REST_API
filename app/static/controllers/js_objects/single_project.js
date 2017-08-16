@@ -1653,11 +1653,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else if(bad_submitter == true){
 		      				modalAlert("The submitter on the batch file must be " + CURRENT_USER_NAME + ".", function(){
-		      					if(strains_object['body'].length != 0) add_to_database();
-		      					else {
-				      				console.log("DONE");
-				      				hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
-				      			}
+				      			hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
 		      				});
 		      			}
 		      			else{

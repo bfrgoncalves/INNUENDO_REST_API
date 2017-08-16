@@ -121,6 +121,8 @@ class Job_queue(Resource):
 
 			files = {}
 
+			print str(current_user.username)
+
 			for x in fields['metadata_fields']:
 				if 'File_' in x:
 					files[x] = metadata[x]

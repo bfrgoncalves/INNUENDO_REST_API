@@ -1608,7 +1608,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			var bline_to_use = line_to_use;
 		      			if (hline_to_use[x].indexOf("Primary-Identifier") > -1){
 		      				if (bline_to_use[x] != "") no_identifier = false;
-		      				console.log(x);
 		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[parseInt(x)+1]).replace(/ /g, "-")
 		      			}
 
@@ -1632,7 +1631,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		}
 		      		
 		      		setTimeout(function(){
-		      			console.log(bad_submitter);
 		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true){
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");

@@ -1602,6 +1602,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		var files_in_user_folder = 0;
 		      		var identifier_s = "";
 		      		var no_identifier = true;
+		      		var bad_submitter = false;
 		      		for (x in line_to_use){
 		      			var hline_to_use = strains_object['headers'];
 		      			var bline_to_use = line_to_use;
@@ -1610,6 +1611,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      				console.log(x);
 		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[parseInt(x)+1]).replace(/ /g, "-")
 		      			}
+
+		      			if (hline_to_use[x].indexOf("Submitter") > -1){
+		      				if (bline_to_use[x] != CURRENT_USER_NAME) bad_submitter = true;
+		      			}
+
 
 		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
 		      				//check for files in user area
@@ -1627,7 +1633,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		
 		      		setTimeout(function(){
 
-		      			if(files_in_user_folder == 2 && no_identifier != true){
+		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true){
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 			      			if(strains_object['body'].length != 0) add_to_database();
@@ -1638,6 +1644,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else if (no_identifier != true){
 		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
+		      					if(strains_object['body'].length != 0) add_to_database();
+		      					else {
+				      				console.log("DONE");
+				      				hline_to_use.map(function(a){ $("#"+hline_to_use[a]).val("")});
+				      			}
+		      				});
+		      			}
+		      			else if (bad_submitter == true){
+		      				modalAlert("The submitter on the batch file must be " + CURRENT_USER_NAME + ".", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");

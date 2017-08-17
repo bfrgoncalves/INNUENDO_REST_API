@@ -43,6 +43,8 @@ function set_headers_single_project(global_strains){
 	var metadata = new Metadata();
 	matching_fields = metadata.get_dict_fields_reverse();
 	minimal_fields = metadata.get_default_headers();
+	headers_order = metadata.get_minimal_fields();
+	dict_fields = metadata.get_dict_fields()
 	var strains_headers = []
 
 	if(global_strains.length == 0){
@@ -86,15 +88,19 @@ function set_headers_single_project(global_strains){
 	        }
 		];
 		
-		for(x in global_strains[0]){
-			if (x != "Analysis" && x != "id" && x != "species_id" && x != "lab_protocols"){
-				if($.inArray(matching_fields[x], minimal_fields) > -1){
-					p_col_defs.push({"data":x});
+		for(p in headers_order){
+			for(x in global_strains[0]){
+				if(x == dict_fields[p]){
+					if (x != "Analysis" && x != "id" && x != "species_id" && x != "lab_protocols"){
+						if($.inArray(matching_fields[x], minimal_fields) > -1){
+							p_col_defs.push({"data":x});
+						}
+						else{
+							p_col_defs.push({"data":x, "visible":false});
+						}
+						strains_headers.push(matching_fields[x]);
+					}
 				}
-				else{
-					p_col_defs.push({"data":x, "visible":false});
-				}
-				strains_headers.push(matching_fields[x]);
 			}
 		}
 

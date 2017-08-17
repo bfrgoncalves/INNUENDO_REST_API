@@ -44,7 +44,11 @@ function Metadata(){
 		"Case ID": "Food-Bug",
 		"Additional Info": "AdditionalInformation",
 		"More Info": "More Info",
-		"Analysis": "Analysis"
+		"Analysis": "Analysis",
+		"Run Identifier":"job_id",
+		"Sample": "Sample",
+		"Project Name":"project_name",
+		"Classifier":"classifier"
 	}
 
 	//Conversion from the metadata fields stored in the db to how we want to see them on a table (Reverse)

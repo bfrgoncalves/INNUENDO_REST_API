@@ -430,10 +430,14 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 								for(z in strains_new_without_pip){
 									single_project.add_strain_to_project(strains_new_without_pip[z][1], function(strains_results, strain_name){
 											counter += 1;
-											$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
-											$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
-											console.log(strains_results);
-											if(counter == keys_no_pip.length){
+
+											if(strains_results.message != undefined) message = '<p>'+strains_results.message+'</p>';
+											else message = '<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>';
+
+											$('#file_col_'+strain_name.replace(/ /g,"_")).empty('<p>'+message+'</p>');
+											$('#file_col_'+strain_name.replace(/ /g,"_")).append(message);
+
+											if(strains_results.message == undefined && counter == keys_no_pip.length){
 												objects_utils.destroyTable('strains_table');
 							                	global_strains = strains_results.strains;
 							                	headers_defs = set_headers_single_project(global_strains);

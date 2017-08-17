@@ -419,7 +419,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 							        });
 								}
 							}
-							else modalAlert("There are no strains available without pipelines already available.")
+							else modalAlert("All (chosen) strains have a pipeline attached (to them).", function(){});
 						})
 
 						$('#add_new_pip_from_fileSubmit').on("click", function(){
@@ -432,7 +432,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 											counter += 1;
 											$('#file_col_'+strain_name.replace(/ /g,"_")).empty();
 											$('#file_col_'+strain_name.replace(/ /g,"_")).append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
-											
+											console.log(strains_results);
 											if(counter == keys_no_pip.length){
 												objects_utils.destroyTable('strains_table');
 							                	global_strains = strains_results.strains;
@@ -445,7 +445,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 							        });
 								}
 							}
-							else modalAlert("There are no strains available to add pipelines.")
+							else modalAlert("There are no strains available to add pipelines.", function(){});
 						})
 
             		});

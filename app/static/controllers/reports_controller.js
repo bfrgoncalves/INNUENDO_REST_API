@@ -1080,11 +1080,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									try{
 										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 										console.log(el[a]);
-										if(el[a] == undefined) el[a] = "NA";
+										if(el[a] == null) el[a] = "NA";
 										else el[a] = el[a].replace(/\r?\n|\r/g, "");
 
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-										if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
+										if(global_additional_data[i][a] == null) global_additional_data[i][a] = "NA";
 										else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 									}
 									catch(err){

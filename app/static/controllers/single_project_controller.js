@@ -90,11 +90,11 @@ function set_headers_single_project(global_strains){
 			if (x != "Analysis" && x != "id" && x != "species_id" && x != "lab_protocols"){
 				if($.inArray(matching_fields[x], minimal_fields) > -1){
 					p_col_defs.push({"data":matching_fields[x]});
-					strains_headers.push(matching_fields[x]);
+					strains_headers.push(x);
 				}
 				else{
 					p_col_defs.push({"data":x, "visible":false});
-					strains_headers.push(matching_fields[x]);
+					strains_headers.push(x);
 				}
 			}
 		}

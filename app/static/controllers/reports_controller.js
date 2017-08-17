@@ -1004,6 +1004,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										}
 										catch(err){
 											console.log("No pathotyping for this strain")
+											current_strains_data[i][a] = "NA";
+											global_additional_data[i][a] = "NA";
 										}
 										
 									}
@@ -1028,6 +1030,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										}
 										catch(err){
 											console.log("No innuca for this strain")
+											current_strains_data[i][a] = "NA";
+											global_additional_data[i][a] = "NA";
 										}
 									}
 								}

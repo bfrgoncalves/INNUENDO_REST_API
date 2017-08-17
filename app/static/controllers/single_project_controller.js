@@ -93,8 +93,8 @@ function set_headers_single_project(global_strains){
 					strains_headers.push(matching_fields[x]);
 				}
 				else{
-					p_col_defs.push({"data":matching_fields[x], "visible":false});
-					strains_headers.push(x);
+					p_col_defs.push({"data":x, "visible":false});
+					strains_headers.push(matching_fields[x]);
 				}
 			}
 		}

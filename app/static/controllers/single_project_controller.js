@@ -90,8 +90,8 @@ function set_headers_single_project(global_strains){
 		
 		for(p in headers_order){
 			for(x in global_strains[0]){
-				console.log(x, matching_fields[p]);
-				if(x == matching_fields[p]){
+				console.log(x, p, dict_fields[p], dict_fields);
+				if(x == dict_fields[p]){
 					console.log("AQUI");
 					if (x != "Analysis" && x != "id" && x != "species_id" && x != "lab_protocols"){
 						if($.inArray(matching_fields[x], minimal_fields) > -1){

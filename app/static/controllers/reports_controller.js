@@ -980,7 +980,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 											else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 										}
 										catch(err){
-											console.log("No chewbbaca for this strain");
+											//console.log("No chewbbaca for this strain");
 											current_strains_data[i][a] = "NA";
 											global_additional_data[i][a] = "NA";
 										}
@@ -997,7 +997,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
 										try{
 											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-											console.log(current_strains_data[j][a]);
 											if(current_strains_data[i][a] == undefined){
 												current_strains_data[i][a] = "NA";
 												global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a] = "NA";
@@ -1010,7 +1009,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	
 										}
 										catch(err){
-											console.log("No pathotyping for this strain")
+											//console.log("No pathotyping for this strain")
 											current_strains_data[i][a] = "NA";
 											global_additional_data[i][a] = "NA";
 										}
@@ -1039,7 +1038,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 											else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 										}
 										catch(err){
-											console.log("No innuca for this strain")
+											//console.log("No innuca for this strain")
 											current_strains_data[i][a] = "NA";
 											global_additional_data[i][a] = "NA";
 										}
@@ -1074,7 +1073,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 									}
 									catch(err){
-										console.log("No chewbbaca procedure for this strain");
+										//console.log("No chewbbaca procedure for this strain");
 										el[a] = "NA";
 										global_additional_data[i][a] = "NA";
 									}
@@ -1097,14 +1096,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 											global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a] = "NA";
 										}
 										else el[a] = el[a].replace(/\r?\n|\r/g, "");
-										console.log(el[a]);
 
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
 										if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 										else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 									}
 									catch(err){
-										console.log("No pathotyping procedure for this strain");
+										//console.log("No pathotyping procedure for this strain");
 										el[a] = "NA";
 										global_additional_data[i][a] = "NA";
 									}
@@ -1131,7 +1129,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 										else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 									}
 									catch(err){
-										console.log("No INNUca procedure for this strain");
+										//console.log("No INNUca procedure for this strain");
 										el[a] = "NA";
 										global_additional_data[i][a] = "NA";
 									}
@@ -1144,7 +1142,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				}
 			});
 
-			console.log(global_additional_data);
+			//console.log(global_additional_data);
 
 			current_strain_names = $.map(current_strains_data, function(data){
 				return data.Sample;
@@ -1161,7 +1159,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				headers_defs = set_headers_reports(current_strains_data, null);
 				
 				reports_metadata_table_headers = headers_defs[1];
-				console.log(headers_defs, current_strains_data)
+				//console.log(headers_defs, current_strains_data)
 				
 				objects_utils.restore_table_headers('reports_metadata_table', reports_metadata_table_headers, false, function(){
 					objects_utils.loadDataTables('reports_metadata_table', current_strains_data, headers_defs[0], reports_metadata_table_headers);

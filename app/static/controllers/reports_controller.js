@@ -994,11 +994,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 									if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
 										try{
 											current_strains_data[j][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-											if(current_strains_data[i][a] == undefined) current_strains_data[i][a] = "NA";
+											if(current_strains_data[i][a] == undefined || current_strains_data[i][a] == "") current_strains_data[i][a] = "NA";
 											else current_strains_data[i][a] = current_strains_data[i][a].replace(/\r?\n|\r/g, "");
 
 											global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-											if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
+											if(global_additional_data[i][a] == undefined || global_additional_data[i][a] == "") global_additional_data[i][a] = "NA";
 											else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 	
 										}
@@ -1080,7 +1080,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
 									try{
 										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-										if(el[a] == undefined) el[a] = "NA";
+										if(el[a] == undefined || el[a] == "") el[a] = "NA";
 										else el[a] = el[a].replace(/\r?\n|\r/g, "");
 
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];

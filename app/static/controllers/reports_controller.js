@@ -1079,12 +1079,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 								if(ANALYSYS_PARAMETERS["PathoTyping"][a] == true){
 									try{
 										el[a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-										console.log(el[a]);
-										if(el[a] == null || el[a] == undefined || el[a] == "undefined") el[a] = "NA";
+										//console.log(el[a]);
+										if(el[a] == undefined) el[a] = "NA";
 										else el[a] = el[a].replace(/\r?\n|\r/g, "");
+										console.log(el[a]);
 
 										global_additional_data[i][a] = global_results_dict[$scope.report_procedures[procedure]][INFO_OR_RESULTS["PathoTyping"]][i][a];
-										if(global_additional_data[i][a] == null || global_additional_data[i][a] == undefined || global_additional_data[i][a] == "undefined") global_additional_data[i][a] = "NA";
+										if(global_additional_data[i][a] == undefined) global_additional_data[i][a] = "NA";
 										else global_additional_data[i][a] = global_additional_data[i][a].replace(/\r?\n|\r/g, "");
 									}
 									catch(err){

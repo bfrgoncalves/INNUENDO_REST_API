@@ -212,8 +212,10 @@ function Objects_Utils(){
 		        }
 	        }
 	    } );*/
+	   $('#show_all_analysis').off("click");
 
 	   $('#show_all_analysis').on("click", function(){
+	   		console.log("AQUI");
 	   		$(".analysis-control:not(.shown)").trigger("click");
 	   });
 

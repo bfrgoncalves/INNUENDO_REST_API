@@ -197,6 +197,7 @@ function Objects_Utils(){
 	            if(row.child.isShown()){
 	            	// This row is already open - close it
 		            row.child.hide();
+		            $(this).removeClass('shown');
 		            tr.removeClass('shown');
 		            var index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
 	    			CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
@@ -204,6 +205,7 @@ function Objects_Utils(){
 		        else {
 		            // Open this row
 		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
+		            $(this).addClass('shown');
 		            tr.addClass('shown');
 
 		            if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];

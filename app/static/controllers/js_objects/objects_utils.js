@@ -187,31 +187,6 @@ function Objects_Utils(){
 	    clickedTimes["analysis"] = 0;
 	    clickedTimes["protocols"] = 0;
 
-	    /*$('#'+table_id+' tbody').on('click', 'button.details-control', function () {
-	        if(table_id.indexOf('strains_table') > - 1 || table_id.indexOf('reports') > - 1){
-
-	        	/*clickedTimes["details"] += 1;
-	        	clickedTimes["analysis"] = 0;
-	    		clickedTimes["protocols"] = 0;
-
-	        	var tr = $(this).closest('tr');
-		        var row = $('#'+table_id).DataTable().row( tr );
-	        	if(row.child.isShown()){
-	        		// This row is already open - close it
-		            row.child.hide();
-		            tr.removeClass('shown');
-	            }
-		        else {
-		            // Open this row
-		            row.child( format(row.data(), visible_headers, table_id) ).show();
-		            tr.addClass('shown');
-
-		            for(x in current_job_status_color){
-		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
-		            }
-		        }
-	        }
-	    } );*/
 	   $('#show_all_analysis').off("click");
 
 	   $('#show_all_analysis').on("click", function(){
@@ -251,32 +226,6 @@ function Objects_Utils(){
 		        }
 	        }
 	    } );
-
-	    /*$('#'+table_id+' tbody').on('click', 'button.lab-protocols-control', function () {
-
-	        if(table_id.indexOf('strains_table') > - 1){
-
-	        	clickedTimes["protocols"] += 1;
-	        	clickedTimes["analysis"] = 0;
-	        	clickedTimes["details"] = 0;
-
-	        	var tr = $(this).closest('tr');
-		        var row = $('#'+table_id).DataTable().row( tr );
-	            
-	            if(clickedTimes["protocols"] == 2 && row.child.isShown()){
-	            	clickedTimes["protocols"] = 0;
-	            	// This row is already open - close it
-		            row.child.hide();
-		            tr.removeClass('shown');
-	            }
-		        else {
-		            // Open this row
-		            row.child( format_lab_protocols(row.data(), table_id) ).show();
-		            tr.addClass('shown');
-		        }
-	        }
-	    } );*/
-
 	}
 
 	function nestedTable(table_id, columnDefinitions, data, visible_headers){
@@ -337,7 +286,7 @@ function Objects_Utils(){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis == true) headers_html += "<th>Analysis<button id='show_all_analysis'>Show All</button></th>";
+		if(has_analysis == true) headers_html += "<th>Analysis <button id='show_all_analysis'>Show All</button></th>";
 
 		headers_html += "</tr>";		
 		return headers_html;

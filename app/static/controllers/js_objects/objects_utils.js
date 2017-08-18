@@ -148,6 +148,13 @@ function Objects_Utils(){
 				    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 				    $('.child_row').css({"background-color":"#eeffff"});
 
+				    $('#show_all_analysis').off("click");
+
+				    $('#show_all_analysis').on("click", function(){
+				   		console.log("AQUI");
+				   		$(".analysis-control:not(.shown)").trigger("click");
+				    });
+
             }
 	    });
 
@@ -186,13 +193,6 @@ function Objects_Utils(){
 	    clickedTimes["details"] = 0;
 	    clickedTimes["analysis"] = 0;
 	    clickedTimes["protocols"] = 0;
-
-	   $('#show_all_analysis').off("click");
-
-	   $('#show_all_analysis').on("click", function(){
-	   		console.log("AQUI");
-	   		$(".analysis-control:not(.shown)").trigger("click");
-	   });
 
 	   $('#'+table_id+' tbody').on('click', 'button.analysis-control', function () {
 	        if(table_id.indexOf('strains_table') > - 1){

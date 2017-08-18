@@ -148,13 +148,6 @@ function Objects_Utils(){
 				    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 				    $('.child_row').css({"background-color":"#eeffff"});
 
-				    $('#show_all_analysis').off("click");
-
-				    $('#show_all_analysis').on("click", function(){
-				   		console.log("AQUI");
-				   		$(".analysis-control:not(.shown)").trigger("click");
-				    });
-
             }
 	    });
 
@@ -279,6 +272,7 @@ function Objects_Utils(){
 
 	}
 
+
 	function create_table_headers(array_of_headers, has_analysis){
 		headers_html = "<tr><th></th>";
 
@@ -286,7 +280,7 @@ function Objects_Utils(){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis == true) headers_html += "<th>Analysis <button id='show_all_analysis'>Show All</button></th>";
+		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()>Show All</button></th>";
 
 		headers_html += "</tr>";		
 		return headers_html;
@@ -406,3 +400,10 @@ function Objects_Utils(){
 		}
 	}
 }
+
+function show_all_analysis(){
+	console.log("AQUI");
+	$(".analysis-control:not(.shown)").trigger("click");
+}
+
+

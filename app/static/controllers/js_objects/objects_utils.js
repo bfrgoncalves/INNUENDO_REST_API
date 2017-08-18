@@ -280,7 +280,7 @@ function Objects_Utils(){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()>Show All</button></th>";
+		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()>Show All</button><button onclick=hide_all_analysis()>Hide All</button></th>";
 
 		headers_html += "</tr>";		
 		return headers_html;
@@ -402,8 +402,11 @@ function Objects_Utils(){
 }
 
 function show_all_analysis(){
-	console.log("AQUI");
 	$(".analysis-control:not(.shown)").trigger("click");
+}
+
+function hide_all_analysis(){
+	$(".analysis-control:.shown").trigger("click");
 }
 
 

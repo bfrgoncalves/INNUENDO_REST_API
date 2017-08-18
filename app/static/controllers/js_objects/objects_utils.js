@@ -402,11 +402,11 @@ function Objects_Utils(){
 }
 
 function show_all_analysis(){
-	$(".analysis-control:not(.shown)").trigger("click");
+	$("button:not(.analysis-control, .shown)").trigger("click");
 }
 
 function hide_all_analysis(){
-	$(".analysis-control:.shown").trigger("click");
+	$("button.analysis-control.shown").trigger("click");
 }
 
 

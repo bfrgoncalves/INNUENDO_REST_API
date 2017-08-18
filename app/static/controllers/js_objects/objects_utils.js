@@ -213,18 +213,17 @@ function Objects_Utils(){
 	        }
 	    } );*/
 
+	   $('#show_all_analysis').on("click", function(){
+	   		$(".analysis-control:not(.shown)").trigger("click");
+	   });
+
 	   $('#'+table_id+' tbody').on('click', 'button.analysis-control', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 
-	        	/*clickedTimes["analysis"] += 1;
-	        	clickedTimes["details"] = 0;
-	    		clickedTimes["protocols"] = 0;*/
-
-
 	        	var tr = $(this).closest('tr');
-	        	//tr = $(tr).addClass("child_row");
 		        var row = $('#'+table_id).DataTable().row( tr );
 		        var index_r = $('#'+table_id).DataTable().row( tr ).index();
+
 	            if(row.child.isShown()){
 	            	// This row is already open - close it
 		            row.child.hide();
@@ -336,7 +335,7 @@ function Objects_Utils(){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis == true) headers_html += "<th>Analysis</th>";
+		if(has_analysis == true) headers_html += "<th>Analysis<button id='show_all_analysis'>Show All</button></th>";
 
 		headers_html += "</tr>";		
 		return headers_html;

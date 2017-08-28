@@ -2,7 +2,7 @@
 
 **A novel cross-sectorial platform for the integration of genomics in surveillance of foodborne pathogens**
 
-1. [**Setting the Environment**](#setting_the_environment)
+1. [**Setting the Environment**](#setting-the-environment)
     * Virtual Environment
     * requirements.txt
     * Bower components

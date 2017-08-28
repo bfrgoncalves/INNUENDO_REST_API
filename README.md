@@ -6,33 +6,28 @@
     * Virtual Environment
     * requirements.txt
     * Bower components
-
-2. [**PostgresQL database**]()
+2. [**PostgresQL database**](#postgresql-database)
     * Install PostgresQL
     * Create the platform user
     * Create the DB
     * Set password for the user
     * Change configuration file
     * Create/Load the database structure
-
-3. [**Redis**]()
+3. [**Redis**](#redis)
     * Install Redis
     * Launch Redis
-
-4. [**Nginx server**]()
+4. [**Nginx server**](#nginx-server)
     * Install Nginx
     * Create a new configuration file
     * Create a SSL certificate
     * Add to sites available
-    * Restart Nginx
-    
-5. [**Setup AllegroGraph**]()
+    * Restart Nginx 
+5. [**Setup AllegroGraph**](#setup-allegrograph)
     * Install AllegroGraph Server
     * Add more recent NGSOnto file
     * Adding Namespaces and removing duplicates
     * Install AllegroGraph Client
-
-6. [**LDAP**]()
+6. [**LDAP**](#ldap)
     * Install LDAP Server
     * Install phpldapadmin
     * Setup ldap nginx configuration file
@@ -84,3 +79,110 @@ npm install -g bower
 ```
 
 Install Bower components by running `bower install` inside the `INNUENDO_REST_API/app` folder.
+
+## PostgresQL database
+
+PostgresQL is used in the application to store all information to be displayed to the user.
+
+#### Install PostgresQL
+
+```
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+```
+#### Create the platform user
+
+```
+#Enter with the default "postgres" user and create a new user for wthe application
+#Change the version according to the installed postres version.
+ 
+sudo -u postgres /usr/lib/postgresql/9.X/bin/createuser innuendo
+```
+#### Create the DB
+
+Launch psql with the default postgres user:
+
+`sudo -u postgres psql postgres`
+
+Inside psql, set a password for the default postgres user:
+
+`\password postgres`
+
+Change the permissions of the previously created user to allow the creation of databases:
+
+`ALTER USER innuendo CREATEDB;`
+
+Create the innuendo database:
+
+`CREATE DATABASE innuendo OWNER innuendo;`
+
+Exit psql with `\q`
+
+#### Change configuration file
+
+Locate the postgres `pg_hba.conf` file. It Should be at `/etc/postgresql/9.X/main/`.
+
+Open it and replace all METHOD column to `trust`.
+
+Restart postgresql using:
+
+`sudo service postgresql restart`
+
+
+#### Set password for the user
+Launch psql with the created user
+
+`sudo -u innuendo psql innuendo`
+
+Inside psql, set a password for the default postgres user:
+
+`\password innuendo`
+
+Exit psql with `\q`
+
+#### Change configuration file (AGAIN)
+
+Locate the postgres `pg_hba.conf` file. It Should be at `/etc/postgresql/9.X/main/`.
+
+Open it and replace all METHOD column to `md5`.
+
+Restart postgresql using:
+
+`sudo service postgresql restart`
+
+
+#### Create/Load the database structure
+
+Load the database structure using a set of commands defined by the Flask-Migrate package:
+
+```
+#Inside de INNUENDO_REST_API folder run,
+ 
+./manage.py db init --multidb #Initialize db
+./manage.py db migrate #Sets a new version of the db
+./manage.py db upgrade #Populates the DB with the new reated version.
+```
+
+## Redis
+Redis is used in the application to control a redis queue for the nomenclature classification part.
+
+#### Install Redis
+```
+wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+```
+
+It might give an error when installing. If so, check this [link](https://askubuntu.com/questions/58869/how-to-sucessfully-install-redis-server-tclsh8-5-not-found-error).
+
+
+#### Launch Redis
+
+Launch redis using `redis-server`.
+
+## Nginx server
+
+## Setup AllegroGraph
+
+## LDAP

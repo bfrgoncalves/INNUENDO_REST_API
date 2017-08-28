@@ -42,7 +42,7 @@
 
 ## Setting the Environment
 
-> **Virtual Environment**
+#### Virtual Environment
 
 Create a virtual environment inside the repository folder with the name "flask" (`mkdir flask`). Everything will be installed there so that your main Python packages are not affected.
 
@@ -50,7 +50,7 @@ Install Python VirtualEnv - `sudo apt-get install python-virtualenv`
 
 Run virtualenv inside the `flask` folder - `virtualenv flask`
 
-> **requirements.txt**
+#### requirements.txt
 
 Install the `requirements.txt` file using pip.
 
@@ -66,7 +66,7 @@ https://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-o
 http://thefourtheye.in/2013/04/20/installing-python-ldap-in-ubuntu/
 ```
 
-> **Bower components**
+#### Bower components
 
 Bower is used to fetch all the client-side components required to create the user interface.
 

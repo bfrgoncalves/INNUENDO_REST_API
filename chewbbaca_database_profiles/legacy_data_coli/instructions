@@ -1,0 +1,46 @@
+- list with classifications for numenclature
+- tab metadata information for the legacy profiles
+- tab file with allelic profiles
+- list of core genes
+
+###COMMANDS TO BE USED FROM APP ROUTE
+
+##replace LNF, INF, etc and place on the wg legacy profile file
+
+python extract_core_from_wg.py -i chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli.tsv -g chewbbaca_database_profiles/legacy_data_coli/ListaCoreGenesV1.txt -o chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_wg --inverse --onlyreplace
+
+##replace LNF, INF, etc and produce the core base on file. place on the cg legacy profile file
+
+python extract_core_from_wg.py -i chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli.tsv -g chewbbaca_database_profiles/legacy_data_coli/ListaCoreGenesV1.txt -o chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_core --inverse
+
+#copy headers to be used to map on numenclature
+
+cp chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_core_headers.txt chewbbaca_database_profiles/profiles_headers/ecoli_headers_core.txt
+cp chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_wg_headers.txt chewbbaca_database_profiles/profiles_headers/ecoli_headers_wg.txt
+
+##REMOVE AND ADD PROFILE FILE TO INDEX LOCATION TO BE INCREMENTED AND USED TO REBUILD INDEX
+rm chewbbaca_database_profiles/indexes/ecoli_wg_profiles.tab
+rm chewbbaca_database_profiles/indexes/ecoli_core_profiles.tab
+cp chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_core.tsv chewbbaca_database_profiles/indexes/ecoli_core_profiles.tab
+cp chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli_wg.tsv chewbbaca_database_profiles/indexes/ecoli_wg_profiles.tab
+
+##INDEX REMOVE AND BUILD FROM PROFILE FILE
+rm chewbbaca_database_profiles/indexes/ecoli_core.idx
+rm chewbbaca_database_profiles/indexes/ecoli_wg.idx
+rm chewbbaca_database_profiles/indexes/ecoli_core.ids
+rm chewbbaca_database_profiles/indexes/ecoli_wg.ids
+cat chewbbaca_database_profiles/indexes/ecoli_core_profiles.tab | ./dependencies/fast-mlst/src/main -i chewbbaca_database_profiles/indexes/ecoli_core -b
+cat chewbbaca_database_profiles/indexes/ecoli_wg_profiles.tab | ./dependencies/fast-mlst/src/main -i chewbbaca_database_profiles/indexes/ecoli_wg -b
+
+#POPULATE ECOLI DB WITH LEGACY
+flask/bin/python mlst_profiles_to_db.py -i chewbbaca_database_profiles/legacy_data_coli/results_alleles_ecoli.tsv -c chewbbaca_database_profiles/legacy_data_coli/Classification15_ecoli.txt -m chewbbaca_database_profiles/legacy_data_coli/ecoli_info_new.tsv -d ecoli -p NFP
+
+
+##FOR EACH MACHINE
+
+- START THE SCREENS
+- for each: export PYTHONPATH=/home/cloud-user/agraph-6.2.1-client-python/src/
+
+- LAUNCH agraph: ./agraph/bin/agraph-control --config agraph/lib/agraph.cfg start
+- RESTART /etc/init.d/nscd restart
+- Change slurm.conf file. Name of the nomes

@@ -1,6 +1,6 @@
 from app import app, dbconAg,dedicateddbconAg
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user, login_required
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user, login_required
 from flask import jsonify
 from app.utils.queryParse2Json import parseAgraphStatementsRes,parseAgraphQueryRes
 
@@ -42,8 +42,8 @@ class NGSOnto_PipelineListProjectResource(Resource):
 		pipelineURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(newpipelineid))#need new pipeline ID
 
 		studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
-		hasPart = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
-		pipelineType = dbconAg.createURI(namespace=obo, localname="BFO_0000051")
+		hasPart = dbconAg.createURI(namespace=obo, localname="BFO_0000051")
+		pipelineType = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
 
 		dbconAg.add(pipelineURI, RDF.TYPE, pipelineType)
 		dbconAg.add(studyURI, hasPart, pipelineURI)

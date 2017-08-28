@@ -1,0 +1,37 @@
+<div ng-controller="downloadsCtrl">
+  <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
+  <div style="padding-left:1%;padding-right:1%;">
+    <h3 class="sub-header">Downloads</h3>
+    <div>
+      <div class="input-group col-md-6">
+        <span class="input-group-addon">Insert ENA accession number</span>
+        <input type="text" id="input_accession" class="form-control"/>
+        <div class="input-group-btn">
+          <button id="download_button_single" class="btn btn-md btn-default" type="button" ng-click="download_accessions($event)">Download</button>
+        </div>
+      </div>
+  	<br>
+
+  	<div class="input-group col-md-6">
+        <label class="input-group-btn">
+          <span class="btn btn-info btn-file">
+            From File...
+            <input id="listfile_file" type="file" name="file" style="display: none;">
+          </span>
+        </label>
+        <input type="text" class="form-control" id="list_text" readonly autocomplete="off">
+        <div class="input-group-btn">
+          <button id="download_button_file" class="btn btn-md btn-default" type="button" ng-click="download_accessions($event)">Download</button>
+        </div>
+        <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
+      <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
+      </div>
+    <div>
+    </div>
+    <div style="width:100%; border: 1px solid black; margin: 10px 0px 10px 0px;"></div>
+    <div class="col-md-12" style="height:40%;border:1px solid black;overflow-x:auto;white-space: pre;" id="download_results_status">
+    </div>
+  </div>
+
+
+</div>

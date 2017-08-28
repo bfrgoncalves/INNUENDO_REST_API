@@ -1,33 +1,55 @@
-<div class="container-fluid">
-  <div class="row row-offcanvas row-offcanvas-left">
-    <div class="row-offcanvas row-offcanvas-right">
-      <div id="sidebarLeft" class="col-sm-3 col-md-2 sidebar sidebar-offcanvas" role="navigation">
-        <div class="well sidebar-nav">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">Overview</a></li>
-            {% if current_user.is_authenticated %}
-            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
-            <li><a class="nav-a" href="">Reports</a></li>
-            <li></li>
-            {% endif %}
-          </ul>
-        </div>
 
-        {% if current_user.is_authenticated %}
-        <div class="well sidebar-nav">
-          <ul class="nav nav-sidebar">
-            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
-            <li><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
-            <li><a  class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/uploads_view.html') }}&#39;">Uploads</a></li>
-          </ul>
+<div id="wrapper">
+        <div class="overlay"></div>
+    
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+            <ul class="nav sidebar-nav">
+                <li><a href="#"><h3>INNUENDO</h3></a></li>
+                <li class="active" id="overview_li"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">Overview</a></li>
+                {% if show_protocols %}
+                  <li id="protocols_button_li" ><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
+                  <li id="workflows_button_li"><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
+                {% endif %}
+                {% if current_user.is_authenticated %}
+                <li id="projects_button_li"><a id="projects_button" href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
+                <li id="reports_button_li"><a  id="reports_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">Reports</a></li>
+            
+                <li id="species_drop_button_li">
+                  <a href="#" id="reset_strain">Change Species</a>
+                </li>
+                <li class="drop" id="tools_button_li">
+                  <a href="#" data-toggle="collapse" data-target="#toggleDemo" class="collapsed">Tools</a>
+                  <div class="collapse dropdiv" id="toggleDemo" style="height: 0px;">
+                    <ul class="nav nav-list" style="font-size: 12px;">
+                      <li id="uploads_button_li"><a  id="uploads_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/downloads_view.html') }}&#39;">Downloads</a></li>
+                      <li id="modify_strains_button_li"><a  id="modify_strains_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/modify_strains_view.html') }}&#39;">Modify Strain Metadata</a></li>
+                      <li id="modify_strains_button_li"><a  id="modify_strains_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/configure_analysis_parameters_view.html') }}&#39;">Configure Analysis Metadata</a></li>
+                    </ul>
+                  </div>
+                </li>
+                {% endif %}
+            </ul>
+
+        </nav>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <button id="button_ham_navbar" type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+          <span class="hamb-middle"></span>
+        <span class="hamb-bottom"></span>
+            </button>
+            <button id="backbutton" class="btn btn-md btn-primary" style="margin-left:10px;display:none;" type="button"><i class="fa fa-arrow-left"></i>Back</button>
+            <div id="container">
+              <img src='static/img/spinner.gif' style="display:none; height:10%; width:auto" id="waiting_spinner" />
+              {% include "security/_messages.html" %}
+              <div data-ng-include="selectedTemplate.path" id="main_container"></div>    
+            </div>
         </div>
-        {% endif %}
-      </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        {% include "security/_messages.html" %}
-        <div data-ng-include="selectedTemplate.path" id="main_container"></div>          
-      </div>
+        <!-- /#page-content-wrapper -->
+
     </div>
-  </div>
-</div>
+    <!-- /#wrapper -->
 

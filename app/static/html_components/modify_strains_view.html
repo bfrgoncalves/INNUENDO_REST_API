@@ -1,0 +1,49 @@
+
+<div ng-controller="modifyStrainsCtrl" ng-init="showUserStrains()" style="display:none;" id="modify_strains_controller_div">
+
+
+  <div class="col-md-12 sub-header" style="margin-bottom:2px;">
+    <h2>Modify Strains <span style="float:right;">{{ specie_name }}</span></h2>
+  </div>
+
+  <div ng-include src="'static/html_components/modals/modify_strain_modal.html'"></div>
+  <div ng-include src="'static/html_components/modals/modal_alert.html'"></div>
+
+  	<!-- Main jumbotron for project description -->
+    <div id="div_description" style="display:none;">
+      <div class="col-md-12">
+        <div class="sub_container">
+          <span>{{ project.description }}</span>
+          <!--<div class="jumbotron">
+              <span>{{ project.description }}</span>
+          </div>-->
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-12" style="padding:10px;">
+      <div class="sub_container">
+        <div id="jumbotron-strains" class="jumbotron">
+        <h3 class="sub-header">Strains<button id="button_modify_strain" type="button" class="btn btn-sm btn-primary" ng-click="modifyStrains()" value="" style="float:right;"><i class="fa fa-info" data-toggle="tooltip" data-placement="top" title="Modify Strain"></i></button></h3>
+          <!--<div class="scroll_div">-->
+            <table class="display compact hover" id="modify_strains_table" width='100%'>
+              <thead>
+              </thead>
+              <!--<tbody>
+                <tr ng-repeat="strain in strains">
+                  <td></td>
+                  <td ng-repeat="field in strain">{{ field }}</td>
+                  </td>
+                </tr>
+              </tbody>-->
+              <tfoot>
+              </tfoot>
+            </table>
+          <!--</div>-->
+        </div>
+      </div>
+    </div>
+    </div>
+
+</div>

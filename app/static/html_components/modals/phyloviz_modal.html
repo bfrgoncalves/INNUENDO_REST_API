@@ -1,0 +1,50 @@
+<!-- Modal Template-->
+<div id="sendToPHYLOViZModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Vizualize a tree on PHYLOViZ Online</h4>
+	  </div>
+      <div class="modal-body">
+		<form class="form-horizontal" role="form" id="save_phyloviz_form" ng-submit="sendToPHYLOViZ()" style="padding:20px;">
+		    <div class="form-group">
+		      <label class="control-label" for="name">Dataset Name:</label>
+		        <input type="text" class="form-control" id="modal_phyloviz_dataset_name" name="dataset_name" placeholder="Enter a dataset name">
+		    </div>
+		    <div class="checkbox">
+			  <label><input type="checkbox" id="missing_data_checkbox" checked>Missing data</label>
+			</div>
+		    <div class="form-group" id="missing_data_character_div">
+		      <label class="control-label" for="missing_data_character">Missing character</label>
+		        <input type="text" class="form-control" id="missing_data_character" name="missing_data_character" default="0">
+		    </div>
+		    <div class="form-group">
+		      <label class="control-label" for="description">Description</label>
+		        <textarea class="form-control" rows="3" id="modal_phyloviz_dataset_description" name="dataset_description" placeholder="Enter a dataset description"></textarea>
+		    </div>
+		    <div class="form-group">
+		      <label class="control-label" for="name">Include strains from database:</label>
+		        <select type="text" id="species_database" class="selectpicker form-control" data-live-search="true">
+	              <!--<option ng-repeat="option in species_options">{{ option }}</option>-->
+	            </select>
+		    </div>
+		    <div class="form-group">
+		      <label class="control-label" for="name">Number of closest strains</label>
+		        <input type="number" id="closest_number_of_strains" class="form-control" min="1" max="7000">
+	              <!--<option ng-repeat="option in species_options">{{ option }}</option>-->
+		    </div>
+		    <div class="form-group" style="width:100%;">
+		      <div style="text-align: center;">
+		        <button type="submit" class="btn btn-primary">Send to PHYLOViZ</button>
+		      </div>
+		    </div>
+		</form>
+		<div style="overflow-x:auto;margin-left:20%;" id="phyloviz_output"></div>
+	  </div>
+	</div>
+
+  </div>
+</div>

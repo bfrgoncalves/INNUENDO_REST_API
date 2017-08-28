@@ -1,5 +1,26 @@
-<div>
+<div ng-controller="overviewCtrl" ng-init="showSpeciesDrop()" >
     <div class="sub_container">
-      <img  id="main_image" style="text-align: center;" src="static/img/customLogo.jpeg">
+    	<div class="row">
+    		<img  id="main_image" style="text-align: center;" src="static/img/customLogo.jpeg">
+    	</div>
+    	<div class="row" style="text-align:center;">
+    		<h3>A novel cross-sectorial platform for the integration of genomics in surveillance of foodborne pathogens</h3>
+    	</div>
+    	<div class="row" id="load_species_row">
+    		<div style="margin-left:30%;margin-right:30%;margin-top:5%;text-align:center;">
+    			<h4>Please select a Species</h4>
+    			<select name="species_select_drop" data-width="100%" class="selectpicker" data-live-search="true" id="species_select_drop"></select>
+    			<button ng-click="load_species()" class="btn btn-md btn-primary" style="margin-top:10px;">Load Projects</button>
+    		</div>
+    	</div>
+        <div class="row" id="disclaimer_div" style="margin-left:10%;margin-right:10%;margin-top:5%;text-align:center;">
+            <label for="disclaimer_text">Disclaimer</label>
+            <p id="disclaimer_text">
+                The conclusions, findings, and opinions expressed in this website reflect only the view of the INNUENDO consortium members and not the official position of the European Food Safety Authority nor of the Government of the Basque Country that are not responsible for any use that may be made of the information they contain.
+            </p>
+        </div>
+        <div class="row" id="colaborators_div" style="margin-left:20%;margin-right:20%;margin-top:5%;text-align:center;">
+            <img src="static/img/colaborators.png" style="display: block; margin: 0 auto;" >
+        </div>
     </div>
 </div>

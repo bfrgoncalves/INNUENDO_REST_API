@@ -1,3 +1,8 @@
 #!flask/bin/python
 from app import app
-app.run(debug=True)
+'''
+Starting point of the application. Runs in multithread to prevent app from freezing
+'''
+
+#app.run(debug=True, threaded=True)
+app.run(threaded=True)

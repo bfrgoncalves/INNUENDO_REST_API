@@ -1,0 +1,86 @@
+<!-- Modal Template-->
+<div id="modifyStrainModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Modify Strain</h4>
+	  </div>
+      <div class="modal-body">
+		<form role="form" id="modify_strain_form" ng-submit="change_Strain()">
+			<input type="hidden" name="species_id" ng-value="species_id">
+			
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Strain Identifier</label>
+					<input type="text" class="form-control" id="Primary" name="Primary" placeholder="Primary Identifier" required readonly="readonly">
+					<input type="text" class="form-control" id="Food-Bug" name="Food-Bug" placeholder="Food-Bug" required readonly="readonly">
+				</div>
+				<div class="form-group col-md-6">
+					<label>Source</label>
+					<select class="form-control" id="Source" name="source_Source">
+						<option>Human</option>
+						<option>Food</option>
+						<option>Animal, cattle</option>
+						<option>Animal, poultry</option>
+						<option>Animal, swine</option>
+						<option>Animal, other</option>
+						<option>Environment</option>
+						<option>Water</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Sampling Date</label>
+					<input type="date" class="form-control" id="SamplingDate" name="SamplingDate">
+					<br>
+					<label>Sample Received Date</label>
+					<input type="date" class="form-control" id="SampleReceivedDate" name="SampleReceivedDate">
+				</div>
+				<div class="form-group col-md-6">
+					<label>Owner</label>
+					<input type="text" class="form-control" id="Owner" name="Owner" placeholder="Owner">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Submitter</label>
+					<input type="text" class="form-control" id="Submitter" name="Submitter" placeholder="Submitter" value="{{ current_user_name }}" readonly="readonly">
+				</div>
+				<div class="form-group col-md-6">
+					<label>Location</label>
+					<input type="text" class="form-control" id="Location" name="Location" placeholder="Location">
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label>Additional Information</label>
+					<textarea rows="4" cols="50" class="form-control" id="AdditionalInformation" name="AdditionalInformation" placeholder="Additional Information"></textarea>
+				</div>
+			</div>
+
+			<!--<div class="row">
+				<div class="col-md-12" style="text-align:left;">
+					<button class="btn btn-primary" id="add_metadata_from_analysis_button">Add Data from Analysis<i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add metadata from analysis"></i></button>
+				</div>
+			</div>-->
+			<br>
+			
+			<div class="row">
+				<div class="col-md-12" style="text-align:center;">
+					<button class="btn btn-primary" id="update_metadata_button" type="submit">Modify Strain</button>
+				</div>
+				<div class="col-md-12" id="new_strain_message_div"></div>
+			</div>
+		</form>
+	  </div>
+	  <div class="modal-footer">
+	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+
+  </div>
+</div>

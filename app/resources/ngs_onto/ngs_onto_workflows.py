@@ -1,6 +1,6 @@
 from app import app, dbconAg,dedicateddbconAg
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user
 from flask import jsonify
 from app.utils.queryParse2Json import parseAgraphStatementsRes,parseAgraphQueryRes
 
@@ -37,7 +37,9 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 		pipelineStr = localNSpace+"projects/"+str(id)+"/pipelines/"+str(id1)	
 		
 		
-		queryString = "SELECT ?execStep ?workflowURI  WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI.}"
+		#queryString = "SELECT ?execStep ?workflowURI  WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI.}"
+		queryString = "SELECT DISTINCT ?proc3 ?pip2 ?execStep ?workflowURI WHERE {{<"+pipelineStr+"> obo:BFO_0000051 ?proc3. ?pip2 obo:BFO_0000051 ?proc3; obo:NGS_0000076 ?execStep. ?proc3 obo:NGS_0000081 ?procIndex3. ?execStep obo:NGS_0000079 ?workflowURI; obo:NGS_0000081 ?procIndex3.} UNION {<"+pipelineStr+"> obo:BFO_0000051 ?proc1. ?proc1 obo:RO_0002233 ?inputs1. ?proc2 obo:RO_0002234 ?inputs1; obo:NGS_0000081 ?procIndex2. ?pip2 obo:BFO_0000051 ?proc2; obo:BFO_0000051 ?proc3. ?proc3 obo:NGS_0000081 ?procIndex3. ?pip2 obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI; obo:NGS_0000081 ?stepIndex. FILTER  (?procIndex3 <= ?procIndex2 && ?stepIndex = ?procIndex3). }} ORDER BY ?pip2 ASC(?procIndex3)"
+
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["execStep","workflowURI"])
@@ -57,29 +59,56 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 		pplid = id1
 		step = args.step
 
+		wkflid = wkflid.split(',')
+		step = step.split(',')
+
+
 		#check if workflow is on pipeline
 
 		pipelineStr = localNSpace+"projects/"+str(prtjctid)+"/pipelines/"+str(pplid)
-		workflowStr = localNSpace+"workflows/"+str(wkflid)
+		#workflowStr = localNSpace+"workflows/"+str(wkflid)
 
-		queryString = "SELECT ?execStep WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 <"+workflowStr+">.}"
+		queryString = "SELECT ?execStep (STR(?intstep) as ?step) WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000081 ?intstep.}"
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
-		jsonResult=parseAgraphQueryRes(result,["execStep"])
+		jsonResult=parseAgraphQueryRes(result,["execStep","step"])
 		result.close()
 
-		if len(jsonResult) > 0:
+		print jsonResult
+		
+
+		for result in jsonResult:
+			aux1= result["execStep"]
+			aux2= result["step"]
+			print "AQUI"
+			print aux1
+			print aux2
+			print step
+			step_converted = map(int, step)
+			print step_converted
+			print int(aux2.replace('"', ''))
+
+			if int(aux2.replace('"', '')) in step_converted:
+				print "ENTROU", aux1
+				toremove=dbconAg.createURI(aux1)
+				dbconAg.remove(None,None,toremove)
+				dbconAg.remove(toremove,None,None)
+		
+		'''if len(jsonResult) > 0:
 			return 409
-		else:				
+		else:'''
+		counter = -1
+		for i in wkflid:	
+			counter+=1
 			#add new workflow
 			exStepType=dbconAg.createURI(namespace=obo, localname="NGS_0000074")
 			#workflowURI = dbconAg.createURI(namespace=localNSpace+"user/"+args.user_id+"/studies/", localname="study_"+str(id2)+"/pipelines/pipeline_"+str(id3)+"/workflows/workflow_"+str(numberOfWorkflows+1))
-			workflowURI = dbconAg.createURI(namespace=localNSpace, localname="workflows/"+str(wkflid))
+			workflowURI = dbconAg.createURI(namespace=localNSpace, localname="workflows/"+str(i))
 			
 			executeRel=dbconAg.createURI(namespace=obo, localname="NGS_0000076")
 			pipelineURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(prtjctid)+"/pipelines/"+str(pplid))
-			exStepURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(prtjctid)+"/pipelines/"+str(pplid)+"/step/"+str(step))
-			indexInt = dbconAg.createLiteral((step), datatype=XMLSchema.INT)
+			exStepURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(prtjctid)+"/pipelines/"+str(pplid)+"/step/"+str(step[counter]))
+			indexInt = dbconAg.createLiteral((step[counter]), datatype=XMLSchema.INT)
 			indexProp = dbconAg.createURI(namespace=obo, localname="NGS_0000081")
 			hasWorkflRel = dbconAg.createURI(namespace=obo, localname="NGS_0000079")
 			
@@ -92,8 +121,8 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 			workflowType= dbconAg.createURI(namespace=obo, localname="OBI_0500000")
 			dbconAg.add(workflowURI, RDF.TYPE, workflowType)
 			dbconAg.add(exStepURI, hasWorkflRel, workflowURI)
-			
-			return 201
+		
+		return 201
 
 	def delete(self, id):
 		pass
@@ -131,7 +160,10 @@ class NGSOnto_ProtocolWorkflowResource(Resource):
 
 		for p_id in protocol_ids:
 
+			print p_id
+
 			protocolURI = dbconAg.createURI(namespace=localNSpace, localname="protocols/"+str(p_id))
+			print protocolURI
 
 			hasStep = dbconAg.createURI(namespace=obo, localname="NGS_0000078")
 			workflowURI = dbconAg.createURI(namespace=localNSpace, localname="workflows/"+str(workflow_id))

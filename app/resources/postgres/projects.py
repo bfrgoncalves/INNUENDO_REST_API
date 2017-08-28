@@ -1,10 +1,10 @@
 from app import app, db
-from flask.ext.restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask.ext.security import current_user
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_security import current_user
 from flask import jsonify
 
 from app.models.models import Project
-from flask.ext.security import current_user, login_required, roles_required, auth_token_required
+from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
 
 #Defining post arguments parser
@@ -30,6 +30,8 @@ all_project_fields = {
 	'description': fields.String,
 	'timestamp': fields.DateTime,
 	'uri': fields.Url('user_single_project', absolute=True),
+	'species_id': fields.String,
+	'is_removed': fields.String
 }
 
 project_fields = {
@@ -39,7 +41,8 @@ project_fields = {
 	'timestamp': fields.DateTime,
 	'pipelines': fields.Url('pipelines', absolute=True),
 	'strains': fields.Url('project_strains', absolute=True),
-	'species_id': fields.String
+	'species_id': fields.String,
+	'is_removed': fields.String
 }
 
 #Define projects resources
@@ -64,14 +67,13 @@ class ProjectUserResource(Resource):
 		project = db.session.query(Project).filter(Project.id == id, Project.user_id == current_user.id).first()
 		if not project:
 			abort(404, message="Project {} doesn't exist".format(id))
-		db.session.delete(project)
+		project.is_removed = True
 		db.session.commit()
 		return project, 204
 
 
 class ProjectListUserResource(Resource):
 
-	#@auth_token_required
 	@login_required
 	@marshal_with(all_project_fields)
 	def get(self):
@@ -95,8 +97,12 @@ class ProjectListUserResource(Resource):
 		project = Project(species_id=args.species_id, description=args.description, user_id=current_user.id, name=args.name, timestamp=datetime.datetime.utcnow())
 		if not project:
 			abort(404, message="An error as occurried when uploading the data".format(id))
-		db.session.add(project)
-		db.session.commit()
+
+		try:
+			db.session.add(project)
+			db.session.commit()
+		except Exception as e:
+			abort(409, message="Project name already exists.")
 		return project, 201
 
 

@@ -1,70 +1,296 @@
+/*
+Object_Utils Object - An object with all functions used in the metadata management
+ - format
+ - format_analysis
+ - format_lab_protocols
+ - searchableTable
+ - nestedTable
+ - tableFromData
+ - apply_pipeline_to_strain
+ - show_message
+ - destroyTable
+ - updateTable
+ - loadDataTables
+ - loadTableFromArrayData
+*/
+
+/*
+Launch a object_utils instance
+*/
 function Objects_Utils(){
 
-	function normalTable(table_id){
+	var metadata = new Metadata();
 
-	    $('#' + table_id).DataTable( {
-	        responsive: true,
-	        colReorder: true,
-	        dom: 'Bfrtip',
-	        stateSave: true,
+	function format ( d, visible_headers, table_id ) {
+	    // `d` is the original data object for the row
+	    tr_string='<tbody><tr class="child_row">';
+	    tr_headers = '<thead><tr>';
+
+	    var convert_dict = metadata.get_dict_fields();
+	    var convert_dict_reverse = metadata.get_dict_fields_reverse();
+
+	    toUse = [];
+	    isThere = true;
+
+    	for(keys in d){
+    		isThere = false;
+    		for(header in visible_headers){
+    			if (table_id.indexOf('reports') > -1 && table_id.indexOf('reports_metadata') < 0){
+    				if(visible_headers[header] == keys){
+		    			isThere = true;
+		    			break;
+		    		}
+    			}
+    			else{
+    				if(convert_dict[visible_headers[header]] == keys){
+    					console.log(keys);
+		    			isThere = true;
+		    			break;
+		    		}
+    			}
+	    	}
+	    	if(!isThere){
+	    		if (table_id.indexOf('reports') > -1 && table_id.indexOf('reports_metadata') < 0) toUse.push([keys, d[keys]]);
+	    		else {
+	    			if(convert_dict_reverse[keys] == undefined) toUse.push([keys, d[keys]]);
+	    			else toUse.push([convert_dict_reverse[keys], d[keys]]);
+	    		}
+	    	}
+	    }
+	    for(x in toUse){
+	    	if(toUse[x][0] == 'job_id' || toUse[x][0] == undefined || toUse[x][0] == 'Analysis')continue;
+	    	tr_headers += '<td><b>'+toUse[x][0]+'</b></td>';
+
+	    	tr_string += '<td>'+toUse[x][1]+'</td>';
+	    }
+
+	    tr_headers += '</tr></thead>';
+	    tr_string += '</tr></tbody>';
+
+	    return '<div class="inside_table"><table cellpadding="5" cellspacing="0" border="0">'+tr_headers+tr_string+'</table></div>';
+	}
+
+	function format_analysis ( d, table_id ) {
+	    // `d` is the original data object for the row
+	    tr_string='';
+
+    	tr_string += '<tr class="child_row">'+
+	            '<td><b>Analysis</b></td>'+
+	            '<td colspan="6">'+d.Analysis+'</td>'+
+	        '</tr>';
+
+	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	}
+
+	function format_lab_protocols ( d, table_id ) {
+	    // `d` is the original data object for the row
+	    tr_string='';
+
+    	tr_string += '<tr class="child_row">'+
+	            '<td><b>Lab Protocols</b></td>'+
+	            '<td colspan="6">'+d.lab_protocols+'</td>'+
+	        '</tr>';
+
+	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	}
+
+	function searchableTable(table_id, columnDefinitions, data, visible_headers){
+
+		$('#' + table_id + ' tfoot th').each( function () {
+	        var title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
+	        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+	    } );
+
+	    if(table_id == "public_strains_table") page_length = 10;
+	    else page_length = 50;
+
+	    if(table_id == "modify_strains_table" || table_id == "reports_trees_table") selection_style = "single";
+	    else selection_style = "multi";
+
+	    table = $('#' + table_id).DataTable({
+	    	dom: 'Blfrtip',
+  			"scrollCollapse": true,
+	    	"scrollX": true,
+	        paging:true,
+	        colReorder: {
+	        	fixedColumnsLeft: 1
+	        },
+	        "pageLength": page_length,
+	        select: {
+	            style:    selection_style,
+	            selector: 'td:first-child'
+	        },
 	        buttons: [
-	            'colvis'
-	        ],
-	        deferRender:    true,
-	        scrollY:        200,
-	        scrollCollapse: true,
-	        columnDefs: [
-	            //{"className": "dt-center", "targets": "_all"},
+	        	'selectAll',
+	        	'selectNone',
+	            'csv',
 	            {
-	                orderable: false,
-	                className: 'select-checkbox',
-	                targets:   0
+		            extend: 'colvis',
+	                collectionLayout: 'fixed two-column'
 	            }
-	          ],
-	        paging: false,
+	        ],
+	        columns: columnDefinitions,
+	        "data": data,
+	        "stateSave":true,
+	        "initComplete": function() {
+	        		var already_added = [];
+	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
+	        			already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
+				    	$('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+				    }
+				    for(j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){
+				    	if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added) == -1){
+				    		$('#'+table_id+' tbody').find("tr:eq("+String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j])+") td button.analysis-control").addClass("button_table_to_trigger");
+				    	}
+				    }
+
+				    $('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
+				    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
+				    $('.child_row').css({"background-color":"#eeffff"});
+
+            }
+	    });
+
+	    // Apply the search
+	    table.columns().every( function () {
+	        var that = this;
+	        var table_to_search = table;
+	 
+	        $( 'input', this.footer() ).on( 'keyup change', function () {
+	        	table_to_search
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+	        } );
+	    } );
+	    
+	    table.columns.adjust().draw();
+
+	    $('#'+table_id+' tbody').off('click', 'button.details-control');
+	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
+	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
+	    $('#'+table_id+' tbody tr').off('click', 'td:first');
+
+	    $('#'+table_id+' tbody tr').on('click', 'td:first:not(.child_row)', function () {
+	    	if(CURRENT_TABLE_ROWS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
+	    	if($.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
+	    		CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( this ).index());
+	    	}
+	    	else{
+	    		var index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( this ).index());
+	    		CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
+	    	}
+	    } );
+
+	    clickedTimes = {}
+	    clickedTimes["details"] = 0;
+	    clickedTimes["analysis"] = 0;
+	    clickedTimes["protocols"] = 0;
+
+	   $('#'+table_id+' tbody').on('click', 'button.analysis-control', function () {
+	        if(table_id.indexOf('strains_table') > - 1){
+
+	        	var tr = $(this).closest('tr');
+		        var row = $('#'+table_id).DataTable().row( tr );
+		        var index_r = $('#'+table_id).DataTable().row( tr ).index();
+
+	            if(row.child.isShown()){
+	            	// This row is already open - close it
+		            row.child.hide();
+		            $(this).removeClass('shown');
+		            tr.removeClass('shown');
+		            var index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
+	    			CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
+	            }
+		        else {
+		            // Open this row
+		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
+		            $(this).addClass('shown');
+		            tr.addClass('shown');
+
+		            if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];
+		            if($.inArray(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) == -1){
+			    		CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].push(index_r);
+			    	}
+
+		            for(x in current_job_status_color){
+		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
+		            }
+		            $('.child_row').css({"background-color":"#eeffff"});
+
+		        }
+	        }
+	    } );
+	}
+
+	function nestedTable(table_id, columnDefinitions, data, visible_headers){
+
+		if(table_id == "public_strains_table") page_length = 10;
+	    else page_length = 50;
+
+	    table = $('#' + table_id).DataTable({
+	    	dom: 'Blfrtip',
+  			"scrollCollapse": true,
+	        paging:false,
+	        colReorder: {
+	        	fixedColumnsLeft: 1
+	        },
+	        "pageLength": page_length,
 	        select: {
 	            style:    'os',
 	            selector: 'td:first-child'
 	        },
-	        order: [[ 1, 'asc' ]]
-	    } );
+	        buttons: [
+	            'csv',
+	            {
+		            extend: 'colvis',
+	                collectionLayout: 'fixed two-column'
+	            }
+	        ],
+	        columns: columnDefinitions,
+	        "data": data,
+	        "stateSave":true
+	    });
+
+	    table.columns.adjust().draw();
+
 
 	}
 
-	function nestedTable(table_id){
+	function tableFromData(table_id, table_headers, table_data){
 
-	    $('#' + table_id).DataTable( {
-	        responsive: true,
-	        colReorder: true,
-	        dom: 'Bfrtip',
-	        stateSave: true,
+	    table = $('#' + table_id).DataTable({
+	    	dom: 'Bfrtip',
+	    	"scrollY": "200px",
+  			"scrollCollapse": true,
+	    	"scrollX": true,
+	        paging:false,
 	        buttons: [
-	            'colvis'
+	            'csv'
 	        ],
-	        deferRender:    true,
-	        scrollY:        200,
-	        scrollCollapse: true,
-	        columnDefs: [
-	            //{"className": "dt-center", "targets": "_all"},
-	            {
-	                orderable: false,
-	                className: 'select-checkbox',
-	                targets:   0
-	            }
-	          ],
-	        paging: false,
-	        select: {
-	            style:    'multi',
-	            selector: 'td:first-child'
-	        },
-	        order: [[ 1, 'asc' ]]
-	    } );
+	        columns: table_headers,
+	        "data": table_data
+	    });
 
+	}
+
+
+	function create_table_headers(array_of_headers, has_analysis){
+		headers_html = "<tr><th></th>";
+
+		for(x in array_of_headers){
+			headers_html += "<th>" + array_of_headers[x] + "</th>";
+		}
+
+		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()>Show All</button><button onclick=hide_all_analysis()>Hide All</button></th>";
+
+		headers_html += "</tr>";		
+		return headers_html;
 	}
 
 	return {
 
-		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied){
+		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, callback){
 
 	        var table = $('#' + strain_table_id).DataTable();
 	    
@@ -72,21 +298,39 @@ function Objects_Utils(){
 	            return index;
 	        });
 
-	        var strain_names = $.map(table.rows().data(), function(item){
-	            return item[1];
+	        var strain_data = $.map(table.rows().data(), function(item){
+	            return item;
 	        });
+	        
+	        var count = 0;
+	        var strain_index = '';
+	        var workflow_names = [];
+	        var workflowids = [];
 
+	        numberOfWorkflows = workflow_ids.length;
+	        
 	        for(w in workflow_ids){
-
+	        	count+=1;
 	            workflow_id = workflow_ids[w];
-
-	            buttonselectedPipeline = '<button class="btn btn-sm btn-default">'+ pipelinesByID[workflow_id] + '</button>';
-
 
 	            for(i in selected_indexes){
 	                var toAdd = '';
-	                if(strain_names[i] == strain_name){
+	                var s_name = strain_data[i]['strainID'];
+
+	                if(s_name == strain_name){
+	                	buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
+		        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>'+
+  						'<ul class="dropdown-menu" style="position:relative;">'+
+    					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
+    					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>';
+    					
+    					if(count == numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
+			        	else buttonselectedPipeline += '<li style="display:none;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
+
+			        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>';
+	                    
 	                    if(!pipelines_applied.hasOwnProperty(strain_name)){
+	                    	pipelines_type_by_strain[strain_name] = [[],[]];
 	                        pipelines_applied[strain_name] = [];
 	                    }
 	                    if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0) pipelines_applied[strain_name].push(buttonselectedPipeline);
@@ -94,12 +338,15 @@ function Objects_Utils(){
 	                    for(j in pipelines_applied[strain_name]){
 	                        toAdd += pipelines_applied[strain_name][j];
 	                    }
-	                    table.cell(selected_indexes[i], -1).data(toAdd);
+	                    strain_data[i]['Analysis'] = toAdd;
+	                    strain_index = i;
+	                    workflow_names.push(pipelinesByID[workflow_id]);
+	                    workflowids.push(strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID);
+	                    break;
 	                }
-	            
 	            }
+	            if(count == workflow_ids.length) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
 	        }
-	        table.draw();
 	    },
 	    show_message: function(element, type, message){
 
@@ -107,32 +354,61 @@ function Objects_Utils(){
 		    $('#' + element).empty();
 		    $('#' + element).append('<div class="alert alert-'+type+'"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+type+'!</strong> '+message+'</div>')
 
+		    setTimeout(function(){$('.alert').remove();}, 2000);
+
 		},
 		destroyTable: function(table_id){
 		    if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
 		      $('#' + table_id).DataTable().destroy();
+		      if(table_id == 'merged_results_table') $('#' + table_id).empty();
 		    }
 		},
-		loadDataTables: function(table_id, table_values){
+		updateTable: function(table_id, data){
+			table = $('#' + table_id).DataTable();
+			table.clear();
+			table.rows.add(data);
+			table.draw();
+		},
 
-		    setTimeout(function(){
+		loadDataTables: function(table_id, table_values, columnDefinitions, visible_headers){
 
-		        if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
-		          return false;
-		        }
+	        if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
+	          return false;
+	        }
+	        if (table_id.indexOf('reports') > -1 || table_id.indexOf('strains_table') > -1) searchableTable(table_id, columnDefinitions, table_values, visible_headers);
+			else nestedTable(table_id, columnDefinitions, table_values, visible_headers);
 
-		        if (table_values.length == 0) return false;
+		},
 
-		        var arrayOfHeaders = Object.keys(table_values[0]);
+		loadTableFromArrayData: function(table_id, table_headers, table_data){
 
-		        if (arrayOfHeaders.length == 0) return false;
+	        if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
+	          return false;
+	        }
 
-		        if (table_id == 'strains_table' || table_id == 'public_strains_table'){
-		            nestedTable(table_id);
-		        }
-		        else normalTable(table_id);
+	       	tableFromData(table_id, table_headers, table_data);
 
-		    }, 150);
+		},
+
+		restore_table_headers: function(table_id, table_headers, has_analysis, callback){
+
+			$('#'+table_id+' thead > tr').remove();
+			$('#'+table_id+' tbody > tr').remove();
+			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis));
+			$('#'+table_id+' tfoot > tr').remove();
+			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
+
+			callback();
 		}
 	}
 }
+
+function show_all_analysis(){
+	$("button.analysis-control:not(.shown)").trigger("click");
+}
+
+function hide_all_analysis(){
+	$("button.analysis-control.shown").trigger("click");
+}
+
+

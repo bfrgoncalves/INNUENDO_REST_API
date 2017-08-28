@@ -10,63 +10,197 @@
 	  </div>
       <div class="modal-body">
       	<ul class="nav nav-tabs">
-		  <li><a data-toggle="tab" href="#database_menu">From Database</a></li>
+      	  <li id="fromfilebutton"><a data-toggle="tab" href="#fromfile_menu">From File</a></li>
+		  <li id="fromdbbutton"><a data-toggle="tab" href="#database_menu">From Database</a></li>
 		  <li class="active"><a data-toggle="tab" href="#newstrain_menu">New</a></li>
 		</ul>
 		<div class="tab-content">
+			<button type="button" id="change_type_to_file" style="display:none;" ng-click="change_type_to_file()"></button>
+			<button type="button" id="change_type_to_form" style="display:none;" ng-click="change_type_to_form()"></button>
 			<div id="newstrain_menu" class="tab-pane fade in active tab-container" style="text-align:left;">
-				<div class="col-md-12" id="new_strain_message_div"></div>
 				<form role="form" id="new_strain_form" ng-submit="add_New_Strain()">
 					<input type="hidden" name="species_id" ng-value="species_id">
-					<div class="form-group" ng-repeat="(key, val) in metadata_fields">
-						<label for="{{key}}">{{key}}</label>
-						<div ng-repeat="attribute in val">
-							<div ng-repeat="(k,v) in attribute">
-								<input type="{{v}}" ng-if="key == 'StrainID'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}">
-								<input type="{{v}}" ng-if="key == 'Date'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}">
-								<select type="{{v}}" ng-if="key == 'Source'" class="form-control" id="source_{{k}}" name="source_{{k}}">
-									<option ng-repeat="type in v">{{ type }}</option>
-								</select>
-								<input type="{{v}}" ng-if="key =='Owner'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}" disabled>
-								<input type="{{v}}" ng-if="key =='Submitter' && k =='Submitter'" class="form-control" id="{{k}}" name="{{k}}"disabled value="{{attribute.data}}"></input>
-								<input type="{{v}}" ng-if="key == 'AdditionalInformation' && k == 'AdditionalInformation'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}" maxlength="{{attribute.maxlength}}">
-								<input type="{{v}}" ng-if="key =='Location'" class="form-control" id="{{k}}" name="{{k}}" placeholder="{{k}}" disabled>
-							</div>
+					
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label>Strain Identifier</label>
+							<input type="text" class="form-control" id="Primary-Identifier" name="Primary" placeholder="Primary Identifier" required>
+							<input type="text" class="form-control" id="Food-Bug" name="Food-Bug" placeholder="Case ID" required>
+						</div>
+						<div class="form-group col-md-6">
+							<label>Source</label>
+							<select class="form-control" id="Source" name="source_Source">
+								<option>Human</option>
+								<option>Food</option>
+								<option>Animal, cattle</option>
+								<option>Animal, poultry</option>
+								<option>Animal, swine</option>
+								<option>Animal, other</option>
+								<option>Environment</option>
+								<option>Water</option>
+							</select>
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="fileselector">Select a file:</label>
-						<select name="fileselector" class="form-control" id="file_selector" form="database_file_form">
-					    	<option ng-repeat="file in files">{{ file.filename }}</option>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label>Sampling Date</label>
+							<input type="date" class="form-control" id="Sampling-Date" name="SamplingDate">
+							<br>
+							<label>Sample Received Date</label>
+							<input type="date" class="form-control" id="Sample-Received-Date" name="SampleReceivedDate">
+						</div>
+						<div class="form-group col-md-6">
+							<label>Owner</label>
+							<input type="text" class="form-control" id="Owner" name="Owner" placeholder="Owner">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label>Submitter</label>
+							<input type="text" class="form-control" id="Submitter" name="Submitter" placeholder="Submitter" value="{{ current_user_name }}" readonly="readonly">
+						</div>
+						<div class="form-group col-md-6">
+							<label>Location</label>
+							<input type="text" class="form-control" id="Location" name="Location" placeholder="Location">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-12">
+							<label>Additional Information</label>
+							<textarea rows="4" cols="50" class="form-control" id="AdditionalInformation" name="AdditionalInformation" placeholder="Additional Information"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-4">
+							<label>File Type</label>
+							<select name="fileselector" class="form-control" id="file_selector" form="database_file_form">
+						    	<option id="r_pe">Reads: Paired End</option>
+						    	<!--<option id="r_se">Reads: Single End</option>
+						    	<option id="assembly">Assembly</option>-->
+						    </select>
+						</div>
+						<div class="form-group col-md-4">
+							<label>File 1</label>
+					    	<select name="File_1" data-width="100%" class="selectpicker" data-live-search="true" id="File_1">
 					    </select>
-					    </div>
-					<button class="btn btn-primary" type="submit">Add Strain</button>
+						</div>
+						<div class="form-group col-md-4">
+							<label>File 2</label>
+					    	<select name="File_2" data-width="100%" class="selectpicker" data-live-search="true" id="File_2">
+					    </select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" style="text-align:center;">
+							<button class="btn btn-primary" id="newstrainbuttonsubmit" type="submit">Add Strain</button>
+						</div>
+						<div class="col-md-12" id="new_strain_message_div"></div>
+					</div>
 				</form>
 			</div>
 			<div id="database_menu" class="tab-pane fade tab-container">
-				<div class="col-md-12" id="database_strain_message_div"></div>
 				<form role="form" id="database_strain_form" ng-submit="add_Database_Strains()">
 					<button class="btn btn-primary" type="submit">Add Selected Strains</button>
 				</form>
-				<table class="display nowrap" id="public_strains_table">
+				<div class="scroll_div">
+				<table class="display nowrap public_s" id="public_strains_table" width='100%'>
 		            <thead>
 		              <tr>
 		                <th></th>
-		                <th ng-repeat="header in public_strains_headers">{{ header }}</th>
+		                <th ng-repeat="header in strains_headers">{{ header }}</th>
+		                <th></th>
 		              </tr>
 		            </thead>
-		            <tbody style="height: 120px;overflow-y: auto;">
+		            <!--<tbody class="public_s">
 		              <tr ng-repeat="strain in public_strains">
 		                <td></td>
 		                <td ng-repeat="field in strain">{{ field }}</td>
 		                </td>
 		              </tr>
-		            </tbody>
+		            </tbody>-->
+		            <tfoot>
+		              <tr>
+		                <th></th>
+		                <th ng-repeat="header in strains_headers">{{ header }}</th>
+		                <th></th>
+		              </tr>
+		            </tfoot>
 		          </table>
+		        </div>
+			</div>
+
+			<div id="fromfile_menu" class="tab-pane fade tab-container" style="height:50%;">
+				<div class="row" id="uploadFile">
+	                <div class="input-group col-md-6">
+	                  <label class="input-group-btn">
+	                    <span class="btn btn-info btn-file" id="span_1stFile">
+	                      Choose file&hellip;<input id="fromfile_file" type="file" name="file" style="display: none;">
+	                    </span>
+	                  </label>
+	                  <input type="text" class="form-control" id="file_text" readonly autocomplete="off">
+	                  <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
+	                <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
+	                  <div class="input-group-btn">
+	                	<button class="btn btn-default" id="fromfileSubmit">Upload</button>
+	                  </div>
+	                </div>
+	                <div class="col-md-6">
+	                    <a id="get_template_file">Get template file</a>
+	                </div>
+                </div>
+                <div class="row">
+                	<button class="btn btn-info" id="add_pip_from_fileSubmit" style="float:right;display:none;">Add all strains without available pipelines</button>
+                	<button class="btn btn-warning" id="add_new_pip_from_fileSubmit" style="float:right;display:none;">Add all with new pipelines</button>
+                </div>
+                <hr>
+                <div id="status_upload_from_file" class="col-md-12" style="float:left;overflow-x:auto;height:80%;"></div>
+
 			</div>
 	  </div>
 	</div>
 	  <div class="modal-footer">
+	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+
+  </div>
+</div>
+
+<!-- Modal Template-->
+<div id="choosePipelineModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4>Available Pipelines</h4>
+	  </div>
+      <div class="modal-body">
+      	  <div style="height:70%;overflow-x:auto;">
+			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines">
+			  	  <label style="font-size:14px;color:#3399ff">Strain {{ key }}:</label>
+			  	  <div id="pipeline_group_{{myReplace(key)}}">
+				  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">
+				  	  	 <div class="list-group-item">
+				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }}: </label>
+						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
+						  	<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>
+						  </div>
+				  	  </div>
+				  	  <label>Create a new one:</label>
+				  	  <br>
+			   		  <button class="btn btn-md btn-primary new_pipeline_button" strain_id="{{ key }}">New Pipeline</button>
+			   	  </div>
+		   		  <hr>
+			  </div>
+		  </div>
+	  </div>
+	  <div class="modal-footer">
+	  	<!--<div style="float:left;">
+		  	<label>Create a new one:</label>
+		    <button class="btn btn-md btn-primary" id="new_pipeline_button">New Pipeline</button>
+		</div>-->
 	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	  </div>
 	</div>

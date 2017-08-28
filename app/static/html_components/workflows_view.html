@@ -2,20 +2,22 @@
   <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
   <h3 class="sub-header">Workflows</h3>
 
+  <div ng-include src="'static/html_components/modals/modal_alert.html'"></div>
+
   <div class="col-md-6">
     <div class="sub_container">
       <div class="jumbotron">
         <h3 class="sub-header">Protocols</h3>
-        <select ng-model="selectedTypeLoad" class="form-control" id="protocol_type_selector_load" ng-change="loadProtocolType(selectedTypeLoad)">
-          <option ng-repeat="type in protocol_types">{{type}}</option>
+        <label for ="protocol_type_selector_load">Protocol type</label>
+        <select class="selectpicker form-control" id="protocol_type_selector_load" data-live-search="true">
+          <!--<option ng-repeat="type in protocol_types">{{type}}</option>-->
         </select>
-        <select ng-model="selectedProtocolLoad" class="form-control" id="protocol_selector_load">
+        <label for ="protocol_selector_load">Protocol</label>
+        <select class="selectpicker form-control" id="protocol_selector_load" data-live-search="true">
           <option ng-repeat="protocol in protocols_of_type">{{protocol}}</option>
         </select>
-        <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-              <button class="btn btn-default" ng-click="addToPipeline()">Add to Workflow</button>
-            </div>
+        <div class="form-group" id="div_button_addto_workflow" style="display:none;">
+          <button class="btn btn-primary" ng-click="addToPipeline()">Add to Workflow</button>
         </div>
       </div>
     </div>
@@ -27,14 +29,24 @@
         <h3 class="sub-header">Workflows view</h3>
 
       	<ul id="sortable_list" class='list-group sortable pipeline-list'>
-      	  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols" value="{{protocol.id}}">{{protocol.name}}</li>
+      	  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols" value="{{protocol.id}}" protocol_name={{protocol.name}}>{{protocol.name}}<i class="fa fa-close current_workflow_close" style="float:right;" data-toggle="tooltip" data-placement="top" title="Remove protocol from workflow"></i></li>
       	</ul>
 
         <div class="form-group" style="display:none;" id="workflow_form_block">
           <form role="form" id="new_workflow_form" ng-submit="add_New_Workflow()">
             <label for="worflow_name">Workflow name:</label>
-            <input type="text" id="worflow_name" name="name"></input>
-            <button class="btn btn-md btn-default">Add Workflow</button>
+            <input type="text" id="worflow_name" name="name" class="form-control"></input>
+            <br>
+            <label for="workflow_classifier">Workflow type:</label>
+            <select type="text" id="select_classifier" class="selectpicker form-control" data-live-search="true">
+              <!--<option ng-repeat="option in class_options">{{ option }}</option>-->
+            </select>
+            <label for="workflow_species">For:</label>
+            <select type="text" id="workflow_species" class="selectpicker form-control" data-live-search="true">
+              <!--<option ng-repeat="option in species_options">{{ option }}</option>-->
+            </select>
+            <br>
+            <button class="btn btn-md btn-primary">Create Workflow</button>
           </form>
         </div>
       </div>

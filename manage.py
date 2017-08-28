@@ -2,8 +2,16 @@
 import os
 from flask.ext.script import Manager
 from flask.ext.migrate import Migrate, MigrateCommand
-
 from app import app, db
+
+'''
+Loads the Flask db Manager to deal with database migrations and upgrades. Version control
+
+./manage db init --multidb
+./manage db migrate
+./manage db upgrade
+
+'''
 
 migrate = Migrate(app, db)
 manager = Manager(app)

@@ -40,7 +40,7 @@
     * Setup SFTP (SSH) with LDAP
 
 
-##Setting the Environment
+## Setting the Environment
 
 > **Virtual Environment**
 

@@ -2,6 +2,8 @@
 
 **A novel cross-sectorial platform for the integration of genomics in surveillance of foodborne pathogens**
 
+To configure the process controller, continue to this [link](https://github.com/bfrgoncalves/INNUENDO_PROCESS_CONTROLLER)
+
 1. [**Setting the Environment**](#setting-the-environment)
     * Virtual Environment
     * requirements.txt
@@ -381,3 +383,7 @@ Match Group admin
 Restart ssh:
 
 `sudo /etc/init.d/ssh restart`
+
+## Next steps
+
+To configure the process controller, proceed [here](https://github.com/bfrgoncalves/INNUENDO_PROCESS_CONTROLLER) to do it.

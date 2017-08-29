@@ -183,6 +183,201 @@ Launch redis using `redis-server`.
 
 ## Nginx server
 
+Nginx is used here to create web-servers for each application. This will allow the connection between applications using each REST Api. 
+
+#### Install Nginx
+
+`sudo apt-get install nginx`
+
+#### Create a new configuration file
+
+Add a new configuration file named `innuendo.com` which will be used to allow Nginx to be set as a reverse proxy for the AllegroGraph and INNUENDO_REST_API Flask App.
+
+Fill with the following:
+
+```
+server {
+	    listen 80 default_server;
+	    listen [::]:80 default_server;
+	    
+	    listen 443 ssl;
+	    server_name _;
+	    
+	    ssl_certificate /etc/nginx/ssl/nginx.crt;
+            ssl_certificate_key /etc/nginx/ssl/nginx.key;
+	    
+	    location /app {
+		#rewrite ^/app/(.*) /$1  break;
+	        proxy_pass http://localhost:5000;
+	    }
+
+	    location / {
+	        # First attempt to serve request as file, then
+	        # as directory, then fall back to displaying a 404.
+		#rewrite ^/allegro/(.*) /$1  break;
+	        proxy_pass http://localhost:10035;
+	    }
+	    
+	    location /jobs {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                #rewrite ^/jobs/(.*) /$1  break;
+                proxy_pass http://localhost:5001;
+            }	
+
+	    location /ldap/ {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                rewrite ^/ldap/(.*) /$1  break;
+                proxy_pass http://localhost:81;
+            }
+
+}
+```
+
+#### Create a SSL certificate
+
+Create the SSL certificate that will allow to use HTTPS.
+
+```
+sudo mkdir /etc/nginx/ssl
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+```
+
+#### Add to sites available
+
+Add `innuendo.com` file to the sites available and then create a symlink to the sites enabled on Nginx.
+
+```
+#Move the file to the sites-available folder of Nginx
+mv innuendo.com /etc/nginx/sites-available/
+
+#Go to that folder
+cd /etc/nginx/sites-available/
+
+#Link that file to one on the sites-enabled folder
+ln -s /etc/nginx/sites-available/innuendo.com /etc/nginx/sites-enabled/
+```
+
+#### Restart Nginx
+
+`sudo service restart nginx`
+
 ## Setup AllegroGraph
 
 ## LDAP
+
+Centralized authentication system that will be used to authenticate the user on all applications.
+
+#### Install LDAP Server
+
+`sudo apt-get install slapd ldap-utils`
+```
+#Choose these options on the installer
+
+Omit openLDAP config: No
+base DN of the LDAP directory: innuendo.com
+organization name: innuendo
+Database backend to use: HDB
+Database removed when slapd is purged: No
+MOve old database: Yes
+Allow LDAPv2 protocol: No
+```
+
+#### Install phpldapadmin
+
+phpLdapAdmin is a web interface for user management. It will link to LDAP.
+
+`apt-get install phpldapadmin`
+
+Follow the instructions on this tutorial for the configuration:
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-openldap-and-phpldapadmin-on-an-ubuntu-14-04-server
+
+#### Setup ldap nginx configuration file
+
+Create a new nginx server configuration file for LDAP called `ldap.com`
+
+Fill with the following:
+
+```
+server {
+        listen 81;
+        root /usr/share/phpldapadmin/htdocs;
+        index index.php index.html;
+
+        server_name localhost;
+
+        location ~ \.php$ {
+           try_files $uri =404;
+           #Include Nginx’s fastcgi configuration
+           include /etc/nginx/fastcgi.conf;
+           #Look for the FastCGI Process Manager at this location
+           fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        }
+
+}
+```
+
+#### Install/Setup LDAP Client
+
+Follow the tutorial at:
+
+https://www.digitalocean.com/community/tutorials/how-to-authenticate-client-computers-using-ldap-on-an-ubuntu-12-04-vps
+
+On the part of the groups creation, you will need to create two groups, the **innuendo_users** group and the **admin** group. They will be assigned to different users depending on their permissions.
+
+You will need information provided when installing the LDAP server, mainly the server domain of the ldap server.
+
+After the tutorial, change the skel structure when creating a new user.
+
+```
+cd /etc/skel
+sudo mkdir ftp
+sudo mkdir ftp/files
+```
+
+Restart nscd:
+
+`sudo /etc/init.d/nscd restart`
+
+#### Setup SFTP (SSH) with LDAP
+
+Open the ssh config file:
+
+`sudo nano /etc/ssh/sshd_config`
+
+At the end of the file, replace the Subsystem line and add the two Match Group entries described bellow.
+This will only allow sftp connection of the innuendo users and will only allow to access to their home directory.
+
+```
+#Subsystem sftp /usr/lib/openssh/sftp-server
+Subsystem sftp internal-sftp
+
+# Set this to 'yes' to enable PAM authentication, account processing,
+# and session processing. If this is enabled, PAM authentication will
+# be allowed through the ChallengeResponseAuthentication and
+# PasswordAuthentication.  Depending on your PAM configuration,
+# PAM authentication via ChallengeResponseAuthentication may bypass
+# the setting of "PermitRootLogin without-password".
+# If you just want the PAM account and session checks to run without
+# PAM authentication, then enable this but set PasswordAuthentication
+# and ChallengeResponseAuthentication to 'no'.
+UsePAM yes
+
+Match Group innuendo-users
+    ChrootDirectory %h/ftp
+    AllowTCPForwarding no
+    X11Forwarding no
+    ForceCommand internal-sftp
+
+Match Group admin
+    ChrootDirectory %h/ftp
+    AllowTCPForwarding no
+    X11Forwarding no
+    ForceCommand internal-sftp
+```
+
+Restart ssh:
+
+`sudo /etc/init.d/ssh restart`

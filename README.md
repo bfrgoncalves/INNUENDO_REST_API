@@ -37,7 +37,7 @@
 
 ## Setting the Environment
 
-#### Virtual Environment
+> #### Virtual Environment
 
 Create a virtual environment inside the repository folder with the name "flask" (`mkdir flask`). Everything will be installed there so that your main Python packages are not affected.
 
@@ -45,7 +45,7 @@ Install Python VirtualEnv - `sudo apt-get install python-virtualenv`
 
 Run virtualenv inside the `flask` folder - `virtualenv flask`
 
-#### requirements.txt
+> #### requirements.txt
 
 Install the `requirements.txt` file using pip.
 
@@ -61,7 +61,7 @@ https://stackoverflow.com/questions/21530577/fatal-error-python-h-no-such-file-o
 http://thefourtheye.in/2013/04/20/installing-python-ldap-in-ubuntu/
 ```
 
-#### Bower components
+> #### Bower components
 
 Bower is used to fetch all the client-side components required to create the user interface.
 
@@ -84,13 +84,13 @@ Install Bower components by running `bower install` inside the `INNUENDO_REST_AP
 
 PostgresQL is used in the application to store all information to be displayed to the user.
 
-#### Install PostgresQL
+> #### Install PostgresQL
 
 ```
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
 ```
-#### Create the platform user
+> #### Create the platform user
 
 ```
 #Enter with the default "postgres" user and create a new user for wthe application
@@ -98,7 +98,7 @@ sudo apt-get install postgresql postgresql-contrib
  
 sudo -u postgres /usr/lib/postgresql/9.X/bin/createuser innuendo
 ```
-#### Create the DB
+> #### Create the DB
 
 Launch psql with the default postgres user:
 
@@ -118,7 +118,7 @@ Create the innuendo database:
 
 Exit psql with `\q`
 
-#### Change configuration file
+> #### Change configuration file
 
 Locate the postgres `pg_hba.conf` file. It Should be at `/etc/postgresql/9.X/main/`.
 
@@ -129,7 +129,7 @@ Restart postgresql using:
 `sudo service postgresql restart`
 
 
-#### Set password for the user
+> #### Set password for the user
 Launch psql with the created user
 
 `sudo -u innuendo psql innuendo`
@@ -140,7 +140,7 @@ Inside psql, set a password for the default postgres user:
 
 Exit psql with `\q`
 
-#### Change configuration file (AGAIN)
+> #### Change configuration file (AGAIN)
 
 Locate the postgres `pg_hba.conf` file. It Should be at `/etc/postgresql/9.X/main/`.
 
@@ -151,7 +151,7 @@ Restart postgresql using:
 `sudo service postgresql restart`
 
 
-#### Create/Load the database structure
+> #### Create/Load the database structure
 
 Load the database structure using a set of commands defined by the Flask-Migrate package:
 
@@ -166,7 +166,7 @@ Load the database structure using a set of commands defined by the Flask-Migrate
 ## Redis
 Redis is used in the application to control a redis queue for the nomenclature classification part.
 
-#### Install Redis
+> #### Install Redis
 ```
 wget http://download.redis.io/redis-stable.tar.gz
 tar xvzf redis-stable.tar.gz
@@ -177,7 +177,7 @@ make
 It might give an error when installing. If so, check this [link](https://askubuntu.com/questions/58869/how-to-sucessfully-install-redis-server-tclsh8-5-not-found-error).
 
 
-#### Launch Redis
+> #### Launch Redis
 
 Launch redis using `redis-server`.
 
@@ -185,11 +185,11 @@ Launch redis using `redis-server`.
 
 Nginx is used here to create web-servers for each application. This will allow the connection between applications using each REST Api. 
 
-#### Install Nginx
+> #### Install Nginx
 
 `sudo apt-get install nginx`
 
-#### Create a new configuration file
+> #### Create a new configuration file
 
 Add a new configuration file named `innuendo.com` which will be used to allow Nginx to be set as a reverse proxy for the AllegroGraph and INNUENDO_REST_API Flask App.
 
@@ -235,7 +235,7 @@ server {
 }
 ```
 
-#### Create a SSL certificate
+> #### Create a SSL certificate
 
 Create the SSL certificate that will allow to use HTTPS.
 
@@ -244,7 +244,7 @@ sudo mkdir /etc/nginx/ssl
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
 ```
 
-#### Add to sites available
+> #### Add to sites available
 
 Add `innuendo.com` file to the sites available and then create a symlink to the sites enabled on Nginx.
 
@@ -259,7 +259,7 @@ cd /etc/nginx/sites-available/
 ln -s /etc/nginx/sites-available/innuendo.com /etc/nginx/sites-enabled/
 ```
 
-#### Restart Nginx
+> #### Restart Nginx
 
 `sudo service restart nginx`
 
@@ -269,7 +269,7 @@ ln -s /etc/nginx/sites-available/innuendo.com /etc/nginx/sites-enabled/
 
 Centralized authentication system that will be used to authenticate the user on all applications.
 
-#### Install LDAP Server
+> #### Install LDAP Server
 
 `sudo apt-get install slapd ldap-utils`
 ```
@@ -284,7 +284,7 @@ MOve old database: Yes
 Allow LDAPv2 protocol: No
 ```
 
-#### Install phpldapadmin
+> #### Install phpldapadmin
 
 phpLdapAdmin is a web interface for user management. It will link to LDAP.
 
@@ -294,7 +294,7 @@ Follow the instructions on this tutorial for the configuration:
 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-openldap-and-phpldapadmin-on-an-ubuntu-14-04-server
 
-#### Setup ldap nginx configuration file
+> #### Setup ldap nginx configuration file
 
 Create a new nginx server configuration file for LDAP called `ldap.com`
 
@@ -319,7 +319,7 @@ server {
 }
 ```
 
-#### Install/Setup LDAP Client
+> #### Install/Setup LDAP Client
 
 Follow the tutorial at:
 
@@ -341,7 +341,7 @@ Restart nscd:
 
 `sudo /etc/init.d/nscd restart`
 
-#### Setup SFTP (SSH) with LDAP
+> #### Setup SFTP (SSH) with LDAP
 
 Open the ssh config file:
 

@@ -7,3 +7,4 @@ config.py
 Installation_log.txt
 nohup.out
 .idea
+.DS_Store

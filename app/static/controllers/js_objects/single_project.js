@@ -1604,6 +1604,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		var bad_submitter = false;
 		      		for (x in line_to_use){
 		      			var hline_to_use = strains_object['headers'];
+		      			if(hline_to_use.length != line_to_use.length){
+		      				modalAlert("Uploaded file seems to be miss-formatted. Check if the number of headers and the rest of the file are the same.", function(){
+		      					
+		      				});
+		      				return;
+		      			}
 		      			var bline_to_use = line_to_use;
 		      			if (hline_to_use[x].indexOf("Primary-Identifier") > -1){
 		      				if (bline_to_use[x] != "") no_identifier = false;

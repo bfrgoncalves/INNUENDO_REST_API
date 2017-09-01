@@ -57,7 +57,7 @@ function set_headers_reports(global_strains, procedure){
 		];
 		
 		for(x in global_strains[0]){
-			if (x != "Analysis" && x != "id" && x != "species_id"){
+			if (x != "Analysis" && x != "id" && x != "species_id" && x != "strain_id"){
 				if($.inArray(matching_fields[x], minimal_fields) > -1){
 					p_col_defs.push({"data":x});
 				}

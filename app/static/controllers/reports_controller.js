@@ -488,7 +488,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		var pos = 0;
 		var other_pos = 0;
 
-		console.log(procedure);
 
 		if(procedure.indexOf('INNUca') > -1){
 
@@ -1155,6 +1154,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				objects_utils.destroyTable('reports_metadata_table');
 				$('#reports_metadata_table thead').css({'visibility':'visible'});
 				$('#reports_metadata_table tfoot').css({'visibility':'visible'});
+
+				console.log(current_strains_data);
 
 				headers_defs = set_headers_reports(current_strains_data, null);
 				

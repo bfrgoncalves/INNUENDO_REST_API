@@ -491,8 +491,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		if(procedure.indexOf('INNUca') > -1){
 
-			console.log(identifier);
-
 			var run_info_keys = Object.keys(report_data.run_info[identifier].modules_run_report);
 
 			var aux_info = {};
@@ -507,7 +505,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			for(results_key in run_results_keys){
 				aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
 			}
-			console.log([aux_info, aux_results]);
 			return callback([aux_info, aux_results], job);
 		}
 		else if(procedure.indexOf('chewBBACA') > -1){
@@ -539,7 +536,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
 			aux_info["Status"] = "Done";
-			console.log("ENTROU", report_data.run_output)
 			
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
@@ -935,9 +931,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		reports.get_strain_by_name(to_use, $( "#project_selector option:selected" ).text(), function(strain_data, project_name){
 
-			console.log(strain_data);
-
-			//console.log($scope.report_procedures);
 			var newglobal = [];
 
 			for(st in strain_data){

@@ -221,10 +221,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	if missing_data == "True":
 		missing_data_to_use = "true"
-		command = 'python ./app/resources/phyloviz/remoteUpload.py -u "'+phyloviz_user+'" -p "'+phyloviz_pass+'" -cd '+phyloviz_root+' -am core -root '+phyloviz_root+' -mc ' + missing_char + ' -mt 0 -sdt profile -sd ' + file_path_profile + ' -d '+dataset_name.replace(" ", "_")+' -dn '+dataset_description.replace(" ", "_")+' -m '+ file_path_metadata;
+		command = 'python ./app/resources/phyloviz/remoteUpload.py -u '+phyloviz_user+' -p '+phyloviz_pass+' -cd '+phyloviz_root+' -am core -root '+phyloviz_root+' -mc ' + missing_char + ' -mt 0 -sdt profile -sd ' + file_path_profile + ' -d '+dataset_name.replace(" ", "_")+' -dn '+dataset_description.replace(" ", "_")+' -m '+ file_path_metadata;
 	else:
 		missing_data_to_use = "false"
-		command = 'python ./app/resources/phyloviz/remoteUpload.py -u "'+phyloviz_user+'" -p "'+phyloviz_pass+'" -cd '+phyloviz_root+' -root '+phyloviz_root+' -sdt profile -sd ' + file_path_profile + ' -d '+dataset_name.replace(" ", "_")+' -dn '+dataset_description.replace(" ", "_")+' -m '+ file_path_metadata +' -pid ' + parent_id;
+		command = 'python ./app/resources/phyloviz/remoteUpload.py -u '+phyloviz_user+' -p '+phyloviz_pass+' -cd '+phyloviz_root+' -root '+phyloviz_root+' -sdt profile -sd ' + file_path_profile + ' -d '+dataset_name.replace(" ", "_")+' -dn '+dataset_description.replace(" ", "_")+' -m '+ file_path_metadata +' -pid ' + parent_id;
 
 	command = command.split(' ')
 

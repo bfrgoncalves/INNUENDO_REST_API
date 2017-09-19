@@ -238,7 +238,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	if "http" in stdout:
 		phyloviz_uri = "http" + stdout.split("http")[1].split('">')[0]
-		tree_entry = Tree(user_id=user_id, name=dataset_name, description=dataset_description, uri=phyloviz_uri, timestamp=datetime.datetime.utcnow(), species_id=species_id)
+		tree_entry = Tree(user_id=user_id, name=dataset_name, description=dataset_description, uri=phyloviz_uri, timestamp=datetime.datetime.utcnow(), species_id=species_id, phyloviz_user=phyloviz_user)
 		if not tree_entry:
 			abort(404, message="An error as occurried when uploading the data".format(id))
 		db.session.add(tree_entry)

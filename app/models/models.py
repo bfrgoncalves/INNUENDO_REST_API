@@ -218,6 +218,7 @@ class Tree(db.Model):
 	description = db.Column(db.Text())
 	species_id = db.Column(db.Text())
 	uri = db.Column(db.Text())
+	phyloviz_user = db.Column(db.Text())
 
 
 #######################MLST DATABASE##################################################

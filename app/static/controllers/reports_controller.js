@@ -161,7 +161,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var reports_metadata_table_headers = metadata.get_minimal_fields();
 
 	var saved_reports_headers = ['Username', 'Name', 'Description'];
-	var trees_headers = ['Dataset Name', 'Description', 'Timestamp'];
+	var trees_headers = ['Dataset Name', 'Description', 'Timestamp', 'PHYLOViZ User'];
 
 	var saved_reports = [];
 	var trees = [];
@@ -216,7 +216,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
         },
         { "data": "name" },
         { "data": "description" },
-        { "data": "timestamp" }
+        { "data": "timestamp" },
+		{ "data": "phyloviz_user" }
     ];
 
     var reports_info_col_defs = [

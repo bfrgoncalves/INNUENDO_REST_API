@@ -175,7 +175,6 @@ class Job_results(Resource):
 #Load job results and classify it
 class Job_classify_chewbbaca(Resource):
 
-	@login_required
 	def get(self):
 		print "AQUI!!!! CLASSIFIER"
 		args = job_classify_chewbbaca_get_parser.parse_args()

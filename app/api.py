@@ -68,6 +68,8 @@ api.add_resource(Job_queue, '/api/v1.0/jobs/')
 api.add_resource(Job_results, '/api/v1.0/jobs/results/')
 api.add_resource(Job_Result_Download, '/api/v1.0/jobs/results/download/')
 
+api.add_resource(Job_classify_chewbbaca, '/api/v1.0/jobs/classify/')
+
 ################################# PHYLOVIZ REQUESTS ###################################
 
 api.add_resource(PHYLOViZResource, '/api/v1.0/phyloviz/')

@@ -34,6 +34,7 @@ job_post_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, requir
 job_post_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_post_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
 job_post_parser.add_argument('strain_submitter', dest='strain_submitter', type=str, required=True, help="strain_submitter id")
+job_post_parser.add_argument('current_specie', dest='current_specie', type=str, required=True, help="current specie")
 #parameters -> workflow_id
 job_get_parser = reqparse.RequestParser()
 job_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job id")
@@ -51,6 +52,10 @@ job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=
 job_download_results_get_parser = reqparse.RequestParser()
 job_download_results_get_parser.add_argument('file_path', dest='file_path', type=str, required=True, help="Job Path")
 
+job_classify_chewbbaca_get_parser = reqparse.RequestParser()
+job_classify_chewbbaca_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job ID")
+job_classify_chewbbaca_get_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to include")
+
 
 database_processor = Queue_Processor()
 
@@ -59,17 +64,17 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
-	
-	if "chewBBACA" in procedure:
+
+	'''if "chewBBACA" in procedure:
 		print "CLASSIFY"
-		jobID = database_processor.classify_profile(job_id, database_to_include)
-	
+		jobID = database_processor.classify_profile(job_id, database_to_include)'''
+
 
 	if not report:
 		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=current_user.username, procedure=procedure, sample_name=sample)
 		if not report:
 			abort(404, message="An error as occurried when uploading the data")
-		
+
 		db.session.add(report)
 		db.session.commit()
 
@@ -99,7 +104,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 #Run jobs using slurm and get job status
 class Job_queue(Resource):
-	
+
 	@login_required
 	def post(self):
 		args = job_post_parser.parse_args()
@@ -134,7 +139,7 @@ class Job_queue(Resource):
 				#print data
 			counter += 1
 
-		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data)})
+		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'current_specie':current_specie})
 		to_send.append(request.json()['jobID'])
 
 		return to_send, 200
@@ -167,6 +172,18 @@ class Job_results(Resource):
 		args = job_results_get_parser.parse_args()
 		report = db.session.query(Report).filter(Report.job_id == args.job_id).first()
 		return report.report_data
+
+
+#Load job results and classify it
+class Job_classify_chewbbaca(Resource):
+
+	@login_required
+	def get(self):
+		print "AQUI!!!! CLASSIFIER"
+		args = job_classify_chewbbaca_get_parser.parse_args()
+		print args.job_id, args.database_to_include
+		database_processor.classify_profile(args.job_id, args.database_to_include)
+
 
 #Load job results to display on graphical interface
 class Job_Result_Download(Resource):

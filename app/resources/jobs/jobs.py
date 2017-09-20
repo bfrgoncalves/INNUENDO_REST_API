@@ -160,6 +160,7 @@ class Job_queue(Resource):
 			if results['store_in_db'] == True:
 				added, job_id = add_data_to_db(results['job_id'], results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include)
 
+			print job_status, "AQUI"
 			return job_status, 200
 		else:
 			return False

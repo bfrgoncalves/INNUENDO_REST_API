@@ -45,4 +45,4 @@ class Queue_Processor:
     # Fetch a job from the queue to get their status later
     def fetch_job(self, job_key):
         job = Job.fetch(job_key, connection=conn)
-    return job
+        return job

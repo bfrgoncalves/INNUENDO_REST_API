@@ -177,7 +177,7 @@ class Job_results(Resource):
 #Load job results and classify it
 class Job_classify_chewbbaca(Resource):
 
-	def post(self):
+	def get(self):
 		print "AQUI!!!! CLASSIFIER"
 		args = job_classify_chewbbaca_post_parser.parse_args()
 		print args.job_id, args.database_to_include

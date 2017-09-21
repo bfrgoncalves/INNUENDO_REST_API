@@ -673,7 +673,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		},
 		get_job_status: function(job_id, procedure_name, sample_name, pipeline_id, process_position, project_id, process_id, callback){
-		    //console.log(project_id);
+		    console.log(process_id);
 		    req = {
 		        url: 'api/v1.0/jobs/',
 		        method:'GET',

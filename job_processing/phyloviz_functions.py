@@ -3,7 +3,7 @@ import random
 import os
 import string
 import json
-from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report, Strain, Tree
+from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report, Strain, Tree, Project, projects_strains
 
 import subprocess
 import requests
@@ -176,6 +176,18 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			if strain_from_db.platform_tag == "FP":
 				strain = db.session.query(Strain).filter(Strain.name == strain_from_db.name).first()
 				strain_metadata = json.loads(strain.strain_metadata)
+				
+				#Add projects where strain is
+				projects_of_strain = Project.query.join(projects_strains, (projects_strains.c.strains_id == Strain.id)).filter(projects_strains.c.strains_id == strain.id).all()
+				projects_string = ""
+				if not projects_of_strain:
+					print "NO PROJECTS WITH STRAIN"
+				else:
+					for p in projects_of_strain:
+						projects_string = projects_string + projects_of_strain.name
+
+				strain_metadata["Project Name"] = projects_string
+			
 			else:
 				strain_metadata = strain_from_db.strain_metadata
 

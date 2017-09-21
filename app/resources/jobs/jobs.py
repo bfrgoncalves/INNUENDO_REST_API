@@ -80,8 +80,10 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 		return True, job_id
 	else:
+		print report.job_id, job_id
 		if report.job_id == job_id:
 			if results:
+				print "AQUI!!"
 				report.report_data=results
 				db.session.commit()
 			return False, job_id

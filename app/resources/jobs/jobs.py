@@ -52,9 +52,9 @@ job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=
 job_download_results_get_parser = reqparse.RequestParser()
 job_download_results_get_parser.add_argument('file_path', dest='file_path', type=str, required=True, help="Job Path")
 
-job_classify_chewbbaca_get_parser = reqparse.RequestParser()
-job_classify_chewbbaca_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job ID")
-job_classify_chewbbaca_get_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to include")
+job_classify_chewbbaca_post_parser = reqparse.RequestParser()
+job_classify_chewbbaca_post_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job ID")
+job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to include")
 
 
 database_processor = Queue_Processor()
@@ -177,9 +177,9 @@ class Job_results(Resource):
 #Load job results and classify it
 class Job_classify_chewbbaca(Resource):
 
-	def get(self):
+	def post(self):
 		print "AQUI!!!! CLASSIFIER"
-		args = job_classify_chewbbaca_get_parser.parse_args()
+		args = job_classify_chewbbaca_post_parser.parse_args()
 		print args.job_id, args.database_to_include
 		database_processor.classify_profile(args.job_id, args.database_to_include)
 

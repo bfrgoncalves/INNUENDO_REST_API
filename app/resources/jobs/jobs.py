@@ -141,6 +141,7 @@ class Job_queue(Resource):
 			counter += 1
 
 		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'current_specie':args.current_specie, 'sampleName':args.sampleName})
+		print request.json()
 		to_send.append(request.json()['jobID'])
 
 		return to_send, 200

@@ -46,6 +46,8 @@ job_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, require
 job_get_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_get_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
 job_get_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to use if required")
+job_get_parser.add_argument('current_user_name', dest='current_user_name', type=str, required=True, help="Current user name")
+job_get_parser.add_argument('current_user_id', dest='current_user_id', type=str, required=True, help="current user id")
 
 job_results_get_parser = reqparse.RequestParser()
 job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job id")
@@ -140,15 +142,16 @@ class Job_queue(Resource):
 				#print data
 			counter += 1
 
-		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'current_specie':args.current_specie, 'sampleName':args.sampleName})
-		print request.json()
+		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
 		to_send.append(request.json()['jobID'])
 
 		return to_send, 200
 
 	def get(self):
 		args = job_get_parser.parse_args()
-		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(current_user.username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position})
+		username = args.current_user_name
+		user_id = args.current_user_id
+		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position})
 		results = request.json()
 
 		if results != '':
@@ -159,7 +162,7 @@ class Job_queue(Resource):
 			job_status[0] = args.job_id
 
 			if results['store_in_db'] == True:
-				added, job_id = add_data_to_db(results['job_id'], results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include)
+				added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include)
 
 			return job_status, 200
 		else:

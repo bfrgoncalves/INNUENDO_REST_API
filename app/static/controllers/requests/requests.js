@@ -645,9 +645,9 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	               callback(response);
 	        });
 		},
-		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, callback){
+		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strain_name, callback){
 
-			console.log(protocol_ids, pipeline_id, process_id);
+			console.log(protocol_ids, pipeline_id, process_id, strain_name);
 
 		    req = {
 		        url: 'api/v1.0/jobs/',
@@ -659,7 +659,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	pipeline_id: pipeline_id,
 		        	process_id: process_id.join(),
 		        	strain_submitter: strain_submitter,
-		        	current_specie: current_specie
+		        	current_specie: current_specie,
+		        	sampleName: strain_name
 		    	}
 		    }
 

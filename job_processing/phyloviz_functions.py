@@ -178,7 +178,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				strain_metadata = json.loads(strain.strain_metadata)
 				
 				#Add projects where strain is
-				projects_of_strain = Project.query.join(projects_strains, (projects_strains.strains_id == Strain.id)).filter(projects_strains.strains_id == strain.id).all()
+				projects_of_strain = Project.query.join(projects_strains, (projects_strains.c.strains_id == Strain.id)).filter(projects_strains.c.strains_id == strain.id).all()
 				projects_string = ""
 				if not projects_of_strain:
 					print "NO PROJECTS WITH STRAIN"

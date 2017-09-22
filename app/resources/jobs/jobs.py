@@ -153,7 +153,7 @@ class Job_queue(Resource):
 		username = args.current_user_name
 		user_id = args.current_user_id
 		from_process_controller = args.from_process_controller
-		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position})
+		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller})
 		results = request.json()
 
 		if results != '':

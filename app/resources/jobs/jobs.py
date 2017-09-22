@@ -63,7 +63,7 @@ job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='dat
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id, database_to_include):
+def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id, database_to_include, username):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
@@ -74,7 +74,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 
 	if not report:
-		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=current_user.username, procedure=procedure, sample_name=sample)
+		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, procedure=procedure, sample_name=sample)
 		if not report:
 			abort(404, message="An error as occurried when uploading the data")
 
@@ -97,7 +97,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 			report.job_id=job_id
 			report.timestamp=datetime.datetime.utcnow()
 			report.user_id=user_id
-			report.username=current_user.username
+			report.username=username
 			report.procedure=procedure
 			report.sample_name=sample
 			report.project_id=project_id
@@ -162,7 +162,7 @@ class Job_queue(Resource):
 			job_status[0] = args.job_id
 
 			if results['store_in_db'] == True:
-				added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include)
+				added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
 
 			return job_status, 200
 		else:

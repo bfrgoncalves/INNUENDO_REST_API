@@ -184,7 +184,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					print "NO PROJECTS WITH STRAIN"
 				else:
 					for p in projects_of_strain:
-						projects_string = projects_string + projects_of_strain.name
+						print p.name
+						projects_string = projects_string + p.name
 
 				strain_metadata["Project Name"] = projects_string
 			

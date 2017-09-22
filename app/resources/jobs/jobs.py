@@ -48,6 +48,7 @@ job_get_parser.add_argument('process_id', dest='process_id', type=str, required=
 job_get_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to use if required")
 job_get_parser.add_argument('current_user_name', dest='current_user_name', type=str, required=True, help="Current user name")
 job_get_parser.add_argument('current_user_id', dest='current_user_id', type=str, required=True, help="current user id")
+job_get_parser.add_argument('from_process_controller', dest='from_process_controller', type=str, required=True, help="is the request from the process controller?")
 
 job_results_get_parser = reqparse.RequestParser()
 job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job id")
@@ -151,6 +152,7 @@ class Job_queue(Resource):
 		args = job_get_parser.parse_args()
 		username = args.current_user_name
 		user_id = args.current_user_id
+		from_process_controller = args.from_process_controller
 		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position})
 		results = request.json()
 
@@ -160,6 +162,10 @@ class Job_queue(Resource):
 				return ["null", "null"]
 			job_status[1] = job_status[1].strip('\n')
 			job_status[0] = args.job_id
+
+			if from_process_controller == 'true':
+				job_status[1] = "COMPLETED"
+				results['store_in_db'] = True
 
 			if results['store_in_db'] == True:
 				added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)

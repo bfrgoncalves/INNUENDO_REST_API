@@ -687,7 +687,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	process_id:process_id,
 		        	database_to_include: CURRENT_SPECIES_NAME,
 		        	current_user_name: CURRENT_USER_NAME,
-		        	current_user_id: CURRENT_USER_ID
+		        	current_user_id: CURRENT_USER_ID,
+		        	from_process_controller: "false"
 		    	}
 		    }
 

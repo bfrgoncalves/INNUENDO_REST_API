@@ -42,6 +42,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			continue
 
 		if database_to_include != "None":
+			print report.sample_name.replace(" ", "_")
+			file_name_profile = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
+			profile_tab_file_path_profile = './chewbbaca_database_profiles/query_files/'+file_name_profile+'_profile.tab'
 			profile_query_file_path, number_of_loci = database_functions.tab_profile_from_db(report.sample_name.replace(" ", "_"), database_correspondece[database_to_include], wg_headers_correspondece[database_to_include], profile_tab_file_path)
 			array_to_process.append([profile_query_file_path, number_of_loci])
 

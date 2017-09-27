@@ -58,12 +58,20 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			print strain_selected
 			list_to_query = fast_mlst_functions.get_closest_profiles(strain_selected[0], wg_index_correspondece[database_to_include], strain_selected[1]/2)
 			print list_to_query[:int(50)]
-			merged_list_temp = merged_list_temp + list_to_query[:int(max_closest)]
+			
+			list_without_distance = []
+			for element_plus_distance in list_to_query:
+				list_without_distance.append(element_plus_distance.split("\t")[0])
+			
+			merged_list_temp = merged_list_temp + list_without_distance[:int(max_closest)]
+
 
 		merged_list = list(set(merged_list_temp))
 
+
 		print merged_list
 		print len(merged_list)
+
 
 		for x in merged_list:
 			strain_id = x.split("\t")[0]

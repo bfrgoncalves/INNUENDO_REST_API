@@ -62,6 +62,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 		merged_list = list(set(merged_list_temp))
 
+		print merged_list
+
 		for x in merged_list:
 			strain_id = x.split("\t")[0]
 			strains_from_db = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == strain_id).first()

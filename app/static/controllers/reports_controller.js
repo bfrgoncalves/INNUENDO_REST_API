@@ -790,11 +790,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	$scope.showReport = function(){
 
-		/*$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});*/
+		$('#reports_container').css({display:"none"});
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
-		objects_utils.destroyTable('reports_info_table');
-	    objects_utils.destroyTable('reports_results_table');
+		/*objects_utils.destroyTable('reports_info_table');
+	    objects_utils.destroyTable('reports_results_table');*/
 
 		show_results_and_info(null, function(show_metadata){
 			if(show_metadata) show_strains_metadata(null);

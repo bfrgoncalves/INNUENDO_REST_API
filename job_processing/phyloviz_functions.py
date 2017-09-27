@@ -63,6 +63,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		merged_list = list(set(merged_list_temp))
 
 		print merged_list
+		print merged_list.length
 
 		for x in merged_list:
 			strain_id = x.split("\t")[0]

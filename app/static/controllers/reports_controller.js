@@ -790,8 +790,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	$scope.showReport = function(){
 
-		$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
+		/*$('#reports_container').css({display:"none"});
+		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});*/
 
 		objects_utils.destroyTable('reports_info_table');
 	    objects_utils.destroyTable('reports_results_table');
@@ -895,8 +895,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	       return data.strain_names.split(',');
 	    });
 
-	    objects_utils.destroyTable('reports_info_table');
-	    objects_utils.destroyTable('reports_results_table');
+	    /*objects_utils.destroyTable('reports_info_table');
+	    objects_utils.destroyTable('reports_results_table');*/
 
 	    //console.log(current_names);
 
@@ -1191,6 +1191,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$('#reports_area').css({display:'block'});
 				$('#reports_container').css({display:"block"});
 				return;
+			}
+			else{
+				objects_utils.destroyTable('reports_info_table');
+	    		objects_utils.destroyTable('reports_results_table');
 			}
 
 			var run_identifiers = [];

@@ -1189,7 +1189,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				modalAlert('Please select a report first.', function(){});
 				$('#waiting_spinner').css({display:'none'}); 
 				$('#reports_area').css({display:'block'});
-				$('#reports_container').css({display:"none"});
+				$('#reports_container').css({display:"block"});
 				return;
 			}
 

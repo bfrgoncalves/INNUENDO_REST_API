@@ -28,7 +28,7 @@ class NGSOnto_ProtocolList(Resource):
 	def get(self): #id=user_id
 
 		#Agraph
-		queryString = """SELECT DISTINCT ?protocTypeLabel ?protocType WHERE {?protocType rdfs:subClassOf* obo:OBI_0000272; ?s ?allprop. ?protocType rdfs:label ?protocTypeLabel. MINUS {?something rdfs:subClassOf ?protocType}}"""
+		queryString = """SELECT DISTINCT ?protocTypeLabel ?protocType WHERE {?protocType rdfs:subClassOf* obo:OBI_0000272; ?s ?allprop. ?protocType rdfs:label ?protocTypeLabel. FILTER NOT EXISTS {?something rdfs:subClassOf ?protocType}}"""
 
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()

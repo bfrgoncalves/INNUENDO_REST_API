@@ -8,6 +8,8 @@ Functions to deal with allegro graph query outputs
 def parseAgraphQueryRes(result,listValuesToGet):
 	resultList=[]
 	for bindingSet in result:
+			print "NOT EMPTY"
+			print bindingSet
 			auxDict={}
 			
 			for elem in listValuesToGet:

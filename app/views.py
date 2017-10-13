@@ -25,7 +25,7 @@ def index():
 	homedir = ""
 	if current_user.is_authenticated:
 		username = current_user.username
-		homedir = current_user-homedir
+		homedir = current_user.homedir
 	try:
 		if current_user.gid == "501":
 			show_protocols = True

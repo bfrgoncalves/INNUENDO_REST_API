@@ -92,6 +92,7 @@ class StrainListResource(Resource):
 		for strain in strains:
 			strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
 			strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+			print strain.fq_location
 			
 		if not strains:
 			abort(404, message="No strain available")

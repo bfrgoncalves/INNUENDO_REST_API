@@ -25,8 +25,7 @@ class GetFilesResource(Resource):
 
 	@login_required
 	def get(self):
-		print config1['FILES_ROOT']
-		request = requests.get(config1['FILES_ROOT'], params={'username':current_user.username})
+		request = requests.get(config1['FILES_ROOT'], params={'username':current_user.username, 'homedir':current_user.homedir})
 		try:
 			return request.json(), 200
 		except Exception as e:

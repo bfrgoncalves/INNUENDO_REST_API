@@ -168,6 +168,7 @@ class Strain(db.Model):
 	fields = db.Column(JSON)
 	species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	fq_location = db.Column(db.String(255))
 
 #Table to store all procedure report data
 class Report(db.Model):

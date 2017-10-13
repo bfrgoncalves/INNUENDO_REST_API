@@ -435,12 +435,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                strains_headers = JSON.parse(data[0].fields).metadata_fields;
 		                strains_headers.unshift("strainID");
 		                strains_headers.push('Analysis');
+		                strains_headers.push('FilesLocation');
 		                
 		                for (i in data){
 
 		                    var strain_data = JSON.parse(data[i].strain_metadata);
 		                    strain_data["strainID"] = data[i].strainID;
 		                    strain_data['Analysis'] = "";
+		                    strain_data['FilesLocation'] = data[i].fq_location;
 		                    var sd = {};
 		                    for (j in strains_headers){
 		                        if(strain_data.hasOwnProperty(strains_headers[j])){
@@ -1121,7 +1123,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    });
 
 		    var strain_submitter = $.map(table.rows('.selected').data(), function(item){
-		        return item['Submitter'];
+		        return item['FilesLocation'];
 		    });
 
 		    countWorkflows = 0;

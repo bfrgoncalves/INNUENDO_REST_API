@@ -137,7 +137,7 @@ class Job_queue(Resource):
 					files[x] = metadata[x]
 
 			if 'used Parameter' in steps:
-				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
+				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'homedir':current_user.homedir, 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
 			else:
 				to_send.append("null")
 				#print data
@@ -153,7 +153,7 @@ class Job_queue(Resource):
 		username = args.current_user_name
 		user_id = args.current_user_id
 		from_process_controller = args.from_process_controller
-		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller})
+		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': current_user.homedir})
 		results = request.json()
 
 		if results != '':

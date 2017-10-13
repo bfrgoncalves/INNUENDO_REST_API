@@ -386,6 +386,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		                    var strain_data = JSON.parse(data[i].strain_metadata);
 		                    strain_data["strainID"] = data[i].strainID;
+		                    strain_data["FilesLocation"] = data[i].fq_location;
 
 		                    var sd = {};
 		                    //Parse the metadata and add it to the public strains object

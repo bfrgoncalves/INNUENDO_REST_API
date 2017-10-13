@@ -33,6 +33,9 @@ class NGSOnto_ProtocolList(Resource):
                                         ?protocType rdfs:label ?protocTypeLabel.
                                        MINUS {
                                            ?something rdfs:subClassOf ?protocType}}"""
+
+        queryString = """SELECT *  WHERE {?c ?v ?m} LIMIT 20"""
+
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["protocTypeLabel","protocType"])

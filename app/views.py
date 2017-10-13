@@ -35,7 +35,7 @@ def index():
 		show_protocols = False
 	
 	print username
-	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT), show_protocols=show_protocols, homedir=homedir)
+	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT), show_protocols=show_protocols, homedir=json.dumps(homedir))
 
 
 @app.route('/logout')

@@ -73,7 +73,8 @@ function Metadata(){
 		"job_id": "Run Identifier",
 		"Sample": "Sample",
 		"project_name": "Project Name",
-		"classifier": "Classifier"
+		"classifier": "Classifier",
+		"FilesLocation": "Files Location"
 	}
 
 	//The minimum headers to be seen on a table

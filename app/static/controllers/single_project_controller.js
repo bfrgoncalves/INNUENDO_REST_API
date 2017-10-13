@@ -68,6 +68,7 @@ function set_headers_single_project(global_strains){
 	        { "data": "Submitter", "visible":false },
 	        { "data": "File_2", "visible":false },
 	        { "data": "Location" },
+	        { "data": "FilesLocation" },
 	        {
 	            "className":      'details-control',
 	            "orderable":      false,
@@ -694,7 +695,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		    objects_utils.destroyTable('public_strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    headers_defs = set_headers_single_project(global_public_strains);
-		    console.log(global_strains, headers_defs);
+		    console.log(global_public_strains, headers_defs, strains_headers);
 		    objects_utils.restore_table_headers('public_strains_table', strains_headers, true, function(){	
 			    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
 			    callback();

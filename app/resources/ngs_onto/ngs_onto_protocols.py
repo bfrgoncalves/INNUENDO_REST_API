@@ -34,7 +34,7 @@ class NGSOnto_ProtocolList(Resource):
                                        MINUS {
                                            ?something rdfs:subClassOf ?protocType}}"""
 
-        queryString = """SELECT *  WHERE {?c ?v ?m} LIMIT 20"""
+		queryString = """SELECT *  WHERE {?c ?v ?m} LIMIT 20"""
 
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()

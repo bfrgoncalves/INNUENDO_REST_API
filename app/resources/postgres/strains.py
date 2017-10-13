@@ -33,7 +33,7 @@ strain_fields = {
 	'species_id': fields.String,
 	'file_1': fields.String,
 	'file_2': fields.String,
-	'classifier': fields.String
+	'classifier': fields.String,
 	'fq_location': fields.String
 }
 
@@ -134,7 +134,7 @@ class StrainListResource(Resource):
 			return strain, 200		
 		
 		try:
-			strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow(), user_id=current_user.id, current_user.homedir)
+			strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow(), user_id=current_user.id, fq_location=current_user.homedir)
 
 			if not strain:
 				abort(404, message="An error as occurried")

@@ -33,9 +33,6 @@ class NGSOnto_ProtocolList(Resource):
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["protocTypeLabel","protocType"])
-		print queryString
-		print result
-		print jsonResult
 		
 		result.close()
 

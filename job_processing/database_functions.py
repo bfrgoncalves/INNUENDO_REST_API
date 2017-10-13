@@ -62,8 +62,6 @@ def classify_profile(job_id, database_name):
 
 		to_replace = allele_classes_to_ignore
 
-		print report.report_data["run_output"]
-
 		#to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
 		headers = headers_profile + report.report_data["run_output"]["header"]
 		profile = report.report_data["run_output"]["run_output.fasta"]

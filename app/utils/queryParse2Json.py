@@ -7,10 +7,8 @@ Functions to deal with allegro graph query outputs
 #query parsers aux functions
 def parseAgraphQueryRes(result,listValuesToGet):
 	resultList=[]
-	print "ENTROU"
+
 	for bindingSet in result:
-			print "NOT EMPTY"
-			print bindingSet
 			auxDict={}
 			
 			for elem in listValuesToGet:

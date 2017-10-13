@@ -88,7 +88,7 @@ function set_headers_single_project(global_strains){
 	            "defaultContent": ''
 	        }
 		];
-		
+		console.log(global_strains[0]);
 		for(p in headers_order){
 			for(x in global_strains[0]){
 				console.log(x, dict_fields[headers_order[p]])

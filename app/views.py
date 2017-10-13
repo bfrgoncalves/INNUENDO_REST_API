@@ -22,8 +22,10 @@ def getID(current_user):
 def index():
 	current_user_id = getID(current_user)
 	username = ""
+	homedir = ""
 	if current_user.is_authenticated:
 		username = current_user.username
+		homedir = current_user-homedir
 	try:
 		if current_user.gid == "501":
 			show_protocols = True
@@ -33,7 +35,7 @@ def index():
 		show_protocols = False
 	
 	print username
-	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT), show_protocols=show_protocols)
+	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(JOBS_ROOT), show_protocols=show_protocols, homedir=homedir)
 
 
 @app.route('/logout')

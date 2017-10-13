@@ -45,6 +45,7 @@ job_get_parser.add_argument('process_position', dest='process_position', type=st
 job_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline identifier")
 job_get_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_get_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
+job_get_parser.add_argument('homedir', dest='homedir', type=str, required=True, help="home dir")
 job_get_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to use if required")
 job_get_parser.add_argument('current_user_name', dest='current_user_name', type=str, required=True, help="Current user name")
 job_get_parser.add_argument('current_user_id', dest='current_user_id', type=str, required=True, help="current user id")
@@ -153,7 +154,8 @@ class Job_queue(Resource):
 		username = args.current_user_name
 		user_id = args.current_user_id
 		from_process_controller = args.from_process_controller
-		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': current_user.homedir})
+		homedir = args.homedir
+		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
 		results = request.json()
 
 		if results != '':

@@ -221,7 +221,7 @@ class Job_Result_Download_click(Resource):
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		try:
-			local_filename = ''.join(args.file_path.split('/')[-2:])
+			local_filename = '/'.join(args.file_path.split('/')[-2:])
 			#local_filename = 'results/'+local_filename
 			print local_filename
 			response = send_file(local_filename, as_attachment=True)

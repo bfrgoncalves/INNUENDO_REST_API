@@ -204,7 +204,7 @@ class Job_Result_Download(Resource):
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		print JOBS_ROOT + 'results/download/'
-		local_filename = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
+		local_filename = 'app/' + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
 		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
 
 		with open(local_filename, 'wb') as f:

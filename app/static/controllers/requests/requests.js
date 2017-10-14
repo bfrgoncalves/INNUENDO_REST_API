@@ -768,14 +768,28 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		download_file: function(path, callback){
 
-			url = CURRENT_JOBS_ROOT + '/results/download/?file_path=' + encodeURI(path);
-			console.log(url);
 
-			var link = document.createElement("a");
-		    link.download = path.split('/').slice(-1)[0];
-		    link.href = url;
-		    link.click();
-		    callback();
+			req = {
+		        url: CURRENT_JOBS_ROOT + '/results/download/',
+		        method:'GET',
+		        params: {
+		        	file_path: encodeURI(path)
+		        }
+		    }
+
+		    $http(req).then(function(response){
+		            url = CURRENT_JOBS_ROOT + '/results/download/?file_path=' + encodeURI(path);
+					console.log(url);
+
+					var link = document.createElement("a");
+				    link.download = path.split('/').slice(-1)[0];
+				    link.href = url;
+				    link.click();
+				    callback();
+		        },
+		        function(response){
+		            callback(response);
+		    });
 			
 		},
 

@@ -112,6 +112,7 @@ function Protocol_List($http){
 		    		protocolUri = response.data[i].rangeClass
 		    		protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
 		    	}
+		    	protocol_type["SLURM CPUs"] = ["input", "text"];
 		    	callback({protocol_type:protocol_type, protocol_parameters:protocol_parameters});
 			});
 		},

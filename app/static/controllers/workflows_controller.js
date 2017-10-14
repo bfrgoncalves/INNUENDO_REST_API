@@ -91,6 +91,8 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 			$("#protocol_type_selector_load").on("change", function(){
 				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
 			});
+
+			$("#protocol_type_selector_load").trigger("change");
 			
 			workflows.set_protocol_types_object(results.protocolTypeObject);
 		});

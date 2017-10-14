@@ -63,6 +63,9 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			$("#protocol_type_selector_load").on("change", function(){
 				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
 			});
+
+			$("#protocol_type_selector").trigger("change");
+			$("#protocol_type_selector_load").trigger("change");
 		});
 	}
 

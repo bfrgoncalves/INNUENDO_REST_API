@@ -202,6 +202,6 @@ class Job_Result_Download(Resource):
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		print JOBS_ROOT + 'results/download/'
-		reponse = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path})
+		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path})
 		print str(response)
 		return 200

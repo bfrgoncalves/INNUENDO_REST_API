@@ -101,6 +101,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["process"])
 		result.close()	
+		print queryString
 		for item in jsonResult:
 			finalListProc.append(item["process"])
 		

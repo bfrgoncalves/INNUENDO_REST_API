@@ -206,8 +206,8 @@ class Job_Result_Download(Resource):
 		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
 
 		with open(local_filename, 'wb') as f:
-	        for chunk in response.iter_content(chunk_size=1024): 
-	            if chunk: # filter out keep-alive new chunks
-	                f.write(chunk)
-	                
+			for chunk in response.iter_content(chunk_size=1024): 
+				if chunk: # filter out keep-alive new chunks
+					f.write(chunk)
+
 		return 200

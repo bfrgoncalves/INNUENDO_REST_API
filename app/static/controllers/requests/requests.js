@@ -768,7 +768,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		download_file: function(path, callback){
 
-			url = CURRENT_JOBS_ROOT + 'results/download/?file_path=' + encodeURI(path);
+			url = CURRENT_JOBS_ROOT + '/results/download/?file_path=' + encodeURI(path);
 			console.log(url);
 
 			var link = document.createElement("a");

@@ -770,7 +770,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 
 			req = {
-		        url: CURRENT_JOBS_ROOT + '/results/download/',
+		        url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
 		        method:'GET',
 		        params: {
 		        	file_path: encodeURI(path)

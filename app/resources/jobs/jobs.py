@@ -202,6 +202,12 @@ class Job_Result_Download(Resource):
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		print JOBS_ROOT + 'results/download/'
-		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path})
-		print str(response)
+		local_filename = file_path.split('/')[-1]
+		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
+
+		with open(local_filename, 'wb') as f:
+	        for chunk in response.iter_content(chunk_size=1024): 
+	            if chunk: # filter out keep-alive new chunks
+	                f.write(chunk)
+	                
 		return 200

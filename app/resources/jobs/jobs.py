@@ -17,6 +17,8 @@ from app.models.models import Report
 import json
 import requests
 import os
+import string
+import random
 
 from job_processing.queue_processor import Queue_Processor
 
@@ -202,7 +204,7 @@ class Job_Result_Download(Resource):
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		print JOBS_ROOT + 'results/download/'
-		local_filename = args.file_path.split('/')[-1]
+		local_filename = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
 		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
 
 		with open(local_filename, 'wb') as f:
@@ -210,4 +212,21 @@ class Job_Result_Download(Resource):
 				if chunk: # filter out keep-alive new chunks
 					f.write(chunk)
 
-		return 200
+		return local_filename
+
+
+#Load job results to display on graphical interface
+class Job_Result_Download_click(Resource):
+
+	def get(self):
+		args = job_download_results_get_parser.parse_args()
+		try:
+			response = send_file(args.file_path, as_attachment=True)
+			response.headers.add('Access-Control-Allow-Origin', '*')
+			response.headers.add('Content-Type', 'application/force-download')
+			os.remove(args.file_path)
+			return response
+		except Exception as e:
+			print e
+			#self.Error(400)
+			return 404

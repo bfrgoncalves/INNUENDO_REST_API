@@ -204,7 +204,7 @@ class Job_Result_Download(Resource):
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		print JOBS_ROOT + 'results/download/'
-		local_filename = 'app/'+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
+		local_filename = 'app/results'+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
 		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
 
 		with open(local_filename, 'wb') as f:
@@ -221,7 +221,7 @@ class Job_Result_Download_click(Resource):
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		try:
-			local_filename = args.file_path.split('/')[-1]
+			local_filename = args.file_path.split('/')[-2]
 			response = send_file(local_filename, as_attachment=True)
 			response.headers.add('Access-Control-Allow-Origin', '*')
 			response.headers.add('Content-Type', 'application/force-download')

@@ -352,7 +352,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    pipelinesByName[response.data[i].name] = response.data[i].id;
 		                    pipelinesByID[response.data[i].id] = response.data[i].name;
 		                    if (response.data[i].availability == null || response.data[i].availability == "true"){
-		                    	to_send.append(response.data[i]);
+		                    	to_send.push(response.data[i]);
 		                    }
 		                }
 		            }

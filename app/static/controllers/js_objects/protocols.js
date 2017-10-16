@@ -35,6 +35,9 @@ function Protocol_List($http){
 		if(property == 'used Software'){
 			return ["select", "text"];
 		}
+		if(property == 'name' || property == 'SLURM CPUs'){
+			return ["input", "required"];
+		}
 		return ["input", "text"];
 
 	}

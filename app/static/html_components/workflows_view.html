@@ -61,6 +61,8 @@
 
         <table class="display compact hover" id="workflows_table" width='100%'>
           <thead>
+            <th></th>
+            <th ng-repeat="header in workflows_headers">{{ header }}</th>
           </thead>
           <!--<tbody>
             <tr ng-repeat="strain in strains">

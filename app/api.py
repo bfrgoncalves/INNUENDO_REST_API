@@ -44,7 +44,7 @@ api.add_resource(PipelineListResource, '/api/v1.0/projects/<int:id>/pipelines/',
 api.add_resource(PipelineResource, '/api/v1.0/projects/<int:project_id>/pipelines/<int:pipeline_id>/', endpoint = 'pipeline')
 
 api.add_resource(WorkflowListResource, '/api/v1.0/workflows/', endpoint = 'workflows')
-api.add_resource(WorkflowAllResource, '/api/v1.0/workflows/all/', endpoint = 'workflows')
+api.add_resource(WorkflowAllResource, '/api/v1.0/workflows/all/', endpoint = 'workflows_all')
 api.add_resource(WorkflowResource, '/api/v1.0/workflows/<int:id>', endpoint = 'workflow')
 
 api.add_resource(SpecieListResource, '/api/v1.0/species/', endpoint = 'species')

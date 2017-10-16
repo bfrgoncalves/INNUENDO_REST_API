@@ -225,7 +225,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				//For each pipeline applied on that strain, checks if the project associated is the CURRENT_PROJECT_ID
 				for(x in response.data){
 					console.log(response.data[x]);
-					if(response.data[x].project_id == CURRENT_PROJECT_ID){
+					if(response.data[x].project_id == CURRENT_PROJECT_ID && response.data[x].removed != 'true'){
 						new_pipeline_id = response.data[x].id;						
 						callback(strainid, response.data[x].id);
 						return;

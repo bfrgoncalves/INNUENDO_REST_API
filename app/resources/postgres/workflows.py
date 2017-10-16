@@ -18,7 +18,7 @@ workflow_list_get_parser.add_argument('classifier', dest='classifier', type=str,
 workflow_list_get_parser.add_argument('species', dest='species', type=str, required=True, help="Workflow species")
 
 workflow_set_availability_put_parser = reqparse.RequestParser()
-workflow_set_availability_put_parser.add_argument('id', dest='id', type=str, required=True, help="Workflow id")
+workflow_set_availability_put_parser.add_argument('identifier', dest='identifier', type=str, required=True, help="Workflow id")
 workflow_set_availability_put_parser.add_argument('state', dest='state', type=str, required=True, help="Workflow state")
 
 #Defining response fields

@@ -131,7 +131,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            method:'PUT',
 	            params:
 		        {
-		        	id: selected_data[0],
+		        	identifier: String(selected_data[0]),
 		        	state: selected_data[1]
 		        }
 	        }

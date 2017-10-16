@@ -132,7 +132,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            params:
 		        {
 		        	identifier: String(selected_data[0]),
-		        	state: selected_data[1]
+		        	to_change: String(selected_data[1])
 		        }
 	        }
 

@@ -51,7 +51,7 @@ class WorkflowAllResource(Resource):
 
 	@login_required
 	@marshal_with(workflow_all_fields)
-	def get(self, id): #id=user_id
+	def get(self): #id=user_id
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
 		workflows = db.session.query(Workflow).all()

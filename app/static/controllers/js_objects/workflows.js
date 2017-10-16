@@ -40,7 +40,7 @@ function Workflows($http){
 			pg_requests.get_all_workflows(function(response){
 				callback(response);
 			});
-		}
+		},
 
 		/*
 		Add a protocol to a workflow

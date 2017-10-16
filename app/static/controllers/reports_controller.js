@@ -888,10 +888,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		var table = $('#saved_reports_table').DataTable();
     
 	    var selected_job_ids = $.map(table.rows('.selected').data(), function(data){
+	       console.log(data);
 	       return data.run_identifiers.split(',');
 	    });
 
 	    var current_names = $.map(table.rows('.selected').data(), function(data){
+	    	console.log(data);
 	       return data.strain_names.split(',');
 	    });
 

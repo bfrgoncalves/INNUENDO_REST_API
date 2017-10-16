@@ -61,10 +61,11 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
         { "data": "name" },
         { "data": "classifier" },
         { "data": "species" },
+        { "data": "availability" }
         { "data": "timestamp" }
     ];
 
-    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Availability'];
+    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Timestamp"];
 
 	function modalAlert(text, callback){
 
@@ -97,7 +98,10 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 	$scope.changeWorkflowState = function(){
 		workflows.change_workflow_state(function(){
-
+			workflows.get_all_workflows(function(results){
+				objects_utils.destroyTable('workflows_table');
+		    	objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
+		    });
 		});
 	}
 

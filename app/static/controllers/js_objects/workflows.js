@@ -38,6 +38,11 @@ function Workflows($http){
 
 		get_all_workflows: function(callback){
 			pg_requests.get_all_workflows(function(response){
+				for( x in response.data){
+					if(response.data[x].availability == null){
+						response.data[x].availability = true;
+					}
+				}
 				callback(response);
 			});
 		},
@@ -65,8 +70,15 @@ function Workflows($http){
 
 		change_workflow_state: function(callback){
 			var selected_data = $.map(table.rows('.selected').data(), function(data){
-				console.log(data);
-		        return data["id"];
+				
+				if (String(data.availability) == "true"){
+					availability = "false";
+				}
+				else availability = "true";
+		        return [data.id, availability];
+		    });
+		    pg_requests.change_workflow_state(selected_data[0], function(response){
+		    	callback(response);
 		    });
 		    console.log(selected_data);
 		},

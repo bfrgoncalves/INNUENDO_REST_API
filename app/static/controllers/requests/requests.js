@@ -125,6 +125,25 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	        });
 		},
 
+		change_workflow_state: function(selected_data, callback){
+			req = {
+	            url:'api/v1.0/workflows/availability/',
+	            method:'PUT',
+	            params:
+		        {
+		        	id: selected_data[0],
+		        	state: selected_data[1]
+		        }
+	        }
+
+	        $http(req).then(function(response){
+	        	console.log(response);
+	            callback(response);
+	        }, function(response){
+	        	callback(response);
+	        });
+		}
+
 		get_species_projects: function(species_id, is_others, callback){
 
 			//Get user projects for specie 1

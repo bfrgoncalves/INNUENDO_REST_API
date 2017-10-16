@@ -129,6 +129,7 @@ class Workflow(db.Model):
 	name = db.Column(db.String(255), unique=True)
 	classifier = db.Column(db.String(255))
 	species = db.Column(db.String(255))
+	availability = db.Column(db.String(255))
 	timestamp = db.Column(db.DateTime)
 
 

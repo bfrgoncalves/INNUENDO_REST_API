@@ -63,6 +63,14 @@ function Workflows($http){
 			callback({added_protocols:added_protocols});
 		},
 
+		change_workflow_state: function(callback){
+			var selected_data = $.map(table.rows('.selected').data(), function(data){
+				console.log(data);
+		        return data["id"];
+		    });
+		    console.log(selected_data);
+		},
+
 		/*
 		Remove a protocol from a workflow
 		*/

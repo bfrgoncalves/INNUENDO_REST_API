@@ -95,6 +95,12 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	    });
 	}
 
+	$scope.changeWorkflowState = function(){
+		workflows.change_workflow_state(function(){
+
+		});
+	}
+
 	$scope.getProtocolTypes = function(){
 
 		protocols.get_protocol_types(function(results){

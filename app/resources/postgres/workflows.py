@@ -17,6 +17,10 @@ workflow_list_get_parser = reqparse.RequestParser()
 workflow_list_get_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
 workflow_list_get_parser.add_argument('species', dest='species', type=str, required=True, help="Workflow species")
 
+workflow_set_availability_put_parser = reqparse.RequestParser()
+workflow_set_availability_put_parser.add_argument('id', dest='id', type=str, required=True, help="Workflow id")
+workflow_set_availability_put_parser.add_argument('state', dest='state', type=str, required=True, help="Workflow state")
+
 #Defining response fields
 
 workflow_fields = {
@@ -57,6 +61,24 @@ class WorkflowAllResource(Resource):
 		workflows = db.session.query(Workflow).all()
 		if not workflows:
 			abort(404, message="No workflows are available".format(id))
+		return workflows, 200
+
+class WorkflowSetAvailabilityResource(Resource):
+
+	@login_required
+	@marshal_with(workflow_all_fields)
+	def put(self): #id=user_id
+		if not current_user.is_authenticated:
+			abort(403, message="No permissions")
+
+		args = workflow_set_availability_put_parser.parse_args()
+		workflow = db.session.query(Workflow).filter(Workflow.id == args.id).first()
+		if not workflow:
+			abort(404, message="No workflows are available".format(id))
+
+		workflow.availability = args.state
+		db.session.commit()
+
 		return workflows, 200
 
 

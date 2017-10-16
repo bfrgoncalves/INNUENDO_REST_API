@@ -111,6 +111,20 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	        });
 		},
 
+		get_all_workflows: function(callback){
+			req = {
+	            url:'api/v1.0/workflows/all/',
+	            method:'GET'
+	        }
+
+	        $http(req).then(function(response){
+	        	console.log(response);
+	            callback(response);
+	        }, function(response){
+	        	callback(response);
+	        });
+		}
+
 		get_species_projects: function(species_id, is_others, callback){
 
 			//Get user projects for specie 1

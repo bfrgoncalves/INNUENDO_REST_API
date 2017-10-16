@@ -25,6 +25,16 @@ workflow_fields = {
 	'timestamp': fields.DateTime
 }
 
+workflow_all_fields = {
+	'id': fields.Integer,
+	'name': fields.String,
+	'timestamp': fields.DateTime,
+	'classifier': fields.String,
+	'species': fields.String,
+
+}
+
+
 class WorkflowResource(Resource):
 
 	@login_required
@@ -33,6 +43,18 @@ class WorkflowResource(Resource):
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
 		workflows = db.session.query(Workflow).filter(Workflow.id == id).first()
+		if not workflows:
+			abort(404, message="No workflows are available".format(id))
+		return workflows, 200
+
+class WorkflowAllResource(Resource):
+
+	@login_required
+	@marshal_with(workflow_all_fields)
+	def get(self, id): #id=user_id
+		if not current_user.is_authenticated:
+			abort(403, message="No permissions")
+		workflows = db.session.query(Workflow).all()
 		if not workflows:
 			abort(404, message="No workflows are available".format(id))
 		return workflows, 200

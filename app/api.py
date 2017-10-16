@@ -4,7 +4,7 @@ from flask_restful import Api
 from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource
 from resources.postgres.users import UserResource, UserListResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
-from resources.postgres.workflows import WorkflowResource, WorkflowListResource
+from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource
 from resources.postgres.protocols import ProtocolResource, ProtocolListResource, ProtocolByIDResource
 from resources.postgres.processes import ProcessResource, ProcessListResource
 from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource
@@ -44,6 +44,7 @@ api.add_resource(PipelineListResource, '/api/v1.0/projects/<int:id>/pipelines/',
 api.add_resource(PipelineResource, '/api/v1.0/projects/<int:project_id>/pipelines/<int:pipeline_id>/', endpoint = 'pipeline')
 
 api.add_resource(WorkflowListResource, '/api/v1.0/workflows/', endpoint = 'workflows')
+api.add_resource(WorkflowAllResource, '/api/v1.0/workflows/all/', endpoint = 'workflows')
 api.add_resource(WorkflowResource, '/api/v1.0/workflows/<int:id>', endpoint = 'workflow')
 
 api.add_resource(SpecieListResource, '/api/v1.0/species/', endpoint = 'species')

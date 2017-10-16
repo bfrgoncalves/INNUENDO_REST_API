@@ -48,6 +48,21 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	var workflows = new Workflows($http);
 	var projects_table = new Projects_Table(0, null, $http);
 
+
+	var workflows_col_defs = [
+    	{
+            "className":      'select-checkbox',
+            "orderable":      false,
+            "data":           null,
+            "defaultContent": ''
+        },
+        { "data": "name" },
+        { "data": "description" },
+        { "data": "date" }
+    ];
+
+    $scope.workflows_headers = ['Name', 'Type', 'Species', 'Availability'];
+
 	function modalAlert(text, callback){
 
     	$('#buttonSub').off("click");
@@ -71,6 +86,10 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		sortable('.sortable');
 		$scope.getProtocolTypes();
 		$scope.getSpecies();
+
+		workflows.get_all_workflows(function(results){
+	    	//objects_utils.loadDataTables('workflows_table', projects, project_col_defs);
+	    });
 	}
 
 	$scope.getProtocolTypes = function(){

@@ -477,6 +477,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			if (strainid != null) strainid = strains_dict[strainid];
 			//Get the pipeline ids for that strain
+			console.log(strainid);
 			pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, function(response, strainid){
 				var total_pipelines = response.data.length;
 				if(response.data.hasOwnProperty("message") == true) return callback({strains: "no_pipelines"});

@@ -81,7 +81,7 @@ class WorkflowSetAvailabilityResource(Resource):
 		workflow.availability = args.to_change
 		db.session.commit()
 
-		return workflows, 200
+		return workflow, 200
 
 
 class WorkflowListResource(Resource):

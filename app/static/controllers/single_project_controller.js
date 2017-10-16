@@ -88,7 +88,7 @@ function set_headers_single_project(global_strains){
 	            "defaultContent": ''
 	        }
 		];
-		
+
 		for(p in headers_order){
 			for(x in global_strains[0]){
 				if(x == dict_fields[headers_order[p]]){
@@ -474,9 +474,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		CURRENT_PROJECT_NAME_ID = CURRENT_PROJECT_ID;
 		
 		single_project.get_workflows("Procedure", CURRENT_SPECIES_NAME, function(pipelines){
+			console.log(pipelines);
 			$scope.pipelines = pipelines;
 
 			single_project.get_workflows("Classifier", CURRENT_SPECIES_NAME, function(pipelines){
+				console.log(pipelines);
 				$scope.pipelines_classifiers = pipelines;
 				$(".selectpicker").selectpicker({});				
 				callback();

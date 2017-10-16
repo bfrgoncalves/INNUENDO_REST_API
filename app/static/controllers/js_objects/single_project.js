@@ -346,13 +346,17 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			pg_requests.get_workflows(classifier, species_name, function(response){
 				if(response.status == 200){
+					to_send = [];
 					if (typeof response.data != 'string'){
 		                for (i in response.data){
 		                    pipelinesByName[response.data[i].name] = response.data[i].id;
 		                    pipelinesByID[response.data[i].id] = response.data[i].name;
+		                    if (response.data[i].availability == null || response.data[i].availability == "true"){
+		                    	to_send.append(response.data[i]);
+		                    }
 		                }
 		            }
-		            callback(response.data);
+		            callback(to_send);
 				}
 				else{
 					callback(response.data);

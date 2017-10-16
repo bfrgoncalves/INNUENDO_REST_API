@@ -26,7 +26,8 @@ workflow_set_availability_put_parser.add_argument('to_change', dest='to_change',
 workflow_fields = {
 	'id': fields.Integer,
 	'name': fields.String,
-	'timestamp': fields.DateTime
+	'timestamp': fields.DateTime,
+	'availability': fields.String
 }
 
 workflow_all_fields = {
@@ -35,7 +36,7 @@ workflow_all_fields = {
 	'timestamp': fields.DateTime,
 	'classifier': fields.String,
 	'species': fields.String,
-	'availability': fields.String,
+	'availability': fields.String
 
 }
 

@@ -61,7 +61,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
         { "data": "name" },
         { "data": "classifier" },
         { "data": "species" },
-        { "data": "availability" }
+        { "data": "availability" },
         { "data": "timestamp" }
     ];
 

@@ -140,6 +140,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	        	console.log(response);
 	            callback(response);
 	        }, function(response){
+	        	console.log(response);
 	        	callback(response);
 	        });
 		},

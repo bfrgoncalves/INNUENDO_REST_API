@@ -483,6 +483,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				global_counter_pipelines = 0;
 				if (response.status == 200){
 					for (i in response.data){
+						console.log(response.data[i]);
 						if(response.data[i].parent_pipeline_id != null){
 			                strainid_processes_buttons[response.data[i].strain_id] = [{}];
 			                ppipid = response.data[i].parent_pipeline_id;

@@ -224,6 +224,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			if(response.status == 200){
 				//For each pipeline applied on that strain, checks if the project associated is the CURRENT_PROJECT_ID
 				for(x in response.data){
+					console.log(response.data[x]);
 					if(response.data[x].project_id == CURRENT_PROJECT_ID){
 						new_pipeline_id = response.data[x].id;						
 						callback(strainid, response.data[x].id);
@@ -477,14 +478,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			if (strainid != null) strainid = strains_dict[strainid];
 			//Get the pipeline ids for that strain
-			console.log(strainid);
 			pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, function(response, strainid){
 				var total_pipelines = response.data.length;
 				if(response.data.hasOwnProperty("message") == true) return callback({strains: "no_pipelines"});
 				global_counter_pipelines = 0;
 				if (response.status == 200){
 					for (i in response.data){
-						console.log(response.data[i]);
 						if(response.data[i].parent_pipeline_id != null){
 			                strainid_processes_buttons[response.data[i].strain_id] = [{}];
 			                ppipid = response.data[i].parent_pipeline_id;

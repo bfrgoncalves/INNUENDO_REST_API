@@ -47,6 +47,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	var protocols = new Protocol_List($http);
 	var workflows = new Workflows($http);
 	var projects_table = new Projects_Table(0, null, $http);
+	var objects_utils = new Objects_Utils();
 
 
 	var workflows_col_defs = [

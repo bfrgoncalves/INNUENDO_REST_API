@@ -29,6 +29,8 @@ function Protocol_List($http){
 
     function processProtocolForm(property, uri){
 
+    	console.log(property);
+
 		if(property == 'used Parameter'){
 			return ["button", "text", uri];
 		}

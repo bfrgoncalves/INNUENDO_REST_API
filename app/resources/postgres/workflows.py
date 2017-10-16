@@ -73,6 +73,7 @@ class WorkflowSetAvailabilityResource(Resource):
 			abort(403, message="No permissions")
 
 		args = workflow_set_availability_put_parser.parse_args()
+		print args
 		workflow = db.session.query(Workflow).filter(Workflow.id == args.identifier).first()
 		if not workflow:
 			abort(404, message="No workflows are available".format(id))

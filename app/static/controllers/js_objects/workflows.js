@@ -77,7 +77,7 @@ function Workflows($http){
 				else availability = "true";
 		        return [data.id, availability];
 		    });
-		    pg_requests.change_workflow_state(selected_data[0], function(response){
+		    pg_requests.change_workflow_state(selected_data, function(response){
 		    	callback(response);
 		    });
 		    console.log(selected_data);

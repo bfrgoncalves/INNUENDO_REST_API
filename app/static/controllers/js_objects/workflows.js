@@ -80,7 +80,6 @@ function Workflows($http){
 		    pg_requests.change_workflow_state(selected_data, function(response){
 		    	callback(response);
 		    });
-		    console.log(selected_data);
 		},
 
 		/*

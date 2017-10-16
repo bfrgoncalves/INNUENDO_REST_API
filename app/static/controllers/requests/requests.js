@@ -118,7 +118,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	        }
 
 	        $http(req).then(function(response){
-	        	console.log(response);
 	            callback(response);
 	        }, function(response){
 	        	callback(response);
@@ -127,7 +126,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		change_workflow_state: function(selected_data, callback){
 
-			console.log(selected_data)
 			req = {
 	            url:'api/v1.0/workflows/availability/',
 	            method:'PUT',

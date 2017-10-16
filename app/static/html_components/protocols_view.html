@@ -23,7 +23,7 @@
 		    			<button name="protocol_{{key}}" class="btn btn-md btn-primary" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
 		    			<button name="protocol_{{key}}" class="btn btn-md btn-danger" ng-if="type[0] == 'button'" ng-click="removeSelectedParameter()">Remove Parameter</button>
 		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'text'">
-		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'required'" required>
+		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'required'" ng-required="required">
 		    			<textarea name="protocol_{{key}}" class="form-control to_empty" ng-if="type[0] == 'textarea'"></textarea>
 						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
 							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->

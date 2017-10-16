@@ -263,8 +263,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
     	$('#buttonSub').one("click", function(){
     		$('#modalAlert').modal("hide");
-    		console.log("Alert");
-
     		setTimeout(function(){return callback()}, 400);
     	})
 
@@ -889,12 +887,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		var table = $('#saved_reports_table').DataTable();
     
 	    var selected_job_ids = $.map(table.rows('.selected').data(), function(data){
-	       console.log(data);
 	       return data.run_identifiers.split(',');
 	    });
 
 	    var current_names = $.map(table.rows('.selected').data(), function(data){
-	    	console.log(data);
 	       return data.strain_names.split(',');
 	    });
 
@@ -1153,8 +1149,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$('#reports_metadata_table thead').css({'visibility':'visible'});
 				$('#reports_metadata_table tfoot').css({'visibility':'visible'});
 
-				console.log(current_strains_data);
-
 				headers_defs = set_headers_reports(current_strains_data, null);
 				
 				reports_metadata_table_headers = headers_defs[1];
@@ -1185,8 +1179,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	function show_results_and_info(job_ids, callback){
 		
 		reports.get_multiple_user_reports(job_ids, function(response){
-
-			console.log(response);
 
 			if(response == null){
 				modalAlert('Please select a report first.', function(){});
@@ -1580,61 +1572,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				modalAlert("Your request was sent to PHYLOViZ Online server. You will be notified when the tree is ready to be visualized. All available trees can be found on the Trees tab at the Reports menu.", function(){
 
 				});
-				/*
-				var to_phyloviz = "";
-				if(response.data.indexOf("http") < 0){
-					to_phyloviz = "An error as occuried when uploading data to PHYLOViZ Online";
-					$('#phyloviz_output').empty();
-					$('#phyloviz_output').append(to_phyloviz);
-				}
-				else{
-
-					to_phyloviz = "<button class='btn btn-md btn-info' id='button_view_phyloviz'>View Tree</button>";
-					$('#phyloviz_output').empty();
-					$('#phyloviz_output').append(to_phyloviz);
-					$("#button_view_phyloviz").on("click", function(){
-						window.open('http'+response.data.split('http')[1],'_blank');
-					});
-				}
-				*/ 
 			});
 
 		});
-
-		/*var total_results = [];
-
-		//profile
-		mergeResultsData(table_id_profile, function(results_profile){
-
-			if(results_profile[1].length < 2) return objects_utils.show_message('s_report_message_div', 'warning', 'Two or more strains need to be selected for comparison using PHYLOViZ Online.')
-			
-			console.log(results_profile);
-			total_results.push(results_profile);
-
-			//metadata
-			mergeResultsData(table_id_metadata, function(results_metadata){
-				console.log(results_metadata);
-				total_results.push(results_metadata);
-				//Send to phyloviz
-				reports.sendToPHYLOViZ(total_results, function(response){
-					var to_phyloviz = "";
-					if(response.data.indexOf("http") < 0){
-						to_phyloviz = "An error as occuried when uploading data to PHYLOViZ Online";
-						$('#phyloviz_output').empty();
-						$('#phyloviz_output').append(to_phyloviz);
-					}
-					else{
-
-						to_phyloviz = "<button class='btn btn-md btn-info' id='button_view_phyloviz'>View Tree</button>";
-						$('#phyloviz_output').empty();
-						$('#phyloviz_output').append(to_phyloviz);
-						$("#button_view_phyloviz").on("click", function(){
-							window.open('http'+response.data.split('http')[1],'_blank');
-						});
-					} 
-				});
-			});
-		});*/	
 	}
 
 	$scope.deleteFromReports = function(){
@@ -1668,11 +1608,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		    var inter_meta = [];
 
 		    for(i in keys){
-		    	console.log(current_procedure, keys[i]);
+		    	//console.log(current_procedure, keys[i]);
 		    	if(current_procedure.indexOf(keys[i]) > -1){
 		    		for(k in global_results_dict[keys[i]][0]){
 			    		if($.inArray(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids) == -1){
-			    			console.log(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids, run_infos[k])
+			    			//console.log(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids, run_infos[k])
 			    			inter_info.push(run_infos[k]);
 			    		}
 				    }
@@ -1733,7 +1673,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			reports_results_table_headers = headers_defs_results[1];
 			reports_metadata_table_headers = headers_defs_metadata[1];
 
-			console.log(headers_defs_info, headers_defs_results, headers_defs_metadata)
+			//console.log(headers_defs_info, headers_defs_results, headers_defs_metadata)
 
 			objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
 				objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){

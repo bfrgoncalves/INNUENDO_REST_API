@@ -12,10 +12,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    }, function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    });
 		},
@@ -29,10 +27,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    }, function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    });
 		},
@@ -89,10 +85,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response);
 		    }, function(response){
-		    	console.log(response);
 		    	callback(response);
 		    });
 		    
@@ -256,7 +250,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		},
 		get_multiple_user_reports: function(job_ids, callback){
-			console.log('IDS', job_ids);
 		    req = {
 		        url: 'api/v1.0/reports/', //Defined at utils.js
 		        method:'GET',

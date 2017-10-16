@@ -76,7 +76,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     	$('#buttonSub').one("click", function(){
     		$('#modalAlert').modal("hide");
-    		console.log("Alert");
 
     		setTimeout(function(){return callback()}, 400);
     	})
@@ -96,14 +95,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     	$('#buttonSub').one("click", function(){
     		//$('#buttonSub').off("click");
     		$('#modalAlert').modal("hide");
-    		console.log("AlertTrue");
     		setTimeout(function(){return callback(true)}, 400);
     	})
 
     	$('#buttonCancelAlert').one("click", function(){
     		//$('#buttonCancelAlert').off("click");
     		$('#modalAlert').modal("hide");
-    		console.log("AlertFalse");
     		setTimeout(function(){return callback(false)}, 400);
     	})
 
@@ -1429,9 +1426,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			}
 			else real_p_data = strain_to_real_pip[strains_dict[buttons_to_strain_names[button_id]]][button_position-1];
 
-			ngs_onto_requests.ngs_onto_request_get_processes_outputs(real_p_data[0], real_p_data[1], real_p_data[2], function(response){
-				callback(response);
-			});
+			if(real_p_data == undefined){
+				modalAlert('The output you are trying to obtain is not available yet.', function(){
+
+				});
+			}
+			else{
+				ngs_onto_requests.ngs_onto_request_get_processes_outputs(real_p_data[0], real_p_data[1], real_p_data[2], function(response){
+					callback(response);
+				});
+			}		
 		},
 
 		/*

@@ -123,7 +123,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	        }, function(response){
 	        	callback(response);
 	        });
-		}
+		},
 
 		get_species_projects: function(species_id, is_others, callback){
 

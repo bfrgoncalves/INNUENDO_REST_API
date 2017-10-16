@@ -874,6 +874,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#saveReportModal').modal('hide');
 		
 		reports.save_reports(current_job_ids, current_strain_names, function(response){
+			console.log(response);
 			saved_reports.push(response.data[0])
 			objects_utils.destroyTable('saved_reports_table');
 			objects_utils.loadDataTables('saved_reports_table', saved_reports, user_saved_reports_col_defs, saved_reports_headers);

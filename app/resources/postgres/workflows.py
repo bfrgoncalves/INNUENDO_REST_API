@@ -73,11 +73,11 @@ class WorkflowSetAvailabilityResource(Resource):
 			abort(403, message="No permissions")
 
 		args = workflow_set_availability_put_parser.parse_args()
-		workflow = db.session.query(Workflow).filter(Workflow.id == args.id).first()
+		workflow = db.session.query(Workflow).filter(Workflow.id == args.identifier).first()
 		if not workflow:
 			abort(404, message="No workflows are available".format(id))
 
-		workflow.availability = args.state
+		workflow.availability = args.to_change
 		db.session.commit()
 
 		return workflows, 200

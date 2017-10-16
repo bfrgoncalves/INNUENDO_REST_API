@@ -90,7 +90,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		$scope.getSpecies();
 
 		workflows.get_all_workflows(function(results){
-	    	//objects_utils.loadDataTables('workflows_table', projects, project_col_defs);
+	    	objects_utils.loadDataTables('workflows_table', results, workflows_col_defs);
 	    });
 	}
 

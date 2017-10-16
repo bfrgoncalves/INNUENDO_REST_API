@@ -35,6 +35,7 @@ workflow_all_fields = {
 	'timestamp': fields.DateTime,
 	'classifier': fields.String,
 	'species': fields.String,
+	'availability': fields.String,
 
 }
 

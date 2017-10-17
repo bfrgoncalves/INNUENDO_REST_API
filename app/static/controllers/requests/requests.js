@@ -674,7 +674,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		},
 		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, callback){
 
-			console.log(protocol_ids, pipeline_id, process_id, strainName);
+			//console.log(protocol_ids, pipeline_id, process_id, strainName);
 
 		    req = {
 		        url: 'api/v1.0/jobs/',
@@ -692,7 +692,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    		console.log(response);
 		            callback(response, strain_name);
 		        },
 		        function(response){
@@ -701,7 +700,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		},
 		get_job_status: function(job_id, procedure_name, sample_name, pipeline_id, process_position, project_id, process_id, callback){
-		    console.log(process_id);
+			
 		    req = {
 		        url: 'api/v1.0/jobs/',
 		        method:'GET',

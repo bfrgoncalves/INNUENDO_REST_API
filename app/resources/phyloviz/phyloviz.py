@@ -39,6 +39,7 @@ phyloviz_post_parser.add_argument('missing_data', dest='missing_data', type=str,
 phyloviz_post_parser.add_argument('missing_char', dest='missing_char', type=str, required=False, default="None", help="missing character")
 phyloviz_post_parser.add_argument('phyloviz_user', dest='phyloviz_user', type=str, required=True, default="None", help="phyloviz_user")
 phyloviz_post_parser.add_argument('phyloviz_pass', dest='phyloviz_pass', type=str, required=True, default="None", help="phyloviz_pass")
+phyloviz_post_parser.add_argument('makePublic', dest='makePublic', type=str, required=True, default="None", help="make public")
 #Load job results to display on graphical interface
 
 #Defining get arguments parser
@@ -57,7 +58,7 @@ class PHYLOViZResource(Resource):
 	@login_required
 	def post(self):
 		args=phyloviz_post_parser.parse_args()
-		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id, args.species_id, args.missing_data, args.missing_char, args.phyloviz_user, args.phyloviz_pass)
+		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id, args.species_id, args.missing_data, args.missing_char, args.phyloviz_user, args.phyloviz_pass, args.makePublic)
 		return jobID, 201
 
 	@login_required

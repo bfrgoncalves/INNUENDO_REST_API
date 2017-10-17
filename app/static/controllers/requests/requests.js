@@ -885,7 +885,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	missing_data: $('#missing_data_checkbox').is(":checked"),
 		        	missing_char: $('#missing_data_character').val(),
 					phyloviz_user: $('#phyloviz_user').val(),
-					phyloviz_pass: $('#phyloviz_pass').val()
+					phyloviz_pass: $('#phyloviz_pass').val(),
+					makePublic: $('#makePublic_checkbox').is(":checked")
 		    	}
 		    }
 		    

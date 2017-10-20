@@ -200,7 +200,7 @@ class Job_classify_chewbbaca(Resource):
 #Load job results to display on graphical interface
 class Job_Result_Download(Resource):
 
-	@login_required
+	#@login_required
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		print JOBS_ROOT + 'results/download/'

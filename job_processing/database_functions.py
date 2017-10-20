@@ -115,6 +115,7 @@ def classify_profile(job_id, database_name):
 
 		if len(closest_profiles) == 0:
 			classification = "undefined"
+			print "HERE"
 		else:
 			closest_ids = []
 			for i, x in enumerate(closest_profiles):

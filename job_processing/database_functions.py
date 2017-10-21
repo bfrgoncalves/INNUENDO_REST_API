@@ -126,7 +126,7 @@ def classify_profile(job_id, database_name):
 			#ID\tDIFFERENCES
 			first_closest = closest_profiles[0].split("\t")
 
-		print "Closest:" + first_closest[0]
+		print "Closest:" + str(first_closest[0])
 
 		if report.sample_name.replace(" ", "_") in closest_ids:
 			print "ALREADY ON DB AND INDEX"

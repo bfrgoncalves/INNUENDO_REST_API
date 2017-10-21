@@ -126,6 +126,8 @@ def classify_profile(job_id, database_name):
 			#ID\tDIFFERENCES
 			first_closest = closest_profiles[0].split("\t")
 
+		print "Closest:" + first_closest[0]
+
 		if report.sample_name.replace(" ", "_") in closest_ids:
 			print "ALREADY ON DB AND INDEX"
 			return True
@@ -139,7 +141,7 @@ def classify_profile(job_id, database_name):
 
 			print classification
 
-			'''try:
+			try:
 				new_database_entry = database_correspondece[database_name](name = report.sample_name.replace(" ", "_"), classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
 				
 				db.session.add(new_database_entry)
@@ -190,7 +192,7 @@ def classify_profile(job_id, database_name):
 			status = fast_mlst_functions.update_index(wg_increment_profile_file_correspondece[database_name], wg_index_correspondece[database_name])
 
 			print "INDEX UPDATED"
-			'''
+			
 
 	##ADD TO DB AND UPDATE INDEX
 

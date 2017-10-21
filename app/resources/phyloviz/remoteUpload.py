@@ -163,7 +163,9 @@ def remoteUpload(args, currentRoot): #upload the input files to the database
 					  -F numberOfFiles='+ str(numberOfFiles) +' \
 					  '+currentRoot+'/api/db/postgres/upload'
 
+	print bashCommandUpload.split()
 	process = subprocess.Popen(bashCommandUpload.split(), stdout=subprocess.PIPE)
+	print process.communicate()
 	output = json.loads(process.communicate()[0])
 
 	if "errorMessage" in output:

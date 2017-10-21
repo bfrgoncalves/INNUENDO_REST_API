@@ -795,7 +795,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		download_file: function(path, callback){
 
-
 			req = {
 		        //url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
 		        url: 'api/v1.0/jobs/results/download/',

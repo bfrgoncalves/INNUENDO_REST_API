@@ -1307,6 +1307,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			prevjobid = '';
 			countstrains = 0;
 			count_processes = 0;
+			count_strains_without_process = 0;
 
 			var countStrain = {};
 
@@ -1323,56 +1324,97 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				console.log(strain_processes);
 
-				for(s_p in strain_processes){
+				if(strain_processes.length == 0){
+					countstrains += 1;
+					//Fix workflows positions.
+					if(countstrains == count_processes){
+						var table = $('#strains_table').DataTable();
+						var strain_data = $.map(table.rows().data(), function(item){
+					        return item;
+					    });
+					    toAdd_lab_protocols = "";
+					    toAdd_analysis = "";
 
-					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
-						strain_id = strain_id.trim();
-						for(l in response.data){
-							if(response.data[l].length != 0){
-								t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
-								count_process[strain_id]+=1;
-								tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
-								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
-								buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
-								prevjobid = t_id.split('_')[0];
-								dict_of_tasks_status[t_id] = '';
-								periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
-							}
-						}
-						countstrains += 1;
-
-						//Fix workflows positions.
-						if(countstrains == count_processes){
-							var table = $('#strains_table').DataTable();
-							var strain_data = $.map(table.rows().data(), function(item){
-						        return item;
-						    });
-						    toAdd_lab_protocols = "";
-						    toAdd_analysis = "";
-
-						    for(x in strain_data){
-						    	toAdd_lab_protocols = "";
-						    	toAdd_analysis = "";
-						    	var s_name = strain_data[x]['strainID'];
-						    	for(j in pipelines_applied[s_name]){
-						    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
-						    			if(buttons_to_tasks[pipeline_id] != undefined && buttons_to_tasks[pipeline_id].indexOf("null")>-1){
-						    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
-						    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");
-						    			}
-						    			else{
-						    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
-						    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
-						    			}
-							    }
-							    strain_data[x]["Analysis"] = toAdd_analysis;
-							    strain_data[x]['lab_protocols'] = toAdd_lab_protocols;
-
+					    for(x in strain_data){
+					    	toAdd_lab_protocols = "";
+					    	toAdd_analysis = "";
+					    	var s_name = strain_data[x]['strainID'];
+					    	for(j in pipelines_applied[s_name]){
+					    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
+					    			if(buttons_to_tasks[pipeline_id] != undefined && buttons_to_tasks[pipeline_id].indexOf("null")>-1){
+					    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
+					    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");
+					    			}
+					    			else{
+					    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
+					    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
+					    			}
 						    }
-						    callback({strains:strain_data});
-						}
-					})
+						    strain_data[x]["Analysis"] = toAdd_analysis;
+						    strain_data[x]['lab_protocols'] = toAdd_lab_protocols;
+
+					    }
+					    callback({strains:strain_data});
+					}
 				}
+				else{
+
+					for(s_p in strain_processes){
+
+						ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
+							strain_id = strain_id.trim();
+							for(l in response.data){
+								if(response.data[l].length != 0){
+									t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
+									count_process[strain_id]+=1;
+									tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
+									buttons_to_tasks[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
+									buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
+									prevjobid = t_id.split('_')[0];
+									dict_of_tasks_status[t_id] = '';
+									periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
+								}
+							}
+							countstrains += 1;
+
+							//Fix workflows positions.
+							if(countstrains == count_processes){
+								var table = $('#strains_table').DataTable();
+								var strain_data = $.map(table.rows().data(), function(item){
+							        return item;
+							    });
+							    toAdd_lab_protocols = "";
+							    toAdd_analysis = "";
+
+							    for(x in strain_data){
+							    	toAdd_lab_protocols = "";
+							    	toAdd_analysis = "";
+							    	var s_name = strain_data[x]['strainID'];
+							    	for(j in pipelines_applied[s_name]){
+							    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
+							    			if(buttons_to_tasks[pipeline_id] != undefined && buttons_to_tasks[pipeline_id].indexOf("null")>-1){
+							    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
+							    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");
+							    			}
+							    			else{
+							    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
+							    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
+							    			}
+								    }
+								    strain_data[x]["Analysis"] = toAdd_analysis;
+								    strain_data[x]['lab_protocols'] = toAdd_lab_protocols;
+
+							    }
+							    callback({strains:strain_data});
+							}
+						})
+					}
+
+				}
+
+				
+
+
 			}			
 		},
 

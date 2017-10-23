@@ -308,7 +308,6 @@ function Objects_Utils(){
 	        var workflowids = [];
 
 	        numberOfWorkflows = workflow_ids.length;
-	        console.log(workflow_ids.length);
 	        
 	        for(w in workflow_ids){
 	        	count+=1;

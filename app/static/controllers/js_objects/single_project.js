@@ -1312,6 +1312,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var countStrain = {};
 
 			if (strains.length == 0) return callback({strains:[]});
+			else nstrains = strains.length;
+			
 			for(i in strains){
 				p_id_to_use = CURRENT_PROJECT_ID;
 
@@ -1327,6 +1329,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if(strain_processes.length == 0){
 					countstrains += 1;
 					//Fix workflows positions.
+					console.log(countstrains, count_processes);
 					if(countstrains == count_processes){
 						var table = $('#strains_table').DataTable();
 						var strain_data = $.map(table.rows().data(), function(item){

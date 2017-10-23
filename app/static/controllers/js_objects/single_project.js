@@ -1324,13 +1324,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				countStrain[strains[i].strainID] = 0;
 
-				console.log(strain_processes);
-
+				//Case has pipelines but no processes
 				if(strain_processes.length == 0){
-					countstrains += 1;
+					count_strains_without_process += 1;
 					//Fix workflows positions.
-					console.log(countstrains, count_processes);
-					if(countstrains == count_processes){
+					console.log(count_strains_without_process, nstrains);
+					if(count_strains_without_process == nstrains){
 						var table = $('#strains_table').DataTable();
 						var strain_data = $.map(table.rows().data(), function(item){
 					        return item;

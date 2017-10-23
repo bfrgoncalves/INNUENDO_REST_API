@@ -340,6 +340,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
             			//Get the pipelines applied to those strains
             			$scope.getAppliedPipelines(null, function(strains_results){
 		                	objects_utils.destroyTable('strains_table');
+		                	console.log("APPLIED PIPELINES", strains_results);
 
 		                	if(strains_results.strains == "no_pipelines"){	
 		                		headers_defs = set_headers_single_project(global_strains);

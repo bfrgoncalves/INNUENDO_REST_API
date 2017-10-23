@@ -308,6 +308,7 @@ function Objects_Utils(){
 	        var workflowids = [];
 
 	        numberOfWorkflows = workflow_ids.length;
+	        console.log(workflow_ids.length);
 	        
 	        for(w in workflow_ids){
 	        	count+=1;
@@ -347,6 +348,7 @@ function Objects_Utils(){
 	            }
 	            if(count == workflow_ids.length) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
 	        }
+	        if(workflow_ids.length == 0) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
 	    },
 	    show_message: function(element, type, message){
 

@@ -246,8 +246,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		ngs_onto_requests.ngs_onto_request_applied_pipelines(pipeline_id, project_id, strain_id, function(response, strain_id,p,q){
         	var response_length=response.data.length;
         	var counter = 0;
-        	console.log("STATUS NGSONTO", response.status);
-        	console.log(total_pipelines);
+
         	if(response.status == 200){
         		var appliedPipelines = [];
         		strain_to_real_pip[strain_id] = [];
@@ -1328,7 +1327,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if(strain_processes.length == 0){
 					count_strains_without_process += 1;
 					//Fix workflows positions.
-					console.log(count_strains_without_process, nstrains);
 					if(count_strains_without_process == nstrains){
 						var table = $('#strains_table').DataTable();
 						var strain_data = $.map(table.rows().data(), function(item){

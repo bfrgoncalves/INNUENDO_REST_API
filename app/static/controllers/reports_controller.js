@@ -540,6 +540,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			aux_results['Sample'] = sample_name;
 			for(x in report_data.run_output){
 				if(x == 'header') continue;
+				if(x == 'stats') continue;
 				aux_results[x] = report_data.run_output[x]
 
 			//return callback([aux_info, aux_results], job);

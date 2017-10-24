@@ -695,7 +695,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		            callback(response, strain_name);
 		        },
 		        function(response){
-		        	console.log(response);
 		            callback(response, strain_name);
 		    });
 

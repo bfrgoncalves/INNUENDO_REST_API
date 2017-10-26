@@ -194,7 +194,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				string_profile = string_profile.replace(k,v)
 
 			for k,v in to_replace_0EM.iteritems():
-				string_list = string_list.replace(k,v)
+				string_profile = string_profile.replace(k,v)
 
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)
 

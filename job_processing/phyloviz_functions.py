@@ -186,9 +186,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			string_metadata = []
 			for x in headers:
 				if x != "ID":
-					if headers[x] == "C_RS17110.fasta" and strain_from_db.name == "1910152-E-coli":
+					if x == "C_RS17110.fasta" and strain_from_db.name == "1910152-E-coli":
 						print "##############"
-						print headers[x], strain_from_db.allelic_profile[x]
+						print x, strain_from_db.allelic_profile[x]
 					string_profile.append(strain_from_db.allelic_profile[x])
 
 			string_profile = "\t".join(string_profile)

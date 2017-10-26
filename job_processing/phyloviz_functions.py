@@ -114,6 +114,13 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			new_profile = []
 			string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
+			if report.sample_name == "1910152-E-coli":
+				for i, z in enumerate(headers):
+					if z == "C_RS17110.fasta":
+						print "JOBID##############"
+						print z, report.report_data["run_output"]["run_output.fasta"][i]
+
+
 			for k,v in to_replace.iteritems():
 				string_list = string_list.replace(k,v)
 

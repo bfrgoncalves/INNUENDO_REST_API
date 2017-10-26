@@ -28,6 +28,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
 
 	to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
+	to_replace_0EM = {"0EM": "0"}
 
 	profile_tab_file_path = './chewbbaca_database_profiles/query_files/'+file_name+'_profile.tab'
 
@@ -116,6 +117,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			for k,v in to_replace.iteritems():
 				string_list = string_list.replace(k,v)
 
+			for k,v in to_replace_0EM.iteritems():
+				string_list = string_list.replace(k,v)
+
+
 			strains_selected_from_plat.append(report.sample_name)
 			all_profiles.append(report.sample_name + "\t" + string_list)
 
@@ -187,7 +192,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 			for k,v in to_replace.iteritems():
 				string_profile = string_profile.replace(k,v)
-				
+
+			for k,v in to_replace_0EM.iteritems():
+				string_list = string_list.replace(k,v)
+
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)
 
 			#INCLUDE METADATA FROM PLATFORM IF STRAIN FROM THERE

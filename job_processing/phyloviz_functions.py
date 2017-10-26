@@ -183,10 +183,11 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				if x != "ID":
 					string_profile.append(strain_from_db.allelic_profile[x])
 
+			string_profile = "\t".join(string_profile)
+
 			for k,v in to_replace.iteritems():
 				string_profile = string_profile.replace(k,v)
-
-			string_profile = "\t".join(string_profile)
+				
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)
 
 			#INCLUDE METADATA FROM PLATFORM IF STRAIN FROM THERE

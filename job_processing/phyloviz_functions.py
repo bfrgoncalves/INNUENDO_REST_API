@@ -114,11 +114,11 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			new_profile = []
 			string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
 
-			if report.sample_name == "1910152-E-coli":
+			'''if report.sample_name == "1910152-E-coli":
 				for i, z in enumerate(headers):
 					if z == "C_RS17110.fasta":
 						print "JOBID##############"
-						print z, report.report_data["run_output"]["run_output.fasta"][i]
+						print z, report.report_data["run_output"]["run_output.fasta"][i]'''
 
 
 			for k,v in to_replace.iteritems():
@@ -193,9 +193,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			string_metadata = []
 			for x in headers:
 				if x != "ID":
-					if x == "C_RS17110.fasta" and strain_from_db.name == "1910152-E-coli":
+					'''if x == "C_RS17110.fasta" and strain_from_db.name == "1910152-E-coli":
 						print "##############"
-						print x, strain_from_db.allelic_profile[x]
+						print x, strain_from_db.allelic_profile[x]'''
 					string_profile.append(strain_from_db.allelic_profile[x])
 
 			string_profile = "\t".join(string_profile)

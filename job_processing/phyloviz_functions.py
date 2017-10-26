@@ -27,6 +27,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	file_path_profile = './app/uploads/'+file_name+'_profile.tab'
 	file_path_metadata = './app/uploads/'+file_name+'_metadata.tab'
 
+	to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
+
 	profile_tab_file_path = './chewbbaca_database_profiles/query_files/'+file_name+'_profile.tab'
 
 	if not os.path.isdir("./app/uploads"):
@@ -96,9 +98,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	count_ids = 0
 	additional_data = json.loads(additional_data)
-
-	to_replace = {"LNF": "0", "INF-": "", "NIPHEM": "0", "NIPH": "0", "LOTSC": "0", "PLOT3": "0", "PLOT5": "0", "ALM": "0", "ASM": "0"}
-
 
 	for job_id in total_j_ids:
 		body_profile = [];
@@ -183,6 +182,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			for x in headers:
 				if x != "ID":
 					string_profile.append(strain_from_db.allelic_profile[x])
+
+			for k,v in to_replace.iteritems():
+				string_profile = string_profile.replace(k,v)
 
 			string_profile = "\t".join(string_profile)
 			all_profiles.append(strain_from_db.name + "\t" + string_profile)

@@ -56,9 +56,9 @@ security = Security(app, user_datastore)
 
 from .adminutils import UserAdmin, RoleAdmin
 from flask_admin import Admin
-from flask_mail import Mail
+#from flask_mail import Mail
 #initialize mailer
-mail = Mail(app)
+#mail = Mail(app)
 
 
 #setup agraph

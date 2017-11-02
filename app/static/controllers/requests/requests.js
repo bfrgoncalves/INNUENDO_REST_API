@@ -902,7 +902,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		delete_tree: function(tree_name, callback){
 			req = {
-		        url: 'api/v1.0/phyloviz/',
+		        url: 'api/v1.0/phyloviz/trees/',
 		        method:'DELETE',
 		        data: {
 		        	tree_name: tree_name

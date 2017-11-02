@@ -53,6 +53,7 @@ function Workflows($http){
 		add_protocol_to_workflow: function(protocol_name, callback){
 			if(Object.keys(added_protocols).length > 0) return callback({more_than_one:true, added_protocols:added_protocols});
 
+			console.log(protocols);
 			if(!added_protocols.hasOwnProperty(protocol_name)){
 				added_protocols[protocol_name] = protocols[protocol_name];
 			}

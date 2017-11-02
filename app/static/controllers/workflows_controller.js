@@ -177,7 +177,7 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 
 	$scope.addToPipeline = function(){
-		console.log($("#protocol_selector_load option:selected").text());
+
 		workflows.add_protocol_to_workflow($("#protocol_selector_load option:selected").text(), function(results){
 			if(results.more_than_one == true) modalAlert("At the moment, only one protocol can be applied to the workflow. We will improve this option in the near future.", function(){
 				$scope.added_protocols = results.added_protocols;

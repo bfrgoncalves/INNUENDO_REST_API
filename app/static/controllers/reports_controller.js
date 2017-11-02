@@ -502,7 +502,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				//aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
 				info_data = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]];
 				var info_to_add = "";
-				var div_to_add = "<div style='width:100%;height:100%;background-color:";
+				var div_to_add = "<div style='display:inline-block;background-color:";
 				var div_color="";
 				if(info_data[0] == true) info_to_add += "Run: Yes<br/>";
 				else info_to_add += "Run: No<br/>";

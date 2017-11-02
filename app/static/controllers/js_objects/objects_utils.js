@@ -151,7 +151,8 @@ function Objects_Utils(){
             }
 	    });
 
-	    if (table_id.indexOf('reports') == -1){
+	    console.log(table_id.indexOf('reports'), table_id)
+	    if (table_id.indexOf('reports') < 0){
 	    	// Apply the search
 		    table.columns().every( function () {
 		        var that = this;

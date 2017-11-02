@@ -901,7 +901,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		},
 
 		delete_tree: function(tree_name, callback){
-			console.log(tree_name);
+
 			req = {
 		        url: 'api/v1.0/phyloviz/trees/',
 		        method:'DELETE',
@@ -911,7 +911,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 		    
 		    $http(req).then(function(response){
-		    		console.log(response);
 		            callback(response);
 		        },
 		        function(response){

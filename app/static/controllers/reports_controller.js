@@ -499,14 +499,15 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				//aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
 				info_data = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]];
 				var info_to_add = "";
-				if(info_data[0] == true) info_data += "Run: Yes";
-				if(info_data[1] == true) info_data += "Succedeed: Yes"
-				else if (info_data[1] == true && Object.keys(info_data[4]).length > 0) {
+				if(info_data[0] == true) info_to_add += "Run: Yes";
+				if (info_data[1] == true && Object.keys(info_data[4]).length > 0) {
 					info_to_add += "Succedeed: Yes. With warning. \n"
 					for (key in Object.keys(info_data[4])){
 						info_to_add += key + ":"+info_data[4][key]+"\n"
 					}
 				}
+				else if(if(info_data[1] == true) info_to_add += "Succedeed: Yes")
+				
 				aux_info[run_info_keys[info_key]] = info_to_add;
 			}
 			var run_results_keys = Object.keys(report_data.run_stats[identifier]);

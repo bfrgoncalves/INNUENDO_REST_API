@@ -905,7 +905,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			req = {
 		        url: 'api/v1.0/phyloviz/trees/',
 		        method:'DELETE',
-		        data: {
+		        params: {
 		        	tree_name: tree_name
 		    	}
 		    }

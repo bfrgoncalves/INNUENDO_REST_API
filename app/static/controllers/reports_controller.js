@@ -516,11 +516,15 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			}
 			var run_results_keys = Object.keys(report_data.run_stats[identifier]);
 
+			var index = run_results_keys.indexOf("final_assembly");
+			run_results_keys.splice(index, 1);
+
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
 			for(results_key in run_results_keys){
-				aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
+					aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
 			}
+
 			return callback([aux_info, aux_results], job);
 		}
 		else if(procedure.indexOf('chewBBACA') > -1){

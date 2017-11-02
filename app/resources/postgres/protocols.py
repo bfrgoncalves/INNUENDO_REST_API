@@ -81,7 +81,7 @@ class ProtocolListResource(Resource):
 		if args.type:
 			filteredProtocols = []
 			for i in protocols:
-				protocol = json.loads(i.steps.replace(" u'", "'").replace("'", '"'))
+				protocol = json.loads(i.steps.replace("u'", "'").replace("'", '"'))
 				if protocol["protocol_type"] == args.type.replace('"',''):
 					filteredProtocols.append(i)
 			return filteredProtocols

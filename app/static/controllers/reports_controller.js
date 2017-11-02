@@ -499,7 +499,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				//aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
 				info_data = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]];
 				var info_to_add = "";
-				if(info_data[0] == true) info_to_add += "<p class='cell_paragraph'>Run: Yes</p>";
+				if(info_data[0] == true) info_to_add += "<p class='cell_paragraph' style='font-size:10px;'>Run: Yes</p>";
 				else info_to_add += "<p class='cell_paragraph'>Run: No</p>";
 				if (info_data[1] == true && info_data[4] != undefined && Object.keys(info_data[4]).length > 0) {
 					info_to_add += "<p class='cell_paragraph'>Succeeded: Yes. With warning.</p>";

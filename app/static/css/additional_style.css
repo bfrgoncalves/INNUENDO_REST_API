@@ -135,6 +135,6 @@ table.display{
   background-color: #eeffff
 }
 
-.cell_paragraph{
+table tbody tr th .cell_paragraph{
   font-size: 10px;
 }

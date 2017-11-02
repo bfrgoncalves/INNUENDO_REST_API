@@ -511,6 +511,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					}
 				}
 				else if (info_data[1] == true) info_to_add += "Succedeed: Yes<br/>";
+				else if(info_data[1] == false){
+					info_to_add += "Succedeed: False<br/>";
+					for (key in info_data[3]){
+						info_to_add += key + ":"+info_data[3][key]+"<br/>"
+					}
+				}
 				
 				aux_info[run_info_keys[info_key]] = info_to_add;
 			}

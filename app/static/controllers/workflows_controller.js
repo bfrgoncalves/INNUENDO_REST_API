@@ -154,7 +154,6 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		$("#div_button_addto_workflow").css({display:"none"});
 
 		protocols.get_protocols_of_type(selectedType, function(results){
-			console.log(results);
 			workflows.set_protocols_of_type(results.protocols);
 			$scope.property_fields = results.property_fields;
 			//$scope.protocols_of_type = results.protocols_of_type;

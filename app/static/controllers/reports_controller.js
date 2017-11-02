@@ -528,7 +528,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				div_to_add +=  div_color + info_to_add + "</div>"
 				
-				aux_info[run_info_keys[info_key]] = info_to_add;
+				aux_info[run_info_keys[info_key]] = div_to_add;
 			}
 			var run_results_keys = Object.keys(report_data.run_stats[identifier]);
 

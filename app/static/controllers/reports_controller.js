@@ -787,6 +787,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		else window.open(tree_to_see[0],'_blank');
 	}
 
+	$scope.deleteTree = function(){
+		var tree_to_delete = $.map($("#reports_trees_table").DataTable().rows(".selected").data(), function(d){
+			console.log(d);
+			//return d.uri;
+		});
+	}
+
 	$scope.showReportModal = function(){
 
 		$('#saveReportModal').modal('show');

@@ -164,7 +164,7 @@ function Objects_Utils(){
 	        } );
 	    } );
 	    
-	    table.columns.adjust().draw();
+	    //table.columns.adjust().draw();
 
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');

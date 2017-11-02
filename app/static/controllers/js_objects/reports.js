@@ -204,6 +204,12 @@ function Report($http){
 
 		 		callback(response);
 		 	});
+		 },
+
+		 delete_tree: function(tree_name, callback){
+		 	pg_requests.delete_tree(tree_name, function(response){
+		 		callback(response);
+		 	});
 		 }		 
 	}
 	

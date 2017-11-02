@@ -900,6 +900,25 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    
 		},
 
+		delete_tree: function(tree_name, callback){
+			req = {
+		        url: 'api/v1.0/phyloviz/',
+		        method:'DELETE',
+		        data: {
+		        	tree_name: tree_name
+		    	}
+		    }
+		    
+		    $http(req).then(function(response){
+		    		console.log(response);
+		            callback(response);
+		        },
+		        function(response){
+		        	console.log(response);
+		            callback(response);
+		    });
+		},
+
 		fetch_job: function(redis_job_id, callback){
 
 			req = {

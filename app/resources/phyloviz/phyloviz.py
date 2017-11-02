@@ -50,6 +50,10 @@ job_get_search_parser.add_argument('job_id', dest='job_id', type=str, required=T
 trees_get_parser = reqparse.RequestParser()
 trees_get_parser.add_argument('species_id', dest='species_id', type=str, required=True, help="redis job id")
 
+#Defining delete arguments parser
+trees_delete_parser = reqparse.RequestParser()
+trees_delete_parser.add_argument('tree_name', dest='tree_name', type=str, required=True, help="tree name")
+
 phyloviz_processor = Queue_Processor()
 
 
@@ -74,6 +78,7 @@ class PHYLOViZResource(Resource):
 			return {"status": "Pending"}, 200
 
 
+
 class TreeResource(Resource):
 
 	@login_required
@@ -87,3 +92,17 @@ class TreeResource(Resource):
 		for tree in trees:
 					trees_to_send.append({'name': tree.name, 'description': tree.description, 'timestamp': tree.timestamp.strftime("%Y-%m-%d %H:%M:%S"), 'uri': tree.uri, 'phyloviz_user':tree.phyloviz_user})
 		return trees_to_send, 200
+
+	@login_required
+	def delete(self):
+		args=trees_delete_parser.parse_args()
+
+		tree = db.session.query(Tree).filter(Tree.user_id == current_user.id, Tree.name == args.tree_name).first()
+		
+		if not trees:
+			abort(404, message="No trees available")
+
+		db.session.delete(tree)
+		db.session.commit()
+
+		return 204

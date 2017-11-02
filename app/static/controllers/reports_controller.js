@@ -789,8 +789,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	$scope.deleteTree = function(){
 		var tree_to_delete = $.map($("#reports_trees_table").DataTable().rows(".selected").data(), function(d){
-			console.log(d);
-			//return d.uri;
+			return d.name;
+		});
+		reports.delete_tree(tree_to_delete, function(response){
+			modalAlert('Tree deleted from the Platform.', function(){});
 		});
 	}
 

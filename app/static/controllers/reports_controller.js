@@ -499,15 +499,15 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				//aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
 				info_data = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]];
 				var info_to_add = "";
-				if(info_data[0] == true) info_to_add += "<p class='cell_paragraph'>Run: Yes</p>";
-				else info_to_add += "<p class='cell_paragraph'>Run: No</p>";
+				if(info_data[0] == true) info_to_add += "Run: Yes<br/>";
+				else info_to_add += "Run: No<br/>";
 				if (info_data[1] == true && info_data[4] != undefined && Object.keys(info_data[4]).length > 0) {
-					info_to_add += "<p class='cell_paragraph'>Succeeded: Yes. With warning.</p>";
+					info_to_add += "Succeeded: Yes. With warning.<br/>";
 					for (key in info_data[4]){
-						info_to_add += "<p class='cell_paragraph'>"+key + ":"+info_data[4][key]+"</p>"
+						info_to_add += key + ":"+info_data[4][key]+"<br/>"
 					}
 				}
-				else if (info_data[1] == true) info_to_add += "<p class='cell_paragraph'>Succedeed: Yes</p>";
+				else if (info_data[1] == true) info_to_add += "Succedeed: Yes<br/>";
 				
 				aux_info[run_info_keys[info_key]] = info_to_add;
 			}

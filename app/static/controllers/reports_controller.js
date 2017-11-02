@@ -793,6 +793,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		});
 		reports.delete_tree(tree_to_delete, function(response){
 			modalAlert('Tree deleted from the Platform.', function(){});
+			reports.get_user_trees(function(response){
+			    console.log(response);
+				if (!response.data.message){
+				trees = response.data;
+				}
+				else trees = [];
+				objects_utils.destroyTable('reports_trees_table');
+				objects_utils.loadDataTables('reports_trees_table', trees, user_trees_col_defs, trees_headers);
+				callback();
+			});
 		});
 	}
 

@@ -504,9 +504,18 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				var info_to_add = "";
 				var div_to_add = "<div style='display:inline-block;background-color:";
 				var div_color="";
+				
 				if(info_data[0] == true) info_to_add += "Run: Yes<br/>";
 				else info_to_add += "Run: No<br/>";
-				if (info_data[1] == true && info_data[4] != undefined && Object.keys(info_data[4]).length > 0) {
+				
+				if(info_data[1] == false){
+					info_to_add += "Succedeed: False<br/>";
+					for (key in info_data[3]){
+						info_to_add += key + ":"+info_data[3][key]+"<br/>"
+					}
+					div_color ="#ff7c7c;'>";
+				}
+				else if (info_data[1] == true && info_data[4] != undefined && Object.keys(info_data[4]).length > 0) {
 					info_to_add += "Succeeded: Yes. With warning.<br/>";
 					for (key in info_data[4]){
 						info_to_add += key + ":"+info_data[4][key]+"<br/>"
@@ -517,14 +526,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					info_to_add += "Succedeed: Yes<br/>";
 					div_color ="#a8d2cc;'>";
 				}
-				else if(info_data[1] == false){
-					info_to_add += "Succedeed: False<br/>";
-					for (key in info_data[3]){
-						info_to_add += key + ":"+info_data[3][key]+"<br/>"
-					}
-					div_color ="#ff7c7c;'>";
-				}
-
 
 				div_to_add +=  div_color + info_to_add + "</div>"
 				

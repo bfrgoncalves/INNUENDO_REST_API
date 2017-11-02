@@ -494,6 +494,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
+			console.log(report_data.run_info[identifier].modules_run_report);
 			for(info_key in run_info_keys){
 				aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
 			}

@@ -84,7 +84,6 @@ class ProtocolListResource(Resource):
 				protocol = json.loads(i.steps.replace("u'", "'").replace("'", '"'))
 				if protocol["protocol_type"] == args.type.replace('"',''):
 					filteredProtocols.append(i)
-			print filteredProtocols
 			return filteredProtocols
 		return protocols, 200
 
@@ -96,11 +95,10 @@ class ProtocolListResource(Resource):
 			abort(403, message="No permissions to POST")
 		
 		jsonToLoad = json.loads('"' + args.steps.replace("{u'", "{'").replace(" u'", "'").replace(" u\"","").replace("\"","")+'"')
-		print jsonToLoad
-		'''protocol = Protocol(name=args.name, steps=jsonToLoad, timestamp=datetime.datetime.utcnow())
+		protocol = Protocol(name=args.name, steps=jsonToLoad, timestamp=datetime.datetime.utcnow())
 		if not protocol:
 			abort(404, message="An error as occurried")
 		db.session.add(protocol)
-		db.session.commit()'''
+		db.session.commit()
 		return protocol, 201
 

@@ -522,7 +522,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					for (key in info_data[3]){
 						info_to_add += key + ":"+info_data[3][key]+"<br/>"
 					}
-					div_color ="#ee2323;'>";
+					div_color ="#ff7c7c;'>";
 				}
 
 

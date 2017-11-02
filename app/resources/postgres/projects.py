@@ -6,6 +6,8 @@ from flask import jsonify
 from app.models.models import Project
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
+import random
+import string
 
 #Defining post arguments parser
 project_post_parser = reqparse.RequestParser()
@@ -65,6 +67,7 @@ class ProjectUserResource(Resource):
 		if not current_user.is_authenticated:
 				abort(403, message="No permissions")
 		project = db.session.query(Project).filter(Project.id == id, Project.user_id == current_user.id).first()
+		project.name = project.name + "_" + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
 		if not project:
 			abort(404, message="Project {} doesn't exist".format(id))
 		project.is_removed = True

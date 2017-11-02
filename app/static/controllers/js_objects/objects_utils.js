@@ -96,10 +96,12 @@ function Objects_Utils(){
 
 	function searchableTable(table_id, columnDefinitions, data, visible_headers){
 
-		$('#' + table_id + ' tfoot th').each( function () {
-	        var title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
-	        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-	    } );
+		if (table_id.indexOf('reports') < 0){
+			$('#' + table_id + ' tfoot th').each( function () {
+		        var title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
+		        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+		    } );
+		}
 
 	    if(table_id == "public_strains_table") page_length = 10;
 	    else page_length = 50;

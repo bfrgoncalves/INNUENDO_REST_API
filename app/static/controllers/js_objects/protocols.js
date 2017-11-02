@@ -70,6 +70,8 @@ function Protocol_List($http){
 			form_serialized = $('#new_protocol_form').serializeArray();
 			var protocol_object = {};
 
+			console.log(form_serialized);
+
 			//Parse the information to send to postgresql
 			if ( $( "#parameter_select" ).length ) {
 		 		var options = $('#parameter_select option');

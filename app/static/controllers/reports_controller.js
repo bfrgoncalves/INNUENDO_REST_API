@@ -510,8 +510,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					info_to_add += "Run: No<br/>";
 					div_color ="'>";
 				}
-				
-				if(info_data[1] == false){
+
+				if(info_data[0] == true && info_data[1] == null){
+					info_to_add += "Succeeded: Yes<br/>";
+					div_color ="background-color:#ff7c7c;'>";
+				}
+				else if(info_data[1] == false){
 					info_to_add += "Succedeed: False<br/>";
 					for (key in info_data[3]){
 						info_to_add += key + ":"+info_data[3][key]+"<br/>"

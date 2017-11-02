@@ -402,7 +402,10 @@ function Objects_Utils(){
 			$('#'+table_id+' tbody > tr').remove();
 			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis));
 			$('#'+table_id+' tfoot > tr').remove();
-			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
+			
+			if (table_id.indexOf('reports') < 0){
+				$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
+			}
 
 			callback();
 		}

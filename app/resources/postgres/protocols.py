@@ -95,7 +95,7 @@ class ProtocolListResource(Resource):
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
 		
-		jsonToLoad = json.loads('"' + args.steps.replace(" u'", "'").replace(" u\"","").replace("\"","")+'"')
+		jsonToLoad = json.loads('"' + args.steps.replace("{u'", "{'").replace(" u'", "'").replace(" u\"","").replace("\"","")+'"')
 		print jsonToLoad
 		'''protocol = Protocol(name=args.name, steps=jsonToLoad, timestamp=datetime.datetime.utcnow())
 		if not protocol:

@@ -496,7 +496,18 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			aux_info['Sample'] = sample_name;
 			console.log(report_data.run_info[identifier].modules_run_report);
 			for(info_key in run_info_keys){
-				aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
+				//aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
+				info_data = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]];
+				var info_to_add = "";
+				if(info_data[0] == true) info_data += "Run: Yes";
+				if(info_data[1] == true) info_data += "Succedeed: Yes"
+				else if (info_data[1] == true && Object.keys(info_data[4]).length > 0) {
+					info_data += "Succedeed: Yes. With warning. \n"
+					for (key in Object.keys(info_data[4])){
+						info_data += key + ":"+info_data[4][key]+"\n"
+					}
+				}
+				aux_info[run_info_keys[info_key]] = info_data;
 			}
 			var run_results_keys = Object.keys(report_data.run_stats[identifier]);
 
@@ -689,104 +700,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		});
 	   
 	}
-
-	/*$scope.change_report_by_specie = function(species_id, species_name){
-
-		$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
-
-		$("#project_search_button").trigger("click");
-
-	    CURRENT_SPECIES_ID = species_id;
-	    CURRENT_SPECIES_NAME = species_name;
-	    $scope.currentSpecieID = species_id;
-
-	    $scope.projects_names = [];
-	    $scope.report_procedures = [];
-
-	    objects_utils.destroyTable('reports_table');
-	    objects_utils.destroyTable('saved_reports_table');
-	    objects_utils.destroyTable('reports_info_table');
-		objects_utils.destroyTable('reports_results_table');
-		objects_utils.destroyTable('reports_metadata_table');
-
-	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
-	    	//console.log(results);
-	    	results.map(function(d){$scope.projects_names.push(d)});
-
-	    	$scope.report_procedures = [];
-			global_results_dict = {};
-			run_infos = [];
-			run_results = [];
-			current_strains_data = [];
-			current_job_ids = [];
-
-
-	    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
-		    	//console.log(results);
-		    	results.map(function(d){$scope.projects_names.push(d)});
-
-		    	objects_utils.destroyTable('reports_table');
-			    try{
-			    	var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
-			    }
-			    catch(e){
-			    	var current_project = "";
-			    }
-
-			    console.log(current_project);
-
-			    $scope.getSavedReports(function(){
-
-				    if(current_project != ""){
-				    	pg_requests.get_applied_pipelines(null, current_project, function(response){
-							console.log(response);
-							var pipelines_to_check = [];
-							for(x in response.data){
-								if(response.data[x].parent_pipeline_id != null) pipelines_to_check.push(response.data[x].parent_pipeline_id);
-								else pipelines_to_check.push(response.data[x].id);
-							}
-							pipelines_to_check = pipelines_to_check.join();
-					    	reports.get_project_reports(current_project, pipelines_to_check, function(response){
-							
-								user_reports = response.data;
-								if(user_reports.message != undefined) user_reports = [];
-
-								if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-									show_results_and_info($rootScope.showing_jobs, function(){
-
-									});
-								}
-								$('#waiting_spinner').css({display:'none'}); 
-								$('#reports_container').css({display:"block"});
-								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
-								objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
-								$('#reports_metadata_table_wrapper').css({'display':'none'});
-								$("#act_rep").trigger("click");
-							});
-						});
-				    }
-				    else{
-				    	$('#waiting_spinner').css({display:'none'}); 
-						$('#reports_container').css({display:"block"});
-						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
-						objects_utils.loadDataTables('reports_table', [], user_reports_col_defs, user_reports_table_headers);
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
-						$("#act_rep").trigger("click");
-						//table = $('#saved_reports_table').DataTable();
-						//table.draw();
-				    }
-				});
-		    });
-	    });
-
-	};
-	*/
 
 	$scope.showReport = function(){
 

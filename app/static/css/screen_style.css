@@ -26,6 +26,7 @@
   }
   table tr td {
 	  font-size: 12px;
+    height: 1px;
 	}
   table tr th {
 	  font-size: 12px;
@@ -44,6 +45,7 @@
   }
   table tr td {
     font-size: 14px;
+    height: 1px;
   }
   table tr th {
     font-size: 12px;
@@ -68,6 +70,7 @@
   }
   table tr td {
     font-size: 12px;
+    height: 1px;
   }
   table tr th {
     font-size: 12px;
@@ -86,6 +89,7 @@
   }
   table tr td {
     font-size: 14px;
+    height: 1px;
   }
   table tr th {
     font-size: 12px;
@@ -104,6 +108,7 @@
   }
   table tr td {
     font-size: 14px;
+    height: 1px;
   }
   table tr th {
     font-size: 12px;
@@ -122,6 +127,7 @@
   }
   table tr td {
     font-size: 14px;
+    height: 1px;
   }
   table tr th {
     font-size: 12px;

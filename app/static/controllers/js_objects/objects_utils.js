@@ -131,7 +131,7 @@ function Objects_Utils(){
 	        ],
 	        columns: columnDefinitions,
 	        "data": data,
-	        //"stateSave":true,
+	        "stateSave":true,
 	        "initComplete": function() {
 	        		var already_added = [];
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
@@ -158,13 +158,13 @@ function Objects_Utils(){
 	 
 	        $( 'input', this.footer() ).on( 'keyup change', function () {
 	        	table_to_search
-            .column( $(this).parent().index()+':visible' )
-            .search( this.value )
-            .draw();
+		            .column( $(this).parent().index()+':visible' )
+		            .search( this.value )
+		            .draw();
 	        } );
 	    } );
 	    
-	    //table.columns.adjust().draw();
+	    table.columns.adjust().draw();
 
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
@@ -249,7 +249,7 @@ function Objects_Utils(){
 	        ],
 	        columns: columnDefinitions,
 	        "data": data,
-	        //"stateSave":true
+	        "stateSave":true
 	    });
 
 	    table.columns.adjust().draw();

@@ -99,7 +99,7 @@ class TreeResource(Resource):
 
 		tree = db.session.query(Tree).filter(Tree.user_id == current_user.id, Tree.name == args.tree_name).first()
 		
-		if not trees:
+		if not tree:
 			abort(404, message="No trees available")
 
 		db.session.delete(tree)

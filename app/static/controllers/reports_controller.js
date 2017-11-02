@@ -502,12 +502,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				if(info_data[0] == true) info_data += "Run: Yes";
 				if(info_data[1] == true) info_data += "Succedeed: Yes"
 				else if (info_data[1] == true && Object.keys(info_data[4]).length > 0) {
-					info_data += "Succedeed: Yes. With warning. \n"
+					info_to_add += "Succedeed: Yes. With warning. \n"
 					for (key in Object.keys(info_data[4])){
-						info_data += key + ":"+info_data[4][key]+"\n"
+						info_to_add += key + ":"+info_data[4][key]+"\n"
 					}
 				}
-				aux_info[run_info_keys[info_key]] = info_data;
+				aux_info[run_info_keys[info_key]] = info_to_add;
 			}
 			var run_results_keys = Object.keys(report_data.run_stats[identifier]);
 

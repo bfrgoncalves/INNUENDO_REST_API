@@ -109,7 +109,7 @@ function Objects_Utils(){
 
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
-  			//"scrollCollapse": true,
+  			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
 	        colReorder: {
@@ -131,7 +131,7 @@ function Objects_Utils(){
 	        ],
 	        columns: columnDefinitions,
 	        "data": data,
-	        "stateSave":true,
+	        //"stateSave":true,
 	        "initComplete": function() {
 	        		var already_added = [];
 	        		for(r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
@@ -249,7 +249,7 @@ function Objects_Utils(){
 	        ],
 	        columns: columnDefinitions,
 	        "data": data,
-	        "stateSave":true
+	        //"stateSave":true
 	    });
 
 	    table.columns.adjust().draw();

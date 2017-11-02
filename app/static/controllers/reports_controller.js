@@ -61,7 +61,7 @@ function set_headers_reports(global_strains, procedure){
 				if($.inArray(matching_fields[x], minimal_fields) > -1){
 					p_col_defs.push({"data":x});
 				}
-				else p_col_defs.push({"data":x, "visible":false});
+				else p_col_defs.push({"data":x, "visible":true});
 				strains_headers.push(matching_fields[x] == undefined ? x:matching_fields[x]);
 			}
 		}		

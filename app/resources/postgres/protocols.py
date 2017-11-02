@@ -93,6 +93,7 @@ class ProtocolListResource(Resource):
 		args=protocol_post_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
+		print args.steps
 		jsonToLoad = json.loads('"' + args.steps.replace("u'", "'").replace("u\"","").replace("\"","")+'"')
 		print jsonToLoad
 		'''protocol = Protocol(name=args.name, steps=jsonToLoad, timestamp=datetime.datetime.utcnow())

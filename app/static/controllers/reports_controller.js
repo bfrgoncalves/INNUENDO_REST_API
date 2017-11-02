@@ -794,7 +794,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		reports.delete_tree(tree_to_delete[0], function(response){
 			modalAlert('Tree deleted from the Platform.', function(){});
 			reports.get_user_trees(function(response){
-			    console.log(response);
 				if (!response.data.message){
 				trees = response.data;
 				}

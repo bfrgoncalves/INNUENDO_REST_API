@@ -151,18 +151,20 @@ function Objects_Utils(){
             }
 	    });
 
-	    // Apply the search
-	    table.columns().every( function () {
-	        var that = this;
-	        var table_to_search = table;
-	 
-	        $( 'input', this.footer() ).on( 'keyup change', function () {
-	        	table_to_search
-		            .column( $(this).parent().index()+':visible' )
-		            .search( this.value )
-		            .draw();
-	        } );
-	    } );
+	    if (table_id.indexOf('reports') == -1){
+	    	// Apply the search
+		    table.columns().every( function () {
+		        var that = this;
+		        var table_to_search = table;
+		 
+		        $( 'input', this.footer() ).on( 'keyup change', function () {
+		        	table_to_search
+			            .column( $(this).parent().index()+':visible' )
+			            .search( this.value )
+			            .draw();
+		        } );
+		    } );
+	    }
 	    
 	    table.columns.adjust().draw();
 
@@ -376,7 +378,7 @@ function Objects_Utils(){
 	        if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
 	          return false;
 	        }
-	        if (table_id.indexOf('strains_table') > -1) searchableTable(table_id, columnDefinitions, table_values, visible_headers);
+	        if (table_id.indexOf('reports') > -1 || table_id.indexOf('strains_table') > -1) searchableTable(table_id, columnDefinitions, table_values, visible_headers);
 			else nestedTable(table_id, columnDefinitions, table_values, visible_headers);
 
 		},

@@ -134,3 +134,7 @@ table.display{
 .child_row{
   background-color: #eeffff
 }
+
+.cell_paragraph{
+  font-size: 10px;
+}

@@ -284,6 +284,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#user_jobs").removeClass("active");
 		$("#saved_rep").removeClass("active");
 		$("#tree_tab").removeClass("active");
+		$('#reports_info_table').DataTable().columns.adjust().draw();
+		$('#reports_results_table').DataTable().columns.adjust().draw();
+		$('#reports_metadata_table').DataTable().columns.adjust().draw();
 	});
 
 	$("#user_jobs").on("click", function(){

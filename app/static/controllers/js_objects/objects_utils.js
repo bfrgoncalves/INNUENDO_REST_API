@@ -96,12 +96,10 @@ function Objects_Utils(){
 
 	function searchableTable(table_id, columnDefinitions, data, visible_headers){
 
-		if (table_id.indexOf('reports') < 0){
-			$('#' + table_id + ' tfoot th').each( function () {
-		        var title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
-		        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-		    } );
-		}
+		$('#' + table_id + ' tfoot th').each( function () {
+	        var title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
+	        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+	    } );
 
 	    if(table_id == "public_strains_table") page_length = 10;
 	    else page_length = 50;
@@ -153,21 +151,19 @@ function Objects_Utils(){
             }
 	    });
 
-	    console.log(table_id.indexOf('reports'), table_id)
-	    if (table_id.indexOf('reports') < 0){
-	    	// Apply the search
-		    table.columns().every( function () {
-		        var that = this;
-		        var table_to_search = table;
-		 
-		        $( 'input', this.footer() ).on( 'keyup change', function () {
-		        	table_to_search
-			            .column( $(this).parent().index()+':visible' )
-			            .search( this.value )
-			            .draw();
-		        } );
-		    } );
-	    }
+    	// Apply the search
+	    table.columns().every( function () {
+	        var that = this;
+	        var table_to_search = table;
+	 
+	        $( 'input', this.footer() ).on( 'keyup change', function () {
+	        	table_to_search
+		            .column( $(this).parent().index()+':visible' )
+		            .search( this.value )
+		            .draw();
+	        } );
+	    } );
+	    
 	    
 	    table.columns.adjust().draw();
 
@@ -402,10 +398,8 @@ function Objects_Utils(){
 			$('#'+table_id+' tbody > tr').remove();
 			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis));
 			$('#'+table_id+' tfoot > tr').remove();
+			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
 			
-			if (table_id.indexOf('reports') < 0){
-				$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
-			}
 
 			callback();
 		}

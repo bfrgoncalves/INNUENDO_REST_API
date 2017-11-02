@@ -8,6 +8,10 @@ tbody tr:hover td {
   cursor: pointer;
 }
 
+li:hover a {
+  cursor: pointer;
+}
+
 
 table.display{
   table-layout: fixed;

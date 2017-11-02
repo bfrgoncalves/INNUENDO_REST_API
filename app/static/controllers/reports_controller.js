@@ -502,6 +502,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				//aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
 				info_data = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]];
 				var info_to_add = "";
+				var div_to_add = "<div style='background-color:";
+				var div_color="";
 				if(info_data[0] == true) info_to_add += "Run: Yes<br/>";
 				else info_to_add += "Run: No<br/>";
 				if (info_data[1] == true && info_data[4] != undefined && Object.keys(info_data[4]).length > 0) {
@@ -509,14 +511,22 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 					for (key in info_data[4]){
 						info_to_add += key + ":"+info_data[4][key]+"<br/>"
 					}
+					div_color ="#fae0af;'>";
 				}
-				else if (info_data[1] == true) info_to_add += "Succedeed: Yes<br/>";
+				else if (info_data[1] == true){
+					info_to_add += "Succedeed: Yes<br/>";
+					div_color ="#a8d2cc;'>";
+				}
 				else if(info_data[1] == false){
 					info_to_add += "Succedeed: False<br/>";
 					for (key in info_data[3]){
 						info_to_add += key + ":"+info_data[3][key]+"<br/>"
 					}
+					div_color ="#ee2323;'>";
 				}
+
+
+				div_to_add +=  div_color + info_to_add + "</div>"
 				
 				aux_info[run_info_keys[info_key]] = info_to_add;
 			}

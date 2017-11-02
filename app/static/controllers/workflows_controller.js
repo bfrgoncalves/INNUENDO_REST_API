@@ -186,7 +186,6 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 			setTimeout(function(){
 				$(".current_workflow_close").on("click", function(){
-					console.log("AQUI");
 					$scope.removeFromPipeline($(this).closest("li").attr("protocol_name"))
 				});
 			}, 800);

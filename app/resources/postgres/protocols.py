@@ -93,12 +93,12 @@ class ProtocolListResource(Resource):
 		args=protocol_post_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
+		
 		jsonToLoad = json.loads('"' + args.steps.replace(" u'", "'").replace(" u\"","").replace("\"","")+'"')
-		print jsonToLoad
-		'''protocol = Protocol(name=args.name, steps=jsonToLoad, timestamp=datetime.datetime.utcnow())
+		protocol = Protocol(name=args.name, steps=jsonToLoad, timestamp=datetime.datetime.utcnow())
 		if not protocol:
 			abort(404, message="An error as occurried")
 		db.session.add(protocol)
-		db.session.commit()'''
+		db.session.commit()
 		return protocol, 201
 

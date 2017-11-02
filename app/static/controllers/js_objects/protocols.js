@@ -92,10 +92,10 @@ function Protocol_List($http){
 				if(response.status == 201){
 					new_protocol_id = response.data.id;
 					//Add the protocol to the ngsonto
-					/*ngs_onto_requests.ngs_onto_request_create_protocol(protocolTypeObject, currentProtocolType, new_protocol_id, function(response){
+					ngs_onto_requests.ngs_onto_request_create_protocol(protocolTypeObject, currentProtocolType, new_protocol_id, function(response){
 						callback({message: "protocol added to ngs onto"});
 						objects_utils.show_message('protocols_message_div', 'success', 'Protocol saved.');
-					})*/
+					})
 				}
 				else{
 					objects_utils.show_message('protocols_message_div', 'warning', 'An error as occurried when saving the protocol.');

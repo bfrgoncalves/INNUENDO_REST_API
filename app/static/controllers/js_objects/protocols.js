@@ -70,8 +70,6 @@ function Protocol_List($http){
 			form_serialized = $('#new_protocol_form').serializeArray();
 			var protocol_object = {};
 
-			console.log(form_serialized);
-
 			//Parse the information to send to postgresql
 			if ( $( "#parameter_select" ).length ) {
 		 		var options = $('#parameter_select option');
@@ -89,21 +87,21 @@ function Protocol_List($http){
 			}
 
 			//Send the protocol to the database
-			/*
+			
 			pg_requests.create_protocol(protocol_object, function(response){
 				if(response.status == 201){
 					new_protocol_id = response.data.id;
 					//Add the protocol to the ngsonto
-					ngs_onto_requests.ngs_onto_request_create_protocol(protocolTypeObject, currentProtocolType, new_protocol_id, function(response){
+					/*ngs_onto_requests.ngs_onto_request_create_protocol(protocolTypeObject, currentProtocolType, new_protocol_id, function(response){
 						callback({message: "protocol added to ngs onto"});
 						objects_utils.show_message('protocols_message_div', 'success', 'Protocol saved.');
-					})
+					})*/
 				}
 				else{
 					objects_utils.show_message('protocols_message_div', 'warning', 'An error as occurried when saving the protocol.');
 				} 
 			});
-			*/
+			
 		},
 
 		/*

@@ -81,7 +81,7 @@ class ProtocolListResource(Resource):
 		if args.type:
 			filteredProtocols = []
 			for i in protocols:
-				protocol = json.loads(i.steps.replace("u'", "'").replace("'", '"'))
+				protocol = json.loads(i.steps.replace(" u'", "'").replace("'", '"'))
 				if protocol["protocol_type"] == args.type.replace('"',''):
 					filteredProtocols.append(i)
 			return filteredProtocols
@@ -93,8 +93,7 @@ class ProtocolListResource(Resource):
 		args=protocol_post_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
-		print args.steps
-		jsonToLoad = json.loads('"' + args.steps.replace(" u'", "'").replace("\"","")+'"')
+		jsonToLoad = json.loads('"' + args.steps.replace(" u'", "'").replace(" u\"","").replace("\"","")+'"')
 		print jsonToLoad
 		'''protocol = Protocol(name=args.name, steps=jsonToLoad, timestamp=datetime.datetime.utcnow())
 		if not protocol:

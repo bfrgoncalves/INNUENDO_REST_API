@@ -513,7 +513,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 				if(info_data[0] == true && info_data[1] == null){
 					info_to_add += "Succeeded: Yes<br/>";
-					div_color ="background-color:#ff7c7c;'>";
+					div_color ="background-color:#a8d2cc;'>";
 				}
 				else if(info_data[1] == false){
 					info_to_add += "Succedeed: False<br/>";

@@ -506,7 +506,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 						info_to_add += key + ":"+info_data[4][key]+"\n"
 					}
 				}
-				else if(if(info_data[1] == true) info_to_add += "Succedeed: Yes")
+				else if (info_data[1] == true) info_to_add += "Succedeed: Yes";
 				
 				aux_info[run_info_keys[info_key]] = info_to_add;
 			}

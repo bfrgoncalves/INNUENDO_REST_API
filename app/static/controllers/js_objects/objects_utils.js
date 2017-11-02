@@ -376,7 +376,7 @@ function Objects_Utils(){
 	        if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
 	          return false;
 	        }
-	        if (table_id.indexOf('reports') > -1 || table_id.indexOf('strains_table') > -1) searchableTable(table_id, columnDefinitions, table_values, visible_headers);
+	        if (table_id.indexOf('strains_table') > -1) searchableTable(table_id, columnDefinitions, table_values, visible_headers);
 			else nestedTable(table_id, columnDefinitions, table_values, visible_headers);
 
 		},

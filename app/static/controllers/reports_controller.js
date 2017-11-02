@@ -493,7 +493,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		if(procedure.indexOf('INNUca') > -1){
 
-			var run_info_keys = Object.keys(report_data.run_info[identifier].modules_run_report);
+			steps = ['FastQ_Integrity', 'first_Coverage', 'trueCoverage_ReMatCh', 'first_FastQC', 'Trimmomatic', 'second_Coverage', 'second_FastQC', 'Pear', 'SPAdes', 'Pilon', 'Assembly_Mapping', 'MLST']
+			var run_info_keys = steps;
+			//var run_info_keys = Object.keys(report_data.run_info[identifier].modules_run_report);
 
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;

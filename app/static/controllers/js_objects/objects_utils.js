@@ -109,12 +109,12 @@ function Objects_Utils(){
 
 	    table = $('#' + table_id).DataTable({
 	    	dom: 'Blfrtip',
-  			"scrollCollapse": true,
+  			//"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
-	        /*colReorder: {
+	        colReorder: {
 	        	fixedColumnsLeft: 1
-	        },*/
+	        },
 	        "pageLength": page_length,
 	        select: {
 	            style:    selection_style,

@@ -160,7 +160,7 @@ class Job_queue(Resource):
 		results = request.json()
 
 		procedure_names = args.procedure_name.split(",")
-		process_positions = args.process_positions.split(",")
+		process_positions = args.process_position.split(",")
 		all_jobs_status = []
 
 		if results != '':
@@ -182,7 +182,7 @@ class Job_queue(Resource):
 				#if results['store_in_db'] == True:
 				#	added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
 				all_jobs_status.append(job_status)
-				
+
 			return all_jobs_status, 200
 		else:
 			return False

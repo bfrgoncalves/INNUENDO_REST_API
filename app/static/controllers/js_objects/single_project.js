@@ -1376,10 +1376,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				else{
 
 					for(s_p in strain_processes){
-
+						console.log(strain_processes);
 						ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
 							strain_id = strain_id.trim();
 							var t_ids = [];
+
 							for(l in response.data){
 								if(response.data[l].length != 0){
 									t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
@@ -1429,7 +1430,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						})
 					}
 
-					periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, pr_ids, pip_id, proj_id);
+					//periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, pr_ids, pip_id, proj_id);
 
 				}
 

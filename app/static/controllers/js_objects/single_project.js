@@ -1410,13 +1410,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 									proc_ids.push(pr_ids[l])
 									//periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
 								}
+								countstrains += 1;
 							}
 
 							if(processed_proc[strain_id] == strain_processes_from_request.length && t_ids.length > 0){
 								periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
 							}
 							
-							countstrains += 1;
 
 							//Fix workflows positions.
 							if(countstrains == count_processes){

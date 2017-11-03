@@ -174,7 +174,7 @@ class Job_queue(Resource):
 
 				if from_process_controller == 'true':
 					job_status[1] = "COMPLETED"
-					results['store_in_db'] = True
+					results['store_in_db'][k] = True
 
 				print results
 				if from_process_controller == 'true' and results['store_in_db'][k] == True:

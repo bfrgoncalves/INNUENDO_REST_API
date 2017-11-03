@@ -299,6 +299,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var process_positions = [];
 			var procedure_names = [];
 
+			job_ids = job_ids.split(",")
+
 			for (job_id in job_ids){
 				procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
 				var parts_split = tasks_to_buttons[job_id].replace(/ /g, "_").split("_");
@@ -339,7 +341,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		job_ids = job_ids.join();
 		process_ids = process_ids.join();
-		
+
 		setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 1000);
 
 		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 30000);

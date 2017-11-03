@@ -1400,6 +1400,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								}
 							}
 
+							console.log(s_p_from_request, strain_processes_from_request.length-1, t_ids.length);
 							if(s_p_from_request == strain_processes_from_request.length-1 && t_ids.length > 0){
 								periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
 							}

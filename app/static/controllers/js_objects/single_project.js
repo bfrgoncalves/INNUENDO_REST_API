@@ -336,11 +336,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		}
 		prevtaskid = '';
+
+		job_ids = job_ids.join();
+		process_ids = process_ids.join();
+		
 		setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 1000);
 
 		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 30000);
 
-		intervals_running[job_id] = periodic_check;
+		intervals_running[job_ids] = periodic_check;
 
 	}
 

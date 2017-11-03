@@ -358,7 +358,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response);
 	        },function(response){
 	        	console.log(response);
@@ -458,7 +457,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			}
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		        callback(response, strain_id);
 	        },
 	        function(response){

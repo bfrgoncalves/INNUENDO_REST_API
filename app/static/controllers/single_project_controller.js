@@ -474,11 +474,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		CURRENT_PROJECT_NAME_ID = CURRENT_PROJECT_ID;
 		
 		single_project.get_workflows("Procedure", CURRENT_SPECIES_NAME, function(pipelines){
-			console.log(pipelines);
 			$scope.pipelines = pipelines;
 
 			single_project.get_workflows("Classifier", CURRENT_SPECIES_NAME, function(pipelines){
-				console.log(pipelines);
 				$scope.pipelines_classifiers = pipelines;
 				$(".selectpicker").selectpicker({});				
 				callback();
@@ -697,7 +695,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		    objects_utils.destroyTable('public_strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    headers_defs = set_headers_single_project(global_public_strains);
-		    console.log(global_public_strains, headers_defs, strains_headers);
+
 		    objects_utils.restore_table_headers('public_strains_table', strains_headers, true, function(){	
 			    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
 			    callback();
@@ -714,7 +712,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
-			console.log(global_strains, headers_defs);
+
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				callback();

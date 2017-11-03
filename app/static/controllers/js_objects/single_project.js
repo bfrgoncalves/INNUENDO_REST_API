@@ -310,7 +310,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				process_positions.push(process_position);
 				procedure_names.push(procedure_name);
 			}
-
+			console.log(job_ids);
 			pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, function(response, this_job_id){
 
 				console.log(response, this_job_id);

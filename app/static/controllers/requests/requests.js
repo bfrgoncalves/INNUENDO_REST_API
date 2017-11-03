@@ -705,7 +705,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        url: 'api/v1.0/jobs/',
 		        method:'GET',
 		        params: {
-		        	job_id: job_ids,
+		        	job_id: job_ids.join(),
 		        	procedure_name:procedure_names.join(),
 		        	sample_name:sample_name,
 		        	pipeline_id:pipeline_id,

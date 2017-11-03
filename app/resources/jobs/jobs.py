@@ -176,6 +176,7 @@ class Job_queue(Resource):
 					job_status[1] = "COMPLETED"
 					results['store_in_db'] = True
 
+				print results
 				if from_process_controller == 'true' and results['store_in_db'][k] == True:
 					added, job_id = add_data_to_db(results['job_id'][k], results['results'][k], user_id, procedure_names[k], args.sample_name, args.pipeline_id, process_positions[k], args.project_id, args.database_to_include, username)
 

@@ -1384,7 +1384,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					
 					var t_ids = [];
 					var proc_ids = [];
-					var processed_proc[strains[i].strainID] = 0;
+					processed_proc[strains[i].strainID] = 0;
 					
 					for(s_p in strain_processes){
 						console.log(strain_processes);

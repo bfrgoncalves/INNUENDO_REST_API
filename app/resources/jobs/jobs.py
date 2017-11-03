@@ -159,24 +159,31 @@ class Job_queue(Resource):
 		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
 		results = request.json()
 
+		procedure_names = args.procedure_name.split(",")
+		process_positions = args.process_positions.split(",")
+		all_jobs_status = []
+
 		if results != '':
-			job_status = results['stdout'].split('\t')
-			if len(job_status) == 1:
-				return ["null", "null"]
-			job_status[1] = job_status[1].strip('\n')
-			job_status[0] = args.job_id
 
-			if from_process_controller == 'true':
-				job_status[1] = "COMPLETED"
-				results['store_in_db'] = True
+			for k in range(0, len(results['stdout'])):
+				job_status = results['stdout'][k].split('\t')
+				if len(job_status) == 1:
+					return ["null", "null"]
+				job_status[1] = job_status[1].strip('\n')
+				job_status[0] = results['job_id'][k]
 
-			if from_process_controller == 'true' and results['store_in_db'] == True:
-				added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
+				if from_process_controller == 'true':
+					job_status[1] = "COMPLETED"
+					results['store_in_db'] = True
 
-			#if results['store_in_db'] == True:
-			#	added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
-			
-			return job_status, 200
+				if from_process_controller == 'true' and results['store_in_db'][k] == True:
+					added, job_id = add_data_to_db(results['job_id'][k], results['results'][k], user_id, procedure_names[k], args.sample_name, args.pipeline_id, process_positions[k], args.project_id, args.database_to_include, username)
+
+				#if results['store_in_db'] == True:
+				#	added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
+				all_jobs_status.append(job_status)
+				
+			return all_jobs_status, 200
 		else:
 			return False
 

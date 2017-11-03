@@ -699,19 +699,19 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 
 		},
-		get_job_status: function(job_id, procedure_name, sample_name, pipeline_id, process_position, project_id, process_id, callback){
+		get_job_status: function(job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, callback){
 
 		    req = {
 		        url: 'api/v1.0/jobs/',
 		        method:'GET',
 		        params: {
-		        	job_id: job_id,
-		        	procedure_name:procedure_name,
+		        	job_id: job_ids.join(),
+		        	procedure_name:procedure_names.join(),
 		        	sample_name:sample_name,
 		        	pipeline_id:pipeline_id,
-		        	process_position:process_position,
+		        	process_position:process_positions.join(),
 		        	project_id:project_id,
-		        	process_id:process_id,
+		        	process_id:process_ids.join(),
 		        	database_to_include: CURRENT_SPECIES_NAME,
 		        	current_user_name: CURRENT_USER_NAME,
 		        	current_user_id: CURRENT_USER_ID,

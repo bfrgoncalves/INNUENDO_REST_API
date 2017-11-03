@@ -290,19 +290,27 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	/*
     Checks for the job status in an interval of time
     */
-	function periodic_check_job_status(job_id, dict_of_tasks_status, strain_id, process_id, pipeline_id, project_to_search){
+	function periodic_check_job_status(job_ids, dict_of_tasks_status, strain_id, process_ids, pipeline_id, project_to_search){
 
 		//Get the status and assign new colors to the buttons if required
-		function get_status(job_id, strain_id, process_id, pipeline_id){
+		function get_status(job_ids, strain_id, process_ids, pipeline_id){
 
-			procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
+			//Put check to see if analysis tab is visible
+			var process_positions = [];
+			var procedure_names = [];
 
-			var parts_split = tasks_to_buttons[job_id].replace(/ /g, "_").split("_");
-			var process_position = parts_split[parts_split.length-2];
+			for (job_id in job_ids){
+				procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
+				var parts_split = tasks_to_buttons[job_id].replace(/ /g, "_").split("_");
+				var process_position = parts_split[parts_split.length-2];
+				process_positions.push(process_position);
+				procedure_names.push(procedure_name);
+			}
 
-			pg_requests.get_job_status(job_id, procedure_name, strain_id, pipeline_id, process_position, project_to_search, process_id, function(response, this_job_id){
+			pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, function(response, this_job_id){
 
-				if(response.data != false){
+				console.log(response, this_job_id);
+				/*if(response.data != false){
 					task_id = response.data[0];
 					status = response.data[1];
 					if (task_id == "null") return;
@@ -323,14 +331,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					var bah = tasks_to_buttons[task_id].replace(/ /g, "_")
 					$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 					clearInterval(intervals_running[this_job_id]);
-				}
+				}*/
 			})
 
 		}
 		prevtaskid = '';
-		setTimeout(function(){get_status(job_id, strain_id, process_id, pipeline_id);}, 1000);
+		setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 1000);
 
-		var periodic_check = setInterval(function(){ get_status(job_id, strain_id, process_id, pipeline_id); }, 20000);
+		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 30000);
 
 		intervals_running[job_id] = periodic_check;
 
@@ -1363,18 +1371,22 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], [strain_processes[s_p][2]], strain_processes[s_p][0], strains[i].strainID, countStrain, function(response, pr_ids, strain_id, count_process, pip_id, proj_id){
 							strain_id = strain_id.trim();
+							var t_ids = [];
 							for(l in response.data){
 								if(response.data[l].length != 0){
 									t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
+									t_ids.push(t_id);
 									count_process[strain_id]+=1;
 									tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
 									buttons_to_tasks[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
 									buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
 									prevjobid = t_id.split('_')[0];
 									dict_of_tasks_status[t_id] = '';
-									periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
+									//periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
 								}
 							}
+							periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, pr_ids, pip_id, proj_id);
+							
 							countstrains += 1;
 
 							//Fix workflows positions.

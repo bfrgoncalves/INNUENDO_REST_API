@@ -302,8 +302,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			job_ids = job_ids.split(",")
 
 			for (job_id in job_ids){
-				procedure_name = workflow_id_to_name[tasks_to_buttons[job_id].replace(/ /g, "_")];
-				var parts_split = tasks_to_buttons[job_id].replace(/ /g, "_").split("_");
+				procedure_name = workflow_id_to_name[tasks_to_buttons[job_ids[job_id]].replace(/ /g, "_")];
+				var parts_split = tasks_to_buttons[job_ids[job_id]].replace(/ /g, "_").split("_");
 				var process_position = parts_split[parts_split.length-2];
 				process_positions.push(process_position);
 				procedure_names.push(procedure_name);

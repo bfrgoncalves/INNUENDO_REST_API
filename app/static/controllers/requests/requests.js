@@ -721,10 +721,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		            callback(response, job_id);
+		            callback(response, job_ids);
 		        },
 		        function(response){
-		            callback(response, job_id);
+		            callback(response, job_ids);
 		    });
 
 		},

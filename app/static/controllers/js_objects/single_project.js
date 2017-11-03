@@ -314,19 +314,25 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, function(response, this_job_id){
 
 				console.log(response, this_job_id);
-				/*if(response.data != false){
-					task_id = response.data[0];
-					status = response.data[1];
-					if (task_id == "null") return;
-					
-					if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
-						dict_of_tasks_status[task_id] = status;
-						current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
-						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
+				this_job_id = this_job_id.join();
+
+				if(response.data != false){
+					all_status_done = 0;
+					for(n in response.data){
+						task_id = response.data[n][0];
+						status = response.data[n][1];
+						if (task_id == "null") return;
+						
+						if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
+							dict_of_tasks_status[task_id] = status;
+							current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
+							$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
+						}
+						prevtaskid = task_id;
+						//Case the job as finished in any way, clear the interval
+						if(status == 'COMPLETED' || status == 'WARNING' || status == 'FAILED') all_status_done += 1;
 					}
-					prevtaskid = task_id;
-					//Case the job as finished in any way, clear the interval
-					if(status == 'COMPLETED' || status == 'WARNING' || status == 'FAILED') clearInterval(intervals_running[this_job_id]);
+					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);
 
 				}
 				else{
@@ -335,7 +341,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					var bah = tasks_to_buttons[task_id].replace(/ /g, "_")
 					$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 					clearInterval(intervals_running[this_job_id]);
-				}*/
+				}
 			})
 
 		}

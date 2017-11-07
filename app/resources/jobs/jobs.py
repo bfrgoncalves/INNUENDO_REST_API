@@ -201,9 +201,7 @@ class Job_results(Resource):
 class Job_classify_chewbbaca(Resource):
 
 	def get(self):
-		print "AQUI!!!! CLASSIFIER"
 		args = job_classify_chewbbaca_post_parser.parse_args()
-		print args.job_id, args.database_to_include
 		database_processor.classify_profile(args.job_id, args.database_to_include)
 
 
@@ -232,8 +230,6 @@ class Job_Result_Download_click(Resource):
 		args = job_download_results_get_parser.parse_args()
 		try:
 			local_filename = '/'.join(args.file_path.split('/')[-2:])
-			#local_filename = 'results/'+local_filename
-			print local_filename
 			response = send_file(local_filename, as_attachment=True)
 			response.headers.add('Access-Control-Allow-Origin', '*')
 			response.headers.add('Content-Type', 'application/force-download')

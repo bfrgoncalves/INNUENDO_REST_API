@@ -349,7 +349,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 1000);
 
-		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 30000);
+		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 50000);
 
 		intervals_running[job_ids] = periodic_check;
 

@@ -226,6 +226,38 @@ function Objects_Utils(){
 
 	   $('#'+table_id+' tbody').on('click', 'button.protocol_row-control', function () {
 	        console.log("AQUI");
+	        if(table_id.indexOf('strains_table') > - 1){
+
+	        	var tr = $(this).closest('tr');
+		        var row = $('#analysis_child_table').DataTable().row( tr );
+		        var index_r = $('#analysis_child_table').DataTable().row( tr ).index();
+
+	            if(row.child.isShown()){
+	            	// This row is already open - close it
+		            row.child.hide();
+		            $(this).removeClass('shown');
+		            tr.removeClass('shown');
+		            var index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
+	    			CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
+	            }
+		        else {
+		            // Open this row
+		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
+		            $(this).addClass('shown');
+		            tr.addClass('shown');
+
+		            if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];
+		            if($.inArray(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) == -1){
+			    		CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].push(index_r);
+			    	}
+
+		            for(x in current_job_status_color){
+		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
+		            }
+		            $('.child_row').css({"background-color":"#eeffff"});
+
+		        }
+	        }
 	    } );
 	}
 

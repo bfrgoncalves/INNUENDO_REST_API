@@ -82,7 +82,7 @@ function Objects_Utils(){
 	            '<td colspan="6">'+d.Analysis+'</td>'+
 	        '</tr>';
 
-	    return '<table id="analysis_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	    return '<table class="display" id="analysis_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
 	}
 
 	function format_protocols ( d, table_id ) {
@@ -94,7 +94,7 @@ function Objects_Utils(){
 	            '<td colspan="6">'+d+'</td>'+
 	        '</tr>';
 
-	    return '<table id="protocols_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	    return '<table class="display" id="protocols_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
 	}
 
 	function format_lab_protocols ( d, table_id ) {
@@ -246,8 +246,8 @@ function Objects_Utils(){
 	        if(table_id.indexOf('strains_table') > - 1){
 
 	        	var tr = $(this).closest('tr');
-		        var row = $('#'+table_id).DataTable().row( tr );
-		        var index_r = $('#'+table_id).DataTable().row( tr ).index();
+		        var row = $('#analysis_child_table').DataTable().row( tr );
+		        var index_r = $('#analysis_child_table').DataTable().row( tr ).index();
 		        console.log(row, index_r);
 
 	            if(row.child.isShown()){

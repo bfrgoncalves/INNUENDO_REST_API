@@ -81,7 +81,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        url:'api/v1.0/workflows/',
 		        method:'POST',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        data: $('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text() + "&species=" + $( "#workflow_species option:selected" ).text()
+		        data: $('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text() + "&species=" + $( "#workflow_species option:selected" ).text() + "&dependency=" + $( "#select_dependency option:selected" ).text()
 		    }
 
 		    $http(req).then(function(response){

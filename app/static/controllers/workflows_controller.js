@@ -92,8 +92,16 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		$scope.getSpecies();
 
 		workflows.get_all_workflows(function(results){
-			console.log(results);
+
 			$scope.workflows_names = [];
+			options = "";
+			for (x in results){
+				options +="<option>"+results[x].name+"</option>";
+			}
+
+			$("#select_dependency").empty();
+			$("#select_dependency").append(options);
+
 	    	objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
 	    });
 	}

@@ -12,6 +12,7 @@ workflow_post_parser = reqparse.RequestParser()
 workflow_post_parser.add_argument('name', dest='name', type=str, required=True, help="Workflow name")
 workflow_post_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
 workflow_post_parser.add_argument('species', dest='species', type=str, required=True, help="Workflow species")
+workflow_post_parser.add_argument('dependency', dest='dependency', type=str, required=True, help="Workflow dependency from other workflow")
 
 workflow_list_get_parser = reqparse.RequestParser()
 workflow_list_get_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
@@ -36,6 +37,7 @@ workflow_all_fields = {
 	'timestamp': fields.DateTime,
 	'classifier': fields.String,
 	'species': fields.String,
+	'dependency': fields.String,
 	'availability': fields.String
 
 }
@@ -104,7 +106,7 @@ class WorkflowListResource(Resource):
 		args=workflow_post_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
-		workflow = Workflow(classifier=args.classifier, name=args.name, timestamp=datetime.datetime.utcnow(), species=args.species)
+		workflow = Workflow(classifier=args.classifier, name=args.name, timestamp=datetime.datetime.utcnow(), species=args.species, dependency=args.dependency)
 		if not workflow:
 			abort(404, message="An error as occurried")
 		db.session.add(workflow)

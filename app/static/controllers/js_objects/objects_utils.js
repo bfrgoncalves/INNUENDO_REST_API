@@ -324,29 +324,6 @@ function Objects_Utils(){
 
 	    });
 
-	    $(window).on('keydown', function (e) {
-	        if(table_id.indexOf('strains_table') > - 1){
-
-	        	var workflow_name = $(this).attr('name');
-	        	var strainID = $(this).attr('strainID');
-	        	var shown = $(this).attr("shown_child");
-
-	        	isShift = !!window.event.shiftKey;
-
-	        	if(is_open && isShift){
-	        		$("#"+strainID+"_"+workflow_name).toggle();
-				    e.stopPropagation();
-				    e.preventDefault();
-	        	}
-
-	        	is_open = false;
-	        	
-
-	        }
-
-	    });
-
-
 	}
 
 	function nestedTable(table_id, columnDefinitions, data, visible_headers){

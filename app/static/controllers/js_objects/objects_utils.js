@@ -244,7 +244,7 @@ function Objects_Utils(){
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown");
 
-	        	console.log("AQUI");
+	        	console.log("AQUI", workflow_name, strainID, shown);
 
 	        	if(shown =='false'){
 	        		$("#"+strainID+"_protocols").empty();

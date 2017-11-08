@@ -82,6 +82,18 @@ function Objects_Utils(){
 	    return '<table id="analysis_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
 	}
 
+	function format_protocols ( d, table_id ) {
+	    // `d` is the original data object for the row
+	    tr_string='';
+
+    	tr_string += '<tr class="child_row_protocols">'+
+	            '<td><b>Analysis</b></td>'+
+	            '<td colspan="6">'+d.Analysis+'</td>'+
+	        '</tr>';
+
+	    return '<table id="protocols_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	}
+
 	function format_lab_protocols ( d, table_id ) {
 	    // `d` is the original data object for the row
 	    tr_string='';
@@ -206,7 +218,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
+		            row.child( format_protocols(row.data(), table_id),  'child_row').show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 
@@ -218,7 +230,7 @@ function Objects_Utils(){
 		            for(x in current_job_status_color){
 		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
 		            }
-		            $('.child_row').css({"background-color":"#eeffff"});
+		            $('.child_row_protocols').css({"background-color":"#eeff0f"});
 
 		        }
 	        }

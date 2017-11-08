@@ -83,7 +83,7 @@ function Objects_Utils(){
 
 	    tr_string += '<tr class="child_row">'+
 	            '<td><b>Protocols</b></td>'+
-	            '<td colspan="6">'+"NONE"+'</td>'+
+	            '<td colspan="6">'+d.protocols["test_3_not_use"]+'</td>'+
 	        '</tr>';
 
 	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';

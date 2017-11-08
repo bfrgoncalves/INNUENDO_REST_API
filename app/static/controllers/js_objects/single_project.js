@@ -1036,6 +1036,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        		strain_data[i]['protocols'][proc_value] = toAdd_Protocols;
 	        	}
 
+	        	console.log(strain_data[i]['protocols']);
+
 		        if(counter == strain_data.length-1){
 		    		modalAlert('Procedure applied.', function(){});
 		        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});

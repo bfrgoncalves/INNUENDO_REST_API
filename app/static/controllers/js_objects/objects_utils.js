@@ -17,6 +17,9 @@ Object_Utils Object - An object with all functions used in the metadata manageme
 /*
 Launch a object_utils instance
 */
+
+var current_analysis_child = [];
+
 function Objects_Utils(){
 
 	var metadata = new Metadata();
@@ -218,7 +221,9 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( [format_analysis(row.data(), table_id)]).show();
+		            current_analysis_child = format_analysis(row.data(), table_id)
+		            
+		            row.child( [current_analysis_child]).show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 
@@ -255,7 +260,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( [format_analysis(row.data(), table_id), format_protocols("NONE", table_id)]).show();
+		            row.child( [current_analysis_child, format_protocols("NONE", table_id)]).show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 

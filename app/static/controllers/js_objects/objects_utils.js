@@ -77,7 +77,7 @@ function Objects_Utils(){
 	    // `d` is the original data object for the row
 
 	    $("#"+d.strainID+'_table').remove();
-	    
+
 	    tr_string='';
 
     	tr_string += '<tr class="child_row">'+
@@ -255,13 +255,13 @@ function Objects_Utils(){
 			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
 			        
 		        	$("#"+strainID+"_workflows").css({"display":"block"});
-		        	$(this).attr("shown", "true");
+		        	$(this).attr("shown_child", "true");
 		        	$(this).addClass('shown');
 
 	        	}
 	        	else{
 	        		$("#"+strainID+"_workflows").css({"display":"none"});
-	        		$(this).attr("shown", "false");
+	        		$(this).attr("shown_child", "false");
 	        		$(this).removeClass('shown');
 	        	}
 		        

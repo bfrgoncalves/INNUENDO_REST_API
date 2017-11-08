@@ -95,8 +95,9 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 			$scope.workflows_names = [];
 			options = "";
-			for (x in results){
-				options +="<option>"+results[x].name+"</option>";
+			console.log(results.data);
+			for (x in results.data){
+				options +="<option>"+results.data[x].name+"</option>";
 			}
 
 			$("#select_dependency").empty();

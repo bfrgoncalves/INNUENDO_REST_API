@@ -381,7 +381,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            			console.log(response);
 		            			protocol_data = response.data.reverse();
 		            			for(x in protocol_data){
-		            				index = protocol_data[x].index.split("^^")[0].split('"')[2]
+		            				index = protocol_data[x].index.split("^^")[0].split('"')[1]
 		            				protoc = protocol_data[x].protocol.split("protocols/")[1].split('>')[0]
 		            				workflowname_to_protocols[workflow_name].push([index,protoc]);
 		            			}

@@ -18,7 +18,6 @@ Object_Utils Object - An object with all functions used in the metadata manageme
 Launch a object_utils instance
 */
 
-var current_analysis_child = [];
 
 function Objects_Utils(){
 
@@ -87,7 +86,7 @@ function Objects_Utils(){
 	            '<td colspan="6">'+"NONE"+'</td>'+
 	        '</tr>';
 
-	    return '<table class="display" id="analysis_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
 	}
 
 
@@ -217,7 +216,7 @@ function Objects_Utils(){
 		            // Open this row
 		            current_analysis_child = format_analysis(row.data(), table_id)
 		            
-		            row.child( [current_analysis_child]).show();
+		            row.child( format_analysis(row.data(), table_id), 'child_row').show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 

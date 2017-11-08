@@ -218,7 +218,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
+		            row.child( [format_analysis(row.data(), table_id)]).show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 
@@ -255,7 +255,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( format_protocols("NONE", table_id),  'child_row').show();
+		            row.child( [format_analysis(row.data(), table_id), format_protocols("NONE", table_id)]).show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 

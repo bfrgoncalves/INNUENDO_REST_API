@@ -378,7 +378,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    workflowname_to_protocols[response.data[i].name] = [];
 
 		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response, nn, workflow_name){
-		            			console.log(response);
 		            			protocol_data = response.data.reverse();
 		            			
 		            			for(x in protocol_data){
@@ -389,7 +388,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		            			for(y in workflowname_to_protocols[workflow_name]){
 		            				pg_requests.get_protocols_by_ids(workflowname_to_protocols[workflow_name][y][1], workflowname_to_protocols[workflow_name][y], function(response, workflow_entry){
-		            					console.log(response);
 		            					workflow_entry.push(response.data[0].name);
 		            				})
 		            			}
@@ -975,7 +973,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	}
 
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
-	        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>'+
+	        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '<i class="fa fa-arrow-down"></i></button>'+
 						'<ul class="dropdown-menu" style="position:relative;">'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>'+

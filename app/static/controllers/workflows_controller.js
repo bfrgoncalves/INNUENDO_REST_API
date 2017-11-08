@@ -62,10 +62,11 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
         { "data": "classifier" },
         { "data": "species" },
         { "data": "availability" },
+        { "data": "dependency" },
         { "data": "timestamp" }
     ];
 
-    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Timestamp"];
+    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Dependency", "Timestamp"];
 
 	function modalAlert(text, callback){
 

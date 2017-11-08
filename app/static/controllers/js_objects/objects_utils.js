@@ -282,7 +282,7 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	   $('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function () {
+	   $('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
 
 	        	console.log("ENTER");
@@ -294,21 +294,25 @@ function Objects_Utils(){
 	        	console.log(isShift);
 
 	        	if(isShift){
-	        		$("#"+strainID+"_"+workflow_name).removeClass('open');
+	        		$("#"+strainID+"_"+workflow_name).toggle();
+				    e.stopPropagation();
+				    e.preventDefault();
 	        	}
 
 	        }
 
 	    });
 
-	   $('#'+table_id+' tbody').on('mouseleave', 'button.workflows_child', function () {
+	   $('#'+table_id+' tbody').on('mouseleave', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
 	        	console.log("LEAVE");
 	        	var workflow_name = $(this).attr('name');
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown_child");
 
-	        	$("#"+strainID+"_"+workflow_name).removeClass('open');
+	        	$("#"+strainID+"_"+workflow_name).toggle();
+			    e.stopPropagation();
+			    e.preventDefault();
 	        	
 
 	        }

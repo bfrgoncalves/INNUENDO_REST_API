@@ -315,8 +315,9 @@ function Objects_Utils(){
 	        		$("#"+strainID+"_"+workflow_name).toggle();
 				    e.stopPropagation();
 				    e.preventDefault();
-				    is_open = false;
 	        	}
+
+	        	is_open = false;
 	        	
 
 	        }

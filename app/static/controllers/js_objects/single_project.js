@@ -974,7 +974,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	}
 
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
-	        		'<button class="btn btn-sm btn-default dropdown-toggle workflows_child" strainID="'+strain_data[counter]['strainID']+'" name="'+proc_value+'" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '<i class="fa fa-arrow-down"></i></button>'+
+	        		'<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown="false" strainID="'+strain_data[counter]['strainID']+'" name="'+proc_value+'" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '<i class="fa fa-arrow-down"></i></button>'+
 						'<ul class="dropdown-menu" style="position:relative;">'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>'+

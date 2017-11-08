@@ -363,6 +363,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	    get_workflows: function(classifier, species_name, callback){
 
 			pg_requests.get_workflows(classifier, species_name, function(response){
+				console.log(response);
 				if(response.status == 200){
 					to_send = [];
 					if (typeof response.data != 'string'){

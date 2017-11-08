@@ -82,7 +82,7 @@ function Objects_Utils(){
 	            '<td colspan="6">'+d.Analysis+'</td>'+
 	        '</tr>';
 
-	    tr_string += '<tr class="child_row protocols_child" id="'+d.strainID+'_workflows" style="display:none;">'+
+	    tr_string += '<tr class="child_row protocols_child" id="'+d.strainID+'_workflows">'+
 	            '<td><b>Protocols</b></td>'+
 	            '<td colspan="6" id="'+d.strainID+'_protocols"></td>'+
 	        '</tr>';

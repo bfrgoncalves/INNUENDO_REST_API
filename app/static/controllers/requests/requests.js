@@ -59,7 +59,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	callback(response);
 		    });
 		},
-		get_protocols_by_ids: function(ids, callback){
+		get_protocols_by_ids: function(ids, workflow_entry, callback){
 			req = {
 		        url:'api/v1.0/protocols/ids',
 		        method:'GET',
@@ -67,9 +67,9 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	callback(response);
+		    	callback(response, workflow_entry);
 		    }, function(response){
-		    	callback(response);
+		    	callback(response, workflow_entry);
 		    });
 		},
 		//////////////// Workflows Requests /////////////////////////////////////////

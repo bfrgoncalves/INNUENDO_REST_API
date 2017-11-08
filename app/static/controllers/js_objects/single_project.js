@@ -380,10 +380,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response, nn, workflow_name){
 		            			console.log(response);
 		            			protocol_data = response.data.reverse();
+		            			
 		            			for(x in protocol_data){
 		            				index = protocol_data[x].index.split("^^")[0].split('"')[1]
 		            				protoc = protocol_data[x].protocol.split("protocols/")[1].split('>')[0]
 		            				workflowname_to_protocols[workflow_name].push([index,protoc]);
+		            			}
+
+		            			for(y in workflowname_to_protocols[workflow_name]){
+		            				pg_requests.get_protocols_by_ids(workflowname_to_protocols[workflow_name][y][1], workflowname_to_protocols[workflow_name][y], function(response, workflow_entry){
+		            					console.log(response);
+		            					workflow_entry.push(response.data.name);
+		            				})
 		            			}
 
 		            		})
@@ -1493,7 +1501,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     					indexes += parts.replace('>', '') + ',';
     				}
     				indexes = indexes.replace(/,$/, '');
-    				pg_requests.get_protocols_by_ids(indexes, function(response){
+    				pg_requests.get_protocols_by_ids(indexes, "", function(response){
     					protocols_in_use = [];
     					for (x in response.data){
     						protocol_object = JSON.parse(response.data[x].steps);

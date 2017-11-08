@@ -158,10 +158,12 @@ function Objects_Utils(){
 				    	}
 				    }
 
-				    $('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
-				    $('#'+table_id+' tbody').off('click', 'button.workflows_child');
-				    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
-				    $('.child_row').css({"background-color":"#eeffff"});
+				    setTimeout(function(){
+				    	$('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
+					    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
+					    $('.child_row').css({"background-color":"#eeffff"});
+				    }, 200)
+				    
 
             }
 	    });
@@ -253,7 +255,6 @@ function Objects_Utils(){
 	        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
 
 	        	if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
-	        		console.log("RESET")
 	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
 	        		$(prevWorkflow[2]).attr("shown_child", "false");
 	        	}

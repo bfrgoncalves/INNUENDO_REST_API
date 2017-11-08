@@ -78,13 +78,11 @@ function Objects_Utils(){
 	    tr_string='';
 	    console.log(d);
     	tr_string += '<tr class="child_row">'+
-	            '<td><b>Workflows</b></td>'+
-	            '<td colspan="6">'+d.Analysis+'</td>'+
+	            '<td colspan="6"><b>Workflows</b>'+d.Analysis+'</td>'+
 	        '</tr>';
 
 	    tr_string += '<tr class="child_row protocols_child" id="'+d.strainID+'_workflows">'+
-	            '<td><b>Protocols</b></td>'+
-	            '<td colspan="6" id="'+d.strainID+'_protocols"></td>'+
+	            '<td colspan="6" id="'+d.strainID+'_protocols"><b>Protocols</b></td>'+
 	        '</tr>';
 
 	    protocols_on_table[d.strainID] = d.protocols;
@@ -247,7 +245,7 @@ function Objects_Utils(){
 	        	var strainID = $(this).attr('strainID');
 		        
 		        $("#"+strainID+"_protocols").empty();
-		        $("#"+strainID+"_protocols").html(protocols_on_table[strainID][workflow_name]);
+		        $("#"+strainID+"_protocols").html('<b>Protocols</b>'+protocols_on_table[strainID][workflow_name]);
 		        
 	        	$("#"+strainID+"_workflows").css({"display":"block"});
 

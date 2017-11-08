@@ -76,12 +76,12 @@ function Objects_Utils(){
 	function format_analysis ( d, table_id ) {
 	    // `d` is the original data object for the row
 	    tr_string='';
-
+	    
     	tr_string += '<tr class="child_row">'+
 	            '<td colspan="6"><p class="cell_paragraph"><b>Analytical Procedures:</b></p>'+d.Analysis+'</td>'+
 	        '</tr>';
 
-	    tr_string += '<tr class="protocols_child" id="'+d.strainID+'_workflows">'+
+	    tr_string += '<tr class="child_row protocols_child" id="'+d.strainID+'_workflows">'+
 	            '<td colspan="6" id="'+d.strainID+'_protocols"><p class="cell_paragraph"><b>Protocols:</b></p></td>'+
 	        '</tr>';
 

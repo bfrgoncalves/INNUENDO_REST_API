@@ -75,6 +75,9 @@ function Objects_Utils(){
 
 	function format_analysis ( d, table_id ) {
 	    // `d` is the original data object for the row
+
+	    $("#"+d.strainID+'_table').remove();
+	    
 	    tr_string='';
 
     	tr_string += '<tr class="child_row">'+
@@ -87,7 +90,7 @@ function Objects_Utils(){
 
 	    protocols_on_table[d.strainID] = d.protocols;
 
-	    return '<table border="0" style="width:100%;">'+tr_string+'</table>';
+	    return '<table border="0" id="'+d.strainID+'_table" style="width:100%;">'+tr_string+'</table>';
 	}
 
 

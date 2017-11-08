@@ -78,24 +78,18 @@ function Objects_Utils(){
 	    tr_string='';
 
     	tr_string += '<tr class="child_row">'+
-	            '<td><b>Analysis</b></td>'+
+	            '<td><b>Workflows</b></td>'+
 	            '<td colspan="6">'+d.Analysis+'</td>'+
+	        '</tr>';
+
+	    tr_string += '<tr class="child_row">'+
+	            '<td><b>Protocols</b></td>'+
+	            '<td colspan="6">'+"NONE"+'</td>'+
 	        '</tr>';
 
 	    return '<table class="display" id="analysis_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
 	}
 
-	function format_protocols ( d, table_id ) {
-	    // `d` is the original data object for the row
-	    tr_string='';
-
-    	tr_string += '<tr class="child_row_protocols">'+
-	            '<td><b>Protocols</b></td>'+
-	            '<td colspan="6">'+d+'</td>'+
-	        '</tr>';
-
-	    return '<table class="display" id="protocols_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
-	}
 
 	function format_lab_protocols ( d, table_id ) {
 	    // `d` is the original data object for the row
@@ -241,42 +235,6 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	   $('#'+table_id+' tbody').on('click', 'button.protocol_row-control', function () {
-	        console.log("AQUI");
-	        if(table_id.indexOf('strains_table') > - 1){
-
-	        	var tr = $(this).closest('tr');
-		        var row = $('#analysis_child_table').DataTable().row( tr );
-		        var index_r = $('#analysis_child_table').DataTable().row( tr ).index();
-		        console.log(row, index_r);
-
-	            if(row.child.isShown()){
-	            	// This row is already open - close it
-		            row.child.hide();
-		            $(this).removeClass('shown');
-		            tr.removeClass('shown');
-		            var index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
-	    			CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
-	            }
-		        else {
-		            // Open this row
-		            row.child( [current_analysis_child, format_protocols("NONE", table_id)]).show();
-		            $(this).addClass('shown');
-		            tr.addClass('shown');
-
-		            if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];
-		            if($.inArray(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) == -1){
-			    		CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].push(index_r);
-			    	}
-
-		            for(x in current_job_status_color){
-		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
-		            }
-		            $('.child_row_protocols').css({"background-color":"#eeff0f"});
-
-		        }
-	        }
-	    } );
 	}
 
 	function nestedTable(table_id, columnDefinitions, data, visible_headers){

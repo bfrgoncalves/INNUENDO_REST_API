@@ -158,7 +158,7 @@ function Objects_Utils(){
 				    	}
 				    }
 
-				    //$('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
+				    $('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
 				    //$('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 				    $('.child_row').css({"background-color":"#eeffff"});
 
@@ -256,7 +256,7 @@ function Objects_Utils(){
 	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
 	        		$(prevWorkflow[2]).attr("shown_child", "false");
 	        	}
-	        	
+
         		if(shown =='false'){
 	        		console.log("entrou")
 	        		$("#"+strainID+"_protocols").empty();

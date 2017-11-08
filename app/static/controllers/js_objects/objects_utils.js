@@ -284,7 +284,7 @@ function Objects_Utils(){
 
 	   is_open = false;
 
-	   $('#'+table_id+' tbody').on('mouseover', 'button.workflows_child', function (e) {
+	   $('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
 
 	        	var workflow_name = $(this).attr('name');

@@ -187,6 +187,8 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
 	    $('#'+table_id+' tbody').off('click', 'button.workflows_child');
+	    $('#'+table_id+' tbody').off('mouseenter', 'button.workflows_child');
+	    $('#'+table_id+' tbody').off('mouseleave', 'button.workflows_child');
 	    $('#'+table_id+' tbody').off('click', 'button.button_table_to_trigger');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
@@ -248,46 +250,64 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 
-	        	isShift = !!window.event.shiftKey;
-	        	console.log(isShift);
+        		var workflow_name = $(this).attr('name');
+	        	var strainID = $(this).attr('strainID');
+	        	var shown = $(this).attr("shown_child");
 
-	        	if(isShift){
-	        		console.log($(this).closest("ul"));
-	        		$(this).closest("ul").trigger("change");
+	        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
+
+	        	if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
+	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
+	        		$(prevWorkflow[2]).attr("shown_child", "false");
+	        	}
+
+        		if(shown =='false'){
+	        		console.log("entrou")
+	        		$("#"+strainID+"_protocols").empty();
+			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
+			        
+		        	$("#"+strainID+"_workflows").css({"display":"block"});
+		        	$(this).attr("shown_child", "true");
+
 	        	}
 	        	else{
-	        		var workflow_name = $(this).attr('name');
-		        	var strainID = $(this).attr('strainID');
-		        	var shown = $(this).attr("shown_child");
-
-		        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
-
-		        	if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
-		        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
-		        		$(prevWorkflow[2]).attr("shown_child", "false");
-		        	}
-
-	        		if(shown =='false'){
-		        		console.log("entrou")
-		        		$("#"+strainID+"_protocols").empty();
-				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-				        
-			        	$("#"+strainID+"_workflows").css({"display":"block"});
-			        	$(this).attr("shown_child", "true");
-
-		        	}
-		        	else{
-		        		$("#"+strainID+"_workflows").css({"display":"none"});
-		        		$(this).attr("shown_child", "false");
-		        	}
-		        	
-
-		        	prevWorkflow = [strainID, workflow_name, this];
+	        		$("#"+strainID+"_workflows").css({"display":"none"});
+	        		$(this).attr("shown_child", "false");
 	        	}
+	        	
+
+	        	prevWorkflow = [strainID, workflow_name, this];
 		        
 
 	        }
 	    } );
+
+	   $('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function () {
+	        if(table_id.indexOf('strains_table') > - 1){
+
+	        	console.log("ENTER");
+
+	        	isShift = !!window.event.shiftKey;
+	        	console.log(isShift);
+
+	        	if(isShift){
+	        		$(this).closest("ul").trigger("change");
+	        	}
+
+	        }
+
+	    });
+
+	   $('#'+table_id+' tbody').on('mouseleave', 'button.workflows_child', function () {
+	        if(table_id.indexOf('strains_table') > - 1){
+	        	console.log("LEAVE");
+	        	$(this).closest("ul").trigger("change");
+	        	
+
+	        }
+
+	    });
+
 
 	}
 

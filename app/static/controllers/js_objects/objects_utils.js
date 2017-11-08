@@ -76,7 +76,7 @@ function Objects_Utils(){
 	    // `d` is the original data object for the row
 	    tr_string='';
 	    console.log(d);
-    	tr_string += '<tr class="child_row">'+
+    	tr_string += '<tr class="child_row workflows_child">'+
 	            '<td><b>Workflows</b></td>'+
 	            '<td colspan="6">'+d.Analysis+'</td>'+
 	        '</tr>';
@@ -178,6 +178,7 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.protocols_child');
+	    $('#'+table_id+' tbody').off('click', 'button.workflows_child');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
 
@@ -234,7 +235,7 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	   $('#'+table_id+' tbody').on('click', 'button.protocols_child', function () {
+	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 	        	console.log("AQUI");
 	        	var tr = $(this).closest('tr');

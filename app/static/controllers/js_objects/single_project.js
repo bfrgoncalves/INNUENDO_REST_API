@@ -954,6 +954,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    for(i in strain_data){
 		        var toAdd_analysis = '';
 		        var toAdd_lab_protocols = '';
+		        var toAdd_Protocols = '';
 		        counter++;
 		        var pip_start_id = 0;
 		        var last_proc_name = proc_value;

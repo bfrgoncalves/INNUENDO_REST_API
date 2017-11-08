@@ -251,33 +251,38 @@ function Objects_Utils(){
 	        	isShift = !!window.event.shiftKey;
 	        	console.log(isShift);
 
-	        	var workflow_name = $(this).attr('name');
-	        	var strainID = $(this).attr('strainID');
-	        	var shown = $(this).attr("shown_child");
-
-	        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
-
-	        	if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
-	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
-	        		$(prevWorkflow[2]).attr("shown_child", "false");
-	        	}
-
-        		if(shown =='false'){
-	        		console.log("entrou")
-	        		$("#"+strainID+"_protocols").empty();
-			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-			        
-		        	$("#"+strainID+"_workflows").css({"display":"block"});
-		        	$(this).attr("shown_child", "true");
-
+	        	if(isShift){
+	        		$(this).trigger("change");
 	        	}
 	        	else{
-	        		$("#"+strainID+"_workflows").css({"display":"none"});
-	        		$(this).attr("shown_child", "false");
-	        	}
-	        	
+	        		var workflow_name = $(this).attr('name');
+		        	var strainID = $(this).attr('strainID');
+		        	var shown = $(this).attr("shown_child");
 
-	        	prevWorkflow = [strainID, workflow_name, this];
+		        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
+
+		        	if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
+		        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
+		        		$(prevWorkflow[2]).attr("shown_child", "false");
+		        	}
+
+	        		if(shown =='false'){
+		        		console.log("entrou")
+		        		$("#"+strainID+"_protocols").empty();
+				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
+				        
+			        	$("#"+strainID+"_workflows").css({"display":"block"});
+			        	$(this).attr("shown_child", "true");
+
+		        	}
+		        	else{
+		        		$("#"+strainID+"_workflows").css({"display":"none"});
+		        		$(this).attr("shown_child", "false");
+		        	}
+		        	
+
+		        	prevWorkflow = [strainID, workflow_name, this];
+	        	}
 		        
 
 	        }

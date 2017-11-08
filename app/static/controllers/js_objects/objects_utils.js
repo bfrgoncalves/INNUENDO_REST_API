@@ -244,6 +244,8 @@ function Objects_Utils(){
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown");
 
+	        	console.log("AQUI");
+
 	        	if(shown =='false'){
 	        		$("#"+strainID+"_protocols").empty();
 			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);

@@ -89,7 +89,7 @@ function Objects_Utils(){
 
 	    protocols_on_table[d.strainID] = d.protocols;
 
-	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	    return '<table border="0" style="width:100%;">'+tr_string+'</table>';
 	}
 
 

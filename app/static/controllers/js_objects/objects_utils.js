@@ -168,7 +168,8 @@ function Objects_Utils(){
 	    table.columns.adjust().draw();
 
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
-	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
+	    $('#'+table_id+' tbody').off('click', 'button.details-control');
+	    $('#'+table_id+' tbody').off('click', 'button.protocol_row-control');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
 
@@ -223,7 +224,7 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	   $('#'+table_id+' tbody').on('click', 'button.protocol_row', function () {
+	   $('#'+table_id+' tbody').on('click', 'button.protocol_row-control', function () {
 	        console.log("AQUI");
 	    } );
 	}

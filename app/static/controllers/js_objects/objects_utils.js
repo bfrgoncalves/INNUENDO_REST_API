@@ -184,6 +184,7 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
 	    $('#'+table_id+' tbody').off('click', 'button.workflows_child');
+	    $('#'+table_id+' tbody').off('click', 'button.button_table_to_trigger');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
 

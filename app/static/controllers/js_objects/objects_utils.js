@@ -220,7 +220,6 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            current_analysis_child = format_analysis(row.data(), table_id)
 		            
 		            row.child( format_analysis(row.data(), table_id), 'child_row').show();
 		            $(this).addClass('shown');

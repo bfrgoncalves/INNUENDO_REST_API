@@ -248,6 +248,9 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 
+	        	isShift = !!window.event.shiftKey;
+	        	console.log(isShift);
+
 	        	var workflow_name = $(this).attr('name');
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown_child");

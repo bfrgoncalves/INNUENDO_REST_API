@@ -253,7 +253,7 @@ function Objects_Utils(){
 
 	        	if (prevWorkflow[0] != null && strainID != prevWorkflow[0] && workflow_name != prevWorkflow[1]){
 	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
-	        		$(this).attr("shown_child", "false");
+	        		$(prevWorkflow[2]).attr("shown_child", "false");
 	        	}
 	        	else{
 	        		if(shown =='false'){

@@ -294,7 +294,7 @@ function Objects_Utils(){
 	        	console.log(isShift);
 
 	        	if(isShift){
-	        		$("#"+strainID+"_"+workflow_name).dropdown('toggle');
+	        		$("#"+strainID+"_"+workflow_name).dropdown('open');
 	        	}
 
 	        }
@@ -308,7 +308,7 @@ function Objects_Utils(){
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown_child");
 
-	        	$("#"+strainID+"_"+workflow_name).dropdown('toggle');
+	        	$("#"+strainID+"_"+workflow_name).dropdown('close');
 	        	
 
 	        }

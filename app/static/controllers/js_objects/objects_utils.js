@@ -236,10 +236,12 @@ function Objects_Utils(){
 
 	   $('#'+table_id+' tbody').on('click', 'button.protocols_child', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
-
+	        	console.log("AQUI");
 	        	var tr = $(this).closest('tr');
 		        var row = $('#'+table_id).DataTable().row( tr );
 		        var r_data = row.data();
+		        console.log(r_data);
+
 	        	
 	        	$(this).css({"display":"block"});
 

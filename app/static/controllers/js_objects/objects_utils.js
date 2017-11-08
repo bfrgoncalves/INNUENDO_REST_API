@@ -451,12 +451,10 @@ function Objects_Utils(){
 
 function show_all_analysis(){
 	$("button.analysis-control:not(.shown)").trigger("click");
-	$("button.workflows_child:not(.shown)").trigger("click");
 }
 
 function hide_all_analysis(){
 	$("button.analysis-control.shown").trigger("click");
-	$("button.workflows_child.shown").trigger("click");
 }
 
 

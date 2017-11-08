@@ -373,11 +373,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    if (response.data[i].availability == null || response.data[i].availability == "true"){
 		                    	to_send.push(response.data[i]);
 		                    }
+		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response){
+		            			console.log(response);
+		            		})
 		                }
 		            }
-		            ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response){
-		            	console.log(response);
-		            })
 		            callback(to_send);
 				}
 				else{

@@ -252,7 +252,7 @@ function Objects_Utils(){
 	        	console.log(isShift);
 
 	        	if(isShift){
-	        		$(this).trigger("change");
+	        		$(this).closest("ul").trigger("change");
 	        	}
 	        	else{
 	        		var workflow_name = $(this).attr('name');

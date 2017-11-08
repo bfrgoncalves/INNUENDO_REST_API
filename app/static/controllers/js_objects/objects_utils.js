@@ -158,8 +158,8 @@ function Objects_Utils(){
 				    	}
 				    }
 
-				    //$('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
-				    //$('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
+				    $('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
+				    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 				    $('.child_row').css({"background-color":"#eeffff"});
 
             }
@@ -240,6 +240,8 @@ function Objects_Utils(){
 	        }
 	    } );
 
+	   prevWorkflow = [null,null, null];
+
 	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 
@@ -249,19 +251,27 @@ function Objects_Utils(){
 
 	        	console.log("AQUI", workflow_name, strainID, shown);
 
-	        	if(shown =='false'){
-	        		console.log("entrou")
-	        		$("#"+strainID+"_protocols").empty();
-			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-			        
-		        	$("#"+strainID+"_workflows").css({"display":"block"});
-		        	$(this).attr("shown_child", "true");
-
-	        	}
-	        	else{
-	        		$("#"+strainID+"_workflows").css({"display":"none"});
+	        	if (prevWorkflow[0] != null && strainID != prevWorkflow[0] && workflow_name != prevWorkflow[1]){
+	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
 	        		$(this).attr("shown_child", "false");
 	        	}
+	        	else{
+	        		if(shown =='false'){
+		        		console.log("entrou")
+		        		$("#"+strainID+"_protocols").empty();
+				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
+				        
+			        	$("#"+strainID+"_workflows").css({"display":"block"});
+			        	$(this).attr("shown_child", "true");
+
+		        	}
+		        	else{
+		        		$("#"+strainID+"_workflows").css({"display":"none"});
+		        		$(this).attr("shown_child", "false");
+		        	}
+	        	}
+
+	        	prevWorkflow = [strainID, workflow_name, this];
 		        
 
 	        }

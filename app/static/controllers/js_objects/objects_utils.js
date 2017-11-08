@@ -18,6 +18,7 @@ Object_Utils Object - An object with all functions used in the metadata manageme
 Launch a object_utils instance
 */
 
+var protocols_on_table = {};
 
 function Objects_Utils(){
 
@@ -86,6 +87,8 @@ function Objects_Utils(){
 	            '<td colspan="6" id="'+d.strainID+'_protocols"></td>'+
 	        '</tr>';
 
+	    protocols_on_table[d.strainID] = d.protocols;
+
 	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
 	}
 
@@ -103,6 +106,8 @@ function Objects_Utils(){
 	}
 
 	function searchableTable(table_id, columnDefinitions, data, visible_headers){
+
+		protocols_on_table = {};
 
 		$('#' + table_id + ' tfoot th').each( function () {
 	        var title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
@@ -238,13 +243,13 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 	        	console.log("AQUI");
-	        	var tr = $(this).closest('tr');
-		        var row = $('#'+table_id).DataTable().row( tr );
-		        var r_data = row.data();
-		        console.log(r_data);
-
-	        	
-	        	$(this).css({"display":"block"});
+	        	var workflow_name = $(this).attr('name');
+	        	var strainID = $(this).attr('strainID');
+		        
+		        $("#"+strainID+"_protocols").empty();
+		        $("#"+strainID+"_protocols").html(protocols_on_table[strainID][workflow_name]);
+		        
+	        	$("#"+strainID+"_workflows").css({"display":"block"});
 
 	        }
 	    } );

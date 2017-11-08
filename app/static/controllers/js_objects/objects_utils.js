@@ -79,7 +79,7 @@ function Objects_Utils(){
 	            '<td colspan="6">'+d.Analysis+'</td>'+
 	        '</tr>';
 
-	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
+	    return '<table id="analysis_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
 	}
 
 	function format_lab_protocols ( d, table_id ) {
@@ -221,6 +221,10 @@ function Objects_Utils(){
 
 		        }
 	        }
+	    } );
+
+	   $('#'+table_id+' tbody').on('click', 'button.protocol_row', function () {
+	        console.log("AQUI");
 	    } );
 	}
 

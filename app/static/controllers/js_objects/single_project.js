@@ -390,7 +390,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            			for(y in workflowname_to_protocols[workflow_name]){
 		            				pg_requests.get_protocols_by_ids(workflowname_to_protocols[workflow_name][y][1], workflowname_to_protocols[workflow_name][y], function(response, workflow_entry){
 		            					console.log(response);
-		            					workflow_entry.push(response.data.name);
+		            					workflow_entry.push(response.data[0].name);
 		            				})
 		            			}
 

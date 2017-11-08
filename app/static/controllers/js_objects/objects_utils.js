@@ -81,9 +81,9 @@ function Objects_Utils(){
 	            '<td colspan="6">'+d.Analysis+'</td>'+
 	        '</tr>';
 
-	    tr_string += '<tr class="child_row">'+
+	    tr_string += '<tr class="child_row protocols_child" id="'+d.strainID+'_workflows" style="display:none;">'+
 	            '<td><b>Protocols</b></td>'+
-	            '<td colspan="6">'+d.protocols["test_3_not_use"]+'</td>'+
+	            '<td colspan="6" id="'+d.strainID+'_protocols"></td>'+
 	        '</tr>';
 
 	    return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
@@ -177,7 +177,7 @@ function Objects_Utils(){
 
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
-	    $('#'+table_id+' tbody').off('click', 'button.protocol_row-control');
+	    $('#'+table_id+' tbody').off('click', 'button.protocols_child');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
 
@@ -231,6 +231,18 @@ function Objects_Utils(){
 		            $('.child_row').css({"background-color":"#eeffff"});
 
 		        }
+	        }
+	    } );
+
+	   $('#'+table_id+' tbody').on('click', 'button.protocols_child', function () {
+	        if(table_id.indexOf('strains_table') > - 1){
+
+	        	var tr = $(this).closest('tr');
+		        var row = $('#'+table_id).DataTable().row( tr );
+		        var r_data = row.data();
+	        	
+	        	$(this).css({"display":"block"});
+
 	        }
 	    } );
 

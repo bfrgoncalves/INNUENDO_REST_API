@@ -218,7 +218,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( format_protocols(row.data(), table_id),  'child_row').show();
+		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 
@@ -230,7 +230,7 @@ function Objects_Utils(){
 		            for(x in current_job_status_color){
 		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
 		            }
-		            $('.child_row_protocols').css({"background-color":"#eeff0f"});
+		            $('.child_row_protocols').css({"background-color":"#eeffff"});
 
 		        }
 	        }
@@ -254,7 +254,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( format_analysis(row.data(), table_id),  'child_row').show();
+		            row.child( format_protocols(row.data(), table_id),  'child_row').show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 
@@ -266,7 +266,7 @@ function Objects_Utils(){
 		            for(x in current_job_status_color){
 		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
 		            }
-		            $('.child_row').css({"background-color":"#eeffff"});
+		            $('.child_row').css({"background-color":"#eeff0f"});
 
 		        }
 	        }

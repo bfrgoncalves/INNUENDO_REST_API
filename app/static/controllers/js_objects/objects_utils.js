@@ -256,13 +256,11 @@ function Objects_Utils(){
 			        
 		        	$("#"+strainID+"_workflows").css({"display":"block"});
 		        	$(this).attr("shown_child", "true");
-		        	$(this).addClass('shown');
 
 	        	}
 	        	else{
 	        		$("#"+strainID+"_workflows").css({"display":"none"});
 	        		$(this).attr("shown_child", "false");
-	        		$(this).removeClass('shown');
 	        	}
 		        
 

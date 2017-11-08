@@ -286,12 +286,15 @@ function Objects_Utils(){
 	        if(table_id.indexOf('strains_table') > - 1){
 
 	        	console.log("ENTER");
+	        	var workflow_name = $(this).attr('name');
+	        	var strainID = $(this).attr('strainID');
+	        	var shown = $(this).attr("shown_child");
 
 	        	isShift = !!window.event.shiftKey;
 	        	console.log(isShift);
 
 	        	if(isShift){
-	        		$(this).closest("ul").trigger("change");
+	        		$("#"+strainID+"_"+workflow_name).trigger("change");
 	        	}
 
 	        }
@@ -301,7 +304,11 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('mouseleave', 'button.workflows_child', function () {
 	        if(table_id.indexOf('strains_table') > - 1){
 	        	console.log("LEAVE");
-	        	$(this).closest("ul").trigger("change");
+	        	var workflow_name = $(this).attr('name');
+	        	var strainID = $(this).attr('strainID');
+	        	var shown = $(this).attr("shown_child");
+
+	        	$("#"+strainID+"_"+workflow_name).trigger("change");
 	        	
 
 	        }

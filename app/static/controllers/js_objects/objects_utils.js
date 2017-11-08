@@ -247,6 +247,7 @@ function Objects_Utils(){
 	        	console.log("AQUI", workflow_name, strainID, shown);
 
 	        	if(shown =='false'){
+	        		console.log("entrou")
 	        		$("#"+strainID+"_protocols").empty();
 			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
 			        

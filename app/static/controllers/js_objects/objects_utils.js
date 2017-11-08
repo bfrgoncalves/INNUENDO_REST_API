@@ -294,6 +294,8 @@ function Objects_Utils(){
 	        	console.log(isShift);
 
 	        	if(isShift){
+	        		console.log("#"+strainID+"_"+workflow_name);
+	        		console.log($("#"+strainID+"_"+workflow_name).find('[data-toggle=dropdown]'));
 	        		$("#"+strainID+"_"+workflow_name).find('[data-toggle=dropdown]').dropdown('toggle');
 	        	}
 

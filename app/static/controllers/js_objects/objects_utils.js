@@ -241,8 +241,8 @@ function Objects_Utils(){
 	        if(table_id.indexOf('strains_table') > - 1){
 
 	        	var tr = $(this).closest('tr');
-		        var row = $('#analysis_child_table').DataTable().row( tr );
-		        var index_r = $('#analysis_child_table').DataTable().row( tr ).index();
+		        var row = $('#'+table_id).DataTable().row( tr );
+		        var index_r = $('#'+table_id).DataTable().row( tr ).index();
 		        console.log(row, index_r);
 
 	            if(row.child.isShown()){

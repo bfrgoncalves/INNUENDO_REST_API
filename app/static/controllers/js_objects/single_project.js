@@ -375,6 +375,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    }
 		                }
 		            }
+		            ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response){
+		            	console.log(response);
+		            })
 		            callback(to_send);
 				}
 				else{

@@ -252,6 +252,7 @@ function Objects_Utils(){
 	        	console.log(isShift);
 
 	        	if(isShift){
+	        		console.log($(this).closest("ul"));
 	        		$(this).closest("ul").trigger("change");
 	        	}
 	        	else{

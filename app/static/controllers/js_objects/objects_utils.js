@@ -249,7 +249,7 @@ function Objects_Utils(){
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown_child");
 
-	        	console.log("AQUI", workflow_name, strainID, shown);
+	        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
 
 	        	if (prevWorkflow[0] != null && strainID != prevWorkflow[0] && workflow_name != prevWorkflow[1]){
 	        		console.log("RESET")

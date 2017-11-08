@@ -984,7 +984,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	protocol_buttons = "";
 
 			        for(pt in workflowname_to_protocols[proc_value]){
-			        	protocol_button += '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[proc_value][pt][2] + '</button>';
+			        	protocol_buttons += '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[proc_value][pt][2] + '</button>';
 			        }
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
@@ -1002,7 +1002,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        pipelines_applied[strain_data[counter]['strainID']].push(buttonselectedPipeline);
 		        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));
 		        	else if (type_proc == 'analysis_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][1].push(buttonselectedPipeline.replace("&&&", ""));
-		        	else pipelines_type_by_strain[strain_data[counter]['strainID']][2].push(protocol_button.replace("&&&", ""));
+		        	else pipelines_type_by_strain[strain_data[counter]['strainID']][2].push(protocol_buttons.replace("&&&", ""));
 
 			        for(j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	for(o in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){

@@ -87,8 +87,8 @@ function Objects_Utils(){
 	    tr_string='';
 
     	tr_string += '<tr class="child_row_protocols">'+
-	            '<td><b>Analysis</b></td>'+
-	            '<td colspan="6">'+d.Analysis+'</td>'+
+	            '<td><b>Protocols</b></td>'+
+	            '<td colspan="6">'+d+'</td>'+
 	        '</tr>';
 
 	    return '<table id="protocols_child_table" cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
@@ -243,6 +243,7 @@ function Objects_Utils(){
 	        	var tr = $(this).closest('tr');
 		        var row = $('#analysis_child_table').DataTable().row( tr );
 		        var index_r = $('#analysis_child_table').DataTable().row( tr ).index();
+		        console.log(row, index_r);
 
 	            if(row.child.isShown()){
 	            	// This row is already open - close it
@@ -254,7 +255,7 @@ function Objects_Utils(){
 	            }
 		        else {
 		            // Open this row
-		            row.child( format_protocols(row.data(), table_id),  'child_row').show();
+		            row.child( format_protocols("NONE", table_id),  'child_row').show();
 		            $(this).addClass('shown');
 		            tr.addClass('shown');
 

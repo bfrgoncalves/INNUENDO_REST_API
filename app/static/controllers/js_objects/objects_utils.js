@@ -251,7 +251,7 @@ function Objects_Utils(){
 
 	        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
 
-	        	if (prevWorkflow[0] != null && strainID != prevWorkflow[0] && workflow_name != prevWorkflow[1]){
+	        	if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
 	        		console.log("RESET")
 	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
 	        		$(prevWorkflow[2]).attr("shown_child", "false");

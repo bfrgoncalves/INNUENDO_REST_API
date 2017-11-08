@@ -75,7 +75,7 @@ function Objects_Utils(){
 	function format_analysis ( d, table_id ) {
 	    // `d` is the original data object for the row
 	    tr_string='';
-
+	    console.log(d);
     	tr_string += '<tr class="child_row">'+
 	            '<td><b>Workflows</b></td>'+
 	            '<td colspan="6">'+d.Analysis+'</td>'+

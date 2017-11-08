@@ -180,7 +180,6 @@ function Objects_Utils(){
 
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
-	    $('#'+table_id+' tbody').off('click', 'button.protocols_child');
 	    $('#'+table_id+' tbody').off('click', 'button.workflows_child');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
@@ -251,11 +250,13 @@ function Objects_Utils(){
 			        
 		        	$("#"+strainID+"_workflows").css({"display":"block"});
 		        	$(this).attr("shown", "true");
+		        	$(this).addClass('shown');
 
 	        	}
 	        	else{
 	        		$("#"+strainID+"_workflows").css({"display":"none"});
 	        		$(this).attr("shown", "false");
+	        		$(this).removeClass('shown');
 	        	}
 		        
 
@@ -448,10 +449,12 @@ function Objects_Utils(){
 
 function show_all_analysis(){
 	$("button.analysis-control:not(.shown)").trigger("click");
+	$("button.workflows_child:not(.shown)").trigger("click");
 }
 
 function hide_all_analysis(){
 	$("button.analysis-control.shown").trigger("click");
+	$("button.workflows_child.shown").trigger("click");
 }
 
 

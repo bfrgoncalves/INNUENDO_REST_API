@@ -38,7 +38,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
 	var protocols_list = new Protocol_List($http);
 
-	var usedSoftware = ["INNUca", "chewBBACA", "PathoTyping"];
+	var usedSoftware = ["INNUca", "chewBBACA", "PathoTyping", "integrity_coverage", "fastqc", "trimmomatic", "integrity_coverage_2", "fastqc2", "spades", "process_spades", "assembly_mapping", "process_assembly_mapping", "pilon", "mlst", "prokka", "abricate"];
 
 	$scope.loadProtocols = function(){
 		$scope.getProtocolTypes();
@@ -142,7 +142,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 	$scope.loadProtocol = function(selectedProtocol){
 
 		$("#div_protocol_show").css({display:"none"});
-		console.log("AQUI");
+
 		protocols_list.load_protocol(selectedProtocol, function(results){
 			$scope.selected_protocol = results.protocol;
 			$("#div_protocol_show").css({display:"block"});

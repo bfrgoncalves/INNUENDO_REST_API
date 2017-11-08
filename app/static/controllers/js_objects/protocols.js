@@ -37,7 +37,7 @@ function Protocol_List($http){
 		if(property == 'used Software'){
 			return ["select", "text"];
 		}
-		if(property == 'name' || property == 'SLURM CPUs'){
+		if(property == 'name' || property == 'CPUs'){
 			return ["input", "required"];
 		}
 		return ["input", "text"];
@@ -119,7 +119,7 @@ function Protocol_List($http){
 		    		protocolUri = response.data[i].rangeClass
 		    		protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
 		    	}
-		    	protocol_type["SLURM CPUs"] = ["input", "required"];
+		    	protocol_type["CPUs"] = ["input", "required"];
 		    	callback({protocol_type:protocol_type, protocol_parameters:protocol_parameters});
 			});
 		},

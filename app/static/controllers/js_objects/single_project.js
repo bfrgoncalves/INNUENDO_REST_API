@@ -1028,7 +1028,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        }
 
 		        //console.log(toAdd_analysis);
-		        strain_data[i]['protocols'] = {};
+		        if(!strain_data[i].hasOwnProperty('protocols')) strain_data[i]['protocols'] = {};
+		        
 
 		        if(type_proc == 'lab_protocol') strain_data[i]['lab_protocols'] = toAdd_lab_protocols;
 	        	else if (type_proc == 'analysis_protocol'){

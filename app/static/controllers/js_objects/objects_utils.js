@@ -256,21 +256,21 @@ function Objects_Utils(){
 	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
 	        		$(prevWorkflow[2]).attr("shown_child", "false");
 	        	}
-	        	else{
-	        		if(shown =='false'){
-		        		console.log("entrou")
-		        		$("#"+strainID+"_protocols").empty();
-				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-				        
-			        	$("#"+strainID+"_workflows").css({"display":"block"});
-			        	$(this).attr("shown_child", "true");
+	        	
+        		if(shown =='false'){
+	        		console.log("entrou")
+	        		$("#"+strainID+"_protocols").empty();
+			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
+			        
+		        	$("#"+strainID+"_workflows").css({"display":"block"});
+		        	$(this).attr("shown_child", "true");
 
-		        	}
-		        	else{
-		        		$("#"+strainID+"_workflows").css({"display":"none"});
-		        		$(this).attr("shown_child", "false");
-		        	}
 	        	}
+	        	else{
+	        		$("#"+strainID+"_workflows").css({"display":"none"});
+	        		$(this).attr("shown_child", "false");
+	        	}
+	        	
 
 	        	prevWorkflow = [strainID, workflow_name, this];
 		        

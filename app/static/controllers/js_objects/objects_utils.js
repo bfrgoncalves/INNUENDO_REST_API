@@ -282,8 +282,11 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	   $('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function (e) {
+	   is_open = false;
+
+	   $('#'+table_id+' tbody').on('mouseover', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
+	        	is_open = true;
 
 	        	console.log("ENTER");
 	        	var workflow_name = $(this).attr('name');
@@ -310,9 +313,12 @@ function Objects_Utils(){
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown_child");
 
-	        	$("#"+strainID+"_"+workflow_name).toggle();
-			    e.stopPropagation();
-			    e.preventDefault();
+	        	if(is_open){
+	        		$("#"+strainID+"_"+workflow_name).toggle();
+				    e.stopPropagation();
+				    e.preventDefault();
+				    is_open = false;
+	        	}
 	        	
 
 	        }

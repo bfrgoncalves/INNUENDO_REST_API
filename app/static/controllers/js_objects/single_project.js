@@ -59,6 +59,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var global_counter_pipelines = 0;
     var strains_without_pip = {};
     var strains_new_without_pip = {};
+    var workflowname_to_protocols = {};
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     var ngs_onto_requests = new ngs_onto_client(CURRENT_PROJECT_ID, $http);
     var objects_utils = new Objects_Utils();
@@ -373,11 +374,22 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    if (response.data[i].availability == null || response.data[i].availability == "true"){
 		                    	to_send.push(response.data[i]);
 		                    }
-		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response){
+
+		                    workflowname_to_protocols[response.data[i].name] = [];
+
+		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response, nn, workflow_name){
 		            			console.log(response);
+		            			protocol_data = response.data.reverse();
+		            			for(x in protocol_data){
+		            				index = protocol_data[x].index.split("^^")[0].split('"')[2]
+		            				protoc = protocol_data[x].protocol.split("protocols/")[1].split('>')[0]
+		            				workflowname_to_protocols[workflow_name].push([index,protoc]);
+		            			}
+
 		            		})
 		                }
 		            }
+		            console.log(workflowname_to_protocols);
 		            callback(to_send);
 				}
 				else{

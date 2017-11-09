@@ -1710,6 +1710,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							last_process = count_pipeline_ids_last_parent;
 
 							if(pipelines_applied[strain_names[index]][pipeline].indexOf(class_n) < 0) {
+								console.log(pipelines_applied[strain_names[index]][pipeline], class_n);
 								
 								new_pipapplied.push(pipelines_applied[strain_names[index]][pipeline]);
 								

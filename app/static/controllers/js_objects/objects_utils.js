@@ -162,6 +162,15 @@ function Objects_Utils(){
 				    	$('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
 					    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 					    $('.child_row').css({"background-color":"#eeffff"});
+
+					    $('#'+table_id+' tbody').on('keyup', 'button.workflows_child', function (e) {
+					        if(table_id.indexOf('strains_table') > - 1){
+
+					        	console.log('AQUI');
+
+					        }
+
+	    				});
 				    }, 50)
 				    
 
@@ -321,15 +330,6 @@ function Objects_Utils(){
 
 	        	is_open = false;
 	        	
-
-	        }
-
-	    });
-
-	   $('#'+table_id+' tbody').on('keyup', 'button.workflows_child', function (e) {
-	        if(table_id.indexOf('strains_table') > - 1){
-
-	        	console.log('AQUI');
 
 	        }
 

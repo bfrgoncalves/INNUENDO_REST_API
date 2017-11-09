@@ -1436,6 +1436,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if(strains[i] == undefined) continue;
 
 				var strain_processes = strain_to_real_pip[strains_dict[strains[i].strainID]];
+				console.log(strain_processes);
 				count_processes += strain_processes == undefined ? 0 : strain_processes.length;
 
 				countStrain[strains[i].strainID] = 0;

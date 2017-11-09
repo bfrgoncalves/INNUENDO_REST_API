@@ -423,7 +423,7 @@ function Objects_Utils(){
 				        	protocol_buttons += '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2] + '</button>';
 				        }
 
-				        if(!strainNames_to_pipelinesNames.hasOwnProperty(strain_data[counter]['strainID'])){
+				        if(!strainNames_to_pipelinesNames.hasOwnProperty(s_name)){
 				        	strainNames_to_pipelinesNames[s_name] = [];
 				        }
 

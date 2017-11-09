@@ -1552,7 +1552,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    			else{
 							    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
 							    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
-							    				//console.log(pipeline_name);
+							    				console.log(pipeline_name, protocols_applied_by_pipeline[s_name]);
 							    				toAdd_protocols = protocols_applied_by_pipeline[s_name][pipeline_name];
 							    				strain_data[x]['protocols'][pipeline_name] = toAdd_protocols;
 							    				console.log(strain_data[x]['protocols'][pipeline_name]);

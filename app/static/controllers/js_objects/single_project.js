@@ -1544,7 +1544,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
 							    			pipeline_name = pipelines_applied[s_name][j].split('button')[1].split('</i>')[1].split('</')[0];
 
-							    			console.log(pipeline_name, pipelines_applied[s_name][j]);
+							    			//console.log(pipeline_name, pipelines_applied[s_name][j]);
 							    			if(buttons_to_tasks[pipeline_id] != undefined && buttons_to_tasks[pipeline_id].indexOf("null")>-1){
 							    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
 							    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");
@@ -1552,9 +1552,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    			else{
 							    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
 							    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
-							    				console.log(pipeline_name);
+							    				//console.log(pipeline_name);
 							    				toAdd_protocols = protocols_applied_by_pipeline[s_name][pipeline_name];
 							    				strain_data[x]['protocols'][pipeline_name] = toAdd_protocols;
+							    				console.log(strain_data[x]['protocols'][pipeline_name]);
 							    			}
 								    }
 								    strain_data[x]["Analysis"] = toAdd_analysis;

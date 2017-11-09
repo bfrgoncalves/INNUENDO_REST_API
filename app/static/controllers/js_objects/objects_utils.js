@@ -324,6 +324,15 @@ function Objects_Utils(){
 
 	    });
 
+	   $(window).on('keydown', function (e) {
+	        if(table_id.indexOf('strains_table') > - 1){
+
+	        	console.log('AQUI');
+
+	        }
+
+	    });
+
 	}
 
 	function nestedTable(table_id, columnDefinitions, data, visible_headers){

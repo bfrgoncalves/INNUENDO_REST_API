@@ -28,6 +28,9 @@ workflow_fields = {
 	'id': fields.Integer,
 	'name': fields.String,
 	'timestamp': fields.DateTime,
+	'classifier': fields.String,
+	'species': fields.String,
+	'dependency': fields.String,
 	'availability': fields.String
 }
 

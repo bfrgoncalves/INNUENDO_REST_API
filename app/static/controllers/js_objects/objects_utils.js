@@ -442,6 +442,8 @@ function Objects_Utils(){
 
 
 		        		pipelines_type_by_strain[strain_name][1].push(buttonselectedPipeline.replace("&&&", ""));
+		        		console.log(pipelines_type_by_strain[strain_name][1].length);
+		        		console.log(pipelines_type_by_strain[strain_name][1]);
 		        		pipelines_type_by_strain[strain_name][2].push(protocol_buttons.replace("&&&", ""));
 
 

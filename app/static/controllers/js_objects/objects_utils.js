@@ -249,6 +249,9 @@ function Objects_Utils(){
 	    } );
 
 	   prevWorkflow = [null,null, null];
+	   prevWorkflow_toggle = [null,null,null]
+
+	   is_open = false;
 
 	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
@@ -267,10 +270,18 @@ function Objects_Utils(){
 	        	isShift = !!window.event.shiftKey;
 
 	        	if(isShift){
-	        		is_open = true;
+	        		if(is_open == true) is_open = false;
+	        		else is_open = true;
+	        		
+	        		if(prevWorkflow_toggle[0] == true && prevWorkflow_toggle[1] != strainID && prevWorkflow_toggle[2] != workflow_name){
+	        			$("#"+prevWorkflow_toggle[1]+"_"+prevWorkflow_toggle[2]).toggle();
+	        		}
 	        		$("#"+strainID+"_"+workflow_name).toggle();
 				    e.stopPropagation();
 				    e.preventDefault();
+				    
+				    prevWorkflow_toggle = [is_open, strainID, workflow_name];
+
 	        	}
 	        	else{
 	        		if(shown =='false'){
@@ -292,8 +303,6 @@ function Objects_Utils(){
 
 	        }
 	    } );
-
-	   is_open = false;
 
 	   /*$('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){

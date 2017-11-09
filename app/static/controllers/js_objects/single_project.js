@@ -1492,6 +1492,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 							console.log(response);
 
+							if(response.data == 404){
+								countstrains += 1;
+								processed_proc[strain_id] += 1;
+							}
+
 							strain_id = strain_id.trim();
 
 							for(l in response.data){

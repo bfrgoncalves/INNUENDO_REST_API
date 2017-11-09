@@ -373,7 +373,7 @@ function Objects_Utils(){
 
 	return {
 
-		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, callback){
+		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, callback){
 
 	        var table = $('#' + strain_table_id).DataTable();
 	    
@@ -423,13 +423,18 @@ function Objects_Utils(){
 
 
 	                    if(!pipelines_applied.hasOwnProperty(strain_name)){
-	                    	pipelines_type_by_strain[strain_name] = [[],[]];
+	                    	pipelines_type_by_strain[strain_name] = [[],[],[]];
 	                        pipelines_applied[strain_name] = [];
 	                        protocols_applied[strain_name] = [];
+	                        if(!protocols_applied_by_pipeline.hasOwnProperty(strain_name)){
+		                    	protocols_applied_by_pipeline[strain_name] = {};
+		                    }
+	                        protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]] = [];
 	                    }
 	                    if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0){
 	                    	pipelines_applied[strain_name].push(buttonselectedPipeline);
 	                    	protocols_applied[strain_name].push(protocol_buttons);
+	                    	protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]] = protocol_buttons;
 	                    }
 	                    
 	                    for(j in pipelines_applied[strain_name]){

@@ -44,6 +44,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 	var project = {}, pipelinesByName = {}, pipelinesByID = {}, strainID_pipeline = {}, strains_dict = {}, strain_id_to_name = {}, pipelines_applied = {};
 	var protocols_applied = {};
+	var protocols_applied_by_pipeline = {};
 	var tasks_to_buttons = {}, buttons_to_tasks = {};
 	var dict_of_tasks_status = {};
     var specie_name = "", species_id = "";
@@ -277,7 +278,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            global_counter_pipelines += 1;
 
 	            //Create the buttons of the workflows and show them on the graphic interface
-	            objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, function(results){
+	            objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, function(results){
 	            	strains[results.strain_index] = results.strains[results.strain_index];
 	            	for(x in results.workflow_ids){
 	            		workflow_id_to_name[results.workflow_ids[x]] = results.workflow_names[x];
@@ -1552,7 +1553,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
 							    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
 							    				console.log(protocols_applied[s_name]);
-							    				toAdd_protocols = protocols_applied[s_name][pipeline_name].join("");
+							    				toAdd_protocols = protocols_applied_by_pipeline[s_name][pipeline_name].join("");
 							    				strain_data[x]['protocols'][pipeline_name] = toAdd_protocols;
 							    			}
 								    }

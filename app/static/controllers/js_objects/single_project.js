@@ -1492,9 +1492,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 							console.log(response);
 
+							//When error occurs when loading the job_id
 							if(response.data == 404){
-								countstrains += 1;
-								processed_proc[strain_id] += 1;
+								for(x in strain_processes_from_request){
+									countstrains += 1;
+									processed_proc[strain_id] += 1;
+								}
 							}
 
 							strain_id = strain_id.trim();

@@ -1722,6 +1722,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];
+						console.log(strainNames_to_pipelinesNames, sp_name);
 						strainNames_to_pipelinesNames[sp_name].pop();
 						//console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}

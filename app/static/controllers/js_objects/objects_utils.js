@@ -250,7 +250,7 @@ function Objects_Utils(){
 
 	   prevWorkflow = [null,null, null];
 
-	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function () {
+	   $('#'+table_id+' tbody').on('click', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
 
         		var workflow_name = $(this).attr('name');

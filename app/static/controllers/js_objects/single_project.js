@@ -1539,6 +1539,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    	toAdd_lab_protocols = "";
 							    	toAdd_analysis = "";
 							    	toAdd_protocols = "";
+							    	strain_data[x]['protocols'] = {};
 							    	var s_name = strain_data[x]['strainID'];
 							    	for(j in pipelines_applied[s_name]){
 							    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
@@ -1554,6 +1555,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
 							    				console.log(pipeline_name, protocols_applied_by_pipeline[s_name]);
 							    				toAdd_protocols = protocols_applied_by_pipeline[s_name][pipeline_name];
+
 							    				strain_data[x]['protocols'][pipeline_name] = toAdd_protocols;
 							    				console.log(strain_data[x]['protocols'][pipeline_name]);
 							    			}

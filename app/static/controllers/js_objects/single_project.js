@@ -981,6 +981,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	else message = 'Procedures applied.';
 			    		modalAlert(message, function(){});
 			        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
+			        	return;
 			        }
 		        	else continue;
 		        }

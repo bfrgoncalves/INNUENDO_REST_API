@@ -1704,13 +1704,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					var stored_added_pipeline = {};
 					if(sp_name.indexOf(strain_names[index].replace(/ /g, "_")) > -1){
 						count_added_to_new = 0
-						console.log(pipelines_applied[strain_names[index]]);
 						for (pipeline in pipelines_applied[strain_names[index]]){
 					
 							count_pipeline_ids_last_parent += 1;
 							last_process = count_pipeline_ids_last_parent;
 
 							if(pipelines_applied[strain_names[index]][pipeline].indexOf(class_n) < 0) {
+								console.log("AQUI");
 								
 								new_pipapplied.push(pipelines_applied[strain_names[index]][pipeline]);
 								
@@ -1745,6 +1745,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								}
 							}
 						}
+						console.log(new_pipapplied_proc);
 						pipelines_applied[strain_names[index]] = new_pipapplied;
 
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;
@@ -1763,7 +1764,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];
-						console.log(strainNames_to_pipelinesNames, sp_name);
+
 						strainNames_to_pipelinesNames[strain_names[index]].pop();
 						protocols_applied[strain_names[index]].pop();
 						//console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);

@@ -368,7 +368,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	    get_workflows: function(classifier, species_name, callback){
 
 			pg_requests.get_workflows(classifier, species_name, function(response){
-				console.log(response);
 				if(response.status == 200){
 					to_send = [];
 					if (typeof response.data != 'string'){
@@ -376,7 +375,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    pipelinesByName[response.data[i].name] = response.data[i].id;
 		                    pipelinesByID[response.data[i].id] = response.data[i].name;
 		                    pipelinesAndDependency[response.data[i].name] = response.data[i].dependency;
-		                    console.log(response.data[i].dependency);
 		                    if (response.data[i].availability == null || response.data[i].availability == "true"){
 		                    	to_send.push(response.data[i]);
 		                    }
@@ -401,7 +399,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            		})
 		                }
 		            }
-		            console.log(workflowname_to_protocols);
 		            callback(to_send);
 				}
 				else{

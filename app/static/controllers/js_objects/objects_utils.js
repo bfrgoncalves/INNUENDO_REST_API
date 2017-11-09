@@ -108,7 +108,6 @@ function Objects_Utils(){
 
 	function searchableTable(table_id, columnDefinitions, data, visible_headers){
 
-		console.log(data);
 
 		protocols_on_table = {};
 

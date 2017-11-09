@@ -277,7 +277,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            global_counter_pipelines += 1;
 
 	            //Create the buttons of the workflows and show them on the graphic interface
-	            objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, function(results){
+	            objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, function(results){
 	            	strains[results.strain_index] = results.strains[results.strain_index];
 	            	for(x in results.workflow_ids){
 	            		workflow_id_to_name[results.workflow_ids[x]] = results.workflow_names[x];

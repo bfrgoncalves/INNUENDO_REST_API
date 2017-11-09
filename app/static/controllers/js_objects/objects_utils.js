@@ -373,7 +373,7 @@ function Objects_Utils(){
 
 	return {
 
-		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, callback){
+		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, callback){
 
 	        var table = $('#' + strain_table_id).DataTable();
 	    
@@ -391,6 +391,7 @@ function Objects_Utils(){
 	        var workflowids = [];
 
 	        numberOfWorkflows = workflow_ids.length;
+	        var new_proc_count = 0;
 	        
 	        for(w in workflow_ids){
 	        	count+=1;
@@ -398,30 +399,45 @@ function Objects_Utils(){
 
 	            for(i in selected_indexes){
 	                var toAdd = '';
+	                var to_add_protocols = "";
 	                var s_name = strain_data[i]['strainID'];
 
 	                if(s_name == strain_name){
 	                	buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
-		        		'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>'+
-  						'<ul class="dropdown-menu" style="position:relative;">'+
-    					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
-    					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>';
+		        		'<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="'+strain_name+'" name="'+pipelinesByID[workflow_id]+'" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>'+
+  						'<ul class="dropdown-menu" id="'+strain_name+'_'+pipelinesByID[workflow_id]+'" style="position:relative;float:right;">'+
+    					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
+    					'<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>';
     					
-    					if(count == numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
-			        	else buttonselectedPipeline += '<li style="display:none;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
+    					if(count == numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
+			        	else buttonselectedPipeline += '<li style="display:none;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
 
 			        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>';
 	                    
+	                    protocol_buttons = "";
+
+	                    for(pt in workflowname_to_protocols[pipelinesByID[workflow_id]]){
+				        	new_proc_count += 1;
+				        	protocol_buttons += '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2] + '</button>';
+				        }
+
+
 	                    if(!pipelines_applied.hasOwnProperty(strain_name)){
 	                    	pipelines_type_by_strain[strain_name] = [[],[]];
 	                        pipelines_applied[strain_name] = [];
+	                        protocols_applied[strain_name] = [];
 	                    }
-	                    if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0) pipelines_applied[strain_name].push(buttonselectedPipeline);
+	                    if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0){
+	                    	pipelines_applied[strain_name].push(buttonselectedPipeline);
+	                    	protocols_applied[strain_name].push(protocol_buttons);
+	                    }
 	                    
 	                    for(j in pipelines_applied[strain_name]){
 	                        toAdd += pipelines_applied[strain_name][j];
+	                        to_add_protocols += protocols_applied[strain_name][j];
 	                    }
 	                    strain_data[i]['Analysis'] = toAdd;
+	                    strain_data[i]['protocols'] = to_add_protocols;
 	                    strain_index = i;
 	                    workflow_names.push(pipelinesByID[workflow_id]);
 	                    workflowids.push(strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID);

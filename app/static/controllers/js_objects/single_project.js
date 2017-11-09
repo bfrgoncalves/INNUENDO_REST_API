@@ -1541,7 +1541,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    	var s_name = strain_data[x]['strainID'];
 							    	for(j in pipelines_applied[s_name]){
 							    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
-							    			console.log(pipeline_id);
+							    			pipeline_name = pipelines_applied[s_name][j].split("id")[1].split('"')[1];
+							    			console.log(pipeline_name);
 							    			if(buttons_to_tasks[pipeline_id] != undefined && buttons_to_tasks[pipeline_id].indexOf("null")>-1){
 							    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
 							    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");

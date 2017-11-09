@@ -274,7 +274,7 @@ function Objects_Utils(){
 	        		else is_open = true;
 	        		console.log(prevWorkflow_toggle);
 
-	        		if(prevWorkflow_toggle[0] == true && prevWorkflow_toggle[1] != strainID && prevWorkflow_toggle[2] != workflow_name){
+	        		if(prevWorkflow_toggle[0] == true && prevWorkflow_toggle[2] != workflow_name){
 	        			$("#"+prevWorkflow_toggle[1]+"_"+prevWorkflow_toggle[2]).toggle();
 	        		}
 	        		$("#"+strainID+"_"+workflow_name).toggle();

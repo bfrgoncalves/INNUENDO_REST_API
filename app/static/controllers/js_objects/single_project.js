@@ -60,6 +60,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var strains_without_pip = {};
     var strains_new_without_pip = {};
     var workflowname_to_protocols = {};
+    var strainNames_to_pipelinesNames = {};
+    var pipelinesAndDependency = {};
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     var ngs_onto_requests = new ngs_onto_client(CURRENT_PROJECT_ID, $http);
     var objects_utils = new Objects_Utils();
@@ -371,6 +373,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                for (i in response.data){
 		                    pipelinesByName[response.data[i].name] = response.data[i].id;
 		                    pipelinesByID[response.data[i].id] = response.data[i].name;
+		                    pipelinesAndDependency[response.data[i].name] = response.data[i].dependency;
+		                    console.log(response.data[i].dependency);
 		                    if (response.data[i].availability == null || response.data[i].availability == "true"){
 		                    	to_send.push(response.data[i]);
 		                    }
@@ -949,7 +953,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        if(type_proc == 'lab_protocol') proc_value = $( "#classifier_selector option:selected" ).val();
 	        else if (type_proc == 'analysis_protocol') proc_value = $( "#pipeline_selector option:selected" ).val();
 		    
-		    
+		    needs_dependency = false;
 	        //Checks the last protocol name and creates the buttons to be applied to the strain
 		    for(i in strain_data){
 		        var toAdd_analysis = '';
@@ -962,6 +966,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	button_name_parts_to_use = pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
 		        	pip_start_id = parseInt(button_name_parts_to_use[button_name_parts_to_use.length-2]);
 		        	last_proc_name = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].split('<li class="')[1].split("&&")[0]
+		        }
+
+		        if(!strainNames_to_pipelinesNames.hasOwnProperty(strain_data[counter]['strainID'])){
+		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']] = [];
+		        }
+
+		        if(pipelinesAndDependency[proc_value] != null && strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
+		        	needs_dependency = true;
+		        	continue;
+		        }
+		        else{
+		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']].push(proc_value);
 		        }
 
 		        if(mode == 'new'){
@@ -1040,7 +1056,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        	console.log(strain_data[i]['protocols']);
 
 		        if(counter == strain_data.length-1){
-		    		modalAlert('Procedure applied.', function(){});
+		        	if(needs_dependency) message = 'Procedures applied but some lack dependencies.';
+		        	else message = 'Procedures applied.';
+		    		modalAlert(message, function(){});
 		        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
 		        }
 		    }

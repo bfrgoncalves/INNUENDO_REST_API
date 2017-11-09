@@ -1711,7 +1711,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 							if(pipelines_applied[strain_names[index]][pipeline].indexOf(class_n) < 0) {
 								console.log("AQUI");
-								console.log(pipelines_type_by_strain);
+								console.log(pipelines_type_by_strain[1].length);
 								
 								new_pipapplied.push(pipelines_applied[strain_names[index]][pipeline]);
 								

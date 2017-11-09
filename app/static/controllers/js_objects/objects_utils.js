@@ -260,7 +260,6 @@ function Objects_Utils(){
 	        	var strainID = $(this).attr('strainID');
 	        	var shown = $(this).attr("shown_child");
 
-	        	console.log("AQUI", workflow_name, strainID, shown, prevWorkflow);
 
 	        	if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
 	        		$("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
@@ -271,15 +270,13 @@ function Objects_Utils(){
 
 	        	if(isShift){
 	        		
-	        		console.log(prevWorkflow_toggle);
-
 	        		if(prevWorkflow_toggle[0] == true && prevWorkflow_toggle[2] != workflow_name){
 	        			$("#"+prevWorkflow_toggle[1]+"_"+prevWorkflow_toggle[2]).toggle();
 	        			is_open = false;
 	        		}
 	        		if(is_open == true) is_open = false;
 	        		else is_open = true;
-	        		
+
 	        		$("#"+strainID+"_"+workflow_name).toggle();
 				    e.stopPropagation();
 				    e.preventDefault();
@@ -306,26 +303,6 @@ function Objects_Utils(){
 
 	        }
 	    } );
-
-	   /*$('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function (e) {
-	        if(table_id.indexOf('strains_table') > - 1){
-
-	        	var workflow_name = $(this).attr('name');
-	        	var strainID = $(this).attr('strainID');
-	        	var shown = $(this).attr("shown_child");
-
-	        	isShift = !!window.event.shiftKey;
-
-	        	if(isShift){
-	        		is_open = true;
-	        		$("#"+strainID+"_"+workflow_name).toggle();
-				    e.stopPropagation();
-				    e.preventDefault();
-	        	}
-
-	        }
-
-	    });*/
 
 	}
 

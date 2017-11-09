@@ -1520,6 +1520,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
 							}
 							
+							console.log(countstrains, count_processes);
 
 							//Fix workflows positions.
 							if(countstrains == count_processes){

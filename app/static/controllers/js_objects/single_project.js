@@ -1749,6 +1749,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;
 						pipelines_type_by_strain[strain_names[index]][1] = new_pipapplied_proc;
 
+						console.log(pipelines_type_by_strain[strain_names[index]][1]);
 
 						toAdd_lab_protocols = ""
 						toAdd_analysis = ""

@@ -976,7 +976,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        if(pipelinesAndDependency[proc_value] != null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
 		        	console.log('AQUI');
 		        	needs_dependency = true;
-		        	continue;
+		        	if(counter == strain_data.length-1){
+			        	if(needs_dependency) message = 'Procedures applied but some lack dependencies.';
+			        	else message = 'Procedures applied.';
+			    		modalAlert(message, function(){});
+			        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
+			        }
+		        	else continue;
 		        }
 		        else{
 		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']].push(proc_value);

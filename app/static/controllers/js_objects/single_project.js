@@ -966,7 +966,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        var last_proc_name = proc_value;
 		        if(pipelines_applied[strain_data[counter]['strainID']] != undefined && pipelines_applied[strain_data[counter]['strainID']].length != 0){
 		        	button_name_parts_to_use = pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
-		        	button_protocols_parts_to_use = protocols_applied[strain_data[counter]['strainID']][protocols_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
+		        	split_protocols_by_buttons = protocols_applied[strain_data[counter]['strainID']][protocols_applied[strain_data[counter]['strainID']].length-1].split("<button")
+
+		        	button_protocols_parts_to_use = split_protocols_by_buttons[split_protocols_by_buttons.length-1].split("id")[1].split('"')[1].split("_")
 		        	pip_start_id = parseInt(button_name_parts_to_use[button_name_parts_to_use.length-2]);
 		        	proc_start_id = parseInt(button_protocols_parts_to_use[button_protocols_parts_to_use.length-2]);
 		        	last_proc_name = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].split('<li class="')[1].split("&&")[0]

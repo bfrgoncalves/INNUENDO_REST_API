@@ -375,7 +375,7 @@ function Objects_Utils(){
 
 	return {
 
-		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, callback){
+		apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, callback){
 
 	        var table = $('#' + strain_table_id).DataTable();
 	    
@@ -422,6 +422,12 @@ function Objects_Utils(){
 				        	new_proc_count += 1;
 				        	protocol_buttons += '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2] + '</button>';
 				        }
+
+				        if(!strainNames_to_pipelinesNames.hasOwnProperty(strain_data[counter]['strainID'])){
+				        	strainNames_to_pipelinesNames[s_name] = [];
+				        }
+
+				        strainNames_to_pipelinesNames[s_name].push(pipelinesByID[workflow_id]);
 
 
 	                    if(!pipelines_applied.hasOwnProperty(strain_name)){

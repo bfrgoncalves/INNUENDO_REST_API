@@ -1711,6 +1711,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 							if(pipelines_applied[strain_names[index]][pipeline].indexOf(class_n) < 0) {
 								console.log("AQUI");
+								console.log(pipelines_type_by_strain);
 								
 								new_pipapplied.push(pipelines_applied[strain_names[index]][pipeline]);
 								
@@ -1723,6 +1724,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								for(y in pipelines_type_by_strain[strain_names[index]][1]){
 									if(pipelines_type_by_strain[strain_names[index]][1][y].indexOf(class_n) < 0 && stored_added_pipeline[y] != true){
 										count_added_to_new += 1;
+										console.log("ENTROU");
 										if(count_added_to_new == pipelines_applied[strain_names[index]].length - 1){
 											//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
 											last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new-1].split('<li class="')[1].split("&&")[0]

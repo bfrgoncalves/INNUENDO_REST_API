@@ -1159,7 +1159,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        		var task_failed = false;
 		        		pipelines_applied[strain_id_to_name[strain_id]].map(function(d, x){
 			                workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
-			                console.log(d, workflowName, pipelinesByName);
 			                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
 			                button_n = d.split("id")[1].split('"')[1];
 			                if(buttons_to_tasks[button_n] == undefined){
@@ -1299,7 +1298,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
 			        		
 			        		if(buttons_to_tasks[pi_name] == undefined){
-			        			dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('>')[1].split('<')[0]);
+			        			dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
 			        			dict_strain_names[strain_names[strain_name]][5].push(pi_name);
 			        		}
 			        		else{

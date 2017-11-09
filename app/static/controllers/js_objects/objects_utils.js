@@ -163,14 +163,6 @@ function Objects_Utils(){
 					    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 					    $('.child_row').css({"background-color":"#eeffff"});
 
-					    $('#'+table_id+' tbody').on('keyup', 'button.workflows_child', function (e) {
-					        if(table_id.indexOf('strains_table') > - 1){
-
-					        	console.log('AQUI');
-
-					        }
-
-	    				});
 				    }, 50)
 				    
 
@@ -272,30 +264,38 @@ function Objects_Utils(){
 	        		$(prevWorkflow[2]).attr("shown_child", "false");
 	        	}
 
-        		if(shown =='false'){
-	        		console.log("entrou")
-	        		$("#"+strainID+"_protocols").empty();
-			        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-			        
-		        	$("#"+strainID+"_workflows").css({"display":"block"});
-		        	$(this).attr("shown_child", "true");
+	        	isShift = !!window.event.shiftKey;
 
+	        	if(isShift){
+	        		is_open = true;
+	        		$("#"+strainID+"_"+workflow_name).toggle();
+				    e.stopPropagation();
+				    e.preventDefault();
 	        	}
 	        	else{
-	        		$("#"+strainID+"_workflows").css({"display":"none"});
-	        		$(this).attr("shown_child", "false");
-	        	}
-	        	
+	        		if(shown =='false'){
+		        		console.log("entrou")
+		        		$("#"+strainID+"_protocols").empty();
+				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
+				        
+			        	$("#"+strainID+"_workflows").css({"display":"block"});
+			        	$(this).attr("shown_child", "true");
 
-	        	prevWorkflow = [strainID, workflow_name, this];
-		        
+		        	}
+		        	else{
+		        		$("#"+strainID+"_workflows").css({"display":"none"});
+		        		$(this).attr("shown_child", "false");
+		        	}
+		        	prevWorkflow = [strainID, workflow_name, this];
+	        	}
+	        	 
 
 	        }
 	    } );
 
 	   is_open = false;
 
-	   $('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function (e) {
+	   /*$('#'+table_id+' tbody').on('mouseenter', 'button.workflows_child', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
 
 	        	var workflow_name = $(this).attr('name');
@@ -313,27 +313,7 @@ function Objects_Utils(){
 
 	        }
 
-	    });
-
-	   $('#'+table_id+' tbody').on('mouseleave', 'button.workflows_child', function (e) {
-	        if(table_id.indexOf('strains_table') > - 1){
-
-	        	var workflow_name = $(this).attr('name');
-	        	var strainID = $(this).attr('strainID');
-	        	var shown = $(this).attr("shown_child");
-
-	        	if(is_open){
-	        		$("#"+strainID+"_"+workflow_name).toggle();
-				    e.stopPropagation();
-				    e.preventDefault();
-	        	}
-
-	        	is_open = false;
-	        	
-
-	        }
-
-	    });
+	    });*/
 
 	}
 

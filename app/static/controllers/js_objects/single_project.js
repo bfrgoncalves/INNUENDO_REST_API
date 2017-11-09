@@ -1437,7 +1437,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if(strains[i] == undefined) continue;
 
 				var strain_processes = strain_to_real_pip[strains_dict[strains[i].strainID]];
-				console.log(strain_processes);
 				count_processes += strain_processes == undefined ? 0 : strain_processes.length;
 
 				countStrain[strains[i].strainID] = 0;
@@ -1491,8 +1490,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					//	console.log(strain_processes);
 						ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], single_strain_processes, strain_processes[s_p][0], strains[i].strainID, countStrain, strain_processes, t_ids, proc_ids, processed_proc, function(response, pr_ids, strain_id, count_process, pip_id, proj_id, strain_processes_from_request, t_ids, proc_ids, processed_proc){
 
-							console.log(response);
-
 							//When error occurs when loading the job_id
 							if(response.data == 404){
 								for(x in strain_processes_from_request){
@@ -1524,7 +1521,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
 							}
 							
-							console.log(countstrains, count_processes);
 
 							//Fix workflows positions.
 							if(countstrains == count_processes){
@@ -1553,11 +1549,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							    			else{
 							    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
 							    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
-							    				console.log(pipeline_name, protocols_applied_by_pipeline[s_name]);
 							    				toAdd_protocols = protocols_applied_by_pipeline[s_name][pipeline_name];
 
 							    				strain_data[x]['protocols'][pipeline_name] = toAdd_protocols;
-							    				console.log(strain_data[x]['protocols'][pipeline_name]);
 							    			}
 								    }
 								    strain_data[x]["Analysis"] = toAdd_analysis;
@@ -1710,8 +1704,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							last_process = count_pipeline_ids_last_parent;
 
 							if(pipelines_applied[strain_names[index]][pipeline].indexOf(class_n) < 0) {
-								console.log("AQUI");
-								console.log(pipelines_type_by_strain[strain_names[index]][1].length);
 								
 								new_pipapplied.push(pipelines_applied[strain_names[index]][pipeline]);
 								
@@ -1724,7 +1716,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								for(y in pipelines_type_by_strain[strain_names[index]][1]){
 									if(pipelines_type_by_strain[strain_names[index]][1][y].indexOf(class_n) < 0 && stored_added_pipeline[y] != true){
 										count_added_to_new += 1;
-										console.log("ENTROU");
 										if(count_added_to_new == pipelines_applied[strain_names[index]].length - 1){
 											//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
 											last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new-1].split('<li class="')[1].split("&&")[0]
@@ -1747,7 +1738,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								}
 							}
 						}
-						console.log(new_pipapplied_proc);
+
 						pipelines_applied[strain_names[index]] = new_pipapplied;
 
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;

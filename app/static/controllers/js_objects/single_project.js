@@ -875,7 +875,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		    if (strain_indexes.length == 0) return callback("no_select");
 		    
-		    strain_indexes.map(function(d){ delete pipelines_applied[d]; });
+		    strain_indexes.map(function(d){ 
+		    	delete pipelines_applied[d]; 
+		    	delete strainNames_to_pipelinesNames[d];
+				delete protocols_applied[d];
+		    });
 
 		    var to_use = used_strains;
 		    var number_of_strains = strain_names.length;
@@ -1274,7 +1278,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        	//Add processes to ngs_onto
 		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]], function(response, strain_name){
-
+		        		console.log("ADD PROCESSES", response);
 	        			if(response.status != 404){
 	        				dict_strain_names[strain_names[strain_name]].push(response.data);
 	        			}
@@ -1311,6 +1315,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        				//Get the workflow to run and the step
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
+			        				console.log("WORKFLOW", response);
 			        				dict_strain_names[strain_names[strain_name]][2]+=1;
 			        				for(k=response.data.length-1; k>=0;k--){
 			        					parts = response.data[k].protocol.split('/');
@@ -1325,8 +1330,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        					}
 					        			indexes = indexes.replace(/,$/, '');
 
+					        			console.log(indexes);
+
 					        			//Run the job
-					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], function(response, strain_name){
+					        			/*pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], function(response, strain_name){
 					        				task_ids = [];
 					        				task_ids_to_map = [];
 
@@ -1376,7 +1383,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        									$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 		        								}
 		        							})
-					        			})
+					        			})*/
 			        				}
 			        				
 			        			})

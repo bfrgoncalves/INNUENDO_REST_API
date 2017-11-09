@@ -1237,6 +1237,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var dict_strain_names = {};
 		    var put_i = [];
 		    var count_strains_added_run = 0;
+		    var workflow_indexes = {};
+		    var workflow_order = {};
 
 		    for(i in strain_names){
 		        put_i.push(i);
@@ -1276,6 +1278,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	}
 		        	}
 
+		        	workflow_indexes[strain_names[i]] = {};
+		        	workflow_order[strain_names[i]] = [];
+
 		        	//Add processes to ngs_onto
 		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]], function(response, strain_name){
 		        		console.log("ADD PROCESSES", response);
@@ -1305,8 +1310,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			dict_strain_names[strain_names[strain_name]][2]+=1;
 			        			dict_strain_names[strain_names[strain_name]][7] += 1;
 			        		}
+
+
 		        			while(dict_strain_names[strain_names[strain_name]][1].length != 0){
 		        				workflowName = dict_strain_names[strain_names[strain_name]][1].shift();
+		        				workflow_order[strain_names[i]].push(workflowName);
 		        				count_pipelines_applied += 1;
 				        		dict_strain_names[strain_names[strain_name]][8][count_pipelines_applied] = "";
 
@@ -1322,6 +1330,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        					parts = parts[parts.length-1];
 			        					dict_strain_names[strain_names[strain_name]][8][count_pip_app] = parts.replace('>', '');
 			        				}
+			        				console.log(dict_strain_names[strain_names[strain_name]][8]);
 			        				//Set the workflows ids to run
 			        				if (dict_strain_names[strain_names[strain_name]][0] == dict_strain_names[strain_names[strain_name]][2]){
 			        					var indexes = '';

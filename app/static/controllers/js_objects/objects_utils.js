@@ -270,13 +270,16 @@ function Objects_Utils(){
 	        	isShift = !!window.event.shiftKey;
 
 	        	if(isShift){
-	        		if(is_open == true) is_open = false;
-	        		else is_open = true;
+	        		
 	        		console.log(prevWorkflow_toggle);
 
 	        		if(prevWorkflow_toggle[0] == true && prevWorkflow_toggle[2] != workflow_name){
 	        			$("#"+prevWorkflow_toggle[1]+"_"+prevWorkflow_toggle[2]).toggle();
+	        			is_open = false;
 	        		}
+	        		if(is_open == true) is_open = false;
+	        		else is_open = true;
+	        		
 	        		$("#"+strainID+"_"+workflow_name).toggle();
 				    e.stopPropagation();
 				    e.preventDefault();

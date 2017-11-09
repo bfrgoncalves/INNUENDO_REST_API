@@ -1185,7 +1185,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				                				d[0] = CURRENT_PROJECT_ID;
 				                			});
 			                			}
-			                			if(pipelines_type_by_strain[strain_id_to_name[strain_id]][2] != undefined) pipelines_type_by_strain[strain_id_to_name[strain_id]][2] = undefined;
+			                			if(pipelines_type_by_strain[strain_id_to_name[strain_id]][3] != undefined) pipelines_type_by_strain[strain_id_to_name[strain_id]][3] = undefined;
 			                			ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
 						                	if(response.status == 200){
 						                	}
@@ -1247,7 +1247,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	dict_strain_names[strain_names[i]] = [pipelines_applied[strain_names[i]].length, [], 0, 0];
 		        	var pip_id_of_parents = [];
 		        	for(p in strain_to_real_pip[strains_dict[strain_names[i]]]){
-		        		if(strain_to_real_pip[strains_dict[strain_names[i]]][p][0] != CURRENT_PROJECT_ID && pipelines_type_by_strain[strain_names[i]][2] != undefined){
+		        		if(strain_to_real_pip[strains_dict[strain_names[i]]][p][0] != CURRENT_PROJECT_ID && pipelines_type_by_strain[strain_names[i]][3] != undefined){
 
 			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_names[i]]][p][0]);
 			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_names[i]]][p][1]);
@@ -1738,10 +1738,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								}
 								var pip_name = pipelines_applied[strain_names[index]][pipeline].split("id")[1].split('"')[1];
 								if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING"){
-									if(pipelines_type_by_strain[strain_names[index]][2] == undefined){
+									if(pipelines_type_by_strain[strain_names[index]][3] == undefined){
 										pipelines_type_by_strain[strain_names[index]].push(last_process);
 									}
-									else pipelines_type_by_strain[strain_names[index]][2] = last_process;
+									else pipelines_type_by_strain[strain_names[index]][3] = last_process;
 								}
 							}
 						}

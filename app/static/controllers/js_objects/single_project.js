@@ -43,6 +43,7 @@ Uses:
 function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 	var project = {}, pipelinesByName = {}, pipelinesByID = {}, strainID_pipeline = {}, strains_dict = {}, strain_id_to_name = {}, pipelines_applied = {};
+	var protocols_applied = {};
 	var tasks_to_buttons = {}, buttons_to_tasks = {};
 	var dict_of_tasks_status = {};
     var specie_name = "", species_id = "";
@@ -961,10 +962,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        var toAdd_Protocols = '';
 		        counter++;
 		        var pip_start_id = 0;
+		        var proc_start_id = 0;
 		        var last_proc_name = proc_value;
 		        if(pipelines_applied[strain_data[counter]['strainID']] != undefined && pipelines_applied[strain_data[counter]['strainID']].length != 0){
 		        	button_name_parts_to_use = pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
+		        	button_protocols_parts_to_use = protocols_applied[strain_data[counter]['strainID']][protocols_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
 		        	pip_start_id = parseInt(button_name_parts_to_use[button_name_parts_to_use.length-2]);
+		        	proc_start_id = parseInt(button_protocols_parts_to_use[button_protocols_parts_to_use.length-2]);
 		        	last_proc_name = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].split('<li class="')[1].split("&&")[0]
 		        }
 
@@ -972,9 +976,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']] = [];
 		        }
 
-		        console.log(strainNames_to_pipelinesNames[strain_data[counter]['strainID']], pipelinesAndDependency);
 		        if(pipelinesAndDependency[proc_value] != null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
-		        	console.log('AQUI');
 		        	needs_dependency = true;
 		        	if(counter == strain_data.length-1){
 			        	if(needs_dependency) message = 'Procedures applied but some lack dependencies.';
@@ -999,23 +1001,25 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	}
 
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
-	        		'<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="'+strain_data[counter]['strainID']+'" name="'+proc_value+'" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'"><i class="fa fa-arrow-down"></i>'+ proc_value + '</button>'+
+	        		'<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="'+strain_data[counter]['strainID']+'" name="'+proc_value+'" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'"><i class="fa fa-arrow-down"></i>'+ proc_value + '</button>'+
 						'<ul class="dropdown-menu" id="'+strain_data[counter]['strainID']+'_'+proc_value+'" style="position:relative;float:right;">'+
-					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
-					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>'+
-					'<li style="display:block;" class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
+					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
+					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>'+
+					'<li style="display:block;" class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
 
 		        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>';
 
 		        	protocol_buttons = "";
-
+		        	var new_proc_count = 0;
 			        for(pt in workflowname_to_protocols[proc_value]){
-			        	protocol_buttons += '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[proc_value][pt][2] + '</button>';
+			        	new_proc_count += 1;
+			        	protocol_buttons += '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[proc_value][pt][2] + '</button>';
 			        }
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
 			        	pipelines_type_by_strain[strain_data[counter]['strainID']] = [[],[],[]];
 			            pipelines_applied[strain_data[counter]['strainID']] = [];
+			            protocols_applied[strain_data[counter]['strainID']] = [];
 			        }
 			        //ALLOW MULTIPLE EQUAL WORKFLOWS
 		        	try{
@@ -1026,6 +1030,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        }
 
 			        pipelines_applied[strain_data[counter]['strainID']].push(buttonselectedPipeline);
+			        protocols_applied[strain_data[counter]['strainID']].push(protocol_buttons);
 		        	
 		        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));
 		        	else if (type_proc == 'analysis_protocol'){

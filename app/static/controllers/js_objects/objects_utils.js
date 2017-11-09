@@ -439,6 +439,12 @@ function Objects_Utils(){
 		                    }
 	                        protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]] = [];
 	                    }
+
+
+		        		pipelines_type_by_strain[strain_data[counter]['strainID']][1].push(buttonselectedPipeline.replace("&&&", ""));
+		        		pipelines_type_by_strain[strain_data[counter]['strainID']][2].push(protocol_buttons.replace("&&&", ""));
+
+
 	                    if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0){
 	                    	pipelines_applied[strain_name].push(buttonselectedPipeline);
 	                    	protocols_applied[strain_name].push(protocol_buttons);

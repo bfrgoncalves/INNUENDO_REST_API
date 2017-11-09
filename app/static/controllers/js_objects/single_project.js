@@ -1725,7 +1725,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 										if(count_added_to_new == pipelines_applied[strain_names[index]].length - 1){
 											//ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
 											last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new-1].split('<li class="')[1].split("&&")[0]
-											class_of_button_remove_to_replace = last_proc_name+'&&'+strain_names[index].replace(/ /g, '_')+"_"+String(count_added_to_new)+ '_' + CURRENT_PROJECT_ID+'&&&';
+											console.log(last_proc_name);
+											class_of_button_remove_to_replace = last_proc_name+'&&'+strain_names[index].replace(/ /g, '_')+"_workflow_"+String(count_added_to_new)+ '_' + CURRENT_PROJECT_ID+'&&&';
 								        	class_of_button_remove_to_replace = 'class="'+class_of_button_remove_to_replace+'" onclick="removeAnalysis(this)'
 											pipelines_type_by_strain[strain_names[index]][1][y] = pipelines_type_by_strain[strain_names[index]][1][y].replace('style="display:none;" ' + class_of_button_remove_to_replace, 'style="display:block;" ' + class_of_button_remove_to_replace)
 										}

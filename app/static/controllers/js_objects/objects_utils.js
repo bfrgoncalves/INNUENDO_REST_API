@@ -272,7 +272,8 @@ function Objects_Utils(){
 	        	if(isShift){
 	        		if(is_open == true) is_open = false;
 	        		else is_open = true;
-	        		
+	        		console.log(prevWorkflow_toggle);
+
 	        		if(prevWorkflow_toggle[0] == true && prevWorkflow_toggle[1] != strainID && prevWorkflow_toggle[2] != workflow_name){
 	        			$("#"+prevWorkflow_toggle[1]+"_"+prevWorkflow_toggle[2]).toggle();
 	        		}
@@ -285,7 +286,6 @@ function Objects_Utils(){
 	        	}
 	        	else{
 	        		if(shown =='false'){
-		        		console.log("entrou")
 		        		$("#"+strainID+"_protocols").empty();
 				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
 				        

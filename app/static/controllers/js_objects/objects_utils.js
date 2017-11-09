@@ -188,7 +188,9 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
 	    $('#'+table_id+' tbody').off('click', 'button.workflows_child');
 	    $('#'+table_id+' tbody').off('mouseenter', 'button.workflows_child');
+	    $('#'+table_id+' tbody').off('mouseenter', 'button.workflows_child');
 	    $('#'+table_id+' tbody').off('mouseleave', 'button.workflows_child');
+	    $('#jumbotron-strains').off('keydown');
 	    $('#'+table_id+' tbody').off('click', 'button.button_table_to_trigger');
 	    $('#'+table_id+' tbody').off('click', 'button.lab-protocols-control');
 	    $('#'+table_id+' tbody tr').off('click', 'td:first');
@@ -324,7 +326,7 @@ function Objects_Utils(){
 
 	    });
 
-	   $(window).on('keydown', function (e) {
+	   $("#jumbotron-strains").on('keydown', function (e) {
 	        if(table_id.indexOf('strains_table') > - 1){
 
 	        	console.log('AQUI');

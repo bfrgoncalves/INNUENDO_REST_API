@@ -972,7 +972,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']] = [];
 		        }
 
-		        if(pipelinesAndDependency[proc_value] != null && strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
+		        console.log(strainNames_to_pipelinesNames[strain_data[counter]['strainID']], pipelinesAndDependency);
+		        if(pipelinesAndDependency[proc_value] != null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
+		        	console.log('AQUI');
 		        	needs_dependency = true;
 		        	continue;
 		        }

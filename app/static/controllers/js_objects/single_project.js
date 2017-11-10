@@ -1035,6 +1035,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        pipelines_applied[strain_data[counter]['strainID']].push(buttonselectedPipeline);
 			        protocols_applied[strain_data[counter]['strainID']].push(protocol_buttons);
+
+			        if(!protocols_applied_by_pipeline.hasOwnProperty(strain_data[counter]['strainID'])){
+			        	protocols_applied_by_pipeline[strain_data[counter]['strainID']] = {};
+			        }
+
+			        if(!protocols_applied_by_pipeline[strain_data[counter]['strainID']].hasOwnProperty(proc_value)){
+			        	protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value] = [];
+			        }
+			        protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value].push(protocol_buttons);
 		        	
 		        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));
 		        	else if (type_proc == 'analysis_protocol'){
@@ -1304,6 +1313,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
 			        			console.log(pi_name);
 			        			console.log(protocols_applied);
+			        			protocols_by_pipepeline = 
 			        			dict_strain_names[strain_names[strain_name]][5].push(pi_name);
 			        		}
 			        		else{

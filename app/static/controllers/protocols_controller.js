@@ -104,6 +104,8 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		    		}
 		    		$('#select_software').empty();
 		    		$('#select_software').append(options);
+		    		$('#nextflow_tag').empty();
+		    		$('#nextflow_tag').append(options);
 		    		$(".selectpicker").selectpicker({});
 		    		$("#new_protocol_form").css({"display":"block"});
 		    	}

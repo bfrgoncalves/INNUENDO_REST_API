@@ -119,7 +119,7 @@ function Protocol_List($http){
 		    		protocolUri = response.data[i].rangeClass
 		    		protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
 		    		if (protocolProperty == "used Software"){
-		    			protocol_type["Nextflow Tag"] = ["select", "text"];
+		    			protocol_type["Nextflow Tag"] = ["select", "nextflow"];
 		    		}
 		    	}
 		    	protocol_type["CPUs"] = ["input", "required"];

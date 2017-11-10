@@ -1290,7 +1290,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        	//Add processes to ngs_onto
 		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]], function(response, strain_name){
-		        		console.log("ADD PROCESSES", response);
 	        			if(response.status != 404){
 	        				dict_strain_names[strain_names[strain_name]].push(response.data);
 	        			}
@@ -1316,11 +1315,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split("</button>");
 			        			protocols_in_pip.pop();
 			        			for(protoc in protocols_in_pip){
-			        				console.log(protocols_in_pip);
 			        				protocol_name = protocols_in_pip[protoc].split("id=")[1].split('"')[1]
 			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        			}
-			        			console.log(dict_strain_names[strain_names[strain_name]][5]);
 			        			//dict_strain_names[strain_names[strain_name]][5].push(pi_name);
 			        		}
 			        		else{
@@ -1343,7 +1340,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        				//Get the workflow to run and the step
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
-			        				console.log("WORKFLOW", response);
+
 			        				dict_strain_names[strain_names[strain_name]][2]+=1;
 			        				for(k=response.data.length-1; k>=0;k--){
 			        					parts = response.data[k].protocol.split('/');
@@ -1369,7 +1366,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					        				dict_strain_names[strain_names[strain_name]][3] += 1;
 
-					        				console.log(response);
 
 					        				var countTasks = 0;
 					        				for(l in response.data){
@@ -1402,7 +1398,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 
 					        				//Add job id to the process on ngsonto and start checking the job status
-					        				/*ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_names[strain_name]]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name){
+					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_names[strain_name]]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name){
 		        								count_strains_added_run += 1;
 
 		        								for(tk in response.data.tasks){
@@ -1415,7 +1411,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        									modalAlert("Jobs for all the selected strains have been submitted", function(){});
 		        									$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 		        								}
-		        							})*/
+		        							})
 					        			})
 			        				}
 			        				

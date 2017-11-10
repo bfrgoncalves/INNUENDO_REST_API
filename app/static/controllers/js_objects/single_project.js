@@ -1305,6 +1305,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			dict_strain_names[strain_names[strain_name]][5].push(pi_name);
 			        		}
 			        		else{
+			        			//Change to count for all protocol processes instead of the workflows
 			        			dict_strain_names[strain_names[strain_name]][2]+=1;
 			        			dict_strain_names[strain_names[strain_name]][7] += 1;
 			        		}
@@ -1316,8 +1317,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				count_pipelines_applied += 1;
 				        		dict_strain_names[strain_names[strain_name]][8][count_pipelines_applied] = [];
 
+		        				/*
 		        				dict_strain_names[strain_names[strain_name]][7] += 1;
 		        				dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
+		        				*/
 
 		        				//Get the workflow to run and the step
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
@@ -1335,6 +1338,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        					for(prot_index in dict_strain_names[strain_names[strain_name]][8]){
 			        						for (prot in dict_strain_names[strain_names[strain_name]][8][prot_index]){
 			        							indexes += dict_strain_names[strain_names[strain_name]][8][prot_index][prot].replace('>', '') + ',';
+			        							dict_strain_names[strain_names[strain_name]][7] += 1;
+		        								dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
 			        						}
 			        					}
 					        			indexes = indexes.replace(/,$/, '');

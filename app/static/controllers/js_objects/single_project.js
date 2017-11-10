@@ -980,7 +980,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']] = [];
 		        }
 
-		        if((pipelinesAndDependency[proc_value] != null || pipelinesAndDependency[proc_value] != "None") && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
+		        if( pipelinesAndDependency[proc_value] != "None" && pipelinesAndDependency[proc_value] != null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
 		        	needs_dependency = true;
 		        	if(counter == strain_data.length-1){
 			        	if(needs_dependency) message = 'Procedures applied but some lack dependencies.';

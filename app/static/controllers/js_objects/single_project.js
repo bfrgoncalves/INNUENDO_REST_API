@@ -1308,12 +1308,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        	for(p in pipelines_applied[strain_names[strain_name]]){
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
+			        		var real_pi_name = pipelines_applied[strain_names[strain_name]][p].split('">')[1].split('</')[0];
 			        		
 			        		if(buttons_to_tasks[pi_name] == undefined){
 			        			dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
-			        			console.log(pi_name);
-			        			console.log(protocols_applied_by_pipeline);
-			        			dict_strain_names[strain_names[strain_name]][5].push(pi_name);
+			        			console.log(pi_name, real_pi_name);
+			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name].split("</button>");
+			        			for(protoc in protocols_in_pip){
+			        				protocol_name = protocols_in_pip[protoc].split("id=")[1].split('"')[1]
+			        				dict_strain_names[strain_names[strain_name]][5].push(pi_name);
+			        			}
+			        			console.log(dict_strain_names[strain_names[strain_name]][5]);
+			        			//dict_strain_names[strain_names[strain_name]][5].push(pi_name);
 			        		}
 			        		else{
 			        			//Change to count for all protocol processes instead of the workflows

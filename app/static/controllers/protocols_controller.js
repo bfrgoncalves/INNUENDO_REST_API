@@ -39,6 +39,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 	var protocols_list = new Protocol_List($http);
 
 	var usedSoftware = ["INNUca", "chewBBACA", "PathoTyping", "integrity_coverage", "fastqc", "trimmomatic", "integrity_coverage_2", "fastqc2", "spades", "process_spades", "assembly_mapping", "process_assembly_mapping", "pilon", "mlst", "prokka", "abricate"];
+	var nextflow_tags = ["integrity_coverage", "fastqc", "trimmomatic", "integrity_coverage_2", "fastqc2", "spades", "process_spades", "assembly_mapping", "process_assembly_mapping", "pilon", "mlst", "prokka", "abricate"];
 
 	$scope.loadProtocols = function(){
 		$scope.getProtocolTypes();
@@ -94,8 +95,12 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 	    	setTimeout(function(){
 	    		if($.inArray("used Software", results.protocol_parameters)){
 		    		options = "";
+		    		options_nextflow = "";
 		    		for(x in usedSoftware){
 		    			options += "<option>"+usedSoftware[x]+"</option>";
+		    		}
+		    		for(y in nextflow_tags){
+		    			options_nextflow += "<option>"+usednextflow_tags[y]+"</option>";
 		    		}
 		    		$('#select_software').empty();
 		    		$('#select_software').append(options);

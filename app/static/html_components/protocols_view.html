@@ -28,6 +28,9 @@
 						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
 							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
 						</select>
+						<select id="nextflow_tag" name="nextflow_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
+							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
+						</select>
 					</div>
 					<label class="col-sm-3 col-form-label" ng-if="key == 'used Software'">{{key}} version</label>
 					<div class="col-sm-9" ng-if="key == 'used Software'">

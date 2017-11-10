@@ -121,10 +121,6 @@ class Job_queue(Resource):
 		strain_id = args.strain_id
 		data = []
 		to_send = []
-		print "JOBS#############"
-		print process_ids
-		print protocol_ids
-		print "BAH##############"
 
 		counter = 0;
 		for protocol_id in protocol_ids:
@@ -146,11 +142,9 @@ class Job_queue(Resource):
 				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
 			else:
 				to_send.append("null")
-				#print data
 			counter += 1
 
-		print data
-		#request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
+		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
 		#to_send.append(request.json()['jobID'])
 
 		return to_send, 200

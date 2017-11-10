@@ -118,6 +118,9 @@ function Protocol_List($http){
 		    		protocolProperty = response.data[i].plabel.split('"')[1]
 		    		protocolUri = response.data[i].rangeClass
 		    		protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
+		    		if (protocolProterty == "used Software"){
+		    			protocol_type["Nextflow Tag"] = ["select", "text"];
+		    		}
 		    	}
 		    	protocol_type["CPUs"] = ["input", "required"];
 		    	callback({protocol_type:protocol_type, protocol_parameters:protocol_parameters});

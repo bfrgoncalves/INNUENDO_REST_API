@@ -100,7 +100,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 		    			options += "<option>"+usedSoftware[x]+"</option>";
 		    		}
 		    		for(y in nextflow_tags){
-		    			options_nextflow += "<option>"+usednextflow_tags[y]+"</option>";
+		    			options_nextflow += "<option>"+nextflow_tags[y]+"</option>";
 		    		}
 		    		$('#select_software').empty();
 		    		$('#select_software').append(options);

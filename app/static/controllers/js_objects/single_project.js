@@ -1331,7 +1331,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        					parts = parts[parts.length-1];
 			        					dict_strain_names[strain_names[strain_name]][8][count_pip_app].push(parts.replace('>', ''));
 			        				}
-			        				console.log(dict_strain_names[strain_names[strain_name]][8]);
 			        				//Set the workflows ids to run
 			        				if (dict_strain_names[strain_names[strain_name]][0] == dict_strain_names[strain_names[strain_name]][2]){
 			        					var indexes = '';
@@ -1344,14 +1343,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        					}
 					        			indexes = indexes.replace(/,$/, '');
 
-					        			console.log(indexes);
-
 					        			//Run the job
 					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], function(response, strain_name){
 					        				task_ids = [];
 					        				task_ids_to_map = [];
 
 					        				dict_strain_names[strain_names[strain_name]][3] += 1;
+
+					        				console.log(response);
 
 					        				var countTasks = 0;
 					        				for(l in response.data){

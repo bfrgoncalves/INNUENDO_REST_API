@@ -121,6 +121,8 @@ class Job_queue(Resource):
 		strain_id = args.strain_id
 		data = []
 		to_send = []
+		print process_ids
+		print protocol_ids
 
 		counter = 0;
 		for protocol_id in protocol_ids:

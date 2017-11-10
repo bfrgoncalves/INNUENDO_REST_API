@@ -952,7 +952,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        var workflowids = [];
 
 	        var proc_value = "";
-	        workflow_already_applied = false;
+	    	workflow_already_applied = false;
 	        
 	        if(type_proc == 'lab_protocol') proc_value = $( "#classifier_selector option:selected" ).val();
 	        else if (type_proc == 'analysis_protocol') proc_value = $( "#pipeline_selector option:selected" ).val();
@@ -966,6 +966,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        counter++;
 		        var pip_start_id = 0;
 		        var proc_start_id = 0;
+		        var local_workflow_applied = false;
 		        var last_proc_name = proc_value;
 		        if(pipelines_applied[strain_data[counter]['strainID']] != undefined && pipelines_applied[strain_data[counter]['strainID']].length != 0){
 		        	button_name_parts_to_use = pipelines_applied[strain_data[counter]['strainID']][pipelines_applied[strain_data[counter]['strainID']].length-1].split("id")[1].split('"')[1].split("_")
@@ -1049,6 +1050,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        if(protocols_applied_by_pipeline[strain_data[counter]['strainID']].hasOwnProperty(proc_value)){
 			        	workflow_already_applied = true;
+			        	local_workflow_applied = true;
 			        }
 			        else{
 			        	protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value].push(protocol_buttons);
@@ -1084,8 +1086,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        if(!strain_data[i].hasOwnProperty('protocols')) strain_data[i]['protocols'] = {};
 		        
 
-		        if(type_proc == 'lab_protocol') strain_data[i]['lab_protocols'] = toAdd_lab_protocols;
-	        	else if (type_proc == 'analysis_protocol'){
+		        if(type_proc == 'lab_protocol' && local_workflow_applied != true) strain_data[i]['lab_protocols'] = toAdd_lab_protocols;
+	        	else if (type_proc == 'analysis_protocol' && local_workflow_applied != true){
 	        		strain_data[i]['Analysis'] = toAdd_analysis;
 	        		strain_data[i]['protocols'][proc_value] = toAdd_Protocols;
 	        	}

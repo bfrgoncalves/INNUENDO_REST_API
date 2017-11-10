@@ -1043,6 +1043,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        if(!protocols_applied_by_pipeline[strain_data[counter]['strainID']].hasOwnProperty(proc_value)){
 			        	protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value] = [];
 			        }
+			        console.log(proc_value);
+			        console.log(protocols_applied_by_pipeline[strain_data[counter]['strainID']]);
 			        protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value].push(protocol_buttons);
 		        	
 		        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));

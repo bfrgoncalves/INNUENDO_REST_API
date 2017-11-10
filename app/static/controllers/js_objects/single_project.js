@@ -1792,7 +1792,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];
 						console.log(strain_names[index], removed_pip_name);
-						delete protocols_applied_by_pipeline[strain_names[index]][removed_pip_name]
+						delete protocols_applied_by_pipeline[strain_names[index]][removed_pip_name];
+						console.log(protocols_applied_by_pipeline);
 
 						strainNames_to_pipelinesNames[strain_names[index]].pop();
 						protocols_applied[strain_names[index]].pop();

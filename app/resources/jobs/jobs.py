@@ -145,8 +145,9 @@ class Job_queue(Resource):
 				#print data
 			counter += 1
 
-		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
-		to_send.append(request.json()['jobID'])
+		print data
+		#request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
+		#to_send.append(request.json()['jobID'])
 
 		return to_send, 200
 

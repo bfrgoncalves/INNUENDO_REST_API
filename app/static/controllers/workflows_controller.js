@@ -96,7 +96,8 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 			$scope.workflows_names = [];
 			options = "";
-			console.log(results.data);
+
+			options +="<option>None</option>";
 			for (x in results.data){
 				options +="<option>"+results.data[x].name+"</option>";
 			}

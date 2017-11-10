@@ -1318,7 +1318,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			for(protoc in protocols_in_pip){
 			        				console.log(protocols_in_pip);
 			        				protocol_name = protocols_in_pip[protoc].split("id=")[1].split('"')[1]
-			        				dict_strain_names[strain_names[strain_name]][5].push(pi_name);
+			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        			}
 			        			console.log(dict_strain_names[strain_names[strain_name]][5]);
 			        			//dict_strain_names[strain_names[strain_name]][5].push(pi_name);

@@ -282,7 +282,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                wf_url_parts.push(String(protocol_counter));
 
 		                strain_to_real_pip[strain_id].push(wf_url_parts);
-		                process_id_to_workflow[protocol_counter] = strain_id + "_workflow_" + counter + "_" + CURRENT_PROJECT_ID;
+		                process_id_to_workflow[protocol_counter] = strain_id_to_name[strain_id] + "_workflow_" + counter + "_" + CURRENT_PROJECT_ID;
 	                }
 	                
 	            }

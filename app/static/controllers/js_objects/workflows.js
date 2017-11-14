@@ -13,6 +13,9 @@ Launch a workflow instance
 function Workflows($http){
 
 	var protocolTypeObject = {}, protocols = {}, added_protocols = {};
+	intervals_running = {};
+	pipeline_status = {};
+	jobs_to_parameters = {};
 
 	var pg_requests = new Requests(0, null, $http);
     var ngs_onto_requests = new ngs_onto_client(0, $http);

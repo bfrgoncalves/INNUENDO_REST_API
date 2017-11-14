@@ -19,6 +19,9 @@ function Report($http){
 
 	var pg_requests = new Requests(null, null, $http);
 	var interval_check_tree = {};
+	intervals_running = {};
+	pipeline_status = {};
+	jobs_to_parameters = {};
 
 	function modalAlert(text, callback){
 

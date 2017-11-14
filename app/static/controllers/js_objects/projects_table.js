@@ -12,6 +12,9 @@ function Projects_Table(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http){
 	var projects = [], other_projects = [], species = [];
     var projects_headers = {};
     var currentSpecieID = 1;
+    intervals_running = {};
+	pipeline_status = {};
+	jobs_to_parameters = {};
 
 	var objects_utils = new Objects_Utils();
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);

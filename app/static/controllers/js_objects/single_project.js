@@ -1553,6 +1553,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							}
 
 							if(processed_proc[strain_id] == strain_processes_from_request.length && t_ids.length > 0){
+								console.log("periodic check");
+								console.log(buttons_to_tasks, tasks_to_buttons);
 								periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
 							}
 							

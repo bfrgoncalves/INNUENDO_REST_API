@@ -85,7 +85,7 @@ function Objects_Utils(){
 	        '</tr>';
 
 	    tr_string += '<tr class="child_row protocols_child" id="'+d.strainID+'_workflows" style="display:none;">'+
-	            '<td colspan="6" id="'+d.strainID+'_protocols"><p class="cell_paragraph"><b>Protocols:</b></p></td>'+
+	            '<td colspan="6" id="'+d.strainID+'_protocols"><p class="cell_paragraph"></td>'+
 	        '</tr>';
 
 	    protocols_on_table[d.strainID] = d.protocols;

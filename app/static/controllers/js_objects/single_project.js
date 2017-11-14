@@ -337,7 +337,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var is_running = false;
 				pending_jobs = 0;
 				var protocols_on_workflow = [];
-				var prev_workflow = process_id_to_workflow[0];
+				var prev_workflow = process_id_to_workflow[1];
 
 				if(response.data != false){
 					all_status_done = 0;

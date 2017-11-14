@@ -275,7 +275,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                //pipeline
 		                wf_url_parts.push(parts[8]);
 		                //process
-		                wf_url_parts.push(protocol_counter);
+		                wf_url_parts.push(String(protocol_counter));
 
 		                strain_to_real_pip[strain_id].push(wf_url_parts);
 	                }
@@ -1549,9 +1549,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 									t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
 									t_ids.push(t_id);
 									count_process[strain_id]+=1;
-									tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
-									buttons_to_tasks[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
-									buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
+									tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
+									buttons_to_tasks[strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
+									buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
 									prevjobid = t_id.split('_')[0];
 									dict_of_tasks_status[t_id] = '';
 									proc_ids.push(pr_ids[l])

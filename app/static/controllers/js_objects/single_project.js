@@ -1054,7 +1054,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        }
 				        console.log(proc_value);
 				        console.log(protocols_applied_by_pipeline[strain_data[counter]['strainID']]);
-				        
+
 			        	protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value].push(protocol_buttons);
 		        	
 			        	if(type_proc == 'lab_protocol') pipelines_type_by_strain[strain_data[counter]['strainID']][0].push(buttonselectedPipeline.replace("&&&", "&&protocol"));
@@ -1375,15 +1375,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        			indexes = indexes.replace(/,$/, '');
 
 					        			//Run the job
+					        			console.log("RUN JOB");
 					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], function(response, strain_name){
+					        				
 					        				task_ids = [];
 					        				task_ids_to_map = [];
 
 					        				dict_strain_names[strain_names[strain_name]][3] += 1;
 
-
+					        				console.log(response.data);
 					        				var countTasks = 0;
 					        				for(l in response.data){
+
 					        					if(response.data[l] == 'null'){
 					        						countTasks++;
 					        						var button_name = dict_strain_names[strain_names[strain_name]][5].shift();
@@ -1404,7 +1407,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						        						buttons_to_strain_names[button_name] = strain_names[strain_name];
 					        							task_ids_to_map.push(task_ids[s]);
 					        						}
-					        						console.log(tasks_to_buttons);
+					        						//console.log(tasks_to_buttons);
 					        						processes_to_map = task_ids_to_map.map(function(x){
 					        							return dict_strain_names[strain_names[strain_name]][4].shift();
 							        				});

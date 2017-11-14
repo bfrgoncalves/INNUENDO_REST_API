@@ -134,7 +134,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 		
 		#get all ordered workflows from pipeline
-		queryString = "SELECT ?execStep ?stepIndex ?workflowURI ?execStep  WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI; obo:NGS_0000081 ?stepIndex} ORDER BY ASC(?stepIndex)"
+		queryString = "SELECT ?execStep ?stepIndex ?workflowURI ?execStep  WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI; obo:NGS_0000081 ?stepIndex3} ORDER BY ASC(?stepIndex)"
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["stepIndex","workflowURI","execStep"])
@@ -465,6 +465,7 @@ class NGSOnto_ProcessJobID(Resource):
 		else:
 			return 404
 
+
 class NGSOnto_ProcessOutputResource(Resource):
 
 	def post(self, id, id2,id3):
@@ -515,6 +516,42 @@ class NGSOnto_ProcessOutputResource(Resource):
 		except Exception as e:
 			print e
 			return 404
+
+	def put(self, id, id2,id3):
+
+		args = process_put_output_parser.parse_args()
+
+		output_prop_to_type = {"run_info":"NGS_0000092", "run_output":"NGS_0000093", "run_stats":"NGS_0000094", "log_file":"NGS_0000096", "status":"NGS_0000097"}
+
+		try:
+			#Agraph
+			processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(id3))
+
+			#get output URI from process
+			hasOutput = dbconAg.createURI(namespace=obo, localname="RO_0002234")
+			statements = dbconAg.getStatements(processURI, hasOutput, None)
+			outputURI=parseAgraphStatementsRes(statements)
+			statements.close()
+
+			outputURI = dbconAg.createURI(outputURI[0]['obj'])
+
+			runInfo = dbconAg.createLiteral((args.property), datatype=XMLSchema.STRING)
+			runInfoProp = dbconAg.createURI(namespace=obo, localname=output_prop_to_type[args.property])
+
+
+			dbconAg.remove(outputURI, runInfoProp, None)
+
+			#add outputs paths to process
+			stmt1 = dbconAg.createStatement(outputURI, runInfoProp, runInfo)
+
+			#send to allegro
+			dbconAg.add(stmt1)
+
+			return 202
+		except Exception as e:
+			print e
+			return 404
+
 
 	def get(self, id, id2, id3):
 

@@ -349,7 +349,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				else{
 					dict_of_tasks_status[job_id.split('_')[0]] = status;
 					current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
-					var bah = tasks_to_buttons[task_id].replace(/ /g, "_")
 					$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 					clearInterval(intervals_running[this_job_id]);
 				}
@@ -361,6 +360,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		job_ids = job_ids.join();
 		process_ids = process_ids.join();
 
+		setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 200);
 
 		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 30000);
 

@@ -338,6 +338,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 							dict_of_tasks_status[task_id] = status;
 							current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
+							console.log(tasks_to_buttons[task_id]);
 							$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 						}
 						prevtaskid = task_id;

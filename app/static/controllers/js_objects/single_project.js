@@ -60,6 +60,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     strainName_to_tids = {};
     pipeline_status = {};
     jobs_to_parameters = {};
+    var process_id_to_workflow = {};
     var workflow_id_to_name = {};
     var global_counter_pipelines = 0;
     var strains_without_pip = {};
@@ -281,6 +282,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                wf_url_parts.push(String(protocol_counter));
 
 		                strain_to_real_pip[strain_id].push(wf_url_parts);
+		                process_id_to_workflow[protocol_counter] = strain_id + "_workflow_" + counter + "_" + CURRENT_PROJECT_ID;
 	                }
 	                
 	            }
@@ -327,10 +329,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, function(response, this_job_id){
 
 				this_job_id = this_job_id.join();
+				var has_failed = false;
+				counter_processes = 0;
 
 				if(response.data != false){
 					all_status_done = 0;
 					for(n in response.data){
+						counter_processes += 1;
 						task_id = response.data[n][0];
 						status = response.data[n][1];
 						if (task_id == "null") return;
@@ -343,8 +348,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						prevtaskid = task_id;
 						//Case the job as finished in any way, clear the interval
 						if(status == 'COMPLETED' || status == 'WARNING' || status == 'FAILED') all_status_done += 1;
+						if(status == 'FAILED') has_failed = true;
 					}
 					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);
+
+					if(has_failed){
+						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["FAILED"]});
+					}
 
 				}
 				else{

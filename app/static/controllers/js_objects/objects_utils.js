@@ -290,8 +290,8 @@ function Objects_Utils(){
 		        		$("#"+strainID+"_protocols").empty();
 				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
 				        console.log(pipeline_status, strainName_to_tids[strainID], jobs_to_parameters[strainName_to_tids[strainID]])
-
-				        pipeline_status[strainName_to_tids[strainID]](jobs_to_parameters[strainName_to_tids[strainID]]);
+				        params = jobs_to_parameters[strainName_to_tids[strainID]];
+				        pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
 			        	$("#"+strainID+"_workflows").css({"display":"block"});
 			        	$(this).attr("shown_child", "true");
 

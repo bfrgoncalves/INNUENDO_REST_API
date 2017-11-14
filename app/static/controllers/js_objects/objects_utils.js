@@ -289,7 +289,7 @@ function Objects_Utils(){
 	        		if(shown =='false'){
 		        		$("#"+strainID+"_protocols").empty();
 				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-				        
+				        pipeline_status[strainName_to_tids[strainID]];
 			        	$("#"+strainID+"_workflows").css({"display":"block"});
 			        	$(this).attr("shown_child", "true");
 

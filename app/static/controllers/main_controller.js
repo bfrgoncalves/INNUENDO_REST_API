@@ -27,7 +27,9 @@ var current_job_status_color = {};
 
 var protocols = {};
 var protocol_types = [];
-
+var intervals_running = {};
+var strainName_to_tids = {};
+var pipeline_status = {};
 /*
 DEFINE ANALYSIS PARAMETERS FOR METADATA
 */

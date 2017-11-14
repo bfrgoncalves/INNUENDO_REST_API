@@ -56,7 +56,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var button_class_to_pipeline = {};
     var strain_to_real_pip = {};
     var pipelines_type_by_strain = {};
-    var intervals_running = {};
+    intervals_running = {};
+    strainName_to_tids = {};
+    pipeline_status = {};
     var workflow_id_to_name = {};
     var global_counter_pipelines = 0;
     var strains_without_pip = {};
@@ -359,11 +361,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		job_ids = job_ids.join();
 		process_ids = process_ids.join();
 
-		setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 1000);
 
 		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 30000);
 
 		intervals_running[job_ids] = periodic_check;
+		pipeline_status[job_ids] = setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 200);
 
 	}
 
@@ -1561,9 +1563,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								processed_proc[strain_id] += 1;
 							}
 
+							strainName_to_tids[strain_id] = t_ids.join();
+
 							if(processed_proc[strain_id] == strain_processes_from_request.length && t_ids.length > 0){
-								console.log("periodic check");
-								console.log(buttons_to_tasks, tasks_to_buttons);
 								periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
 							}
 							

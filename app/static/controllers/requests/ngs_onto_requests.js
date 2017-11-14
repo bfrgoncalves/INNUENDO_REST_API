@@ -320,6 +320,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	    },
 	    ngs_onto_request_get_jobid_from_process: function(pipeline_id, processes_ids, project_id, strain_id, count, strain_processes, t_ids, proc_ids, processed_proc, callback){
 
+	    	console.log(pipeline_id, processes_ids, project_id, strain_id, count, strain_processes, t_ids, proc_ids, processed_proc)
 	    	req = {
                 url: 'api/v1.0/ngsonto/projects/'+project_id+'/pipelines/'+pipeline_id+'/processes/jobid',
                 method:'GET',

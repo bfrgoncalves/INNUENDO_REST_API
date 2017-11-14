@@ -351,7 +351,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						if(status == 'FAILED') has_failed = true;
 					}
 					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);
-
+					console.log(has_failed, process_id_to_workflow, counter_processes);
 					if(has_failed){
 						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["FAILED"]});
 					}

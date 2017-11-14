@@ -60,6 +60,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     strainName_to_tids = {};
     pipeline_status = {};
     jobs_to_parameters = {};
+    var current_status_wf_to_protocol = {};
     var process_id_to_workflow = {};
     var workflow_id_to_name = {};
     var global_counter_pipelines = 0;
@@ -334,6 +335,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var prev_process_status = '';
 				var is_running = false;
 				pending_jobs = 0;
+				var protocols_on_button = {};
+				var protocols_on_workflow = [];
+				var prev_workflow = "";
 
 				if(response.data != false){
 					all_status_done = 0;
@@ -342,6 +346,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						task_id = response.data[n][0];
 						status = response.data[n][1];
 						if (task_id == "null") return;
+
+						protocols_on_workflow.push(tasks_to_buttons[task_id]);
 						
 						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 						dict_of_tasks_status[task_id] = status;
@@ -362,25 +368,35 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							clearInterval(intervals_running[task_id]);
 						}
 						else prev_process_status = status;
+
+						if (prev_workflow != process_id_to_workflow[counter_processes]){
+
+							protocols_on_button[process_id_to_workflow[counter_processes]] = protocols_on_workflow;
+
+							if(has_failed){
+								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["FAILED"]});
+								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["FAILED"];
+							}
+							else if(is_running){
+								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["R"]});
+								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["R"];
+							}
+							else if(prev_process_status == "COMPLETED"){
+								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["COMPLETED"]});
+								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["COMPLETED"];
+							}
+							else if(pending_jobs == response.data.length){
+								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["PD"]});
+								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["PD"];
+							}
+
+							protocols_on_workflow = [];
+						}
+
+						prev_workflow = process_id_to_workflow[counter_processes];
+
 					}
 					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);
-
-					if(has_failed){
-						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["FAILED"]});
-						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["FAILED"];
-					}
-					else if(is_running){
-						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["R"]});
-						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["R"];
-					}
-					else if(prev_process_status == "COMPLETED"){
-						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["COMPLETED"]});
-						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["COMPLETED"];
-					}
-					else if(pending_jobs == response.data.length){
-						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["PD"]});
-						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["PD"];
-					}
 
 				}
 				else{
@@ -1843,6 +1859,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        strain_data[index]['Analysis'] = toAdd_analysis;
 
 						clearInterval(intervals_running[buttons_to_tasks[sp_name]]);
+						
+						for(protocol in protocols_on_button[sp_name]) clearInterval(protocols_on_button[sp_name][protocol]);
+						
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];

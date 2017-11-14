@@ -60,6 +60,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     strainName_to_tids = {};
     pipeline_status = {};
     jobs_to_parameters = {};
+    var protocols_on_button = {};
     var current_status_wf_to_protocol = {};
     var process_id_to_workflow = {};
     var workflow_id_to_name = {};
@@ -335,9 +336,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var prev_process_status = '';
 				var is_running = false;
 				pending_jobs = 0;
-				var protocols_on_button = {};
 				var protocols_on_workflow = [];
-				var prev_workflow = "";
+				var prev_workflow = process_id_to_workflow[0];
 
 				if(response.data != false){
 					all_status_done = 0;

@@ -73,7 +73,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var objects_utils = new Objects_Utils();
 
     //Colors for the Running, Pending, Completed, Failed, and Warning of the workflows buttons
-    status_dict = {'R': '#42c2f4', 'PD': '#f49542', 'COMPLETED': '#42f442', 'FAILED': '#f75454', 'WARNING': '#f9fb30'}
+    status_dict = {'R': '#42c2f4', 'PD': '#f49542', 'COMPLETED': '#42f442', 'FAILED': '#f75454', 'WARNING': '#f9fb30', 'NEUTRAL': '#ffffff'}
 
     function modalAlert(text, callback){
 
@@ -331,6 +331,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				this_job_id = this_job_id.join();
 				var has_failed = false;
 				counter_processes = 0;
+				var prev_process_status = '';
+				var is_running = false;
+				pending_jobs = 0;
 
 				if(response.data != false){
 					all_status_done = 0;
@@ -340,21 +343,43 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						status = response.data[n][1];
 						if (task_id == "null") return;
 						
-						if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
-							dict_of_tasks_status[task_id] = status;
-							current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
-							$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
-						}
+						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
+						dict_of_tasks_status[task_id] = status;
+						current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
+						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
+						//}
 						prevtaskid = task_id;
 						//Case the job as finished in any way, clear the interval
 						if(status == 'COMPLETED' || status == 'WARNING' || status == 'FAILED') all_status_done += 1;
 						if(status == 'FAILED') has_failed = true;
+						if(status == "R") is_running = true;
+						if(status == "PD") pending_jobs += 1;
+
+						if(prev_process_status == 'FAILED'){
+							dict_of_tasks_status[task_id] = 'NEUTRAL';
+							current_job_status_color[tasks_to_buttons[task_id]] = status_dict['NEUTRAL'];
+							$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict['NEUTRAL']});
+							clearInterval(intervals_running[task_id]);
+						}
+						else prev_process_status = status;
 					}
 					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);
-					console.log(has_failed, process_id_to_workflow, counter_processes);
+
 					if(has_failed){
 						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["FAILED"]});
 						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["FAILED"];
+					}
+					else if(is_running){
+						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["R"]});
+						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["R"];
+					}
+					else if(prev_process_status == "COMPLETED"){
+						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["COMPLETED"]});
+						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["COMPLETED"];
+					}
+					else if(pending_jobs == response.data.length){
+						$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["PD"]});
+						current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["PD"];
 					}
 
 				}

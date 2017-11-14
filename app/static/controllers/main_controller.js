@@ -30,6 +30,7 @@ var protocol_types = [];
 var intervals_running = {};
 var strainName_to_tids = {};
 var pipeline_status = {};
+var jobs_to_parameters = {};
 /*
 DEFINE ANALYSIS PARAMETERS FOR METADATA
 */

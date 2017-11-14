@@ -1860,7 +1860,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						clearInterval(intervals_running[strainName_to_tids[strain_names[index]]]);
 						
-						//for(protocol in protocols_on_button[sp_name]) clearInterval(protocols_on_button[sp_name][protocol]);
+						for(protocol in protocols_on_button[sp_name]) delete current_job_status_color[protocols_on_button[sp_name][protocol]];
 
 						n_protocols = protocols_on_button[sp_name].length;
 

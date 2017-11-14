@@ -1872,6 +1872,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						params = jobs_to_parameters[strainName_to_tids[strain_names[index]]];
 				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
 
+				        console.log(params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]);
+
 				        intervals_running[strainName_to_tids[strain_names[index]]] = setInterval(function(){ pipeline_status[strainName_to_tids[strain_names[index]]](params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]); }, 30000);
 						
 						delete current_job_status_color[sp_name];

@@ -255,24 +255,31 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
         	if(response.status == 200){
         		var appliedPipelines = [];
         		strain_to_real_pip[strain_id] = [];
+        		protocol_counter = 0;
 
         		//Parse the results and construct the strain_to_real_pip object. (Object with all the processes in that pipeline)
 	            for (w in response.data){
-	            	var wf_url_parts = [];
 	                workflow_id = response.data[w].workflowURI.split('<')[1].split('>')[0].split('/');
 	                workflow_id = workflow_id[workflow_id.length-1];
 	                appliedPipelines.push(workflow_id);
 	                counter += 1;
 	                strainid_processes_buttons[strain_id][0][counter] = pipelinesByID[workflow_id];
 	                parts = response.data[w].execStep.split('<')[1].split('>')[0].split('/');
+
 	                
-	                //project
-	                wf_url_parts.push(parts[6]);
-	                //pipeline
-	                wf_url_parts.push(parts[8]);
-	                //process
-	                wf_url_parts.push(parts[10]);
-	                strain_to_real_pip[strain_id].push(wf_url_parts);
+	                for(protocol in workflowname_to_protocols[workflow_id_to_name[workflow_id]]){
+	                	protocol_counter += 1;
+	                	var wf_url_parts = [];
+		                //project
+		                wf_url_parts.push(parts[6]);
+		                //pipeline
+		                wf_url_parts.push(parts[8]);
+		                //process
+		                wf_url_parts.push(protocol_counter);
+
+		                strain_to_real_pip[strain_id].push(wf_url_parts);
+	                }
+	                
 	            }
 
 	            global_counter_pipelines += 1;
@@ -380,6 +387,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                    }
 
 		                    workflowname_to_protocols[response.data[i].name] = [];
+		                    workflow_id_to_name[response.data[i].id] = response.data[i].name;
 
 		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response, nn, workflow_name){
 		            			protocol_data = response.data.reverse();

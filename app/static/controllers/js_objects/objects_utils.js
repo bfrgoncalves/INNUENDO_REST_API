@@ -289,10 +289,14 @@ function Objects_Utils(){
 	        		if(shown =='false'){
 		        		$("#"+strainID+"_protocols").empty();
 				        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-				        params = jobs_to_parameters[strainName_to_tids[strainID]];
-				        pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
+				        //params = jobs_to_parameters[strainName_to_tids[strainID]];
+				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
 			        	$("#"+strainID+"_workflows").css({"display":"block"});
 			        	$(this).attr("shown_child", "true");
+
+			        	for(x in current_job_status_color){
+			            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
+			            }
 
 		        	}
 		        	else{

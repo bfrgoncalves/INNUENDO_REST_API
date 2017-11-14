@@ -1858,9 +1858,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        }
 				        strain_data[index]['Analysis'] = toAdd_analysis;
 
-						clearInterval(intervals_running[buttons_to_tasks[sp_name]]);
+						clearInterval(intervals_running[strainName_to_tids[strain_names[index]]]);
 						
-						for(protocol in protocols_on_button[sp_name]) clearInterval(protocols_on_button[sp_name][protocol]);
+						//for(protocol in protocols_on_button[sp_name]) clearInterval(protocols_on_button[sp_name][protocol]);
+
+						n_protocols = protocols_on_button[sp_name].length;
+
+						params = jobs_to_parameters[strainName_to_tids[strainID]];
+				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
+
+				        intervals_running[strainName_to_tids[strain_names[index]]] = setInterval(function(){ pipeline_status[strainName_to_tids[strain_names[index]]]](params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]); }, 30000);
 						
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];

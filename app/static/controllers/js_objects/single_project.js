@@ -394,6 +394,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
+								console.log("PENDING");
 								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
 								current_job_status_color[prev_workflow] = status_dict["PD"];
 							}
@@ -1874,7 +1875,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        }
 				        strain_data[index]['Analysis'] = toAdd_analysis;
 
-				        console.log(intervals_running, strainName_to_tids[strain_names[index]]);
 						clearInterval(intervals_running[strainName_to_tids[strain_names[index]]]);
 						
 						for(protocol in protocols_on_button[sp_name]){
@@ -1887,7 +1887,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						params = jobs_to_parameters[strainName_to_tids[strain_names[index]]];
 				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
-				        console.log(params);
 				        if(params[0].length > 0){
 				        	params[0] = params[0].split(",");
 					        params[2] = params[2].split(",");
@@ -1907,9 +1906,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						delete current_job_status_color[sp_name];
 						delete tasks_to_buttons[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];
-						console.log(strain_names[index], removed_pip_name);
 						delete protocols_applied_by_pipeline[strain_names[index]][removed_pip_name];
-						console.log(protocols_applied_by_pipeline);
 
 						strainNames_to_pipelinesNames[strain_names[index]].pop();
 						protocols_applied[strain_names[index]].pop();

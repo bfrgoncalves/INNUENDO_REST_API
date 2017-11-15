@@ -431,6 +431,7 @@ function Objects_Utils(){
     						'<li class="'+workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2]+'&&'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li></ul></div>';
 				        }
 
+				        console.log(protocol_buttons);
 				        if(!strainNames_to_pipelinesNames.hasOwnProperty(s_name)){
 				        	strainNames_to_pipelinesNames[s_name] = [];
 				        }

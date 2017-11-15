@@ -375,7 +375,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(prev_workflow, process_id_to_workflow, counter_processes);
 
 						if (process_id_to_workflow[counter_processes+1] != undefined && prev_workflow != process_id_to_workflow[counter_processes+1] || response.data.length - 1 == n){
-
+							console.log("AQUI", process_id_to_workflow[counter_processes+1], prev_workflow)
 							protocols_on_button[process_id_to_workflow[counter_processes-1]] = protocols_on_workflow;
 
 							if(has_failed){

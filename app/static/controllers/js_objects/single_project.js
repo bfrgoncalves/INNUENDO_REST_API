@@ -324,7 +324,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				procedure_name = workflow_id_to_name[tasks_to_buttons[job_ids[job_id]].replace(/ /g, "_")];
 				var parts_split = tasks_to_buttons[job_ids[job_id]].replace(/ /g, "_").split("_");
 				var process_position = parts_split[parts_split.length-2];
-				console.log(parts_split);
 				process_positions.push(process_position);
 				procedure_names.push(procedure_name);
 			}
@@ -1092,6 +1091,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	'<ul class="dropdown-menu" id="'+strain_data[counter]['strainID']+'_'+workflowname_to_protocols[proc_value][pt][2]+'" style="position:relative;float:right;">'+
 				        	'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
     						'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li></ul></div>';
+
+    					process_id_to_workflow[proc_start_id + new_proc_count] = strain_data[counter]['strainID'] + "_protocol_" + proc_start_id + new_proc_count + "_" + CURRENT_PROJECT_ID;
 			        }
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
@@ -1402,11 +1403,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
 			        			protocols_in_pip.shift();
 			        			for(protoc in protocols_in_pip){
-			        				console.log(protocols_in_pip[protoc]);
-			        				console.log(protocols_in_pip[protoc].split("</button>"));
 			        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0]
 			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1]
-			        				console.log(protocol_with_button, protocol_name);
 			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        			}
 			        			//dict_strain_names[strain_names[strain_name]][5].push(pi_name);
@@ -1499,7 +1497,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        									//if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 		        								}
 		        								strainName_to_tids[strain_name] = response.data.tasks.join();
-		        								console.log(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], response.data.tasks, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID)
 		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], response.data.tasks, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 
 		        								if (count_strains_added_run == strain_names.length){

@@ -339,6 +339,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var protocols_on_workflow = [];
 				var prev_workflow = process_id_to_workflow[1];
 
+				console.log(process_id_to_workflow);
+
 				if(response.data != false){
 					all_status_done = 0;
 					for(n in response.data){

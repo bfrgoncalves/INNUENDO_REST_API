@@ -1095,10 +1095,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	'<ul class="dropdown-menu" id="'+strain_data[counter]['strainID']+'_'+workflowname_to_protocols[proc_value][pt][2]+'" style="position:relative;float:right;">'+
 				        	'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
     						'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li></ul></div>';
-
-    					protoc_counter = parseInt(proc_start_id) + parseInt(new_proc_count);
-    					process_id_to_workflow[protoc_counter] = strain_data[counter]['strainID'] + "_protocol_" + String(proc_start_id + new_proc_count) + "_" + CURRENT_PROJECT_ID;
 			        }
+
+			        protoc_counter = String(pip_start_id + 1);
+    				process_id_to_workflow[protoc_counter] = strain_data[counter]['strainID'] + "_workflow_" + protoc_counter + "_" + CURRENT_PROJECT_ID;
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
 			        	pipelines_type_by_strain[strain_data[counter]['strainID']] = [[],[],[]];

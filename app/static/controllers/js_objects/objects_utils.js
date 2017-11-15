@@ -426,7 +426,7 @@ function Objects_Utils(){
 				        	new_proc_count += 1;
 				        	protocol_buttons += '<div class="dropdown" style="float:left;">'+
 				        	'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2] + '</button>'+
-				        	'<ul class="dropdown-menu" id="'+strain_name+'_'+pipelinesByID[workflow_id]+'" style="position:relative;float:right;">'+
+				        	'<ul class="dropdown-menu" id="'+strain_name+'_'+workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2]+'" style="position:relative;float:right;">'+
 				        	'<li class="'+workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2]+'&&'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
     						'<li class="'+workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2]+'&&'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li></ul></div>';
 				        }

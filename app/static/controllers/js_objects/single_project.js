@@ -1876,7 +1876,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        params[0] = params[0].split(",");
 				        params[2] = params[2].split(",");
 
-				        console.log(params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]);
+				        params[0] = params[0].slice(0, params[0].length - n_protocols);
+				        params[2] = params[2].slice(0, params[2].length - n_protocols);
 
 				        if(params[0].length > 0){
 				        	console.log("AQUI", params[0].length);

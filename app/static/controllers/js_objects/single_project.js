@@ -377,6 +377,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[counter_processes];
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
 
+							console.log("AQUI!!");
+
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];

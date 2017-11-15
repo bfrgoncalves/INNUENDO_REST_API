@@ -557,7 +557,7 @@ class NGSOnto_ProcessOutputResource(Resource):
 
 		try:
 			procStr = localNSpace + "projects/" + str(id) + "/pipelines/" + str(id2) + "/processes/" + str(id3)
-			queryString = "SELECT (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?file4) as ?file_4) (str(?status) as ?statusStr)  WHERE {<"+procStr+"> obo:RO_0002234 ?out. <"+procStr+"> obo:NGS_0000097 ?status.  ?out obo:NGS_0000092 ?file1.?out obo:NGS_0000093 ?file2.?out obo:NGS_0000094 ?file3. ?out obo:NGS_0000096 ?file4.}"
+			queryString = "SELECT (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?file4) as ?file_4) (str(?status) as ?statusStr)  WHERE {<"+procStr+"> obo:RO_0002234 ?out. <"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3; obo:NGS_0000096 ?file4.} OPTIONAL {?in obo:NGS_0000097 ?status.} }"
 			#print queryString
 			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 			result = tupleQuery.evaluate()

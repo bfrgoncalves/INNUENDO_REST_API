@@ -318,8 +318,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var process_positions = [];
 			var procedure_names = [];
 
-			console.log(job_ids);
-
 			job_ids = job_ids.split(",")
 
 			for (job_id in job_ids){
@@ -372,21 +370,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						else prev_process_status = status;
 
-						console.log(prev_workflow, process_id_to_workflow, counter_processes);
-
 						if (process_id_to_workflow[counter_processes+1] != undefined && prev_workflow != process_id_to_workflow[counter_processes+1] || response.data.length - 1 == n){
 
 							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[counter_processes];
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
-							console.log("AQUI", process_id_to_workflow[counter_processes+1], prev_workflow)
-							console.log(pending_jobs, protocols_on_workflow.length)
 
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
-								console.log("PENDING");
 								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
 								current_job_status_color[prev_workflow] = status_dict["PD"];
 							}
@@ -421,7 +414,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		}
 		prevtaskid = '';
-		console.log(job_ids);
 		job_ids = job_ids.join();
 		process_ids = process_ids.join();
 
@@ -430,7 +422,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 30000);
 		intervals_running[job_ids] = periodic_check;
 		pipeline_status[job_ids] = get_status;
-		console.log(job_ids);
 		jobs_to_parameters[job_ids] = [job_ids, strain_id, process_ids, pipeline_id];
 
 	}

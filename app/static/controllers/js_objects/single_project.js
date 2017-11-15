@@ -385,6 +385,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];
 							}
+							else if(pending_jobs == protocols_on_workflow.length){
+								console.log("PENDING");
+								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
+								current_job_status_color[prev_workflow] = status_dict["PD"];
+							}
 							else if(is_running){
 								$('#' + prev_workflow).css({'background-color': status_dict["R"]});
 								current_job_status_color[prev_workflow] = status_dict["R"];
@@ -392,11 +397,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							else if(prev_process_status == "COMPLETED"){
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
-							}
-							else if(pending_jobs == protocols_on_workflow.length){
-								console.log("PENDING");
-								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
-								current_job_status_color[prev_workflow] = status_dict["PD"];
 							}
 
 							protocols_on_workflow = [];

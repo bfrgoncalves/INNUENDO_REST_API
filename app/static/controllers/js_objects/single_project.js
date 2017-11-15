@@ -375,24 +375,26 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(prev_workflow, process_id_to_workflow, counter_processes);
 
 						if (process_id_to_workflow[counter_processes+1] != undefined && prev_workflow != process_id_to_workflow[counter_processes+1] || response.data.length - 1 == n){
+
+							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[counter_processes];
+							protocols_on_button[prev_workflow] = protocols_on_workflow;
 							console.log("AQUI", process_id_to_workflow[counter_processes+1], prev_workflow)
-							protocols_on_button[process_id_to_workflow[counter_processes]] = protocols_on_workflow;
 
 							if(has_failed){
-								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["FAILED"]});
-								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["FAILED"];
+								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
+								current_job_status_color[prev_workflow] = status_dict["FAILED"];
 							}
 							else if(is_running){
-								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["R"]});
-								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["R"];
+								$('#' + prev_workflow).css({'background-color': status_dict["R"]});
+								current_job_status_color[prev_workflow] = status_dict["R"];
 							}
 							else if(prev_process_status == "COMPLETED"){
-								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["COMPLETED"]});
-								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["COMPLETED"];
+								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
+								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
-								$('#' + process_id_to_workflow[counter_processes]).css({'background-color': status_dict["PD"]});
-								current_job_status_color[process_id_to_workflow[counter_processes]] = status_dict["PD"];
+								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
+								current_job_status_color[prev_workflow] = status_dict["PD"];
 							}
 
 							protocols_on_workflow = [];

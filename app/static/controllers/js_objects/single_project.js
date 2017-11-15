@@ -1493,6 +1493,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
 		        									//if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 		        								}
+		        								strainName_to_tids[strain_name] = response.data.tasks.join();
 		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], response.data.tasks, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 
 		        								if (count_strains_added_run == strain_names.length){
@@ -1542,7 +1543,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				if(strains[i] == undefined) continue;
 
 				var strain_processes = strain_to_real_pip[strains_dict[strains[i].strainID]];
-				console.log(strain_processes);
 				count_processes += strain_processes == undefined ? 0 : strain_processes.length;
 
 				countStrain[strains[i].strainID] = 0;
@@ -1878,15 +1878,17 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						params = jobs_to_parameters[strainName_to_tids[strain_names[index]]];
 				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
-				        params[0] = params[0].split(",");
-				        params[2] = params[2].split(",");
 
-				        params[0] = params[0].slice(0, params[0].length - n_protocols);
-				        params[2] = params[2].slice(0, params[2].length - n_protocols);
+				        if(params != undefined){
+				        	params[0] = params[0].split(",");
+					        params[2] = params[2].split(",");
 
-				        if(params[0].length > 0){
-				        	console.log("AQUI", params[0].length);
-				        	intervals_running[strainName_to_tids[strain_names[index]]] = setInterval(function(){ pipeline_status[strainName_to_tids[strain_names[index]]](params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]); }, 30000);
+					        params[0] = params[0].slice(0, params[0].length - n_protocols);
+					        params[2] = params[2].slice(0, params[2].length - n_protocols);
+
+					        if(params[0].length > 0){
+					        	intervals_running[strainName_to_tids[strain_names[index]]] = setInterval(function(){ pipeline_status[strainName_to_tids[strain_names[index]]](params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]); }, 30000);
+					        }
 				        }
 				        						
 						delete current_job_status_color[sp_name];

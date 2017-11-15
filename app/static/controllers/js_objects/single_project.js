@@ -1879,6 +1879,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        console.log(params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]);
 
 				        if(params[0].length > 0){
+				        	console.log("AQUI", params[0].length);
 				        	intervals_running[strainName_to_tids[strain_names[index]]] = setInterval(function(){ pipeline_status[strainName_to_tids[strain_names[index]]](params[0].slice(0, params[0].length - n_protocols), params[1], params[2].slice(0, params[2].length - n_protocols), params[3]); }, 30000);
 				        }
 				        						

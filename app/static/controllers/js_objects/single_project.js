@@ -1751,7 +1751,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	    Download the results file
 	    */
 		download_result: function(response, callback){
-			if(response.data.length == 0){
+			if(response.data.length == 0 || response.data[0].file_3 == 'None'){
 				return modalAlert('The requested file is not available.', function(){});
 			}
 			f_path = response.data[0].file_3.split('^^')[0].replace(/"/g, "")
@@ -1764,7 +1764,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	    Download the log file
 	    */
 		download_log: function(response, callback){
-			if(response.data.length == 0){
+			if(response.data.length == 0 || response.data[0].file_4 == 'None'){
 				return modalAlert('The requested file is not available.', function(){});
 			}
 			f_path = response.data[0].file_4.split('^^')[0].replace(/"/g, "")

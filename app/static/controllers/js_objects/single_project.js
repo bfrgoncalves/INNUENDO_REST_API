@@ -1400,8 +1400,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		if(buttons_to_tasks[pi_name] == undefined){
 			        			dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
 			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
-			        			protocols_in_pip.pop();
 			        			for(protoc in protocols_in_pip){
+			        				console.log(protocols_in_pip[protoc]);
+			        				console.log(protocols_in_pip[protoc].split("</button>"));
 			        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0]
 			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1]
 			        				console.log(protocol_with_button, protocol_name);

@@ -1879,7 +1879,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						params = jobs_to_parameters[strainName_to_tids[strain_names[index]]];
 				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
 				        console.log(params);
-				        if(params != undefined){
+				        if(params[0].length > 0){
 				        	params[0] = params[0].split(",");
 					        params[2] = params[2].split(",");
 

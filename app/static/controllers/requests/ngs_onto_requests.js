@@ -236,8 +236,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
 	    	if(ppi == undefined) ppi = "null";
 	    	
-	    	console.log(strain_id, pip_ids_to_parents, ppi);
-	    	
 	    	req = {
                 url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/processes/',
                 method:'POST',
@@ -281,14 +279,12 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	    },
 	    ngs_onto_request_get_processes_outputs: function(project_id, pipeline_id, process_id, callback){
 
-	    	console.log(project_id, pipeline_id, process_id);
 	    	req = {
                 url: 'api/v1.0/ngsonto/projects/'+project_id+'/pipelines/'+pipeline_id+'/processes/' + process_id + '/outputs/',
                 method:'GET',
             }
 
             $http(req).then(function(response){
-            	console.log(response);
                callback(response);
             },
             function(response){
@@ -320,7 +316,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	    },
 	    ngs_onto_request_get_jobid_from_process: function(pipeline_id, processes_ids, project_id, strain_id, count, strain_processes, t_ids, proc_ids, processed_proc, callback){
 
-	    	console.log(pipeline_id, processes_ids, project_id, strain_id, count, strain_processes, t_ids, proc_ids, processed_proc)
 	    	req = {
                 url: 'api/v1.0/ngsonto/projects/'+project_id+'/pipelines/'+pipeline_id+'/processes/jobid',
                 method:'GET',

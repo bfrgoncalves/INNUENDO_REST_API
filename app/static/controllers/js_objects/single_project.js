@@ -318,6 +318,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var process_positions = [];
 			var procedure_names = [];
 
+			console.log(job_ids);
+
 			job_ids = job_ids.split(",")
 
 			for (job_id in job_ids){

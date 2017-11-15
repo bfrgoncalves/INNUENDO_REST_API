@@ -1095,7 +1095,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     						'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li></ul></div>';
 
     					protoc_counter = parseInt(proc_start_id) + parseInt(new_proc_count);
-    					process_id_to_workflow[protoc_counter] = strain_data[counter]['strainID'] + "_protocol_" + proc_start_id + new_proc_count + "_" + CURRENT_PROJECT_ID;
+    					process_id_to_workflow[protoc_counter] = strain_data[counter]['strainID'] + "_protocol_" + String(proc_start_id + new_proc_count) + "_" + CURRENT_PROJECT_ID;
 			        }
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){

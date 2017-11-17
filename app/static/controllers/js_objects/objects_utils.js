@@ -267,7 +267,7 @@ function Objects_Utils(){
 	        		$(prevWorkflow[2]).attr("shown_child", "false");
 	        	}
 
-	        	event = event || window.event;
+	        	event = e || window.event;
 
 	        	isShift = !!event.shiftKey;
 

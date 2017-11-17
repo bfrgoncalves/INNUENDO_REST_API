@@ -1,5 +1,7 @@
 innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 
+	$scope.required = true;
+
 	current_scope_template = $scope.selectedTemplate.path;
 	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 	else $("#backbutton").css({"display":"none"});
@@ -63,6 +65,9 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 			$("#protocol_type_selector_load").on("change", function(){
 				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
 			});
+
+			$("#protocol_type_selector").trigger("change");
+			$("#protocol_type_selector_load").trigger("change");
 		});
 	}
 

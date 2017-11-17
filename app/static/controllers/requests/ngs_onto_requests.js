@@ -208,6 +208,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	        }
 
 	        $http(req).then(function(response){
+	           console.log(response);
 	           callback(response);
 	        },
 	        function(response){
@@ -317,7 +318,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
                callback(response, strain_name);
             });
 	    },
-	    ngs_onto_request_get_jobid_from_process: function(pipeline_id, processes_ids, project_id, strain_id, count, callback){
+	    ngs_onto_request_get_jobid_from_process: function(pipeline_id, processes_ids, project_id, strain_id, count, strain_processes, t_ids, proc_ids, processed_proc, callback){
 
 	    	req = {
                 url: 'api/v1.0/ngsonto/projects/'+project_id+'/pipelines/'+pipeline_id+'/processes/jobid',
@@ -331,11 +332,11 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
             $http(req).then(function(response){
             	//console.log(response);
-               callback(response, processes_ids, strain_id, count, pipeline_id, project_id);
+               callback(response, processes_ids, strain_id, count, pipeline_id, project_id, strain_processes, t_ids, proc_ids, processed_proc);
             },
             function(response){
             	console.log(response);
-               callback(response, processes_ids, strain_id, count, pipeline_id, project_id);
+               callback(response, processes_ids, strain_id, count, pipeline_id, project_id, strain_processes, t_ids, proc_ids, processed_proc);
             });
 	    }
 	}

@@ -1,7 +1,7 @@
 from app import app, db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask_security import current_user
-from flask import jsonify
+from flask import jsonify, send_file
 
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
@@ -17,6 +17,8 @@ from app.models.models import Report
 import json
 import requests
 import os
+import string
+import random
 
 from job_processing.queue_processor import Queue_Processor
 
@@ -34,6 +36,8 @@ job_post_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, requir
 job_post_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_post_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
 job_post_parser.add_argument('strain_submitter', dest='strain_submitter', type=str, required=True, help="strain_submitter id")
+job_post_parser.add_argument('current_specie', dest='current_specie', type=str, required=True, help="current specie")
+job_post_parser.add_argument('sampleName', dest='sampleName', type=str, required=True, help="Sample Name")
 #parameters -> workflow_id
 job_get_parser = reqparse.RequestParser()
 job_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job id")
@@ -43,7 +47,11 @@ job_get_parser.add_argument('process_position', dest='process_position', type=st
 job_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline identifier")
 job_get_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_get_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
+job_get_parser.add_argument('homedir', dest='homedir', type=str, required=True, help="home dir")
 job_get_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to use if required")
+job_get_parser.add_argument('current_user_name', dest='current_user_name', type=str, required=True, help="Current user name")
+job_get_parser.add_argument('current_user_id', dest='current_user_id', type=str, required=True, help="current user id")
+job_get_parser.add_argument('from_process_controller', dest='from_process_controller', type=str, required=True, help="is the request from the process controller?")
 
 job_results_get_parser = reqparse.RequestParser()
 job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job id")
@@ -51,30 +59,35 @@ job_results_get_parser.add_argument('job_id', dest='job_id', type=str, required=
 job_download_results_get_parser = reqparse.RequestParser()
 job_download_results_get_parser.add_argument('file_path', dest='file_path', type=str, required=True, help="Job Path")
 
+job_classify_chewbbaca_post_parser = reqparse.RequestParser()
+job_classify_chewbbaca_post_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job ID")
+job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to include")
+
 
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id, database_to_include):
+def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id, database_to_include, username):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
-	
+
 	if "chewBBACA" in procedure:
 		print "CLASSIFY"
 		jobID = database_processor.classify_profile(job_id, database_to_include)
-	
+
 
 	if not report:
-		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=current_user.username, procedure=procedure, sample_name=sample)
+		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, procedure=procedure, sample_name=sample)
 		if not report:
 			abort(404, message="An error as occurried when uploading the data")
-		
+
 		db.session.add(report)
 		db.session.commit()
 
 		return True, job_id
 	else:
+		print report.job_id, job_id
 		if report.job_id == job_id:
 			if results:
 				report.report_data=results
@@ -87,7 +100,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 			report.job_id=job_id
 			report.timestamp=datetime.datetime.utcnow()
 			report.user_id=user_id
-			report.username=current_user.username
+			report.username=username
 			report.procedure=procedure
 			report.sample_name=sample
 			report.project_id=project_id
@@ -99,7 +112,7 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 #Run jobs using slurm and get job status
 class Job_queue(Resource):
-	
+
 	@login_required
 	def post(self):
 		args = job_post_parser.parse_args()
@@ -121,8 +134,6 @@ class Job_queue(Resource):
 
 			files = {}
 
-			print str(current_user.username)
-
 			for x in fields['metadata_fields']:
 				if 'File_' in x:
 					files[x] = metadata[x]
@@ -134,28 +145,45 @@ class Job_queue(Resource):
 				#print data
 			counter += 1
 
-		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data)})
+		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
 		to_send.append(request.json()['jobID'])
 
 		return to_send, 200
 
-	@login_required
 	def get(self):
 		args = job_get_parser.parse_args()
-		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(current_user.username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position})
+		username = args.current_user_name
+		user_id = args.current_user_id
+		from_process_controller = args.from_process_controller
+		homedir = args.homedir
+		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
 		results = request.json()
 
+		procedure_names = args.procedure_name.split(",")
+		process_positions = args.process_position.split(",")
+		all_jobs_status = []
+
 		if results != '':
-			job_status = results['stdout'].split('\t')
-			if len(job_status) == 1:
-				return ["null", "null"]
-			job_status[1] = job_status[1].strip('\n')
-			job_status[0] = args.job_id
 
-			if results['store_in_db'] == True:
-				added, job_id = add_data_to_db(results['job_id'], results['results'], current_user.id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include)
+			for k in range(0, len(results['stdout'])):
+				job_status = results['stdout'][k].split('\t')
+				if len(job_status) == 1:
+					return ["null", "null"]
+				job_status[1] = job_status[1].strip('\n')
+				job_status[0] = results['job_id'][k]
 
-			return job_status, 200
+				if from_process_controller == 'true':
+					job_status[1] = "COMPLETED"
+					results['store_in_db'][k] = True
+
+				if from_process_controller == 'true' and results['store_in_db'][k] == True:
+					added, job_id = add_data_to_db(results['job_id'][k], results['results'][k], user_id, procedure_names[k], args.sample_name, args.pipeline_id, process_positions[k], args.project_id, args.database_to_include, username)
+
+				#if results['store_in_db'] == True:
+				#	added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
+				all_jobs_status.append(job_status)
+
+			return all_jobs_status, 200
 		else:
 			return False
 
@@ -168,11 +196,46 @@ class Job_results(Resource):
 		report = db.session.query(Report).filter(Report.job_id == args.job_id).first()
 		return report.report_data
 
+
+#Load job results and classify it
+class Job_classify_chewbbaca(Resource):
+
+	def get(self):
+		args = job_classify_chewbbaca_post_parser.parse_args()
+		database_processor.classify_profile(args.job_id, args.database_to_include)
+
+
 #Load job results to display on graphical interface
 class Job_Result_Download(Resource):
 
-	@login_required
+	#@login_required
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
 		print JOBS_ROOT + 'results/download/'
-		return requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path})
+		local_filename = 'app/results/'+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
+		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
+
+		with open(local_filename, 'wb') as f:
+			for chunk in response.iter_content(chunk_size=1024): 
+				if chunk: # filter out keep-alive new chunks
+					f.write(chunk)
+
+		return local_filename
+
+
+#Load job results to display on graphical interface
+class Job_Result_Download_click(Resource):
+
+	def get(self):
+		args = job_download_results_get_parser.parse_args()
+		try:
+			local_filename = '/'.join(args.file_path.split('/')[-2:])
+			response = send_file(local_filename, as_attachment=True)
+			response.headers.add('Access-Control-Allow-Origin', '*')
+			response.headers.add('Content-Type', 'application/force-download')
+			#os.remove(local_filename)
+			return response
+		except Exception as e:
+			print e
+			#self.Error(400)
+			return 404

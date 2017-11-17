@@ -4,6 +4,7 @@ from flask_security import current_user
 from flask import jsonify, request
 import json
 
+import os
 from app.models.models import Strain, Project, projects_strains, Ecoli, Yersinia, Salmonella, Campylobacter
 from flask_security import current_user, login_required, roles_required
 import datetime
@@ -32,7 +33,8 @@ strain_fields = {
 	'species_id': fields.String,
 	'file_1': fields.String,
 	'file_2': fields.String,
-	'classifier': fields.String
+	'classifier': fields.String,
+	'fq_location': fields.String
 }
 
 #Defining metadata fields
@@ -132,7 +134,7 @@ class StrainListResource(Resource):
 			return strain, 200		
 		
 		try:
-			strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow(), user_id=current_user.id)
+			strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow(), user_id=current_user.id, fq_location=current_user.homedir)
 
 			if not strain:
 				abort(404, message="An error as occurried")

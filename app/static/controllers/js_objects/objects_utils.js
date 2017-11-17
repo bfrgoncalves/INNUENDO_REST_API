@@ -151,18 +151,19 @@ function Objects_Utils(){
             }
 	    });
 
-	    // Apply the search
+    	// Apply the search
 	    table.columns().every( function () {
 	        var that = this;
 	        var table_to_search = table;
 	 
 	        $( 'input', this.footer() ).on( 'keyup change', function () {
 	        	table_to_search
-            .column( $(this).parent().index()+':visible' )
-            .search( this.value )
-            .draw();
+		            .column( $(this).parent().index()+':visible' )
+		            .search( this.value )
+		            .draw();
 	        } );
 	    } );
+	    
 	    
 	    table.columns.adjust().draw();
 
@@ -282,7 +283,7 @@ function Objects_Utils(){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()>Show All</button><button onclick=hide_all_analysis()>Hide All</button></th>";
+		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()><i class='fa fa-eye' aria-hidden='true'></i></button><button onclick=hide_all_analysis()><i class='fa fa-eye-slash' aria-hidden='true'></i></button></th>";
 
 		headers_html += "</tr>";		
 		return headers_html;
@@ -347,6 +348,7 @@ function Objects_Utils(){
 	            }
 	            if(count == workflow_ids.length) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
 	        }
+	        if(workflow_ids.length == 0) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
 	    },
 	    show_message: function(element, type, message){
 
@@ -397,6 +399,7 @@ function Objects_Utils(){
 			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis));
 			$('#'+table_id+' tfoot > tr').remove();
 			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
+			
 
 			callback();
 		}

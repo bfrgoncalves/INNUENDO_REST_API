@@ -27,7 +27,7 @@ def get_closest_profiles(profile_query_file_path, index_path, max_closest):
 	proc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=myinput)
 	stdout, stderr = proc.communicate()
 
-	print stdout, stderr
+	#print stdout, stderr
 
 	entries = stdout.split("\n")
 	del entries[-1]

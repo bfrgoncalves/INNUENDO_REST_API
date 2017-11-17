@@ -101,6 +101,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["process"])
 		result.close()	
+		print queryString
 		for item in jsonResult:
 			finalListProc.append(item["process"])
 		
@@ -210,13 +211,13 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 
 		if ppipid == rpipid:
-			print procJsonResult
-			print "TESTTTTT"
-			print ppipid, rpipid
+			#print procJsonResult
+			#print "TESTTTTT"
+			#print ppipid, rpipid
 			for proc_json in procJsonResult:
 				print proc_json
 				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
-					#print "PASSOU AQUI"
+					print "PASSOU AQUI"
 					#print proc_json["StrProc"]
 
 					todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
@@ -317,10 +318,12 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				prevMessageURI = dbconAg.createURI(outputURI)"""
 			#prevMessageURI = dbconAg.createURI(namespace=localNSpace+"studies/", localname=str(id2)+"/pipelines/pipeline_"+str(id3)+"/messages/message"+str(2))
 			processes_ids = []
-			print len(listOrderedProcessTypes), addedProcesses
-			print messageid
+			#print len(listOrderedProcessTypes), addedProcesses
+			#print messageid
 			processid=addedProcesses
 			print listOrderedProcessTypes
+			print listOrderedProtocolsURI
+			print listOrderedMessageTypes
 
 			while addedProcesses < len(listOrderedProcessTypes):
 				processid+=1

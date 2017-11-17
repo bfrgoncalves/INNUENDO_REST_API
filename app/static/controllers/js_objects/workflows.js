@@ -36,12 +36,24 @@ function Workflows($http){
 			return true;
 		},
 
+		get_all_workflows: function(callback){
+			pg_requests.get_all_workflows(function(response){
+				for( x in response.data){
+					if(response.data[x].availability == null){
+						response.data[x].availability = true;
+					}
+				}
+				callback(response);
+			});
+		},
+
 		/*
 		Add a protocol to a workflow
 		*/
 		add_protocol_to_workflow: function(protocol_name, callback){
 			if(Object.keys(added_protocols).length > 0) return callback({more_than_one:true, added_protocols:added_protocols});
 
+			console.log(protocols);
 			if(!added_protocols.hasOwnProperty(protocol_name)){
 				added_protocols[protocol_name] = protocols[protocol_name];
 			}
@@ -55,6 +67,20 @@ function Workflows($http){
 			}, 100);
 
 			callback({added_protocols:added_protocols});
+		},
+
+		change_workflow_state: function(callback){
+			var selected_data = $.map(table.rows('.selected').data(), function(data){
+				
+				if (String(data.availability) == "true"){
+					availability = "false";
+				}
+				else availability = "true";
+		        return [data.id, availability];
+		    });
+		    pg_requests.change_workflow_state(selected_data, function(response){
+		    	callback(response);
+		    });
 		},
 
 		/*

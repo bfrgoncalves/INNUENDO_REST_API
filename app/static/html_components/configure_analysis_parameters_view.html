@@ -5,14 +5,14 @@
 		<h2>Configure Analysis Parameters<span style="float:right;">{{ specie_name }}</span></h2>
 	</div>
 
-	<div class="col-md-12">
+	<div class="col-md-6" style="margin:1%">
 		<label for="select_job">Procedures</label>
 		<select name="select_job" data-width="100%" class="selectpicker" data-live-search="true" id="select_job"></select>
 	</div>
 	
 
 	<div class="sub_container">
-		<div id="jumbotron-strains" class="jumbotron" style="margin-top: 20px;">
+		<div style="margin-top: 20px;">
 			<div class="col-md-12" ng-repeat="val in analysis_fields" id="{{ val[0] }}">
 				<div class="list-group-item" style="background-color:{{ val[1] }}">
 			  	 	<label style="font-size: 10px;">{{ val[0] }}</label>

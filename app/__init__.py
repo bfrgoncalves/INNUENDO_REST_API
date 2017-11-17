@@ -37,7 +37,7 @@ app.config.from_object('config') #Reads the config file located at ../
 
 def simple(env, resp):
     resp(b'200 OK', [(b'Content-Type', b'text/plain')])
-    return [b'Hello WSGI World']
+    return [b'Bad redirection. Confirm your URL.']
 
 app.wsgi_app = DispatcherMiddleware(simple, {app_route: app.wsgi_app})
 
@@ -56,9 +56,9 @@ security = Security(app, user_datastore)
 
 from .adminutils import UserAdmin, RoleAdmin
 from flask_admin import Admin
-from flask_mail import Mail
+#from flask_mail import Mail
 #initialize mailer
-mail = Mail(app)
+#mail = Mail(app)
 
 
 #setup agraph

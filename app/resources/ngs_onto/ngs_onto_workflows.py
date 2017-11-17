@@ -80,16 +80,16 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 		for result in jsonResult:
 			aux1= result["execStep"]
 			aux2= result["step"]
-			print "AQUI"
-			print aux1
-			print aux2
-			print step
+			#print "AQUI"
+			#print aux1
+			#print aux2
+			#print step
 			step_converted = map(int, step)
-			print step_converted
-			print int(aux2.replace('"', ''))
+			#print step_converted
+			#print int(aux2.replace('"', ''))
 
-			if int(aux2.replace('"', '')) in step_converted:
-				print "ENTROU", aux1
+			if int(aux2.replace('"', '')) in step_converted or int(aux2.replace('"', '')) > max(step_converted):
+				#print "ENTROU", aux1
 				toremove=dbconAg.createURI(aux1)
 				dbconAg.remove(None,None,toremove)
 				dbconAg.remove(toremove,None,None)

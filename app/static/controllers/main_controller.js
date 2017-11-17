@@ -14,7 +14,9 @@ var CURRENT_PROJECT = {};
 var CURRENT_SPECIES_ID = "";
 var CURRENT_SPECIES_NAME = "";
 var CURRENT_USER_NAME = current_user_name;
+var CURRENT_USER_ID = current_user_id;
 var CURRENT_JOBS_ROOT = jobs_root;
+var HOME_DIR = homedir;
 
 var CURRENT_JOB_ID = "";
 var CURRENT_PROJECT_NAME_ID = "";

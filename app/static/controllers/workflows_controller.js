@@ -47,6 +47,25 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	var protocols = new Protocol_List($http);
 	var workflows = new Workflows($http);
 	var projects_table = new Projects_Table(0, null, $http);
+	var objects_utils = new Objects_Utils();
+
+
+	var workflows_col_defs = [
+    	{
+            "className":      'select-checkbox',
+            "orderable":      false,
+            "data":           null,
+            "defaultContent": ''
+        },
+        { "data": "id" },
+        { "data": "name" },
+        { "data": "classifier" },
+        { "data": "species" },
+        { "data": "availability" },
+        { "data": "timestamp" }
+    ];
+
+    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Timestamp"];
 
 	function modalAlert(text, callback){
 
@@ -71,6 +90,19 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		sortable('.sortable');
 		$scope.getProtocolTypes();
 		$scope.getSpecies();
+
+		workflows.get_all_workflows(function(results){
+	    	objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
+	    });
+	}
+
+	$scope.changeWorkflowState = function(){
+		workflows.change_workflow_state(function(){
+			workflows.get_all_workflows(function(results){
+				objects_utils.destroyTable('workflows_table');
+		    	objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
+		    });
+		});
 	}
 
 	$scope.getProtocolTypes = function(){
@@ -91,6 +123,8 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 			$("#protocol_type_selector_load").on("change", function(){
 				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
 			});
+
+			$("#protocol_type_selector_load").trigger("change");
 			
 			workflows.set_protocol_types_object(results.protocolTypeObject);
 		});
@@ -152,7 +186,6 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 
 			setTimeout(function(){
 				$(".current_workflow_close").on("click", function(){
-					console.log("AQUI");
 					$scope.removeFromPipeline($(this).closest("li").attr("protocol_name"))
 				});
 			}, 800);

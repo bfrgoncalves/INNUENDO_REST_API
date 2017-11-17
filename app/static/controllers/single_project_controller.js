@@ -68,6 +68,7 @@ function set_headers_single_project(global_strains){
 	        { "data": "Submitter", "visible":false },
 	        { "data": "File_2", "visible":false },
 	        { "data": "Location" },
+	        { "data": "FilesLocation" },
 	        {
 	            "className":      'details-control',
 	            "orderable":      false,
@@ -87,7 +88,7 @@ function set_headers_single_project(global_strains){
 	            "defaultContent": ''
 	        }
 		];
-		
+
 		for(p in headers_order){
 			for(x in global_strains[0]){
 				if(x == dict_fields[headers_order[p]]){
@@ -339,7 +340,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
             			//Get the pipelines applied to those strains
             			$scope.getAppliedPipelines(null, function(strains_results){
 		                	objects_utils.destroyTable('strains_table');
-
+		                	
 		                	if(strains_results.strains == "no_pipelines"){	
 		                		headers_defs = set_headers_single_project(global_strains);
 		                		if(headers_defs[1].length != 0){
@@ -694,6 +695,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		    objects_utils.destroyTable('public_strains_table');
 		    global_public_strains = strains_results.public_strains;
 		    headers_defs = set_headers_single_project(global_public_strains);
+
 		    objects_utils.restore_table_headers('public_strains_table', strains_headers, true, function(){	
 			    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
 			    callback();
@@ -710,6 +712,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project(global_strains);
+
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				callback();

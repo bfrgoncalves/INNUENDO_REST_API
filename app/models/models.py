@@ -27,6 +27,7 @@ class User(db.Model, UserMixin):
 	username = db.Column(db.String(120), index=True, unique=True)
 	name = db.Column(db.String(255))
 	gid = db.Column(db.String(255))
+	homedir = db.Column(db.String(255))
 	password = db.Column('password' , db.String(255))
 	active = db.Column(db.Boolean())
 	email = db.Column(db.String(120), index=True, unique=True)
@@ -128,6 +129,7 @@ class Workflow(db.Model):
 	name = db.Column(db.String(255), unique=True)
 	classifier = db.Column(db.String(255))
 	species = db.Column(db.String(255))
+	availability = db.Column(db.String(255))
 	timestamp = db.Column(db.DateTime)
 
 
@@ -167,6 +169,7 @@ class Strain(db.Model):
 	fields = db.Column(JSON)
 	species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+	fq_location = db.Column(db.String(255))
 
 #Table to store all procedure report data
 class Report(db.Model):
@@ -218,6 +221,7 @@ class Tree(db.Model):
 	description = db.Column(db.Text())
 	species_id = db.Column(db.Text())
 	uri = db.Column(db.Text())
+	phyloviz_user = db.Column(db.Text())
 
 
 #######################MLST DATABASE##################################################

@@ -113,78 +113,86 @@ def classify_profile(job_id, database_name):
 
 		closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/2)
 
+
+		closest_ids = []
+		for i, x in enumerate(closest_profiles):
+			closest_ids.append(closest_profiles[i].split("\t")[0])
+		
 		if len(closest_profiles) == 0:
 			classification = "undefined"
+			print "HERE"
+			first_closest = [None]
 		else:
-			closest_ids = []
-			for i, x in enumerate(closest_profiles):
-				closest_ids.append(closest_profiles[i].split("\t")[0])
-			
 			#ID\tDIFFERENCES
 			first_closest = closest_profiles[0].split("\t")
 
-			if report.sample_name.replace(" ", "_") in closest_ids:
-				print "ALREADY ON DB AND INDEX"
-				return True
-			else:		
-				database_entry = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].name == first_closest[0]).first()
+		print "Closest:" + str(first_closest[0])
 
-				if database_entry:
-					classification = database_entry.classifier
-				else:
-					classification = "undefined"
+		if report.sample_name.replace(" ", "_") in closest_ids:
+			print "ALREADY ON DB AND INDEX"
+			return True
+		else:		
+			database_entry = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].name == first_closest[0]).first()
 
-				try:
-					new_database_entry = database_correspondece[database_name](name = report.sample_name.replace(" ", "_"), classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
-					
-					db.session.add(new_database_entry)
-					db.session.commit()
-				except Exception as e:
-					print "ERRO"
+			if database_entry:
+				classification = database_entry.classifier
+			else:
+				classification = "New_" + report.job_id.split("_")[0]
 
-				print "ADDED TO DB..."
+			print classification
 
-				#FOR CORE GENOME INDEX
-				print "UPGRADING CG INDEX"
+			try:
+				new_database_entry = database_correspondece[database_name](name = report.sample_name.replace(" ", "_"), classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
+				
+				db.session.add(new_database_entry)
+				db.session.commit()
+			except Exception as e:
+				print "ERRO"
 
-				myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out", 'w')
+			print "ADDED TO DB..."
 
-				command = 'cat '+core_increment_profile_file_correspondece[database_name]+' '+query_profle_path;
-				command = command.split(' ')
-				print command
-				proc = subprocess.Popen(command, stdout=myoutput, stderr=subprocess.PIPE)
-				stdout, stderr = proc.communicate()
+			#FOR CORE GENOME INDEX
+			print "UPGRADING CG INDEX"
 
-				command = 'mv '+core_increment_profile_file_correspondece[database_name] + ".out "+core_increment_profile_file_correspondece[database_name];
-				command = command.split(' ')
-				print command
+			myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out", 'w')
 
-				proc2 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-				stdout, stderr = proc2.communicate()
+			command = 'cat '+core_increment_profile_file_correspondece[database_name]+' '+query_profle_path;
+			command = command.split(' ')
+			print command
+			proc = subprocess.Popen(command, stdout=myoutput, stderr=subprocess.PIPE)
+			stdout, stderr = proc.communicate()
 
-				status = fast_mlst_functions.update_index(core_increment_profile_file_correspondece[database_name], core_index_correspondece[database_name])
+			command = 'mv '+core_increment_profile_file_correspondece[database_name] + ".out "+core_increment_profile_file_correspondece[database_name];
+			command = command.split(' ')
+			print command
 
-				#FOR WG INDEX
-				print "UPGRADING WG INDEX"
+			proc2 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			stdout, stderr = proc2.communicate()
 
-				myoutput_wg = open(wg_increment_profile_file_correspondece[database_name] + ".out", 'w')
+			status = fast_mlst_functions.update_index(core_increment_profile_file_correspondece[database_name], core_index_correspondece[database_name])
 
-				command = 'cat '+wg_increment_profile_file_correspondece[database_name]+' '+query_profle_path_wg;
-				command = command.split(' ')
-				print command
-				proc3 = subprocess.Popen(command, stdout=myoutput_wg, stderr=subprocess.PIPE)
-				stdout, stderr = proc3.communicate()
+			#FOR WG INDEX
+			print "UPGRADING WG INDEX"
 
-				command = 'mv '+wg_increment_profile_file_correspondece[database_name] + ".out "+wg_increment_profile_file_correspondece[database_name];
-				command = command.split(' ')
-				print command
+			myoutput_wg = open(wg_increment_profile_file_correspondece[database_name] + ".out", 'w')
 
-				proc4 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-				stdout, stderr = proc4.communicate()
+			command = 'cat '+wg_increment_profile_file_correspondece[database_name]+' '+query_profle_path_wg;
+			command = command.split(' ')
+			print command
+			proc3 = subprocess.Popen(command, stdout=myoutput_wg, stderr=subprocess.PIPE)
+			stdout, stderr = proc3.communicate()
 
-				status = fast_mlst_functions.update_index(wg_increment_profile_file_correspondece[database_name], wg_index_correspondece[database_name])
+			command = 'mv '+wg_increment_profile_file_correspondece[database_name] + ".out "+wg_increment_profile_file_correspondece[database_name];
+			command = command.split(' ')
+			print command
 
-				print "INDEX UPDATED"
+			proc4 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			stdout, stderr = proc4.communicate()
+
+			status = fast_mlst_functions.update_index(wg_increment_profile_file_correspondece[database_name], wg_index_correspondece[database_name])
+
+			print "INDEX UPDATED"
+			
 
 	##ADD TO DB AND UPDATE INDEX
 

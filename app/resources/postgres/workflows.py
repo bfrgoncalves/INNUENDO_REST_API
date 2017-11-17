@@ -17,13 +17,29 @@ workflow_list_get_parser = reqparse.RequestParser()
 workflow_list_get_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
 workflow_list_get_parser.add_argument('species', dest='species', type=str, required=True, help="Workflow species")
 
+workflow_set_availability_put_parser = reqparse.RequestParser()
+workflow_set_availability_put_parser.add_argument('identifier', dest='identifier', type=str, required=True, help="Workflow id")
+workflow_set_availability_put_parser.add_argument('to_change', dest='to_change', type=str, required=True, help="Workflow state")
+
 #Defining response fields
 
 workflow_fields = {
 	'id': fields.Integer,
 	'name': fields.String,
-	'timestamp': fields.DateTime
+	'timestamp': fields.DateTime,
+	'availability': fields.String
 }
+
+workflow_all_fields = {
+	'id': fields.Integer,
+	'name': fields.String,
+	'timestamp': fields.DateTime,
+	'classifier': fields.String,
+	'species': fields.String,
+	'availability': fields.String
+
+}
+
 
 class WorkflowResource(Resource):
 
@@ -36,6 +52,37 @@ class WorkflowResource(Resource):
 		if not workflows:
 			abort(404, message="No workflows are available".format(id))
 		return workflows, 200
+
+class WorkflowAllResource(Resource):
+
+	@login_required
+	@marshal_with(workflow_all_fields)
+	def get(self): #id=user_id
+		if not current_user.is_authenticated:
+			abort(403, message="No permissions")
+		workflows = db.session.query(Workflow).all()
+		if not workflows:
+			abort(404, message="No workflows are available".format(id))
+		return workflows, 200
+
+class WorkflowSetAvailabilityResource(Resource):
+
+	@login_required
+	@marshal_with(workflow_all_fields)
+	def put(self): #id=user_id
+		if not current_user.is_authenticated:
+			abort(403, message="No permissions")
+
+		args = workflow_set_availability_put_parser.parse_args()
+		print args
+		workflow = db.session.query(Workflow).filter(Workflow.id == args.identifier).first()
+		if not workflow:
+			abort(404, message="No workflows are available".format(id))
+
+		workflow.availability = args.to_change
+		db.session.commit()
+
+		return workflow, 200
 
 
 class WorkflowListResource(Resource):

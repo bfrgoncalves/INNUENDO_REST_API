@@ -121,7 +121,7 @@ class CombinedReportsResource(Resource):
 		combined_report = Combined_Reports(species_id=args.species_id, strain_names=args.strain_ids, user_id=current_user.id, username=current_user.username, run_identifiers=args.job_ids, timestamp=datetime.datetime.utcnow(), name=args.report_name, description=args.report_description)
 		if not combined_report:
 			abort(404, message="An error as occurried when uploading the data".format(id))
-		reports_to_send.append({'name': combined_report.name,'description': combined_report.description,'username': combined_report.username, 'user_id': combined_report.user_id, 'run_identifiers': combined_report.run_identifiers})
+		reports_to_send.append({'name': combined_report.name,'description': combined_report.description,'username': combined_report.username, 'user_id': combined_report.user_id, 'run_identifiers': combined_report.run_identifiers, 'strain_names':combined_report.strain_names})
 		db.session.add(combined_report)
 		db.session.commit()
 		return reports_to_send, 201

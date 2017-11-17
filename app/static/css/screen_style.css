@@ -4,7 +4,11 @@
     font-size: 12px;
   }
   h3 {
-  	font-size: 18px;
+  	font-size: 128px;
+  }
+  table tbody tr .cell_paragraph{
+    font-size: 12px;
+    margin:1px 1px 1px 1px;
   }
 
 }
@@ -22,10 +26,15 @@
   }
   table tr td {
 	  font-size: 12px;
+    height: 1px;
 	}
   table tr th {
-	  font-size: 14px;
+	  font-size: 12px;
 	}
+  table tbody tr .cell_paragraph{
+    font-size: 12px;
+    margin:1px 1px 1px 1px;
+  }
 
 }
 
@@ -35,10 +44,15 @@
     font-size:12px;
   }
   table tr td {
-    font-size: 9px;
+    font-size: 14px;
+    height: 1px;
   }
   table tr th {
-    font-size: 9px;
+    font-size: 12px;
+  }
+  table tbody tr .cell_paragraph{
+    font-size: 12px;
+    margin:1px 1px 1px 1px;
   }
 
 }
@@ -55,10 +69,15 @@
     font-size: 18px;
   }
   table tr td {
-    font-size: 9px;
+    font-size: 12px;
+    height: 1px;
   }
   table tr th {
-    font-size: 9px;
+    font-size: 12px;
+  }
+  table tbody tr .cell_paragraph{
+    font-size: 14px;
+    margin:1px 1px 1px 1px;
   }
 
 }
@@ -69,10 +88,15 @@
     font-size:12px;
   }
   table tr td {
-    font-size: 9px;
+    font-size: 14px;
+    height: 1px;
   }
   table tr th {
-    font-size: 9px;
+    font-size: 12px;
+  }
+  table tbody tr .cell_paragraph{
+    font-size: 12px;
+    margin:1px 1px 1px 1px;
   }
 
 }
@@ -83,10 +107,15 @@
     font-size:12px;
   }
   table tr td {
-    font-size: 10px;
+    font-size: 14px;
+    height: 1px;
   }
   table tr th {
-    font-size: 10px;
+    font-size: 12px;
+  }
+  table tbody tr .cell_paragraph{
+    font-size: 12px;
+    margin:1px 1px 1px 1px;
   }
 
 }
@@ -97,10 +126,15 @@
     font-size:14px;
   }
   table tr td {
-    font-size: 11px;
+    font-size: 14px;
+    height: 1px;
   }
   table tr th {
     font-size: 12px;
+  }
+  table tbody tr .cell_paragraph{
+    font-size: 12px;
+    margin:1px 1px 1px 1px;
   }
 
 }

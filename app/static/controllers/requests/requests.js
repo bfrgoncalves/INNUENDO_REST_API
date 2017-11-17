@@ -12,10 +12,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    }, function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    });
 		},
@@ -29,10 +27,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    }, function(response){
-		    	console.log(response);
 		    	callback(response, accession_numbers);
 		    });
 		},
@@ -89,10 +85,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response);
 		    }, function(response){
-		    	console.log(response);
 		    	callback(response);
 		    });
 		    
@@ -107,6 +101,40 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	        $http(req).then(function(response){
 	            callback(response);
 	        }, function(response){
+	        	callback(response);
+	        });
+		},
+
+		get_all_workflows: function(callback){
+			req = {
+	            url:'api/v1.0/workflows/all/',
+	            method:'GET'
+	        }
+
+	        $http(req).then(function(response){
+	            callback(response);
+	        }, function(response){
+	        	callback(response);
+	        });
+		},
+
+		change_workflow_state: function(selected_data, callback){
+
+			req = {
+	            url:'api/v1.0/workflows/availability/',
+	            method:'PUT',
+	            params:
+		        {
+		        	identifier: String(selected_data[0]),
+		        	to_change: String(selected_data[1])
+		        }
+	        }
+
+	        $http(req).then(function(response){
+	        	console.log(response);
+	            callback(response);
+	        }, function(response){
+	        	console.log(response);
 	        	callback(response);
 	        });
 		},
@@ -222,7 +250,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		},
 		get_multiple_user_reports: function(job_ids, callback){
-			console.log('IDS', job_ids);
 		    req = {
 		        url: 'api/v1.0/reports/', //Defined at utils.js
 		        method:'GET',
@@ -331,7 +358,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		    	callback(response);
 	        },function(response){
 	        	console.log(response);
@@ -431,7 +457,6 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			}
 
 		    $http(req).then(function(response){
-		    	console.log(response);
 		        callback(response, strain_id);
 	        },
 	        function(response){
@@ -645,9 +670,9 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	               callback(response);
 	        });
 		},
-		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, callback){
+		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, callback){
 
-			console.log(protocol_ids, pipeline_id, process_id);
+			//console.log(protocol_ids, pipeline_id, process_id, strainName);
 
 		    req = {
 		        url: 'api/v1.0/jobs/',
@@ -658,7 +683,9 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	project_id: CURRENT_PROJECT_ID,
 		        	pipeline_id: pipeline_id,
 		        	process_id: process_id.join(),
-		        	strain_submitter: strain_submitter
+		        	strain_submitter: strain_submitter,
+		        	current_specie: current_specie,
+		        	sampleName: strainName
 		    	}
 		    }
 
@@ -670,28 +697,32 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    });
 
 		},
-		get_job_status: function(job_id, procedure_name, sample_name, pipeline_id, process_position, project_id, process_id, callback){
-		    //console.log(project_id);
+		get_job_status: function(job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, callback){
+
 		    req = {
 		        url: 'api/v1.0/jobs/',
 		        method:'GET',
 		        params: {
-		        	job_id: job_id,
-		        	procedure_name:procedure_name,
+		        	job_id: job_ids.join(),
+		        	procedure_name:procedure_names.join(),
 		        	sample_name:sample_name,
 		        	pipeline_id:pipeline_id,
-		        	process_position:process_position,
+		        	process_position:process_positions.join(),
 		        	project_id:project_id,
-		        	process_id:process_id,
-		        	database_to_include: CURRENT_SPECIES_NAME
+		        	process_id:process_ids,
+		        	database_to_include: CURRENT_SPECIES_NAME,
+		        	current_user_name: CURRENT_USER_NAME,
+		        	current_user_id: CURRENT_USER_ID,
+		        	from_process_controller: "false",
+		        	homedir: HOME_DIR
 		    	}
 		    }
 
 		    $http(req).then(function(response){
-		            callback(response, job_id);
+		            callback(response, job_ids);
 		        },
 		        function(response){
-		            callback(response, job_id);
+		            callback(response, job_ids);
 		    });
 
 		},
@@ -762,14 +793,30 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 		download_file: function(path, callback){
 
-			url = CURRENT_JOBS_ROOT + 'results/download/?file_path=' + encodeURI(path);
-			console.log(url);
+			req = {
+		        //url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
+		        url: 'api/v1.0/jobs/results/download/',
+		        method:'GET',
+		        params: {
+		        	file_path: encodeURI(path)
+		        }
+		    }
 
-			var link = document.createElement("a");
-		    link.download = path.split('/').slice(-1)[0];
-		    link.href = url;
-		    link.click();
-		    callback();
+		    $http(req).then(function(response){
+		    		console.log(response)
+		            //url = CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
+		            url = 'api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
+					console.log(url);
+
+					var link = document.createElement("a");
+				    link.download = path.split('/').slice(-1)[0];
+				    link.href = url;
+				    link.click();
+				    callback();
+		        },
+		        function(response){
+		            callback(response);
+		    });
 			
 		},
 
@@ -835,7 +882,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	database_to_include: $("#species_database option:selected").text(),
 		        	species_id: species_id,
 		        	missing_data: $('#missing_data_checkbox').is(":checked"),
-		        	missing_char: $('#missing_data_character').val()
+		        	missing_char: $('#missing_data_character').val(),
+					phyloviz_user: $('#phyloviz_user').val(),
+					phyloviz_pass: $('#phyloviz_pass').val(),
+					makePublic: $('#makePublic_checkbox').is(":checked")
 		    	}
 		    }
 		    
@@ -846,6 +896,25 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		            callback(response);
 		    });
 		    
+		},
+
+		delete_tree: function(tree_name, callback){
+
+			req = {
+		        url: 'api/v1.0/phyloviz/trees/',
+		        method:'DELETE',
+		        params: {
+		        	tree_name: tree_name
+		    	}
+		    }
+		    
+		    $http(req).then(function(response){
+		            callback(response);
+		        },
+		        function(response){
+		        	console.log(response);
+		            callback(response);
+		    });
 		},
 
 		fetch_job: function(redis_job_id, callback){

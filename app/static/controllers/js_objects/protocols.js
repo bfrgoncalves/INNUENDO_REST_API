@@ -29,11 +29,16 @@ function Protocol_List($http){
 
     function processProtocolForm(property, uri){
 
+    	console.log(property);
+
 		if(property == 'used Parameter'){
 			return ["button", "text", uri];
 		}
 		if(property == 'used Software'){
 			return ["select", "text"];
+		}
+		if(property == 'name' || property == 'SLURM CPUs'){
+			return ["input", "required"];
 		}
 		return ["input", "text"];
 
@@ -82,6 +87,7 @@ function Protocol_List($http){
 			}
 
 			//Send the protocol to the database
+			
 			pg_requests.create_protocol(protocol_object, function(response){
 				if(response.status == 201){
 					new_protocol_id = response.data.id;
@@ -95,6 +101,7 @@ function Protocol_List($http){
 					objects_utils.show_message('protocols_message_div', 'warning', 'An error as occurried when saving the protocol.');
 				} 
 			});
+			
 		},
 
 		/*
@@ -112,6 +119,7 @@ function Protocol_List($http){
 		    		protocolUri = response.data[i].rangeClass
 		    		protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
 		    	}
+		    	protocol_type["SLURM CPUs"] = ["input", "required"];
 		    	callback({protocol_type:protocol_type, protocol_parameters:protocol_parameters});
 			});
 		},

@@ -57,11 +57,11 @@ function set_headers_reports(global_strains, procedure){
 		];
 		
 		for(x in global_strains[0]){
-			if (x != "Analysis" && x != "id" && x != "species_id"){
+			if (x != "Analysis" && x != "id" && x != "species_id" && x != "strain_id"){
 				if($.inArray(matching_fields[x], minimal_fields) > -1){
 					p_col_defs.push({"data":x});
 				}
-				else p_col_defs.push({"data":x, "visible":false});
+				else p_col_defs.push({"data":x, "visible":true});
 				strains_headers.push(matching_fields[x] == undefined ? x:matching_fields[x]);
 			}
 		}		
@@ -161,7 +161,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	var reports_metadata_table_headers = metadata.get_minimal_fields();
 
 	var saved_reports_headers = ['Username', 'Name', 'Description'];
-	var trees_headers = ['Dataset Name', 'Description', 'Timestamp'];
+	var trees_headers = ['Dataset Name', 'Description', 'Timestamp', 'PHYLOViZ User'];
 
 	var saved_reports = [];
 	var trees = [];
@@ -216,7 +216,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
         },
         { "data": "name" },
         { "data": "description" },
-        { "data": "timestamp" }
+        { "data": "timestamp" },
+		{ "data": "phyloviz_user" }
     ];
 
     var reports_info_col_defs = [
@@ -262,8 +263,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
     	$('#buttonSub').one("click", function(){
     		$('#modalAlert').modal("hide");
-    		console.log("Alert");
-
     		setTimeout(function(){return callback()}, 400);
     	})
 
@@ -285,6 +284,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#user_jobs").removeClass("active");
 		$("#saved_rep").removeClass("active");
 		$("#tree_tab").removeClass("active");
+		$('#reports_info_table').DataTable().columns.adjust().draw();
+		$('#reports_results_table').DataTable().columns.adjust().draw();
+		$('#reports_metadata_table').DataTable().columns.adjust().draw();
 	});
 
 	$("#user_jobs").on("click", function(){
@@ -488,27 +490,67 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		var pos = 0;
 		var other_pos = 0;
 
-		console.log(procedure);
 
 		if(procedure.indexOf('INNUca') > -1){
 
-			console.log(identifier);
-
-			var run_info_keys = Object.keys(report_data.run_info[identifier].modules_run_report);
+			steps = ['FastQ_Integrity', 'first_Coverage', 'trueCoverage_ReMatCh', 'first_FastQC', 'Trimmomatic', 'second_Coverage', 'second_FastQC', 'Pear', 'SPAdes', 'Pilon', 'Assembly_Mapping', 'MLST']
+			var run_info_keys = steps;
+			//var run_info_keys = Object.keys(report_data.run_info[identifier].modules_run_report);
 
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
+			console.log(report_data.run_info[identifier].modules_run_report);
 			for(info_key in run_info_keys){
-				aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
+				//aux_info[run_info_keys[info_key]] = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]][0];
+				info_data = report_data.run_info[identifier].modules_run_report[run_info_keys[info_key]];
+				var info_to_add = "";
+				var div_to_add = "<div style='width:100%;height:100%;";
+				var div_color="";
+				
+				if(info_data[0] == true) info_to_add += "Run: Yes<br/>";
+				else{
+					info_to_add += "Run: No<br/>";
+					div_color ="'>";
+				}
+
+				if(info_data[0] == true && info_data[1] == null){
+					info_to_add += "Succeeded: Yes<br/>";
+					div_color ="background-color:#a8d2cc;'>";
+				}
+				else if(info_data[1] == false){
+					info_to_add += "Succedeed: False<br/>";
+					for (key in info_data[3]){
+						info_to_add += key + ":"+info_data[3][key]+"<br/>"
+					}
+					div_color ="background-color:#ff7c7c;'>";
+				}
+				else if (info_data[1] == true && info_data[4] != undefined && Object.keys(info_data[4]).length > 0) {
+					info_to_add += "Succeeded: Yes. With warning.<br/>";
+					for (key in info_data[4]){
+						info_to_add += key + ":"+info_data[4][key]+"<br/>"
+					}
+					div_color ="background-color:#fae0af;'>";
+				}
+				else if (info_data[1] == true){
+					info_to_add += "Succedeed: Yes<br/>";
+					div_color ="background-color:#a8d2cc;'>";
+				}
+
+				div_to_add +=  div_color + info_to_add + "</div>"
+				
+				aux_info[run_info_keys[info_key]] = div_to_add;
 			}
 			var run_results_keys = Object.keys(report_data.run_stats[identifier]);
+
+			var index = run_results_keys.indexOf("final_assembly");
+			run_results_keys.splice(index, 1);
 
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
 			for(results_key in run_results_keys){
-				aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
+					aux_results[run_results_keys[results_key]] = report_data.run_stats[identifier][run_results_keys[results_key]];
 			}
-			console.log([aux_info, aux_results]);
+
 			return callback([aux_info, aux_results], job);
 		}
 		else if(procedure.indexOf('chewBBACA') > -1){
@@ -540,12 +582,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			var aux_info = {};
 			aux_info['Sample'] = sample_name;
 			aux_info["Status"] = "Done";
-			console.log("ENTROU", report_data.run_output)
 			
 			var aux_results = {};
 			aux_results['Sample'] = sample_name;
 			for(x in report_data.run_output){
 				if(x == 'header') continue;
+				if(x == 'stats') continue;
 				aux_results[x] = report_data.run_output[x]
 
 			//return callback([aux_info, aux_results], job);
@@ -694,111 +736,13 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	   
 	}
 
-	/*$scope.change_report_by_specie = function(species_id, species_name){
-
-		$('#reports_container').css({display:"none"});
-		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
-
-		$("#project_search_button").trigger("click");
-
-	    CURRENT_SPECIES_ID = species_id;
-	    CURRENT_SPECIES_NAME = species_name;
-	    $scope.currentSpecieID = species_id;
-
-	    $scope.projects_names = [];
-	    $scope.report_procedures = [];
-
-	    objects_utils.destroyTable('reports_table');
-	    objects_utils.destroyTable('saved_reports_table');
-	    objects_utils.destroyTable('reports_info_table');
-		objects_utils.destroyTable('reports_results_table');
-		objects_utils.destroyTable('reports_metadata_table');
-
-	    projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
-	    	//console.log(results);
-	    	results.map(function(d){$scope.projects_names.push(d)});
-
-	    	$scope.report_procedures = [];
-			global_results_dict = {};
-			run_infos = [];
-			run_results = [];
-			current_strains_data = [];
-			current_job_ids = [];
-
-
-	    	projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
-		    	//console.log(results);
-		    	results.map(function(d){$scope.projects_names.push(d)});
-
-		    	objects_utils.destroyTable('reports_table');
-			    try{
-			    	var current_project = $('#project_selector').find('option:selected').attr("name").split("_")[1];
-			    }
-			    catch(e){
-			    	var current_project = "";
-			    }
-
-			    console.log(current_project);
-
-			    $scope.getSavedReports(function(){
-
-				    if(current_project != ""){
-				    	pg_requests.get_applied_pipelines(null, current_project, function(response){
-							console.log(response);
-							var pipelines_to_check = [];
-							for(x in response.data){
-								if(response.data[x].parent_pipeline_id != null) pipelines_to_check.push(response.data[x].parent_pipeline_id);
-								else pipelines_to_check.push(response.data[x].id);
-							}
-							pipelines_to_check = pipelines_to_check.join();
-					    	reports.get_project_reports(current_project, pipelines_to_check, function(response){
-							
-								user_reports = response.data;
-								if(user_reports.message != undefined) user_reports = [];
-
-								if($rootScope.showing_jobs && $rootScope.showing_jobs.length != 0){
-									show_results_and_info($rootScope.showing_jobs, function(){
-
-									});
-								}
-								$('#waiting_spinner').css({display:'none'}); 
-								$('#reports_container').css({display:"block"});
-								$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-								console.log(run_infos, reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-								objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
-								objects_utils.loadDataTables('reports_table', user_reports, user_reports_col_defs, user_reports_table_headers);
-								$('#reports_metadata_table_wrapper').css({'display':'none'});
-								$("#act_rep").trigger("click");
-							});
-						});
-				    }
-				    else{
-				    	$('#waiting_spinner').css({display:'none'}); 
-						$('#reports_container').css({display:"block"});
-						$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust(); 
-						objects_utils.loadDataTables('reports_info_table', run_infos, reports_info_col_defs, reports_info_table_headers);
-						objects_utils.loadDataTables('reports_metadata_table', current_strains_data, reports_metadata_col_defs, reports_metadata_table_headers);
-						objects_utils.loadDataTables('reports_table', [], user_reports_col_defs, user_reports_table_headers);
-						$('#reports_metadata_table_wrapper').css({'display':'none'});
-						$("#act_rep").trigger("click");
-						//table = $('#saved_reports_table').DataTable();
-						//table.draw();
-				    }
-				});
-		    });
-	    });
-
-	};
-	*/
-
 	$scope.showReport = function(){
 
 		$('#reports_container').css({display:"none"});
 		$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
-		objects_utils.destroyTable('reports_info_table');
-	    objects_utils.destroyTable('reports_results_table');
+		/*objects_utils.destroyTable('reports_info_table');
+	    objects_utils.destroyTable('reports_results_table');*/
 
 		show_results_and_info(null, function(show_metadata){
 			if(show_metadata) show_strains_metadata(null);
@@ -821,6 +765,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$scope.getUserTrees = function(callback){
 		
 		reports.get_user_trees(function(response){
+		    console.log(response);
 			if (!response.data.message){
 			trees = response.data;
 			}
@@ -840,6 +785,23 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			modalAlert('Please select an entry from the table first.', function(){});
 		}
 		else window.open(tree_to_see[0],'_blank');
+	}
+
+	$scope.deleteTree = function(){
+		var tree_to_delete = $.map($("#reports_trees_table").DataTable().rows(".selected").data(), function(d){
+			return d.name;
+		});
+		reports.delete_tree(tree_to_delete[0], function(response){
+			modalAlert('Tree deleted from the Platform.', function(){});
+			reports.get_user_trees(function(response){
+				if (!response.data.message){
+				trees = response.data;
+				}
+				else trees = [];
+				objects_utils.destroyTable('reports_trees_table');
+				objects_utils.loadDataTables('reports_trees_table', trees, user_trees_col_defs, trees_headers);
+			});
+		});
 	}
 
 	$scope.showReportModal = function(){
@@ -877,6 +839,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$('#saveReportModal').modal('hide');
 		
 		reports.save_reports(current_job_ids, current_strain_names, function(response){
+			console.log(response);
 			saved_reports.push(response.data[0])
 			objects_utils.destroyTable('saved_reports_table');
 			objects_utils.loadDataTables('saved_reports_table', saved_reports, user_saved_reports_col_defs, saved_reports_headers);
@@ -898,8 +861,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	       return data.strain_names.split(',');
 	    });
 
-	    objects_utils.destroyTable('reports_info_table');
-	    objects_utils.destroyTable('reports_results_table');
+	    /*objects_utils.destroyTable('reports_info_table');
+	    objects_utils.destroyTable('reports_results_table');*/
 
 	    //console.log(current_names);
 
@@ -936,9 +899,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 		reports.get_strain_by_name(to_use, $( "#project_selector option:selected" ).text(), function(strain_data, project_name){
 
-			console.log(strain_data);
-
-			//console.log($scope.report_procedures);
 			var newglobal = [];
 
 			for(st in strain_data){
@@ -1187,11 +1147,16 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		
 		reports.get_multiple_user_reports(job_ids, function(response){
 
-			console.log(response);
-
 			if(response == null){
 				modalAlert('Please select a report first.', function(){});
+				$('#waiting_spinner').css({display:'none'}); 
+				$('#reports_area').css({display:'block'});
+				$('#reports_container').css({display:"block"});
 				return;
+			}
+			else{
+				objects_utils.destroyTable('reports_info_table');
+	    		objects_utils.destroyTable('reports_results_table');
 			}
 
 			var run_identifiers = [];
@@ -1319,6 +1284,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 									objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
 										objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){
+											
 											objects_utils.loadDataTables('reports_info_table', run_infos, headers_defs_info[0], reports_info_table_headers);
 											objects_utils.loadDataTables('reports_results_table', run_results, headers_defs_results[0], reports_results_table_headers);
 
@@ -1574,61 +1540,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				modalAlert("Your request was sent to PHYLOViZ Online server. You will be notified when the tree is ready to be visualized. All available trees can be found on the Trees tab at the Reports menu.", function(){
 
 				});
-				/*
-				var to_phyloviz = "";
-				if(response.data.indexOf("http") < 0){
-					to_phyloviz = "An error as occuried when uploading data to PHYLOViZ Online";
-					$('#phyloviz_output').empty();
-					$('#phyloviz_output').append(to_phyloviz);
-				}
-				else{
-
-					to_phyloviz = "<button class='btn btn-md btn-info' id='button_view_phyloviz'>View Tree</button>";
-					$('#phyloviz_output').empty();
-					$('#phyloviz_output').append(to_phyloviz);
-					$("#button_view_phyloviz").on("click", function(){
-						window.open('http'+response.data.split('http')[1],'_blank');
-					});
-				}
-				*/ 
 			});
 
 		});
-
-		/*var total_results = [];
-
-		//profile
-		mergeResultsData(table_id_profile, function(results_profile){
-
-			if(results_profile[1].length < 2) return objects_utils.show_message('s_report_message_div', 'warning', 'Two or more strains need to be selected for comparison using PHYLOViZ Online.')
-			
-			console.log(results_profile);
-			total_results.push(results_profile);
-
-			//metadata
-			mergeResultsData(table_id_metadata, function(results_metadata){
-				console.log(results_metadata);
-				total_results.push(results_metadata);
-				//Send to phyloviz
-				reports.sendToPHYLOViZ(total_results, function(response){
-					var to_phyloviz = "";
-					if(response.data.indexOf("http") < 0){
-						to_phyloviz = "An error as occuried when uploading data to PHYLOViZ Online";
-						$('#phyloviz_output').empty();
-						$('#phyloviz_output').append(to_phyloviz);
-					}
-					else{
-
-						to_phyloviz = "<button class='btn btn-md btn-info' id='button_view_phyloviz'>View Tree</button>";
-						$('#phyloviz_output').empty();
-						$('#phyloviz_output').append(to_phyloviz);
-						$("#button_view_phyloviz").on("click", function(){
-							window.open('http'+response.data.split('http')[1],'_blank');
-						});
-					} 
-				});
-			});
-		});*/	
 	}
 
 	$scope.deleteFromReports = function(){
@@ -1662,11 +1576,11 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		    var inter_meta = [];
 
 		    for(i in keys){
-		    	console.log(current_procedure, keys[i]);
+		    	//console.log(current_procedure, keys[i]);
 		    	if(current_procedure.indexOf(keys[i]) > -1){
 		    		for(k in global_results_dict[keys[i]][0]){
 			    		if($.inArray(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids) == -1){
-			    			console.log(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids, run_infos[k])
+			    			//console.log(global_results_dict[keys[i]][0][k].Sample, selected_sample_ids, run_infos[k])
 			    			inter_info.push(run_infos[k]);
 			    		}
 				    }
@@ -1727,7 +1641,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			reports_results_table_headers = headers_defs_results[1];
 			reports_metadata_table_headers = headers_defs_metadata[1];
 
-			console.log(headers_defs_info, headers_defs_results, headers_defs_metadata)
+			//console.log(headers_defs_info, headers_defs_results, headers_defs_metadata)
 
 			objects_utils.restore_table_headers('reports_info_table', reports_info_table_headers, false, function(){
 				objects_utils.restore_table_headers('reports_results_table', reports_results_table_headers, false, function(){

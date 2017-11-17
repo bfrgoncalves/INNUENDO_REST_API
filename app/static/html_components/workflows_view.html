@@ -53,6 +53,32 @@
     </div>
   </div>
   <div class="col-md-12" id="workflows_message_div"></div>
+
+  <div class="col-md-12">
+    <div class="sub_container">
+      <div class="jumbotron">
+        <h3 class="sub-header">Available Workflows
+        <button class="btn btn-sm btn-warning" style="float:right;" ng-click="changeWorkflowState()"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="change workflow state">Change Workflow State</i></button>
+        </h3>
+
+        <table class="display compact hover" id="workflows_table" width='100%'>
+          <thead>
+            <th></th>
+            <th ng-repeat="header in workflows_headers">{{ header }}</th>
+          </thead>
+          <!--<tbody>
+            <tr ng-repeat="strain in strains">
+              <td></td>
+              <td ng-repeat="field in strain">{{ field }}</td>
+              </td>
+            </tr>
+          </tbody>-->
+          <tfoot>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
   	
   </div>
 

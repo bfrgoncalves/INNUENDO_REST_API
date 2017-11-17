@@ -48,7 +48,8 @@ function Metadata(){
 		"Run Identifier":"job_id",
 		"Sample": "Sample",
 		"Project Name":"project_name",
-		"Classifier":"classifier"
+		"Classifier":"classifier",
+		"Files Location": "FilesLocation"
 	}
 
 	//Conversion from the metadata fields stored in the db to how we want to see them on a table (Reverse)
@@ -72,11 +73,12 @@ function Metadata(){
 		"job_id": "Run Identifier",
 		"Sample": "Sample",
 		"project_name": "Project Name",
-		"classifier": "Classifier"
+		"classifier": "Classifier",
+		"FilesLocation": "Files Location"
 	}
 
 	//The minimum headers to be seen on a table
-	var minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location"];
+	var minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location", "Files Location"];
 	var default_headers = ["Strain Name", "Received Date", "Source", "Sampling Date", "Location", "Sample", "Run Identifier", "Project Name", "Classifier"];
 
 	return {

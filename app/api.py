@@ -86,7 +86,8 @@ api.add_resource(TemplateResource, '/api/v1.0/templates/batch_submission/')
 #################################DEFINE USER REPORTS################################
 
 api.add_resource(ReportsResource, '/api/v1.0/reports/')
-api.add_resource(ReportsProjectResource, '/api/v1.0/reports/project')
+#api.add_resource(ReportsProjectResource, '/api/v1.0/reports/project')
+api.add_resource(ReportsByProjectResource, '/api/v1.0/reports/project/')
 api.add_resource(ReportsStrainResource, '/api/v1.0/reports/strain')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
 

@@ -92,6 +92,21 @@ class ReportsProjectResource(Resource):
 				
 		return reports_to_send, 200
 
+class ReportsByProjectResource(Resource):
+
+	#@login_required
+	def get(self):
+		args = report_get_project_parser.parse_args()
+		reports_to_send = []
+		reports = []
+
+		reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
+
+		if not reports:
+			abort(404, message="No report available")
+		
+		return reports, 200
+
 class ReportsStrainResource(Resource):
 
 	@login_required

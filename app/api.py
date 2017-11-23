@@ -67,7 +67,7 @@ api.add_resource(ProcessResource, '/api/v1.0/users/<int:user_id>/projects/<int:p
 #################################DEFINE JOB QUEUE###################################
 
 api.add_resource(Job_queue, '/api/v1.0/jobs/')
-api.add_resource(Job_Reports, '/jobs/report/')
+api.add_resource(Job_Reports, '/api/v1.0/jobs/report/')
 api.add_resource(Job_results, '/api/v1.0/jobs/results/')
 api.add_resource(Job_Result_Download, '/api/v1.0/jobs/results/download/')
 api.add_resource(Job_Result_Download_click, '/api/v1.0/jobs/results/download/click/')

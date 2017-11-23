@@ -29,14 +29,6 @@ Jobs resources:
 	- classify profile using fast-mlst
 '''
 
-job_post_report_parser = reqparse.RequestParser()
-job_post_report_parser.add_argument('data', dest='data', type=str, required=True, help="Job Parameters")
-job_post_report_parser.add_argument('sample_name', dest='sampleName', type=str, required=True, help="Sample Name")
-job_post_report_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project_id ID")
-job_post_report_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="pipeline_id ID")
-job_post_report_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process_id ID")
-job_post_report_parser.add_argument('report_json', dest='report_json', type=str, required=True, help="json file path")
-
 job_post_parser = reqparse.RequestParser()
 job_post_parser.add_argument('protocol_ids', dest='protocol_ids', type=str, required=True, help="Protocols Ids")
 job_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="Protocols Ids")
@@ -75,7 +67,7 @@ job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='dat
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(results, sample, project_id, pipeline_id, username, user_id):
+def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
@@ -87,7 +79,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, username, user_id):
 
 
 	if not report:
-		report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample)
+		report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample, process_position=process_position)
 		if not report:
 			abort(404, message="An error as occurried when uploading the data")
 
@@ -108,7 +100,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, username, user_id):
 		db.session.commit()
 
 	job_id = 1
-	
+
 	return True, job_id
 
 
@@ -116,18 +108,20 @@ def add_data_to_db(results, sample, project_id, pipeline_id, username, user_id):
 class Job_Reports(Resource):
 
 	def post(self):
-		args = job_post_report_parser.parse_args()
+		parameters = request.json
+		parameters_json = json.loads(parameters.replace("'", '"'))
+		print parameters_json
 		username = args.current_user_name
 		user_id = args.current_user_id
 
 		try:
-			data = open(args.report_json).read()
+			data = open(parameters_json["report_json"]).read()
 			json_data = json.loads(data)
 		except Exception as e:
 			print e
 			return 500
 
-		is_added, job_id = add_data_to_db(json_data, args.project_id, args.pipeline_id, args.process_id,  username, user_id)
+		is_added, job_id = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id)
 
 		return True
 

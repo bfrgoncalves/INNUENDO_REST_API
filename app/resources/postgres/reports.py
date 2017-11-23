@@ -105,7 +105,7 @@ class ReportsByProjectResource(Resource):
 		if not reports:
 			abort(404, message="No report available")
 		
-		return reports, 200
+		return reports, 200, {'Access-Control-Allow-Origin': '*'}
 
 class ReportsStrainResource(Resource):
 

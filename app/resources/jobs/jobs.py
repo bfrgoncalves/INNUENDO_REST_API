@@ -114,8 +114,8 @@ class Job_Reports(Resource):
 		user_id = parameters_json["current_user_id"]
 
 		try:
-			data = open(parameters_json["report_json"]).read()
-			json_data = json.loads(data)
+			#data = open(parameters_json["report_json"]).read()
+			json_data = json.loads(parameters_json["report_json"])
 		except Exception as e:
 			print e
 			return 500

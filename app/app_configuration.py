@@ -48,6 +48,12 @@ def before_first_request():
 
     db.session.commit()
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
 
 @app.login_manager.request_loader
 def load_user_from_request(request):

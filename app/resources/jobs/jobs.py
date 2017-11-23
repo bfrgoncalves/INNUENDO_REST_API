@@ -1,7 +1,7 @@
 from app import app, db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask_security import current_user
-from flask import jsonify, send_file
+from flask import jsonify, send_file, request
 
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
@@ -19,7 +19,6 @@ import requests
 import os
 import string
 import random
-import request
 
 from job_processing.queue_processor import Queue_Processor
 

@@ -76,7 +76,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 		print "CLASSIFY"
 		jobID = database_processor.classify_profile(job_id, database_to_include)
 	'''
-
+	#job_id = 1
 
 	if not report:
 		report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample, process_position=process_position)
@@ -86,7 +86,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 		db.session.add(report)
 		db.session.commit()
 
-		return True, job_id
+		return True
 	else:
 		report.project_id=project_id
 		report.pipeline_id=pipeline_id
@@ -99,9 +99,8 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 
 		db.session.commit()
 
-	job_id = 1
 
-	return True, job_id
+	return True
 
 
 
@@ -121,7 +120,7 @@ class Job_Reports(Resource):
 			print e
 			return 500
 
-		is_added, job_id = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id)
+		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id)
 
 		return True
 

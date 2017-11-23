@@ -101,11 +101,12 @@ class ReportsByProjectResource(Resource):
 		reports = []
 
 		reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
+		print reports
 
 		if not reports:
 			abort(404, message="No report available")
 		
-		return reports, 200, {'Access-Control-Allow-Origin': '*'}
+		return reports, 200
 
 class ReportsStrainResource(Resource):
 

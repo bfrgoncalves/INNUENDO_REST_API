@@ -111,8 +111,8 @@ class Job_Reports(Resource):
 		parameters = request.json
 		parameters_json = json.loads(parameters.replace("'", '"'))
 		print parameters_json
-		username = args.current_user_name
-		user_id = args.current_user_id
+		username = parameters_json["current_user_name"]
+		user_id = parameters_json["current_user_id"]
 
 		try:
 			data = open(parameters_json["report_json"]).read()

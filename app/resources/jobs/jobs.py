@@ -29,6 +29,14 @@ Jobs resources:
 	- classify profile using fast-mlst
 '''
 
+job_post_report_parser = reqparse.RequestParser()
+job_post_report_parser.add_argument('data', dest='data', type=str, required=True, help="Job Parameters")
+job_post_report_parser.add_argument('sample_name', dest='sampleName', type=str, required=True, help="Sample Name")
+job_post_report_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project_id ID")
+job_post_report_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="pipeline_id ID")
+job_post_report_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process_id ID")
+job_post_report_parser.add_argument('report_json', dest='report_json', type=str, required=True, help="json file path")
+
 job_post_parser = reqparse.RequestParser()
 job_post_parser.add_argument('protocol_ids', dest='protocol_ids', type=str, required=True, help="Protocols Ids")
 job_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="Protocols Ids")
@@ -67,18 +75,19 @@ job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='dat
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, process_position, project_id, database_to_include, username):
+def add_data_to_db(results, sample, project_id, pipeline_id, username, user_id):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
 
-	if "chewBBACA" in procedure:
+	'''if "chewBBACA" in procedure:
 		print "CLASSIFY"
 		jobID = database_processor.classify_profile(job_id, database_to_include)
+	'''
 
 
 	if not report:
-		report = Report(project_id=project_id, pipeline_id=pipeline_id, process_position=process_position, report_data=results, job_id=job_id, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, procedure=procedure, sample_name=sample)
+		report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample)
 		if not report:
 			abort(404, message="An error as occurried when uploading the data")
 
@@ -87,27 +96,40 @@ def add_data_to_db(job_id, results, user_id, procedure,sample, pipeline_id, proc
 
 		return True, job_id
 	else:
-		print report.job_id, job_id
-		if report.job_id == job_id:
-			if results:
-				report.report_data=results
-				db.session.commit()
-			return False, job_id
-		else:
-			report.pipeline_id=pipeline_id
-			report.process_position=process_position
-			report.report_data=results
-			report.job_id=job_id
-			report.timestamp=datetime.datetime.utcnow()
-			report.user_id=user_id
-			report.username=username
-			report.procedure=procedure
-			report.sample_name=sample
-			report.project_id=project_id
+		report.project_id=project_id
+		report.pipeline_id=pipeline_id
+		report.process_position=process_position
+		report.report_data=results
+		report.timestamp=datetime.datetime.utcnow()
+		report.user_id=user_id
+		report.username=username
+		report.sample_name=sample
 
-			db.session.commit()
+		db.session.commit()
 
-			return True, job_id
+	job_id = 1
+	
+	return True, job_id
+
+
+
+class Job_Reports(Resource):
+
+	def post(self):
+		args = job_post_report_parser.parse_args()
+		username = args.current_user_name
+		user_id = args.current_user_id
+
+		try:
+			data = open(args.report_json).read()
+			json_data = json.loads(data)
+		except Exception as e:
+			print e
+			return 500
+
+		is_added, job_id = add_data_to_db(json_data, args.project_id, args.pipeline_id, args.process_id,  username, user_id)
+
+		return True
 
 
 #Run jobs using slurm and get job status

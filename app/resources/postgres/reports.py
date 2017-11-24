@@ -100,8 +100,6 @@ class ReportsByProjectResource(Resource):
 		reports_to_send = []
 		reports = []
 
-		print args.project_id
-
 		reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
 		print reports
 

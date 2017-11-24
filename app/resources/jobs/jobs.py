@@ -115,8 +115,6 @@ class Job_Reports(Resource):
 			print e
 			return 500
 		
-		print parameters_json
-		print parameters_json["report_json"]
 		json_data = parameters_json["report_json"]
 		username = parameters_json["current_user_name"]
 		user_id = parameters_json["current_user_id"]

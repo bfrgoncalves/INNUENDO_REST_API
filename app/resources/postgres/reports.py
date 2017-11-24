@@ -109,7 +109,7 @@ class ReportsByProjectResource(Resource):
 			abort(404, message="No report available")
 		else:
 			for x in reports:
-				reports_to_send.append(x)
+				reports_to_send.append({"project_id:"x.project_id, "pipeline_id:"x.pipeline_id, "process_id:"x.process_position, "username:"x.username, "user_id:"x.user_id, "sample_name:"x.sample_name, "report_json:"x.report_data})
 		
 		return reports_to_send, 200
 

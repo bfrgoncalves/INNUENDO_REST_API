@@ -109,17 +109,17 @@ class Job_Reports(Resource):
 	def post(self):
 		parameters = request.json
 		print parameters
-		parameters_json = json.loads(parameters.replace("'", '"').replace("'{", '"{'))
-		print parameters_json
-		username = parameters_json["current_user_name"]
-		user_id = parameters_json["current_user_id"]
-
 		try:
-			#data = open(parameters_json["report_json"]).read()
-			json_data = json.loads(parameters_json["report_json"])
+			parameters_json = json.loads(parameters.replace("'", '"'))
 		except Exception as e:
 			print e
 			return 500
+		
+		print parameters_json
+		print parameters_json["report_json"]
+		json_data = parameters_json["report_json"]
+		username = parameters_json["current_user_name"]
+		user_id = parameters_json["current_user_id"]
 
 		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id)
 

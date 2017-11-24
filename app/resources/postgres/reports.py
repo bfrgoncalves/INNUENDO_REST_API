@@ -107,8 +107,11 @@ class ReportsByProjectResource(Resource):
 
 		if not reports:
 			abort(404, message="No report available")
+		else:
+			for x in reports:
+				reports_to_send.append(x)
 		
-		return reports, 200
+		return reports_to_send, 200
 
 class ReportsStrainResource(Resource):
 

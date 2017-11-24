@@ -109,7 +109,7 @@ class Job_Reports(Resource):
 	def post(self):
 		parameters = request.json
 		print parameters
-		parameters_json = json.loads(parameters.replace("'", '"'))
+		parameters_json = json.loads(parameters.replace("'", '"').replace("'{", '"{'))
 		print parameters_json
 		username = parameters_json["current_user_name"]
 		user_id = parameters_json["current_user_id"]

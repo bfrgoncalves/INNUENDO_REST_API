@@ -20,7 +20,7 @@ species_fields = {
 
 class SpecieListResource(Resource):
 
-	@login_required
+	#@login_required
 	@marshal_with(species_fields)
 	def get(self):
 		if not current_user.is_authenticated:

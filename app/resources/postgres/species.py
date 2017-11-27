@@ -23,8 +23,6 @@ class SpecieListResource(Resource):
 	#@login_required
 	@marshal_with(species_fields)
 	def get(self):
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions")
 		species = db.session.query(Specie).all()
 		if not species:
 			abort(404, message="No species available")

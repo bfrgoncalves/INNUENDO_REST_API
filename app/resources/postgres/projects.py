@@ -17,6 +17,7 @@ project_post_parser.add_argument('species_id', dest='species_id', type=str, requ
 
 project_get_parser = reqparse.RequestParser()
 project_get_parser.add_argument('get_others', dest='get_others', type=bool, required=False, help="Get other projects")
+project_get_parser.add_argument('all', dest='all', type=bool, required=False, help="Get all projects")
 
 #Defining response fields
 
@@ -111,13 +112,16 @@ class ProjectListUserResource(Resource):
 
 class ProjectListUserSpecieResource(Resource):
 
-	@login_required
+	#@login_required
 	@marshal_with(all_project_fields)
 	def get(self, id):
 		args=project_get_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
-		if args.get_others:
+
+		if args.all:
+			projects = db.session.query(Project).filter(Project.species_id == id).all()
+		elif args.get_others:
 			projects = db.session.query(Project).filter(Project.user_id != current_user.id, Project.species_id == id).all()
 		else:
 			projects = db.session.query(Project).filter(Project.user_id == current_user.id, Project.species_id == id).all()

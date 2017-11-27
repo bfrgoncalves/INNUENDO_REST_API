@@ -116,8 +116,6 @@ class ProjectListUserSpecieResource(Resource):
 	@marshal_with(all_project_fields)
 	def get(self, id):
 		args=project_get_parser.parse_args()
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions")
 
 		if args.all:
 			projects = db.session.query(Project).filter(Project.species_id == id).all()

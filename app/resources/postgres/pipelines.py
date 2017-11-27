@@ -68,12 +68,11 @@ class PipelineResource(Resource):
 
 class PipelineListResource(Resource):
 
-	@login_required
+	#@login_required
 	@marshal_with(pipeline_fields)
 	def get(self, id): #project_id
 		args=pipeline_get_parser.parse_args()
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions")
+
 		if args.strain_id_all:
 			pipelines = db.session.query(Pipeline).filter(Pipeline.strain_id == args.strain_id_all).all()
 		elif args.strain_id and args.parent_project_id:

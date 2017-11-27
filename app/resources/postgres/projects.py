@@ -126,3 +126,14 @@ class ProjectListUserSpecieResource(Resource):
 		if not projects:
 			abort(404, message="No projects for specie {}".format(id))
 		return projects, 200
+
+class ProjectListAllResource(Resource):
+
+	#@login_required
+	@marshal_with(all_project_fields)
+	def get(self, id):
+		args=project_get_parser.parse_args()
+		projects = db.session.query(Project).all()
+		if not projects:
+			abort(404, message="No projects for specie {}".format(id))
+		return projects, 200

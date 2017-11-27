@@ -1,7 +1,7 @@
 from app import app
 from flask_restful import Api
 
-from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource
+from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource, ProjectListAllResource
 from resources.postgres.users import UserResource, UserListResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
@@ -37,6 +37,7 @@ api.add_resource(UserListResource, '/api/v1.0/users/', endpoint = 'all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint = 'single_user')
 
 api.add_resource(ProjectListUserResource, '/api/v1.0/projects/', endpoint = 'user_projects')
+api.add_resource(ProjectListAllResource, '/api/v1.0/projects/all/', endpoint = 'all_projects')
 api.add_resource(ProjectListUserSpecieResource, '/api/v1.0/projects/species/<int:id>', endpoint = 'user_specie_projects')
 api.add_resource(ProjectUserResource, '/api/v1.0/projects/<int:id>', endpoint = 'user_single_project')
 

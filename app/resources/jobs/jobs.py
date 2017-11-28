@@ -97,8 +97,6 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 		report.username=username
 		report.sample_name=sample
 
-		print results
-
 		db.session.commit()
 
 
@@ -110,7 +108,6 @@ class Job_Reports(Resource):
 
 	def post(self):
 		parameters = request.json
-		print parameters
 		try:
 			parameters_json = json.loads(parameters.replace("'", '"'))
 		except Exception as e:

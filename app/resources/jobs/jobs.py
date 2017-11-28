@@ -112,7 +112,7 @@ class Job_Reports(Resource):
 		parameters = request.json
 		print parameters
 		try:
-			parameters_json = json.loads(parameters.replace("'", '"').replace(""))
+			parameters_json = json.loads(parameters.replace("'", '"'))
 		except Exception as e:
 			print e
 			return 500

@@ -118,7 +118,9 @@ class Job_Reports(Resource):
 		username = parameters_json["current_user_name"]
 		user_id = parameters_json["current_user_id"]
 		task = parameters_json["task"]
+		workdir = parameters_json["workdir"]
 		json_data["task"] = task
+		json_data["workdir"] = workdir
 
 		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id)
 

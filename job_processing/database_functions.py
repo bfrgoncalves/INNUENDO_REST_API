@@ -65,7 +65,7 @@ def classify_profile(allcall_results, database_name, sample):
 	profile_data = allcall_results["cagao"][0]
 
 	for key in allcall_results["cagao"][0]:
-		if key !=== "header":
+		if key !== "header":
 			profile_hey = key
 			break
 

@@ -101,7 +101,6 @@ class ReportsByProjectResource(Resource):
 		reports = []
 
 		reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
-		print reports
 
 		if not reports:
 			abort(404, message="No report available")
@@ -136,7 +135,6 @@ class CombinedReportsResource(Resource):
 	def post(self):
 		args = save_reports_parser.parse_args()
 		reports_to_send = []
-		print args.strain_ids
 		combined_report = Combined_Reports(species_id=args.species_id, strain_names=args.strain_ids, user_id=current_user.id, username=current_user.username, run_identifiers=args.job_ids, timestamp=datetime.datetime.utcnow(), name=args.report_name, description=args.report_description)
 		if not combined_report:
 			abort(404, message="An error as occurried when uploading the data".format(id))
@@ -155,7 +153,6 @@ class CombinedReportsResource(Resource):
 		else:
 			for saved_report in all_saved_reports:
 				reports_to_send.append({'name': saved_report.name,'description': saved_report.description,'username': saved_report.username, 'user_id': saved_report.user_id, 'run_identifiers': saved_report.run_identifiers, 'strain_names':saved_report.strain_names})
-		print reports_to_send
 		return reports_to_send, 200
 
 	@login_required

@@ -67,15 +67,18 @@ job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='dat
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id):
+def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id, procedure):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
 
-	'''if "chewBBACA" in procedure:
+	'''if "chewbbaca" in procedure:
 		print "CLASSIFY"
-		jobID = database_processor.classify_profile(job_id, database_to_include)
+		jobID = database_processor.classify_profile(results, database_to_include)
 	'''
+
+	print procedure
+	
 	#job_id = 1
 
 	if not report:

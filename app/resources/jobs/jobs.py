@@ -125,7 +125,7 @@ class Job_Reports(Resource):
 		json_data["task"] = task
 		json_data["workdir"] = workdir
 
-		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id)
+		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id, json_data["task"])
 
 		return True
 

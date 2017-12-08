@@ -67,15 +67,15 @@ job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='dat
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id, procedure):
+def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id, procedure, species):
 
 	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
 
 
-	'''if "chewbbaca" in procedure:
+	if "chewbbaca" in procedure:
 		print "CLASSIFY"
-		jobID = database_processor.classify_profile(results, database_to_include)
-	'''
+		jobID = database_processor.classify_profile(results, species, sample)
+	
 
 	print procedure
 	
@@ -125,7 +125,7 @@ class Job_Reports(Resource):
 		json_data["task"] = task
 		json_data["workdir"] = workdir
 
-		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id, json_data["task"])
+		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id, json_data["task"], parameters_json["species"])
 
 		return True
 

@@ -36,9 +36,9 @@ class Queue_Processor:
             )
         return job.get_id()
 
-    def classify_profile(self, job_id, database_to_include):
+    def classify_profile(self, job_id, database_to_include, sample):
         job = q.enqueue_call(
-        func=database_functions.classify_profile, args=(job_id, database_to_include,), result_ttl=5000
+        func=database_functions.classify_profile, args=(job_id, database_to_include, sample,), result_ttl=5000
         )
         return job.get_id()
 

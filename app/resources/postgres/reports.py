@@ -108,7 +108,7 @@ class ReportInfoResource(Resource):
 			abort(404, message="No report available")
 		else:
 			for x in reports:
-				reports_to_send.append({"sample_name":x.sample_name, "timestamp":json.dumps(x.timestamp)})
+				reports_to_send.append({"sample_name":x.sample_name, "timestamp":x.timestamp.strftime("%Y-%m-%d")})
 		
 		return reports_to_send, 200
 

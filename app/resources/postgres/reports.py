@@ -68,6 +68,7 @@ class ReportsResource(Resource):
 				
 		return reports_to_send, 200
 
+
 class ReportsProjectResource(Resource):
 
 	@login_required
@@ -91,6 +92,26 @@ class ReportsProjectResource(Resource):
 					reports_to_send.append({'sample_name': report.sample_name, 'procedure_name': report.procedure, 'username': report.username, 'user_id': report.user_id, 'job_id': report.job_id, 'report_data': report.report_data})
 				
 		return reports_to_send, 200
+
+
+class ReportInfoResource(Resource):
+
+	#@login_required
+	def get(self):
+		args = report_get_project_parser.parse_args()
+		reports_to_send = []
+		reports = []
+
+		reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
+
+		if not reports:
+			abort(404, message="No report available")
+		else:
+			for x in reports:
+				reports_to_send.append({"sample_name":x.sample_name, "timestamp":x.timestamp})
+		
+		return reports_to_send, 200
+
 
 class ReportsByProjectResource(Resource):
 

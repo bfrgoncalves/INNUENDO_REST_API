@@ -1,7 +1,7 @@
 from app import app
 from flask_restful import Api
 
-from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource, ProjectListAllResource
+from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource, ProjectListAllResource, ProjectListInfoResource
 from resources.postgres.users import UserResource, UserListResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
@@ -9,7 +9,7 @@ from resources.postgres.protocols import ProtocolResource, ProtocolListResource,
 from resources.postgres.processes import ProcessResource, ProcessListResource
 from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource
 from resources.postgres.species import SpecieListResource
-from resources.postgres.reports import ReportsResource, CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, ReportsByProjectResource
+from resources.postgres.reports import ReportsResource, CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, ReportsByProjectResource, ReportInfoResource
 from resources.postgres.uploads import GetFilesResource, DownloadFilesResource
 from resources.ngs_onto.ngs_onto_users import NGSOnto_UserResource, NGSOnto_UserListResource
 from resources.ngs_onto.ngs_onto_projects import NGSOnto_ProjectListResource, NGSOnto_ProjectUserResource, NGSOnto_ProjectListUserResource
@@ -37,6 +37,7 @@ api.add_resource(UserListResource, '/api/v1.0/users/', endpoint = 'all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint = 'single_user')
 
 api.add_resource(ProjectListUserResource, '/api/v1.0/projects/', endpoint = 'user_projects')
+api.add_resource(ProjectListInfoResource, '/api/v1.0/projects/info/', endpoint = 'info_projects')
 api.add_resource(ProjectListAllResource, '/api/v1.0/projects/all/', endpoint = 'all_projects')
 api.add_resource(ProjectListUserSpecieResource, '/api/v1.0/projects/species/<int:id>', endpoint = 'user_specie_projects')
 api.add_resource(ProjectUserResource, '/api/v1.0/projects/<int:id>', endpoint = 'user_single_project')
@@ -89,8 +90,10 @@ api.add_resource(TemplateResource, '/api/v1.0/templates/batch_submission/')
 api.add_resource(ReportsResource, '/api/v1.0/reports/')
 #api.add_resource(ReportsProjectResource, '/api/v1.0/reports/project')
 api.add_resource(ReportsByProjectResource, '/api/v1.0/reports/project/')
+api.add_resource(ReportInfoResource, '/api/v1.0/reports/project/info/')
 api.add_resource(ReportsStrainResource, '/api/v1.0/reports/strain')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
+
 
 #################################USER FILES################################
 

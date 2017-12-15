@@ -1,7 +1,7 @@
 from app import app
 from flask_restful import Api
 
-from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource, ProjectListAllResource, ProjectListInfoResource
+from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource, ProjectListAllResource
 from resources.postgres.users import UserResource, UserListResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource

@@ -24,6 +24,11 @@ report_get_project_parser = reqparse.RequestParser()
 report_get_project_parser.add_argument('project_id', dest='project_id', type=str, required=False, help="project id")
 report_get_project_parser.add_argument('pipelines_to_check', dest='pipelines_to_check', type=str, required=False, help="pipelines_to_check")
 
+report_get_filter_project_parser = reqparse.RequestParser()
+report_get_filter_project_parser.add_argument('project_id', dest='project_id', type=str, required=False, help="project id")
+report_get_filter_project_parser.add_argument('dateFilter', dest='dateFilter', type=str, required=False, help="dateFilter")
+report_get_filter_project_parser.add_argument('nameFilter', dest='nameFilter', type=str, required=False, help="nameFilter")
+
 report_strain_get_project_parser = reqparse.RequestParser()
 report_strain_get_project_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="strain id")
 
@@ -117,13 +122,11 @@ class ReportFilterResource(Resource):
 
 	#@login_required
 	def get(self):
-		json_get = request.json
+		args = report_get_project_parser.parse_args()
 		reports_to_send = []
 		reports = []
 
-		print json_get
-
-		reports = db.session.query(Report).filter(Report.project_id == json_get.project_id & (Report.sample_name.in_([json_get.nameFilter]) | Report.timestamp.in_([json_get.dateFilter]))).all()
+		reports = db.session.query(Report).filter(Report.project_id == args.project_id & (Report.sample_name.in_(args.nameFilter.split(",")) | Report.timestsamp.in_(args.dateFilter.split(",")))).all()
 		print reports
 
 		if not reports:

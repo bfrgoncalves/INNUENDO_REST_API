@@ -122,7 +122,7 @@ class ReportFilterResource(Resource):
 
 	#@login_required
 	def get(self):
-		args = report_get_project_parser.parse_args()
+		args = report_get_filter_project_parser.parse_args()
 		reports_to_send = []
 		reports = []
 

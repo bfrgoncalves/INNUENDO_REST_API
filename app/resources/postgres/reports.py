@@ -121,7 +121,7 @@ class ReportFilterResource(Resource):
 		reports_to_send = []
 		reports = []
 
-		reports = db.session.query(Report).filter(Report.project_id == json_get.project_id, or_(Report.sample_name.in_([json_get.nameFilter]), Report.timestamp.in_([json_get.dateFilter]))).all()
+		reports = db.session.query(Report).filter(Report.project_id == json_get.project_id & (Report.sample_name.in_([json_get.nameFilter]) | Report.timestamp.in_([json_get.dateFilter]))).all()
 		print reports
 
 		if not reports:

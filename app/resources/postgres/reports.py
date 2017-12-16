@@ -1,7 +1,8 @@
 from app import app, db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask_security import current_user
-from flask import jsonify
+from flask import jsonify, request
+from sqlalchemy import or_
 
 from app.models.models import Report, Combined_Reports
 from flask_security import current_user, login_required, roles_required
@@ -103,6 +104,25 @@ class ReportInfoResource(Resource):
 		reports = []
 
 		reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
+
+		if not reports:
+			abort(404, message="No report available")
+		else:
+			for x in reports:
+				reports_to_send.append({"sample_name":x.sample_name, "timestamp":x.timestamp.strftime("%Y-%m-%d")})
+		
+		return reports_to_send, 200
+
+class ReportFilterResource(Resource):
+
+	#@login_required
+	def get(self):
+		json_get = request.json
+		reports_to_send = []
+		reports = []
+
+		reports = db.session.query(Report).filter(Report.project_id == json_get.project_id, or_(Report.sample_name.in_([json_get.nameFilter]), Report.timestamp.in_([json_get.dateFilter]))).all()
+		print reports
 
 		if not reports:
 			abort(404, message="No report available")

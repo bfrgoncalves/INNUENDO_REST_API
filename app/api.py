@@ -90,6 +90,7 @@ api.add_resource(ReportsResource, '/api/v1.0/reports/')
 #api.add_resource(ReportsProjectResource, '/api/v1.0/reports/project')
 api.add_resource(ReportsByProjectResource, '/api/v1.0/reports/project/')
 api.add_resource(ReportInfoResource, '/api/v1.0/reports/project/info/')
+api.add_resource(ReportFilterResource, '/api/v1.0/reports/project/filter/')
 api.add_resource(ReportsStrainResource, '/api/v1.0/reports/strain')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
 

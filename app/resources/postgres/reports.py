@@ -28,6 +28,7 @@ report_get_filter_project_parser = reqparse.RequestParser()
 report_get_filter_project_parser.add_argument('project_id', dest='project_id', type=str, required=False, help="project id")
 report_get_filter_project_parser.add_argument('dateFilter', dest='dateFilter', type=str, required=False, help="dateFilter")
 report_get_filter_project_parser.add_argument('nameFilter', dest='nameFilter', type=str, required=False, help="nameFilter")
+report_get_filter_project_parser.add_argument('operatorFilter', dest='operatorFilter', type=str, required=False, help="nameFilter")
 
 report_strain_get_project_parser = reqparse.RequestParser()
 report_strain_get_project_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="strain id")
@@ -125,15 +126,24 @@ class ReportFilterResource(Resource):
 		args = report_get_filter_project_parser.parse_args()
 		reports_to_send = []
 		reports = []
-		print args.dateFilter, args.nameFilter
+		print args.dateFilter, args.nameFilter, args.operatorFilter
+
+		options = {
+			"<" : Report.timestamp < args.dateFilter,
+			"<=" : Report.timestamp <= args.dateFilter,
+			">" : Report.timestamp > args.dateFilter,
+			">=" : Report.timestamp >= args.dateFilter,
+			"==" : Report.timestamp == args.dateFilter
+		}
+
 		if args.dateFilter == None and args.nameFilter != None:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.sample_name.in_(args.nameFilter.split(","))).all()
 		elif args.dateFilter != None and args.nameFilter == None:
-			reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.timestamp.strftime("%Y-%m-%d").in_(args.dateFilter.split(","))).all()
+			reports = db.session.query(Report).filter(Report.project_id == args.project_id, options[agrs.operatorFilter]).all()
 		elif args.dateFilter == None and args.nameFilter == None:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
 		else:
-			reports = db.session.query(Report).filter(Report.project_id == args.project_id, (Report.sample_name.in_(args.nameFilter.split(",")) | Report.timestamp.strftime("%Y-%m-%d").in_(args.dateFilter.split(",")))).all()
+			reports = db.session.query(Report).filter(Report.project_id == args.project_id, (Report.sample_name.in_(args.nameFilter.split(",")) | options[agrs.operatorFilter])).all()
 		
 		print reports
 

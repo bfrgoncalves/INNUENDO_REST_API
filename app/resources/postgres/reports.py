@@ -126,11 +126,11 @@ class ReportFilterResource(Resource):
 		reports_to_send = []
 		reports = []
 		print args.dateFilter, args.nameFilter
-		if args.dateFilter == "undefined" and args.nameFilter != "undefined":
+		if args.dateFilter == None and args.nameFilter != None:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.sample_name.in_(args.nameFilter.split(","))).all()
-		elif args.dateFilter != "undefined" and args.nameFilter == "undefined":
+		elif args.dateFilter != None and args.nameFilter == None:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.timestamp.in_(args.dateFilter.split(","))).all()
-		elif args.dateFilter == "undefined" and args.nameFilter == "undefined":
+		elif args.dateFilter == None and args.nameFilter == None:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
 		else:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id, (Report.sample_name.in_(args.nameFilter.split(",")) | Report.timestamp.in_(args.dateFilter.split(",")))).all()

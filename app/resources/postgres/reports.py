@@ -2,7 +2,7 @@ from app import app, db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask_security import current_user
 from flask import jsonify, request
-from sqlalchemy import or_
+from sqlalchemy import or_, cast, DATE
 
 from app.models.models import Report, Combined_Reports
 from flask_security import current_user, login_required, roles_required
@@ -129,11 +129,11 @@ class ReportFilterResource(Resource):
 		print args.dateFilter, args.nameFilter, args.operatorFilter
 
 		options = {
-			"<" : Report.timestamp < args.dateFilter,
-			"<=" : Report.timestamp <= args.dateFilter,
-			">" : Report.timestamp > args.dateFilter,
-			">=" : Report.timestamp >= args.dateFilter,
-			"=" : Report.timestamp == args.dateFilter
+			"<" : cast(Report.timestamp, DATE) < args.dateFilter,
+			"<=" : cast(Report.timestamp, DATE) <= args.dateFilter,
+			">" : cast(Report.timestamp, DATE) > args.dateFilter,
+			">=" : cast(Report.timestamp, DATE) >= args.dateFilter,
+			"=" : cast(Report.timestamp, DATE) == args.dateFilter
 		}
 
 		if args.dateFilter == None and args.nameFilter != None:

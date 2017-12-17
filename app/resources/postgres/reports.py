@@ -133,7 +133,7 @@ class ReportFilterResource(Resource):
 			"<=" : Report.timestamp <= args.dateFilter,
 			">" : Report.timestamp > args.dateFilter,
 			">=" : Report.timestamp >= args.dateFilter,
-			"==" : Report.timestamp == args.dateFilter
+			"=" : Report.timestamp == args.dateFilter
 		}
 
 		if args.dateFilter == None and args.nameFilter != None:

@@ -143,7 +143,7 @@ class ReportFilterResource(Resource):
 		elif args.dateFilter == None and args.nameFilter == None:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
 		else:
-			reports = db.session.query(Report).filter(Report.project_id == args.project_id, (Report.sample_name.in_(args.nameFilter.split(",")) | options[agrs.operatorFilter])).all()
+			reports = db.session.query(Report).filter(Report.project_id == args.project_id, (Report.sample_name.in_(args.nameFilter.split(",")) | options[args.operatorFilter])).all()
 		
 		print reports
 

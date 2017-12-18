@@ -128,13 +128,14 @@ class ReportFilterResource(Resource):
 		reports = []
 		print args.dateFilter, args.nameFilter, args.operatorFilter
 
-		options = {
-			"<" : cast(Report.timestamp, DATE) < args.dateFilter,
-			"<=" : cast(Report.timestamp, DATE) <= args.dateFilter,
-			">" : cast(Report.timestamp, DATE) > args.dateFilter,
-			">=" : cast(Report.timestamp, DATE) >= args.dateFilter,
-			"=" : cast(Report.timestamp, DATE) == args.dateFilter
-		}
+		if dateFilter != None:
+			options = {
+				"<" : cast(Report.timestamp, DATE) < args.dateFilter,
+				"<=" : cast(Report.timestamp, DATE) <= args.dateFilter,
+				">" : cast(Report.timestamp, DATE) > args.dateFilter,
+				">=" : cast(Report.timestamp, DATE) >= args.dateFilter,
+				"=" : cast(Report.timestamp, DATE) == args.dateFilter
+			}
 
 		if args.dateFilter == None and args.nameFilter != None:
 			print "AQUI3"

@@ -144,6 +144,7 @@ class ReportFilterResource(Resource):
 		elif args.dateFilter == None and args.nameFilter == None:
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
 		else:
+			print "AQUI2"
 			reports = db.session.query(Report).filter(Report.project_id == args.project_id, (Report.sample_name.in_(args.nameFilter.split(",")) | options[args.operatorFilter])).all()
 		
 		print reports

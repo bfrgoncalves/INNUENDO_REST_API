@@ -128,7 +128,7 @@ class ReportFilterResource(Resource):
 		reports = []
 		print args.dateFilter, args.nameFilter, args.operatorFilter
 
-		if dateFilter != None:
+		if args.dateFilter != None:
 			options = {
 				"<" : cast(Report.timestamp, DATE) < args.dateFilter,
 				"<=" : cast(Report.timestamp, DATE) <= args.dateFilter,

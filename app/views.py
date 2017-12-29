@@ -4,6 +4,7 @@ import json
 from app import app
 import requests
 from config import FILES_ENTRY_POINT
+from config import ADMIN_GID
 
 '''
 Views:
@@ -27,7 +28,7 @@ def index():
 		username = current_user.username
 		homedir = current_user.homedir
 	try:
-		if current_user.gid == "501":
+		if current_user.gid == ADMIN_GID:
 			show_protocols = True
 		else:
 			show_protocols = False

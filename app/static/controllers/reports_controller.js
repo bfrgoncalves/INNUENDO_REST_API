@@ -621,6 +621,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#divPlatformMenu").css({"display":"block"});
 		$("#button_ham_navbar").css({"display":"none"});
 		$("body").css({"padding-top": "0px"});
+		$("#show_platform_menu").css({"padding-top": "2px"});
 
 		let to_hide = true;
 
@@ -631,6 +632,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$("#divPlatformMenu").css({"display":"block"});
 				$("#button_ham_navbar").css({"display":"none"});
 				$("body").css({"padding-top": "0px"});
+				$("#show_platform_menu").css({"padding-top": "2px"});
 			}
 			else{
 				to_hide = true;
@@ -638,6 +640,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$("#divPlatformMenu").css({"display":"none"});
 				$("#button_ham_navbar").css({"display":"block"});
 				$("body").css({"padding-top": "70px"});
+				$("#show_platform_menu").css({"padding-top": "70px"});
 			}
 		});
 

@@ -640,6 +640,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$("#divPlatformMenu").css({"display":"block"});
 				$("#button_ham_navbar").css({"display":"block"});
 				$("body").css({"padding-top": "70px"});
+				$("#show_platform_menu").css({"padding-top": "60px"});
 			}
 		});
 

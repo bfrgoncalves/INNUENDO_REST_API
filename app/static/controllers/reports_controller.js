@@ -621,7 +621,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#divPlatformMenu").css({"display":"block"});
 		$("#button_ham_navbar").css({"display":"none"});
 		$("body").css({"padding-top": "0px"});
-		$("#show_platform_menu").css({"padding-right": "5px"});
+		$("#show_platform_menu").css({"top":"0px"});
 
 		let to_hide = false;
 
@@ -632,7 +632,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$("#divPlatformMenu").css({"display":"block"});
 				$("#button_ham_navbar").css({"display":"none"});
 				$("body").css({"padding-top": "0px"});
-				$("#show_platform_menu").css({"padding-right": "5px"});
+				$("#show_platform_menu").css({"top":"0px"});
 			}
 			else{
 				to_hide = true;
@@ -640,7 +640,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$("#divPlatformMenu").css({"display":"block"});
 				$("#button_ham_navbar").css({"display":"block"});
 				$("body").css({"padding-top": "40px"});
-				$("#show_platform_menu").css({"padding-top": "45px"});
+				$("#show_platform_menu").css({"top": "45px"});
 			}
 		});
 

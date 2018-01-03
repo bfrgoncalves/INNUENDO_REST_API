@@ -163,7 +163,7 @@ class ReportsByProjectResource(Resource):
 		reports_to_send = []
 		reports = []
 
-		reports = db.session.query(Report).filter(Report.project_id == args.project_id).all()
+		reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(","))).all()
 
 		if not reports:
 			abort(404, message="No report available")

@@ -617,8 +617,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    $('#waiting_spinner').css({display:'none'}); 
 		$('#reports_controller_div').css({display:'block'});
 
-		$(".container-fluid").css({"display":"none"});
+		$("#navbar_platform").css({"display":"none"});
 		$("#divPlatformMenu").css({"display":"block"});
+		$("#button_ham_navbar").css({"display":"none"});
 
 	    
 	    /*

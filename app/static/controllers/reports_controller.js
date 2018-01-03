@@ -622,18 +622,23 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#button_ham_navbar").css({"display":"none"});
 		$("body").css({"padding-top": "0px"});
 
-		$("#show_platform_menu").on("mouseenter", () => {
-			$("#navbar_platform").css({"display":"block"});
-			$("#divPlatformMenu").css({"display":"none"});
-			$("#button_ham_navbar").css({"display":"block"});
-			$("body").css({"padding-top": "70px"});
-		});
+		let to_hide = true;
 
-		$("#show_platform_menu").on("mouseleave", () => {
-			$("#navbar_platform").css({"display":"none"});
-			$("#divPlatformMenu").css({"display":"block"});
-			$("#button_ham_navbar").css({"display":"none"});
-			$("body").css({"padding-top": "0px"});
+		$("#show_platform_menu").off("click").on("click", () => {
+			if(to_hide){
+				to_hide = false;
+				$("#navbar_platform").css({"display":"none"});
+				$("#divPlatformMenu").css({"display":"block"});
+				$("#button_ham_navbar").css({"display":"none"});
+				$("body").css({"padding-top": "0px"});
+			}
+			else{
+				to_hide = true;
+				$("#navbar_platform").css({"display":"block"});
+				$("#divPlatformMenu").css({"display":"none"});
+				$("#button_ham_navbar").css({"display":"block"});
+				$("body").css({"padding-top": "70px"});
+			}
 		});
 
 	    

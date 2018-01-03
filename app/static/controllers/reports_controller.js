@@ -620,6 +620,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#navbar_platform").css({"display":"none"});
 		$("#divPlatformMenu").css({"display":"block"});
 		$("#button_ham_navbar").css({"display":"none"});
+		$("body").css({"padding-top": "0px"});
 
 	    
 	    /*

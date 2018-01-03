@@ -621,7 +621,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#divPlatformMenu").css({"display":"block"});
 		$("#button_ham_navbar").css({"display":"none"});
 		$("body").css({"padding-top": "0px"});
-		$("#show_platform_menu").css({"padding-top": "0px"});
+		$("#show_platform_menu").css({"padding-right": "5px"});
 
 		let to_hide = false;
 
@@ -632,7 +632,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$("#divPlatformMenu").css({"display":"block"});
 				$("#button_ham_navbar").css({"display":"none"});
 				$("body").css({"padding-top": "0px"});
-				$("#show_platform_menu").css({"padding-top": "0px"});
+				$("#show_platform_menu").css({"padding-right": "5px"});
 			}
 			else{
 				to_hide = true;

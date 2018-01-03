@@ -27,8 +27,8 @@ report_get_project_parser.add_argument('pipelines_to_check', dest='pipelines_to_
 report_get_filter_project_parser = reqparse.RequestParser()
 report_get_filter_project_parser.add_argument('selectedProjects', dest='selectedProjects', type=str, required=False, help="selectedProjects")
 report_get_filter_project_parser.add_argument('selectedStrains', dest='selectedStrains', type=str, required=False, help="selectedStrains")
-report_get_filter_project_parser.add_argument('minTimeFilter', dest='minTimeFilter', type=str, required=False, help="maxTimeFilter")
-report_get_filter_project_parser.add_argument('maxTimeFilter', dest='maxTimeFilter', type=str, required=False, help="maxTimeFilter")
+#report_get_filter_project_parser.add_argument('minTimeFilter', dest='minTimeFilter', type=str, required=False, help="maxTimeFilter")
+#report_get_filter_project_parser.add_argument('maxTimeFilter', dest='maxTimeFilter', type=str, required=False, help="maxTimeFilter")
 
 report_strain_get_project_parser = reqparse.RequestParser()
 report_strain_get_project_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="strain id")
@@ -126,33 +126,9 @@ class ReportFilterResource(Resource):
 		args = report_get_filter_project_parser.parse_args()
 		reports_to_send = []
 		reports = []
-		print args.maxTimeFilter, args.minTimeFilter, args.selectedStrains, args.selectedProjects
 
-		'''
-		if args.dateFilter != None:
-			options = {
-				"<" : cast(Report.timestamp, DATE) < args.dateFilter,
-				"<=" : cast(Report.timestamp, DATE) <= args.dateFilter,
-				">" : cast(Report.timestamp, DATE) > args.dateFilter,
-				">=" : cast(Report.timestamp, DATE) >= args.dateFilter,
-				"=" : cast(Report.timestamp, DATE) == args.dateFilter
-			}
-		'''
-
-		reports = db.session.query(Report).filter(Report.project_id.in_(args.selectedProjects.split(",")), Report.sample_name.in_(args.selectedStrains.split(",")), cast(Report.timestamp, DATE) >= args.minTimeFilter, cast(Report.timestamp, DATE) <= args.maxTimeFilter).all()
-
-		'''if args.dateFilter == None and args.nameFilter != None:
-			reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), Report.sample_name.in_(args.nameFilter.split(","))).all()
-		elif args.dateFilter != None and args.nameFilter == None and args.operatorFilter != None:
-			reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), options[args.operatorFilter]).all()
-		elif args.dateFilter == None and args.nameFilter == None:
-			reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(","))).all()
-		else:
-			reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), (Report.sample_name.in_(args.nameFilter.split(",")) | options[args.operatorFilter])).all()
-		'''
-		#if not reports:
-		#	abort(404, message="No report available")
-		#else:
+		#reports = db.session.query(Report).filter(Report.project_id.in_(args.selectedProjects.split(",")), Report.sample_name.in_(args.selectedStrains.split(",")), cast(Report.timestamp, DATE) >= args.minTimeFilter, cast(Report.timestamp, DATE) <= args.maxTimeFilter).all()
+		reports = db.session.query(Report).filter(Report.project_id.in_(args.selectedProjects.split(",")), Report.sample_name.in_(args.selectedStrains.split(","))).all()
 		for x in reports:
 			reports_to_send.append({"project_id":x.project_id, "pipeline_id":x.pipeline_id, "process_id":x.process_position, "username":x.username, "user_id":x.user_id, "sample_name":x.sample_name, "report_json":x.report_data})
 	

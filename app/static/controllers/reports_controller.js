@@ -613,11 +613,12 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 
 	    current_job_ids = [];
 
-	    /*projects_table.get_species_names(function(results){
-	    	$scope.species = results.species;
-	        CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
-	        CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;*/
-	        
+	    //For new version
+	    $('#waiting_spinner').css({display:'none'}); 
+		$('#reports_controller_div').css({display:'block'});
+
+	    
+	    /*
         $scope.getSavedReports(function(){
 
         	$scope.getUserTrees(function(){
@@ -725,6 +726,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			});
 
 	    });
+	    */
 
 	    //});
 

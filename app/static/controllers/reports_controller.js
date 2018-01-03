@@ -622,6 +622,20 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		$("#button_ham_navbar").css({"display":"none"});
 		$("body").css({"padding-top": "0px"});
 
+		$("#show_platform_menu").on("mouseenter", () => {
+			$("#navbar_platform").css({"display":"block"});
+			$("#divPlatformMenu").css({"display":"none"});
+			$("#button_ham_navbar").css({"display":"block"});
+			$("body").css({"padding-top": "70px"});
+		});
+
+		$("#show_platform_menu").on("mouseleave", () => {
+			$("#navbar_platform").css({"display":"none"});
+			$("#divPlatformMenu").css({"display":"block"});
+			$("#button_ham_navbar").css({"display":"none"});
+			$("body").css({"padding-top": "0px"});
+		});
+
 	    
 	    /*
         $scope.getSavedReports(function(){

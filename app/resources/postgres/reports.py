@@ -126,7 +126,6 @@ class ReportFilterResource(Resource):
 		args = report_get_filter_project_parser.parse_args()
 		reports_to_send = []
 		reports = []
-		print args.selectedProjects.split(","), args.selectedStrains.split(",")
 		#reports = db.session.query(Report).filter(Report.project_id.in_(args.selectedProjects.split(",")), Report.sample_name.in_(args.selectedStrains.split(",")), cast(Report.timestamp, DATE) >= args.minTimeFilter, cast(Report.timestamp, DATE) <= args.maxTimeFilter).all()
 		reports = db.session.query(Report).filter(Report.project_id.in_(args.selectedProjects.split(",")), Report.sample_name.in_(args.selectedStrains.split(","))).all()
 		

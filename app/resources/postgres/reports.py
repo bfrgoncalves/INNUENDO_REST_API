@@ -138,7 +138,7 @@ class ReportFilterResource(Resource):
 			}
 		'''
 
-		reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), cast(Report.timestamp, DATE) >= cast(args.minTimeFilter, DATE), cast(Report.timestamp, DATE) <= cast(args.maxTimeFilter, DATE)).all()
+		reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), cast(Report.timestamp, DATE) >= args.minTimeFilter, cast(Report.timestamp, DATE) <= args.maxTimeFilter).all()
 
 		'''if args.dateFilter == None and args.nameFilter != None:
 			reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), Report.sample_name.in_(args.nameFilter.split(","))).all()

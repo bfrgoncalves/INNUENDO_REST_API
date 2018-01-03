@@ -25,7 +25,8 @@ report_get_project_parser.add_argument('project_id', dest='project_id', type=str
 report_get_project_parser.add_argument('pipelines_to_check', dest='pipelines_to_check', type=str, required=False, help="pipelines_to_check")
 
 report_get_filter_project_parser = reqparse.RequestParser()
-report_get_filter_project_parser.add_argument('project_id', dest='project_id', type=str, required=False, help="project id")
+report_get_filter_project_parser.add_argument('selectedProjects', dest='selectedProjects', type=str, required=False, help="selectedProjects")
+report_get_filter_project_parser.add_argument('selectedStrains', dest='selectedStrains', type=str, required=False, help="selectedStrains")
 report_get_filter_project_parser.add_argument('minTimeFilter', dest='minTimeFilter', type=str, required=False, help="maxTimeFilter")
 report_get_filter_project_parser.add_argument('maxTimeFilter', dest='maxTimeFilter', type=str, required=False, help="maxTimeFilter")
 
@@ -125,7 +126,7 @@ class ReportFilterResource(Resource):
 		args = report_get_filter_project_parser.parse_args()
 		reports_to_send = []
 		reports = []
-		print args.maxTimeFilter, args.minTimeFilter, args.project_id
+		print args.maxTimeFilter, args.minTimeFilter, args.selectedStrains, args.selectedProjects
 
 		'''
 		if args.dateFilter != None:
@@ -138,7 +139,7 @@ class ReportFilterResource(Resource):
 			}
 		'''
 
-		reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), cast(Report.timestamp, DATE) >= args.minTimeFilter, cast(Report.timestamp, DATE) <= args.maxTimeFilter).all()
+		reports = db.session.query(Report).filter(Report.project_id.in_(args.selectedProjects.split(","), Report.sample_name.in_(args.selectedStrains.split(",")), cast(Report.timestamp, DATE) >= args.minTimeFilter, cast(Report.timestamp, DATE) <= args.maxTimeFilter).all()
 
 		'''if args.dateFilter == None and args.nameFilter != None:
 			reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(",")), Report.sample_name.in_(args.nameFilter.split(","))).all()

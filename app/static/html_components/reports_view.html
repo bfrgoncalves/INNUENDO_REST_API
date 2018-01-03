@@ -17,6 +17,11 @@
 		<button id="button_back_project" class="btn btn-md btn-primary">Back to Project</button>
 	</div>
     <div id="reports_container">
+
+    	<iframe src="{{ reports_url }}" style="width:100%; height:100%;"></iframe>
+
+    	<!--
+    	
 		
 		<div class="col-md-12 sub-header" style="margin-bottom:2px;">
 	        <h2>Reports <span style="float:right;">{{ species_in_use }}</span></h2>
@@ -35,7 +40,6 @@
 
 		<div class="row">
 			<div class="col-md-12">
-			  	<!-- Main jumbotron for project description -->
 			    <div class="col-md-12" style="display:none;" id="user_jobs_div">
 			      <div class="sub_container">
 			        <div class="jumbotron">
@@ -52,8 +56,6 @@
 						        <div class="input-group-btn">
 						          <button id="search_report_by_strain_button" class="btn btn-md btn-default" type="button">Search</button>
 						        </div>
-						        <!--<button class="input-group-btn" id="fromfileSubmit">Ok</button>-->
-						      <!--<div id="progress_bar"><div class="percent">0%</div></div>-->
 						    </div>
 					   	</div>
 				        <div class="form-group col-md-6" id="div_search_project" style="display:block;"> 
@@ -62,13 +64,6 @@
 					        </select>
 				        </div>
 
-			        	<!--<div class="input-group">
-			        		<label class="input-group-btn">Projects</label>
-				        	<select class="selectpicker form-control" id="project_selector">
-					            <option ng-repeat="project_name in projects_names" name="proj_{{project_name.id}}">{{ project_name.name }}</option>
-					        </select>
-					    </div>-->
-			        	<!--<div class="scroll_div">-->
 			        	<br>
 			            <table class="display compact hover" id="reports_table" width='100%'>
 				            <thead>
@@ -77,12 +72,6 @@
 				                <th ng-repeat="header in user_reports_table_headers">{{ header }}</th>
 				              </tr>
 				            </thead>
-				            <!--<tbody>
-				              <tr ng-repeat="report in reports">
-				                <td></td>
-				                <td ng-repeat="field in report">{{ field }}</td>
-				              </tr>
-				            </tbody>-->
 				            <tfoot>
 				              <tr>
 				                <th></th>
@@ -90,7 +79,7 @@
 				              </tr>
 				            </tfoot>
 				        </table>
-				    	<!--</div>-->
+
 			        </div>
 			      </div>
 			    </div>
@@ -110,12 +99,6 @@
 				                <th ng-repeat="header in saved_reports_headers">{{ header }}</th>
 				              </tr>
 				            </thead>
-				            <!--<tbody>
-				              <tr ng-repeat="report in saved_reports">
-				                <td></td>
-				                <td ng-repeat="(key, val) in report">{{ val }}</td>
-				              </tr>
-				            </tbody>-->
 				            <tfoot>
 				              <tr>
 				                <th></th>
@@ -144,12 +127,6 @@
 			                <th ng-repeat="header in trees_headers">{{ header }}</th>
 			              </tr>
 			            </thead>
-			            <!--<tbody>
-			              <tr ng-repeat="report in saved_reports">
-			                <td></td>
-			                <td ng-repeat="(key, val) in report">{{ val }}</td>
-			              </tr>
-			            </tbody>-->
 			            <tfoot>
 			              <tr>
 			                <th></th>
@@ -173,7 +150,6 @@
 		        		<button class="btn btn-sm btn-info" style="float:right;" ng-click="showReportModal()"><i class="fa fa-floppy-o" data-toggle="tooltip" data-placement="top" title="Save active report"></i></button>
 		        		<button id="phyloviz_button" class="btn btn-sm btn-warning" style="float:right;display:none;"><i class="fa" data-toggle="tooltip" data-placement="top" title="Send data to PHYLOViZ Online">Send to PHYLOViZ Online</i></button>
 		        	</h3>
-		        	<!--<div class="scroll_div">-->
 		        	<ul class="nav nav-tabs">
 					  <li ng-repeat="procedure in report_procedures" class="dropdown active" data-toggle="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ procedure }}</a>
 					  	<span class="caret"></span></a>
@@ -188,79 +164,26 @@
 		        	<table class="display compact hover" id="reports_info_table" width='100%'>
 			            <thead>
 			            </thead>
-			            <!--<tbody>
-			              <tr ng-repeat="run_info in run_infos">
-			              	<td></td>
-			                <td ng-repeat="results in run_info">{{ results[2][0] }}</td>
-			              </tr>
-			            </tbody>-->
 			            <tfoot>
 			            </tfoot>
 			        </table>
 			        <table class="display compact hover" id="reports_results_table" width='100%'>
 			            <thead>
 			            </thead>
-			            <!--<tbody>
-			              <tr ng-repeat="run_result in run_results">
-			              	<td></td>
-			                <td ng-repeat="results in run_result">{{ results[2] }}</td>
-			              </tr>
-			            </tbody>-->
 			            <tfoot>
 			            </tfoot>
 			        </table>
 			        <table class="display compact hover" id="reports_metadata_table" width='100%'>
 			            <thead>
 			            </thead>
-			            <!--<tbody>
-			              <tr ng-repeat="run_result in run_results">
-			              	<td></td>
-			                <td ng-repeat="results in run_result">{{ results[2] }}</td>
-			              </tr>
-			            </tbody>-->
 			            <tfoot>
 			            </tfoot>
 			        </table>
-			    	<!--</div>-->
 		        </div>
 		      </div>
 		    </div>
-		    <!--<div class="col-md-6">
-		      <div class="sub_container">
-		        <div class="jumbotron">
-		        	<h4 class="sub-header">Results
-		        		<button class="btn btn-md btn-primary" style="float:right;" ng-click="showReportModal()"><i class="fa fa-arrow-circle-down">Save Report</i></button>
-		        	</h4>
-		        	<<div class="scroll_div">
-		        	<ul class="nav nav-tabs">
-					  <li ng-repeat="procedure in report_procedures" class="active"><a href="#">{{ procedure }}</a></li>
-					</ul>
-					<br>
-		        	<table class="display compact hover" id="reports_results_table" width='100%'>
-			            <thead>
-			              <tr>
-			              	<th></th>
-			                <th ng-repeat="run_result_header in run_results_headers">{{ run_result_header }}</th>
-			              </tr>
-			            </thead>
-			            <tbody>
-			              <tr ng-repeat="run_result in run_results">
-			              	<td></td>
-			                <td ng-repeat="results in run_result">{{ results[2] }}</td>
-			              </tr>
-			            </tbody>
-			            <tfoot>
-			              <tr>
-			                <th></th>
-			                <th ng-repeat="header in run_results_headers">{{ header }}</th>
-			              </tr>
-			            </tfoot>
-			        </table>
-			    	</div>
-		        </div>
-		      </div>
-		    </div>-->
 		</div>
+		-->
 	</div>
 	</div>
 

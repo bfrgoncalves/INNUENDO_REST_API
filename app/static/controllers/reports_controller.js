@@ -639,8 +639,8 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 				$("#navbar_platform").css({"display":"block"});
 				$("#divPlatformMenu").css({"display":"block"});
 				$("#button_ham_navbar").css({"display":"block"});
-				$("body").css({"padding-top": "70px"});
-				$("#show_platform_menu").css({"padding-top": "40px"});
+				$("body").css({"padding-top": "40px"});
+				$("#show_platform_menu").css({"padding-top": "45px"});
 			}
 		});
 

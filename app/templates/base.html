@@ -35,8 +35,7 @@
         var current_user_name = {{ current_user_name|safe }}
         var homedir = {{ homedir|safe }}
         var jobs_root = {{ jobs_root|safe }}
-        var reports_url = {{ reports_url|safe }}
-        console.log(reports_url);
+        var REPORTS_URL = {{ reports_url|safe }}
     </script>
 
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>

@@ -637,7 +637,7 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 			else{
 				to_hide = true;
 				$("#navbar_platform").css({"display":"block"});
-				$("#divPlatformMenu").css({"display":"none"});
+				$("#divPlatformMenu").css({"display":"block"});
 				$("#button_ham_navbar").css({"display":"block"});
 				$("body").css({"padding-top": "70px"});
 				$("#show_platform_menu").css({"padding-top": "70px"});

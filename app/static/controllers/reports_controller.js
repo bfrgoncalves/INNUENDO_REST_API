@@ -617,6 +617,9 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	    $('#waiting_spinner').css({display:'none'}); 
 		$('#reports_controller_div').css({display:'block'});
 
+		$("#navbar_platform").css({"display":"none"});
+		$("#divPlatformMenu").css({"display":"block"});
+
 	    
 	    /*
         $scope.getSavedReports(function(){

@@ -10,8 +10,8 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li>
-            <button id="backbutton" class="btn btn-md btn-primary" style="margin-left:10px;display:none;" type="button"><i class="fa fa-arrow-left"></i>Back</button>
+          <li class="dropdown">
+            <a id="backbutton"><i class="fa fa-arrow-left"></i></a>
           </li>
           {% if current_user.is_authenticated %}
            {% include "_userdropdown.html" %}

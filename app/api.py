@@ -7,7 +7,7 @@ from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
 from resources.postgres.protocols import ProtocolResource, ProtocolListResource, ProtocolByIDResource
 from resources.postgres.processes import ProcessResource, ProcessListResource
-from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource
+from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource, StrainsByNameResource
 from resources.postgres.species import SpecieListResource
 from resources.postgres.reports import ReportsResource, CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, ReportsByProjectResource, ReportInfoResource, ReportFilterResource
 from resources.postgres.uploads import GetFilesResource, DownloadFilesResource
@@ -55,7 +55,10 @@ api.add_resource(ProtocolListResource, '/api/v1.0/protocols/', endpoint = 'proto
 api.add_resource(ProtocolResource, '/api/v1.0/protocols/<int:id>', endpoint = 'protocol')
 api.add_resource(ProtocolByIDResource, '/api/v1.0/protocols/ids', endpoint = 'protocol_ids')
 
+StrainsByNameResource
+
 api.add_resource(StrainListResource, '/api/v1.0/strains/', endpoint = 'strains')
+api.add_resource(StrainsByNameResource, '/api/v1.0/strains/name/', endpoint = 'strains_name')
 api.add_resource(StrainProjectListResource, '/api/v1.0/projects/<int:id>/strains/', endpoint = 'project_strains')
 api.add_resource(StrainResource, '/api/v1.0/strains/<string:name>', endpoint = 'strain')
 

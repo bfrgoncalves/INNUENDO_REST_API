@@ -23,6 +23,9 @@ strain_update_parser.add_argument('strain_id', dest='strain_id', type=str, requi
 strain_update_parser.add_argument('key', dest='key', type=str, required=False, help="Key to change on metadata")
 strain_update_parser.add_argument('value', dest='value', type=str, required=False, help="Value to change")
 
+strain_names_parser = reqparse.RequestParser()
+strain_names_parser.add_argument('selectedStrains', dest='selectedStrains', type=str, required=False, help="selectedStrains")
+
 #Defining response fields
 
 strain_fields = {
@@ -182,6 +185,24 @@ class StrainListResource(Resource):
 			#strain_metadata[args.key] = args.value
 
 
+class StrainsByNameResource(Resource);
+	def get(self): #id=user_id
+		args=strain_names_parser.parse_args()
+		strains_to_search = args.selectedStrains.split(",")
+		strains_temp = []
+		
+		for x in strains_to_search:
+			strains_temp.append(x + "-Ecoli")
+
+		strains = db.session.query(Strain).filter(Strain.name.in_(strains_temp)).all()
+		
+		for strain in strains:
+			strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
+			strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+			
+		if not strains:
+			abort(404, message="No strain available")
+		return strains, 200
 
 
 class StrainProjectListResource(Resource):

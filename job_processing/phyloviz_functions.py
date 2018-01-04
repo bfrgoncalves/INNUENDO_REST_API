@@ -40,7 +40,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	for job_id in total_j_ids:
 		body_profile = [];
-		report = db.session.query(Report).filter(Report.job_id == job_id).first()
+		split_job_ids = job_id.split(":")
+		report = db.session.query(Report).filter(Report.project_id == split_job_ids[0], Report.pipeline_id == split_job_ids[1], Report.process_id == split_job_ids[2]).first()
 		if not report:
 			continue
 

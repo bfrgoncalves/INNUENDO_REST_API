@@ -185,7 +185,7 @@ class StrainListResource(Resource):
 			#strain_metadata[args.key] = args.value
 
 
-class StrainsByNameResource(Resource);
+class StrainsByNameResource(Resource):
 	def get(self): #id=user_id
 		args=strain_names_parser.parse_args()
 		strains_to_search = args.selectedStrains.split(",")

@@ -186,6 +186,7 @@ class StrainListResource(Resource):
 
 
 class StrainsByNameResource(Resource):
+	@marshal_with(strain_fields)
 	def get(self): #id=user_id
 		args=strain_names_parser.parse_args()
 		strains_to_search = args.selectedStrains.split(",")

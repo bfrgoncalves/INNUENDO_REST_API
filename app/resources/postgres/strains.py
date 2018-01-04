@@ -220,7 +220,7 @@ class StrainsByNameResource(Resource):
 		for i, strain in enumerate(strains):
 			strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
 			strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
-			strain.project_id = nameToProject[strain.strainID]
+			strain.project_id = nameToProject[strain.name]
 			
 		if not strains:
 			abort(404, message="No strain available")

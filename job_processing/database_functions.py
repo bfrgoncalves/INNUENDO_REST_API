@@ -44,7 +44,7 @@ def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file
 
 
 
-def classify_profile(allcall_results, database_name, sample):
+def classify_profile(allcall_results, database_name, sample, job_id):
 
 
 	#report = db.session.query(Report).filter(Report.job_id == job_id).first()
@@ -142,7 +142,7 @@ def classify_profile(allcall_results, database_name, sample):
 		if database_entry:
 			classification = database_entry.classifier
 		else:
-			classification = "New_" + report.job_id.split("_")[0]
+			classification = "New_" + job_id.split("_")[0]
 
 		print classification
 

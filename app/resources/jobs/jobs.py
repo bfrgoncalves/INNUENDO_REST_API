@@ -74,7 +74,8 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 
 	if "chewbbaca" in procedure:
 		print "CLASSIFY"
-		jobID = database_processor.classify_profile(results, species, sample)
+		new_job_id = project_id + pipeline_id + process_position
+		jobID = database_processor.classify_profile(results, species, sample, new_job_id)
 	
 
 	print procedure

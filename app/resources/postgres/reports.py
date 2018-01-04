@@ -108,6 +108,7 @@ class ReportInfoResource(Resource):
 		args = report_get_project_parser.parse_args()
 		reports_to_send = []
 		reports = []
+		inArray = []
 
 		reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(","))).all()
 
@@ -115,8 +116,10 @@ class ReportInfoResource(Resource):
 			abort(404, message="No report available")
 		else:
 			for x in reports:
-				reports_to_send.append({"sample_name":x.sample_name, "timestamp":x.timestamp.strftime("%Y-%m-%d")})
-		
+				if x.sample_name not in inArray:
+					reports_to_send.append({"sample_name":x.sample_name, "timestamp":x.timestamp.strftime("%Y-%m-%d"), "project_id": x.project_id})
+					inArray.push(x.sample_name)
+					
 		return reports_to_send, 200
 
 class ReportFilterResource(Resource):

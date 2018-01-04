@@ -25,6 +25,7 @@ strain_update_parser.add_argument('value', dest='value', type=str, required=Fals
 
 strain_names_parser = reqparse.RequestParser()
 strain_names_parser.add_argument('selectedStrains', dest='selectedStrains', type=str, required=False, help="selectedStrains")
+strain_names_parser.add_argument('selectedProjects', dest='selectedProjects', type=str, required=False, help="selectedProjects")
 
 #Defining response fields
 
@@ -38,6 +39,19 @@ strain_fields = {
 	'file_2': fields.String,
 	'classifier': fields.String,
 	'fq_location': fields.String
+}
+
+strain_fields_project = {
+	'id': fields.Integer,
+	'strainID': fields.String(attribute='name'),
+	'fields': fields.String,
+	'strain_metadata': fields.String,
+	'species_id': fields.String,
+	'file_1': fields.String,
+	'file_2': fields.String,
+	'classifier': fields.String,
+	'fq_location': fields.String,
+	'project_id': fields.String
 }
 
 #Defining metadata fields
@@ -186,20 +200,27 @@ class StrainListResource(Resource):
 
 
 class StrainsByNameResource(Resource):
-	@marshal_with(strain_fields)
+	@marshal_with(strain_fields_project)
 	def get(self): #id=user_id
 		args=strain_names_parser.parse_args()
 		strains_to_search = args.selectedStrains.split(",")
+		projects_to_search = args.selectedProjects.split(",")
 		strains_temp = []
-		
+
+		nameToProject = {}
+
 		for x in strains_to_search:
 			strains_temp.append(x + "-Ecoli")
 
+		for i, y in enumerate(strains_temp):
+			nameToProject[strains_temp[i]] = projects_to_search[i]
+
 		strains = db.session.query(Strain).filter(Strain.name.in_(strains_temp)).all()
 		
-		for strain in strains:
+		for i, strain in enumerate(strains):
 			strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
 			strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+			strain.project_id = nameToProject[strain.strainID]
 			
 		if not strains:
 			abort(404, message="No strain available")

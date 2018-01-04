@@ -118,8 +118,8 @@ class ReportInfoResource(Resource):
 			for x in reports:
 				if x.sample_name not in inArray:
 					reports_to_send.append({"sample_name":x.sample_name, "timestamp":x.timestamp.strftime("%Y-%m-%d"), "project_id": x.project_id})
-					inArray.push(x.sample_name)
-					
+					inArray.append(x.sample_name)
+
 		return reports_to_send, 200
 
 class ReportFilterResource(Resource):

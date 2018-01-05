@@ -116,15 +116,16 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			print "NO report"
 			continue
 		else:
-			if first_time == True:
-				for arr in report.report_data["cagao"]:
-					for key in arr:
-						print key
-				headers = headers_profile + report.report_data["run_output"]["header"]
-				first_time = False
-
 			new_profile = []
-			string_list = "\t".join(report.report_data["run_output"]["run_output.fasta"])
+
+			for arr in report.report_data["cagao"]:
+				if len(arr["header"]) > 20:
+					if first_time == True:
+						headers = headers_profile + arr["header"]
+						first_time = False
+					for key in arr:
+						if key != "header":
+							string_list = "\t".join(arr[key])
 
 			'''if report.sample_name == "1910152-E-coli":
 				for i, z in enumerate(headers):

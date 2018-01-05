@@ -220,7 +220,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			#INCLUDE METADATA FROM PLATFORM IF STRAIN FROM THERE
 			if strain_from_db.platform_tag == "FP":
 				print strain_from_db.name
-				strain = db.session.query(Strain).filter(Strain.name == strain_from_db.name).first()
+				strain = db.session.query(Strain).filter(Strain.name == (strain_from_db.name + "-Ecoli")).first()
 				strain_metadata = json.loads(strain.strain_metadata)
 				
 				#Add projects where strain is

@@ -117,6 +117,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			continue
 		else:
 			if first_time == True:
+				print report.report_data
 				headers = headers_profile + report.report_data["run_output"]["header"]
 				first_time = False
 

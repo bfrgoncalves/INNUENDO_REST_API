@@ -160,6 +160,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				count_metadata_added = 0
 
 				for all_additional_data in total_j_ids:
+					print bool(additional_data)
 					if bool(additional_data):
 						for key, val in additional_data[str(count_metadata_added)].iteritems():
 							if key not in headers_metadata:
@@ -183,7 +184,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						straind.append(strain_metadata[x])
 				except KeyError:
 					is_added = False
-					if bool(additional_data) != None:
+					if bool(additional_data):
 						for key, val in additional_data[str(count_ids)].iteritems():
 							if key == x:
 								is_added = True

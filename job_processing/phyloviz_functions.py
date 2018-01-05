@@ -144,6 +144,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			strains_selected_from_plat.append(report.sample_name)
 			all_profiles.append(report.sample_name + "\t" + string_list)
 
+			print report.sample_name
+
 			strain = db.session.query(Strain).filter(Strain.name == report.sample_name).first()
 
 			strain_metadata = json.loads(strain.strain_metadata)

@@ -122,7 +122,7 @@ class TreeUserResource(Resource):
 		args=trees_user_get_parser.parse_args()
 		trees_to_send =[]
 
-		trees = db.session.query(Tree).filter(Tree.user_id == current_user.id).all()
+		trees = db.session.query(Tree).filter(Tree.user_id == args.user_id).all()
 		if not trees:
 			abort(404, message="No trees available")
 		for tree in trees:

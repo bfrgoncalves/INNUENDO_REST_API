@@ -1,4 +1,4 @@
-const setUpFrame = () => { 
+var setUpFrame = () => { 
 	console.log("Entrou");
     const frame = window.frames['reportsIframe'];
     if(frame !== undefined){

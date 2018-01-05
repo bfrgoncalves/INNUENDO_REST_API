@@ -40,6 +40,7 @@ phyloviz_post_parser.add_argument('missing_char', dest='missing_char', type=str,
 phyloviz_post_parser.add_argument('phyloviz_user', dest='phyloviz_user', type=str, required=True, default="None", help="phyloviz_user")
 phyloviz_post_parser.add_argument('phyloviz_pass', dest='phyloviz_pass', type=str, required=True, default="None", help="phyloviz_pass")
 phyloviz_post_parser.add_argument('makePublic', dest='makePublic', type=str, required=True, default="None", help="make public")
+phyloviz_post_parser.add_argument('user_id', dest='user_id', type=str, required=False, default="None", help="user id")
 #Load job results to display on graphical interface
 
 #Defining get arguments parser

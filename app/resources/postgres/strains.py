@@ -210,7 +210,7 @@ class StrainsByNameResource(Resource):
 		nameToProject = {}
 
 		for i, y in enumerate(strains_to_search):
-			nameToProject[strains_temp[i]] = projects_to_search[i]
+			nameToProject[strains_to_search[i]] = projects_to_search[i]
 
 		strains = db.session.query(Strain).filter(Strain.name.in_(strains_to_search)).all()
 		

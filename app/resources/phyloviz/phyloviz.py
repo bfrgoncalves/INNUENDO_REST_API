@@ -63,7 +63,11 @@ class PHYLOViZResource(Resource):
 	#@login_required
 	def post(self):
 		args=phyloviz_post_parser.parse_args()
-		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, current_user.id, args.species_id, args.missing_data, args.missing_char, args.phyloviz_user, args.phyloviz_pass, args.makePublic)
+		if args.user_id:
+			id_to_use = args.user_id
+		else:
+			id_to_use = current_user.id
+		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, id_to_use, args.species_id, args.missing_data, args.missing_char, args.phyloviz_user, args.phyloviz_pass, args.makePublic)
 		return jobID, 201
 
 	@login_required

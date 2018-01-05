@@ -209,10 +209,10 @@ class StrainsByNameResource(Resource):
 
 		nameToProject = {}
 
-		for i, y in enumerate(strains_temp):
+		for i, y in enumerate(strains_to_search):
 			nameToProject[strains_temp[i]] = projects_to_search[i]
 
-		strains = db.session.query(Strain).filter(Strain.name.in_(strains_temp)).all()
+		strains = db.session.query(Strain).filter(Strain.name.in_(strains_to_search)).all()
 		
 		for i, strain in enumerate(strains):
 			strain.file_1 = json.loads(strain.strain_metadata)["File_1"]

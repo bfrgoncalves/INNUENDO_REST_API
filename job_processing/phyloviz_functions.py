@@ -109,8 +109,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 	for job_id in total_j_ids:
 		body_profile = [];
 		#Get profiles from the chewBBACA report
+		print job_id
 		report = db.session.query(Report).filter(Report.job_id == job_id).first()
 		if not report:
+			print "NO report"
 			continue
 		else:
 			if first_time == True:
@@ -193,6 +195,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 		count_ids += 1
 
+	return 
+
 	if len(array_of_strains_from_db) > 0:
 		for strain_from_db in array_of_strains_from_db:
 			if strain_from_db.name in strains_selected_from_plat:
@@ -262,7 +266,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 		print "LESS THAN 2"
 		return {"message":"Less than two profiles for comparison. Please try to increase the maximum number of differences."}
 
-	print missing_data
 	#WRITE PROFILE FILE
 	with open(file_path_profile, 'w') as p_file:
 		hd = [];

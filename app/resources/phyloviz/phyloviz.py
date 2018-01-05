@@ -49,7 +49,11 @@ job_get_search_parser.add_argument('job_id', dest='job_id', type=str, required=T
 
 #Defining get arguments parser
 trees_get_parser = reqparse.RequestParser()
-trees_get_parser.add_argument('species_id', dest='species_id', type=str, required=True, help="redis job id")
+trees_get_parser.add_argument('species_id', dest='species_id', type=str, required=True, help="species_id")
+
+#Defining get arguments parser
+trees_user_get_parser = reqparse.RequestParser()
+trees_user_get_parser.add_argument('user_id', dest='user_id', type=str, required=True, help="user_id")
 
 #Defining delete arguments parser
 trees_delete_parser = reqparse.RequestParser()
@@ -111,3 +115,17 @@ class TreeResource(Resource):
 		db.session.commit()
 
 		return 204
+
+class TreeUserResource(Resource):
+
+	def get(self):
+		args=trees_user_get_parser.parse_args()
+		trees_to_send =[]
+
+		trees = db.session.query(Tree).filter(Tree.user_id == current_user.id).all()
+		if not trees:
+			abort(404, message="No trees available")
+		for tree in trees:
+					trees_to_send.append({'name': tree.name, 'description': tree.description, 'timestamp': tree.timestamp.strftime("%Y-%m-%d %H:%M:%S"), 'uri': tree.uri, 'phyloviz_user':tree.phyloviz_user})
+		return trees_to_send, 200
+

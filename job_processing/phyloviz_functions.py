@@ -117,7 +117,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			continue
 		else:
 			if first_time == True:
-				for key in report.report_data:
+				for key in report.report_data["cagao"]:
 					print key
 				headers = headers_profile + report.report_data["run_output"]["header"]
 				first_time = False

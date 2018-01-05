@@ -1,6 +1,6 @@
 var setUpFrame = () => { 
 	console.log("Entrou");
-    const frame = window.frames['reportsIframe'];
+    var frame = window.frames['reportsIframe'];
     if(frame !== undefined){
     	console.log("tem frame");
     	console.log(frame);

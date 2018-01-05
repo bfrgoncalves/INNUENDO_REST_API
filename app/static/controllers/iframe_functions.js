@@ -1,7 +1,7 @@
 var setUpFrame = () => { 
 	console.log("Entrou");
     var frame = window.frames;
-    var frame = $("#reportsIframe").get(0);
+    var frame = $("#reportsIframe").get(0).contentWindow;
     if(frame !== undefined){
     	console.log("tem frame");
     	console.log(frame);

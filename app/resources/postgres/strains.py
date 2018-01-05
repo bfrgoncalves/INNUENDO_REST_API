@@ -209,9 +209,6 @@ class StrainsByNameResource(Resource):
 
 		nameToProject = {}
 
-		for x in strains_to_search:
-			strains_temp.append(x + "-Ecoli")
-
 		for i, y in enumerate(strains_temp):
 			nameToProject[strains_temp[i]] = projects_to_search[i]
 

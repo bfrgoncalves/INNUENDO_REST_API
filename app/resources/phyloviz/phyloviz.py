@@ -74,7 +74,7 @@ class PHYLOViZResource(Resource):
 		jobID = phyloviz_processor.send_to_phyloviz(args.job_ids, args.dataset_name, args.dataset_description, args.additional_data, args.database_to_include, args.max_closest, id_to_use, args.species_id, args.missing_data, args.missing_char, args.phyloviz_user, args.phyloviz_pass, args.makePublic)
 		return jobID, 201
 
-	@login_required
+	#@login_required
 	def get(self):
 		args=job_get_search_parser.parse_args()
 		job = phyloviz_processor.fetch_job(args.job_id)

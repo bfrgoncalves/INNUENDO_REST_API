@@ -796,7 +796,6 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 	$scope.getUserTrees = function(callback){
 		
 		reports.get_user_trees(function(response){
-		    console.log(response);
 			if (!response.data.message){
 			trees = response.data;
 			}

@@ -39,7 +39,7 @@ innuendoApp.controller("protocolsCtrl", function($scope, $http) {
 	var protocols_list = new Protocol_List($http);
 
 	var usedSoftware = ["INNUca", "chewBBACA", "PathoTyping", "integrity_coverage", "fastqc", "trimmomatic", "integrity_coverage_2", "fastqc2", "spades", "process_spades", "assembly_mapping", "process_assembly_mapping", "pilon", "mlst", "prokka", "abricate"];
-	var nextflow_tags = ["integrity_coverage", "check_coverage", "fastqc", "trimmomatic", "fastqc_trimmomatic", "spades", "process_spades", "assembly_mapping", "pilon", "mlst", "abricate", "prokka"];
+	var nextflow_tags = ["integrity_coverage", "check_coverage", "fastqc", "trimmomatic", "fastqc_trimmomatic", "spades", "process_spades", "assembly_mapping", "pilon", "mlst", "abricate", "prokka", "chewbbaca"];
 
 
 	$scope.loadProtocols = function(){

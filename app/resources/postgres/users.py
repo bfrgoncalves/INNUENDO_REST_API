@@ -25,6 +25,10 @@ user_fields = {
 user_parser = reqparse.RequestParser()
 user_parser.add_argument('parameters_object', dest='parameters_object', type=str, required=True, help="Analysis parameters selector")
 
+user_login_parser = reqparse.RequestParser()
+user_login_parser.add_argument('username', dest='username', type=str, required=True, help="Username")
+user_login_parser.add_argument('password', dest='password', type=str, required=True, help="Password")
+
 class UserListResource(Resource):
 
     @login_required
@@ -55,8 +59,9 @@ class UserResource(Resource):
 class UserExternalLogin(Resource):
 
     def post(self):
-        username = request.form.get('username')
-        password = request.form.get('password')
+        args=user_login_parser.parse_args()
+        username = args.username
+        password = args.password
 
         try:
             result = User.try_login(username, password)

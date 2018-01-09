@@ -7,6 +7,9 @@ from flask import jsonify
 from flask_security import current_user, login_required, login_user
 
 from app.models.models import User
+import os
+import requests
+import ldap
 
 #Defining response
 
@@ -46,6 +49,35 @@ class UserResource(Resource):
         users.analysis_parameters_object = args.parameters_object
         db.session.commit()
         return users
+
+
+#For user external authentication to be able to access to the reports remotely
+class UserExternalLogin(Resource):
+
+    def post(self):
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        try:
+            result = User.try_login(username, password)
+            print result
+            if result == False:
+                return None
+        except ldap.INVALID_CREDENTIALS, e:
+            print e
+            return None
+
+        user = User.query.filter_by(username=result['uid'][0]).first()
+        
+        if not user:
+            encrypted_password = utils.encrypt_password(password)
+            if not user_datastore.get_user(result['mail'][0]):
+                user = user_datastore.create_user(email=result['mail'][0], password=encrypted_password, username=result['uid'][0], name=result['cn'][0], gid=result['gidNumber'][0], homedir=result['homeDirectory'][0])
+                db.session.commit()
+        
+        user = User.query.filter_by(username=result['uid'][0]).first()
+        login_user(user)
+        return user
 
 
 

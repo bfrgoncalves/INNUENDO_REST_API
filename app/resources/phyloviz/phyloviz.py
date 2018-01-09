@@ -123,8 +123,11 @@ class TreeUserResource(Resource):
 		trees_to_send =[]
 
 		trees = db.session.query(Tree).filter(Tree.user_id == args.user_id).all()
+		
 		if not trees:
-			abort(404, message="No trees available")
+			return [], 200
+			#abort(404, message="No trees available")
+
 		for tree in trees:
 					trees_to_send.append({'name': tree.name, 'description': tree.description, 'timestamp': tree.timestamp.strftime("%Y-%m-%d %H:%M:%S"), 'uri': tree.uri, 'phyloviz_user':tree.phyloviz_user})
 		return trees_to_send, 200

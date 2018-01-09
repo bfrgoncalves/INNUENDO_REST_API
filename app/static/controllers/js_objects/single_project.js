@@ -1884,7 +1884,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							delete buttons_to_tasks[protocols_on_button[sp_name][protocol]];
 						}
 
-						n_protocols = protocols_on_button[sp_name].length;
+						try{
+							n_protocols = protocols_on_button[sp_name].length;
+						}
+						catch(e){
+							console.log("Error loading protocols");
+						}
 
 						params = jobs_to_parameters[strainName_to_tids[strain_names[index]]];
 				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);

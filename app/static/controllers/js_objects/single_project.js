@@ -1875,7 +1875,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        strain_data[index]['Analysis'] = toAdd_analysis;
 
 						clearInterval(intervals_running[strainName_to_tids[strain_names[index]]]);
-						
+						console.log(protocols_on_button, sp_name);
 						for(protocol in protocols_on_button[sp_name]){
 							delete current_job_status_color[protocols_on_button[sp_name][protocol]];
 							delete tasks_to_buttons[buttons_to_tasks[protocols_on_button[sp_name][protocol]]];

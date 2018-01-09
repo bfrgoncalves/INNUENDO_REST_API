@@ -72,7 +72,10 @@ class UserExternalLogin(Resource):
             print e
             return None
 
-        return True
+        user = User.query.filter_by(username=result['uid'][0]).first()
+
+
+        return {access:True, user_id: user.id}
 
 
 

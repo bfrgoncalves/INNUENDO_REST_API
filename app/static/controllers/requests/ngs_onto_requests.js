@@ -250,7 +250,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
             console.log(req);
 
-            /*$http(req).then(function(response){
+            $http(req).then(function(response){
             	console.log(response, "##########################");
 
             	for(x in response.data){
@@ -261,7 +261,7 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
             function(response){
             	console.log(response);
                callback(response, strain_name);
-            });*/
+            });
 	    },
 	    ngs_onto_request_get_processes: function(pipeline_id, project_id, callback){
 

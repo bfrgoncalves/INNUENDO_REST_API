@@ -378,8 +378,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[strain_id+ counter_processes];
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
 
-							console.log("AQUI!", prev_workflow);
-
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];
@@ -1178,8 +1176,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        		strain_data[i]['protocols'][proc_value] = toAdd_Protocols;
 	        	}
 
-	        	console.log(strain_data[i]['protocols']);
-
 		        if(counter == strain_data.length-1){
 		        	if(needs_dependency) message = 'Procedures applied but some lack dependencies.';
 		        	else if(workflow_already_applied) message = 'Workflow already applied to some strains.';
@@ -1418,7 +1414,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1]
 			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        			}
-			        			//dict_strain_names[strain_names[strain_name]][5].push(pi_name);
 			        		}
 			        		else{
 			        			//Change to count for all protocol processes instead of the workflows
@@ -1432,11 +1427,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				workflow_order[strain_names[i]].push(workflowName);
 		        				count_pipelines_applied += 1;
 				        		dict_strain_names[strain_names[strain_name]][8][count_pipelines_applied] = [];
-
-		        				/*
-		        				dict_strain_names[strain_names[strain_name]][7] += 1;
-		        				dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
-		        				*/
 
 		        				//Get the workflow to run and the step
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){

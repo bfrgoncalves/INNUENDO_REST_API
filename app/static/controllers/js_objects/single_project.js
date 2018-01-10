@@ -1605,84 +1605,84 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					console.log(single_strain_processes);
 					
-					for(s_p in strain_processes){
+					//for(s_p in strain_processes){
 					//	console.log(strain_processes);
-						ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], single_strain_processes, strain_processes[s_p][0], strains[i].strainID, countStrain, strain_processes, t_ids, proc_ids, processed_proc, function(response, pr_ids, strain_id, count_process, pip_id, proj_id, strain_processes_from_request, t_ids, proc_ids, processed_proc){
+					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], single_strain_processes, strain_processes[s_p][0], strains[i].strainID, countStrain, strain_processes, t_ids, proc_ids, processed_proc, function(response, pr_ids, strain_id, count_process, pip_id, proj_id, strain_processes_from_request, t_ids, proc_ids, processed_proc){
 
-							//When error occurs when loading the job_id
-							if(response.data == 404){
-								for(x in strain_processes_from_request){
-									countstrains += 1;
-									processed_proc[strain_id] += 1;
-								}
-							}
-
-							strain_id = strain_id.trim();
-
-							for(l in response.data){
-								if(response.data[l].length != 0){
-									t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
-									t_ids.push(t_id);
-									count_process[strain_id]+=1;
-									tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
-									buttons_to_tasks[strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
-									buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
-									prevjobid = t_id.split('_')[0];
-									dict_of_tasks_status[t_id] = '';
-									proc_ids.push(pr_ids[l])
-									//periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
-								}
+						//When error occurs when loading the job_id
+						if(response.data == 404){
+							for(x in strain_processes_from_request){
 								countstrains += 1;
 								processed_proc[strain_id] += 1;
 							}
+						}
 
-							console.log(response.data, processed_proc[strain_id], strain_processes_from_request.length, t_ids.length)
-							if(processed_proc[strain_id] == strain_processes_from_request.length && t_ids.length > 0){
-								strainName_to_tids[strain_id] = t_ids.join();
-								periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
+						strain_id = strain_id.trim();
+
+						for(l in response.data){
+							if(response.data[l].length != 0){
+								t_id = response.data[l][0].jobid.split('^')[0].split('"')[1];
+								t_ids.push(t_id);
+								count_process[strain_id]+=1;
+								tasks_to_buttons[t_id] = strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID;
+								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = t_id;
+								buttons_to_strain_names[strain_id.replace(/ /g, "_") + '_protocol_' + String(response.data[l][0].process_id) + '_' + CURRENT_PROJECT_ID] = strain_id;
+								prevjobid = t_id.split('_')[0];
+								dict_of_tasks_status[t_id] = '';
+								proc_ids.push(pr_ids[l])
+								//periodic_check_job_status(t_id, dict_of_tasks_status, strain_id, pr_ids[l], pip_id, proj_id);
 							}
-							
+							countstrains += 1;
+							processed_proc[strain_id] += 1;
+						}
 
-							//Fix workflows positions.
-							if(countstrains == count_processes){
-								var table = $('#strains_table').DataTable();
-								var strain_data = $.map(table.rows().data(), function(item){
-							        return item;
-							    });
-							    toAdd_lab_protocols = "";
-							    toAdd_analysis = "";
+						console.log(response.data, processed_proc[strain_id], strain_processes_from_request.length, t_ids.length)
+						if(processed_proc[strain_id] == strain_processes_from_request.length && t_ids.length > 0){
+							strainName_to_tids[strain_id] = t_ids.join();
+							periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, proc_ids, pip_id, proj_id);
+						}
+						
 
-							    for(x in strain_data){
-							    	toAdd_lab_protocols = "";
-							    	toAdd_analysis = "";
-							    	toAdd_protocols = "";
-							    	strain_data[x]['protocols'] = {};
-							    	var s_name = strain_data[x]['strainID'];
-							    	for(j in pipelines_applied[s_name]){
-							    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
-							    			pipeline_name = pipelines_applied[s_name][j].split('button')[1].split('</i>')[1].split('</')[0];
+						//Fix workflows positions.
+						if(countstrains == count_processes){
+							var table = $('#strains_table').DataTable();
+							var strain_data = $.map(table.rows().data(), function(item){
+						        return item;
+						    });
+						    toAdd_lab_protocols = "";
+						    toAdd_analysis = "";
 
-							    			//console.log(pipeline_name, pipelines_applied[s_name][j]);
-							    			if(buttons_to_tasks[pipeline_id] != undefined && buttons_to_tasks[pipeline_id].indexOf("null")>-1){
-							    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
-							    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");
-							    			}
-							    			else{
-							    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
-							    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
-							    				toAdd_protocols = protocols_applied_by_pipeline[s_name][pipeline_name];
+						    for(x in strain_data){
+						    	toAdd_lab_protocols = "";
+						    	toAdd_analysis = "";
+						    	toAdd_protocols = "";
+						    	strain_data[x]['protocols'] = {};
+						    	var s_name = strain_data[x]['strainID'];
+						    	for(j in pipelines_applied[s_name]){
+						    			pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
+						    			pipeline_name = pipelines_applied[s_name][j].split('button')[1].split('</i>')[1].split('</')[0];
 
-							    				strain_data[x]['protocols'][pipeline_name] = toAdd_protocols;
-							    			}
-								    }
-								    strain_data[x]["Analysis"] = toAdd_analysis;
-								    strain_data[x]['lab_protocols'] = toAdd_lab_protocols;
+						    			//console.log(pipeline_name, pipelines_applied[s_name][j]);
+						    			if(buttons_to_tasks[pipeline_id] != undefined && buttons_to_tasks[pipeline_id].indexOf("null")>-1){
+						    				pipelines_type_by_strain[s_name][0].push(pipelines_applied[s_name][j].replace("&&&", "&&protocol"));
+						    				toAdd_lab_protocols += pipelines_applied[s_name][j].replace("&&&", "&&protocol");
+						    			}
+						    			else{
+						    				pipelines_type_by_strain[s_name][1].push(pipelines_applied[s_name][j].replace("&&&", ""));
+						    				toAdd_analysis += pipelines_applied[s_name][j].replace("&&&", "");
+						    				toAdd_protocols = protocols_applied_by_pipeline[s_name][pipeline_name];
 
+						    				strain_data[x]['protocols'][pipeline_name] = toAdd_protocols;
+						    			}
 							    }
-							    callback({strains:strain_data});
-							}
-						})
-					}
+							    strain_data[x]["Analysis"] = toAdd_analysis;
+							    strain_data[x]['lab_protocols'] = toAdd_lab_protocols;
+
+						    }
+						    callback({strains:strain_data});
+						}
+					});
+					//}
 
 					//periodic_check_job_status(t_ids, dict_of_tasks_status, strain_id, pr_ids, pip_id, proj_id);
 

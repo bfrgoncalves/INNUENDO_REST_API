@@ -1269,7 +1269,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                button_n = d.split("id")[1].split('"')[1];
 			                
 			                if(buttons_to_tasks[button_n] == undefined){
-			                	buttons_to_tasks[button_n] = ath.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+			                	buttons_to_tasks[button_n] = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 			                	workflow_ids.push(pipelinesByName[workflowName]);
 			                	counter_steps += 1;
 			                	steps.push(counter_steps);

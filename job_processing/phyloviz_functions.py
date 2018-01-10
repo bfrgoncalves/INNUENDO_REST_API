@@ -13,7 +13,7 @@ import database_functions
 
 from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, phyloviz_root
 
-database_correspondece = {"E.coli":Ecoli}
+database_correspondece = {"E.coli":Ecoli, "Yersinia":Yersinia}
 
 '''
 PHYLOViZ Online (https://github.com/bfrgoncalves/Online-PhyloViZ) functions:

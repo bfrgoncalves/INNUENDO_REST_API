@@ -1406,6 +1406,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 	        			count_pipelines_applied = 0;
 
+	        			console.log(pipelines_applied);
+
 			        	for(p in pipelines_applied[strain_names[strain_name]]){
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
 

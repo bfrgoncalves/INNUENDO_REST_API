@@ -1505,7 +1505,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        									//if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 		        								}
 		        								strainName_to_tids[strain_name] = response.data.tasks.join();
-		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], response.data.tasks, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
+		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], response.data.process_ids, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 
 		        								if (count_strains_added_run == strain_names.length){
 		        									modalAlert("Jobs for all the selected strains have been submitted", function(){});

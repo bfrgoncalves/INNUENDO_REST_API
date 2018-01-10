@@ -7,7 +7,7 @@ import os.path
 
 import argparse
 
-from config import allele_classes_to_ignore, metadata_to_use, base_metadata
+from config import allele_classes_to_ignore, metadata_to_use, base_metadata, metadata_to_use_yersinia
 
 
 
@@ -108,9 +108,15 @@ def read_chewBBACA_file_to_JSON(file_path, type_species):
 	return results_alleles
 
 
-def read_metadata_file_to_JSON(file_path):
+def read_metadata_file_to_JSON(file_path, table_id):
 
 	results_metadata = {}
+
+	if table_id == "yersinia":
+		real_metadata_to_use = metadata_to_use_yersinia
+	else:
+		real_metadata_to_use = metadata_to_use
+
 	with open(file_path, 'rtU') as reader:
 		metadata_fields = None
 		for line in reader:
@@ -120,15 +126,19 @@ def read_metadata_file_to_JSON(file_path):
 					metadata_fields = line.split('\t')[0:]
 				else:
 					line = line.split('\t')
-					sample = line[0] + ".fasta"
+					if table_id == "yersinia":
+						sample = line[0]
+ 					else:
+						sample = line[0] + ".fasta"
+						
 					results_metadata[sample] = {}
 					line = line[0:]
 					if len(line) != len(metadata_fields):
 						sys.exit('Different number of loci')
 					for x, metadata_field in enumerate(metadata_fields):
-						for k, v in metadata_to_use.items():
+						for k, v in real_metadata_to_use.items():
 							if k == metadata_field:
-								results_metadata[sample][metadata_to_use[metadata_field]] = line[x]
+								results_metadata[sample][real_metadata_to_use[metadata_field]] = line[x]
 
 	return results_metadata
 
@@ -156,7 +166,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
 	print "DONE chewBBACA parse"
 	classification_json = read_classification_file_to_JSON(classification_file_path)
 	print "DONE classification parse"
-	metadata_json = read_metadata_file_to_JSON(metadata_file_path)
+	metadata_json = read_metadata_file_to_JSON(metadata_file_path, table_id)
 	print "DONE metadata parse"
 	count_no_meta = 0
 	count_no_class = 0

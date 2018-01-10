@@ -1602,6 +1602,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					for(s_p in strain_processes){
 						single_strain_processes.push(strain_processes[s_p][2])
 					} 
+
+					console.log(single_strain_processes);
 					
 					for(s_p in strain_processes){
 					//	console.log(strain_processes);

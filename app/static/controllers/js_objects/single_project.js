@@ -1559,7 +1559,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				countStrain[strains[i].strainID] = 0;
 
 				//Case has pipelines but no processes
-				if(strain_processes.length == 0){
+				if(strain_processes == undefined || strain_processes.length == 0){
 					count_strains_without_process += 1;
 					//Fix workflows positions.
 					if(count_strains_without_process == nstrains){

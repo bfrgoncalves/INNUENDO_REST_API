@@ -176,8 +176,45 @@ class Job_queue(Resource):
 		user_id = args.current_user_id
 		from_process_controller = args.from_process_controller
 		homedir = args.homedir
-		request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
-		results = request.json()
+
+		job_ids = args.job_id.split(",")
+		process_ids = args.process_id.split(",")
+		store_jobs_in_db = []
+		all_results = []
+		all_std_out = []
+		all_paths = []
+
+		for k in range(0, len(job_ids)):
+
+			job_id = job_ids[k]
+			process_id = process_ids[k]
+			from_process_controller = args.from_process_controller
+			print "JOB", job_id
+
+			go_to_pending = False
+
+			results = [[],[]]
+			store_in_db = False
+
+			print '--project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
+			commands = 'python job_processing/get_program_input.py --project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
+			proc1 = subprocess.Popen(commands.split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+			stdout, stderr = proc1.communicate()
+			print stdout, stderr
+
+			stdout = job_id + '\t' + stdout
+
+			all_std_out.append(stdout)
+			store_jobs_in_db.append(store_in_db)
+			all_results.append(results[0])
+			all_paths.append(results[1])
+
+		print len(all_std_out), len(store_jobs_in_db), len(all_results), len(all_paths)
+
+		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids}
+
+		#request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
+		#results = request.json()
 
 		procedure_names = args.procedure_name.split(",")
 		process_positions = args.process_position.split(",")

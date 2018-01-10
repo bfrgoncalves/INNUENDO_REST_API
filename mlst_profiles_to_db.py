@@ -129,14 +129,18 @@ def read_metadata_file_to_JSON(file_path, table_id):
 					print metadata_fields
 				else:
 					line = line.split('\t')
-					sample = line[0] + ".fasta"
+					
+					if table_id == "yersinia":
+						sample = line[0]
+					else:
+						sample = line[0] + ".fasta"
+					
 					results_metadata[sample] = {}
 					line = line[0:]
 					if len(line) != len(metadata_fields):
 						sys.exit('Different number of loci')
 					for x, metadata_field in enumerate(metadata_fields):
 						for k, v in real_metadata_to_use.items():
-							print k, metadata_field
 							if k == metadata_field:
 								results_metadata[sample][real_metadata_to_use[metadata_field]] = line[x]
 

@@ -372,7 +372,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						else prev_process_status = status;
 
-						console.log(strain_id, strain_id_to_name[strain_id], process_id_to_workflow[strain_id_to_name[strain_id] + String(counter_processes+1)], prev_workflow, process_id_to_workflow[counter_processes+1], response.data.length - 1, n);
+						console.log(strain_id, strain_id_to_name[strain_id], process_id_to_workflow[strain_id + String(counter_processes+1)], prev_workflow, process_id_to_workflow[counter_processes+1], response.data.length - 1, n);
 						if (process_id_to_workflow[counter_processes+1] != undefined && prev_workflow != process_id_to_workflow[counter_processes+1] || response.data.length - 1 == n){
 
 							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[counter_processes];

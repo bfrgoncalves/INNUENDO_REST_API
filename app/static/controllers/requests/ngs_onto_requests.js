@@ -309,11 +309,11 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
             $http(req).then(function(response){
             	console.log(response);
-               callback(response, strain_name);
+               callback(response, strain_name, processes_ids);
             },
             function(response){
             	console.log(response);
-               callback(response, strain_name);
+               callback(response, strain_name, processes_ids);
             });
 	    },
 	    ngs_onto_request_get_jobid_from_process: function(pipeline_id, processes_ids, project_id, strain_id, count, strain_processes, t_ids, proc_ids, processed_proc, callback){

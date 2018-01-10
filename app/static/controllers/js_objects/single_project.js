@@ -372,10 +372,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						else prev_process_status = status;
 
+						console.log(process_id_to_workflow[counter_processes+1], prev_workflow, process_id_to_workflow[counter_processes+1], response.data.length - 1, n);
 						if (process_id_to_workflow[counter_processes+1] != undefined && prev_workflow != process_id_to_workflow[counter_processes+1] || response.data.length - 1 == n){
 
 							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[counter_processes];
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
+
+							console.log("AQUI!", prev_workflow);
 
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
@@ -1488,7 +1491,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						        						buttons_to_strain_names[button_name] = strain_names[strain_name];
 					        							task_ids_to_map.push(task_ids[s]);
 					        						}
-					        						//console.log(tasks_to_buttons);
 					        						processes_to_map = task_ids_to_map.map(function(x){
 					        							return dict_strain_names[strain_names[strain_name]][4].shift();
 							        				});
@@ -1499,10 +1501,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        				//Add job id to the process on ngsonto and start checking the job status
 					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_names[strain_name]]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name){
 		        								count_strains_added_run += 1;
-		        								console.log(response);
 		        								for(tk in response.data.tasks){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
-		        									//if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 		        								}
 		        								strainName_to_tids[strain_name] = response.data.tasks.join();
 		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], response.data.process_ids, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);

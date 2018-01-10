@@ -284,7 +284,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                wf_url_parts.push(String(protocol_counter));
 
 		                strain_to_real_pip[strain_id].push(wf_url_parts);
-		                process_id_to_workflow[protocol_counter] = strain_id_to_name[strain_id] + "_workflow_" + counter + "_" + CURRENT_PROJECT_ID;
+		                process_id_to_workflow[strain_id_to_name[strain_id] + protocol_counter] = strain_id_to_name[strain_id] + "_workflow_" + counter + "_" + CURRENT_PROJECT_ID;
 	                }
 	                
 	            }
@@ -1102,7 +1102,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        
     					workflow_counter = String(pip_start_id + 1);
 						protoc_counter = String(proc_start_id + new_proc_count);
-    					process_id_to_workflow[protoc_counter] = strain_data[counter]['strainID'] + "_workflow_" + workflow_counter + "_" + CURRENT_PROJECT_ID;
+    					process_id_to_workflow[strain_data[counter]['strainID'] + protoc_counter] = strain_data[counter]['strainID'] + "_workflow_" + workflow_counter + "_" + CURRENT_PROJECT_ID;
 			        }
 
 

@@ -116,6 +116,8 @@ def read_metadata_file_to_JSON(file_path, table_id):
 		real_metadata_to_use = metadata_to_use_yersinia
 	else:
 		real_metadata_to_use = metadata_to_use
+	
+	print real_metadata_to_use
 		
 	with open(file_path, 'rtU') as reader:
 		metadata_fields = None
@@ -134,6 +136,7 @@ def read_metadata_file_to_JSON(file_path, table_id):
 						sys.exit('Different number of loci')
 					for x, metadata_field in enumerate(metadata_fields):
 						for k, v in real_metadata_to_use.items():
+							print k, metadata_field
 							if k == metadata_field:
 								results_metadata[sample][real_metadata_to_use[metadata_field]] = line[x]
 

@@ -1503,6 +1503,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
 		        								}
 		        								strainName_to_tids[strain_name] = response.data.tasks.join();
+		        								console.log(response.data);
 		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], response.data.process_ids, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 
 		        								if (count_strains_added_run == strain_names.length){

@@ -1499,7 +1499,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        				//Add job id to the process on ngsonto and start checking the job status
 					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_names[strain_name]]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name){
 		        								count_strains_added_run += 1;
-
+		        								console.log(response);
 		        								for(tk in response.data.tasks){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
 		        									//if(response.data.tasks[tk].indexOf('null') < 0) periodic_check_job_status(response.data.tasks[tk], dict_of_tasks_status, strain_names[strain_name], response.data.tasks[tk], strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);

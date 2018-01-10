@@ -381,18 +381,22 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];
+								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "FAILED";
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
 								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
 								current_job_status_color[prev_workflow] = status_dict["PD"];
+								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "PD";
 							}
 							else if(is_running){
 								$('#' + prev_workflow).css({'background-color': status_dict["R"]});
 								current_job_status_color[prev_workflow] = status_dict["R"];
+								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "R";
 							}
 							else if(prev_process_status == "COMPLETED"){
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
+								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
 							}
 
 							protocols_on_workflow = [];
@@ -1263,8 +1267,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
 			                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
 			                button_n = d.split("id")[1].split('"')[1];
+			                
 			                if(buttons_to_tasks[button_n] == undefined){
-			                	buttons_to_tasks[button_n] = undefined;
+			                	buttons_to_tasks[button_n] = Math.random().toString(36).substring(10);;
 			                	workflow_ids.push(pipelinesByName[workflowName]);
 			                	counter_steps += 1;
 			                	steps.push(counter_steps);

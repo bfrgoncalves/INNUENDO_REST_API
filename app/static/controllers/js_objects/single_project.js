@@ -405,6 +405,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
 							}
 							else {
+								console.log($('#' + prev_workflow).parent().find(".neutral"));
+								console.log("AQUI!!!!!!");
 								$('#' + prev_workflow).parent().find(".neutral").css({"display":"block"});
 							}
 

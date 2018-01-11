@@ -339,8 +339,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var protocols_on_workflow = [];
 				var prev_workflow = process_id_to_workflow[1];
 
-				console.log(response.data);
-
 				if(response.data != false){
 					all_status_done = 0;
 					for(n in response.data){
@@ -1375,7 +1373,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			count_processes += 1;
 			        		}
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
-			        		
+
 			        		if((dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING")){
 			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_names[i]]];
 			        			lastprocess = count_processes;
@@ -1410,8 +1408,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        			dict_strain_names[strain_names[strain_name]].push({});
 
 	        			count_pipelines_applied = 0;
-
-	        			console.log(pipelines_applied);
 
 			        	for(p in pipelines_applied[strain_names[strain_name]]){
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
@@ -1605,8 +1601,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					for(s_p in strain_processes){
 						single_strain_processes.push(strain_processes[s_p][2])
 					} 
-
-					console.log(single_strain_processes);
 					
 					//for(s_p in strain_processes){
 					//	console.log(strain_processes);
@@ -1648,7 +1642,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_workflow_' + String(countWorkflows) + '_' + CURRENT_PROJECT_ID] = "buttonworkflow_" + strainID_pipeline[strains_dict[strain_id.replace(/ /g, "_")]] + "_" + countWorkflows;
 							}
 							prevWorkflow = process_id_to_workflow[strain_id + String(countProcesses)];
-							console.log(buttons_to_tasks);
 
 						}
 						if(processed_proc[strain_id] == strain_processes_from_request.length && t_ids.length > 0){

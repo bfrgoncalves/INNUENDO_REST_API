@@ -689,6 +689,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	}
 		    }
 
+		    console.log(req);
+
 		    $http(req).then(function(response){
 		            callback(response, strain_name);
 		        },

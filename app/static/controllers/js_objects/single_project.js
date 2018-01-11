@@ -1370,7 +1370,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	var count_processes = 0;
 			        	var has_completed = false;
 			        	for(x in pipelines_applied[strain_names[i]]){
-			        		console.log(workflowname_to_protocols, x);
+			        		console.log(workflowname_to_protocols, pipelines_applied[strain_names[i]][x]);
 			        		count_processes += 1;
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
 			        		console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]], dict_of_tasks_status, buttons_to_tasks, pip_name);

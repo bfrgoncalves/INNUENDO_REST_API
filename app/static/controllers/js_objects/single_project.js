@@ -1414,7 +1414,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		var real_pi_name = pipelines_applied[strain_names[strain_name]][p].split('</i>')[1].split('</')[0];
 			        		
-			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1 && dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMLETED"){
+			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1 && dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
 			        			dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
 			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
 			        			protocols_in_pip.shift();

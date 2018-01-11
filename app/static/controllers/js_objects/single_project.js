@@ -405,7 +405,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
 							}
 							else {
-								$('#' + prev_workflow).find(".neutral").css({"display":"block"});
+								$('#' + prev_workflow).parent().find(".neutral").css({"display":"block"});
 							}
 
 							protocols_on_workflow = [];

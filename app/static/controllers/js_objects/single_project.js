@@ -1646,7 +1646,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 							if(prevWorkflow != process_id_to_workflow[strain_id + String(countProcesses)]){
 								countWorkflows += 1;
-								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_workflow_' + String(countWorkflows) + '_' + CURRENT_PROJECT_ID] = "buttonworkflow_" + strainID_pipeline[strains_dict[strain_id.replace(/ /g, "_")]] + "_" + countWorkflows;
+								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_workflow_' + String(countWorkflows) + '_' + CURRENT_PROJECT_ID] = "buttonworkflow_" + strainID_pipeline[strains_dict[strain_id.replace(/ /g, "_")]] + "_" + String(countWorkflows);
 							}
 							prevWorkflow = process_id_to_workflow[strain_id + String(countProcesses)];
 

@@ -1427,17 +1427,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		var real_pi_name = pipelines_applied[strain_names[strain_name]][p].split('</i>')[1].split('</')[0];
 
-			        		console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status, pipelines_applied);
+			        		//console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status, pipelines_applied);
 			        		
 			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1){
 		        				
 		        				dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
 		        				
-		        				console.log(protocols_applied_by_pipeline, protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"'));
+		        				//console.log(protocols_applied_by_pipeline, protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"'));
 
 			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
 			        			
-			        			console.log(protocols_in_pip);
 			        			protocols_in_pip.shift();
 			        			for(protoc in protocols_in_pip){
 			        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0];

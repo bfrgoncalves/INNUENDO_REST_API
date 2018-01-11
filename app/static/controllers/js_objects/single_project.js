@@ -384,30 +384,30 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
 
+
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "FAILED";
+								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
 								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
 								current_job_status_color[prev_workflow] = status_dict["PD"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "PD";
+								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(is_running || all_status_done < protocols_on_workflow.length && pending_jobs > 0){
 								$('#' + prev_workflow).css({'background-color': status_dict["R"]});
 								current_job_status_color[prev_workflow] = status_dict["R"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "R";
+								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(prev_process_status == "COMPLETED"){
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
-							}
-							else {
-								console.log($('#' + prev_workflow).parent().find(".neutral"));
-								console.log("AQUI!!!!!!");
-								$('#' + prev_workflow).parent().find(".neutral").css({"display":"block"});
+								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 
 							protocols_on_workflow = [];
@@ -1099,7 +1099,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						'<ul class="dropdown-menu" id="'+strain_data[counter]['strainID']+'_'+proc_value+'" style="position:relative;float:right;">'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_workflow_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
 					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_workflow_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>'+
-					'<li style="display:none;" class="neutral '+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
+					'<li style="display:block;" class="neutral '+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
 
 		        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>';
 

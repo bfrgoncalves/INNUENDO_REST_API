@@ -1414,7 +1414,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		var real_pi_name = pipelines_applied[strain_names[strain_name]][p].split('</i>')[1].split('</')[0];
 
-			        		console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status);
+			        		console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status, pipelines_applied);
 			        		
 			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1 && dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
 		        				
@@ -1427,7 +1427,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        			}
 
-			        			dict_strain_names[strain_names[strain_name]][2] += 1;
+			        			//dict_strain_names[strain_names[strain_name]][2] += 1;
 			        		}
 			        		else{
 			        			//Change to count for all protocol processes instead of the workflows

@@ -337,7 +337,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var is_running = false;
 				var pending_jobs = 0;
 				var protocols_on_workflow = [];
-				var prev_workflow = process_id_to_workflow[1];
+				var prev_workflow = process_id_to_workflow[strain_id + String(counter_processes+1)];
 
 				var firstWorkflow = true;
 
@@ -377,7 +377,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(prev_process_status);
 						//console.log(process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow[strain_id + String(counter_processes+1)]);
 						console.log("ENTER?", process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow);
-						if (process_id_to_workflow[strain_id + String(counter_processes)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes)] || response.data.length == counter_processes){
+						if (process_id_to_workflow[strain_id + String(counter_processes+1)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes+1)] || response.data.length == counter_processes){
 
 							console.log("AQUI", prev_workflow, prev_process_status);
 

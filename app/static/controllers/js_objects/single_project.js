@@ -396,6 +396,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							else if(prev_process_status == "COMPLETED"){
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
+								console.log(buttons_to_tasks, prev_workflow, dict_of_tasks_status);
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
 							}
 

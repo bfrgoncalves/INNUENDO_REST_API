@@ -372,9 +372,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						else prev_process_status = status;
 
-						console.log(process_id_to_workflow[strain_id + String(counter_processes+1)], prev_workflow);
+						console.log(process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow[strain_id + String(counter_processes+1)]);
 						
-						if (process_id_to_workflow[strain_id + String(counter_processes+1)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes+1)] || response.data.length - 1 == n){
+						if (process_id_to_workflow[strain_id + String(counter_processes)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes)] || response.data.length - 1 == n){
 
 							console.log("AQUI", prev_workflow);
 
@@ -409,7 +409,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 
 
-						prev_workflow = process_id_to_workflow[strain_id + String(counter_processes+1)];
+						prev_workflow = process_id_to_workflow[strain_id + String(counter_processes)];
 
 					}
 					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);

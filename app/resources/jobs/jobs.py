@@ -148,6 +148,8 @@ class Job_queue(Resource):
 		protocol_ids = args.protocol_ids.split(',')
 		process_ids = args.process_id.split(',')
 		strain_id = args.strain_id
+		processes_to_run = args.processes_to_run.split(',')
+
 		data = []
 		to_send = []
 
@@ -168,7 +170,7 @@ class Job_queue(Resource):
 					files[x] = metadata[x]
 
 			if 'used Parameter' in steps:
-				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter]})
+				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter], 'process_to_run': processes_to_run[counter]})
 			else:
 				to_send.append("null")
 			counter += 1

@@ -460,6 +460,9 @@ function Objects_Utils(){
 	                    if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0){
 	                    	pipelines_applied[strain_name].push(buttonselectedPipeline);
 	                    	protocols_applied[strain_name].push(protocol_buttons);
+	                    	if(!protocols_applied_by_pipeline[strain_name].hasOwnProperty(pipelinesByID[workflow_id])){
+	                    		protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]] = [];
+	                    	}
 	                    	protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]].push(protocol_buttons);
 	                    }
 	                    

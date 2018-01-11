@@ -242,9 +242,10 @@ class Job_queue(Resource):
 					#sys.stdout.write("FAILED")
 			except Exception as e:
 				final_status = "NEUTRAL"
+				print e
 				#sys.stdout.write("NEUTRAL")
 
-
+			print final_status
 			stdout = job_id + '\t' + final_status
 
 			all_std_out.append(stdout)

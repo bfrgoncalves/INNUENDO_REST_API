@@ -217,6 +217,7 @@ class Job_queue(Resource):
 				jsonResult=parseAgraphQueryRes(result,["statusStr"])
 
 				result.close()
+				print jsonResult
 
 				if "pass" in jsonResult[0]["statusStr"]:
 					#print "STATUS", jsonResult[0]["statusStr"]

@@ -1432,6 +1432,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				
 		        				
 			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
+			        			
+			        			console.log(protocols_in_pip);
 			        			protocols_in_pip.shift();
 			        			for(protoc in protocols_in_pip){
 			        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0]

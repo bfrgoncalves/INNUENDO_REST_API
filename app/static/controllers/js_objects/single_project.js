@@ -1269,7 +1269,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                console.log(x);
 			                
 			                if(buttons_to_tasks[button_n] == undefined){
-			                	buttons_to_tasks[button_n] = "buttonworkflow_" + pipeline_id + "_" + x;
+			                	buttons_to_tasks[button_n] = "buttonworkflow_" + pipeline_id + "_" + String(x+1);
 			                	workflow_ids.push(pipelinesByName[workflowName]);
 			                	counter_steps += 1;
 			                	steps.push(counter_steps);

@@ -670,7 +670,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	               callback(response);
 	        });
 		},
-		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, callback){
+		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, to_run, callback){
 
 			//console.log(protocol_ids, pipeline_id, process_id, strainName);
 
@@ -685,18 +685,19 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	process_id: process_id.join(),
 		        	strain_submitter: strain_submitter,
 		        	current_specie: current_specie,
-		        	sampleName: strainName
+		        	sampleName: strainName,
+		        	process_to_run: to_run.join()
 		    	}
 		    }
 
 		    console.log(req);
 
-		    $http(req).then(function(response){
+		    /*$http(req).then(function(response){
 		            callback(response, strain_name);
 		        },
 		        function(response){
 		            callback(response, strain_name);
-		    });
+		    });*/
 
 		},
 		get_job_status: function(job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, callback){

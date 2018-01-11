@@ -1414,6 +1414,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        			//Push workflow ID
 	        			dict_strain_names[strain_names[strain_name]].push({});
 
+	        			//Push if process is to run
+	        			dict_strain_names[strain_names[strain_name]].push([]);
+
 	        			count_pipelines_applied = 0;
 
 			        	for(p in pipelines_applied[strain_names[strain_name]]){
@@ -1423,23 +1426,35 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status, pipelines_applied);
 			        		
-			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1 && dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
+			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1){
 		        				
 		        				dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
+		        				
+		        				
 			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
 			        			protocols_in_pip.shift();
 			        			for(protoc in protocols_in_pip){
 			        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0]
 			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1]
 			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
+
+			        				//Add to array the processes that should not run
+			        				if (dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
+			        					dict_strain_names[strain_names[strain_name]][9].push(false);
+			        				}
+			        				else {
+			        					dict_strain_names[strain_names[strain_name]][9].push(true);
+			        				}
 			        			}
 
 			        			//dict_strain_names[strain_names[strain_name]][2] += 1;
 			        		}
 			        		else{
 			        			//Change to count for all protocol processes instead of the workflows
+
 			        			dict_strain_names[strain_names[strain_name]][2]+=1;
 			        			dict_strain_names[strain_names[strain_name]][7] += 1;
+
 			        		}
 
 			        		console.log(dict_strain_names[strain_names[strain_name]][1]);
@@ -1474,7 +1489,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					        			//Run the job
 					        			console.log("RUN JOB");
-					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], function(response, strain_name){
+					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], dict_strain_names[strain_names[strain_name]][9], function(response, strain_name){
 					        				
 					        				task_ids = [];
 					        				task_ids_to_map = [];
@@ -1900,7 +1915,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				        strain_data[index]['Analysis'] = toAdd_analysis;
 
 						clearInterval(intervals_running[strainName_to_tids[strain_names[index]]]);
-						console.log(protocols_on_button, sp_name);
+
 						for(protocol in protocols_on_button[sp_name]){
 							delete current_job_status_color[protocols_on_button[sp_name][protocol]];
 							delete tasks_to_buttons[buttons_to_tasks[protocols_on_button[sp_name][protocol]]];

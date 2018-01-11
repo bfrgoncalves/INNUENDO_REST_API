@@ -348,6 +348,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						counter_processes += 1;
 						task_id = response.data[n][0];
 						status = response.data[n][1];
+						var res_pos = n;
 						if (task_id == "null") return;
 
 						protocols_on_workflow.push(tasks_to_buttons[task_id]);
@@ -376,12 +377,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(prev_process_status);
 						//console.log(process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow[strain_id + String(counter_processes+1)]);
 						
-						if (process_id_to_workflow[strain_id + String(counter_processes)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes)] || response.data.length - 1 == n){
+						if (process_id_to_workflow[strain_id + String(counter_processes)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes)] || response.data.length - 1 == res_pos){
 
 							console.log("AQUI", prev_workflow, prev_process_status);
 
-							if(response.data.length - 1 == n){
-								console.log("ENTROU", response.data.length - 1, n);
+							if(response.data.length - 1 == res_pos){
+								console.log("ENTROU", response.data.length - 1, res_pos);
 								prev_workflow = process_id_to_workflow[strain_id + String(counter_processes)];
 							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;

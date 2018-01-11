@@ -1370,8 +1370,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	var count_processes = 0;
 			        	var has_completed = false;
 			        	for(x in pipelines_applied[strain_names[i]]){
-			        		console.log(workflowname_to_protocols, pipelines_applied[strain_names[i]][x]);
-			        		count_processes += 1;
+			        		console.log(workflowname_to_protocols, pipelines_applied[strain_names[i]][x].split("</i>")[1].split("</button>")[0]);
+			        		for(p in workflowname_to_protocols[pipelines_applied[strain_names[i]][x].split("</i>")[1].split("</button>")[0]]){
+			        			count_processes += 1;
+			        			console.log("AQUI");
+			        		}
 			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
 			        		console.log(dict_of_tasks_status[buttons_to_tasks[pip_name]], dict_of_tasks_status, buttons_to_tasks, pip_name);
 			        		if((dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING")){

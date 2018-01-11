@@ -460,7 +460,7 @@ function Objects_Utils(){
 	                    if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0){
 	                    	pipelines_applied[strain_name].push(buttonselectedPipeline);
 	                    	protocols_applied[strain_name].push(protocol_buttons);
-	                    	protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]] = protocol_buttons;
+	                    	protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]].push(protocol_buttons);
 	                    }
 	                    
 	                    for(j in pipelines_applied[strain_name]){

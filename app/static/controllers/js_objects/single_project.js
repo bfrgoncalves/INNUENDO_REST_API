@@ -380,7 +380,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 							console.log("AQUI", prev_workflow, prev_process_status);
 
-							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[strain_id + String(counter_processes)];
+							if(response.data.length - 1 == n){
+								console.log("ENTROU", response.data.length - 1, n);
+								prev_workflow = process_id_to_workflow[strain_id + String(counter_processes)];
+							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
 
 							if(has_failed){

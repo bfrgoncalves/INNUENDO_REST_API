@@ -1,7 +1,8 @@
-from app import app, db
+from app import app, db, dbconAg,dedicateddbconAg
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask_security import current_user
 from flask import jsonify, send_file, request
+from app.utils.queryParse2Json import parseAgraphStatementsRes,parseAgraphQueryRes
 
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
@@ -10,6 +11,11 @@ from rq import Queue #Queue
 from redis import Redis
 
 from config import CURRENT_ROOT, JOBS_ROOT, OUTPUT_URL
+from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
+from franz.openrdf.vocabulary.rdf import RDF
+from franz.openrdf.vocabulary.xmlschema import XMLSchema
+from franz.openrdf.query.query import QueryLanguage
+from franz.openrdf.model import URI
 
 from app.models.models import Protocol
 from app.models.models import Strain
@@ -197,13 +203,49 @@ class Job_queue(Resource):
 			results = [[],[]]
 			store_in_db = False
 
-			print '--project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
-			commands = 'python job_processing/get_program_input.py --project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
-			proc1 = subprocess.Popen(commands.split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-			stdout, stderr = proc1.communicate()
-			print stdout, stderr
+			final_status = ""
 
-			stdout = job_id + '\t' + stdout
+			print '--project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
+
+			try:
+				procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(args.process_id)
+				queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
+
+				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+				result = tupleQuery.evaluate()
+				
+				jsonResult=parseAgraphQueryRes(result,["statusStr"])
+
+				result.close()
+
+				if "pass" in jsonResult[0]["statusStr"]:
+					#print "STATUS", jsonResult[0]["statusStr"]
+					final_status = "COMPLETED"
+					#sys.stdout.write("COMPLETED")
+				elif "None" in jsonResult[0]["statusStr"]:
+					final_status = "PD"
+					#sys.stdout.write("PD")
+				elif "running" in jsonResult[0]["statusStr"]:
+					final_status = "R"
+					#sys.stdout.write("R")
+				elif "pending" in jsonResult[0]["statusStr"]:
+					final_status = "PD"
+					#sys.stdout.write("PD")
+				elif "warning" in jsonResult[0]["statusStr"]:
+					final_status = "WARNING"
+					#sys.stdout.write("WARNING")
+				elif "fail" in jsonResult[0]["statusStr"]:
+					final_status = "FAILED"
+					#sys.stdout.write("FAILED")
+				elif "error" in jsonResult[0]["statusStr"]:
+					final_status = "FAILED"
+					#sys.stdout.write("FAILED")
+			except Exception as e:
+				final_status = "NEUTRAL"
+				#sys.stdout.write("NEUTRAL")
+
+
+			stdout = job_id + '\t' + final_status
 
 			all_std_out.append(stdout)
 			store_jobs_in_db.append(store_in_db)

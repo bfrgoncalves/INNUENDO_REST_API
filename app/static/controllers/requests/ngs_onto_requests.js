@@ -256,11 +256,11 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
             	for(x in response.data){
             		console.log(response.data[x]);
             	}
-               //callback(response, strain_name);
+               callback(response, strain_name);
             },
             function(response){
             	console.log(response);
-               //callback(response, strain_name);
+                callback(response, strain_name);
             });
 	    },
 	    ngs_onto_request_get_processes: function(pipeline_id, project_id, callback){

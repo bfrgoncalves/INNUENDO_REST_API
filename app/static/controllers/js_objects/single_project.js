@@ -1299,6 +1299,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				                			});
 			                			}
 			                			if(pipelines_type_by_strain[strain_id_to_name[strain_id]][3] != undefined) pipelines_type_by_strain[strain_id_to_name[strain_id]][3] = undefined;
+			                			
+			                			console.log(workflow_ids, steps);
 			                			ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
 						                	if(response.status == 200){
 						                	}
@@ -1313,6 +1315,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                		});
 			                	}
 			                	else{
+			                		console.log(workflow_ids, steps);
 			                		ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
 					                	if(response.status == 200){
 					                	}

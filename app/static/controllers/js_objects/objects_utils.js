@@ -163,7 +163,6 @@ function Objects_Utils(){
 				    	$('#'+table_id+' tbody').find("tr.selected td button.analysis-control").trigger("click");
 					    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 					    $('.child_row').css({"background-color":"#eeffff"});
-					    show_all_analysis();
 
 				    }, 50)
 				    
@@ -244,6 +243,7 @@ function Objects_Utils(){
 		            for(x in current_job_status_color){
 		            	console.log(current_job_status_color[x]);
 		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
+		            	$('#' + x.replace(/ /g, "_")).parent().find(".neutral").css({"display":"none"});
 		            }
 		            $('.child_row').css({"background-color":"#eeffff"});
 

@@ -1413,6 +1413,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
 
 			        		var real_pi_name = pipelines_applied[strain_names[strain_name]][p].split('</i>')[1].split('</')[0];
+
+			        		console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status);
 			        		
 			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1 && dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
 		        				
@@ -1424,7 +1426,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1]
 			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        			}
-			        			
+
 			        			dict_strain_names[strain_names[strain_name]][2] += 1;
 			        		}
 			        		else{

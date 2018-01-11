@@ -408,6 +408,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
 								console.log($('#' + prev_workflow).parent().find(".neutral"));
+								console.log($('#' + prev_workflow).parent());
+								console.log($('#' + prev_workflow));
 								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 

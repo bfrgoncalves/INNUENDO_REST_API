@@ -326,6 +326,8 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
                 }
             }
 
+            console.log(req);
+
             //console.log(processes_ids);
 
             $http(req).then(function(response){

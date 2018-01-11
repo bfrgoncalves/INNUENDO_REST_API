@@ -1414,23 +1414,26 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		var real_pi_name = pipelines_applied[strain_names[strain_name]][p].split('</i>')[1].split('</')[0];
 			        		
-			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1){
-			        			if(dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
-			        				dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
-				        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
-				        			protocols_in_pip.shift();
-				        			for(protoc in protocols_in_pip){
-				        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0]
-				        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1]
-				        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
-				        			}
+			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1 && dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
+		        				
+		        				dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
+			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
+			        			protocols_in_pip.shift();
+			        			for(protoc in protocols_in_pip){
+			        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0]
+			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1]
+			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        			}
+			        			
+			        			dict_strain_names[strain_names[strain_name]][2] += 1;
 			        		}
 			        		else{
 			        			//Change to count for all protocol processes instead of the workflows
 			        			dict_strain_names[strain_names[strain_name]][2]+=1;
 			        			dict_strain_names[strain_names[strain_name]][7] += 1;
 			        		}
+
+			        		console.log(dict_strain_names[strain_names[strain_name]][1]);
 
 
 		        			while(dict_strain_names[strain_names[strain_name]][1].length != 0){

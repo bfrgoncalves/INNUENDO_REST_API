@@ -374,15 +374,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						else prev_process_status = status;
 
-						console.log(prev_process_status);
+						//console.log(prev_process_status);
 						//console.log(process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow[strain_id + String(counter_processes+1)]);
-						console.log("ENTER?", process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow);
+						//console.log("ENTER?", process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow);
 						if (process_id_to_workflow[strain_id + String(counter_processes+1)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes+1)] || response.data.length == counter_processes){
 
-							console.log("AQUI", prev_workflow, prev_process_status);
-
 							if(response.data.length == counter_processes){
-								console.log("ENTROU", response.data.length, counter_processes);
 								prev_workflow = process_id_to_workflow[strain_id + String(counter_processes)];
 							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
@@ -403,7 +400,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "R";
 							}
 							else if(prev_process_status == "COMPLETED"){
-								console.log(prev_workflow);
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";

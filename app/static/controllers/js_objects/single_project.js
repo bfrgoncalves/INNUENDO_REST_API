@@ -1442,7 +1442,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 
 			        				//Add to array the processes that should not run
-			        				if (dict_of_tasks_status[buttons_to_tasks[pi_name]] != "COMPLETED"){
+			        				if (dict_of_tasks_status[buttons_to_tasks[pi_name]] == "COMPLETED"){
 			        					dict_strain_names[strain_names[strain_name]][9].push(false);
 			        				}
 			        				else {

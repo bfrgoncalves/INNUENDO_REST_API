@@ -371,7 +371,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						else prev_process_status = status;
 
 						console.log(strain_id, process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow, process_id_to_workflow[strain_id + counter_processes+1], response.data.length - 1, n);
-						if (process_id_to_workflow[strain_id + String(counter_processes+1)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes+1)] || response.data.length - 1 == n){
+						if (process_id_to_workflow[strain_id + String(counter_processes)] != undefined && prev_workflow != process_id_to_workflow[String(counter_processes)] || response.data.length - 1 == n){
 
 							if(response.data.length - 1 == n) prev_workflow = process_id_to_workflow[strain_id+ counter_processes];
 							protocols_on_button[prev_workflow] = protocols_on_workflow;

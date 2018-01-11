@@ -1640,13 +1640,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							countstrains += 1;
 							processed_proc[strain_id] += 1;
 
-							console.log(process_id_to_workflow, countProcesses);
-							if(prevWorkflow != process_id_to_workflow[countProcesses]){
+							console.log(process_id_to_workflow, countProcesses, strain_id_to_name, strain_id);
+							if(prevWorkflow != process_id_to_workflow[strain_id_to_name[strain_id] + String(countProcesses)]){
 								countWorkflows += 1;
 								console.log(strainID_pipeline, strain_id.replace(/ /g, "_"));
 								buttons_to_tasks[strain_id.replace(/ /g, "_") + '_workflow_' + String(countWorkflows) + '_' + CURRENT_PROJECT_ID] = "buttonworkflow_" + strainID_pipeline[strain_id.replace(/ /g, "_")] + "_" + countWorkflows;
 							}
-							prevWorkflow = process_id_to_workflow[countProcesses];
+							prevWorkflow = process_id_to_workflow[strain_id_to_name[strain_id] + String(countProcesses)];
 							console.log(buttons_to_tasks);
 
 						}

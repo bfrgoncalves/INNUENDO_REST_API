@@ -343,6 +343,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				if(response.data != false){
 					all_status_done = 0;
+					console.log(response.data);
 					for(n in response.data){
 						counter_processes += 1;
 						task_id = response.data[n][0];

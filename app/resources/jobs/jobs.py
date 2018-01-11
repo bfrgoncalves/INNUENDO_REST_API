@@ -42,6 +42,7 @@ job_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=T
 job_post_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline identifier")
 job_post_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_post_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
+job_post_parser.add_argument('processes_to_run', dest='processes_to_run', type=str, required=True, help="processes_to_run")
 job_post_parser.add_argument('strain_submitter', dest='strain_submitter', type=str, required=True, help="strain_submitter id")
 job_post_parser.add_argument('current_specie', dest='current_specie', type=str, required=True, help="current specie")
 job_post_parser.add_argument('sampleName', dest='sampleName', type=str, required=True, help="Sample Name")
@@ -212,7 +213,7 @@ class Job_queue(Resource):
 				queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
 
 				print queryString
-				
+
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				

@@ -177,7 +177,7 @@ class Job_queue(Resource):
 
 		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
 		to_send.append(request.json()['jobID'])
-
+		print to_send
 		return to_send, 200
 
 	def get(self):

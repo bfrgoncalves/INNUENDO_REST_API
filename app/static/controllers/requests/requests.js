@@ -854,7 +854,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        function(response){
 		            callback(response);
 		    });
-		}
+		},
 
 		//////////////////////////// SEND TO PHYLOVIZ ////////////////////////////////////////
 		/*send_to_phyloviz: function(profile_data, metadata, callback){

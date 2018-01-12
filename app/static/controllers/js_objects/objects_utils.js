@@ -242,7 +242,7 @@ function Objects_Utils(){
 
 		            for(x in current_job_status_color){
 		            	$('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
-		            	$('#' + x.replace(/ /g, "_")).parent().find(".neutral").css({"display":"none"});
+		            	//$('#' + x.replace(/ /g, "_")).parent().find(".neutral").css({"display":"none"});
 		            }
 		            $('.child_row').css({"background-color":"#eeffff"});
 

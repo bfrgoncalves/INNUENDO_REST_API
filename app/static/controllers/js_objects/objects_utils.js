@@ -259,7 +259,6 @@ function Objects_Utils(){
 
 	        $("#modalNextflowLogs").modal("show");
 
-	        setTimeout(function(){
 	        	console.log(String(strainID_pipeline[strains_dict[closest_strain.html()]]));
 	        	console.log(closest_strain.html());
 	        	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
@@ -271,7 +270,6 @@ function Objects_Utils(){
 						$(href).html("<pre>"+response.data.content+"</pre>");
 					});
 				});
-	        }, 100);
 	        
 	    } );
 

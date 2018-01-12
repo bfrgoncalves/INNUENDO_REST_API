@@ -262,9 +262,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			print replacedProcesses, len(listOrderedProcessTypes), addedProcesses
 
 			#Case rerun
-			#while replacedProcesses < len(listOrderedProcessTypes):
-			#	processID += 1
-			#	processes_ids.append(processid)
+			while replacedProcesses < len(listOrderedProcessTypes):
+				processID += 1
+				processes_ids.append(processid)
 
 			#Case new run
 			while addedProcesses < len(listOrderedProcessTypes):

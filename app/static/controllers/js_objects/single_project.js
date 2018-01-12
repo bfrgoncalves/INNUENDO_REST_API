@@ -1534,7 +1534,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        					}
 					        					else{
 					        						task_ids = response.data[l].task_ids;
-					        						pipelinesToNextflowLogs[pipelines_id] = {"gen_stdout":response.data[l].gen_stdout, "path_nextflow_log": response.data[l].path_nextflow_log, "subproc_id": subproc_id}
+					        						pipelinesToNextflowLogs[pipeline_id] = {"gen_stdout":response.data[l].gen_stdout, "path_nextflow_log": response.data[l].path_nextflow_log, "subproc_id": subproc_id}
 
 					        						for(s in task_ids){
 					        							countTasks++;

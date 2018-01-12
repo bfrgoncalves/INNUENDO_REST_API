@@ -354,7 +354,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						protocols_on_workflow.push(tasks_to_buttons[task_id]);
 
-						console.log(task_id, status, dict_of_tasks_status, tasks_to_buttons);
+						console.log(task_id, status, dict_of_tasks_status, tasks_to_buttons, process_id_to_workflow);
 						
 						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 						dict_of_tasks_status[task_id] = status;

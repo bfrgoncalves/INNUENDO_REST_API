@@ -210,34 +210,21 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 
 
-		if ppipid == rpipid:
-			#print procJsonResult
-			#print "TESTTTTT"
-			#print ppipid, rpipid
-			for proc_json in procJsonResult:
-				print proc_json
-				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
-					print "PASSOU AQUI"
-					#print proc_json["StrProc"]
 
+		'''if ppipid == rpipid:
+			for proc_json in procJsonResult:
+				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 					todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
-					#print todelUri
-					"""statements = dbconAg.getStatements(todelUri, None, None)
-					jsonResult=parseAgraphStatementsRes(statements)
-					statements.close()
-					print jsonResult"""
 
 					hasOutputRel=dbconAg.createURI(namespace=obo, localname="RO_0002234")
 					statements = dbconAg.getStatements(todelUri, hasOutputRel, None)
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
 
-					#print jsonResult
 					todelUri2=jsonResult[0]["obj"]
 					todelUri2 = dbconAg.createURI(todelUri2)
 					dbconAg.remove(todelUri2, None,None)
 
-					#todelUri = dbconAg.createURI(proc_json["StrProc"])
 					dbconAg.remove(todelUri, None,None)
 					dbconAg.remove(None, None, todelUri)
 
@@ -245,62 +232,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
 
-					numberOfProcesses -= 1
+					numberOfProcesses -= 1'''
 
-
-			'''print ppropid, ppipid, pprocid
-			print '##############################'
-			print parentProcessURI
-			#get output URI from process
-			hasOutput = dbconAg.createURI(namespace=obo, localname="RO_0002234")
-			statements = dbconAg.getStatements(parentProcessURI, hasOutput, None)
-			outputURI=parseAgraphStatementsRes(statements)
-			statements.close()
-
-			newProcType=listOrderedProcessTypes[numberOfProcesses]
-
-			# get specific process input type and uri
-			queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+newProcType+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002233>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(ppipid)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
-			print queryString
-			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
-			result4 = tupleQuery.evaluate()
-			print result4
-			jsonResult2=parseAgraphQueryRes(result4,["messageURI"])
-			result4.close()
-			
-			print '#####PASSOU POR ALI###########'
-			print jsonResult2
-			#print protocolsTypes
-			for results in jsonResult2:
-				outputURI=results["messageURI"].replace('"', '')
-				#outputURI="<"+outputURI+">"
-
-			print '#####PASSOU POR AQUI###########'
-			print outputURI
-				
-
-			"""print outputURI
-			#print outputURI[0]
-			outputURI = dbconAg.createURI(outputURI[0]['obj'])
-			print outputURI"""'''
-		print numberOfProcesses, listOrderedProcessTypes
-		
-		"""if numberOfProcesses >= len(listOrderedProcessTypes):
-			queryString = "SELECT ?pid ?Index  WHERE {<"+pipelineStr+"> obo:BFO_0000051 ?pid. ?pid obo:NGS_0000081 ?Index.} ORDER BY ASC(?Index)"
-			#print queryString
-			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
-			result = tupleQuery.evaluate()
-			jsonResult2=parseAgraphQueryRes(result,["pid"])
-			#print jsonResult2
-			processes_ids = []
-			for x in jsonResult2:
-				string_p = x['pid']
-				processes_ids.append(string_p.split('/')[-1].split('>')[0])
-
-			print "################BAH"
-			print processes_ids
-
-			return processes_ids, 200"""
 		
 		try:
 			addedProcesses=numberOfProcesses
@@ -314,16 +247,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				strainTypeURI=dbconAg.createURI('http://rdf.ebi.ac.uk/terms/biosd/Sample')
 				dbconAg.add(prevMessageURI, RDF.TYPE, strainTypeURI)
 
-			"""else:
-				prevMessageURI = dbconAg.createURI(outputURI)"""
-			#prevMessageURI = dbconAg.createURI(namespace=localNSpace+"studies/", localname=str(id2)+"/pipelines/pipeline_"+str(id3)+"/messages/message"+str(2))
 			processes_ids = []
-			#print len(listOrderedProcessTypes), addedProcesses
-			#print messageid
 			processid=addedProcesses
-			print listOrderedProcessTypes
-			print listOrderedProtocolsURI
-			print listOrderedMessageTypes
+
 
 			while addedProcesses < len(listOrderedProcessTypes):
 				processid+=1

@@ -71,7 +71,7 @@ job_classify_chewbbaca_post_parser = reqparse.RequestParser()
 job_classify_chewbbaca_post_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="Job ID")
 job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to include")
 
-
+nextflow_logs_get_parser = reqparse.RequestParser()
 nextflow_logs_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="pipeline_id")
 nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str, required=True, help="filename")
 

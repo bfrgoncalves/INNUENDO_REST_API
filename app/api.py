@@ -18,7 +18,7 @@ from resources.ngs_onto.ngs_onto_workflows import NGSOnto_WorkflowListPipelineRe
 from resources.ngs_onto.ngs_onto_pipelines import NGSOnto_PipelineListProjectResource
 from resources.ngs_onto.ngs_onto_strains import NGSOnto_StrainsListUserResource
 from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, NGSOnto_ProcessJobID, NGSOnto_ProcessOutputResource
-from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download, Job_classify_chewbbaca, Job_Result_Download_click, Job_Reports, NextflowLogs
+from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download, Job_classify_chewbbaca, Job_Result_Download_click, Job_Reports, NextflowLogs, Job_Report_Download_click
 from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, TreeUserResource
 from resources.file_resources.file_resources import TemplateResource
 
@@ -76,6 +76,7 @@ api.add_resource(Job_Reports, '/api/v1.0/jobs/report/')
 api.add_resource(Job_results, '/api/v1.0/jobs/results/')
 api.add_resource(Job_Result_Download, '/api/v1.0/jobs/results/download/')
 api.add_resource(Job_Result_Download_click, '/api/v1.0/jobs/results/download/click/')
+api.add_resource(Job_Report_Download_click, '/api/v1.0/jobs/reports/download/')
 api.add_resource(NextflowLogs, '/api/v1.0/jobs/logs/nextflow/')
 
 api.add_resource(Job_classify_chewbbaca, '/api/v1.0/jobs/classify/')

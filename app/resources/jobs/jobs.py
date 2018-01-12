@@ -350,6 +350,23 @@ class Job_Result_Download_click(Resource):
 			#self.Error(400)
 			return 404
 
+#Load job results to display on graphical interface
+class Job_Report_Download_click(Resource):
+
+	def get(self):
+		args = job_download_results_get_parser.parse_args()
+		try:
+			local_filename = args.file_path
+			response = send_file(local_filename, as_attachment=True)
+			response.headers.add('Access-Control-Allow-Origin', '*')
+			response.headers.add('Content-Type', 'application/force-download')
+			#os.remove(local_filename)
+			return response
+		except Exception as e:
+			print e
+			#self.Error(400)
+			return 404
+
 
 class NextflowLogs(Resource):
 	

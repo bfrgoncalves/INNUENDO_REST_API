@@ -239,7 +239,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			if(response.status == 200){
 				//For each pipeline applied on that strain, checks if the project associated is the CURRENT_PROJECT_ID
 				for(x in response.data){
-					console.log(response.data[x]);
 					if(response.data[x].project_id == CURRENT_PROJECT_ID && response.data[x].removed != 'true'){
 						new_pipeline_id = response.data[x].id;						
 						callback(strainid, response.data[x].id);
@@ -388,13 +387,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						//console.log(process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow[strain_id + String(counter_processes+1)]);
 						//console.log("ENTER?", process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow);
 						var protocol_pos = tasks_to_buttons[task_id].split("_").splice(-2)[0];
-						console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)], prev_workflow, response.data.length, counter_processes);
+						//console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)], prev_workflow, response.data.length, counter_processes);
 
-						console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined);
-						console.log(prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]);
-						console.log(response.data.length === counter_processes);
-						console.log(prev_workflow);
-						console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)])
+						//console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined);
+						//console.log(prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]);
+						//console.log(response.data.length === counter_processes);
+						//console.log(prev_workflow);
+						//console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)])
 						
 						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)]) || response.data.length === counter_processes){
 
@@ -410,7 +409,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
-								console.log("ALL PENDING");
 								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
 								current_job_status_color[prev_workflow] = status_dict["PD"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "PD";
@@ -428,7 +426,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
 								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
-							console.log("ENTROU");
 							protocols_on_workflow = [];
 							has_failed = false;
 							pending_jobs = 0;

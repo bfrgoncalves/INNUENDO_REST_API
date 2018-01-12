@@ -208,10 +208,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 			parentProcessURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(ppropid)+"/pipelines/"+str(ppipid)+"/processes/"+str(pprocid))
 
+		alreadyThere = []
 
-
-
-		'''if ppipid == rpipid:
+		if ppipid == rpipid:
 			for proc_json in procJsonResult:
 				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 					todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
@@ -232,14 +231,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
 
-					numberOfProcesses -= 1'''
-
-		replacedProcesses = numberOfProcesses
-
-		if ppipid == rpipid:
-			for proc_json in procJsonResult:
-				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
-					replacedProcesses -= 1
+					alreadyThere.append(numberOfProcesses)
+					
+					numberOfProcesses -= 1
 
 		
 		try:
@@ -257,15 +251,6 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			processes_ids = []
 			processid=addedProcesses
 
-			processID = replacedProcesses
-
-			print replacedProcesses, len(listOrderedProcessTypes), addedProcesses
-
-			#Case rerun
-			while replacedProcesses < len(listOrderedProcessTypes):
-				processID += 1
-				replacedProcesses += 1
-				processes_ids.append(processid)
 
 			#Case new run
 			while addedProcesses < len(listOrderedProcessTypes):
@@ -292,18 +277,20 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				for results in jsonResult2:
 					prevMessageURI=dbconAg.createURI(results["messageURI"].replace('"', ''))
 				
-				#add process and link to pipeline
-				dbconAg.add(processURI, RDF.TYPE, processTypeURI)
-				dbconAg.add(pipelineURI, hasPart, processURI)
-				stmt1 = dbconAg.createStatement(processURI, indexProp, indexInt)
-				dbconAg.add(stmt1)
-				
-				#create output and input/output link messages to process
-				dbconAg.add(messageURI, RDF.TYPE, messageTypeURI)
-				dbconAg.add(processURI, hasOutputRel, messageURI)
-				print "PROTOCOL TYPES", protocolTypeURI, listOrderedProtocolsURI
-				dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
-				dbconAg.add(processURI, hasInputRel, prevMessageURI)
+
+				if processid in alreadyThere:
+					#add process and link to pipeline
+					dbconAg.add(processURI, RDF.TYPE, processTypeURI)
+					dbconAg.add(pipelineURI, hasPart, processURI)
+					stmt1 = dbconAg.createStatement(processURI, indexProp, indexInt)
+					dbconAg.add(stmt1)
+					
+					#create output and input/output link messages to process
+					dbconAg.add(messageURI, RDF.TYPE, messageTypeURI)
+					dbconAg.add(processURI, hasOutputRel, messageURI)
+					print "PROTOCOL TYPES", protocolTypeURI, listOrderedProtocolsURI
+					dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
+					dbconAg.add(processURI, hasInputRel, prevMessageURI)
 				
 				#prevMessageURI=messageURI
 				addedProcesses+=1

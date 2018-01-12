@@ -961,6 +961,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		*/
 		getNextflowLog: function(filename, pipeline_id, callback){
 			console.log(filename);
+			console.log(pipeline_id);
 			pg_requests.get_nextflow_log(filename, pipeline_id, function(response){
 				callback(response);
 			});

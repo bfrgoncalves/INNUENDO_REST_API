@@ -389,6 +389,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
 
+							console.log(status, pending_jobs, protocols_on_workflow, protocols_on_workflow.length);
 
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});

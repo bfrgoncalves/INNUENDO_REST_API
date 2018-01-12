@@ -70,6 +70,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var workflowname_to_protocols = {};
     var strainNames_to_pipelinesNames = {};
     var pipelinesAndDependency = {};
+    var pipelinesToNextflowLogs = {};
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     var ngs_onto_requests = new ngs_onto_client(CURRENT_PROJECT_ID, $http);
     var objects_utils = new Objects_Utils();
@@ -1511,7 +1512,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					        			//Run the job
 					        			console.log("RUN JOB");
-					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], dict_strain_names[strain_names[strain_name]][9], function(response, strain_name){
+					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], dict_strain_names[strain_names[strain_name]][9], function(response, strain_name, pipeline_id){
 					        				
 					        				task_ids = [];
 					        				task_ids_to_map = [];
@@ -1533,6 +1534,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        					}
 					        					else{
 					        						task_ids = response.data[l].task_ids;
+					        						pipelinesToNextflowLogs[pipelines_id] = {"gen_stdout":response.data[l].gen_stdout, "path_nextflow_log": response.data[l].path_nextflow_log, "subproc_id": subproc_id}
+
 					        						for(s in task_ids){
 					        							countTasks++;
 					        							var button_name = dict_strain_names[strain_names[strain_name]][5].shift();
@@ -1546,6 +1549,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							        				});
 					        					}
 					        				}
+
+					        				console.log(pipelinesToNextflowLogs);
 
 
 					        				//Add job id to the process on ngsonto and start checking the job status

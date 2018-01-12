@@ -234,6 +234,13 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 					numberOfProcesses -= 1'''
 
+		replacedProcesses = numberOfProcesses
+
+		if ppipid == rpipid:
+			for proc_json in procJsonResult:
+				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
+					replacedProcesses -= 1
+
 		
 		try:
 			addedProcesses=numberOfProcesses
@@ -250,7 +257,14 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			processes_ids = []
 			processid=addedProcesses
 
+			processID = replacedProcesses
 
+			#Case rerun
+			while replacedProcesses < len(listOrderedProcessTypes):
+				processID += 1
+				processes_ids.append(processid)
+
+			#Case new run
 			while addedProcesses < len(listOrderedProcessTypes):
 				processid+=1
 				messageid+=1

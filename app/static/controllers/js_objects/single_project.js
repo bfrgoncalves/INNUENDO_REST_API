@@ -416,7 +416,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
 								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
-
+							console.log("ENTROU");
 							protocols_on_workflow = [];
 							has_failed = false;
 							pending_jobs = 0;

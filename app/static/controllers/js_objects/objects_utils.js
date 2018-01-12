@@ -189,6 +189,7 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody').off('click', 'button.details-control');
 	    $('#'+table_id+' tbody').off('click', 'button.analysis-control');
 	    $('#'+table_id+' tbody').off('click', 'button.workflows_child');
+	    $('#'+table_id+' tbody').off('click', 'button.info-control');
 	    $('#'+table_id+' tbody').off('mouseenter', 'button.workflows_child');
 	    $('#'+table_id+' tbody').off('mouseenter', 'button.workflows_child');
 	    $('#'+table_id+' tbody').off('mouseleave', 'button.workflows_child');

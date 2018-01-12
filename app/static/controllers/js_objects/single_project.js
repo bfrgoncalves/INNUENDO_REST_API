@@ -386,6 +386,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined);
 						console.log(prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]);
 						console.log(response.data.length === counter_processes);
+						console.log(prev_workflow);
+						console.log(process_id_to_workflow[String(parseInt(protocol_pos)+1)])
 						
 						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]) || response.data.length === counter_processes){
 
@@ -393,8 +395,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
 							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
-
-							console.log(status, pending_jobs, protocols_on_workflow, protocols_on_workflow.length);
 
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});

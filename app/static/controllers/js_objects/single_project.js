@@ -397,6 +397,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
+								console.log("ALL PENDING");
 								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
 								current_job_status_color[prev_workflow] = status_dict["PD"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "PD";

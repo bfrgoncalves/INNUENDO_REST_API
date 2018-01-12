@@ -180,8 +180,11 @@ class Job_queue(Resource):
 
 					tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 					result = tupleQuery.evaluate()
+
+					print result
 					
 					jsonResult=parseAgraphQueryRes(result,["file_2"])
+					print jsonResult
 
 					job_dir = "/".join(jsonResult[0]["file_2"].split("/")[-3])
 					print job_dir

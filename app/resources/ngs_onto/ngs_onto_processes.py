@@ -264,6 +264,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			#Case rerun
 			while replacedProcesses < len(listOrderedProcessTypes):
 				processID += 1
+				replacedProcesses += 1
 				processes_ids.append(processid)
 
 			#Case new run

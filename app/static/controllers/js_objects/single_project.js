@@ -383,7 +383,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						var protocol_pos = tasks_to_buttons[task_id].split("_").splice(-2)[0];
 						console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)], prev_workflow, response.data.length, counter_processes);
 						
-						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]) || response.data.length === counter_processes){
+						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)])){
 
 							if(response.data.length == counter_processes){
 								prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];

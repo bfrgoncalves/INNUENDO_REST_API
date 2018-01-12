@@ -250,7 +250,7 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	   $('#'+table_id+' tbody').on('click', 'button.info-control' function (e) {
+	   $('#'+table_id+' tbody').on('click', 'button.info-control', function (e) {
 	    	console.log("CLICKED");
 	    	closest_strain = $(e).parent().closest("strain_cell");
 	   		$(".nextflow_logs").attr("pipeline_id", "2");

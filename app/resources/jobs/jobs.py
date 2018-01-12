@@ -169,6 +169,32 @@ class Job_queue(Resource):
 
 			files = {}
 
+
+			try:
+				if processes_to_run[counter] == "true":
+					#Get last run dir and remove if 
+					procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(process_ids[counter])
+					queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
+
+					print queryString
+
+					tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+					result = tupleQuery.evaluate()
+					
+					jsonResult=parseAgraphQueryRes(result,["file_2"])
+
+					job_dir = "/".join(jsonResult[0]["file_2"].split("/")[-3])
+					print job_dir
+
+					#os.remove(job_dir)
+
+
+			except Exception as e:
+				print "No job folder"
+				print e
+
+
+
 			for x in fields['metadata_fields']:
 				if 'File_' in x:
 					files[x] = metadata[x]
@@ -223,7 +249,7 @@ class Job_queue(Resource):
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				
-				jsonResult=parseAgraphQueryRes(result,["statusStr", "file_3", "file_2", "file_1"])
+				jsonResult=parseAgraphQueryRes(result,["statusStr"])
 
 				result.close()
 				print jsonResult

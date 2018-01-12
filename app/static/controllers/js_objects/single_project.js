@@ -70,7 +70,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     var workflowname_to_protocols = {};
     var strainNames_to_pipelinesNames = {};
     var pipelinesAndDependency = {};
-    var pipelinesToNextflowLogs = {};
     var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     var ngs_onto_requests = new ngs_onto_client(CURRENT_PROJECT_ID, $http);
     var objects_utils = new Objects_Utils();
@@ -1534,7 +1533,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        					}
 					        					else{
 					        						task_ids = response.data[l].task_ids;
-					        						pipelinesToNextflowLogs[pipeline_id] = {"gen_stdout":response.data[l].gen_stdout, "path_nextflow_log": response.data[l].path_nextflow_log, "subproc_id": response.data[l].subproc_id}
+					        						//pipelinesToNextflowLogs[pipeline_id] = {"gen_stdout":response.data[l].gen_stdout, "path_nextflow_log": response.data[l].path_nextflow_log, "subproc_id": response.data[l].subproc_id}
 
 					        						for(s in task_ids){
 					        							countTasks++;

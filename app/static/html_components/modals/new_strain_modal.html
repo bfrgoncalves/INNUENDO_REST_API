@@ -174,7 +174,7 @@
     <div class="modal-content">
       <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4>Available Pipelines</h4>
+		<h4>Pipelines Already Submitted</h4>
 	  </div>
       <div class="modal-body">
       	  <div style="height:70%;overflow-x:auto;">
@@ -185,7 +185,7 @@
 				  	  	 <div class="list-group-item">
 				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }}: </label>
 						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
-						  	<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>
+						  	<!--<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>-->
 						  </div>
 				  	  </div>
 				  	  <label>Create a new one:</label>

@@ -259,17 +259,19 @@ function Objects_Utils(){
 
 	        $("#modalNextflowLogs").modal("show");
 
-	        	console.log(String(strainID_pipeline[strains_dict[closest_strain.html()]]));
-	        	console.log(closest_strain.html());
-	        	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
+        	console.log(String(strainID_pipeline[strains_dict[closest_strain.html()]]));
+        	console.log(closest_strain.html());
+        	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
 
-		        $(".nextflow_logs").off("click").on("click", function(e){
-		        	console.log("ENTROU", e);
-		        	var href = $(e.target).attr("href");
-					single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), function(response){
-						$(href).html("<pre>"+response.data.content+"</pre>");
-					});
+	        $(".nextflow_logs").off("click").on("click", function(e){
+	        	console.log("ENTROU", e);
+	        	var href = $(e.target).attr("href");
+				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), function(response){
+					$(href).html("<pre>"+response.data.content+"</pre>");
 				});
+			});
+
+			$("#nextflow_log_li").trigger("click");
 	        
 	    } );
 

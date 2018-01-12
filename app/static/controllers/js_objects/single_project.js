@@ -122,7 +122,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     $('.button.info-control').on('click', function (e) {
     	console.log("CLICKED");
     	closest_strain = $(e).parent().closest("strain_cell");
-   		$(".nextflow_logs").attr("pipeline_id", strainID_pipeline[strains_dict[]]);
+   		$(".nextflow_logs").attr("pipeline_id", "2");
         $("#modalNextflowLogs").modal("show");
     } );
 

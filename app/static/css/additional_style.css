@@ -141,3 +141,7 @@ table.display{
 
 .fa-2x {
   font-size: 2em !important;}
+
+#modalNextflowLogs .modal-dialog {
+  width: 80%;
+}

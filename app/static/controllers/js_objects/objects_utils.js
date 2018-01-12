@@ -268,7 +268,7 @@ function Objects_Utils(){
 	        $(".nextflow_logs").off("click").on("click", function(e){
 	        	console.log("ENTROU", e);
 	        	var href = $(e.target).attr("href");
-				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), function(response){
+				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, function(response){
 					$(href).html("<pre>"+response.data.content+"</pre>");
 				});
 			});

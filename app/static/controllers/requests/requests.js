@@ -836,14 +836,15 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			
 		},
 
-		get_nextflow_log: function(filename, pipeline_id, callback){
+		get_nextflow_log: function(filename, pipeline_id, project_id, callback){
 			req = {
 		        //url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
 		        url: 'api/v1.0/jobs/logs/nextflow/',
 		        method:'GET',
 		        params: {
 		        	filename: filename,
-		        	pipeline_id:pipeline_id
+		        	pipeline_id:pipeline_id,
+		        	project_id:project_id
 		        }
 		    }
 

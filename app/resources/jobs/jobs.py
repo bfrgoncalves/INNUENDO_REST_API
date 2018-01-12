@@ -73,6 +73,7 @@ job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='dat
 
 nextflow_logs_get_parser = reqparse.RequestParser()
 nextflow_logs_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="pipeline_id")
+nextflow_logs_get_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project_id")
 nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str, required=True, help="filename")
 
 database_processor = Queue_Processor()
@@ -373,7 +374,7 @@ class NextflowLogs(Resource):
 	@login_required
 	def get(self):
 		args = nextflow_logs_get_parser.parse_args()
-		file_location = os.path.join(current_user.homedir, "jobs", args.pipeline_id, args.filename)
+		file_location = os.path.join(current_user.homedir, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
 		
 		try:
 			with open(file_location, "r") as file_r:

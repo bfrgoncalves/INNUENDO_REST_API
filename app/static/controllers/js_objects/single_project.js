@@ -341,6 +341,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				var firstWorkflow = true;
 
+
 				if(response.data != false){
 					all_status_done = 0;
 					console.log(response.data);
@@ -352,6 +353,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						if (task_id == "null") return;
 
 						protocols_on_workflow.push(tasks_to_buttons[task_id]);
+
+						console.log(task_id, status, dict_of_tasks_status, tasks_to_buttons);
 						
 						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 						dict_of_tasks_status[task_id] = status;
@@ -407,8 +410,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
-								console.log(prev_workflow);
-								console.log($('#' + prev_workflow));
 								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 

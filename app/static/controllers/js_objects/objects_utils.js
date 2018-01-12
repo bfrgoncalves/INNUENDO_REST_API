@@ -255,13 +255,18 @@ function Objects_Utils(){
 	    	console.log($(e.target).parent().parent().parent().parent());
 	    	closest_strain = $(e.target).parent().parent().parent().parent().find(".strain_cell");
 	    	console.log(closest_strain);
-	   		$(".nextflow_logs").attr("pipeline_id", strainID_pipeline[strains_dict[closest_strain.val()]]);
+
 	        $("#modalNextflowLogs").modal("show");
 
-	        $(".nextflow_logs").off("click").on("click", function(e){
-	        	console.log("ENTROU", e);
-				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).attr("pipeline_id"));
-			});
+	        setTimeout(function(){
+	        	$(".nextflow_logs").attr("pipeline_id", strainID_pipeline[strains_dict[closest_strain.val()]]);
+
+		        $(".nextflow_logs").off("click").on("click", function(e){
+		        	console.log("ENTROU", e);
+					single_project.getNextflowLog($(e.target).attr("name"), $(e.target).attr("pipeline_id"));
+				});
+	        }, 100);
+	        
 	    } );
 
 	   prevWorkflow = [null,null, null];

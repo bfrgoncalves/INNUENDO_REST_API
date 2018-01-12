@@ -263,6 +263,8 @@ function Objects_Utils(){
         	console.log(closest_strain.html());
         	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
 
+        	console.log(strainID_pipeline);
+
 	        $(".nextflow_logs").off("click").on("click", function(e){
 	        	console.log("ENTROU", e);
 	        	var href = $(e.target).attr("href");

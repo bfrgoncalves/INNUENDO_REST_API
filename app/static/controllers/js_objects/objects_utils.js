@@ -255,7 +255,7 @@ function Objects_Utils(){
 	    	console.log($(e.target).parent().parent().parent().parent());
 	    	closest_strain = $(e.target).parent().parent().parent().parent().find(".strain_cell");
 	    	console.log(closest_strain);
-	   		$(".nextflow_logs").attr("pipeline_id", "2");
+	   		$(".nextflow_logs").attr("pipeline_id", strainID_pipeline[strains_dict[closest_strain.val()]]);
 	        $("#modalNextflowLogs").modal("show");
 
 	        $(".nextflow_logs").off("click").on("click", function(e){

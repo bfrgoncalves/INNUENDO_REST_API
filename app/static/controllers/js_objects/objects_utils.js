@@ -265,7 +265,7 @@ function Objects_Utils(){
 		        	console.log("ENTROU", e);
 		        	var href = $(e.target).attr("href");
 					single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), function(response){
-						$(href).html(response.data.content);
+						$(href).html("<pre>"+response.data.content+"</pre>");
 					});
 				});
 	        }, 100);

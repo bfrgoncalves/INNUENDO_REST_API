@@ -253,7 +253,7 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('click', 'button.info-control', function (e) {
 	    	console.log("CLICKED", e);
 	    	console.log($(e.target).parent().parent().parent().parent());
-	    	closest_strain = $(e.target).parent().parent().parent().parent().closest(".strain_cell");
+	    	closest_strain = $(e.target).parent().parent().parent().parent().find(".strain_cell");
 	    	console.log(closest_strain);
 	   		$(".nextflow_logs").attr("pipeline_id", "2");
 	        $("#modalNextflowLogs").modal("show");

@@ -72,6 +72,9 @@ job_classify_chewbbaca_post_parser.add_argument('job_id', dest='job_id', type=st
 job_classify_chewbbaca_post_parser.add_argument('database_to_include', dest='database_to_include', type=str, required=True, help="Database to include")
 
 
+nextflow_logs_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="pipeline_id")
+nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str, required=True, help="filename")
+
 database_processor = Queue_Processor()
 
 #Add job data to db
@@ -346,3 +349,24 @@ class Job_Result_Download_click(Resource):
 			print e
 			#self.Error(400)
 			return 404
+
+
+class NextflowLogs(Resource):
+	
+	@login_required
+	def get(self):
+		args = nextflow_logs_get_parser.parse_args()
+		file_location = os.path.join(current_user.homedir, "jobs", args.pipeline_id, args.filename)
+		
+		try:
+			with open(file_location, "r") as file_r:
+				content = file_r.read()
+		except IOError:
+			content = "file not found"
+
+		return {"content": content}, 200
+		
+
+
+
+

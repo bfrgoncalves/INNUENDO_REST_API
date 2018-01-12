@@ -1,0 +1,33 @@
+<!-- Modal Template-->
+<div id="modalNextflowLogs" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Alert</h4>
+	  </div>
+      <div class="modal-body">
+      	<ul class="nav nav-tabs">
+      	  <li id="nextflow_log_li"><a data-toggle="tab" href="#nextflow_log_div" name="nextflow_log.txt">Nextflow Log</a></li>
+		  <li id="nextflow_gen_li"><a data-toggle="tab" href="#nextflow_gen_div" name="nextflow_generator.log">Nextflow Generator Log</a></li>
+		  <li id="nextflow_config_li"><a data-toggle="tab" href="#nextflow_config_div" name="nextflow.config">Nextflow Config</a></li>
+		  <li id="platform_config_li"><a data-toggle="tab" href="#platform_config_div" name="platform.config">Platform Config</a></li>
+		</ul>
+
+		<div class="tab-content">
+			<div id="nextflow_log_div" class="tab-pane fade in tab-container" style="text-align:left;"></div>
+			<div id="nextflow_gen_div" class="tab-pane fade in tab-container" style="text-align:left;"></div>
+			<div id="nextflow_config_div" class="tab-pane fade in tab-container" style="text-align:left;"></div>
+			<div id="platform_config_div" class="tab-pane fade in tab-container" style="text-align:left;"></div>
+		</div>
+	  </div>
+	  <div class="modal-footer">
+	  	<button id="buttonSub" class="btn btn-md btn-primary">Ok</button>
+	  	<button id="buttonCancelAlert" type="button" data-dismiss="modal" class="btn btn-md btn-default">Cancel</button>
+	  </div>
+	</div>
+
+  </div>
+</div>

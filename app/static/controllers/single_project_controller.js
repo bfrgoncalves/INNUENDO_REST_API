@@ -109,7 +109,7 @@ function set_headers_single_project(global_strains){
 	        "className":      'details-control',
 	        "orderable":      false,
 	        "data":           null,
-	        "defaultContent": '<div><!--<button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>--><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	        "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
 	    });
 		
 	}

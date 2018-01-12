@@ -964,7 +964,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			pg_requests.get_nextflow_log(filename, pipeline_id, function(response){
 				callback(response);
 			});
-		}
+		},
 
 		/*
 	    Get strains without pipeline applied

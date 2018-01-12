@@ -1449,7 +1449,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        			for(protoc in protocols_in_pip){
 			        				protocol_with_button = protocols_in_pip[protoc].split("</button>")[0];
 			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1];
-			        				dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 
 			        				//Add to array the processes that should not run
 			        				if (dict_of_tasks_status[buttons_to_tasks[pi_name]] == "COMPLETED"){
@@ -1457,6 +1456,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				}
 			        				else {
 			        					dict_strain_names[strain_names[strain_name]][9].push(true);
+			        					dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
 			        				}
 			        			}
 

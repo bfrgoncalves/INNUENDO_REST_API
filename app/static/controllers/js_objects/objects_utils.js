@@ -259,7 +259,7 @@ function Objects_Utils(){
 	        $("#modalNextflowLogs").modal("show");
 
 	        setTimeout(function(){
-	        	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.val()]]));
+	        	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
 
 		        $(".nextflow_logs").off("click").on("click", function(e){
 		        	console.log("ENTROU", e);

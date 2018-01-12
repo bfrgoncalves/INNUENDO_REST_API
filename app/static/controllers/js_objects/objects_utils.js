@@ -251,10 +251,16 @@ function Objects_Utils(){
 	    } );
 
 	   $('#'+table_id+' tbody').on('click', 'button.info-control', function (e) {
-	    	console.log("CLICKED");
+	    	console.log("CLICKED", e);
 	    	closest_strain = $(e).parent().closest("strain_cell");
+	    	console.log(closest_strain);
 	   		$(".nextflow_logs").attr("pipeline_id", "2");
 	        $("#modalNextflowLogs").modal("show");
+
+	        $(".nextflow_logs").off("click").on("click", function(e){
+	        	console.log("ENTROU", e);
+				single_project.getNextflowLog($(e).attr("name"), $(e).attr("pipeline_id"));
+			});
 	    } );
 
 	   prevWorkflow = [null,null, null];

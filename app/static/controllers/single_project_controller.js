@@ -301,10 +301,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		})
 	});
 
-	$(".nextflow_logs").off("click").on("click", function(e){
-		single_project.getNextflowLog($(e).attr("name"), $(e).attr("pipeline_id"));
-	});
-
 	/*
 	###############################################################################
 	*/

@@ -215,7 +215,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
 					todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
 
-					hasOutputRel=dbconAg.createURI(namespace=obo, localname="RO_0002234")
+					'''hasOutputRel=dbconAg.createURI(namespace=obo, localname="RO_0002234")
 					statements = dbconAg.getStatements(todelUri, hasOutputRel, None)
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
@@ -229,7 +229,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 					statements = dbconAg.getStatements(todelUri, None, None)
 					jsonResult=parseAgraphStatementsRes(statements)
-					statements.close()
+					statements.close()'''
 
 					alreadyThere.append(numberOfProcesses)
 					

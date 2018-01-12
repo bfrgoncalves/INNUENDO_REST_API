@@ -223,7 +223,7 @@ class Job_queue(Resource):
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				
-				jsonResult=parseAgraphQueryRes(result,["statusStr"])
+				jsonResult=parseAgraphQueryRes(result,["statusStr", "?file_3"])
 
 				result.close()
 				print jsonResult

@@ -263,8 +263,8 @@ function Objects_Utils(){
 
 		        $(".nextflow_logs").off("click").on("click", function(e){
 		        	console.log("ENTROU", e);
-					single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pipeline_id"), function(response){
-						
+					single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), function(response){
+
 					});
 				});
 	        }, 100);

@@ -387,9 +387,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						console.log(prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]);
 						console.log(response.data.length === counter_processes);
 						console.log(prev_workflow);
-						console.log(process_id_to_workflow[String(parseInt(protocol_pos)+1)])
+						console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)])
 						
-						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]) || response.data.length === counter_processes){
+						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)]) || response.data.length === counter_processes){
 
 							if(response.data.length == counter_processes){
 								prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];

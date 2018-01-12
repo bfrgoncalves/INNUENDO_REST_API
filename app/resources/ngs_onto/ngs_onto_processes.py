@@ -279,19 +279,18 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					prevMessageURI=dbconAg.createURI(results["messageURI"].replace('"', ''))
 				
 
-				if processid in alreadyThere:
-					#add process and link to pipeline
-					dbconAg.add(processURI, RDF.TYPE, processTypeURI)
-					dbconAg.add(pipelineURI, hasPart, processURI)
-					stmt1 = dbconAg.createStatement(processURI, indexProp, indexInt)
-					dbconAg.add(stmt1)
-					
-					#create output and input/output link messages to process
-					dbconAg.add(messageURI, RDF.TYPE, messageTypeURI)
-					dbconAg.add(processURI, hasOutputRel, messageURI)
-					print "PROTOCOL TYPES", protocolTypeURI, listOrderedProtocolsURI
-					dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
-					dbconAg.add(processURI, hasInputRel, prevMessageURI)
+				#add process and link to pipeline
+				dbconAg.add(processURI, RDF.TYPE, processTypeURI)
+				dbconAg.add(pipelineURI, hasPart, processURI)
+				stmt1 = dbconAg.createStatement(processURI, indexProp, indexInt)
+				dbconAg.add(stmt1)
+				
+				#create output and input/output link messages to process
+				dbconAg.add(messageURI, RDF.TYPE, messageTypeURI)
+				dbconAg.add(processURI, hasOutputRel, messageURI)
+				print "PROTOCOL TYPES", protocolTypeURI, listOrderedProtocolsURI
+				dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
+				dbconAg.add(processURI, hasInputRel, prevMessageURI)
 				
 				#prevMessageURI=messageURI
 				addedProcesses+=1

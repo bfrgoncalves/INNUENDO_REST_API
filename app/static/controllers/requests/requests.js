@@ -836,6 +836,26 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			
 		},
 
+		get_nextflow_log: function(filename, pipeline_id, callback){
+			req = {
+		        //url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
+		        url: 'api/v1.0/jobs/logs/nextflow/',
+		        method:'GET',
+		        params: {
+		        	filename: filename,
+		        	pipeline_id:pipeline_id
+		        }
+		    }
+
+		    $http(req).then(function(response){
+		    		console.log(response)
+				    callback();
+		        },
+		        function(response){
+		            callback(response);
+		    });
+		}
+
 		//////////////////////////// SEND TO PHYLOVIZ ////////////////////////////////////////
 		/*send_to_phyloviz: function(profile_data, metadata, callback){
 			

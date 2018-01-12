@@ -119,6 +119,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     }
 
+    $('.button.info-control').on('click', function (e) {
+    	console.log("CLICKED");
+    	closest_strain = $(e).parent().closest("strain_cell");
+   		$(".nextflow_logs").attr("pipeline_id", strainID_pipeline[strains_dict[]]);
+        $("#modalNextflowLogs").modal("show");
+    } );
+
     /*
     Add a strain to a project
     */
@@ -948,6 +955,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				callback(response);
 			});
 		},
+
+		/*
+		Get nextflow logs
+		*/
+		getNextflowLog: function(filename, pipeline_id, callback){
+			console.log(filename);
+			pg_requests.get_nextflow_log(filename, pipeline_id, function(response){
+				callback(response);
+			});
+		}
 
 		/*
 	    Get strains without pipeline applied

@@ -250,10 +250,6 @@ function Objects_Utils(){
 	        }
 	    } );
 
-	   $('#'+table_id+' tbody').on('click', 'button.info-control', function () {
-	        $("#modalNextflowLogs").modal("show");
-	    } );
-
 	   prevWorkflow = [null,null, null];
 	   prevWorkflow_toggle = [null,null,null]
 

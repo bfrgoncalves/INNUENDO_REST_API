@@ -188,7 +188,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
             "data":           null,
             "defaultContent": ''
         },
-        { "data": "strainID" },
+        { 
+        	"data": "strainID",
+        	"className": 'strain_cell',
+        },
         { "data": "species_id" },
         { "data": "source_Source" },
         { "data": "Location" },
@@ -212,7 +215,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
             "data":           null,
             "defaultContent": ''
         },
-        { "data": "strainID" },
+        { 
+        	"data": "strainID",
+        	"className": 'strain_cell',
+         },
         { "data": "species_id" },
         { "data": "source_Source" },
         { "data": "Location" },
@@ -286,6 +292,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		$scope.$apply(function(){
 			$scope.selectedTemplate.path = 'static/html_components/overview.html';
 		})
+	});
+
+	$(".nextflow_logs").off("click").on("click", function(e){
+		single_project.getNextflowLog($(e).attr("name"), $(e).attr("pipeline_id"));
 	});
 
 	/*

@@ -40,9 +40,16 @@ Uses:
 	- ngs_onto_requests object
 	- object_utils object
 */
+
+var pipelinesByID = {}, strainID_pipeline = {}, strains_dict= {};
+
 function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
-	var project = {}, pipelinesByName = {}, pipelinesByID = {}, strainID_pipeline = {}, strains_dict = {}, strain_id_to_name = {}, pipelines_applied = {};
+	pipelinesByID = {}
+	strainID_pipeline = {}
+	strains_dict = {}
+	
+	var project = {}, pipelinesByName = {}, strain_id_to_name = {}, pipelines_applied = {};
 	var protocols_applied = {};
 	var protocols_applied_by_pipeline = {};
 	var tasks_to_buttons = {}, buttons_to_tasks = {};
@@ -118,13 +125,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
     	$('#modalAlert').modal("show");
 
     }
-
-    $('.button.info-control').on('click', function (e) {
-    	console.log("CLICKED");
-    	closest_strain = $(e).parent().closest("strain_cell");
-   		$(".nextflow_logs").attr("pipeline_id", "2");
-        $("#modalNextflowLogs").modal("show");
-    } );
 
     /*
     Add a strain to a project

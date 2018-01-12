@@ -250,6 +250,13 @@ function Objects_Utils(){
 	        }
 	    } );
 
+	   $('.button.info-control').on('click', function (e) {
+	    	console.log("CLICKED");
+	    	closest_strain = $(e).parent().closest("strain_cell");
+	   		$(".nextflow_logs").attr("pipeline_id", "2");
+	        $("#modalNextflowLogs").modal("show");
+	    } );
+
 	   prevWorkflow = [null,null, null];
 	   prevWorkflow_toggle = [null,null,null]
 

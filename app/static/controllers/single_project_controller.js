@@ -56,7 +56,11 @@ function set_headers_single_project(global_strains){
 	            "data":           null,
 	            "defaultContent": ''
 	        },
-	        { "data": "strainID" },
+	        { 
+	        	"data": "strainID",
+	        	"className": 'strain_cell',
+
+	        },
 	        { "data": "SampleReceivedDate" },
 	        { "data": "source_Source" },
 	        { "data": "AdditionalInformation", "visible":false },

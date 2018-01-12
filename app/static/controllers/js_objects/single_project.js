@@ -344,7 +344,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				if(response.data != false){
 					all_status_done = 0;
-					console.log(response.data);
+					//console.log(response.data);
 					for(n in response.data){
 						counter_processes += 1;
 						task_id = response.data[n][0];
@@ -354,7 +354,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						protocols_on_workflow.push(tasks_to_buttons[task_id]);
 
-						console.log(task_id, status, dict_of_tasks_status, tasks_to_buttons, process_id_to_workflow);
+						//console.log(task_id, status, dict_of_tasks_status, tasks_to_buttons, process_id_to_workflow);
 						
 						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 						dict_of_tasks_status[task_id] = status;
@@ -381,7 +381,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						//console.log(process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow[strain_id + String(counter_processes+1)]);
 						//console.log("ENTER?", process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow);
 						var protocol_pos = tasks_to_buttons[task_id].split("_").splice(-2)[0];
-						console.log(protocol_pos);
+						console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)], prev_workflow, response.data.length, counter_processes);
 						if (process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] != undefined && prev_workflow != process_id_to_workflow[String(parseInt(protocol_pos)+1)] || response.data.length == counter_processes){
 
 							if(response.data.length == counter_processes){

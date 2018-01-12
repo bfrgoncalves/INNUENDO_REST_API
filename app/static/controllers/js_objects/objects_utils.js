@@ -254,12 +254,14 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('click', 'button.info-control', function (e) {
 	    	console.log("CLICKED", e);
 	    	console.log($(e.target).parent().parent().parent().parent());
-	    	closest_strain = $(e.target).parent().parent().parent().parent().find(".strain_cell");
+	    	var closest_strain = $(e.target).parent().parent().parent().parent().find(".strain_cell");
 	    	console.log(closest_strain);
 
 	        $("#modalNextflowLogs").modal("show");
 
 	        setTimeout(function(){
+	        	console.log(String(strainID_pipeline[strains_dict[closest_strain.html()]]));
+	        	console.log(closest_strain.html());
 	        	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
 
 		        $(".nextflow_logs").off("click").on("click", function(e){

@@ -17,6 +17,10 @@ table.display{
   table-layout: fixed;
 }
 
+.rule1 {
+    border-top: 2px solid #313131;
+}
+
 .inside_table{
   width:100%;
   table-layout: fixed;

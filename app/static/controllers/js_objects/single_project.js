@@ -1098,9 +1098,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	
 		        	if(counter == strain_data.length-1){
 			        	if(needs_dependency) {
-			        		message = 'Some of the applied procedures lack some dependencies.\n';
+			        		message = 'Some of the applied procedures lack some dependencies:<br>';
 			        		for (dep in dependencies_check){
-			        			message += dependencies_check[dep][0] + " requires " + dependencies_check[dep][1]
+			        			message += '<b>'+dependencies_check[dep][0] + "</b> requires <b>" + dependencies_check[dep][1] + "</b><br>"
 			        		}
 			        	}
 			        	else message = 'Procedures applied.';

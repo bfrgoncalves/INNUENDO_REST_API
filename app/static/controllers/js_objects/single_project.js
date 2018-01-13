@@ -347,7 +347,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				var firstWorkflow = true;
 
-
+				console.log(response);
 				if(response.data != false){
 					all_status_done = 0;
 					//console.log(response.data);

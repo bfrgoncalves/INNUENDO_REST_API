@@ -226,6 +226,7 @@ class Job_queue(Resource):
 		all_results = []
 		all_std_out = []
 		all_paths = []
+		all_wrkdirs = []
 
 		for k in range(0, len(job_ids)):
 
@@ -240,6 +241,7 @@ class Job_queue(Resource):
 			store_in_db = False
 
 			final_status = ""
+			file2Path = ""
 
 			print '--project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
 
@@ -252,37 +254,32 @@ class Job_queue(Resource):
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				
-				jsonResult=parseAgraphQueryRes(result,["statusStr"])
+				jsonResult=parseAgraphQueryRes(result,["statusStr", "file2"])
 
 				result.close()
 				print jsonResult
 
 				if "pass" in jsonResult[0]["statusStr"]:
-					#print "STATUS", jsonResult[0]["statusStr"]
 					final_status = "COMPLETED"
-					#sys.stdout.write("COMPLETED")
 				elif "None" in jsonResult[0]["statusStr"]:
 					final_status = "PD"
-					#sys.stdout.write("PD")
 				elif "running" in jsonResult[0]["statusStr"]:
 					final_status = "R"
-					#sys.stdout.write("R")
 				elif "pending" in jsonResult[0]["statusStr"]:
 					final_status = "PD"
-					#sys.stdout.write("PD")
 				elif "warning" in jsonResult[0]["statusStr"]:
 					final_status = "WARNING"
-					#sys.stdout.write("WARNING")
 				elif "fail" in jsonResult[0]["statusStr"]:
 					final_status = "FAILED"
-					#sys.stdout.write("FAILED")
 				elif "error" in jsonResult[0]["statusStr"]:
 					final_status = "FAILED"
-					#sys.stdout.write("FAILED")
+				
+				file2Path = jsonResult[0]["file2"].split("/")[-3]
+				print file2Path
+
 			except Exception as e:
 				final_status = "NEUTRAL"
 				print e
-				#sys.stdout.write("NEUTRAL")
 
 			print final_status
 			stdout = job_id + '\t' + final_status
@@ -291,10 +288,11 @@ class Job_queue(Resource):
 			store_jobs_in_db.append(store_in_db)
 			all_results.append(results[0])
 			all_paths.append(results[1])
+			all_wrkdirs.append(file2Path)
 
 		print len(all_std_out), len(store_jobs_in_db), len(all_results), len(all_paths)
 
-		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids}
+		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids, 'all_wrkdirs':all_wrkdirs}
 
 		#request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
 		#results = request.json()
@@ -303,7 +301,7 @@ class Job_queue(Resource):
 		process_positions = args.process_position.split(",")
 		all_jobs_status = []
 
-		if results != '':
+		'''if results != '':
 
 			for k in range(0, len(results['stdout'])):
 				job_status = results['stdout'][k].split('\t')
@@ -316,16 +314,14 @@ class Job_queue(Resource):
 					job_status[1] = "COMPLETED"
 					results['store_in_db'][k] = True
 
-				'''if from_process_controller == 'true' and results['store_in_db'][k] == True:
+				if from_process_controller == 'true' and results['store_in_db'][k] == True:
 					added, job_id = add_data_to_db(results['job_id'][k], results['results'][k], user_id, procedure_names[k], args.sample_name, args.pipeline_id, process_positions[k], args.project_id, args.database_to_include, username)
-				'''
+				
 				#if results['store_in_db'] == True:
 				#	added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
-				all_jobs_status.append(job_status)
+				all_jobs_status.append(job_status)'''
 
-			return all_jobs_status, 200
-		else:
-			return False
+		return results, 200
 
 #Load job results to display on graphical interface
 class Job_results(Resource):

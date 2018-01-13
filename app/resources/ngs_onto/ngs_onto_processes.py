@@ -101,7 +101,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["process"])
 		result.close()	
-		print queryString
+
 		for item in jsonResult:
 			finalListProc.append(item["process"])
 		
@@ -148,42 +148,30 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		for result in jsonResult:
 			workflowURI= result["workflowURI"]
 			queryString = "SELECT ?protocStep ?stepIndex ?protocolURI ?type  WHERE {"+workflowURI+" obo:NGS_0000078 ?protocStep. ?protocStep obo:NGS_0000077 ?protocolURI; obo:NGS_0000081 ?stepIndex. ?protocolURI a ?type. ?type rdfs:label ?typelabel.} ORDER BY ASC(?stepIndex)"
-			#print queryString
 			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 			result3 = tupleQuery.evaluate()
 			jsonResult2=parseAgraphQueryRes(result3,["stepIndex","protocolURI","type"])
 			result3.close()
-			
-			#print jsonResult2
-			#print protocolsTypes
+
 			for results in jsonResult2:
 				for k,v in protocolsTypes.items():
 					if v in results["type"]:
 						listOrderedProtocolsURI.append(results["protocolURI"]);
-						#print k
 						listOrderedProcessTypes.append(processTypes[k])
 						listOrderedMessageTypes.append(processMessages[k])
-			#print listOrderedProtocolsURI
-			#print "BABABA" ,listOrderedProtocolsURI
-		#get last process id and last message id
+
 		queryString = """SELECT (COUNT (?prc) as ?pcount){
 		SELECT DISTINCT ?prc WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc.}
 		}"""
-		#print queryString
 		
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		
-		'''for bindingSet in result:
-			#print bindingSet[0]
-			processid=int(str(bindingSet[0]).split('"')[1])
-		result.close()'''
 
 		queryString = """SELECT (COUNT (?out) as ?ocount){
 		SELECT DISTINCT ?out WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc. ?proc obo:RO_0002234 ?out.}
 		}"""
 
-		#print queryString
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		
@@ -191,8 +179,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			messageid=int(str(bindingSet[0]).split('"')[1])
 
 		result.close()
-		print '##############'
-		print args.strain_id, type(args.strain_id) 
+
 		if args.strain_id != "null":
 			strainid=args.strain_id
 			rpipid = args.real_pipeline_id
@@ -233,7 +220,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
 
-					#alreadyThere.append(numberOfProcesses)
+					#ASK MICKAEL ABOUT THIS
 					messageid -= 1
 					numberOfProcesses -= 1
 
@@ -253,14 +240,12 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			processes_ids = []
 			processid=addedProcesses
 
-			print "######################MESSAGEID########"
-			print messageid
 			#Case new run
 			while addedProcesses < len(listOrderedProcessTypes):
 				processid+=1
 				messageid+=1
 				processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(processid))
-				print 'PROCESS', processURI
+
 				messageURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/messages/"+str(messageid))
 				processTypeURI=dbconAg.createURI(listOrderedProcessTypes[addedProcesses])
 				messageTypeURI=dbconAg.createURI(listOrderedMessageTypes[addedProcesses])
@@ -271,7 +256,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 				# get specific process input type and uri
 				queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+listOrderedProcessTypes[addedProcesses]+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002233>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(ppropid)+"/pipelines/"+str(ppipid)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
-				print queryString
+
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result5 = tupleQuery.evaluate()
 				jsonResult2=parseAgraphQueryRes(result5,["messageURI"])
@@ -290,16 +275,12 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				#create output and input/output link messages to process
 				dbconAg.add(messageURI, RDF.TYPE, messageTypeURI)
 				dbconAg.add(processURI, hasOutputRel, messageURI)
-				print "PROTOCOL TYPES", protocolTypeURI, listOrderedProtocolsURI
 				dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
 				dbconAg.add(processURI, hasInputRel, prevMessageURI)
 				
 				#prevMessageURI=messageURI
 				addedProcesses+=1
 				processes_ids.append(processid)
-
-			print "################"
-			print processes_ids
 		
 			return processes_ids
 		except Exception as e:
@@ -361,7 +342,6 @@ class NGSOnto_ProcessJobID(Resource):
 		countadded = 0
 
 		for index in range(0, len(processes)):
-			#print tasks[index], processes[index]
 			try:
 			#Agraph
 				print tasks[index], processes[index]
@@ -375,18 +355,6 @@ class NGSOnto_ProcessJobID(Resource):
 				stmt1 = dbconAg.createStatement(processURI, indexProp, indexInt)
 				#send to allegro
 				dbconAg.add(stmt1)
-
-				#ADD PROCESS STATUS - TALK TO MICKAEL
-				'''
-				runStatus = dbconAg.createLiteral(("pending"), datatype=XMLSchema.STRING)
-				runStatusProp = dbconAg.createURI(namespace=obo, localname="NGS_0000097")
-				
-				dbconAg.remove(processURI, runStatusProp, None)
-
-				stmt5 = dbconAg.createStatement(processURI, runStatusProp, runStatus)
-
-				dbconAg.add(stmt5)
-				'''
 				
 				countadded+=1
 			except:
@@ -496,11 +464,6 @@ class NGSOnto_ProcessOutputResource(Resource):
 			
 			jsonResult=parseAgraphQueryRes(result,["file_1", "file_2", "file_3", "file_4", "statusStr"])
 			
-			'''file_out = ""
-			for bindingSet in result:
-				print bindingSet
-				file_out = bindingSet["file3"] #output_file
-			'''
 			result.close()
 
 			

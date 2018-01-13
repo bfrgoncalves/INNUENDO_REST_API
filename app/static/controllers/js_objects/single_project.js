@@ -348,7 +348,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				var firstWorkflow = true;
 
-				console.log(response);
 				if(response.data != false && response.data.stdout != undefined){
 					all_status_done = 0;
 					//console.log(response.data);
@@ -356,21 +355,17 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						counter_processes += 1;
 						task_id = response.data.stdout[n][0];
 						status = response.data.stdout[n][1];
-						console.log(task_id, status);
 						var res_pos = n;
 						if (task_id == "null") return;
 
 						protocols_on_workflow.push(tasks_to_buttons[task_id]);
 
-						//console.log(task_id, status, dict_of_tasks_status, tasks_to_buttons, process_id_to_workflow);
-						
-						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 						dict_of_tasks_status[task_id] = status;
 						current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
 						process_to_workdir[pip_id + "-" + response.data.process_ids[counter_processes-1]] = response.data.all_wrkdirs[counter_processes-1];
 
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
-						//}
+
 						prevtaskid = task_id;
 						//Case the job as finished in any way, clear the interval
 						if(status == 'COMPLETED' || status == 'WARNING' || status == 'FAILED') all_status_done += 1;
@@ -387,17 +382,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 						else prev_process_status = status;
 
-						//console.log(prev_process_status);
-						//console.log(process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow, process_id_to_workflow[strain_id + String(counter_processes+1)]);
-						//console.log("ENTER?", process_id_to_workflow[strain_id + String(counter_processes)], prev_workflow);
 						var protocol_pos = tasks_to_buttons[task_id].split("_").splice(-2)[0];
-						//console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)], prev_workflow, response.data.length, counter_processes);
-
-						//console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined);
-						//console.log(prev_workflow !== process_id_to_workflow[String(parseInt(protocol_pos)+1)]);
-						//console.log(response.data.length === counter_processes);
-						//console.log(prev_workflow);
-						//console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)])
 						
 						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)]) || response.data.stdout.length === counter_processes){
 
@@ -440,7 +425,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					}
 					console.log(process_to_workdir);
-					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);
+					if(response.data.stdout.length == all_status_done) clearInterval(intervals_running[this_job_id]);
 
 				}
 				else{

@@ -26,6 +26,7 @@ import os
 import string
 import random
 import subprocess
+import shutil
 
 from job_processing.queue_processor import Queue_Processor
 
@@ -42,6 +43,7 @@ job_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=T
 job_post_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline identifier")
 job_post_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project id")
 job_post_parser.add_argument('process_id', dest='process_id', type=str, required=True, help="process id")
+job_post_parser.add_argument('processes_wrkdir', dest='processes_wrkdir', type=str, required=True, help="processes_wrkdir")
 job_post_parser.add_argument('processes_to_run', dest='processes_to_run', type=str, required=True, help="processes_to_run")
 job_post_parser.add_argument('strain_submitter', dest='strain_submitter', type=str, required=True, help="strain_submitter id")
 job_post_parser.add_argument('current_specie', dest='current_specie', type=str, required=True, help="current specie")
@@ -151,6 +153,7 @@ class Job_queue(Resource):
 		args = job_post_parser.parse_args()
 		protocol_ids = args.protocol_ids.split(',')
 		process_ids = args.process_id.split(',')
+		processes_wrkdir = args.processes_wrkdir.split(',')
 		strain_id = args.strain_id
 		processes_to_run = args.processes_to_run.split(',')
 
@@ -169,34 +172,8 @@ class Job_queue(Resource):
 
 			files = {}
 
-
-			try:
-				if processes_to_run[counter] == "true":
-					#Get last run dir and remove if 
-					procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(process_ids[counter])
-					queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
-
-					print queryString
-
-					tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
-					result = tupleQuery.evaluate()
-
-					print result
-					
-					jsonResult=parseAgraphQueryRes(result,["file_2"])
-					print jsonResult
-
-					job_dir = "/".join(jsonResult[0]["file_2"].split("/")[-3])
-					print job_dir
-
-					#os.remove(job_dir)
-
-
-			except Exception as e:
-				print "No job folder"
-				print e
-
-
+			if processes_wrkdir[counter] != "false":
+				print os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, processes_wrkdir[counter])
 
 			for x in fields['metadata_fields']:
 				if 'File_' in x:

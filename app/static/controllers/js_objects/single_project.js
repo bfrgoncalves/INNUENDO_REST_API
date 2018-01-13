@@ -1531,7 +1531,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					        			//Run the job
 					        			console.log("RUN JOB");
-					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], dict_strain_names[strain_names[strain_name]][9], function(response, strain_name, pipeline_id){
+					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], dict_strain_names[strain_names[strain_name]][9], process_to_workdir, function(response, strain_name, pipeline_id){
 					        				
 					        				task_ids = [];
 					        				task_ids_to_map = [];

@@ -670,9 +670,17 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	               callback(response);
 	        });
 		},
-		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, to_run, callback){
+		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, to_run, process_to_wrkdir, callback){
 
 			//console.log(protocol_ids, pipeline_id, process_id, strainName);
+
+			processes_wrkdir = []
+
+			for x in process_id:
+				if process_to_wrkdir[x] != null:
+					processes_wrkdir.append(process_to_wrkdir[x])
+				else:
+					processes_wrkdir.append("false")
 
 		    req = {
 		        url: 'api/v1.0/jobs/',
@@ -686,7 +694,8 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	strain_submitter: strain_submitter,
 		        	current_specie: current_specie,
 		        	sampleName: strainName,
-		        	processes_to_run: to_run.join()
+		        	processes_to_run: to_run.join(),
+		        	processes_wrkdir: processes_wrkdir
 		    	}
 		    }
 

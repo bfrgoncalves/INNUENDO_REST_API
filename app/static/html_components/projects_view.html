@@ -24,13 +24,12 @@
             <label id="btProjectLoad" class="btn btn-primary primary-bts" data-target="projectLoad"><input type="radio">Other Projects</label>
         </div>
 
-        <div id="optsContainer" style="text-align: center, margin-top: 20px;">
+        <div id="optsContainer" style="margin-top: 20px;">
             <div id="projectSelect" class="banner">
                 <div class="col-md-12" >
                   <!--<div class="sub_container">-->
-                    <h3>My Projects</h3>
-                    <button type="button" class="btn btn-sm btn-danger" ng-click="deleteRow()" value="" style="float:right;"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Delete Project"></i></button>
-                    <button class="btn btn-sm btn-default" style="float:right;" data-toggle="modal" data-target="#newProjectModal"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add Project"></i></button><button class="btn btn-sm btn-primary" style="float:right;" ng-click="loadProject('projects_table');"><i class="fa fa-upload" data-toggle="tooltip" data-placement="top" title="Load Project"></i></button>
+                    <h3 class="sub-header">My Projects<button type="button" class="btn btn-sm btn-danger" ng-click="deleteRow()" value="" style="float:right;"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Delete Project"></i></button>
+                    <button class="btn btn-sm btn-default" style="float:right;" data-toggle="modal" data-target="#newProjectModal"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add Project"></i></button><button class="btn btn-sm btn-primary" style="float:right;" ng-click="loadProject('projects_table');"><i class="fa fa-upload" data-toggle="tooltip" data-placement="top" title="Load Project"></i></button></h3>
                   <!--<div class="scroll_div">-->
                   <table class="display compact hover nowrap" cellspacing="0" id="projects_table" width='100%'>
                     <thead>

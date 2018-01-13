@@ -79,43 +79,4 @@ setTimeout(function(){
 		tclick();
 	})
 
-	const resetHomeOpts = () => {
-
-	    const optsDiv = $("#optsContainer");
-	    for (const el of optsDiv.children()) {
-	        $(el).css({"display": "none"});
-	    }
-	};
-
-
-	/**
-	 * Provides the toggle behaviour of the project
-	 * selection/loading in the Innuendo home page.
-	 * The behavior is bound to the "click" event of the
-	 * main toggle buttons and is responsible for showing the
-	 * corresponding div element.
-	 */
-	const initHomeButtonsToggle = () => {
-
-	    const homeButtons = [
-	        "#btProjectSelect",
-	        "#btProjectLoad"
-	    ];
-
-	    for (const bt of homeButtons) {
-
-	        const btDiv = $(bt);
-	        const targetDiv = $("#" + btDiv.data("target"));
-
-	        btDiv.on("click", () => {
-
-	            resetHomeOpts();
-	            targetDiv.css({"display": "inline-block"})
-
-	        });
-	    }
-	};
-
-	initHomeButtonsToggle();
-
 }, 800);

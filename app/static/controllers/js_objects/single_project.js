@@ -367,7 +367,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 						dict_of_tasks_status[task_id] = status;
 						current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
-						process_to_workdir[response.data.process_ids[counter_processes]] = response.data.all_wrkdirs[counter_processes];
+						process_to_workdir[response.data.process_ids[counter_processes-1]] = response.data.all_wrkdirs[counter_processes-1];
 
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 						//}

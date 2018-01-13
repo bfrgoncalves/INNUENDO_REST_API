@@ -189,6 +189,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		
 		for bindingSet in result:
 			messageid=int(str(bindingSet[0]).split('"')[1])
+
 		result.close()
 		print '##############'
 		print args.strain_id, type(args.strain_id) 
@@ -252,7 +253,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			processes_ids = []
 			processid=addedProcesses
 
-
+			print "######################MESSAGEID########"
+			print messageid
 			#Case new run
 			while addedProcesses < len(listOrderedProcessTypes):
 				processid+=1

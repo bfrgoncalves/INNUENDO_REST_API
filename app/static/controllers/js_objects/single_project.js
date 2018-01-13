@@ -1093,6 +1093,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	needs_dependency = true;
 
 		        	dependencies_check.push([proc_value, pipelinesAndDependency[proc_value]]);
+
+		        	console.log(dependencies_check);
 		        	
 		        	if(counter == strain_data.length-1){
 			        	if(needs_dependency) message = 'Some of the applied procedures lack some dependencies.';

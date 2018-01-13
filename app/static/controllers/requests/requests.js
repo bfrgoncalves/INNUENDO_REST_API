@@ -676,11 +676,16 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 			processes_wrkdir = []
 
-			for x in process_id:
-				if process_to_wrkdir[x] != null:
-					processes_wrkdir.append(process_to_wrkdir[x])
-				else:
-					processes_wrkdir.append("false")
+			for(x in process_id){
+				if (process_to_wrkdir[x] != null){
+					processes_wrkdir.push(process_to_wrkdir[x])
+				}
+				else{
+					processes_wrkdir.push("false")
+				}
+			}
+
+			console.log(processes_wrkdir);
 
 		    req = {
 		        url: 'api/v1.0/jobs/',

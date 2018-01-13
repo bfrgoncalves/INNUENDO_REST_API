@@ -702,7 +702,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	current_specie: current_specie,
 		        	sampleName: strainName,
 		        	processes_to_run: to_run.join(),
-		        	processes_wrkdir: processes_wrkdir
+		        	processes_wrkdir: processes_wrkdir.join()
 		    	}
 		    }
 

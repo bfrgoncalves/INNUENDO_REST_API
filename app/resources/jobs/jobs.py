@@ -172,6 +172,8 @@ class Job_queue(Resource):
 
 			files = {}
 
+			print "WRKDIR", processes_wrkdir[counter]
+
 			if processes_wrkdir[counter] != "false":
 				print os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", processes_wrkdir[counter])
 

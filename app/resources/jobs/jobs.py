@@ -292,7 +292,7 @@ class Job_queue(Resource):
 
 		print len(all_std_out), len(store_jobs_in_db), len(all_results), len(all_paths)
 
-		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids, 'all_wrkdirs':all_wrkdirs}
+		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids, 'all_wrkdirs':all_wrkdirs, 'process_ids': process_ids}
 
 		#request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
 		#results = request.json()

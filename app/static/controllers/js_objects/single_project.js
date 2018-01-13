@@ -54,6 +54,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	var protocols_applied_by_pipeline = {};
 	var tasks_to_buttons = {}, buttons_to_tasks = {};
 	var dict_of_tasks_status = {};
+	var process_to_workdir = {};
     var specie_name = "", species_id = "";
     var strains = [], pipelines = [], strains_headers = [], public_strains = [], files = [];
     var strainid_processes_buttons = {};
@@ -366,6 +367,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						//if (dict_of_tasks_status[task_id.split('_')[0]] != 'R'){
 						dict_of_tasks_status[task_id] = status;
 						current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
+						process_to_workdir[response.data.process_ids[counter_processes]] = response.data.all_wrkdirs[counter_processes];
+
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 						//}
 						prevtaskid = task_id;
@@ -436,6 +439,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
 
 					}
+					console.log(process_to_workdir);
 					if(response.data.length == all_status_done) clearInterval(intervals_running[this_job_id]);
 
 				}

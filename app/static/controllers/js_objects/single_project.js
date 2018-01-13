@@ -467,6 +467,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		                for (i in response.data){
 		                    pipelinesByName[response.data[i].name] = response.data[i].id;
 		                    pipelinesByID[response.data[i].id] = response.data[i].name;
+		                    console.log(response.data);
 		                    pipelinesAndDependency[response.data[i].name] = response.data[i].dependency;
 		                    if (response.data[i].availability == null || response.data[i].availability == "true"){
 		                    	to_send.push(response.data[i]);
@@ -1055,6 +1056,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var counter = -1;
 		    var workflow_names = [];
 	        var workflowids = [];
+	        var dependencies_check = [];
 
 	        var proc_value = "";
 	    	workflow_already_applied = false;
@@ -1089,8 +1091,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        if( pipelinesAndDependency[proc_value] != "None" && pipelinesAndDependency[proc_value] != null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
 		        	needs_dependency = true;
+
+		        	dependencies_check.push([proc_value, pipelinesAndDependency[proc_value]]);
+		        	
 		        	if(counter == strain_data.length-1){
-			        	if(needs_dependency) message = 'Procedures applied but some lack dependencies.';
+			        	if(needs_dependency) message = 'Some of the applied procedures lack some dependencies.';
 			        	else message = 'Procedures applied.';
 			    		modalAlert(message, function(){});
 			        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
@@ -1217,7 +1222,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        if(counter == strain_data.length-1){
 		        	if(needs_dependency) message = 'Procedures applied but some lack dependencies.';
-		        	else if(workflow_already_applied) message = 'Workflow already applied to some strains.';
+		        	else if(workflow_already_applied) message = 'Workflow already applied to some of the selected strains.';
 		        	else message = 'Procedures applied.';
 		    		modalAlert(message, function(){});
 		        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});

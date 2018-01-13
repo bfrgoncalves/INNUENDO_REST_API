@@ -537,7 +537,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 					//Run the pipelines
 					if(run == true) single_project.run_pipelines();
 					else if(run != "no_select") {
-						modalAlert('All processes for that strain have been run.', function(){});
+						modalAlert('All processes for the selected strains have been run.', function(){});
 						$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 					}
 				});
@@ -633,7 +633,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 						});
 					});
 				});*/
-				
+
 			}, 200);
 		})
 	}

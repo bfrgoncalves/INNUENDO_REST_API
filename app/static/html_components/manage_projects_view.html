@@ -1,13 +1,16 @@
 
 <div ng-controller="projectCtrl" ng-init="showProject()" style="display:none;" id="single_project_controller_div">
 	
-
-  <div class="container">
-    <div class="jumbotron">
-      <h1>{{ project.name }}</h1> 
-      <p>{{ specie_name }}</p>
+  <div class="row">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="home-header">{{ project.name }}</h1>
+            <p class="lead">{{ specie_name }}</p>
+            <hr class="rule1">
+        </div>
     </div>
   </div>
+
 
   <ul class="nav nav-tabs">
     <li class="active" id="project_tab"><a href="#">Project</a></li>

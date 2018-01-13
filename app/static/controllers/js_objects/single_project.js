@@ -1097,7 +1097,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	console.log(dependencies_check);
 		        	
 		        	if(counter == strain_data.length-1){
-			        	if(needs_dependency) message = 'Some of the applied procedures lack some dependencies.';
+			        	if(needs_dependency) {
+			        		message = 'Some of the applied procedures lack some dependencies.\n';
+			        		for (dep in dependencies_check){
+			        			message += dependencies_check[dep][0] + " requires " + dependencies_check[dep][1]
+			        		}
+			        	}
 			        	else message = 'Procedures applied.';
 			    		modalAlert(message, function(){});
 			        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});

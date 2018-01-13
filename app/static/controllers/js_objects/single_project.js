@@ -395,25 +395,25 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "FAILED";
-								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
+								//$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(pending_jobs == protocols_on_workflow.length){
 								$('#' + prev_workflow).css({'background-color': status_dict["PD"]});
 								current_job_status_color[prev_workflow] = status_dict["PD"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "PD";
-								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
+								//$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(is_running || all_status_done < protocols_on_workflow.length && pending_jobs > 0){
 								$('#' + prev_workflow).css({'background-color': status_dict["R"]});
 								current_job_status_color[prev_workflow] = status_dict["R"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "R";
-								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
+								//$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							else if(prev_process_status == "COMPLETED"){
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "COMPLETED";
-								$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
+								//$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
 							protocols_on_workflow = [];
 							has_failed = false;

@@ -679,7 +679,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			console.log(process_id, process_to_wrkdir);
 
 			for(x in process_id){
-				if (process_to_wrkdir[String(process_id[x])] != undefined){
+				if (process_to_wrkdir[pipeline_id + "-" + String(process_id[x])] != undefined){
 					processes_wrkdir.push(process_to_wrkdir[x])
 				}
 				else{
@@ -738,10 +738,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    }
 
 		    $http(req).then(function(response){
-		            callback(response, job_ids);
+		            callback(response, job_ids, pipeline_id);
 		        },
 		        function(response){
-		            callback(response, job_ids);
+		            callback(response, job_ids, pipeline_id);
 		    });
 
 		},

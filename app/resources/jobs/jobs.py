@@ -173,7 +173,7 @@ class Job_queue(Resource):
 			files = {}
 
 			if processes_wrkdir[counter] != "false":
-				print os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, processes_wrkdir[counter])
+				print os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", processes_wrkdir[counter])
 
 			for x in fields['metadata_fields']:
 				if 'File_' in x:

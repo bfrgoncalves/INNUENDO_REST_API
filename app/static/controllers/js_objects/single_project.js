@@ -1120,7 +1120,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	class_of_button_remove_to_replace = last_proc_name+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id)+ '_' + CURRENT_PROJECT_ID+'&&&';
 		        	class_of_button_remove_to_replace = 'class="'+class_of_button_remove_to_replace+'" onclick="removeAnalysis(this)'
 		        	if(pip_start_id > 0){
-		        		console.log('style="display:block;" ' + class_of_button_remove_to_replace, pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1]);
+		        		//console.log('style="display:block;" ' + class_of_button_remove_to_replace, pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1]);
 		        		pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1] = pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1].replace('style="display:block;" ' + class_of_button_remove_to_replace, 'style="display:none;" ' + class_of_button_remove_to_replace)
 		        	}
 

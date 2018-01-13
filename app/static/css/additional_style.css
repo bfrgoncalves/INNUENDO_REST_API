@@ -62,7 +62,9 @@ table.display{
 
 .banner_strains {
     /*border: 1px solid #313131;*/
+    margin-top: 20px;
     border-radius: 1%;
+    text-align: center;
     width: 95%;
     min-width: 300px;
     box-shadow: 1px 2px 8px #626262;

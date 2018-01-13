@@ -39,7 +39,6 @@ table.display{
     height: 300px;
     padding-left: 15%;
     padding-right: 15%;
-    text-align: center;
 }
 
 .banner-header {
@@ -62,7 +61,6 @@ table.display{
 }
 
 .banner_strains {
-    display: none;
     /*border: 1px solid #313131;*/
     border-radius: 1%;
     min-width: 300px;

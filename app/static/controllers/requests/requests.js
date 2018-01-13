@@ -676,11 +676,11 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 
 			processes_wrkdir = []
 
-			console.log(process_id, process_to_wrkdir);
+			console.log(process_id, process_to_wrkdir, pipeline_id);
 
 			for(x in process_id){
-				if (process_to_wrkdir[pipeline_id + "-" + String(process_id[x])] != undefined){
-					processes_wrkdir.push(process_to_wrkdir[x])
+				if (process_to_wrkdir[String(pipeline_id) + "-" + String(process_id[x])] != undefined){
+					processes_wrkdir.push(process_to_wrkdir[String(pipeline_id) + "-" + String(process_id[x])])
 				}
 				else{
 					processes_wrkdir.push("false")

@@ -34,6 +34,34 @@ table.display{
     vertical-align: middle;
 }
 
+.banner-row {
+    margin: 20px;
+    height: 300px;
+    padding-left: 15%;
+    padding-right: 15%;
+    text-align: center;
+}
+
+.banner-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+    font-weight: bold;
+    color: #323232;
+}
+
+.banner {
+    display: none;
+    text-align: center;
+    /*border: 1px solid #313131;*/
+    border-radius: 1%;
+    width: 70%;
+    min-width: 300px;
+    box-shadow: 1px 2px 8px #626262;
+    padding: 10px;
+    vertical-align: middle;
+}
+
 .inside_table{
   width:100%;
   table-layout: fixed;

@@ -274,7 +274,7 @@ class Job_queue(Resource):
 				elif "error" in jsonResult[0]["statusStr"]:
 					final_status = "FAILED"
 				
-				file2Path = jsonResult[0]["file2"].split("/")[-3]
+				file2Path = jsonResult[0]["file_2"].split("/")[-3]
 				print file2Path
 
 			except Exception as e:

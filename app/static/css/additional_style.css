@@ -52,10 +52,19 @@ table.display{
 
 .banner {
     display: none;
-    text-align: center;
     /*border: 1px solid #313131;*/
     border-radius: 1%;
-    width: 90%;
+    width: 85%;
+    min-width: 300px;
+    box-shadow: 1px 2px 8px #626262;
+    padding: 10px;
+    vertical-align: middle;
+}
+
+.banner_strains {
+    display: none;
+    /*border: 1px solid #313131;*/
+    border-radius: 1%;
     min-width: 300px;
     box-shadow: 1px 2px 8px #626262;
     padding: 10px;

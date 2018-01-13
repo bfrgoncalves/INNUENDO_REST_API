@@ -595,7 +595,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 				});
 
 				//Set the jQuery click on a given available pipeline
-				$('.list-group-item').on('click', function(){
+				
+				/*$('.list-group-item').on('click', function(){
 					$(".pipeline_strain_button").css({display:"none"});
 					$('.list-group-item').removeClass("active");
 					$(this).addClass("active");
@@ -631,7 +632,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 							}
 						});
 					});
-				});
+				});*/
+				
 			}, 200);
 		})
 	}

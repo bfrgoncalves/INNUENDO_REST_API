@@ -1141,8 +1141,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			            pipelines_applied[strain_data[counter]['strainID']] = [];
 			            protocols_applied[strain_data[counter]['strainID']] = [];
 			        }
+			        
+
 			        //ALLOW MULTIPLE EQUAL WORKFLOWS
-		        	try{
+		        	/*try{
 			        	workflow_id_to_name[strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pipelines_applied[strain_data[counter]['strainID']].length + 1) + '_' + CURRENT_PROJECT_ID] = proc_value;
 			        }
 			        catch(e){
@@ -1151,6 +1153,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        pipelines_applied[strain_data[counter]['strainID']].push(buttonselectedPipeline);
 			        protocols_applied[strain_data[counter]['strainID']].push(protocol_buttons);
+
+			        */
 
 			        if(!protocols_applied_by_pipeline.hasOwnProperty(strain_data[counter]['strainID'])){
 			        	protocols_applied_by_pipeline[strain_data[counter]['strainID']] = {};
@@ -1162,6 +1166,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	local_workflow_applied = true;
 			        }
 			        else{
+
+			        	pipelines_applied[strain_data[counter]['strainID']].push(buttonselectedPipeline);
+			        	protocols_applied[strain_data[counter]['strainID']].push(protocol_buttons);
 
 			        	if(!protocols_applied_by_pipeline[strain_data[counter]['strainID']].hasOwnProperty(proc_value)){
 				        	protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value] = [];

@@ -183,13 +183,15 @@
 			  	  <div id="pipeline_group_{{myReplace(key)}}">
 				  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">
 				  	  	 <div class="list-group-item">
-				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }}: </label>
+				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }} from Project {{ available_pipelines_ids[key][$index][0] }}: </label>
 						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
 						  	<!--<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>-->
 						  </div>
 				  	  </div>
 				  	  <div style="text-align:center;width:100%;">
-			   		  <button class="btn btn-lg btn-primary new_pipeline_button" strain_id="{{ key }}">Add a NEW Pipeline</button>
+				  	  <br>
+			   		  <button class="btn btn-md btn-primary new_pipeline_button" strain_id="{{ key }}">Add a NEW Pipeline</button>
+			   		  </div>
 			   	  </div>
 		   		  <hr>
 			  </div>

@@ -1,13 +1,20 @@
 
 <div ng-controller="projectCtrl" ng-init="showProject()" style="display:none;" id="single_project_controller_div">
-	<ul class="nav nav-tabs">
+	
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="col-md-12 sub-header" style="margin-bottom:2px;">
+        <h2>{{ project.name }} <span style="float:right;">{{ specie_name }}</span></h2>
+      </div>
+    </div>
+  </div>
+
+  <ul class="nav nav-tabs">
     <li class="active" id="project_tab"><a href="#">Project</a></li>
     <li id="description_tab"><a href="#">Description</a></li>
   </ul>
 
-  <div class="col-md-12 sub-header" style="margin-bottom:2px;">
-    <h2>{{ project.name }} <span style="float:right;">{{ specie_name }}</span></h2>
-  </div>
 
   <div id="s_project_message_div"></div>
 
@@ -27,20 +34,8 @@
       <div id="buttons_procedures" style="float:left;padding-left:1%;margin-top: 10px;">
         <ul class="nav nav-pills">
           <li class="active" id="an_proc"><a href="#">Analytical Procedures</a></li>
-          <!--<li id="lab_prot"><a href="#">Lab Protocols</a></li>-->
         </ul>
       </div>
-
-      <!--<div id="protocols_div" class="col-md-3" style="display:none;">
-            <div class="input-group"> 
-              <select class="form-control" id="classifier_selector">
-                <option ng-repeat="pipeline in pipelines_classifiers" name="protocol_{{ pipeline.name }}">{{ pipeline.name }}</option>
-              </select> 
-              <span class="input-group-btn">
-                <button class="btn btn-md btn-primary" style="float:right;" ng-click="applyWorkflow('lab_protocol')"><i class="fa fa-arrow-circle-down" data-toggle="tooltip" data-placement="top" title="Apply workflow to strain"></i></button>
-              </span>
-            </div>
-      </div>-->
 
       <div id="procedures_div" class="col-md-3" style="display:block;margin-top: 10px;">
             <div class="input-group">           

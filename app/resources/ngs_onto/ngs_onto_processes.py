@@ -234,7 +234,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					statements.close()
 
 					#alreadyThere.append(numberOfProcesses)
-					
+					messageid -= 1
 					numberOfProcesses -= 1
 
 		

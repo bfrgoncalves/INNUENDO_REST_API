@@ -282,7 +282,7 @@ class Job_queue(Resource):
 				print e
 
 			print final_status
-			stdout = job_id + '\t' + final_status
+			stdout = [job_id, final_status]
 
 			all_std_out.append(stdout)
 			store_jobs_in_db.append(store_in_db)

@@ -348,13 +348,13 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var firstWorkflow = true;
 
 				console.log(response);
-				if(response.data != false){
+				if(response.data != false && response.data.stdout != undefined){
 					all_status_done = 0;
 					//console.log(response.data);
-					for(n in response.data){
+					for(n in response.data.stdout){
 						counter_processes += 1;
-						task_id = response.data[n][0];
-						status = response.data[n][1];
+						task_id = response.data.stdout[n][0];
+						status = response.data.stdout[n][1];
 						var res_pos = n;
 						if (task_id == "null") return;
 

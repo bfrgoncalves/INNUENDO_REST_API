@@ -41,10 +41,10 @@
 
       <div id="procedures_div" class="col-md-3" style="display:block;margin-top: 10px;">
             <div class="input-group">           
-              <select class="selectpicker" id="pipeline_selector" data-live-search="true">
+              <select class="selectpicker form-control" id="pipeline_selector" data-live-search="true">
                 <option ng-repeat="pipeline in pipelines" name="analysis_{{ pipeline.name }}">{{ pipeline.name }}</option>
               </select>
-              <span class="input-group-btn">
+              <span class="input-group-addon">
                 <button class="btn btn-primary" type="button" tabindex="-1" ng-click="applyWorkflow('analysis_protocol')"><i class="fa fa-arrow-circle-down" data-toggle="tooltip" data-placement="top" title="Apply workflow to strain"></i></button>
               </span>
           </div>

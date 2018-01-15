@@ -234,7 +234,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			addedProcesses=numberOfProcesses
 			hasOutputRel=dbconAg.createURI(namespace=obo, localname="RO_0002234")
 			hasInputRel=dbconAg.createURI(namespace=obo, localname="RO_0002233")
-			index=dbconAg.createURI(namespace=obo, localname="obo:NGS_0000081")
+			index=dbconAg.createURI(namespace=obo, localname="NGS_0000081")
 			isRunOfProtocl=dbconAg.createURI(namespace=obo, localname="NGS_0000091")
 			
 			#prev process to link (strain URI most of times)

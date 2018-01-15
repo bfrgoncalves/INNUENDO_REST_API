@@ -54,7 +54,6 @@ function set_headers_single_project(table_id, global_strains){
 	            "className":      'details-control',
 	            "orderable":      false,
 	            "data":           null,
-	            "visible": false,
 	            "defaultContent": '<div></div>'
 	        };
 		}
@@ -102,7 +101,6 @@ function set_headers_single_project(table_id, global_strains){
 	            "className":      'details-control',
 	            "orderable":      false,
 	            "data":           null,
-	            "visible": false,
 	            "defaultContent": '<div></div>'
 	        };
 		}

@@ -49,6 +49,23 @@ function set_headers_single_project(table_id, global_strains){
 
 	if(global_strains.length == 0){
 
+		if (table_id === 'public_strains_table'){
+			var analysis_cell = {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div></div>'
+	        };
+		}
+		else {
+			var analysis_cell = {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	        };
+		}
+
 		var p_col_defs = [
 	    	{
 	            "className":      'select-checkbox',
@@ -73,16 +90,28 @@ function set_headers_single_project(table_id, global_strains){
 	        { "data": "File_2", "visible":false },
 	        { "data": "Location" },
 	        { "data": "FilesLocation" },
-	        {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	        }
+	        analysis_cell
 
 	    ];
 	}
 	else{
+
+		if (table_id === 'public_strains_table'){
+			var analysis_cell = {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div></div>'
+	        };
+		}
+		else {
+			var analysis_cell = {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	        };
+		}
 
 		var p_col_defs = [
 			{
@@ -112,12 +141,7 @@ function set_headers_single_project(table_id, global_strains){
 			}
 		}
 
-		p_col_defs.push({
-	        "className":      'details-control',
-	        "orderable":      false,
-	        "data":           null,
-	        "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	    });
+		p_col_defs.push(analysis_cell);
 		
 	}
 
@@ -360,7 +384,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                			strains_headers = headers_defs[1];
 		                			sh = headers_defs[1];
 		                		}
-		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	                		
+		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	   
+		                			console.log(global_strains, headers_defs[0], strains_headers);         		
 			                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				                	$('#waiting_spinner').css({display:'none'}); 
 									$('#single_project_controller_div').css({display:'block'}); 

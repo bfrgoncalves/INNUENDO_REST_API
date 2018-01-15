@@ -564,7 +564,7 @@ function Objects_Utils(){
 			$('#'+table_id+' thead > tr').remove();
 			$('#'+table_id+' tbody > tr').remove();
 
-			//if (table_id === "public_strains_table") has_analysis = false;
+			if (table_id === "public_strains_table") has_analysis = false;
 
 			console.log(table_headers);
 

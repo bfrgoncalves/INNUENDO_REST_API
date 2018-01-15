@@ -6,6 +6,7 @@
 	  <div class="jumbotron jumbotron-fluid">
 	      <div class="container">
 	          <h1 class="home-header">Protocols</h1>
+	          <p class="lead">Create new Protocols to construct your Workflows!</p>
 	          <hr class="rule1">
 	      </div>
 	  </div>
@@ -69,7 +70,9 @@
 			</select>
 			<br>
 	   		<div id="div_protocol_show" style="display:none; padding: 20px 20px 20px 20px;">
-	   			<span ng-repeat="(key,val) in selected_protocol"><b>{{key}}: </b>{{val}}<br></span>
+	   			<ul class="list-group">
+	   				<li class="list-group-item" ng-repeat="(key,val) in selected_protocol"><b>{{key}}: </b>{{val}}</li>
+	   			</ul>
 	   		</div>
 	  	</div>
    	</div>

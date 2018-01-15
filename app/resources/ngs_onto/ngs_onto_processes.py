@@ -160,17 +160,20 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 						listOrderedProcessTypes.append(processTypes[k])
 						listOrderedMessageTypes.append(processMessages[k])
 
-		queryString = """SELECT (COUNT (?prc) as ?pcount){
+		'''queryString = """SELECT (COUNT (?prc) as ?pcount){
 		SELECT DISTINCT ?prc WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc.}
 		}"""
 		
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
-		result = tupleQuery.evaluate()
+		result = tupleQuery.evaluate()'''
 		
 
-		queryString = """SELECT (COUNT (?out) as ?ocount){
+		'''queryString = """SELECT (COUNT (?out) as ?ocount){
 		SELECT DISTINCT ?out WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc. ?proc obo:RO_0002234 ?out.}
-		}"""
+		}"""'''
+
+		#TEST query string
+		queryString = """SELECT (COUNT (?message) as ?ocount) {?message rdf:type/rdfs:subClassOf* obo:NGS_0000061}"""
 
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()

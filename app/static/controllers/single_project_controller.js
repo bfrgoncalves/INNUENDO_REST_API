@@ -50,7 +50,13 @@ function set_headers_single_project(table_id, global_strains){
 	if(global_strains.length == 0){
 
 		if (table_id === 'public_strains_table'){
-			var analysis_cell = "";
+			var analysis_cell = {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "visible":false,
+	            "defaultContent": '<div></div>'
+	        };
 		}
 		else {
 			var analysis_cell = {
@@ -92,7 +98,13 @@ function set_headers_single_project(table_id, global_strains){
 	else{
 
 		if (table_id === 'public_strains_table'){
-			var analysis_cell = "";
+			var analysis_cell = {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "visible":false,
+	            "defaultContent": '<div></div>'
+	        };
 		}
 		else {
 			var analysis_cell = {

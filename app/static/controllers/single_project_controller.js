@@ -108,7 +108,7 @@ function set_headers_single_project(table_id, global_strains){
 		            "orderable":      false,
 		            "data":           null,
 		            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-		        };
+		        }
 
 		    ];
 		}

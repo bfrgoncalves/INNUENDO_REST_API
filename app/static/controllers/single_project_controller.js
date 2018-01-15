@@ -135,6 +135,7 @@ function set_headers_single_project(table_id, global_strains){
 						else{
 							p_col_defs.push({"data":x, "visible":false});
 						}
+						console.log(matching_fields[x], x);
 						strains_headers.push(matching_fields[x]);
 					}
 				}

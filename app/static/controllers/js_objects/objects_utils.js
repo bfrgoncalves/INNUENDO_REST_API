@@ -401,14 +401,7 @@ function Objects_Utils(){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis == true){
-			if (table_id !== 'public_strains_table'){
-				headers_html += "<th>Analysis <button onclick=show_all_analysis()><i class='fa fa-eye' aria-hidden='true'></i></button><button onclick=hide_all_analysis()><i class='fa fa-eye-slash' aria-hidden='true'></i></button></th>";
-			}
-			else {
-				headers_html += "<th>Analysis</th>";
-			}
-		}
+		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()><i class='fa fa-eye' aria-hidden='true'></i></button><button onclick=hide_all_analysis()><i class='fa fa-eye-slash' aria-hidden='true'></i></button></th>";
 
 		headers_html += "</tr>";		
 		return headers_html;

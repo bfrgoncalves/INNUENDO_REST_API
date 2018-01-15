@@ -25,7 +25,7 @@
         <select class="selectpicker form-control" id="protocol_selector_load" data-live-search="true">
           <option ng-repeat="protocol in protocols_of_type">{{protocol}}</option>
         </select>
-        <div class="form-group" id="div_button_addto_workflow" style="display:none; width:100%; text-align:center;">
+        <div class="form-group" id="div_button_addto_workflow" style="display:none; width:100%; text-align:center;padding-top: 20px;">
           <button class="btn btn-primary" ng-click="addToPipeline()">Add to Workflow</button>
         </div>
       </div>
@@ -68,7 +68,6 @@
   <div class="col-md-12" id="workflows_message_div"></div>
 
   <div class="col-md-12">
-    <div class="sub_container">
       <div class="banner_strains">
         <h3 class="sub-header">Available Workflows
         <button class="btn btn-sm btn-warning" style="float:right;" ng-click="changeWorkflowState()"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="change workflow state">Change Workflow State</i></button>
@@ -90,7 +89,6 @@
           </tfoot>
         </table>
       </div>
-    </div>
   </div>
   	
   </div>

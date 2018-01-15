@@ -165,8 +165,6 @@ function Objects_Utils(){
 					    $('.child_row').css({"background-color":"#eeffff"});
 
 				    }, 50);
-
-				    setTimeout(function(){$('#'+table_id).columns.adjust().draw();}, 2000);
 				    
 
             }

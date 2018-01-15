@@ -1,4 +1,75 @@
 
+
+function set_headers_metadata(global_strains, procedure){
+	var metadata = new Metadata();
+	matching_fields = metadata.get_dict_fields_reverse();
+	minimal_fields = metadata.get_default_headers();
+	var strains_headers = []
+
+	if(global_strains.length == 0){
+
+		var p_col_defs = [
+	    	{
+	            "className":      'select-checkbox',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	        },
+	        { "data": "Sample" },
+	        { "data": "job_id" }
+
+	    ];
+
+	    strains_headers = ["Sample","Run Identifier"]
+	}
+	else if(procedure != null && procedure.indexOf("results_info_chewBBACA") > -1){
+
+		var p_col_defs = [
+	    	{
+	            "className":      'select-checkbox',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	        },
+	        { "data": "Sample" },
+	        { "data": "job_id" },
+	        {
+	            "className":      'get_results',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div><button class="analysis-control btn-warning" onclick="download_profile(this)">Profile</button></div>'
+	        }
+
+	    ];
+
+	    strains_headers = ["Sample","Run Identifier", "Results"]
+	}
+	else{
+
+		var p_col_defs = [
+			{
+	            "className":      'select-checkbox',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	        }
+		];
+		
+		for(x in global_strains[0]){
+			if (x != "Analysis" && x != "id" && x != "species_id" && x != "strain_id" && x != "FilesLocation"){
+				p_col_defs.push({"data":x, "visible":true});
+				strains_headers.push(matching_fields[x] == undefined ? x:matching_fields[x]);
+			}
+		}		
+	}
+
+    return [p_col_defs, strains_headers]
+}
+
+
+
+
+
 innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) {
 
 	current_scope_template = $scope.selectedTemplate.path;
@@ -115,7 +186,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 		single_project.get_strains(true, function(strains_results){
 		    objects_utils.destroyTable('modify_strains_table');
 		    global_public_strains = strains_results.public_strains;
-		    headers_defs = set_headers_reports(global_public_strains);
+		    headers_defs = set_headers_metadata(global_public_strains);
 
 		    console.log(global_public_strains, headers_defs);
 			
@@ -173,7 +244,7 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			single_project.get_strains(true, function(strains_results){
 			    objects_utils.destroyTable('modify_strains_table');
 			    global_public_strains = strains_results.public_strains;
-			    headers_defs = set_headers_reports(global_public_strains);
+			    headers_defs = set_headers_metadata(global_public_strains);
 				
 				strains_headers = headers_defs[1];
 				

@@ -39,32 +39,15 @@ Uses:
 */
 
 
-function set_headers_single_project(table_id, global_strains){
+function set_headers_single_project(global_strains){
 	var metadata = new Metadata();
 	matching_fields = metadata.get_dict_fields_reverse();
 	minimal_fields = metadata.get_default_headers();
 	headers_order = metadata.get_minimal_fields();
 	dict_fields = metadata.get_dict_fields()
-	var strains_headers = [];
+	var strains_headers = []
 
 	if(global_strains.length == 0){
-
-		if (table_id === 'public_strains_table'){
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div></div>'
-	        };
-		}
-		else {
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	        };
-		}
 
 		var p_col_defs = [
 	    	{
@@ -90,28 +73,16 @@ function set_headers_single_project(table_id, global_strains){
 	        { "data": "File_2", "visible":false },
 	        { "data": "Location" },
 	        { "data": "FilesLocation" },
-	        analysis_cell
+	        {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	        }
 
 	    ];
 	}
 	else{
-
-		if (table_id === 'public_strains_table'){
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div></div>'
-	        };
-		}
-		else {
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	        };
-		}
 
 		var p_col_defs = [
 			{
@@ -141,7 +112,12 @@ function set_headers_single_project(table_id, global_strains){
 			}
 		}
 
-		p_col_defs.push(analysis_cell);
+		p_col_defs.push({
+	        "className":      'details-control',
+	        "orderable":      false,
+	        "data":           null,
+	        "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	    });
 		
 	}
 
@@ -379,13 +355,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                	objects_utils.destroyTable('strains_table');
 		                	
 		                	if(strains_results.strains == "no_pipelines"){	
-		                		headers_defs = set_headers_single_project('strains_table', global_strains);
+		                		headers_defs = set_headers_single_project(global_strains);
 		                		if(headers_defs[1].length != 0){
 		                			strains_headers = headers_defs[1];
 		                			sh = headers_defs[1];
 		                		}
-		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	   
-		                			console.log(global_strains, headers_defs[0], strains_headers);         		
+		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	                		
 			                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				                	$('#waiting_spinner').css({display:'none'}); 
 									$('#single_project_controller_div').css({display:'block'}); 
@@ -396,13 +371,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		                		global_strains = strains_results.strains;
 
-		                		headers_defs = set_headers_single_project('strains_table', global_strains);
+		                		headers_defs = set_headers_single_project(global_strains);
 
 		                		strains_headers = headers_defs[1];
 		                		sh = headers_defs[1];
 
 		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
-		                			console.log(global_strains, headers_defs[0], strains_headers);    
 						        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				                	$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');
@@ -451,7 +425,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 											if(counter == keys_no_pip.length){
 												objects_utils.destroyTable('strains_table');
 							                	global_strains = strains_results.strains;
-							                	headers_defs = set_headers_single_project('strains_table', global_strains);
+							                	headers_defs = set_headers_single_project(global_strains);
 							                	objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 							                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 							                	});
@@ -480,7 +454,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 											if(strains_results.message == undefined && counter == keys_no_pip.length){
 												objects_utils.destroyTable('strains_table');
 							                	global_strains = strains_results.strains;
-							                	headers_defs = set_headers_single_project('strains_table', global_strains);
+							                	headers_defs = set_headers_single_project(global_strains);
 							                	objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 							                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 							                	});
@@ -534,7 +508,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 				global_strains[i] = strain_results.strains[i];
 			}
 			objects_utils.destroyTable('strains_table');
-			headers_defs = set_headers_single_project('strains_table', global_strains);
+			headers_defs = set_headers_single_project(global_strains);
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 			});
@@ -599,14 +573,14 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).empty();
 							$('#pipeline_group_'+s_id.replace(/ /g, "_")).append('<p><b>Strain already on project.</b></p>');
 							objects_utils.destroyTable('strains_table');
-							headers_defs = set_headers_single_project('strains_table', global_strains);
+							headers_defs = set_headers_single_project(global_strains);
 							objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 								objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 							});
 						}
 						else if(results.prevent){
 							objects_utils.destroyTable('strains_table');
-							headers_defs = set_headers_single_project('strains_table', global_strains);
+							headers_defs = set_headers_single_project(global_strains);
 							objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 								objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 							});
@@ -674,7 +648,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			if(strains_results.message != undefined) return callback(strains_results);
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
-			headers_defs = set_headers_single_project('strains_table', global_strains);
+			headers_defs = set_headers_single_project(global_strains);
 			CURRENT_TABLE_ROWS_SELECTED['strains_table'] = [];
 			CURRENT_TABLE_ROW_ANALYSIS_SELECTED['strains_table'] = [];
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
@@ -705,7 +679,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			if(is_from_file != true) modalAlert('Strain added to the project.', function(){});
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
-			headers_defs = set_headers_single_project('strains_table', global_strains);
+			headers_defs = set_headers_single_project(global_strains);
 			CURRENT_TABLE_ROWS_SELECTED['strains_table'] = [];
 			CURRENT_TABLE_ROW_ANALYSIS_SELECTED['strains_table'] = [];
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
@@ -735,10 +709,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		single_project.get_strains(false, function(strains_results){
 		    objects_utils.destroyTable('public_strains_table');
 		    global_public_strains = strains_results.public_strains;
-		    headers_defs = set_headers_single_project('public_strains_table', global_public_strains);
+		    headers_defs = set_headers_single_project(global_public_strains);
 
 		    objects_utils.restore_table_headers('public_strains_table', strains_headers, true, function(){	
-		    	console.log(global_public_strains, headers_defs[0], strains_headers);
 			    objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
 			    callback();
 			});
@@ -753,7 +726,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		single_project.get_project_strains(function(strains_results){
 			global_strains = strains_results.strains;
-			headers_defs = set_headers_single_project('strains_table', global_strains);
+			headers_defs = set_headers_single_project(global_strains);
 
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
@@ -772,7 +745,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		single_project.add_strain_to_project(strain_name, function(strains_results){
 			objects_utils.destroyTable('strains_table');
 			global_strains = strains_results.strains;
-			headers_defs = set_headers_single_project('strains_table', global_strains);
+			headers_defs = set_headers_single_project(global_strains);
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 				console.log(global_strains, headers_defs[0], strains_headers);
 				//objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
@@ -792,7 +765,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			else{
 				objects_utils.destroyTable('strains_table');
 				global_strains = strains_results.strains;
-				headers_defs = set_headers_single_project('strains_table', global_strains);
+				headers_defs = set_headers_single_project(global_strains);
 				objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 					CURRENT_TABLE_ROWS_SELECTED['strains_table'] = [];
 					CURRENT_TABLE_ROW_ANALYSIS_SELECTED['strains_table'] = [];
@@ -844,7 +817,7 @@ removeAnalysis = function(li){
 			global_strains[i] = strain_results.strains[i];
 		}
 		objects_utils.destroyTable('strains_table');
-		headers_defs = set_headers_single_project('strains_table', global_strains);
+		headers_defs = set_headers_single_project(global_strains);
 		objects_utils.restore_table_headers('strains_table', sh, true, function(){	
 			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
 		});
@@ -872,7 +845,7 @@ newPipelineFromFile = function(element){
 	single_project.add_strain_to_project($(element).attr("strain_name"), function(strains_results, strain_name){
 		objects_utils.destroyTable('strains_table');
 		global_strains = strains_results.strains;
-		headers_defs = set_headers_single_project('strains_table', global_strains);
+		headers_defs = set_headers_single_project(global_strains);
 		objects_utils.restore_table_headers('strains_table', sh, true, function(){	
 			objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
 			$('#file_col_'+strain_name.replace(/ /g,"_")).empty();

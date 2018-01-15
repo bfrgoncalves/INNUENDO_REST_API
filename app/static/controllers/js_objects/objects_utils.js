@@ -394,21 +394,14 @@ function Objects_Utils(){
 	}
 
 
-	function create_table_headers(array_of_headers, has_analysis, table_id){
+	function create_table_headers(array_of_headers, has_analysis){
 		headers_html = "<tr><th></th>";
 
 		for(x in array_of_headers){
 			headers_html += "<th>" + array_of_headers[x] + "</th>";
 		}
 
-		if(has_analysis == true){
-			if (table_id !== 'public_strains_table'){
-				headers_html += "<th>Analysis <button onclick=show_all_analysis()><i class='fa fa-eye' aria-hidden='true'></i></button><button onclick=hide_all_analysis()><i class='fa fa-eye-slash' aria-hidden='true'></i></button></th>";
-			}
-			else {
-				headers_html += "<th>Analysis</th>";
-			}
-		}
+		if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()><i class='fa fa-eye' aria-hidden='true'></i></button><button onclick=hide_all_analysis()><i class='fa fa-eye-slash' aria-hidden='true'></i></button></th>";
 
 		headers_html += "</tr>";		
 		return headers_html;
@@ -563,14 +556,9 @@ function Objects_Utils(){
 
 			$('#'+table_id+' thead > tr').remove();
 			$('#'+table_id+' tbody > tr').remove();
-
-			//if (table_id === "public_strains_table") has_analysis = false;
-
-			console.log(table_headers);
-
-			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis, table_id));
+			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis));
 			$('#'+table_id+' tfoot > tr').remove();
-			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis, table_id));
+			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis));
 			
 
 			callback();

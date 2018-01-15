@@ -257,7 +257,8 @@ class Job_queue(Resource):
 					final_status = "FAILED"
 				
 				try:
-					file2Path = '/'.join(jsonResult[0]["file_2"].split("/")[-3:-2])
+					file2Path = '/'.join(jsonResult[0]["file_2"].split("/")[-3:-1])
+					
 					print file2Path
 				except Exception as p:
 					file2Path = ""

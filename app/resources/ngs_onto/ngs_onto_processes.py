@@ -173,7 +173,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		}"""'''
 
 		#TEST query string
-		queryString = """SELECT (COUNT (?message) as ?ocount) {?message rdf:type/rdfs:subClassOf* obo:NGS_0000061}"""
+		queryString = """SELECT ?index {?message rdf:type/rdfs:subClassOf* obo:NGS_0000061; obo:NGS_0000081 ?index} order by desc(?index) limit 1"""
 
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()

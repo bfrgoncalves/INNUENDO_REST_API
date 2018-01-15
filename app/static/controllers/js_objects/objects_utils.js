@@ -559,8 +559,6 @@ function Objects_Utils(){
 
 			if (table_id === "public_strains_table") has_analysis = false;
 
-			console.log(table_headers);
-
 			$('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis, table_id));
 			$('#'+table_id+' tfoot > tr').remove();
 			$('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis, table_id));

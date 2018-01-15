@@ -32,7 +32,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		},
 		ngs_onto_request_create_protocol: function(protocolTypeObject, typeuri, protocol_id, callback){
 
-			console.log(protocol_id);
 			req = {
 		        url:'api/v1.0/ngsonto/protocols/',
 		        method:'POST',
@@ -64,8 +63,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		//////////////// Workflows Requests /////////////////////////////////////////
 		ngs_onto_request_add_workflow: function(workflow_id, protocol_ids, callback){
 
-			console.log(workflow_id);
-			console.log(protocol_ids);
 	    	
 	    	req = {
 		        url:'api/v1.0/ngsonto/workflows/protocols',
@@ -83,7 +80,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 		    });
 	    },
 	    ngs_onto_request_get_workflow: function(workflow_id, strain_name, workflow_name, callback){
-	    	console.log(workflow_id);
 	    	
 	    	req = {
 		        url:'api/v1.0/ngsonto/workflows/protocols',
@@ -144,8 +140,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 
 		},
 		ngs_onto_request_add_strain_to_project: function(id,  callback){
-
-			console.log(id);
 
 	        req_ngs_onto = {
 	            url: 'api/v1.0/ngsonto/strains/',
@@ -208,7 +202,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
 	        }
 
 	        $http(req).then(function(response){
-	           console.log(response);
 	           callback(response);
 	        },
 	        function(response){
@@ -251,15 +244,9 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
             console.log(req);
 
             $http(req).then(function(response){
-            	console.log(response, "##########################");
-
-            	for(x in response.data){
-            		console.log(response.data[x]);
-            	}
                callback(response, strain_name);
             },
             function(response){
-            	console.log(response);
                 callback(response, strain_name);
             });
 	    },
@@ -290,7 +277,6 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
                callback(response);
             },
             function(response){
-            	console.log(response);
                callback(response);
             });
 	    },
@@ -307,12 +293,12 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
                 }
             }
 
+            console.log(req);
+
             $http(req).then(function(response){
-            	console.log(response);
                callback(response, strain_name, processes_ids);
             },
             function(response){
-            	console.log(response);
                callback(response, strain_name, processes_ids);
             });
 	    },

@@ -1391,6 +1391,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        return item['FilesLocation'];
 		    });
 
+		    console.log(strain_submitter);
+
 		    countWorkflows = 0;
 		    countFinished = 0;
 		    var dict_strain_names = {};

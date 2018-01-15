@@ -402,6 +402,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                		sh = headers_defs[1];
 
 		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
+		                			console.log(global_strains, headers_defs[0], strains_headers);    
 						        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				                	$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');

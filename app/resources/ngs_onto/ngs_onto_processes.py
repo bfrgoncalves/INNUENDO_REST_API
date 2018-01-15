@@ -180,6 +180,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 		result.close()
 
+		print "MESSAGEID", messageid
+
 		if args.strain_id != "null":
 			strainid=args.strain_id
 			rpipid = args.real_pipeline_id
@@ -221,7 +223,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					statements.close()
 
 					#ASK MICKAEL ABOUT THIS
-					messageid -= 1
+					#messageid -= 1
 					numberOfProcesses -= 1
 
 		

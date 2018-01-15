@@ -166,7 +166,9 @@ function Objects_Utils(){
 
 					    $('#'+table_id).columns.adjust().draw();
 
-				    }, 50)
+				    }, 50);
+
+				    setTimeout(function(){$('#'+table_id).columns.adjust().draw();}, 500);
 				    
 
             }

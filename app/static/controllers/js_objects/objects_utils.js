@@ -164,11 +164,9 @@ function Objects_Utils(){
 					    $('#'+table_id+' tbody').find("tr td button.button_table_to_trigger").trigger("click");
 					    $('.child_row').css({"background-color":"#eeffff"});
 
-					    $('#'+table_id).columns.adjust().draw();
-
 				    }, 50);
 
-				    setTimeout(function(){$('#'+table_id).columns.adjust().draw();}, 500);
+				    setTimeout(function(){$('#'+table_id).columns.adjust().draw();}, 2000);
 				    
 
             }

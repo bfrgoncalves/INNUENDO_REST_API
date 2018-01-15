@@ -203,7 +203,9 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 			    });
 			    $('#waiting_spinner').css({display:'none'});
 			    $('#modify_strains_controller_div').css({display:'block'}); 
-			    $("#modify_strains_table").DataTable().draw();
+			    setTimeout(function(){
+			    	$("#modify_strains_table").DataTable().draw();
+			    }, 200);
 			});
 		});
 

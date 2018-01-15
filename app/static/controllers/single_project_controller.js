@@ -128,7 +128,7 @@ function set_headers_single_project(table_id, global_strains){
 			for(x in global_strains[0]){
 				if(x == dict_fields[headers_order[p]]){
 					console.log(x);
-					if (x != "Analysis" && x != "id" && x != "species_id" && x != "lab_protocols" && x != FilesLocation){
+					if (x != "Analysis" && x != "id" && x != "species_id" && x != "lab_protocols" && x != "FilesLocation"){
 						if($.inArray(matching_fields[x], minimal_fields) > -1){
 							if(x === "strainID") {
 								p_col_defs.push({"data":x, "className": 'strain_cell'});

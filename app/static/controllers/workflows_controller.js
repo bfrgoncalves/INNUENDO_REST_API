@@ -118,6 +118,13 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 		});
 	}
 
+	const updateWorkflows = () => {
+		workflows.get_all_workflows(function(results){
+			objects_utils.destroyTable('workflows_table');
+	    	objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
+	    });
+	}
+
 	$scope.getProtocolTypes = function(){
 
 		protocols.get_protocol_types(function(results){
@@ -224,6 +231,9 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
 	$scope.add_New_Workflow = function(){
 
 		workflows.save_workflow(function(status){
+
+			updateWorkflows();
+			
 			if(status == true){
 				modalAlert("Workflow saved.", function(){
 				});

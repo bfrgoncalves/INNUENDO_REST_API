@@ -72,8 +72,7 @@ function set_headers_single_project(table_id, global_strains){
 		        { "data": "Food-Bug", "visible":false },
 		        { "data": "Submitter", "visible":false },
 		        { "data": "File_2", "visible":false },
-		        { "data": "Location" },
-		        { "data": "FilesLocation" }
+		        { "data": "Location" }
 
 		    ];
 		}
@@ -101,8 +100,7 @@ function set_headers_single_project(table_id, global_strains){
 		        { "data": "Food-Bug", "visible":false },
 		        { "data": "Submitter", "visible":false },
 		        { "data": "File_2", "visible":false },
-		        { "data": "Location" },
-		        { "data": "FilesLocation" },
+		        { "data": "Location" }
 		        {
 		            "className":      'details-control',
 		            "orderable":      false,

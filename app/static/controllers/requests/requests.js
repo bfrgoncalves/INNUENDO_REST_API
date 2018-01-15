@@ -11,7 +11,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: { accession_numbers: accession_numbers }
 		    }
 
-		    console.log(req);
+		    ////console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response, accession_numbers);
@@ -28,7 +28,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params: { accession_numbers: file_name }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response, accession_numbers);
@@ -44,7 +44,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: { steps: protocol_object, name: protocol_object.name}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -59,7 +59,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params: { type: selectedType }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -74,7 +74,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params: { protocol_ids: ids }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response, workflow_entry);
@@ -85,7 +85,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		//////////////// Workflows Requests /////////////////////////////////////////
 		add_workflow: function(callback){
 
-			console.log($('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text());
+			//console.log($('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text());
 			
 			req = {
 		        url:'api/v1.0/workflows/',
@@ -94,7 +94,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: $('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text() + "&species=" + $( "#workflow_species option:selected" ).text() + "&dependency=" + $( "#select_dependency option:selected" ).text()
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -110,7 +110,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            method:'GET'
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
 	            callback(response);
@@ -125,7 +125,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            method:'GET'
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
 	            callback(response);
@@ -146,13 +146,13 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
-	        	console.log(response);
+	        	//console.log(response);
 	            callback(response);
 	        }, function(response){
-	        	console.log(response);
+	        	//console.log(response);
 	        	callback(response);
 	        });
 		},
@@ -174,7 +174,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 			}
 
-			console.log(req);
+			//console.log(req);
 
 	        $http(req).then(function(response){
 	        	callback(response);
@@ -192,7 +192,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: $('#new_project_form').serialize()
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -207,7 +207,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            method:'DELETE'
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
 	            callback(response);
@@ -222,7 +222,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            method:'GET'
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
 	            callback(response);
@@ -238,7 +238,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -255,7 +255,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params:{'project_id': project_id, 'pipelines_to_check':pipelines_to_check}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -272,7 +272,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params:{'strain_id': strain_id_to_search}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -290,7 +290,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -301,7 +301,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		},
 		save_reports: function(job_ids, strain_names, CURRENT_SPECIES_ID, callback){
 
-			console.log(strain_names,job_ids);
+			//console.log(strain_names,job_ids);
 
 		    req = {
 		        url: 'api/v1.0/reports/combined', //Defined at utils.js
@@ -310,7 +310,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: $('#save_report_form').serialize() + '&job_ids=' + job_ids + '&strain_ids=' + strain_names +'&species_id='+ CURRENT_SPECIES_ID
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -327,13 +327,13 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params:{"species_id": CURRENT_SPECIES_ID}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
-		    	console.log(response);
+		    	//console.log(response);
 		    	callback(response);
 	        },function(response){
-	        	console.log(response);
+	        	//console.log(response);
 	            callback(response);
 		    });
 
@@ -346,13 +346,13 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params:{"species_id": CURRENT_SPECIES_ID}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
-		    	console.log(response);
+		    	//console.log(response);
 		    	callback(response);
 	        },function(response){
-	        	console.log(response);
+	        	//console.log(response);
 	            callback(response);
 		    });
 
@@ -367,7 +367,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -383,7 +383,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET',
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
@@ -401,12 +401,12 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params:{"classifier": classifier, "species":species}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		    	callback(response);
 	        },function(response){
-	        	console.log(response);
+	        	//console.log(response);
 	            callback(response);
 		    });
 
@@ -420,7 +420,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data:$('#' + pipelineformID).serialize()
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		      		callback(response);
@@ -443,7 +443,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -466,7 +466,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -484,7 +484,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -510,13 +510,13 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			    }
 			}
 
-			console.log(req);
+			//console.log(req);
 
 		    $http(req).then(function(response){
 		        callback(response, strain_id);
 	        },
 	        function(response){
-	        	console.log(response);
+	        	//console.log(response);
 	            callback(response, strain_id);
 		    });
 		},
@@ -528,7 +528,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params:{all:true}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		        callback(response);
@@ -548,7 +548,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		        callback(response);
@@ -568,7 +568,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		        callback(response, strain_id, pipeline_to_use);
@@ -584,7 +584,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -600,7 +600,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -616,7 +616,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response, strain_id, is_there);
@@ -635,13 +635,13 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){      
 		            callback(response);
 		        },
 		        function(response){
-		        	console.log(response);  
+		        	//console.log(response);  
 		            callback(response);
 		    });
 		},
@@ -654,14 +654,14 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: $('#new_strain_form').find("select, input, textarea").serialize()
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
-		    		console.log(response);
+		    		//console.log(response);
 		            callback(response);
 		        },
 		        function(response){
-		        	console.log(response);
+		        	//console.log(response);
 		            callback(response);
 		    });
 
@@ -676,7 +676,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        data: $('#modify_strain_form').find("select, input, textarea").serialize() + "&strain_id=" + strain_id
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -697,7 +697,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
 	                callback(response);
@@ -716,7 +716,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
 	               callback(response, strain_id, strainID);
@@ -737,7 +737,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 	        }
 
-	        console.log(req);
+	        //console.log(req);
 
 	        $http(req).then(function(response){
 	               callback(response);
@@ -776,7 +776,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response, strain_name, pipeline_id);
@@ -807,7 +807,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response, job_ids, pipeline_id);
@@ -826,7 +826,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -843,7 +843,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -863,7 +863,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -880,7 +880,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        method:'GET'
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response);
@@ -901,13 +901,13 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
-		    		console.log(response)
+		    		//console.log(response)
 		            //url = CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
 		            url = 'api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
-					console.log(url);
+					//console.log(url);
 
 					var link = document.createElement("a");
 				    link.download = path.split('/').slice(-1)[0];
@@ -945,10 +945,10 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        }
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
-		    		console.log(response)
+		    		//console.log(response)
 				    callback(response);
 		        },
 		        function(response){
@@ -978,7 +978,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 		    
 		    $http(req).then(function(response){
 		            callback(response);
@@ -999,13 +999,13 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 		    
 		    $http(req).then(function(response){
 		            callback(response);
 		        },
 		        function(response){
-		        	console.log(response);
+		        	//console.log(response);
 		            callback(response);
 		    });
 		},
@@ -1020,7 +1020,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		    	}
 		    }
 
-		    console.log(req);
+		    //console.log(req);
 
 		    $http(req).then(function(response){
 		            callback(response, redis_job_id);

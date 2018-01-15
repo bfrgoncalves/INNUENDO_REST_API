@@ -2009,7 +2009,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						//console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
 			}
-			modalAlert("Procedure removed.", function(){});
+			modalAlert("Procedure removed. This action will only be applied when running consequent analysis on this strain.", function(){});
 			callback({strains: strain_data, indexes:strain_indexes});
 
 		},

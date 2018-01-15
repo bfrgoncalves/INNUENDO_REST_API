@@ -49,23 +49,6 @@ function set_headers_single_project(table_id, global_strains){
 
 	if(global_strains.length == 0){
 
-		if (table_id === 'public_strains_table'){
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div></div>'
-	        };
-		}
-		else {
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	        };
-		}
-
 		var p_col_defs = [
 	    	{
 	            "className":      'select-checkbox',
@@ -90,28 +73,16 @@ function set_headers_single_project(table_id, global_strains){
 	        { "data": "File_2", "visible":false },
 	        { "data": "Location" },
 	        { "data": "FilesLocation" },
-	        analysis_cell
+	        {
+	            "className":      'details-control',
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": '<div><button class="details-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	        }
 
 	    ];
 	}
 	else{
-
-		if (table_id === 'public_strains_table'){
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div></div>'
-	        };
-		}
-		else {
-			var analysis_cell = {
-	            "className":      'details-control',
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
-	        };
-		}
 
 		var p_col_defs = [
 			{
@@ -141,7 +112,12 @@ function set_headers_single_project(table_id, global_strains){
 			}
 		}
 
-		p_col_defs.push(analysis_cell);
+		p_col_defs.push({
+	        "className":      'details-control',
+	        "orderable":      false,
+	        "data":           null,
+	        "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	    });
 		
 	}
 

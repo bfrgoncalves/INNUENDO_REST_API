@@ -234,6 +234,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			addedProcesses=numberOfProcesses
 			hasOutputRel=dbconAg.createURI(namespace=obo, localname="RO_0002234")
 			hasInputRel=dbconAg.createURI(namespace=obo, localname="RO_0002233")
+			index=dbconAg.createURI(namespace=obo, localname="obo:NGS_0000081")
 			isRunOfProtocl=dbconAg.createURI(namespace=obo, localname="NGS_0000091")
 			
 			#prev process to link (strain URI most of times)
@@ -257,6 +258,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				protocolTypeURI = dbconAg.createURI(listOrderedProtocolsURI[addedProcesses])
 				indexProp = dbconAg.createURI(namespace=obo, localname="NGS_0000081")
 				indexInt = dbconAg.createLiteral((addedProcesses+1), datatype=XMLSchema.INT)
+				messageindexInt = dbconAg.createLiteral((messageid), datatype=XMLSchema.INT)
 
 
 				# get specific process input type and uri
@@ -279,6 +281,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				
 				#create output and input/output link messages to process
 				dbconAg.add(messageURI, RDF.TYPE, messageTypeURI)
+				dbconAg.add(messageURI, index, messageindexInt)
 				dbconAg.add(processURI, hasOutputRel, messageURI)
 				dbconAg.add(processURI, isRunOfProtocl, protocolTypeURI)
 				dbconAg.add(processURI, hasInputRel, prevMessageURI)

@@ -172,6 +172,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		SELECT DISTINCT ?out WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc. ?proc obo:RO_0002234 ?out.}
 		}"""'''
 
+		#Starts at 500 in case does not exists
+		messageid = 500;
+
 		#TEST query string
 		queryString = """SELECT ?index {?message rdf:type/rdfs:subClassOf* obo:NGS_0000061; obo:NGS_0000081 ?index} order by desc(?index) limit 1"""
 
@@ -182,8 +185,6 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 			messageid=int(str(bindingSet[0]).split('"')[1])
 
 		result.close()
-
-		print "MESSAGEID", messageid
 
 		if args.strain_id != "null":
 			strainid=args.strain_id

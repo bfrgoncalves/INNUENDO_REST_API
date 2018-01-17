@@ -213,7 +213,6 @@ table.display{
 #overlayWorking{
   text-align:center;
   z-index: 9999;
-  background-color: #8c8c8c;
   position: absolute;
   margin: auto;
   top: 0;
@@ -223,5 +222,4 @@ table.display{
   width: 10%;
   height: 10%;
   border-radius: 3px;
-  opacity: 0.1;
 }

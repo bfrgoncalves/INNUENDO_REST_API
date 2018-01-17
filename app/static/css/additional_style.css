@@ -200,3 +200,26 @@ table.display{
 #modalNextflowLogs .modal-dialog {
   width: 80%;
 }
+
+
+#overlayProjects{
+  z-index: 9998;
+  background-color: #8c8c8c;
+  opacity: 0.5;
+  height: 100%;
+  width: 100%;
+}
+
+#overlayWorking{
+  z-index: 9999;
+  background-color: white;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 10%;
+  height: 10%;
+  border-radius: 3px;
+}

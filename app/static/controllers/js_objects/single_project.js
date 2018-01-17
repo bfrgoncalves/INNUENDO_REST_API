@@ -157,7 +157,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            if(has_same_files == true){
 	            	message = "<p><b>Some files associated with this strain are already being used in this Project:</b></p><p>"+message_to_add+"</p><p><b>Do you want to proceed?</b></p>";
 	            	modalAlertAddSameFiles(message, function(toadd){
-	            		console.log(toadd);
 	            		if(toadd == true) continue_adding();
 	            		else{
 	            			pg_requests.remove_strain_from_project(strain_name, function(response){
@@ -424,7 +423,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
 
 					}
-					console.log(process_to_workdir);
 					if(response.data.stdout.length == all_status_done) clearInterval(intervals_running[this_job_id]);
 
 				}
@@ -947,8 +945,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		Get nextflow logs
 		*/
 		getNextflowLog: function(filename, pipeline_id, project_id, callback){
-			console.log(filename);
-			console.log(pipeline_id);
 			pg_requests.get_nextflow_log(filename, pipeline_id, project_id, function(response){
 				callback(response);
 			});
@@ -1092,8 +1088,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	needs_dependency = true;
 
 		        	dependencies_check.push([proc_value, pipelinesAndDependency[proc_value]]);
-
-		        	console.log(dependencies_check);
 		        	
 		        	if(counter == strain_data.length-1){
 			        	if(needs_dependency) {
@@ -1185,8 +1179,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	if(!protocols_applied_by_pipeline[strain_data[counter]['strainID']].hasOwnProperty(proc_value)){
 				        	protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value] = [];
 				        }
-				        console.log(proc_value);
-				        console.log(protocols_applied_by_pipeline[strain_data[counter]['strainID']]);
 
 			        	protocols_applied_by_pipeline[strain_data[counter]['strainID']][proc_value].push(protocol_buttons);
 		        	
@@ -1314,7 +1306,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
 			                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
 			                button_n = d.split("id")[1].split('"')[1];
-			                console.log(x);
 			                
 			                if(buttons_to_tasks[button_n] == undefined){
 			                	buttons_to_tasks[button_n] = "buttonworkflow_" + pipeline_id + "_" + String(x+1);
@@ -1341,7 +1332,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			                			}
 			                			if(pipelines_type_by_strain[strain_id_to_name[strain_id]][3] != undefined) pipelines_type_by_strain[strain_id_to_name[strain_id]][3] = undefined;
 			                			
-			                			console.log(workflow_ids, steps);
 			                			ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, function(response){
 						                	if(response.status == 200){
 						                	}
@@ -1503,9 +1493,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        		}
 
-			        		console.log(dict_strain_names[strain_names[strain_name]][1]);
-
-
 		        			while(dict_strain_names[strain_names[strain_name]][1].length != 0){
 		        				workflowName = dict_strain_names[strain_names[strain_name]][1].shift();
 		        				workflow_order[strain_names[i]].push(workflowName);
@@ -1577,6 +1564,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        				//Add job id to the process on ngsonto and start checking the job status
 					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_names[strain_name]]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name, process_ids){
 		        								count_strains_added_run += 1;
+
+		        								$("#submission_status").empty();
+		        								$("#submission_status").html("Submitted " + String(count_strains_added_run) + " out of " + String(strain_names.length) + "...");
+
 		        								for(tk in response.data.tasks){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
 		        								}

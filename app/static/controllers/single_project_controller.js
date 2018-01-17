@@ -287,7 +287,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
     	$('#buttonSub').one("click", function(){
     		$('#modalAlert').modal("hide");
-    		console.log("Alert");
 
     		setTimeout(function(){return callback()}, 400);
     	})
@@ -554,6 +553,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	$scope.runPipelines = function(){
 		$('#button_run_strain').fadeTo("slow", 0.5).css('pointer-events','none');
 
+		$("#overlayProjects").css({"display":"block"});
+		$("#overlayWorking").css({"display":"block"});
+		$("#submission_status").empty();
+
 		//Check if there are jobs pending or already running. If so, the jobs can't be run again
 		single_project.check_if_pending(function(haspending){
 			if(haspending == true){
@@ -572,6 +575,8 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 					else if(run != "no_select") {
 						modalAlert('All processes for the selected strains have been run.', function(){});
 						$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+						$("#overlayProjects").css({"display":"none"});
+						$("#overlayWorking").css({"display":"none"});
 					}
 				});
 			}
@@ -726,12 +731,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 	$scope.change_type_to_form = function(){
 		trigger_from_file_load = false;
-		console.log(trigger_from_file_load);
 	}
 
 	$scope.change_type_to_file = function(){
 		trigger_from_file_load = true;
-		console.log(trigger_from_file_load);
 	}
 
 	/*
@@ -780,7 +783,6 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			global_strains = strains_results.strains;
 			headers_defs = set_headers_single_project('strains_table', global_strains);
 			objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
-				console.log(global_strains, headers_defs[0], strains_headers);
 				//objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 				modalAlert("Strains were added to the project.", function(){});
 			});

@@ -1,6 +1,13 @@
 
 <div ng-controller="projectCtrl" ng-init="showProject()" style="display:none;" id="single_project_controller_div">
 	
+  <div id="overlayProjects"></div>
+  <div id="overlayWorking">
+    <img src='static/img/spinner.gif' style="height:30%; width:auto" />
+    <p>Working...</p>
+    <p id="submission_status"></p>
+  </div>
+
   <div class="row">
     <div class="jumbotron jumbotron-fluid">
         <div class="container">

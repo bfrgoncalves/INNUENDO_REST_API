@@ -173,8 +173,6 @@ class Job_queue(Resource):
 
 			files = {}
 
-			print "WRKDIR", processes_wrkdir[counter]
-
 			if processes_wrkdir[counter] != "false" and processes_to_run[counter] == "true":
 				workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", processes_wrkdir[counter])
 				shutil.rmtree(workdirPath)

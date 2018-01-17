@@ -103,6 +103,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 
 	try:
 		additional_data = json.loads(additional_data)
+		print additional_data
 	except Exception:
 		additional_data = {}
 
@@ -192,6 +193,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						if x != "Platform tag" and x != "Classifier":
 							straind.append("NA")
 					continue
+			
 			straind.append("FP")
 			strain_at_db_but_clicked = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == report.sample_name).first()
 			if strain_at_db_but_clicked:

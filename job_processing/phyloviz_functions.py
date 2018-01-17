@@ -187,7 +187,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					for key, val in additional_data[report.sample_name].iteritems():
 						if key == x:
 							is_added = True
-							straind.append(val)
+							straind.append(str(val))
 					if is_added == False:
 						if x != "Platform tag" and x != "Classifier":
 							straind.append("NA")

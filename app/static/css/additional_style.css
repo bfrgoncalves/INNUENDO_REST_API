@@ -223,4 +223,5 @@ table.display{
   width: 10%;
   height: 10%;
   border-radius: 3px;
+  opacity: 0.1;
 }

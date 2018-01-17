@@ -124,6 +124,7 @@ class Job_Reports(Resource):
 	def post(self):
 		parameters = request.json
 		try:
+			print parameters.replace("'", '"')
 			parameters_json = json.loads(parameters.replace("'", '"'))
 		except Exception as e:
 			print e

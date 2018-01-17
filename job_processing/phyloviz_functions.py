@@ -262,7 +262,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					else:
 						string_metadata.append(strain_metadata[x])
 				except Exception as e:
-					string_metadata.append("")
+					string_metadata.append("NA")
 
 			#print "METADATA",len(string_metadata)
 			all_metadata.append('\t'.join(string_metadata))

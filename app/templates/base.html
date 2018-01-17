@@ -28,6 +28,14 @@
 
 </head>
 <body>
+
+    <div id="overlayProjects"></div>
+      <div id="overlayWorking">
+        <img src='static/img/spinner.gif' style="height:90%; width:auto" />
+        <p style="margin-top: 10px;">Working...</p>
+        <p id="submission_status" style="margin-top: 10px;"></p>
+    </div>
+
 	{% block content %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
     <script>

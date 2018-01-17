@@ -163,7 +163,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				for key, val in additional_data.iteritems():
 					for key1, val1 in val.iteritems():
 						if key1 not in headers_metadata:
-							headers_metadata.append(key)
+							headers_metadata.append(key1)
 
 				headers_metadata.append("Platform tag")
 				headers_metadata.append("Classifier")

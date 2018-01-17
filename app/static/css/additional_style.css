@@ -205,12 +205,14 @@ table.display{
 #overlayProjects{
   z-index: 9998;
   background-color: #8c8c8c;
-  opacity: 0.5;
+  opacity: 0.1;
   height: 100%;
   width: 100%;
+  display:none;
 }
 
 #overlayWorking{
+  text-align:center;
   z-index: 9999;
   background-color: white;
   position: absolute;
@@ -222,4 +224,5 @@ table.display{
   width: 10%;
   height: 10%;
   border-radius: 3px;
+  display:none;
 }

@@ -108,13 +108,11 @@ class PipelineListResource(Resource):
 		args=pipeline_delete_parser.parse_args()
 		if not current_user.is_authenticated:
 				abort(403, message="No permissions")
-		print args.strain_id
 		pipeline = db.session.query(Pipeline).filter(Pipeline.strain_id == args.strain_id, Pipeline.project_id == id).first()
 		if not pipeline:
 			abort(404, message="Pipeline {} doesn't exist".format(id))
 		print args.tag_remove
 		if args.tag_remove == "true":
-			print "REAL REMOVE"
 			db.session.delete(pipeline)
 		db.session.commit()
 		return pipeline, 204
@@ -128,7 +126,7 @@ class PipelineListResource(Resource):
 		pipeline = db.session.query(Pipeline).filter(Pipeline.strain_id == args.strain_id, Pipeline.project_id == id).first()
 		if not pipeline:
 			abort(404, message="Pipeline {} doesn't exist".format(id))
-		print args.tag_remove
+
 		if args.tag_remove == "true":
 			pipeline.removed = "true"
 		elif args.tag_remove == "false":

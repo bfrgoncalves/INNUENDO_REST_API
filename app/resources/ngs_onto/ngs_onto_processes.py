@@ -123,6 +123,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		statements.close()
 		numberOfProcesses=len(jsonResult)
 
+		print "Request 1", str(id2)
+
 		#get all ordered workflows from pipeline
 		queryString = "SELECT (str(?proc) as ?StrProc) (str(?index) as ?StrIndex) WHERE{<"+pipelineStr+"> obo:BFO_0000051 ?proc. ?proc obo:NGS_0000081 ?index.}"
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
@@ -132,13 +134,17 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 		numberOfProcesses=len(procJsonResult)	
 
+		print "Request 2", str(id2)
+
 		
 		#get all ordered workflows from pipeline
 		queryString = "SELECT ?execStep ?stepIndex ?workflowURI ?execStep  WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI; obo:NGS_0000081 ?stepIndex3} ORDER BY ASC(?stepIndex)"
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["stepIndex","workflowURI","execStep"])
-		result.close()	
+		result.close()
+
+		print "Request 3", str(id2)	
 		
 		
 		#get all protocols per workflow
@@ -159,6 +165,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 						listOrderedProtocolsURI.append(results["protocolURI"]);
 						listOrderedProcessTypes.append(processTypes[k])
 						listOrderedMessageTypes.append(processMessages[k])
+
+		print "Request 4 all protocols", str(id2)	
 
 		'''queryString = """SELECT (COUNT (?prc) as ?pcount){
 		SELECT DISTINCT ?prc WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc.}
@@ -183,6 +191,8 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 		
 		for bindingSet in result:
 			messageid=int(str(bindingSet[0]).split('"')[1])
+
+		print "Request 5", str(id2)	
 
 		result.close()
 
@@ -226,10 +236,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 					jsonResult=parseAgraphStatementsRes(statements)
 					statements.close()
 
-					#ASK MICKAEL ABOUT THIS
-					#messageid -= 1
 					numberOfProcesses -= 1
 
+		print "Request 6", str(id2)	
 		
 		try:
 			addedProcesses=numberOfProcesses
@@ -290,7 +299,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				#prevMessageURI=messageURI
 				addedProcesses+=1
 				processes_ids.append(processid)
-		
+			
+			print "Request 7", str(id2)	
+			
 			return processes_ids
 		except Exception as e:
 			print e

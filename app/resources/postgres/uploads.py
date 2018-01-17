@@ -37,7 +37,6 @@ class DownloadFilesResource(Resource):
 	def post(self):
 		args=downloads_get_parser.parse_args()
 		request = requests.post(config1['DOWNLOADS_ROOT'], data={'username':current_user.username, 'accession_numbers': args.accession_numbers})
-		print request.json()
 
 		return request.json(), 200
 
@@ -45,5 +44,5 @@ class DownloadFilesResource(Resource):
 	def get(self):
 		args=downloads_get_parser.parse_args()
 		request = requests.get(config1['DOWNLOADS_ROOT'], data={'username':current_user.username, 'accession_numbers': args.accession_numbers})
-		print request.json()
+		
 		return request.json(), 200

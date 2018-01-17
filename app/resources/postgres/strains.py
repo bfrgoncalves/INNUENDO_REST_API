@@ -98,7 +98,7 @@ class StrainListResource(Resource):
 		args=strain_project_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
-		print args.from_user
+
 		if args.speciesID and args.from_user == "true":
 			strains = db.session.query(Strain).filter(Strain.species_id == args.speciesID, Strain.user_id == current_user.id).all()
 		elif args.speciesID and args.from_user == "false":
@@ -127,7 +127,6 @@ class StrainListResource(Resource):
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions to POST")
 
-		print args
 		if not args["Food-Bug"]:
 			s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-")
 		else:
@@ -138,7 +137,6 @@ class StrainListResource(Resource):
 		if strain:
 			file_1 = ""
 			file_2 = ""
-			print args
 			try:
 				if args["File_1"] and (json.loads(strain.strain_metadata)["File_1"] == args["File_1"] or json.loads(strain.strain_metadata)["File_1"] != args["File_1"]):
 					strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
@@ -168,35 +166,21 @@ class StrainListResource(Resource):
 	@marshal_with(strain_fields)
 	def put(self):
 		args=request.form
-		print args
-
 		strain = db.session.query(Strain).filter(Strain.id == args["strain_id"]).first()
-
-		print strain
 		
 		if not strain:
 			abort(404, message="An error as occurried")
 		else:
 			strain_metadata = json.loads(strain.strain_metadata)
-			#strain_fields = json.loads(strain.fields)
-			#print strain_metadata
+
 			for key, val in args.iteritems():
 				strain_metadata[key] = val
 
-			print strain_metadata
 
 			strain.strain_metadata = json.dumps(strain_metadata)
 			db.session.commit()
 
 			return strain, 201
-			#print strain_fields
-			#new_metadata_fields = []
-
-			#for x in strain_fields["metadata_fields"]:
-				#if x != args.key:
-					#new_metadata_fields.append(x)
-
-			#strain_metadata[args.key] = args.value
 
 
 class StrainsByNameResource(Resource):

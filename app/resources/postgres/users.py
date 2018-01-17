@@ -65,7 +65,6 @@ class UserExternalLogin(Resource):
 
         try:
             result = User.try_login(username, password)
-            print result
             if result == False:
                 return None
         except ldap.INVALID_CREDENTIALS, e:

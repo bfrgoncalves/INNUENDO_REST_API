@@ -91,9 +91,6 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 		new_job_id = project_id + pipeline_id + process_position
 		jobID = database_processor.classify_profile(results, species, sample, new_job_id)
 	
-
-	print procedure
-	
 	#job_id = 1
 
 	if not report:
@@ -192,7 +189,6 @@ class Job_queue(Resource):
 
 		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
 		to_send.append(request.json()['jobID'])
-		print to_send
 		return to_send, 200
 
 	def get(self):
@@ -215,7 +211,6 @@ class Job_queue(Resource):
 			job_id = job_ids[k]
 			process_id = process_ids[k]
 			from_process_controller = args.from_process_controller
-			print "JOB", job_id
 
 			go_to_pending = False
 
@@ -231,7 +226,7 @@ class Job_queue(Resource):
 				procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(process_id)
 				queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
 
-				print queryString
+				#print queryString
 
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
@@ -239,7 +234,6 @@ class Job_queue(Resource):
 				jsonResult=parseAgraphQueryRes(result,["statusStr", "file_2"])
 
 				result.close()
-				print jsonResult
 
 				if "pass" in jsonResult[0]["statusStr"]:
 					final_status = "COMPLETED"
@@ -258,8 +252,6 @@ class Job_queue(Resource):
 				
 				try:
 					file2Path = '/'.join(jsonResult[0]["file_2"].split("/")[-3:-1])
-					
-					print file2Path
 				except Exception as p:
 					file2Path = ""
 
@@ -277,7 +269,7 @@ class Job_queue(Resource):
 			all_paths.append(results[1])
 			all_wrkdirs.append(file2Path)
 
-		print len(all_std_out), len(store_jobs_in_db), len(all_results), len(all_paths)
+		#print len(all_std_out), len(store_jobs_in_db), len(all_results), len(all_paths)
 
 		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids, 'all_wrkdirs':all_wrkdirs, 'process_ids': process_ids}
 
@@ -334,7 +326,6 @@ class Job_Result_Download(Resource):
 	#@login_required
 	def get(self):
 		args = job_download_results_get_parser.parse_args()
-		print JOBS_ROOT + 'results/download/'
 		local_filename = 'app/results/'+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
 		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
 

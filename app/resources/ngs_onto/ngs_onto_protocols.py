@@ -101,7 +101,7 @@ class NGSOnto_ProtocolPropertiesFieldsList(Resource):
 			queryString = "SELECT ?plabel WHERE {"+args.uri+""" ?s ?allprop.
 								?allprop owl:onProperty ?property.
 								?property rdfs:label ?plabel.}"""
-			print queryString
+
 			tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 			result = tupleQuery.evaluate()
 			jsonResult=parseAgraphQueryRes(result,["plabel"])

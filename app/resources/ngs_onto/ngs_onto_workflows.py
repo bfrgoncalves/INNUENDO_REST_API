@@ -74,29 +74,17 @@ class NGSOnto_WorkflowListPipelineResource(Resource):
 		jsonResult=parseAgraphQueryRes(result,["execStep","step"])
 		result.close()
 
-		print jsonResult
-		
-
 		for result in jsonResult:
 			aux1= result["execStep"]
 			aux2= result["step"]
-			#print "AQUI"
-			#print aux1
-			#print aux2
-			#print step
+
 			step_converted = map(int, step)
-			#print step_converted
-			#print int(aux2.replace('"', ''))
 
 			if int(aux2.replace('"', '')) in step_converted or int(aux2.replace('"', '')) > max(step_converted):
-				#print "ENTROU", aux1
 				toremove=dbconAg.createURI(aux1)
 				dbconAg.remove(None,None,toremove)
 				dbconAg.remove(toremove,None,None)
 		
-		'''if len(jsonResult) > 0:
-			return 409
-		else:'''
 		counter = -1
 		for i in wkflid:	
 			counter+=1
@@ -144,7 +132,6 @@ class NGSOnto_ProtocolWorkflowResource(Resource):
 		tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 		result = tupleQuery.evaluate()
 		jsonResult=parseAgraphQueryRes(result,["index","protocol"])
-		print jsonResult
 
 		result.close()
 
@@ -160,10 +147,7 @@ class NGSOnto_ProtocolWorkflowResource(Resource):
 
 		for p_id in protocol_ids:
 
-			print p_id
-
 			protocolURI = dbconAg.createURI(namespace=localNSpace, localname="protocols/"+str(p_id))
-			print protocolURI
 
 			hasStep = dbconAg.createURI(namespace=obo, localname="NGS_0000078")
 			workflowURI = dbconAg.createURI(namespace=localNSpace, localname="workflows/"+str(workflow_id))

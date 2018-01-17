@@ -184,11 +184,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						straind.append(strain_metadata[x])
 				except KeyError:
 					is_added = False
-					if bool(additional_data):
-						for key, val in additional_data[str(count_ids)].iteritems():
-							if key == x:
-								is_added = True
-								straind.append(val)
+					for key, val in additional_data[report.sample_name].iteritems():
+						if key == x:
+							is_added = True
+							straind.append(val)
 					if is_added == False:
 						if x != "Platform tag" and x != "Classifier":
 							straind.append("NA")

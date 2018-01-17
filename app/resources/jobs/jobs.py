@@ -130,11 +130,15 @@ class Job_Reports(Resource):
 			print e
 			return 500
 		
+
 		json_data = parameters_json["report_json"]
 		username = parameters_json["current_user_name"]
 		user_id = parameters_json["current_user_id"]
 		task = parameters_json["task"]
 		workdir = parameters_json["workdir"]
+		versions = parameters_json["versions"]
+
+		json_data["versions"] = versions
 		json_data["task"] = task
 		json_data["workdir"] = workdir
 

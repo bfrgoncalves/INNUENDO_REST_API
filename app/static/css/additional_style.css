@@ -208,7 +208,6 @@ table.display{
   opacity: 0.1;
   height: 100%;
   width: 100%;
-  display:none;
 }
 
 #overlayWorking{
@@ -224,5 +223,4 @@ table.display{
   width: 10%;
   height: 10%;
   border-radius: 3px;
-  display:none;
 }

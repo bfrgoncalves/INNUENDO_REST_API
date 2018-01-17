@@ -1566,7 +1566,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        								count_strains_added_run += 1;
 
 		        								$("#submission_status").empty();
-		        								$("#submission_status").html("Submitted " + String(count_strains_added_run) + " out of " + String(strain_names.length) + "...");
+		        								$("#submission_status").html("Submitted " + String(count_strains_added_run) + " out of " + String(strain_names.length) + " jobs...");
 
 		        								for(tk in response.data.tasks){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
@@ -1577,6 +1577,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        								if (count_strains_added_run == strain_names.length){
 		        									modalAlert("Jobs for all the selected strains have been submitted", function(){});
 		        									$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+		        									$("#overlayProjects").css({"display":"none"});
+													$("#overlayWorking").css({"display":"none"});
 		        								}
 		        							})
 					        			})

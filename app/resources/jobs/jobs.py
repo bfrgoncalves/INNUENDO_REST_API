@@ -136,7 +136,9 @@ class Job_Reports(Resource):
 		task = parameters_json["task"]
 		workdir = parameters_json["workdir"]
 		versions = parameters_json["versions"]
+		trace = parameters_json["trace"]
 
+		json_data["trace"] = trace
 		json_data["versions"] = versions
 		json_data["task"] = task
 		json_data["workdir"] = workdir

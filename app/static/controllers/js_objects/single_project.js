@@ -361,7 +361,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						dict_of_tasks_status[task_id] = status;
 						current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
-						process_to_workdir[pip_id + "-" + response.data.process_ids[counter_processes-1]] = response.data.all_wrkdirs[counter_processes-1];
+						process_to_workdir[pip_id + "-" + response.data.process_ids[counter_processes-1]] = response.data.all_wrkdirs[counter_processes-1].join();
 
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 
@@ -2038,6 +2038,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	strains_object = {};
 
 		      	strains_object['body'] = [];
+
+		      	var strains_with_problems = {};
 		      	
 		      	//parse file
 		      	for(i in lines){
@@ -2062,6 +2064,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		var identifier_s = "";
 		      		var no_identifier = true;
 		      		var bad_submitter = false;
+		      		
 		      		for (x in line_to_use){
 		      			var hline_to_use = strains_object['headers'];
 		      			if(hline_to_use.length != line_to_use.length){
@@ -2074,6 +2077,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			if (hline_to_use[x].indexOf("Primary-Identifier") > -1){
 		      				if (bline_to_use[x] != "") no_identifier = false;
 		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[parseInt(x)+1]).replace(/ /g, "-")
+		      				
+		      				if(!strains_with_problems.hasOwnProperty(identifier_s)){
+		      					strains_with_problems[identifier_s] = [];
+		      				}
 		      			}
 
 		      			if (hline_to_use[x].indexOf("Submitter") > -1){
@@ -2096,6 +2103,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		}
 		      		
 		      		setTimeout(function(){
+
 		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true){
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
@@ -2106,34 +2114,49 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      			}
 		      			}
 		      			else if(bad_submitter == true){
+
+		      				strains_with_problems[identifier_s].push("The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").");
+
 		      				modalAlert("The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").", function(){
 				      			hline_to_use.map(function(a){ $("#"+a).val("")});
 				      			$('#Submitter').val(CURRENT_USER_NAME);
 		      				});
 		      			}
 		      			else if(no_identifier == true){
+
+		      				strains_with_problems[identifier_s].push("One of the entries does not have a valid identifier.");
+
 		      				modalAlert("One of the entries does not have a valid identifier.", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");
+				      				showDoneImportModal();
 				      				hline_to_use.map(function(a){ $("#"+a).val("")});
 				      			}
 		      				});
 		      			}
 		      			else if(files_in_user_folder < 2){
+
+		      				strains_with_problems[identifier_s].push("One or more files for strain " + identifier_s + " are not available on the user folder.");
+
 		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");
+				      				showDoneImportModal();
 				      				hline_to_use.map(function(a){ $("#"+a).val("")});
 				      			}
 		      				});
 		      			}
 		      			else{
+
+		      				strains_with_problems[identifier_s].push("An unexpected error as occuried when adding the strain " + identifier_s + ".");
+
 		      				modalAlert("An unexpected error as occuried when adding the strain " + identifier_s + ".", function(){
 		      					if(strains_object['body'].length != 0) add_to_database();
 		      					else {
 				      				console.log("DONE");
+				      				showDoneImportModal();
 				      				hline_to_use.map(function(a){ $("#"+a).val("")});
 				      			}
 		      				});

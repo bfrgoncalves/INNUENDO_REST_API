@@ -222,13 +222,13 @@ class Job_queue(Resource):
 			store_in_db = False
 
 			final_status = ""
-			file2Path = ""
+			file2Path = []
 
 			print '--project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
 
 			try:
 				procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(process_id)
-				queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
+				queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?file4) as ?file_4) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000096 ?file4; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
 
 				#print queryString
 
@@ -255,9 +255,10 @@ class Job_queue(Resource):
 					final_status = "FAILED"
 				
 				try:
-					file2Path = '/'.join(jsonResult[0]["file_2"].split("/")[-3:-1])
+					for r in jsonResult:
+						file2Path.append('/'.join(r["file_2"].split("/")[-3:-1]))
 				except Exception as p:
-					file2Path = ""
+					file2Path = []
 
 
 			except Exception as e:

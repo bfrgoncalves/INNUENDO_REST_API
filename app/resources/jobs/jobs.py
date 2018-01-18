@@ -81,9 +81,9 @@ nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str, req
 database_processor = Queue_Processor()
 
 #Add job data to db
-def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id, procedure, species):
+def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id, procedure, species, overwrite):
 
-	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.process_position == process_position).first()
+	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.procedure == procedure).first()
 
 
 	if "chewbbaca" in procedure:
@@ -94,7 +94,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 	#job_id = 1
 
 	if not report:
-		report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample, process_position=process_position)
+		report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample, process_position=process_position, procedure=procedure)
 		if not report:
 			abort(404, message="An error as occurried when uploading the data")
 
@@ -103,14 +103,23 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 
 		return True
 	else:
-		report.project_id=project_id
-		report.pipeline_id=pipeline_id
-		report.process_position=process_position
-		report.report_data=results
-		report.timestamp=datetime.datetime.utcnow()
-		report.user_id=user_id
-		report.username=username
-		report.sample_name=sample
+
+		#Appends to report data
+		if overwrite == "false":
+			try:
+				report.report_data["trace"].append(results["trace"])
+			except Exception:
+				print "No trace to append"
+		else:
+			report.project_id=project_id
+			report.pipeline_id=pipeline_id
+			report.process_position=process_position
+			report.report_data=results
+			report.timestamp=datetime.datetime.utcnow()
+			report.user_id=user_id
+			report.username=username
+			report.sample_name=sample
+			report.procedure = procedure
 
 		db.session.commit()
 
@@ -129,7 +138,6 @@ class Job_Reports(Resource):
 			print e
 			return 500
 		
-
 		json_data = parameters_json["report_json"]
 		username = parameters_json["current_user_name"]
 		user_id = parameters_json["current_user_id"]
@@ -137,13 +145,14 @@ class Job_Reports(Resource):
 		workdir = parameters_json["workdir"]
 		versions = parameters_json["versions"]
 		trace = parameters_json["trace"]
+		overwrite = parameters_json["overwrite"]
 
 		json_data["trace"] = trace
 		json_data["versions"] = versions
 		json_data["task"] = task
 		json_data["workdir"] = workdir
 
-		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id, json_data["task"], parameters_json["species"])
+		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id, json_data["task"], parameters_json["species"], overwrite)
 
 		return True
 

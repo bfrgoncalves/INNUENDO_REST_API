@@ -2168,6 +2168,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		if (toModal === "") {
 		      			toModal += "All strains were successfully processed";
 		      		}
+
+		      		modalAlert( toModal , function(){
+
+		      		});
 		      	}
 
 		      	add_to_database();

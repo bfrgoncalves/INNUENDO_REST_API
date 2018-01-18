@@ -2109,7 +2109,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 			      			if(strains_object['body'].length != 0) add_to_database();
 			      			else {
-			      				console.log("DONE");
+			      				showDoneImportModal();
 			      				hline_to_use.map(function(a){ $("#"+a).val("")});
 			      			}
 		      			}
@@ -2117,53 +2117,57 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		      				strains_with_problems[identifier_s].push("The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").");
 
-		      				modalAlert("The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").", function(){
-				      			hline_to_use.map(function(a){ $("#"+a).val("")});
-				      			$('#Submitter').val(CURRENT_USER_NAME);
-		      				});
+		      				hline_to_use.map(function(a){ $("#"+a).val("")});
+				      		$('#Submitter').val(CURRENT_USER_NAME);
+
 		      			}
 		      			else if(no_identifier == true){
 
 		      				strains_with_problems[identifier_s].push("One of the entries does not have a valid identifier.");
 
-		      				modalAlert("One of the entries does not have a valid identifier.", function(){
-		      					if(strains_object['body'].length != 0) add_to_database();
-		      					else {
-				      				console.log("DONE");
-				      				showDoneImportModal();
-				      				hline_to_use.map(function(a){ $("#"+a).val("")});
-				      			}
-		      				});
+		      				if(strains_object['body'].length != 0) add_to_database();
+	      					else {
+			      				showDoneImportModal();
+			      				hline_to_use.map(function(a){ $("#"+a).val("")});
+			      			}
 		      			}
 		      			else if(files_in_user_folder < 2){
 
 		      				strains_with_problems[identifier_s].push("One or more files for strain " + identifier_s + " are not available on the user folder.");
 
-		      				modalAlert("One or more files for strain " + identifier_s + " are not available on the user folder.", function(){
-		      					if(strains_object['body'].length != 0) add_to_database();
-		      					else {
-				      				console.log("DONE");
-				      				showDoneImportModal();
-				      				hline_to_use.map(function(a){ $("#"+a).val("")});
-				      			}
-		      				});
+		      				if(strains_object['body'].length != 0) add_to_database();
+	      					else {
+			      				showDoneImportModal();
+			      				hline_to_use.map(function(a){ $("#"+a).val("")});
+			      			}
 		      			}
 		      			else{
 
 		      				strains_with_problems[identifier_s].push("An unexpected error as occuried when adding the strain " + identifier_s + ".");
 
-		      				modalAlert("An unexpected error as occuried when adding the strain " + identifier_s + ".", function(){
-		      					if(strains_object['body'].length != 0) add_to_database();
-		      					else {
-				      				console.log("DONE");
-				      				showDoneImportModal();
-				      				hline_to_use.map(function(a){ $("#"+a).val("")});
-				      			}
-		      				});
+		      				if(strains_object['body'].length != 0) add_to_database();
+	      					else {
+			      				showDoneImportModal();
+			      				hline_to_use.map(function(a){ $("#"+a).val("")});
+			      			}
 		      			}
 
 		      		}, 500);
 
+		      	}
+
+		      	function showDoneImportModal() {
+		      		var toModal = "";
+		      		for( const strain of Object.keys(strains_with_problems)){
+		      			toModal += "Strain " + strain + ":";
+		      			for (const reason of strains_with_problems[strain]){
+		      				toModal += reason;
+		      			}
+		      		}
+
+		      		if (toModal === "") {
+		      			toModal += "All strains were successfully processed";
+		      		}
 		      	}
 
 		      	add_to_database();

@@ -67,7 +67,10 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 		        var t_use = "";
 				for(r in results.species){
-					t_use += '<option species_id="'+results.species[r].id+'">' + results.species[r].name + '</option>';
+					//Select only for Ecoli
+					if (results.species[r].name === "E.coli"){
+						t_use += '<option species_id="'+results.species[r].id+'">' + results.species[r].name + '</option>';
+					}
 				}
 				$('#species_select_drop').append(t_use);
 

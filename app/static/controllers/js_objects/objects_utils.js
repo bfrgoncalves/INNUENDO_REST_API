@@ -252,21 +252,15 @@ function Objects_Utils(){
 	    } );
 
 	   $('#'+table_id+' tbody').on('click', 'button.info-control', function (e) {
-	    	console.log("CLICKED", e);
-	    	console.log($(e.target).closest("tr").find(".strain_cell"));
+
 	    	var closest_strain = $(e.target).closest("tr").find(".strain_cell");
-	    	console.log(closest_strain);
 
 	        $("#modalNextflowLogs").modal("show");
 
         	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
 
-        	console.log(strainID_pipeline);
-
 	        $(".nextflow_logs").off("click").on("click", function(e){
-	        	console.log("ENTROU", e);
 	        	var href = $(e.target).attr("href");
-	        	console.log($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID);
 				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, function(response){
 					$(href).html("<pre>"+response.data.content+"</pre>");
 				});

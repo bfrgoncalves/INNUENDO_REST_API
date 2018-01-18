@@ -270,10 +270,9 @@ function Objects_Utils(){
 	        	var href = $(e.target).attr("href");
 				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, function(response){
 					$(href).html("<pre>"+response.data.content+"</pre>");
+					$("#nextflow_log_li").trigger("click");
 				});
 			});
-
-			$("#nextflow_log_li").trigger("click");
 	        
 	    } );
 

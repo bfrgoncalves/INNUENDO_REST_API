@@ -385,7 +385,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						
 						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)]) || response.data.stdout.length === counter_processes){
 
-							console.log(strain_id, prev_workflow);
+							console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)], strain_id, prev_workflow);
 							if(response.data.stdout.length == counter_processes){
 								prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
 							}
@@ -421,7 +421,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						}
 
 
-						prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
+						prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)];
 
 					}
 					if(response.data.stdout.length == all_status_done) clearInterval(intervals_running[this_job_id]);

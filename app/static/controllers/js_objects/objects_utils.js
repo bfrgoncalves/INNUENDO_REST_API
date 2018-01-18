@@ -254,7 +254,7 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('click', 'button.info-control', function (e) {
 	    	console.log("CLICKED", e);
 	    	console.log($(e.target).closest("tr").find(".strain_cell"));
-	    	var closest_strain = $(e.target).parent().parent().parent().parent().find(".strain_cell");
+	    	var closest_strain = $(e.target).closest("tr").find(".strain_cell");
 	    	console.log(closest_strain);
 
 	        $("#modalNextflowLogs").modal("show");

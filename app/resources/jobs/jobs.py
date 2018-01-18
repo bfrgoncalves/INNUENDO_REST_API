@@ -235,7 +235,7 @@ class Job_queue(Resource):
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				
-				jsonResult=parseAgraphQueryRes(result,["statusStr", "file_2"])
+				jsonResult=parseAgraphQueryRes(result,["statusStr", "file_2", "file4"])
 
 				result.close()
 
@@ -256,7 +256,7 @@ class Job_queue(Resource):
 				
 				try:
 					for r in jsonResult:
-						file2Path.append('/'.join(r["file_2"].split("/")[-3:-1]))
+						file2Path.append('/'.join(r["file_4"].split("/")[-3:-1]))
 				except Exception as p:
 					file2Path = []
 

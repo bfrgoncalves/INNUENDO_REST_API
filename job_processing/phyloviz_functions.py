@@ -68,7 +68,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				list_without_distance.append(element_plus_distance.split("\t")[0])
 			
 			merged_list_temp = merged_list_temp + list_without_distance[:int(max_closest)]
-			#merged_list_temp.remove("FILE")
+			try:
+				merged_list_temp.remove("FILE")
+			except Exception:
+				print "no FILE in results"
 
 
 		merged_list = list(set(merged_list_temp))

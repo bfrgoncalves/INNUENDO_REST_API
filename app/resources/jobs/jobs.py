@@ -174,11 +174,14 @@ class Job_queue(Resource):
 			files = {}
 
 			if processes_wrkdir[counter] != "false" and processes_to_run[counter] == "true":
-				workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", processes_wrkdir[counter])
-				try:
-					shutil.rmtree(workdirPath)
-				except OSError:
-					print "No such directory", workdirPath
+				wdirs = processes_wrkdir[counter].split(";")
+				
+				for wd in wdirs:
+					workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", wd)
+					try:
+						shutil.rmtree(workdirPath)
+					except OSError:
+						print "No such directory", workdirPath
 
 
 			for x in fields['metadata_fields']:

@@ -361,9 +361,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						dict_of_tasks_status[task_id] = status;
 						current_job_status_color[tasks_to_buttons[task_id]] = status_dict[status];
-						process_to_workdir[pip_id + "-" + response.data.process_ids[counter_processes-1]] = response.data.all_wrkdirs[counter_processes-1].join();
+						process_to_workdir[pip_id + "-" + response.data.process_ids[counter_processes-1]] = response.data.all_wrkdirs[counter_processes-1].join(";");
 
-						console.log(process_to_workdir);
 						$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict[status]});
 
 						prevtaskid = task_id;

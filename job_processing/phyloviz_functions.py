@@ -187,10 +187,14 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 						straind.append(strain_metadata[x])
 				except KeyError:
 					is_added = False
-					for key, val in additional_data[report.sample_name].iteritems():
-						if key == x:
-							is_added = True
-							straind.append(str(val))
+					try:
+						for key, val in additional_data[report.sample_name].iteritems():
+							if key == x:
+								is_added = True
+								straind.append(str(val))
+					except KeyError:
+						print "no additional data for that strain"
+						
 					if is_added == False:
 						if x != "Platform tag" and x != "Classifier":
 							straind.append("NA")

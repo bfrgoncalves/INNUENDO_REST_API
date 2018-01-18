@@ -204,7 +204,7 @@ class StrainsByNameResource(Resource):
 			strain.project_id = nameToProject[strain.name]
 			
 		if not strains:
-			abort(404, message="No strain available")
+			return {}
 		return strains, 200
 
 

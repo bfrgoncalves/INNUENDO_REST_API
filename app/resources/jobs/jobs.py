@@ -124,7 +124,6 @@ class Job_Reports(Resource):
 	def post(self):
 		parameters = request.json
 		try:
-			print parameters.replace("'", '"')
 			parameters_json = json.loads(parameters.replace("'", '"'))
 		except Exception as e:
 			print e
@@ -176,8 +175,10 @@ class Job_queue(Resource):
 
 			if processes_wrkdir[counter] != "false" and processes_to_run[counter] == "true":
 				workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", processes_wrkdir[counter])
-				shutil.rmtree(workdirPath)
-				print workdirPath
+				try:
+					shutil.rmtree(workdirPath)
+				except OSError:
+					print "No such directory", workdirPath
 
 
 			for x in fields['metadata_fields']:

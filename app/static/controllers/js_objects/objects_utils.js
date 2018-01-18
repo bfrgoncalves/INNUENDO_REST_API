@@ -259,8 +259,6 @@ function Objects_Utils(){
 
 	        $("#modalNextflowLogs").modal("show");
 
-        	console.log(String(strainID_pipeline[strains_dict[closest_strain.html()]]));
-        	console.log(closest_strain.html());
         	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
 
         	console.log(strainID_pipeline);
@@ -268,11 +266,13 @@ function Objects_Utils(){
 	        $(".nextflow_logs").off("click").on("click", function(e){
 	        	console.log("ENTROU", e);
 	        	var href = $(e.target).attr("href");
+	        	console.log($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID);
 				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, function(response){
 					$(href).html("<pre>"+response.data.content+"</pre>");
-					$("#nextflow_log_li").trigger("click");
 				});
 			});
+
+			$("#nextflow_log_li").trigger("click");
 	        
 	    } );
 

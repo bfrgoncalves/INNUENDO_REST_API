@@ -220,8 +220,8 @@ table.display{
   right: 0;
   bottom: 0;
   left: 0;
-  width: 10%;
-  height: 10%;
+  width: 30%;
+  height: 30%;
   border-radius: 3px;
   display:none;
 }

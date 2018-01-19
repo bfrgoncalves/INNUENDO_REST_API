@@ -1120,8 +1120,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	        		buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
 	        		'<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="'+strain_data[counter]['strainID']+'" name="'+proc_value+'" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'"><i class="fa fa-arrow-down"></i>'+ proc_value + '</button>'+
 						'<ul class="dropdown-menu" id="'+strain_data[counter]['strainID']+'_'+proc_value+'" style="position:relative;float:right;">'+
-					'<li style="display:none;" class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_workflow_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
-					'<li style="display:none;" class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_workflow_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li>'+
+					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_workflow_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a href="#">Get Results</a></li>'+
+					'<li class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_workflow_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)" style="display:none;"><a href="#">Get Run Log</a></li>'+
 					'<li style="display:block;" class="'+proc_value+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_workflow_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a href="#">Remove</a></li></ul></div>';
 
 		        	just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_"+String(pip_start_id + 1)+ '_' + CURRENT_PROJECT_ID+'">'+ proc_value + '</button>';

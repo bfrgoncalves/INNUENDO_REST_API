@@ -417,6 +417,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							protocols_on_workflow = [];
 							has_failed = false;
 							pending_jobs = 0;
+							prev_process_status = '';
 						}
 
 

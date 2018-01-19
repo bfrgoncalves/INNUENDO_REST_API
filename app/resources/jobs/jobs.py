@@ -394,7 +394,7 @@ class NextflowLogs(Resource):
 		print current_user.homedir
 		print username
 
-		for x in STORAGE:
+		for x in USER_STORAGES:
 			file_location = os.path.join(til_storage, x, username, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
 			
 			try:

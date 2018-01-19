@@ -8,6 +8,8 @@ from app.models.models import Report, Combined_Reports
 from flask_security import current_user, login_required, roles_required
 import datetime
 import json
+import zipfile
+import string
 
 ############################################ NOT BEING USED #######################################################
 
@@ -221,8 +223,15 @@ class ReportsFileStrainResource(Resource):
 	def get(self):
 		args = report_get__files_parser.parse_args()
 		try:
+			randomString = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(2))
+			zip_file_name = "/tmp/assemblies_" + randomString + ".zip"
+
+			with zipfile.ZipFile(zip_file_name, 'w') as myzip:
+			    for f in args.path.split(";"):   
+			        myzip.write(f)
+			
 			local_filename = args.path
-			response = send_file(local_filename, as_attachment=True)
+			response = send_file(zip_file_name, as_attachment=True)
 			response.headers.add('Access-Control-Allow-Origin', '*')
 			response.headers.add('Content-Type', 'application/force-download')
 			#os.remove(local_filename)

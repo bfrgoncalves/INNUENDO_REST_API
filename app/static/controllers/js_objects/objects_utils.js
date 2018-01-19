@@ -259,7 +259,7 @@ function Objects_Utils(){
 	        $("#modalNextflowLogs").modal("show");
 
         	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
-        	$(".nextflow_logs").attr("submitter", String(closest_submitter.html());
+        	$(".nextflow_logs").attr("submitter", String(closest_submitter.html()));
 
 	        $(".nextflow_logs").off("click").on("click", function(e){
 	        	var href = $(e.target).attr("href");

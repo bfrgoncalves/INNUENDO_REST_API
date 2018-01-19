@@ -2068,14 +2068,35 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			trigger_from_file_load = true;
 
+			var used_headers = {
+				"Primary-Identifier": [true, "Required", "Primary strain identifier is required."],
+				"Food-Bug": [true, "Required", "Addiitonal species identifier is required."],
+				"Source": [true, "Required", "Source is required. Choose between: Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water;"],
+				"Sampling-Date": [true, "Optional"],
+				"Sample-Received-Date": [true, "Optional"],
+				"Owner": [true, "Optional"],
+				"Submitter": [true, "Required", "Strain submitter is required. Must be the same as the user which is logged in."],
+				"Location": [true, "Optional"],
+				"Additional-Information": [true, "Optional"],
+				"File_1": [true, "Required", "Fastq file 1 is required. Must be available on your sftp files folder."],
+				"File_2": [true, "Required", "Fastq file 2 is required. Must be available on your sftp files folder."]
+			}
+
+			var total_headers = Object.keys(used_headers).length;
+			var checked_headers = 0;
+
+
 	      	reader.onload = function(f){
 		      	var lines = this.result.split('\n');
 		      	firstLine = true;
 		      	strains_object = {};
 
+		      	var insufficient_headers = false;
+
 		      	strains_object['body'] = [];
 
 		      	var strains_with_problems = {};
+		      	var mapped_headers = [];
 		      	
 		      	//parse file
 		      	for(i in lines){
@@ -2083,6 +2104,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		var array_to_use = [];
 		      		if(firstLine){
 		      			line.map(function(l){array_to_use.push(l);});
+
+		      			for (h in array_to_use){
+		      				if(used_headers.hasOwnProperty(array_to_use[h]) && mapped_headers.indexOf(array_to_use[h]) < 0){
+		      					checked_headers += 1;
+		      					mapped_headers.push(array_to_use[h]);
+		      				}
+		      			}
+
+		      			if(checked_headers < mapped_headers.length) {
+		      				insufficient_headers = true;
+		      			}
+
 		      			strains_object['headers'] = array_to_use;
 		      			firstLine = false;
 		      		}
@@ -2101,48 +2134,106 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		var files_in_user_folder = 0;
 		      		var identifier_s = "";
 		      		var no_identifier = true;
+		      		var no_case_id = true;
 		      		var bad_submitter = false;
+
+		      		var required_headers_missed = [];
+
+		      		if (insufficient_headers === true) {
+		      			toModal = "<p>Some of the required headers are missing from the uploaded file. There required headers are:</p><ul>";
+		      			for(const hh of Object.keys(used_headers)){
+		      				toModal += "<li>" + hh + "</li>";
+		      			}
+		      			toModal += "</ul>";
+
+		      			modalAlert(toModal, function(){
+		      					
+	      				});
+	      				return;
+		      		}
 		      		
 		      		for (x in line_to_use){
 		      			var hline_to_use = strains_object['headers'];
+		      			
 		      			if(hline_to_use.length != line_to_use.length){
 		      				modalAlert("Uploaded file seems to be miss-formatted. Check if the number of headers and the rest of the file are the same.", function(){
 		      					
 		      				});
 		      				return;
 		      			}
+
 		      			var bline_to_use = line_to_use;
-		      			if (hline_to_use[x].indexOf("Primary-Identifier") > -1){
-		      				if (bline_to_use[x] != "") no_identifier = false;
-		      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[parseInt(x)+1]).replace(/ /g, "-")
+
+		      			var headers_array = Object.keys(used_headers);
+		      			
+		      			for (header_to_check in headers_array) {
 		      				
-		      				if(!strains_with_problems.hasOwnProperty(identifier_s)){
-		      					strains_with_problems[identifier_s] = [];
+		      				if (hline_to_use[x].indexOf(headers_array[header_to_check]) > -1){
+		      					
+		      					if(headers_array[header_to_check] === "Primary-Identifier") {
+		      						if (bline_to_use[x] != "") no_identifier = false;
+
+		      						if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] == ""){
+		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
+		      						}
+
+		      						var food_bug_index = hline_to_use.indexOf("Food-Bug");
+
+				      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[food_bug_index]).replace(/ /g, "-")
+				      				
+				      				if(!strains_with_problems.hasOwnProperty(identifier_s)){
+				      					strains_with_problems[identifier_s] = [];
+				      				}
+		      					}
+
+		      					if(headers_array[header_to_check] === "Food-Bug") {
+		      						if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] == ""){
+		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
+		      						}
+		      					}
+
+		      					if(headers_array[header_to_check] === "Source") {
+		      						if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] == ""){
+		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
+		      						}
+		      					}
+
+		      					if (headers_array[header_to_check] === "Submitter"){
+				      				if (bline_to_use[x] != CURRENT_USER_NAME) bad_submitter = true;
+
+				      				if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] == ""){
+		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
+		      						}
+
+				      			}
+
+				      			if(headers_array[header_to_check] === "File_1" || headers_array[header_to_check] === "File_2"){
+				      				//check for files in user area
+				      				has_files += 1;
+
+				      				$('#'+hline_to_use[x] + " option").filter(function() {
+									    if($(this).text().trim().indexOf(bline_to_use[x].trim()) > -1){
+									    	files_in_user_folder += 1;
+									    	return bline_to_use[x];
+									    }
+									}).prop('selected', true);
+
+									if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] == ""){
+		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
+		      						}
+
+								}
+								else $('#'+hline_to_use[x]).val(bline_to_use[x] == "" ? "NA":bline_to_use[x]);
+
+
 		      				}
+
 		      			}
-
-		      			if (hline_to_use[x].indexOf("Submitter") > -1){
-		      				if (bline_to_use[x] != CURRENT_USER_NAME) bad_submitter = true;
-		      			}
-
-
-		      			if(hline_to_use[x].indexOf("File_1") > -1 || hline_to_use[x].indexOf("File_2") > -1){
-		      				//check for files in user area
-		      				has_files += 1;
-
-		      				$('#'+hline_to_use[x] + " option").filter(function() {
-							    if($(this).text().trim().indexOf(bline_to_use[x].trim()) > -1){
-							    	files_in_user_folder += 1;
-							    	return bline_to_use[x];
-							    }
-							}).prop('selected', true);
-						}
-						else $('#'+hline_to_use[x]).val(bline_to_use[x] == "" ? "NA":bline_to_use[x]);
 		      		}
 		      		
 		      		setTimeout(function(){
 
-		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true){
+		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true && required_headers_missed.length != 0){
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 			      			if(strains_object['body'].length != 0) add_to_database();
@@ -2150,6 +2241,26 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      				showDoneImportModal();
 			      				hline_to_use.map(function(a){ $("#"+a).val("")});
 			      			}
+		      			}
+		      			else if(required_headers_missed.length > 0){
+
+		      				var to_problems = "<li>Some required headers are were not specified: <ul>";
+
+		      				for (r in required_headers_missed){
+		      					to_problems += "<li>" + required_headers_missed[r][0] + "-" + required_headers_missed[r][1] + "</li>";
+		      				}
+
+		      				to_problems += "</ul>";
+
+		      				strains_with_problems[identifier_s].push(to_problems);
+
+		      				if(strains_object['body'].length != 0) add_to_database();
+	      					else {
+	      						showDoneImportModal();
+	      						hline_to_use.map(function(a){ $("#"+a).val("")});
+				      			$('#Submitter').val(CURRENT_USER_NAME);
+	      					}
+
 		      			}
 		      			else if(bad_submitter == true){
 

@@ -10,7 +10,7 @@ import datetime
 from rq import Queue #Queue
 from redis import Redis
 
-from config import CURRENT_ROOT, JOBS_ROOT, OUTPUT_URL
+from config import CURRENT_ROOT, JOBS_ROOT, OUTPUT_URL, USER_STORAGES
 from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
 from franz.openrdf.vocabulary.rdf import RDF
 from franz.openrdf.vocabulary.xmlschema import XMLSchema
@@ -386,13 +386,23 @@ class NextflowLogs(Resource):
 	@login_required
 	def get(self):
 		args = nextflow_logs_get_parser.parse_args()
-		file_location = os.path.join(current_user.homedir, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
-		
-		try:
-			with open(file_location, "r") as file_r:
-				content = file_r.read()
-		except IOError:
-			content = "file not found"
+
+		username = current_user.homedir.split("/")[-1]
+		til_storage = "/".join(current_user.homedir.split("/")[0:-3])
+
+		print til_storage
+		print current_user.homedir
+		print username
+
+		for x in STORAGE:
+			file_location = os.path.join(til_storage, x, username, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
+			
+			try:
+				with open(file_location, "r") as file_r:
+					content = file_r.read()
+				break
+			except IOError:
+				content = "file not found"
 
 		return {"content": content}, 200
 		

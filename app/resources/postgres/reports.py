@@ -42,6 +42,7 @@ report_delete_parser.add_argument('report_name', dest='report_name', type=str, r
 
 report_get__files_parser = reqparse.RequestParser()
 report_get__files_parser.add_argument('path', dest='path', type=str, required=True, help="path")
+report_get__files_parser.add_argument('sampleNames', dest='sampleNames', type=str, required=True, help="sampleNames")
 
 save_reports_parser = reqparse.RequestParser()
 save_reports_parser.add_argument('job_ids', dest='job_ids', type=str, required=False, help="job identifier")
@@ -228,9 +229,10 @@ class ReportsFileStrainResource(Resource):
 			randomString = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(2))
 			zip_file_name = "/tmp/assemblies_" + randomString + ".zip"
 
+			sampleNames = args.sampleNames.split(";")
 			with zipfile.ZipFile(zip_file_name, 'w') as myzip:
-			    for f in args.path.split(";"):   
-			        myzip.write(f, os.path.basename(f))
+			    for i, f in enumerate(args.path.split(";")):   
+			        myzip.write(f, sampleNames[i] + ".fasta")
 			
 			local_filename = args.path
 			response = send_file(zip_file_name, as_attachment=True)

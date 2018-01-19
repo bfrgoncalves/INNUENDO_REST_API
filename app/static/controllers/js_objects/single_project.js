@@ -1133,7 +1133,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	protocol_buttons += '<div class="dropdown" style="float:left;">'+
 			        	'<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[proc_value][pt][2] + '</button>'+
 			        	'<ul class="dropdown-menu" id="'+strain_data[counter]['strainID']+'_'+workflowname_to_protocols[proc_value][pt][2]+'" style="position:relative;float:right;">'+
-				        	'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)"><a href="#">Get Results</a></li>'+
+				        	'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a href="#">Get Results</a></li>'+
     						'<li class="'+workflowname_to_protocols[proc_value][pt][2]+'&&'+strain_data[counter]['strainID'].replace(/ /g, '_')+"_protocol_"+String(proc_start_id + new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a href="#">Get Run Log</a></li></ul></div>';
 			        
     					workflow_counter = String(pip_start_id + 1);
@@ -1924,7 +1924,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			var count_pipeline_ids_last_parent = 0;
 
 			//check status before removal
-			for(index in strain_indexes){
+			/*for(index in strain_indexes){
 				for (pipeline in pipelines_applied[strain_names[index]]){
 					if(pipelines_applied[strain_names[index]][pipeline].indexOf(class_n) > -1) {
 
@@ -1939,7 +1939,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						
 					}
 				}
-			}
+			}*/
 
 			for(index in strain_indexes){
 					new_pipapplied = [];

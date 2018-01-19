@@ -1930,7 +1930,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						var pip_name = pipelines_applied[strain_names[index]][pipeline].split("id")[1].split('"')[1];
 
-						if (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "PD" && dict_of_tasks_status[buttons_to_tasks[pip_name]] == "R"){
+						if (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "PD" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "R"){
 
 							modalAlert("Can not remove a procedure which is Running or Pending. Wait until its completion.", function(){});
 							

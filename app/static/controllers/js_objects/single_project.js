@@ -1287,7 +1287,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    index_length = selected_indexes.length;
 		    count_finished = 0;
 		    pipeline_ids = [];
-		    var sel_index_clone = selected_indexes.clone();
+		    var sel_index_clone = selected_indexes.slice(0);
 		    var total_index_length = sel_index_clone.length;
 
 		    function save_single_pipeline() {
@@ -1401,7 +1401,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var count_strains_added_run = 0;
 		    var workflow_indexes = {};
 		    var workflow_order = {};
-		    var strain_names_clone = selected_indexes.clone();
+		    var strain_names_clone = selected_indexes.slice(0);
 		    var count_total_strains = strain_names_clone.length;
 
 

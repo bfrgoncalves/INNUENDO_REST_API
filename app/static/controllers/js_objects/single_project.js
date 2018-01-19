@@ -2234,7 +2234,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		
 		      		setTimeout(function(){
 
-		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true && required_headers_missed.length != 0){
+		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true && required_headers_missed.length == 0){
+		      				console.log("AQUI");
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 			      			if(strains_object['body'].length != 0) add_to_database();

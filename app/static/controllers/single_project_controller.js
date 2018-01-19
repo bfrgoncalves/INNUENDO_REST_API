@@ -150,7 +150,7 @@ function set_headers_single_project(table_id, global_strains){
 
 			var info_button = "";
 			if(SHOW_INFO_BUTTON) {
-				info_button = "<button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>";
+				info_button = '<button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>';
 			}
 
 			var analysis_cell = {

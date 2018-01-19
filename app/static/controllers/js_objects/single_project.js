@@ -2153,7 +2153,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else if(bad_submitter == true){
 
-		      				strains_with_problems[identifier_s].push("The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").");
+		      				strains_with_problems[identifier_s].push("<li>The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").</li>");
 
 		      				if(strains_object['body'].length != 0) add_to_database();
 	      					else {
@@ -2165,7 +2165,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else if(no_identifier == true){
 
-		      				strains_with_problems[identifier_s].push("One of the entries does not have a valid identifier.");
+		      				strains_with_problems[identifier_s].push("<li>One of the entries does not have a valid identifier.</li>");
 
 		      				if(strains_object['body'].length != 0) add_to_database();
 	      					else {
@@ -2176,7 +2176,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else if(files_in_user_folder < 2){
 
-		      				strains_with_problems[identifier_s].push("One or more files for strain " + identifier_s + " are not available on the user folder.");
+		      				strains_with_problems[identifier_s].push("<li>One or more files for strain " + identifier_s + " are not available on the user folder.</li>");
 
 		      				if(strains_object['body'].length != 0) add_to_database();
 	      					else {
@@ -2187,7 +2187,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else{
 
-		      				strains_with_problems[identifier_s].push("An unexpected error as occuried when adding the strain " + identifier_s + ".");
+		      				strains_with_problems[identifier_s].push("<li>An unexpected error as occuried when adding the strain " + identifier_s + ".</li>");
 
 		      				if(strains_object['body'].length != 0) add_to_database();
 	      					else {
@@ -2204,14 +2204,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	function showDoneImportModal() {
 		      		var toModal = "";
 		      		for( const strain of Object.keys(strains_with_problems)){
-		      			toModal += "Strain " + strain + ":";
+		      			toModal += "Strain <b>" + strain + "</b> problems:<ul>";
 		      			for (const reason of strains_with_problems[strain]){
 		      				toModal += reason;
 		      			}
+
 		      		}
 
 		      		if (toModal === "") {
 		      			toModal += "All strains were successfully processed";
+		      		}
+		      		else {
+		      			toModal = "</ul>";
 		      		}
 
 		      		modalAlert( toModal , function(){

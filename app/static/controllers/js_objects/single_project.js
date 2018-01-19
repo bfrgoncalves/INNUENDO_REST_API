@@ -2212,7 +2212,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				      				has_files += 1;
 
 				      				$('#'+hline_to_use[x] + " option").filter(function() {
-									    if($(this).text().trim().indexOf(bline_to_use[x].trim()) > -1){
+									    if($(this).text().trim() === bline_to_use[x].trim()){
 									    	console.log(bline_to_use[x], $(this).text())
 									    	files_in_user_folder += 1;
 									    	return bline_to_use[x];

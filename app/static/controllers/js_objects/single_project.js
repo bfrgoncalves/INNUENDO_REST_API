@@ -2213,7 +2213,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				      				$('#'+hline_to_use[x] + " option").filter(function() {
 									    if($(this).text().trim() === bline_to_use[x].trim()){
-									    	console.log(bline_to_use[x], $(this).text())
 									    	files_in_user_folder += 1;
 									    	return bline_to_use[x];
 									    }
@@ -2235,7 +2234,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		setTimeout(function(){
 
 		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true && required_headers_missed.length == 0){
-		      				console.log("AQUI");
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 			      			if(strains_object['body'].length != 0) add_to_database();
@@ -2299,8 +2297,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      			}
 		      			}
 		      			else{
-
-		      				console.log(files_in_user_folder);
 
 		      				strains_with_problems[identifier_s].push("<li>An unexpected error as occuried when adding the strain " + identifier_s + ".</li>");
 

@@ -38,7 +38,6 @@ report_delete_parser.add_argument('report_name', dest='report_name', type=str, r
 
 report_get__files_parser = reqparse.RequestParser()
 report_get__files_parser.add_argument('path', dest='path', type=str, required=True, help="path")
-report_get__files_parser.add_argument('name', dest='name', type=str, required=True, help="name")
 
 save_reports_parser = reqparse.RequestParser()
 save_reports_parser.add_argument('job_ids', dest='job_ids', type=str, required=False, help="job identifier")
@@ -222,7 +221,7 @@ class ReportsFileStrainResource(Resource):
 	def get(self):
 		args = report_get__files_parser.parse_args()
 		try:
-			local_filename = os.path.join(args.path, args.name)
+			local_filename = args.path
 			response = send_file(local_filename, as_attachment=True)
 			response.headers.add('Access-Control-Allow-Origin', '*')
 			response.headers.add('Content-Type', 'application/force-download')

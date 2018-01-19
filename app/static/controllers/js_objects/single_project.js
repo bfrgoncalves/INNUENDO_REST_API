@@ -1923,6 +1923,24 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var count_pipeline_ids_last_parent = 0;
 
+			//check status before removal
+			for(index in strain_indexes){
+				for (pipeline in pipelines_applied[strain_names[index]]){
+					if(pipelines_applied[strain_names[index]][pipeline].indexOf(class_n) > -1) {
+
+						var pip_name = pipelines_applied[strain_names[index]][pipeline].split("id")[1].split('"')[1];
+
+						if (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "PD" && dict_of_tasks_status[buttons_to_tasks[pip_name]] == "R"){
+
+							modalAlert("Can not remove a procedure which is Running or Pending. Wait until its completion.", function(){});
+							
+							return;
+						}
+						
+					}
+				}
+			}
+
 			for(index in strain_indexes){
 					new_pipapplied = [];
 					new_pipapplied_prot = [];
@@ -1964,15 +1982,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 									
 								}
 								var pip_name = pipelines_applied[strain_names[index]][pipeline].split("id")[1].split('"')[1];
-
-
-								if (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "PD" && dict_of_tasks_status[buttons_to_tasks[pip_name]] == "R"){
-
-									modalAlert("Can not remove a procedure which is Running or Pending. Wait until its completion.", function(){});
-									
-									return;
-								}
-
 
 								if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING"){
 									if(pipelines_type_by_strain[strain_names[index]][3] == undefined){

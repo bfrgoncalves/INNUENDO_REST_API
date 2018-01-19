@@ -2204,18 +2204,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	function showDoneImportModal() {
 		      		var toModal = "";
 		      		for( const strain of Object.keys(strains_with_problems)){
-		      			toModal += "Strain <b>" + strain + "</b> problems:<ul>";
+		      			toModal += "<p>Strain <b>" + strain + "</b> problems:</p><ul>";
 		      			for (const reason of strains_with_problems[strain]){
 		      				toModal += reason;
 		      			}
+		      			toModal += "</ul>";
 
 		      		}
 
 		      		if (toModal === "") {
 		      			toModal += "All strains were successfully processed";
-		      		}
-		      		else {
-		      			toModal += "</ul>";
 		      		}
 
 		      		modalAlert( toModal , function(){

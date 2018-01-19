@@ -229,7 +229,7 @@ class ReportsFileStrainResource(Resource):
 
 			with zipfile.ZipFile(zip_file_name, 'w') as myzip:
 			    for f in args.path.split(";"):   
-			        myzip.write(f)
+			        myzip.write(f, os.path.basename(f))
 			
 			local_filename = args.path
 			response = send_file(zip_file_name, as_attachment=True)

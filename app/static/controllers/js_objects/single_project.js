@@ -1287,9 +1287,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    index_length = selected_indexes.length;
 		    count_finished = 0;
 		    pipeline_ids = [];
+		    var sel_index_clone = selected_indexes.clone();
+		    var total_index_length = sel_index_clone.length;
 
-		    for(i in selected_indexes){
-		        create_pipeline(strains[selected_indexes[i]].strainID, function(strain_id, pipeline_id){
+		    function save_single_pipeline() {
+
+		    	var sel_index = selected_indexes.shift();
+
+		    	create_pipeline(strains[sel_index].strainID, function(strain_id, pipeline_id){
 		        	strainID_pipeline[strain_id] = pipeline_id;
 		        	pipeline_ids.push(pipeline_id);
 
@@ -1339,8 +1344,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						                	count_finished += 1;
 
-						                	if(count_finished == index_length){
-								        		callback(true);
+						                	if(count_finished == total_index_length){
+								        		return callback(true);
+								        	}
+								        	else {
+												save_single_pipeline();
 								        	}
 						                });
 			                		});
@@ -1352,8 +1360,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					                	}
 					                	else console.log(response.statusText);
 					                	count_finished += 1;
-					                	if(count_finished == index_length){
-							        		callback(true);
+					                	if(count_finished == total_index_length){
+							        		return callback(true);
+							        	}
+							        	else{
+							        		save_single_pipeline();
 							        	}
 					                });
 			                	}
@@ -1363,6 +1374,9 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        });
 
 		    }
+
+		    save_single_pipeline();
+
 		},
 
 		/*
@@ -1387,18 +1401,34 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var count_strains_added_run = 0;
 		    var workflow_indexes = {};
 		    var workflow_order = {};
+		    var strain_names_clone = selected_indexes.clone();
+		    var count_total_strains = strain_names_clone.length;
 
-		    for(i in strain_names){
-		        put_i.push(i);
-		        if(pipelines_applied[strain_names[i]] != undefined){
-		        	dict_strain_names[strain_names[i]] = [pipelines_applied[strain_names[i]].length, [], 0, 0];
+
+
+
+		    function run_single_strain(){
+
+		    	if (count_strains_added_run == count_total_strains){
+					modalAlert("Jobs for all the selected strains have been submitted", function(){});
+					$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+					$("#overlayProjects").css({"display":"none"});
+					$("#overlayWorking").css({"display":"none"});
+					return;
+				}
+
+				var strain_in_use = strain_names.shift();
+
+				//put_i.push(i);
+		        if(pipelines_applied[strain_in_use] != undefined){
+		        	dict_strain_names[strain_in_use] = [pipelines_applied[strain_in_use].length, [], 0, 0];
 		        	var pip_id_of_parents = [];
-		        	for(p in strain_to_real_pip[strains_dict[strain_names[i]]]){
-		        		if(strain_to_real_pip[strains_dict[strain_names[i]]][p][0] != CURRENT_PROJECT_ID && pipelines_type_by_strain[strain_names[i]][3] != undefined){
+		        	for(p in strain_to_real_pip[strains_dict[strain_in_use]]){
+		        		if(strain_to_real_pip[strains_dict[strain_in_use]][p][0] != CURRENT_PROJECT_ID && pipelines_type_by_strain[strain_in_use][3] != undefined){
 
-			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_names[i]]][p][0]);
-			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_names[i]]][p][1]);
-			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_names[i]]][p][2]);
+			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_in_use]][p][0]);
+			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_in_use]][p][1]);
+			        		pip_id_of_parents.push(strain_to_real_pip[strains_dict[strain_in_use]][p][2]);
 			        	}
 		        	}
 		        	
@@ -1408,15 +1438,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        		var last_pipeline_id = "";
 			        	var count_processes = 0;
 			        	var has_completed = false;
-			        	for(x in pipelines_applied[strain_names[i]]){
+			        	for(x in pipelines_applied[strain_in_use]){
 			        		//console.log(workflowname_to_protocols, pipelines_applied[strain_names[i]][x].split("</i>")[1].split("</button>")[0]);
-			        		for(p in workflowname_to_protocols[pipelines_applied[strain_names[i]][x].split("</i>")[1].split("</button>")[0]]){
+			        		for(p in workflowname_to_protocols[pipelines_applied[strain_in_use][x].split("</i>")[1].split("</button>")[0]]){
 			        			count_processes += 1;
 			        		}
-			        		var pip_name = pipelines_applied[strain_names[i]][x].split("id")[1].split('"')[1];
+			        		var pip_name = pipelines_applied[strain_in_use][x].split("id")[1].split('"')[1];
 
 			        		if((dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED") || (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING")){
-			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_names[i]]];
+			        			last_pipeline_id = strainID_pipeline[strains_dict[strain_in_use]];
 			        			lastprocess = count_processes;
 			        		}
 
@@ -1430,11 +1460,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        	}
 		        	}
 
-		        	workflow_indexes[strain_names[i]] = {};
-		        	workflow_order[strain_names[i]] = [];
+		        	workflow_indexes[strain_in_use] = {};
+		        	workflow_order[strain_in_use] = [];
 
 		        	//Add processes to ngs_onto
-		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_names[i]]], strains_dict[strain_names[i]], i, pip_id_of_parents, pipelines_type_by_strain[strain_names[i]], function(response, strain_name){
+		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_in_use]], strains_dict[strain_in_use], i, pip_id_of_parents, pipelines_type_by_strain[strain_in_use], function(response, strain_name){
 	        			if(response.status != 404){
 	        				dict_strain_names[strain_names[strain_name]].push(response.data);
 	        			}
@@ -1574,12 +1604,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        								strainName_to_tids[strain_name] = response.data.tasks.join();
 		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], process_ids, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
 
-		        								if (count_strains_added_run == strain_names.length){
-		        									modalAlert("Jobs for all the selected strains have been submitted", function(){});
-		        									$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
-		        									$("#overlayProjects").css({"display":"none"});
-													$("#overlayWorking").css({"display":"none"});
-		        								}
+		        								run_single_strain();
+
 		        							})
 					        			})
 			        				}
@@ -1590,6 +1616,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        });
 		        }
 		    }
+
+		    //Trigger fist run
+		    run_single_strain();
+
 		},
 
 		/*

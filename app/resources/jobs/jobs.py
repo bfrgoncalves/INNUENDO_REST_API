@@ -187,12 +187,21 @@ class Job_queue(Resource):
 			if processes_wrkdir[counter] != "false" and processes_to_run[counter] == "true":
 				wdirs = processes_wrkdir[counter].split(";")
 				
+				#Remove nextflow dirs
 				for wd in wdirs:
 					workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", wd)
 					try:
 						shutil.rmtree(workdirPath)
 					except OSError:
 						print "No such directory", workdirPath
+
+				#Remove reports from process id
+				reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.pipeline_id == args.pipeline_id, int(Report.process_position) >= int(process_ids[counter])).all()
+
+				if reports:
+					for report in reports:
+						db.session.delete(report)
+					db.session.commit()
 
 
 			for x in fields['metadata_fields']:

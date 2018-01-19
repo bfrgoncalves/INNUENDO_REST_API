@@ -2244,7 +2244,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			}
 		      			else if(required_headers_missed.length > 0){
 
-		      				var to_problems = "<li>Some required headers are were not specified: <ul>";
+		      				var to_problems = "<li>Some required headers were not specified: <ul>";
 
 		      				for (r in required_headers_missed){
 		      					to_problems += "<li>" + required_headers_missed[r][0] + "-" + required_headers_missed[r][1] + "</li>";
@@ -2297,6 +2297,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			      			}
 		      			}
 		      			else{
+
+		      				console.log(files_in_user_folder);
 
 		      				strains_with_problems[identifier_s].push("<li>An unexpected error as occuried when adding the strain " + identifier_s + ".</li>");
 

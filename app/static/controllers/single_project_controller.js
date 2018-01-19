@@ -147,11 +147,17 @@ function set_headers_single_project(table_id, global_strains){
 		}
 
 		if (table_id !== 'public_strains_table'){
+
+			var info_button = "";
+			if(SHOW_PROTOCOLS) {
+				info_button = "<button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button>";
+			}
+
 			var analysis_cell = {
 	            "className":      'details-control',
 	            "orderable":      false,
 	            "data":           null,
-	            "defaultContent": '<div><button class="info-control btn-default"><i class="fa fa-lg fa-info" data-toggle="tooltip" data-placement="top" title="More information"></i></button><button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
+	            "defaultContent": '<div>'+info_button+'<button class="analysis-control btn-warning"><i class="fa fa-lg fa-tasks" data-toggle="tooltip" data-placement="top" title="Analytical procedures"></i></button></div>'
 	        };
 
 	        p_col_defs.push(analysis_cell);

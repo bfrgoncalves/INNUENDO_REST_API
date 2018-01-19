@@ -1,7 +1,7 @@
 from app import app, db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask_security import current_user
-from flask import jsonify, request
+from flask import jsonify, request, send_file
 from sqlalchemy import or_, cast, DATE
 
 from app.models.models import Report, Combined_Reports

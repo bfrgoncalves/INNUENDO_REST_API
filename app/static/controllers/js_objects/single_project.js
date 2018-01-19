@@ -1465,39 +1465,39 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	workflow_order[strain_in_use] = [];
 
 		        	//Add processes to ngs_onto
-		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_in_use]], strains_dict[strain_in_use], i, pip_id_of_parents, pipelines_type_by_strain[strain_in_use], function(response, strain_name){
+		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_in_use]], strains_dict[strain_in_use], strain_in_use, pip_id_of_parents, pipelines_type_by_strain[strain_in_use], function(response, strain_name){
 	        			if(response.status != 404){
-	        				dict_strain_names[strain_names[strain_name]].push(response.data);
+	        				dict_strain_names[strain_name].push(response.data);
 	        			}
 	        			//Push button identifier
-	        			dict_strain_names[strain_names[strain_name]].push([]);
+	        			dict_strain_names[strain_name].push([]);
 
 	        			//Push process position
-	        			dict_strain_names[strain_names[strain_name]].push([]);
-	        			dict_strain_names[strain_names[strain_name]].push(0);
+	        			dict_strain_names[strain_name].push([]);
+	        			dict_strain_names[strain_name].push(0);
 
 	        			//Push workflow ID
-	        			dict_strain_names[strain_names[strain_name]].push({});
+	        			dict_strain_names[strain_name].push({});
 
 	        			//Push if process is to run
-	        			dict_strain_names[strain_names[strain_name]].push([]);
+	        			dict_strain_names[strain_name].push([]);
 
 	        			count_pipelines_applied = 0;
 
-			        	for(p in pipelines_applied[strain_names[strain_name]]){
-			        		var pi_name = pipelines_applied[strain_names[strain_name]][p].split("id")[1].split('"')[1];
+			        	for(p in pipelines_applied[strain_name]){
+			        		var pi_name = pipelines_applied[strain_name][p].split("id")[1].split('"')[1];
 
-			        		var real_pi_name = pipelines_applied[strain_names[strain_name]][p].split('</i>')[1].split('</')[0];
+			        		var real_pi_name = pipelines_applied[strain_name][p].split('</i>')[1].split('</')[0];
 
 			        		//console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status, pipelines_applied);
 			        		
 			        		if(buttons_to_tasks[pi_name].indexOf("workflow") > -1){
 		        				
-		        				dict_strain_names[strain_names[strain_name]][1].push(pipelines_applied[strain_names[strain_name]][p].split('button')[1].split('</i>')[1].split('<')[0]);
+		        				dict_strain_names[strain_name][1].push(pipelines_applied[strain_name][p].split('button')[1].split('</i>')[1].split('<')[0]);
 		        				
 		        				//console.log(protocols_applied_by_pipeline, protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"'));
 
-			        			protocols_in_pip = protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"');
+			        			protocols_in_pip = protocols_applied_by_pipeline[strain_name][real_pi_name][0].split('<div class="dropdown"');
 			        			
 			        			protocols_in_pip.shift();
 			        			for(protoc in protocols_in_pip){
@@ -1506,11 +1506,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        				//Add to array the processes that should not run
 			        				if (dict_of_tasks_status[buttons_to_tasks[pi_name]] == "COMPLETED"){
-			        					dict_strain_names[strain_names[strain_name]][9].push(false);
+			        					dict_strain_names[strain_name][9].push(false);
 			        				}
 			        				else {
-			        					dict_strain_names[strain_names[strain_name]][9].push(true);
-			        					dict_strain_names[strain_names[strain_name]][5].push(protocol_name);
+			        					dict_strain_names[strain_name][9].push(true);
+			        					dict_strain_names[strain_name][5].push(protocol_name);
 			        				}
 			        			}
 
@@ -1519,57 +1519,57 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        		else{
 			        			//Change to count for all protocol processes instead of the workflows
 
-			        			dict_strain_names[strain_names[strain_name]][2]+=1;
-			        			dict_strain_names[strain_names[strain_name]][7] += 1;
+			        			dict_strain_names[strain_name][2]+=1;
+			        			dict_strain_names[strain_name][7] += 1;
 
 			        		}
 
-		        			while(dict_strain_names[strain_names[strain_name]][1].length != 0){
-		        				workflowName = dict_strain_names[strain_names[strain_name]][1].shift();
-		        				workflow_order[strain_names[i]].push(workflowName);
+		        			while(dict_strain_names[strain_name][1].length != 0){
+		        				workflowName = dict_strain_names[strain_name][1].shift();
+		        				workflow_order[strain_name].push(workflowName);
 		        				count_pipelines_applied += 1;
-				        		dict_strain_names[strain_names[strain_name]][8][count_pipelines_applied] = [];
+				        		dict_strain_names[strain_name][8][count_pipelines_applied] = [];
 
 		        				//Get the workflow to run and the step
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
 
-			        				dict_strain_names[strain_names[strain_name]][2]+=1;
+			        				dict_strain_names[strain_name][2]+=1;
 			        				for(k=response.data.length-1; k>=0;k--){
 			        					parts = response.data[k].protocol.split('/');
 			        					parts = parts[parts.length-1];
-			        					dict_strain_names[strain_names[strain_name]][8][count_pip_app].push(parts.replace('>', ''));
+			        					dict_strain_names[strain_name][8][count_pip_app].push(parts.replace('>', ''));
 			        				}
 			        				//Set the workflows ids to run
-			        				if (dict_strain_names[strain_names[strain_name]][0] == dict_strain_names[strain_names[strain_name]][2]){
+			        				if (dict_strain_names[strain_name][0] == dict_strain_names[strain_name][2]){
 			        					var indexes = '';
-			        					for(prot_index in dict_strain_names[strain_names[strain_name]][8]){
-			        						for (prot in dict_strain_names[strain_names[strain_name]][8][prot_index]){
-			        							indexes += dict_strain_names[strain_names[strain_name]][8][prot_index][prot].replace('>', '') + ',';
-			        							dict_strain_names[strain_names[strain_name]][7] += 1;
-		        								dict_strain_names[strain_names[strain_name]][6].push(dict_strain_names[strain_names[strain_name]][7]);
+			        					for(prot_index in dict_strain_names[strain_name][8]){
+			        						for (prot in dict_strain_names[strain_name][8][prot_index]){
+			        							indexes += dict_strain_names[strain_name][8][prot_index][prot].replace('>', '') + ',';
+			        							dict_strain_names[strain_name][7] += 1;
+		        								dict_strain_names[strain_name][6].push(dict_strain_names[strain_name][7]);
 			        						}
 			        					}
 					        			indexes = indexes.replace(/,$/, '');
 
 					        			//Run the job
 					        			console.log("RUN JOB");
-					        			pg_requests.run_job(strains_dict[strain_names[strain_name]], indexes, strainID_pipeline[strains_dict[strain_names[strain_name]]], dict_strain_names[strain_names[strain_name]][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_names[strain_name], dict_strain_names[strain_names[strain_name]][9], process_to_workdir, function(response, strain_name, pipeline_id){
+					        			pg_requests.run_job(strains_dict[strain_name], indexes, strainID_pipeline[strains_dict[strain_name]], dict_strain_names[strain_name][6], strain_name, strain_submitter[strain_name], CURRENT_SPECIES_NAME, strain_name, dict_strain_names[strain_name][9], process_to_workdir, function(response, strain_name, pipeline_id){
 					        				
 					        				task_ids = [];
 					        				task_ids_to_map = [];
 
-					        				dict_strain_names[strain_names[strain_name]][3] += 1;
+					        				dict_strain_names[strain_name][3] += 1;
 
 					        				var countTasks = 0;
 					        				for(l in response.data){
 
 					        					if(response.data[l] == 'null'){
 					        						countTasks++;
-					        						var button_name = dict_strain_names[strain_names[strain_name]][5].shift();
+					        						var button_name = dict_strain_names[strain_name][5].shift();
 
 						        					tasks_to_buttons[response.data[l] + '_' + countTasks] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
 						        					buttons_to_tasks[button_name] = response.data[l] + '_' + countTasks;
-						        					buttons_to_strain_names[button_name] = strain_names[strain_name];
+						        					buttons_to_strain_names[button_name] = strain_name;
 
 						        					task_ids_to_map.push(response.data[l] + '_' + countTasks);
 					        					}
@@ -1579,31 +1579,31 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 					        						for(s in task_ids){
 					        							countTasks++;
-					        							var button_name = dict_strain_names[strain_names[strain_name]][5].shift();
+					        							var button_name = dict_strain_names[strain_name][5].shift();
 						        						tasks_to_buttons[task_ids[s]] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
 						        						buttons_to_tasks[button_name] = task_ids[s];
-						        						buttons_to_strain_names[button_name] = strain_names[strain_name];
+						        						buttons_to_strain_names[button_name] = strain_name;
 					        							task_ids_to_map.push(task_ids[s]);
 					        						}
 					        						processes_to_map = task_ids_to_map.map(function(x){
-					        							return dict_strain_names[strain_names[strain_name]][4].shift();
+					        							return dict_strain_names[strain_name][4].shift();
 							        				});
 					        					}
 					        				}
 
 
 					        				//Add job id to the process on ngsonto and start checking the job status
-					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_names[strain_name]]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name, process_ids){
+					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_name]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name, process_ids){
 		        								count_strains_added_run += 1;
 
 		        								$("#submission_status").empty();
-		        								$("#submission_status").html("Submitted " + String(count_strains_added_run) + " out of " + String(strain_names.length) + " jobs...");
+		        								$("#submission_status").html("Submitted " + String(count_strains_added_run) + " out of " + String(strain_names_clone.length) + " jobs...");
 
 		        								for(tk in response.data.tasks){
 		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
 		        								}
 		        								strainName_to_tids[strain_name] = response.data.tasks.join();
-		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_names[strain_name], process_ids, strainID_pipeline[strains_dict[strain_names[strain_name]]], CURRENT_PROJECT_ID);
+		        								periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_name, process_ids, strainID_pipeline[strains_dict[strain_name]], CURRENT_PROJECT_ID);
 
 		        								run_single_strain();
 

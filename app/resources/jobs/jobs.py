@@ -112,16 +112,16 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 				print(results["trace"])
 			except Exception:
 				print "No trace to append"
-		else:
-			report.project_id=project_id
-			report.pipeline_id=pipeline_id
-			report.process_position=process_position
-			report.report_data=results
-			report.timestamp=datetime.datetime.utcnow()
-			report.user_id=user_id
-			report.username=username
-			report.sample_name=sample
-			report.procedure = procedure
+
+		report.project_id=project_id
+		report.pipeline_id=pipeline_id
+		report.process_position=process_position
+		report.report_data=results
+		report.timestamp=datetime.datetime.utcnow()
+		report.user_id=user_id
+		report.username=username
+		report.sample_name=sample
+		report.procedure = procedure
 
 		db.session.commit()
 

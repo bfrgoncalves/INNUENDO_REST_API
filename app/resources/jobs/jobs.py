@@ -20,6 +20,9 @@ from franz.openrdf.model import URI
 from app.models.models import Protocol
 from app.models.models import Strain
 from app.models.models import Report
+
+from sqlalchemy import cast, Integer
+
 import json
 import requests
 import os
@@ -199,10 +202,11 @@ class Job_queue(Resource):
 						print "No such directory", workdirPath
 
 				#Remove reports from process id
-				reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.pipeline_id == args.pipeline_id, int(Report.process_position) >= int(process_ids[counter])).all()
+				reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.pipeline_id == args.pipeline_id, cast(Report.process_position, Integer) >= int(process_ids[counter])).all()
 
 				if reports:
 					for report in reports:
+						print "has report"
 						db.session.delete(report)
 					db.session.commit()
 

@@ -1401,7 +1401,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    var count_strains_added_run = 0;
 		    var workflow_indexes = {};
 		    var workflow_order = {};
-		    var strain_names_clone = selected_indexes.slice(0);
+		    var strain_names_clone = strain_names.slice(0);
 		    var count_total_strains = strain_names_clone.length;
 
 
@@ -1414,6 +1414,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 					$("#overlayProjects").css({"display":"none"});
 					$("#overlayWorking").css({"display":"none"});
+					$("#single_project_controller_div").css({"display":"block"});
 					return;
 				}
 

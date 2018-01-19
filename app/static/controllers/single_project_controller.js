@@ -555,6 +555,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		$("#overlayProjects").css({"display":"block"});
 		$("#overlayWorking").css({"display":"block"});
+		$("#single_project_controller_div").css({"display":"none"});
 		$("#submission_status").empty();
 
 		//Check if there are jobs pending or already running. If so, the jobs can't be run again

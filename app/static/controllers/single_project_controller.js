@@ -563,10 +563,16 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			if(haspending == true){
 				modalAlert('One or more of the selected strains have jobs already submitted. Please wait until they finish before submit new jobs for those strains.', function(){});
 				$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+				$("#overlayProjects").css({"display":"none"});
+				$("#overlayWorking").css({"display":"none"});
+				$("#single_project_controller_div").css({"display":"block"});
 			}
 			else if(haspending == "no_selected"){
 				modalAlert('Please select at least one strain to run analysis.', function(){});
 				$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+				$("#overlayProjects").css({"display":"none"});
+				$("#overlayWorking").css({"display":"none"});
+				$("#single_project_controller_div").css({"display":"block"});
 			}
 			else{
 				//Save the pipelines on the database if required
@@ -578,6 +584,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 						$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
 						$("#overlayProjects").css({"display":"none"});
 						$("#overlayWorking").css({"display":"none"});
+						$("#single_project_controller_div").css({"display":"block"});
 					}
 				});
 			}

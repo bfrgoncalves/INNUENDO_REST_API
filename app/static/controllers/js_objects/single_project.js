@@ -1931,6 +1931,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					var stored_added_pipeline = {};
 					if(sp_name.indexOf(strain_names[index].replace(/ /g, "_")) > -1){
 						count_added_to_new = 0
+						
 						for (pipeline in pipelines_applied[strain_names[index]]){
 					
 							count_pipeline_ids_last_parent += 1;
@@ -1963,6 +1964,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 									
 								}
 								var pip_name = pipelines_applied[strain_names[index]][pipeline].split("id")[1].split('"')[1];
+
+
+								if (dict_of_tasks_status[buttons_to_tasks[pip_name]] == "PD" && dict_of_tasks_status[buttons_to_tasks[pip_name]] == "R"){
+
+									modalAlert("Can not remove a procedure which is Running or Pending. Wait until its completion.", function(){});
+									
+									return;
+								}
+
+
 								if(dict_of_tasks_status[buttons_to_tasks[pip_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pip_name]] == "WARNING"){
 									if(pipelines_type_by_strain[strain_names[index]][3] == undefined){
 										pipelines_type_by_strain[strain_names[index]].push(last_process);

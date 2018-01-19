@@ -2155,8 +2155,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		      				strains_with_problems[identifier_s].push("The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").");
 
-		      				hline_to_use.map(function(a){ $("#"+a).val("")});
-				      		$('#Submitter').val(CURRENT_USER_NAME);
+		      				if(strains_object['body'].length != 0) add_to_database();
+	      					else {
+	      						showDoneImportModal();
+	      						hline_to_use.map(function(a){ $("#"+a).val("")});
+				      			$('#Submitter').val(CURRENT_USER_NAME);
+	      					}
 
 		      			}
 		      			else if(no_identifier == true){
@@ -2167,6 +2171,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	      					else {
 			      				showDoneImportModal();
 			      				hline_to_use.map(function(a){ $("#"+a).val("")});
+			      				$('#Submitter').val(CURRENT_USER_NAME);
 			      			}
 		      			}
 		      			else if(files_in_user_folder < 2){
@@ -2177,6 +2182,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	      					else {
 			      				showDoneImportModal();
 			      				hline_to_use.map(function(a){ $("#"+a).val("")});
+			      				$('#Submitter').val(CURRENT_USER_NAME);
 			      			}
 		      			}
 		      			else{
@@ -2187,6 +2193,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	      					else {
 			      				showDoneImportModal();
 			      				hline_to_use.map(function(a){ $("#"+a).val("")});
+			      				$('#Submitter').val(CURRENT_USER_NAME);
 			      			}
 		      			}
 

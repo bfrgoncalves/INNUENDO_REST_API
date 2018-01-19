@@ -36,6 +36,10 @@ report_strain_get_project_parser.add_argument('strain_id', dest='strain_id', typ
 report_delete_parser = reqparse.RequestParser()
 report_delete_parser.add_argument('report_name', dest='report_name', type=str, required=False, help="report name")
 
+report_get__files_parser = reqparse.RequestParser()
+report_get__files_parser.add_argument('path', dest='path', type=str, required=True, help="path")
+report_get__files_parser.add_argument('name', dest='name', type=str, required=True, help="name")
+
 save_reports_parser = reqparse.RequestParser()
 save_reports_parser.add_argument('job_ids', dest='job_ids', type=str, required=False, help="job identifier")
 save_reports_parser.add_argument('species_id', dest='species_id', type=str, required=False, help="Species ID")
@@ -210,3 +214,22 @@ class CombinedReportsResource(Resource):
 		db.session.delete(report_to_remove)
 		db.session.commit()
 		return 204
+
+
+
+class ReportsFileStrainResource(Resource):
+
+	def get(self):
+		args = report_get__files_parser.parse_args()
+		try:
+			local_filename = os.path.join(args.path, args.name)
+			response = send_file(local_filename, as_attachment=True)
+			response.headers.add('Access-Control-Allow-Origin', '*')
+			response.headers.add('Content-Type', 'application/force-download')
+			#os.remove(local_filename)
+			return response
+		except Exception as e:
+			print e
+			#self.Error(400)
+			return 404
+

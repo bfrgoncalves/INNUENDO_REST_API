@@ -260,8 +260,6 @@ class Job_queue(Resource):
 				procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(process_id)
 				queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?file4) as ?file_4) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000096 ?file4; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
 
-				print queryString
-
 				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
 				result = tupleQuery.evaluate()
 				
@@ -304,36 +302,12 @@ class Job_queue(Resource):
 			all_paths.append(results[1])
 			all_wrkdirs.append(file2Path)
 
-		#print len(all_std_out), len(store_jobs_in_db), len(all_results), len(all_paths)
 
 		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids, 'all_wrkdirs':all_wrkdirs, 'process_ids': process_ids}
-
-		#request = requests.get(JOBS_ROOT, params={'job_id':args.job_id, 'username':str(username), 'pipeline_id':args.pipeline_id, 'project_id':args.project_id, 'process_id':args.process_position, 'from_process_controller':from_process_controller, 'homedir': homedir})
-		#results = request.json()
 
 		procedure_names = args.procedure_name.split(",")
 		process_positions = args.process_position.split(",")
 		all_jobs_status = []
-
-		'''if results != '':
-
-			for k in range(0, len(results['stdout'])):
-				job_status = results['stdout'][k].split('\t')
-				if len(job_status) == 1:
-					return ["null", "null"]
-				job_status[1] = job_status[1].strip('\n')
-				job_status[0] = results['job_id'][k]
-
-				if from_process_controller == 'true':
-					job_status[1] = "COMPLETED"
-					results['store_in_db'][k] = True
-
-				if from_process_controller == 'true' and results['store_in_db'][k] == True:
-					added, job_id = add_data_to_db(results['job_id'][k], results['results'][k], user_id, procedure_names[k], args.sample_name, args.pipeline_id, process_positions[k], args.project_id, args.database_to_include, username)
-				
-				#if results['store_in_db'] == True:
-				#	added, job_id = add_data_to_db(results['job_id'], results['results'], user_id, args.procedure_name, args.sample_name, args.pipeline_id, args.process_position, args.project_id, args.database_to_include, username)
-				all_jobs_status.append(job_status)'''
 
 		return results, 200
 

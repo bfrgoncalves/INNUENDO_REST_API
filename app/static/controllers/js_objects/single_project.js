@@ -2058,6 +2058,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	    */
 		load_strains_from_file: function(input_element, separator, callback){
 
+			console.log("LOADING FILE");
+
 			function select_option(select_id, i) {
 			  return $('#'+select_id+' select option[value="' + i + '"]').html();
 			}
@@ -2089,6 +2091,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			strains_object['body'].push(array_to_use);
 		      		}
 		      	}
+
+		      	console.log(strains_object);
 
 		      	//load strains
 		      	function add_to_database(){

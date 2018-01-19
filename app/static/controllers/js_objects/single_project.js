@@ -947,8 +947,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		/*
 		Get nextflow logs
 		*/
-		getNextflowLog: function(filename, pipeline_id, project_id, callback){
-			pg_requests.get_nextflow_log(filename, pipeline_id, project_id, function(response){
+		getNextflowLog: function(filename, pipeline_id, project_id, submitter, callback){
+			pg_requests.get_nextflow_log(filename, pipeline_id, project_id, submitter, function(response){
 				callback(response);
 			});
 		},

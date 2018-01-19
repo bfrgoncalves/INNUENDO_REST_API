@@ -70,7 +70,7 @@ function set_headers_single_project(table_id, global_strains){
 		        { "data": "SamplingDate" },
 		        { "data": "Owner", "visible":false },
 		        { "data": "Food-Bug", "visible":false },
-		        { "data": "Submitter", "visible":false },
+		        { "data": "Submitter", "className": 'submitter_cell', "visible":false },
 		        { "data": "File_2", "visible":false },
 		        { "data": "Location" }
 
@@ -98,7 +98,7 @@ function set_headers_single_project(table_id, global_strains){
 		        { "data": "SamplingDate" },
 		        { "data": "Owner", "visible":false },
 		        { "data": "Food-Bug", "visible":false },
-		        { "data": "Submitter", "visible":false },
+		        { "data": "Submitter", "className": 'submitter_cell', "visible":false },
 		        { "data": "File_2", "visible":false },
 		        { "data": "Location" },
 		        {
@@ -133,7 +133,12 @@ function set_headers_single_project(table_id, global_strains){
 							else p_col_defs.push({"data":x});
 						}
 						else{
-							p_col_defs.push({"data":x, "visible":false});
+							if(x === "Submitter"){
+								p_col_defs.push({"data":x, "className": 'submitter_cell', "visible":false});
+							}
+							else{
+								p_col_defs.push({"data":x, "visible":false});
+							}
 						}
 						strains_headers.push(matching_fields[x]);
 					}

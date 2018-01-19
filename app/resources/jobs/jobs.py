@@ -80,6 +80,7 @@ nextflow_logs_get_parser = reqparse.RequestParser()
 nextflow_logs_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="pipeline_id")
 nextflow_logs_get_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project_id")
 nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str, required=True, help="filename")
+nextflow_logs_get_parser.add_argument('submitter', dest='submitter', type=str, required=True, help="submitter")
 
 database_processor = Queue_Processor()
 
@@ -395,7 +396,7 @@ class NextflowLogs(Resource):
 		print username
 
 		for x in USER_STORAGES:
-			file_location = os.path.join(til_storage, x, "users", username, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
+			file_location = os.path.join(til_storage, x, "users", args.submitter, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
 			
 			try:
 				with open(file_location, "r") as file_r:

@@ -254,14 +254,16 @@ function Objects_Utils(){
 	   $('#'+table_id+' tbody').on('click', 'button.info-control', function (e) {
 
 	    	var closest_strain = $(e.target).closest("tr").find(".strain_cell");
+	    	var closest_submitter = $(e.target).closest("tr").find(".submitter_cell");
 
 	        $("#modalNextflowLogs").modal("show");
 
         	$(".nextflow_logs").attr("pip", String(strainID_pipeline[strains_dict[closest_strain.html()]]));
+        	$(".nextflow_logs").attr("submitter", String(closest_submitter.html());
 
 	        $(".nextflow_logs").off("click").on("click", function(e){
 	        	var href = $(e.target).attr("href");
-				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, function(response){
+				single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, $(e.target).parent().attr("submitter"), function(response){
 					$(href).html("<pre>"+response.data.content+"</pre>");
 				});
 			});

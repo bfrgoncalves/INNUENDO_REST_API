@@ -107,7 +107,9 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 		#Appends to report data
 		if overwrite == "false":
 			try:
+				print(report.report_data["trace"])
 				results["trace"].extend(report.report_data["trace"])
+				print(results["trace"])
 			except Exception:
 				print "No trace to append"
 		else:

@@ -418,6 +418,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							//Reset status of worflow
 							protocols_on_workflow = [];
 							has_failed = false;
+							is_running = false;
 							pending_jobs = 0;
 							prev_process_status = '';
 						}
@@ -426,6 +427,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)];
 
 					}
+					console.log(intervals_running, this_job_id);
 					if(response.data.stdout.length == all_status_done) clearInterval(intervals_running[this_job_id]);
 
 				}

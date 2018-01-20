@@ -273,7 +273,9 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				print listOrderedProcessTypes[addedProcesses]
 
 				# get specific process input type and uri
-				queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+listOrderedProcessTypes[addedProcesses]+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002233>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(ppropid)+"/pipelines/"+str(ppipid)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
+
+				queryString = """SELECT (STR(?out) as ?messageURI) WHERE {<"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc. ?proc obo:NGS_0000081 ?index; obo:RO_0002234 ?out}order by desc(?out) LIMIT 1 OFFSET 1"""
+				#queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+listOrderedProcessTypes[addedProcesses]+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002233>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(ppropid)+"/pipelines/"+str(ppipid)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
 
 				print queryString
 
@@ -285,6 +287,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 				for results in jsonResult2:
 					prevMessageURI=dbconAg.createURI(results["messageURI"].replace('"', ''))
+					break
 				
 
 				#add process and link to pipeline

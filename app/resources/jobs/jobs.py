@@ -443,7 +443,7 @@ class NextflowLogs(Resource):
 				print username
 
 				for x in USER_STORAGES:
-					file_location = os.path.join(til_storage, x, "users", args.submitter, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
+					file_location = os.path.join(til_storage, x, "users", username, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
 					
 					try:
 						with open(file_location, "r") as file_r:

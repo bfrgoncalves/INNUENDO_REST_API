@@ -113,7 +113,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 			print "No strain with name " + sample
 		else:
 			metadata = json.loads(strain.strain_metadata)
-			metadata["ST"] = typing
+			metadata["Serotype"] = typing
 			strain.strain_metadata = json.dumps(metadata)
 			db.session.commit()
 

@@ -433,7 +433,7 @@ class NextflowLogs(Resource):
 		else:
 			user_of_project = db.session.query(User).filter(User.id == project.user_id).first()
 
-			if not user:
+			if not user_of_project:
 				content = "file not found"
 			else:
 				username = user_of_project.username

@@ -19,7 +19,7 @@ from franz.openrdf.model import URI
 
 from app.models.models import Protocol
 from app.models.models import Strain
-from app.models.models import Report
+from app.models.models import Report, Project, User
 
 from sqlalchemy import cast, Integer
 
@@ -80,7 +80,6 @@ nextflow_logs_get_parser = reqparse.RequestParser()
 nextflow_logs_get_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="pipeline_id")
 nextflow_logs_get_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="project_id")
 nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str, required=True, help="filename")
-nextflow_logs_get_parser.add_argument('submitter', dest='submitter', type=str, required=True, help="submitter")
 
 database_processor = Queue_Processor()
 
@@ -91,10 +90,46 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 
 
 	if "chewbbaca" in procedure:
-		print "CLASSIFY"
+		print "CLASSIFY CHEWBBACA"
 		new_job_id = project_id + pipeline_id + process_position
 		jobID = database_processor.classify_profile(results, species, sample, new_job_id)
-	
+		chewstatus = results["status"]
+		strain = db.session.query(Strain).filter(Strain.name == sample).first()
+		
+		if not strain:
+			print "No strain with name " + sample
+		else:
+			metadata = json.loads(strain.strain_metadata)
+			metadata["chewBBACAStatus"] = chewstatus
+			strain.strain_metadata = json.dumps(metadata)
+			db.session.commit()
+
+	if "seq_typing" in procedure:
+		print "SEQ TYPING"
+		typing = results["typing"]["seqtyping"]
+		strain = db.session.query(Strain).filter(Strain.name == sample).first()
+		
+		if not strain:
+			print "No strain with name " + sample
+		else:
+			metadata = json.loads(strain.strain_metadata)
+			metadata["ST"] = typing
+			strain.strain_metadata = json.dumps(metadata)
+			db.session.commit()
+
+	if "patho_typing" in procedure:
+		print "PATHO TYPING"
+		typing = results["typing"]["pathotyping"]
+		strain = db.session.query(Strain).filter(Strain.name == sample).first()
+		
+		if not strain:
+			print "No strain with name " + sample
+		else:
+			metadata = json.loads(strain.strain_metadata)
+			metadata["Pathotype"] = typing
+			strain.strain_metadata = json.dumps(metadata)
+			db.session.commit()
+
 	#job_id = 1
 
 	if not report:
@@ -388,22 +423,34 @@ class NextflowLogs(Resource):
 	def get(self):
 		args = nextflow_logs_get_parser.parse_args()
 
-		username = current_user.homedir.split("/")[-1]
+		#username = current_user.homedir.split("/")[-1]
 		til_storage = "/".join(current_user.homedir.split("/")[0:-3])
 
-		print til_storage
-		print current_user.homedir
-		print username
+		project = db.session.query(Project).filter(Project.id == args.project_id).first()
 
-		for x in USER_STORAGES:
-			file_location = os.path.join(til_storage, x, "users", args.submitter, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
-			
-			try:
-				with open(file_location, "r") as file_r:
-					content = file_r.read()
-				break
-			except IOError:
+		if not project:
+			content = "file not found"
+		else:
+			user_of_project = db.session.query(User).filter(User.id == project.user_id).first()
+
+			if not user:
 				content = "file not found"
+			else:
+				username = user_of_project.username
+
+				print til_storage
+				print current_user.homedir
+				print username
+
+				for x in USER_STORAGES:
+					file_location = os.path.join(til_storage, x, "users", args.submitter, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
+					
+					try:
+						with open(file_location, "r") as file_r:
+							content = file_r.read()
+						break
+					except IOError:
+						content = "file not found"
 
 		return {"content": content}, 200
 		

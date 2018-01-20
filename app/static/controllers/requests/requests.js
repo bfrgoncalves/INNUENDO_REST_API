@@ -941,8 +941,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        params: {
 		        	filename: filename,
 		        	pipeline_id:pipeline_id,
-		        	project_id:project_id,
-		        	submitter: submitter
+		        	project_id:project_id
 		        }
 		    }
 

@@ -270,6 +270,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				indexInt = dbconAg.createLiteral((addedProcesses+1), datatype=XMLSchema.INT)
 				messageindexInt = dbconAg.createLiteral((messageid), datatype=XMLSchema.INT)
 
+				print listOrderedProcessTypes[addedProcesses]
 
 				# get specific process input type and uri
 				queryString ="""SELECT DISTINCT (STR(?in) as ?messageURI) WHERE { <"""+listOrderedProcessTypes[addedProcesses]+"""> rdfs:subClassOf ?B. ?B owl:onProperty <http://purl.obolibrary.org/obo/RO_0002233>; owl:someValuesFrom ?outType. <"""+localNSpace+"projects/"+str(ppropid)+"/pipelines/"+str(ppipid)+"""> obo:BFO_0000051  ?proc. <"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc2. { ?proc obo:RO_0002233 ?in. ?in a ?outType. } UNION { ?proc obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } UNION { ?proc2 obo:RO_0002234 ?in. ?in a ?outType. } }"""
@@ -280,6 +281,7 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 				result5 = tupleQuery.evaluate()
 				jsonResult2=parseAgraphQueryRes(result5,["messageURI"])
 				result5.close()
+
 
 				for results in jsonResult2:
 					prevMessageURI=dbconAg.createURI(results["messageURI"].replace('"', ''))

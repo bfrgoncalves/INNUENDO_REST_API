@@ -244,9 +244,11 @@ function ngs_onto_client(CURRENT_PROJECT_ID, $http){
             console.log(req);
 
             $http(req).then(function(response){
+               console.log(response);
                callback(response, strain_name);
             },
             function(response){
+            	console.log(response);
                 callback(response, strain_name);
             });
 	    },

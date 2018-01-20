@@ -1470,6 +1470,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        	workflow_indexes[strain_in_use] = {};
 		        	workflow_order[strain_in_use] = [];
 
+
 		        	//Add processes to ngs_onto
 		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_in_use]], strains_dict[strain_in_use], strain_in_use, pip_id_of_parents, pipelines_type_by_strain[strain_in_use], function(response, strain_name){
 	        			if(response.status != 404){

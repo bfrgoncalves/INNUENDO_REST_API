@@ -128,7 +128,6 @@ class ProjectListUserSpecieResource(Resource):
 		max_logins = db.session.query(db.func.max(Ecoli.classifier)).scalar()
 
 		print max_logins
-		print str(max_logins+1)
 
 		if args.all:
 			projects = db.session.query(Project).filter(Project.species_id == id).all()

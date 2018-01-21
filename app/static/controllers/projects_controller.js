@@ -115,6 +115,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
     }
 	
     var projects = [];
+    var name_to_project = {};
     
     var project_col_defs = [
     	{
@@ -131,6 +132,7 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
     $scope.projects_headers = ['Name', 'Description', "Date"];
 
     var other_projects = [];
+    var name_to_other_project = {};
 
     $scope.species = [];
     $scope.currentSpecieID = CURRENT_SPECIES_ID;
@@ -147,11 +149,21 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
         //Get available projects for the selected species of the current user
         projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, function(results){
         	projects = results;
+        	
+        	for (x in projects) {
+        		name_to_project[projects[x].name] = projects[x].id;
+        	}
+
 	    	objects_utils.loadDataTables('projects_table', projects, project_col_defs);
 
 			//Get available projects for the selected species of the other users
 	        projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, function(results){
 	        	other_projects = results;
+
+	        	for (x in other_projects) {
+	        		name_to_other_project[other_projects[x].name] = other_projects[x].id;
+	        	}
+
 		    	objects_utils.loadDataTables('other_projects_table', other_projects, project_col_defs);
 		    	$('#waiting_spinner').css({display:'none'}); 
     			$('#project_controller_div').css({display:'block'}); 
@@ -159,7 +171,8 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 
     			//Sets the CURRENT_PROJECT_ID to be loaded later
     			$('#projects_table').on('click', 'tr', function(){
-		        	CURRENT_PROJECT_ID = projects[$(this).index()].id;
+    				console.log($('#projects_table').DataTable().row( this ).data());
+		        	CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( this ).data().id;
 		        })
 
 		        $('#other_projects_table').on('click', 'tr', function(){

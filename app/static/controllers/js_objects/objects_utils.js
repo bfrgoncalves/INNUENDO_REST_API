@@ -127,9 +127,9 @@ function Objects_Utils(){
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
-	        colReorder: {
+	        /*colReorder: {
 	        	fixedColumnsLeft: 1
-	        },
+	        },*/
 	        "pageLength": page_length,
 	        select: {
 	            style:    selection_style,

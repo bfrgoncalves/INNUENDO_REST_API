@@ -125,6 +125,11 @@ class ProjectListUserSpecieResource(Resource):
 	def get(self, id):
 		args=project_get_parser.parse_args()
 
+		max_logins = db.session.query(db.func.max(cast(Ecoli.classifier, Integer))).scalar()
+
+		print max_logins
+		print str(max_logins+1)
+
 		if args.all:
 			projects = db.session.query(Project).filter(Project.species_id == id).all()
 		elif args.get_others:

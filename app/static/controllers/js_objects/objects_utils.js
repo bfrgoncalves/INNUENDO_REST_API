@@ -123,7 +123,7 @@ function Objects_Utils(){
 	    else selection_style = "multi";
 
 	    table = $('#' + table_id).DataTable({
-	    	dom: 'Blfrtip',
+	    	//dom: 'Blfrtip',
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,

@@ -396,9 +396,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
 
-							console.log(process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)], prev_workflow, process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)]);
-							console.log(prev_workflow, protocol_pos);
-
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});
 								current_job_status_color[prev_workflow] = status_dict["FAILED"];
@@ -436,7 +433,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)];
 
 					}
-					console.log(intervals_running, this_job_id);
 					if(response.data.stdout.length == all_status_done) clearInterval(intervals_running[this_job_id]);
 
 				}

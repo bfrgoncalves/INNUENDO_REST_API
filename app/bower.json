@@ -39,6 +39,8 @@
     "angular": "^1.5.8",
     "bootstrap-fileinput": "^4.3.4",
     "bootstrap-select": "^1.10.0",
-    "angular-flash-alert": "^2.3.0"
+    "angular-flash-alert": "^2.3.0",
+    "datatables.net-bs": "^2.1.1",
+    "datatables.net-buttons-bs": "^1.4.2"
   }
 }

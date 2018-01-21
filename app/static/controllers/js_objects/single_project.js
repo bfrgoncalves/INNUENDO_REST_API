@@ -383,6 +383,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						else prev_process_status = status;
 
 						var protocol_pos = tasks_to_buttons[task_id].split("_").splice(-2)[0];
+
+						if (firstWorkflow === true){
+							prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
+							firstWorkflow = false;
+						} 
 						
 						if ((process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)] !== undefined && prev_workflow !== process_id_to_workflow[strain_id + String(parseInt(protocol_pos)+1)]) || response.data.stdout.length === counter_processes){
 

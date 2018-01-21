@@ -76,6 +76,8 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
 	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
 	else $("#backbutton").css({"display":"none"});
 
+	$("#innuendofooter").css({"display":"none"});
+
 	$("#backbutton").off("click");
 	$("#backbutton").on("click", function(){
 		$scope.$apply(function(){

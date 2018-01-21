@@ -76,6 +76,8 @@ innuendoApp.controller("overviewCtrl", function($scope, $rootScope, $http) {
 
 				$('.selectpicker').selectpicker({});
 
+				$("#innuendofooter").css({"display":"block"});
+
 
 	        });
 		}

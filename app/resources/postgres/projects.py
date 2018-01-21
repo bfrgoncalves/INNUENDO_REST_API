@@ -3,11 +3,13 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #
 from flask_security import current_user
 from flask import jsonify
 
-from app.models.models import Project
+from app.models.models import Project, Ecoli
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
 import random
 import string
+
+from sqlalchemy import cast, Integer
 
 #Defining post arguments parser
 project_post_parser = reqparse.RequestParser()
@@ -84,6 +86,12 @@ class ProjectListUserResource(Resource):
 		args=project_get_parser.parse_args()
 		if not current_user.is_authenticated:
 			abort(403, message="No permissions")
+
+		max_logins = db.session.query(db.func.max(cast(Ecoli.classifier, Integer))).scalar()
+
+		print max_logins
+		print str(max_logins+1)
+
 		if args.get_others:
 			projects = db.session.query(Project).filter(Project.user_id != current_user.id).all()
 		else:

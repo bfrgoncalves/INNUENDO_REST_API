@@ -128,7 +128,10 @@ class ProjectListUserSpecieResource(Resource):
 		max_logins = db.session.query(Ecoli).filter(Ecoli.classifier != "undefined").order_by(Ecoli.classifier.desc()).first()
 
 		print max_logins.classifier
-		print str(int(max_logins.classifier)+1)
+		classToUse = max_logins.classifier
+		if "New_" in classToUse:
+			classToUse = classToUse.split("_")[1]
+		print str(int(classToUse)+1)
 
 		if args.all:
 			projects = db.session.query(Project).filter(Project.species_id == id).all()

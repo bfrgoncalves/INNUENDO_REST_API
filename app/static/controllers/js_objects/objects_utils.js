@@ -123,13 +123,13 @@ function Objects_Utils(){
 	    else selection_style = "multi";
 
 	    table = $('#' + table_id).DataTable({
-	    	//dom: 'Blfrtip',
+	    	dom: 'Blfrtip',
   			"scrollCollapse": true,
 	    	"scrollX": true,
 	        paging:true,
-	        /*colReorder: {
+	        colReorder: {
 	        	fixedColumnsLeft: 1
-	        },*/
+	        },
 	        "pageLength": page_length,
 	        select: {
 	            style:    selection_style,
@@ -341,12 +341,12 @@ function Objects_Utils(){
 	    else page_length = 50;
 
 	    table = $('#' + table_id).DataTable({
-	    	//dom: 'Blfrtip',
+	    	dom: 'Blfrtip',
   			"scrollCollapse": true,
 	        paging:false,
-	        /*colReorder: {
+	        colReorder: {
 	        	fixedColumnsLeft: 1
-	        },*/
+	        },
 	        "pageLength": page_length,
 	        select: {
 	            style:    'os',

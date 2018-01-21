@@ -75,7 +75,7 @@
         <button class="btn btn-sm btn-warning" style="float:right;" ng-click="changeWorkflowState()"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="change workflow state">Change Workflow State</i></button>
         </h3>
 
-        <table class="display compact hover" id="workflows_table" width='100%'>
+        <table class="table table-striped table-bordered" id="workflows_table" width='100%'>
           <thead>
             <th></th>
             <th ng-repeat="header in workflows_headers">{{ header }}</th>

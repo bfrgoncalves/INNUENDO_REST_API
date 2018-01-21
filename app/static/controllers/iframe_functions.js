@@ -1,5 +1,5 @@
 var setUpFrame = () => { 
-    var frame = $("#reportsIframe").get(0).document || $("#reportsIframe").get(0).contentWindow;
+    var frame = $("#reportsIframe").get(0).contentWindow || $("#reportsIframe").get(0).document;
     
     console.log(frame);
     if(frame !== undefined){

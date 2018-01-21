@@ -125,7 +125,7 @@ class ProjectListUserSpecieResource(Resource):
 	def get(self, id):
 		args=project_get_parser.parse_args()
 
-		max_logins = db.session.query(db.func.max(cast(Ecoli.classifier, Integer))).scalar()
+		max_logins = db.session.query(db.func.max(Ecoli.classifier)).scalar()
 
 		print max_logins
 		print str(max_logins+1)

@@ -93,42 +93,51 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 		print "CLASSIFY CHEWBBACA"
 		new_job_id = project_id + pipeline_id + process_position
 		jobID = database_processor.classify_profile(results, species, sample, new_job_id)
-		chewstatus = results["status"]
 		strain = db.session.query(Strain).filter(Strain.name == sample).first()
 		
 		if not strain:
 			print "No strain with name " + sample
 		else:
-			metadata = json.loads(strain.strain_metadata)
-			metadata["chewBBACAStatus"] = chewstatus
-			strain.strain_metadata = json.dumps(metadata)
-			db.session.commit()
+			try:
+				metadata = json.loads(strain.strain_metadata)
+				chewstatus = results["status"]
+				metadata["chewBBACAStatus"] = chewstatus
+				strain.strain_metadata = json.dumps(metadata)
+				db.session.commit()
+			except Exception:
+				print "No chewbbaca status"
 
 	if "seq_typing" in procedure:
 		print "SEQ TYPING"
-		typing = results["typing"]["seqtyping"]
 		strain = db.session.query(Strain).filter(Strain.name == sample).first()
 		
 		if not strain:
 			print "No strain with name " + sample
 		else:
-			metadata = json.loads(strain.strain_metadata)
-			metadata["Serotype"] = typing
-			strain.strain_metadata = json.dumps(metadata)
-			db.session.commit()
+			try:
+				metadata = json.loads(strain.strain_metadata)
+				typing = results["typing"]["seqtyping"]
+				metadata["Serotype"] = typing
+				strain.strain_metadata = json.dumps(metadata)
+				db.session.commit()
+			except Exception:
+				print "No seqtyping data"
 
 	if "patho_typing" in procedure:
 		print "PATHO TYPING"
-		typing = results["typing"]["pathotyping"]
 		strain = db.session.query(Strain).filter(Strain.name == sample).first()
 		
 		if not strain:
 			print "No strain with name " + sample
 		else:
-			metadata = json.loads(strain.strain_metadata)
-			metadata["Pathotype"] = typing
-			strain.strain_metadata = json.dumps(metadata)
-			db.session.commit()
+			try:
+				metadata = json.loads(strain.strain_metadata)
+				typing = results["typing"]["pathotyping"]
+				metadata["Pathotype"] = typing
+				strain.strain_metadata = json.dumps(metadata)
+				db.session.commit()
+			except Exception:
+				print "No pathotyping data"
 
 	#job_id = 1
 

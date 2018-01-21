@@ -341,7 +341,7 @@ function Objects_Utils(){
 	    else page_length = 50;
 
 	    table = $('#' + table_id).DataTable({
-	    	dom: 'Blfrtip',
+	    	//dom: 'Blfrtip',
   			"scrollCollapse": true,
 	        paging:false,
 	        colReorder: {

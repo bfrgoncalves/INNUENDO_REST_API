@@ -354,8 +354,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						counter_processes += 1;
 						task_id = response.data.stdout[n][0];
 						status = response.data.stdout[n][1];
-
-						console.log(task_id, tasks_to_buttons);
 						
 						var res_pos = n;
 						if (task_id == "null") return;
@@ -392,6 +390,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
 							}
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
+
+							console.log(prev_workflow, protocol_pos);
 
 							if(has_failed){
 								$('#' + prev_workflow).css({'background-color': status_dict["FAILED"]});

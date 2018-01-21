@@ -240,8 +240,9 @@ table.display{
     color: #d6d6d6;
     font-weight: bold;
     padding: 10px;
-    line-height: 10px;
+    line-height: 12px;
     text-align: center;
+    font-size: 10px;
 }
 
 .footer-msg a {

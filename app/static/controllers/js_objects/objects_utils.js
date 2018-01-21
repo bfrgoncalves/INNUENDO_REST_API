@@ -344,9 +344,9 @@ function Objects_Utils(){
 	    	//dom: 'Blfrtip',
   			"scrollCollapse": true,
 	        paging:false,
-	        colReorder: {
+	        /*colReorder: {
 	        	fixedColumnsLeft: 1
-	        },
+	        },*/
 	        "pageLength": page_length,
 	        select: {
 	            style:    'os',

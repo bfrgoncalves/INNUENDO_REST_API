@@ -154,7 +154,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            }
 
 	            //Checks if files are already being used on other strains
-	            if(has_same_files == true){
+	            /*if(has_same_files == true){
 	            	message = "<p><b>Some files associated with this strain are already being used in this Project:</b></p><p>"+message_to_add+"</p><p><b>Do you want to proceed?</b></p>";
 	            	modalAlertAddSameFiles(message, function(toadd){
 	            		if(toadd == true) continue_adding();
@@ -166,7 +166,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 	            		}
 	            	});
 	            }
-	            else continue_adding();
+	            else*/ 
+	            continue_adding();
 
 	            //Add strain to ngs_onto and add it to the strains dictionary
 	            function continue_adding(){

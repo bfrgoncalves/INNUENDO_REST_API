@@ -142,7 +142,18 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 		if database_entry:
 			classification = database_entry.classifier
 		else:
-			classification = "New_" + job_id.split("_")[0]
+			highest_classifier = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].classifier != "undefined").order_by(database_correspondece[database_name].classifier.desc()).first()
+
+			if highest_classifier:
+				classification = highest_classifier.classifier
+				
+				if "New_" in classification:
+					classification = classification.split("_")[1]
+				
+				classification = str(int(classification)+1)
+
+			else:
+				classification = job_id.split("_")[0]
 
 		print classification
 

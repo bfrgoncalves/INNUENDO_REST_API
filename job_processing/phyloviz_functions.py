@@ -238,7 +238,12 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			if strain_from_db.platform_tag == "FP":
 				print strain_from_db.name
 				strain = db.session.query(Strain).filter(Strain.name == strain_from_db.name).first()
-				strain_metadata = json.loads(strain.strain_metadata)
+				
+				try:
+					strain_metadata = json.loads(strain.strain_metadata)
+				except AttributeError:
+					print "No metadata for strain " + strain_from_db.name
+					continue
 				
 				#Add projects where strain is
 				projects_of_strain = Project.query.join(projects_strains, (projects_strains.c.project_id == Project.id)).filter(projects_strains.c.strains_id == strain.id).all()

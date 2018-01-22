@@ -92,20 +92,24 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 	if "chewbbaca" in procedure:
 		print "CLASSIFY CHEWBBACA"
 		new_job_id = project_id + pipeline_id + process_position
-		jobID = database_processor.classify_profile(results, species, sample, new_job_id)
-		strain = db.session.query(Strain).filter(Strain.name == sample).first()
-		
-		if not strain:
-			print "No strain with name " + sample
+
+		if results["status"] != "fail":
+			jobID = database_processor.classify_profile(results, species, sample, new_job_id)
+			strain = db.session.query(Strain).filter(Strain.name == sample).first()
+			
+			if not strain:
+				print "No strain with name " + sample
+			else:
+				try:
+					metadata = json.loads(strain.strain_metadata)
+					chewstatus = results["status"]
+					metadata["chewBBACAStatus"] = chewstatus
+					strain.strain_metadata = json.dumps(metadata)
+					db.session.commit()
+				except Exception:
+					print "No chewbbaca status"
 		else:
-			try:
-				metadata = json.loads(strain.strain_metadata)
-				chewstatus = results["status"]
-				metadata["chewBBACAStatus"] = chewstatus
-				strain.strain_metadata = json.dumps(metadata)
-				db.session.commit()
-			except Exception:
-				print "No chewbbaca status"
+			print "chewBBACA failed"
 
 	if "seq_typing" in procedure:
 		print "SEQ TYPING"

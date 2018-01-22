@@ -2102,7 +2102,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var used_headers = {
 				"Primary-Identifier": [true, "Required", "Primary strain identifier is required."],
-				"Food-Bug": [true, "Required", "Addiitonal species identifier is required."],
+				"Food-Bug": [true, "Required", "Additional species identifier is required."],
 				"Source": [true, "Required", "Source is required. Choose between: Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water;"],
 				"Sampling-Date": [true, "Optional"],
 				"Sample-Received-Date": [true, "Optional"],

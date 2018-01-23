@@ -112,7 +112,7 @@ def read_metadata_file_to_JSON(file_path, table_id):
 
 	results_metadata = {}
 
-	if table_id == "yersinia":
+	if table_id == "yersinia" or table_id == "ecoli":
 		real_metadata_to_use = metadata_to_use_yersinia
 	else:
 		real_metadata_to_use = metadata_to_use
@@ -126,7 +126,7 @@ def read_metadata_file_to_JSON(file_path, table_id):
 					metadata_fields = line.split('\t')[0:]
 				else:
 					line = line.split('\t')
-					if table_id == "yersinia":
+					if table_id == "yersinia" or table_id == "ecoli":
 						sample = line[0]
  					else:
 						sample = line[0] + ".fasta"

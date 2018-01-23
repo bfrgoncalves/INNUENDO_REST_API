@@ -2133,8 +2133,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	//parse file
 		      	for(i in lines){
 
-		      		if (lines[i].replace(/\s/g, "")){
-		      			console.log(lines[i]);
+		      		if (!lines[i].replace(/\s/g, "")){
 		      			continue;
 		      		}
 

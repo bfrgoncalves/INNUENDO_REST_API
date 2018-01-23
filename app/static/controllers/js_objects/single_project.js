@@ -2164,6 +2164,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		line_to_use = strains_object['body'].shift();
 		      		var has_files = 0;
 		      		var files_in_user_folder = 0;
+		      		var has_valid_source = false;
 		      		var identifier_s = "";
 		      		var no_identifier = true;
 		      		var no_case_id = true;
@@ -2225,6 +2226,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      					}
 
 		      					if(headers_array[header_to_check] === "Source") {
+
+		      						$('#'+hline_to_use[x] + " option").filter(function() {
+									    if($(this).text().trim() === bline_to_use[x].trim()){
+									    	has_valid_source = true;
+									    	return bline_to_use[x];
+									    }
+									}).prop('selected', true);
+
 		      						if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] == ""){
 		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
 		      						}
@@ -2265,7 +2274,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		
 		      		setTimeout(function(){
 
-		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true && required_headers_missed.length == 0){
+		      			if(files_in_user_folder == 2 && no_identifier != true && bad_submitter != true && required_headers_missed.length == 0 && has_valid_source == true){
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files == 2) $('#newstrainbuttonsubmit').trigger("submit");
 			      			if(strains_object['body'].length != 0) add_to_database();
@@ -2293,6 +2302,17 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				      			$('#Submitter').val(CURRENT_USER_NAME);
 	      					}
 
+		      			}
+		      			else if (has_valid_source == false) {
+
+		      				strains_with_problems[identifier_s].push("<li>Select a valid Source (Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water).</li>");
+
+		      				if(strains_object['body'].length != 0) add_to_database();
+	      					else {
+	      						showDoneImportModal();
+	      						hline_to_use.map(function(a){ $("#"+a).val("")});
+				      			$('#Submitter').val(CURRENT_USER_NAME);
+	      					}
 		      			}
 		      			else if(bad_submitter == true){
 

@@ -2134,8 +2134,14 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	
 		      	//parse file
 		      	for(i in lines){
+
+		      		if (lines[i].replace(/\s/g, "")){
+		      			continue;
+		      		}
+		      		
 		      		line  = lines[i].split(separator);
 		      		var array_to_use = [];
+
 		      		if(firstLine){
 		      			line.map(function(l){array_to_use.push(l);});
 

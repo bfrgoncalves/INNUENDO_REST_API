@@ -348,8 +348,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 				var firstWorkflow = true;
 
-				console.log(tasks_to_buttons);
-
 				if(response.data != false && response.data.stdout != undefined){
 					all_status_done = 0;
 					//console.log(response.data);
@@ -2136,9 +2134,10 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	for(i in lines){
 
 		      		if (lines[i].replace(/\s/g, "")){
+		      			console.log(lines[i]);
 		      			continue;
 		      		}
-		      		
+
 		      		line  = lines[i].split(separator);
 		      		var array_to_use = [];
 

@@ -1142,6 +1142,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		        	protocol_buttons = "";
 		        	var new_proc_count = 0;
+		        	console.log(workflowname_to_protocols);
 			        for(pt in workflowname_to_protocols[proc_value]){
 			        	new_proc_count += 1;
 			        	protocol_buttons += '<div class="dropdown" style="float:left;">'+

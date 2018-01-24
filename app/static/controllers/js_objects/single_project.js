@@ -987,7 +987,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    if (strain_indexes.length == 0) return callback("no_select");
 		    
 		    console.log(pipelines_applied, strainNames_to_pipelinesNames, protocols_applied);
-		    
+
 		    strain_names.map(function(d){ 
 		    	delete pipelines_applied[d]; 
 		    	delete strainNames_to_pipelinesNames[d];
@@ -1015,16 +1015,18 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], response.data.strainID, function(response, strainid, strainID){
 				                    		if(response.status == 200){
 
-				                    			if(response.data.length > 0 && Object.keys(pipelines_applied).length != 0 && pipelines_applied[strainID].length > 0){
+				                    			pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
+					                    		});
+
+				                    			/*if(response.data.length > 0 && Object.keys(pipelines_applied).length != 0 && pipelines_applied[strainID].length > 0){
 				                    				modalAlert("The applied pipeline is being used in other projects. A so, the strain will be removed from the project but the pipeline will still be available.", function(){
 					                    				pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
 						                    			});
 					                    			});
 				                    			}
 				                    			else{
-				                    				pg_requests.change_pipeline_from_project(strainid, true, "", function(response, strainid){
-					                    			});
-				                    			}
+				                    				
+				                    			}*/
 				                    		}
 				                    	});
 				                    }

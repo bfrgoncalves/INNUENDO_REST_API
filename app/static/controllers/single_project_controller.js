@@ -210,7 +210,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 	//if(SHOW_INFO_BUTTON){
 	$("#button_remove_all_workflows").css({"display":"block"});
-	}//
+	//}
 
 	$scope.project = {};
 	$scope.pipelines, $scope.fileType = [];

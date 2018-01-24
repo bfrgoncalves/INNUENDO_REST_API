@@ -487,6 +487,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response, nn, workflow_name){
 		            			protocol_data = response.data.reverse();
+
+		            			console.log(protocol_data);
 		            			
 		            			for(x in protocol_data){
 		            				index = protocol_data[x].index.split("^^")[0].split('"')[1]

@@ -435,6 +435,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	
 						        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+
+						        	$("#submission_status").html("Getting procedures status...");
+						        	
 				                	$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
@@ -796,7 +799,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 			count_strains += 1;
 			$("#submission_status").empty();
-			$("#submission_status").html("Updating " + String(count_strains) + " strain Status out of " + Object.keys(intervals_running).length + "...");
+			$("#submission_status").html("Updating " + String(count_strains) + " out of " + Object.keys(intervals_running).length + " strain submission status ...");
 
 			if(keys.length > 0) {
 				setTimeout(function() {

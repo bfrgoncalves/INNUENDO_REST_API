@@ -91,7 +91,6 @@ innuendoApp.controller("projectsCtrl", function($scope, $http) {
 	        const targetDiv = $("#" + btDiv.data("target"));
 
 	        btDiv.on("click", () => {
-	        	console.log("AQUI");
 	            resetHomeOpts();
 	            targetDiv.css({"display": "inline-block"})
 

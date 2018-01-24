@@ -988,7 +988,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    
 		    console.log(pipelines_applied, strainNames_to_pipelinesNames, protocols_applied);
 		    
-		    strain_indexes.map(function(d){ 
+		    strain_names.map(function(d){ 
 		    	delete pipelines_applied[d]; 
 		    	delete strainNames_to_pipelinesNames[d];
 				delete protocols_applied[d];

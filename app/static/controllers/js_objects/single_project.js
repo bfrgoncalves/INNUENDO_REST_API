@@ -496,10 +496,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, function(response, nn, workflow_name){
 		            			protocol_data = response.data.reverse();
-
-		            			console.log(protocol_data);
-
-		            			sortFunction
 		            			
 		            			for(x in protocol_data){
 		            				index = protocol_data[x].index.split("^^")[0].split('"')[1]
@@ -1570,6 +1566,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, function(response, strain_name, count_pip_app){
 
 			        				dict_strain_names[strain_name][2]+=1;
+			        				console.log(response);
 			        				for(k=response.data.length-1; k>=0;k--){
 			        					parts = response.data[k].protocol.split('/');
 			        					parts = parts[parts.length-1];

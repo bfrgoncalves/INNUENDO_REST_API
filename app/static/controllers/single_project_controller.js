@@ -765,24 +765,35 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		console.log("Refreshing status");
 
+		var keys = Object.keys(intervals_running);
+
 		$("#overlayProjects").css({"display":"block"});
 		$("#overlayWorking").css({"display":"block"});
 		$("#single_project_controller_div").css({"display":"none"});
 		$("#submission_status").empty();
 		
 		var count_strains = 0;
-		
-		for(status in intervals_running) {
+
+		function update_s(){
+			var key_to_use = keys.shift();
+
+			intervals_running[key_to_use]();
+
 			count_strains += 1;
 			$("#submission_status").empty();
 			$("#submission_status").html("Updating " + String(count_strains) + " strain Status out of " + Object.keys(intervals_running).length + "...");
-			intervals_running[status]();
+
+			if(keys.length > 0) update_s();
+			else{
+				$("#overlayProjects").css({"display":"none"});
+				$("#overlayWorking").css({"display":"none"});
+				$("#single_project_controller_div").css({"display":"block"});
+				$("#submission_status").empty();
+			}
 		}
 
-		$("#overlayProjects").css({"display":"none"});
-		$("#overlayWorking").css({"display":"none"});
-		$("#single_project_controller_div").css({"display":"block"});
-		$("#submission_status").empty();
+		update_s();
+		
 	}
 
 	/*

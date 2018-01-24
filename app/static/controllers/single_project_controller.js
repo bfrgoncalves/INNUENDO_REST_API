@@ -203,7 +203,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
 	CURRENT_TABLE_ROWS_SELECTED = {}
 
-	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
+	$("#overlayProjects").css({"display":"block"});
+	$("#overlayWorking").css({"display":"block"});
+	$("#single_project_controller_div").css({"display":"none"});
+	$("#submission_status").empty();
 
 	$scope.project = {};
 	$scope.pipelines, $scope.fileType = [];
@@ -389,11 +392,17 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
         	}
 
         	//Get all the available workflows (ex: INNUca, chewBBACA, PathoTyping)
+
+			$("#submission_status").html("Getting available workflows...");
+
             $scope.getWorkflows(function(){
             	//Get all the public strains that can be added to a project
+            	$("#submission_status").html("Getting Database strains...");
             	$scope.getStrains(function(){
+            		$("#submission_status").html("Getting Project strains...");
             		//Get the strains already added to the project
             		$scope.getProjectStrains(function(){
+            			$("#submission_status").html("Getting applied pipelines...");
             			//Get the pipelines applied to those strains
             			$scope.getAppliedPipelines(null, function(strains_results){
 		                	objects_utils.destroyTable('strains_table');
@@ -406,8 +415,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		                		}
 		                		objects_utils.restore_table_headers('strains_table', strains_headers, true, function(){	                		
 			                		objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-				                	$('#waiting_spinner').css({display:'none'}); 
-									$('#single_project_controller_div').css({display:'block'}); 
+				                	
+				                	$("#overlayProjects").css({"display":"none"});
+									$("#overlayWorking").css({"display":"none"});
+									$("#single_project_controller_div").css({"display":"block"});
+									$("#submission_status").empty();
+
 									$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 								});
 		                	}
@@ -426,8 +439,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
 					                	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-					                	$('#waiting_spinner').css({display:'none'}); 
-										$('#single_project_controller_div').css({display:'block'}); 
+					                	$("#overlayProjects").css({"display":"none"});
+										$("#overlayWorking").css({"display":"none"});
+										$("#single_project_controller_div").css({"display":"block"});
+										$("#submission_status").empty();
 										$.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 				                	});
 				                });
@@ -786,7 +801,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			if(keys.length > 0) {
 				setTimeout(function() {
 					update_s()
-				}, 400);
+				}, 200);
 			}
 			else{
 				$("#overlayProjects").css({"display":"none"});

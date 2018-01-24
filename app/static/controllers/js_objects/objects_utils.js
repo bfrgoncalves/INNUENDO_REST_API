@@ -201,7 +201,7 @@ function Objects_Utils(){
 	    $('#'+table_id+' tbody tr').on('click', 'td:first:not(.child_row)', function () {
 	    	if(CURRENT_TABLE_ROWS_SELECTED[table_id] == undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 	    	console.log($(this).parent().attr("class"), $(this).parent().hasClass("selected"));
-	    	if($(this).parent().hasClass("selected") && $.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
+	    	if(!$(this).parent().hasClass("selected") && $.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
 	    		CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( this ).index());
 	    	}
 	    	else{

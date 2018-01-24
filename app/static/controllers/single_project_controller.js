@@ -195,6 +195,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		})
 	});
 
+	for (interval in intervals_running){
+		clearInterval(intervals_running[interval]);
+	}
+
 	//RESET ROW SELECTION
 	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
 	CURRENT_TABLE_ROWS_SELECTED = {}
@@ -437,6 +441,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
             			*/
 		                $('#fromfileSubmit').on('click', function(e){
 							var input_element = document.getElementById('fromfile_file');
+							$("#overlayProjects").css({"display":"block"});
+							$("#overlayWorking").css({"display":"block"});
+							$("#single_project_controller_div").css({"display":"none"});
+							$("#submission_status").empty();
 						    single_project.load_strains_from_file(input_element, '\t', function(results){
 						    });
 						  });

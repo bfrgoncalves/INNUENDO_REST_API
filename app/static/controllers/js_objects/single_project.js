@@ -2041,7 +2041,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 						params = jobs_to_parameters[strainName_to_tids[strain_names[index]]];
 				        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
-				        console.log(params);
 				        if(params != undefined && params[0].length > 0 && needs_param_check){
 				        	params[0] = params[0].split(",");
 					        params[2] = params[2].split(",");
@@ -2063,8 +2062,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						delete dict_of_tasks_status[buttons_to_tasks[sp_name]];
 						delete buttons_to_tasks[sp_name];
 						delete protocols_applied_by_pipeline[strain_names[index]][removed_pip_name];
-
-						console.log(dict_of_tasks_status, buttons_to_tasks[sp_name]);
 
 						strainNames_to_pipelinesNames[strain_names[index]].pop();
 						protocols_applied[strain_names[index]].pop();
@@ -2122,6 +2119,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      	var lines = this.result.split('\n');
 		      	firstLine = true;
 		      	strains_object = {};
+		      	var count_lines = 0;
 
 		      	var insufficient_headers = false;
 
@@ -2165,6 +2163,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		      	console.log(strains_object);
 
+		      	var lines_clone = strains_object['body'].slice(0);
+
 		      	//load strains
 		      	function add_to_database(){
 		      		line_to_use = strains_object['body'].shift();
@@ -2175,8 +2175,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		var no_identifier = true;
 		      		var no_case_id = true;
 		      		var bad_submitter = false;
+		      		count_lines += 1;
 
 		      		var required_headers_missed = [];
+
+		      		$("#submission_status").html("Checking " + String(count_lines) + " out of " + String(lines_clone.length) + " lines...");
 
 		      		if (insufficient_headers === true) {
 		      			toModal = "<p>Some of the required headers are missing from the uploaded file. There required headers are:</p><ul>";
@@ -2184,6 +2187,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      				toModal += "<li>" + hh + "</li>";
 		      			}
 		      			toModal += "</ul>";
+
+		      			$("#overlayProjects").css({"display":"none"});
+						$("#overlayWorking").css({"display":"none"});
+						$("#single_project_controller_div").css({"display":"block"});
+						$("#submission_status").empty();
 
 		      			modalAlert(toModal, function(){
 		      					
@@ -2195,6 +2203,12 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      			var hline_to_use = strains_object['headers'];
 		      			
 		      			if(hline_to_use.length != line_to_use.length){
+
+		      				$("#overlayProjects").css({"display":"none"});
+							$("#overlayWorking").css({"display":"none"});
+							$("#single_project_controller_div").css({"display":"block"});
+							$("#submission_status").empty();
+
 		      				modalAlert("Uploaded file seems to be miss-formatted. Check if the number of headers and the rest of the file are the same.", function(){
 		      					
 		      				});
@@ -2386,6 +2400,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		      		if (toModal === "") {
 		      			toModal += "All strains were successfully processed";
 		      		}
+
+		      		$("#overlayProjects").css({"display":"none"});
+					$("#overlayWorking").css({"display":"none"});
+					$("#single_project_controller_div").css({"display":"block"});
+					$("#submission_status").empty();
 
 		      		modalAlert( toModal , function(){
 

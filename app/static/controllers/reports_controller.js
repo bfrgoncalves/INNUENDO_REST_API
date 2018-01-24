@@ -133,6 +133,10 @@ innuendoApp.controller("reportsCtrl", function($scope, $rootScope, $http) {
 		})
 	});
 
+	for (interval in intervals_running){
+		clearInterval(intervals_running[interval]);
+	}
+
 	//RESET ROW SELECTION
 	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
 	CURRENT_TABLE_ROWS_SELECTED = {}

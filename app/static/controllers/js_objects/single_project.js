@@ -127,6 +127,15 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
     }
 
+    function sortFunction(a, b) {
+	    if (a[0] === b[0]) {
+	        return 0;
+	    }
+	    else {
+	        return (a[0] < b[0]) ? -1 : 1;
+	    }
+	}
+
     /*
     Add a strain to a project
     */
@@ -489,12 +498,16 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		            			protocol_data = response.data.reverse();
 
 		            			console.log(protocol_data);
+
+		            			sortFunction
 		            			
 		            			for(x in protocol_data){
 		            				index = protocol_data[x].index.split("^^")[0].split('"')[1]
 		            				protoc = protocol_data[x].protocol.split("protocols/")[1].split('>')[0]
 		            				workflowname_to_protocols[workflow_name].push([index,protoc]);
 		            			}
+
+		            			workflowname_to_protocols[workflow_name].sort(sortFunction);
 
 		            			for(y in workflowname_to_protocols[workflow_name]){
 		            				pg_requests.get_protocols_by_ids(workflowname_to_protocols[workflow_name][y][1], workflowname_to_protocols[workflow_name][y], function(response, workflow_entry){

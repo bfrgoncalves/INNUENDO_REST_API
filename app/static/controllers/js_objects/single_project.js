@@ -986,6 +986,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		    if (strain_indexes.length == 0) return callback("no_select");
 		    
+		    console.log(pipelines_applied, strainNames_to_pipelinesNames, protocols_applied);
+		    
 		    strain_indexes.map(function(d){ 
 		    	delete pipelines_applied[d]; 
 		    	delete strainNames_to_pipelinesNames[d];

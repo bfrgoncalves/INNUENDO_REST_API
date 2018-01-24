@@ -208,6 +208,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	$("#single_project_controller_div").css({"display":"none"});
 	$("#submission_status").empty();
 
+	if(SHOW_INFO_BUTTON){
+		$("#button_remove_all_workflows").css({"display":"block"});
+	}
+
 	$scope.project = {};
 	$scope.pipelines, $scope.fileType = [];
     $scope.specie_name, $scope.species_id = "";
@@ -437,7 +441,7 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 						        	objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 
 						        	$("#submission_status").html("Getting procedures status...");
-						        	
+
 				                	$scope.getIdsFromProjects(function(strains_results){
 				                		objects_utils.destroyTable('strains_table');
 					                	global_strains = strains_results.strains;
@@ -816,6 +820,19 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 		update_s();
 		
+	}
+
+	$scope.removeAllWorkflows = function() {
+		single_project.deleteAllWorkflows(function(strain_results){
+
+			objects_utils.destroyTable('strains_table');
+			headers_defs = set_headers_single_project('strains_table', global_strains);
+			objects_utils.restore_table_headers('strains_table', sh, true, function(){	
+				objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
+			});
+
+		});
+
 	}
 
 	/*

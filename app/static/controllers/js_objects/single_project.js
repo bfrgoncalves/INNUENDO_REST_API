@@ -2078,6 +2078,27 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 		},
 
+		deleteAllWorkflows: function(callback) {
+			var strain_indexes = $.map($('#strains_table').DataTable().rows().indexes(), function(index){ return index; });
+			var strain_names = $.map($('#strains_table').DataTable().rows().data(), function(item){ return item.strainID; });
+			var strain_data = $.map($('#strains_table').DataTable().rows().data(), function(item){ return item; });
+			
+			current_job_status_color = {};
+			tasks_to_buttons = {};
+			dict_of_tasks_status = {};
+			buttons_to_tasks = {};
+			protocols_applied_by_pipeline = {};
+			intervals_running = {};
+			pipelines_applied = {};
+
+			for(index in strain_indexes){
+				strain_data[index]['Analysis'] = "";
+			}
+
+			callback({strains: strain_data, indexes:strain_indexes});
+
+		},
+
 		/*
 	    Get files from a user
 	    */

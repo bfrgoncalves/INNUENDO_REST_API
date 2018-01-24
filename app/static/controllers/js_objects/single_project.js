@@ -450,10 +450,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		job_ids = job_ids.join();
 		process_ids = process_ids.join();
 
-		setTimeout(function(){get_status(job_ids, strain_id, process_ids, pipeline_id);}, 200);
+		get_status(job_ids, strain_id, process_ids, pipeline_id);
 
-
-		var periodic_check = setInterval(function(){ get_status(job_ids, strain_id, process_ids, pipeline_id); }, 50000);
+		var periodic_check = function(){
+			get_status(job_ids, strain_id, process_ids, pipeline_id);
+		}
 
 
 		intervals_running[job_ids] = periodic_check;

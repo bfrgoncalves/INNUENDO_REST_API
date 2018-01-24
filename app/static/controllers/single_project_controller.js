@@ -761,6 +761,15 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		trigger_from_file_load = true;
 	}
 
+	$scope.refreshStatus = function(){
+
+		console.log("Refreshing status");
+		
+		for(status in intervals_running) {
+			intervals_running[status]();
+		}
+	}
+
 	/*
 	Get the public strains stored in the database
 	*/

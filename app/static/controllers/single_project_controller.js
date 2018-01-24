@@ -783,7 +783,11 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 			$("#submission_status").empty();
 			$("#submission_status").html("Updating " + String(count_strains) + " strain Status out of " + Object.keys(intervals_running).length + "...");
 
-			if(keys.length > 0) update_s();
+			if(keys.length > 0) {
+				setTimeout(function() {
+					update_s()
+				}, 400);
+			}
 			else{
 				$("#overlayProjects").css({"display":"none"});
 				$("#overlayWorking").css({"display":"none"});

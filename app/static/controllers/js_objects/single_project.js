@@ -1288,32 +1288,32 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			var table = $('#strains_table').DataTable();
 
-		    var selected_indexes = $.map(table.rows('.selected').indexes(), function(index){
-		        return index;
+		    var strain_names = $.map(table.rows('.selected').data(), function(item){
+		        return item['strainID'];
 		    });
 
 		    //CASE THERE ARE NO STRAINS SELECTED
-		    if(selected_indexes.length == 0){
+		    if(strain_names.length == 0){
 		    	modalAlert('Please select at least one strain before running any analysis.', function(){});
 		    	return callback("no_select");
 		    }
 		    
-		    index_length = selected_indexes.length;
+		    index_length = strain_names.length;
 		    count_finished = 0;
 		    pipeline_ids = [];
-		    var sel_index_clone = selected_indexes.slice(0);
-		    var total_index_length = sel_index_clone.length;
+		    var sel_index_clone = strain_names.slice(0);
+		    var total_index_length = strain_names.length;
 
 		    function save_single_pipeline() {
 
-		    	var sel_index = selected_indexes.shift();
+		    	var sel_name = strain_names.shift();
 
 		    	$("#submission_status").empty();
 		        $("#submission_status").html("Saving pipeline " + String(count_finished+1) + " out of " + String(sel_index_clone.length) + "...");
 
-		        console.log(strains[sel_index].strainID, strains);
-		        
-		    	create_pipeline(strains[sel_index].strainID, function(strain_id, pipeline_id){
+		        console.log(sel_name, strains);
+
+		    	create_pipeline(sel_name, function(strain_id, pipeline_id){
 		        	strainID_pipeline[strain_id] = pipeline_id;
 		        	pipeline_ids.push(pipeline_id);
 

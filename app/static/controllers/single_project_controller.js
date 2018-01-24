@@ -208,9 +208,9 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	$("#single_project_controller_div").css({"display":"none"});
 	$("#submission_status").empty();
 
-	if(SHOW_INFO_BUTTON){
-		$("#button_remove_all_workflows").css({"display":"block"});
-	}
+	//if(SHOW_INFO_BUTTON){
+	$("#button_remove_all_workflows").css({"display":"block"});
+	}//
 
 	$scope.project = {};
 	$scope.pipelines, $scope.fileType = [];

@@ -1311,6 +1311,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 		    	$("#submission_status").empty();
 		        $("#submission_status").html("Saving pipeline " + String(count_finished+1) + " out of " + String(sel_index_clone.length) + "...");
 
+		        console.log(strains[sel_index].strainID, strains);
+		        
 		    	create_pipeline(strains[sel_index].strainID, function(strain_id, pipeline_id){
 		        	strainID_pipeline[strain_id] = pipeline_id;
 		        	pipeline_ids.push(pipeline_id);

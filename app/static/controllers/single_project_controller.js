@@ -764,10 +764,25 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 	$scope.refreshStatus = function(){
 
 		console.log("Refreshing status");
+
+		$("#overlayProjects").css({"display":"block"});
+		$("#overlayWorking").css({"display":"block"});
+		$("#single_project_controller_div").css({"display":"none"});
+		$("#submission_status").empty();
+		
+		var count_strains = 0;
 		
 		for(status in intervals_running) {
+			count_strains += 1;
+			$("#submission_status").empty();
+			$("#submission_status").html("Updating " + String(count_strains) + " strain Status out of " + Object.keys(intervals_running).length + "...");
 			intervals_running[status]();
 		}
+
+		$("#overlayProjects").css({"display":"none"});
+		$("#overlayWorking").css({"display":"none"});
+		$("#single_project_controller_div").css({"display":"block"});
+		$("#submission_status").empty();
 	}
 
 	/*

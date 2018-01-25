@@ -372,10 +372,10 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
         		var t_use_f2 = "";
 
         		for(r in response.data.files){
-        			if(response.data.files[r].includes("_R1_")){
+        			if(response.data.files[r].includes("_R1_") || response.data.files[r].includes("_1.fastq.gz")){
         				t_use_f1 += '<option>' + response.data.files[r] + '</option>';
         			}
-        			else if(response.data.files[r].includes("_R2_")){
+        			else if(response.data.files[r].includes("_R2_") || response.data.files[r].includes("_2.fastq.gz")){
         				t_use_f2 += '<option>' + response.data.files[r] + '</option>';
         			}
 

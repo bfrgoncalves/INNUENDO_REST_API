@@ -153,7 +153,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 				classification = str(int(classification)+1)
 
 			else:
-				classification = job_id.split("_")[0]
+				classification = "P_" + job_id.split("_")[0]
 
 		print classification
 

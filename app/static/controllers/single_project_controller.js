@@ -809,7 +809,12 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 		function update_s(){
 			var key_to_use = keys.shift();
 
-			intervals_running[key_to_use]();
+			try{
+				intervals_running[key_to_use]();
+			}
+			catch(e){
+				console.log("Error loading status for key " + String(key_to_use));
+			}
 
 			count_strains += 1;
 			$("#submission_status").empty();

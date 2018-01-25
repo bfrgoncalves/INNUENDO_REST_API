@@ -367,12 +367,22 @@ innuendoApp.controller("projectCtrl", function($scope, $rootScope, $http, $timeo
 
 	    	//Get the files available on the user folder on the server side
 			single_project.get_user_files(function(response){
-        		var t_use = "";
+        		//var t_use = "";
+        		var t_use_f1 = "";
+        		var t_use_f2 = "";
+
         		for(r in response.data.files){
-        			t_use += '<option>' + response.data.files[r] + '</option>';
+        			if(response.data.files[r].includes("_R1_")){
+        				t_use_f1 += '<option>' + response.data.files[r] + '</option>';
+        			}
+        			else if(response.data.files[r].includes("_R2_")){
+        				t_use_f2 += '<option>' + response.data.files[r] + '</option>';
+        			}
+
+        			//t_use += '<option>' + response.data.files[r] + '</option>';
         		}
-        		$('#File_1').append(t_use);
-        		$('#File_2').append(t_use);
+        		$('#File_1').append(t_use_f1);
+        		$('#File_2').append(t_use_f2);
         	});
 
 			//Only show run and delete strain button if the project is from the current user

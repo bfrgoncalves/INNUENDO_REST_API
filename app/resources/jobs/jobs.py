@@ -244,6 +244,9 @@ class Job_queue(Resource):
 				
 				#Remove nextflow dirs
 				for wd in wdirs:
+					if wd == "":
+						continue
+						
 					workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", wd)
 					try:
 						shutil.rmtree(workdirPath)

@@ -1567,17 +1567,22 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 
 			        				dict_strain_names[strain_name][2]+=1;
 			        				console.log(response);
+
 			        				for(k=response.data.length-1; k>=0;k--){
+			        					indexProtocol = response.data[k].index.split("^^")[0].split('"')[1]
 			        					parts = response.data[k].protocol.split('/');
 			        					parts = parts[parts.length-1];
-			        					dict_strain_names[strain_name][8][count_pip_app].push(parts.replace('>', ''));
+			        					dict_strain_names[strain_name][8][count_pip_app].push([indexProtocol, parts.replace('>', '')]);
 			        				}
+
+			        				dict_strain_names[strain_name][8][count_pip_app].sort(sortFunction);
+
 			        				//Set the workflows ids to run
 			        				if (dict_strain_names[strain_name][0] == dict_strain_names[strain_name][2]){
 			        					var indexes = '';
 			        					for(prot_index in dict_strain_names[strain_name][8]){
 			        						for (prot in dict_strain_names[strain_name][8][prot_index]){
-			        							indexes += dict_strain_names[strain_name][8][prot_index][prot].replace('>', '') + ',';
+			        							indexes += dict_strain_names[strain_name][8][prot_index][prot][1].replace('>', '') + ',';
 			        							dict_strain_names[strain_name][7] += 1;
 		        								dict_strain_names[strain_name][6].push(dict_strain_names[strain_name][7]);
 			        						}

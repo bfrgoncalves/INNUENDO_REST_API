@@ -1539,7 +1539,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 			        				protocol_name = protocol_with_button.split("id=")[1].split('"')[1];
 
 			        				//Add to array the processes that should not run
-			        				if (dict_of_tasks_status[buttons_to_tasks[pi_name]] == "COMPLETED"){
+			        				if (dict_of_tasks_status[buttons_to_tasks[pi_name]] == "COMPLETED" || dict_of_tasks_status[buttons_to_tasks[pi_name]] == "FAILED" || dict_of_tasks_status[buttons_to_tasks[pi_name]] == "PD" || dict_of_tasks_status[buttons_to_tasks[pi_name]] == "R" || dict_of_tasks_status[buttons_to_tasks[pi_name]] == "WARNING"){
 			        					dict_strain_names[strain_name][9].push(false);
 			        				}
 			        				else {

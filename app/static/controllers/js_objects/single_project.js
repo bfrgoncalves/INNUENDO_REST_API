@@ -1631,6 +1631,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 					        					}
 					        				}
 
+					        				console.log(task_ids_to_map);
+
 
 					        				//Add job id to the process on ngsonto and start checking the job status
 					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_name]], processes_to_map, task_ids_to_map, strain_name, function(response, strain_name, process_ids){

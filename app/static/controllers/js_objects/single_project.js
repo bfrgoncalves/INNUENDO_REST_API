@@ -364,6 +364,8 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						counter_processes += 1;
 						task_id = response.data.stdout[n][0];
 						status = response.data.stdout[n][1];
+
+						console.log(task_id, tasks_to_buttons, status_dict[status]);
 						
 						var res_pos = n;
 						if (task_id == "null") return;

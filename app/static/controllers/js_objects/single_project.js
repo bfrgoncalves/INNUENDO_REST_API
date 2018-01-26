@@ -352,6 +352,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var prev_process_status = '';
 				var is_running = false;
 				var pending_jobs = 0;
+				var has_warning = false;
 				var protocols_on_workflow = [];
 				var prev_workflow = process_id_to_workflow[strain_id + String(counter_processes+1)];
 
@@ -382,6 +383,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 						if(status == 'FAILED') has_failed = true;
 						if(status == "R") is_running = true;
 						if(status == "PD") pending_jobs += 1;
+						if(status == "WARNING") has_warning = true;
 
 						if(prev_process_status == 'FAILED'){
 							dict_of_tasks_status[task_id] = 'NEUTRAL';
@@ -424,6 +426,11 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "R";
 								//$('#' + prev_workflow).parent().find(".neutral").css({"display":"none"});
 							}
+							else if (has_warning){
+								$('#' + prev_workflow).css({'background-color': status_dict["WARNING"]});
+								current_job_status_color[prev_workflow] = status_dict["WARNING"];
+								dict_of_tasks_status[buttons_to_tasks[prev_workflow]] = "WARNING";
+							}
 							else if(prev_process_status == "COMPLETED"){
 								$('#' + prev_workflow).css({'background-color': status_dict["COMPLETED"]});
 								current_job_status_color[prev_workflow] = status_dict["COMPLETED"];
@@ -435,6 +442,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							protocols_on_workflow = [];
 							has_failed = false;
 							is_running = false;
+							has_warning = false;
 							pending_jobs = 0;
 							prev_process_status = '';
 						}

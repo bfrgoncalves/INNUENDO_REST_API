@@ -352,6 +352,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var prev_process_status = '';
 				var is_running = false;
 				var pending_jobs = 0;
+				var all_status_done = 0;
 				var has_warning = false;
 				var protocols_on_workflow = [];
 				var prev_workflow = process_id_to_workflow[strain_id + String(counter_processes+1)];
@@ -359,7 +360,6 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 				var firstWorkflow = true;
 
 				if(response.data != false && response.data.stdout != undefined){
-					all_status_done = 0;
 					//console.log(response.data);
 					for(n in response.data.stdout){
 						counter_processes += 1;
@@ -406,6 +406,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							if(response.data.stdout.length == counter_processes){
 								prev_workflow = process_id_to_workflow[strain_id + String(parseInt(protocol_pos))];
 							}
+							
 							protocols_on_button[prev_workflow] = protocols_on_workflow;
 
 							if(has_failed){
@@ -443,6 +444,7 @@ function Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope){
 							has_failed = false;
 							is_running = false;
 							has_warning = false;
+							all_status_done = 0;
 							pending_jobs = 0;
 							prev_process_status = '';
 						}

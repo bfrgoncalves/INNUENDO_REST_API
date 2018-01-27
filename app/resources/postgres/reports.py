@@ -2,9 +2,9 @@ from app import app, db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
 from flask_security import current_user
 from flask import jsonify, request, send_file
-from sqlalchemy import or_, cast, DATE
+from sqlalchemy import or_, cast, DATE, Integer
 
-from app.models.models import Report, Combined_Reports
+from app.models.models import Report, Combined_Reports, Ecoli
 from flask_security import current_user, login_required, roles_required
 import datetime
 import json
@@ -119,6 +119,9 @@ class ReportInfoResource(Resource):
 		inArray = []
 
 		reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(","))).all()
+
+		highest_classifier = db.session.query(Ecoli).filter(Ecoli.classifier != "undefined").order_by(cast(Ecoli.classifier, Integer).desc()).first()
+		print highest_classifier.classifier
 
 		if not reports:
 			abort(404, message="No report available")

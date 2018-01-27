@@ -120,7 +120,7 @@ class ReportInfoResource(Resource):
 
 		reports = db.session.query(Report).filter(Report.project_id.in_(args.project_id.split(","))).all()
 
-		highest_classifier = db.session.query(Ecoli).filter(Ecoli.classifier != "undefined").order_by(cast(Ecoli.classifier, Integer).desc()).first()
+		highest_classifier = db.session.query(Ecoli).filter(Ecoli.classifier != "undefined").order_by(Ecoli.classifier.desc()).first()
 		print highest_classifier.classifier
 
 		if not reports:

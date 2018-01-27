@@ -7,6 +7,7 @@ from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_S
 import fast_mlst_functions
 import datetime
 import subprocess
+from sqlalchemy import cast, Integer
 
 from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, core_increment_profile_file_correspondece, wg_increment_profile_file_correspondece
 
@@ -142,7 +143,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 		if database_entry:
 			classification = database_entry.classifier
 		else:
-			highest_classifier = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].classifier != "undefined").order_by(database_correspondece[database_name].classifier.desc()).first()
+			highest_classifier = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].classifier != "undefined").order_by(cast(database_correspondece[database_name].classifier, Integer).desc()).first()
 
 			if highest_classifier:
 				classification = highest_classifier.classifier

@@ -196,6 +196,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 								is_added = True
 								straind.append(str(val))
 					except KeyError:
+						print x
 						if x == "Case ID":
 							#Change Food-Bug to Case ID
 							is_added == True

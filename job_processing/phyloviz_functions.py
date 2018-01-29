@@ -202,6 +202,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 							is_added == True
 							straind.append(strain_metadata["Food-Bug"])
 						else:
+							print "CHECK"
+							print x
+							print strain_metadata
 							print "no additional data for that strain"
 						
 					if is_added == False:

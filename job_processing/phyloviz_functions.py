@@ -158,6 +158,9 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 				for x in strain_metadata:
 					if x == "fileselector":
 						continue
+					elif x == "Food-Bug":
+						#Change Food-Bug to Case ID
+						headers_metadata.append("Case ID")
 					else:
 						headers_metadata.append(x)
 
@@ -193,7 +196,12 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 								is_added = True
 								straind.append(str(val))
 					except KeyError:
-						print "no additional data for that strain"
+						if x == "Case ID":
+							#Change Food-Bug to Case ID
+							is_added == True
+							straind.append(strain_metadata["Food-Bug"])
+						else:
+							print "no additional data for that strain"
 						
 					if is_added == False:
 						if x != "Platform tag" and x != "Classifier":

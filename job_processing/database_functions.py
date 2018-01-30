@@ -118,7 +118,9 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 		writer.write(string_list_wg+"\n")
 
 
-	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], count_core/2)
+	closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], 7)
+
+	#count_core/2
 
 
 	closest_ids = []

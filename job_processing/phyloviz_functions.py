@@ -344,7 +344,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 			abort(404, message="An error as occurried when uploading the data".format(id))
 		db.session.add(tree_entry)
 		db.session.commit()
-		return 201
+		return {"jobid": stdout.split("jobid:")[1]}, 201
 	else:
 		return 404
 

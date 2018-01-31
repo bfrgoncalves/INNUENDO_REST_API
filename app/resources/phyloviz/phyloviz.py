@@ -6,7 +6,7 @@ from flask import jsonify
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
 
-from config import CURRENT_ROOT, JOBS_ROOT
+from config import CURRENT_ROOT, JOBS_ROOT, phyloviz_root
 
 from app.models.models import Protocol
 from app.models.models import Strain
@@ -86,6 +86,13 @@ class PHYLOViZResource(Resource):
 		else:
 			return {"status": "Pending"}, 200
 
+class PHYLOViZJobResource(Resource):
+	def get(self):
+		args=job_get_search_parser.parse_args()
+		request = requests.get(os.path.join(phyloviz_root, "api/algorithms/goeBURST/status"), data={'jobid':args.jobid})
+		print request.json()
+
+		return request.json(), 200
 
 
 class TreeResource(Resource):

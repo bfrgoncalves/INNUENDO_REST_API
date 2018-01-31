@@ -17,6 +17,7 @@ import requests
 import subprocess
 import random
 import string
+import os
 
 from job_processing.queue_processor import Queue_Processor
 

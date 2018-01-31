@@ -47,6 +47,9 @@ phyloviz_post_parser.add_argument('user_id', dest='user_id', type=str, required=
 job_get_search_parser = reqparse.RequestParser()
 job_get_search_parser.add_argument('job_id', dest='job_id', type=str, required=True, help="redis job id")
 
+job_get_phyloviz_search_parser = reqparse.RequestParser()
+job_get_phyloviz_search_parser.add_argument('jobid', dest='jobid', type=str, required=True, help="phyloviz job id")
+
 #Defining get arguments parser
 trees_get_parser = reqparse.RequestParser()
 trees_get_parser.add_argument('species_id', dest='species_id', type=str, required=True, help="species_id")
@@ -88,7 +91,7 @@ class PHYLOViZResource(Resource):
 
 class PHYLOViZJobResource(Resource):
 	def get(self):
-		args=job_get_search_parser.parse_args()
+		args=job_get_phyloviz_search_parser.parse_args()
 		request = requests.get(os.path.join(phyloviz_root, "api/algorithms/goeBURST/status"), data={'jobid':args.jobid})
 		print request.json()
 

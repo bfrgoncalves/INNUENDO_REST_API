@@ -93,7 +93,7 @@ class PHYLOViZResource(Resource):
 class PHYLOViZJobResource(Resource):
 	def get(self):
 		args=job_get_phyloviz_search_parser.parse_args()
-		request = requests.get(os.path.join(phyloviz_root, "api/algorithms/goeBURST/status"), data={'jobid':args.jobid}, verify=False)
+		request = requests.get(os.path.join(phyloviz_root, "api/algorithms/goeBURST/status"), params={'jobid':args.jobid}, verify=False)
 		print request.json()
 
 		return request.json(), 200

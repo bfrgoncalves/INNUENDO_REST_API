@@ -132,7 +132,7 @@ const Objects_Utils = () => {
         }
         else selection_style = "multi";
 
-        const table = $('#' + table_id).DataTable({
+        let table = $('#' + table_id).DataTable({
             dom: 'Blfrtip',
             "scrollCollapse": true,
             "scrollX": true,

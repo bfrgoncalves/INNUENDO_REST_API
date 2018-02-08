@@ -115,9 +115,9 @@ const Objects_Utils = () => {
         let page_length;
         let selection_style;
 
-        $('#' + table_id + ' tfoot th').each( () => {
-            const title = $('#' + table_id + ' thead th').eq( $(this).index() ).text();
-            $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        $('#' + table_id + ' tfoot th').each( (e) => {
+            const title = $('#' + table_id + ' thead th').eq( $(e).index() ).text();
+            $(e).html( '<input type="text" placeholder="Search '+title+'" />' );
         } );
 
         if(table_id === "public_strains_table") {
@@ -211,15 +211,15 @@ const Objects_Utils = () => {
         tableBodyEl.off('click', 'button.lab-protocols-control');
         tableBodyTrEl.off('click', 'td:first');
 
-        tableBodyTrEl.on('click', 'td:first:not(.child_row)', function () {
+        tableBodyTrEl.on('click', 'td:first:not(.child_row)', function (e) {
 
             if(CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 
-            if(!$(this).parent().hasClass("selected") && $.inArray(table.row( this ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
-                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( this ).index());
+            if(!$(e.target).parent().hasClass("selected") && $.inArray(table.row( e.target ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
+                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( e.target ).index());
             }
             else{
-                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( this ).index());
+                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( e.target ).index());
                 CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
             }
         } );
@@ -229,18 +229,18 @@ const Objects_Utils = () => {
         clickedTimes["analysis"] = 0;
         clickedTimes["protocols"] = 0;
 
-        tableBodyEl.on('click', 'button.analysis-control', function () {
+        tableBodyEl.on('click', 'button.analysis-control', function (e) {
             if(table_id.indexOf('strains_table') > - 1){
 
                 const tableIdEl = $('#'+table_id);
 
-                const tr = $(this).closest('tr');
+                const tr = $(e.target).closest('tr');
                 const row = tableIdEl.DataTable().row( tr );
                 let index_r = tableIdEl.DataTable().row( tr ).index();
 
                 if(row.child.isShown()){
                     row.child.hide();
-                    $(this).removeClass('shown');
+                    $(e.target).removeClass('shown');
                     tr.removeClass('shown');
                     index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
                     CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
@@ -249,7 +249,7 @@ const Objects_Utils = () => {
                     // Open this row
 
                     row.child( format_analysis(row.data(), table_id), 'child_row').show();
-                    $(this).addClass('shown');
+                    $(e.target).addClass('shown');
                     tr.addClass('shown');
 
                     if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] === undefined){
@@ -296,9 +296,9 @@ const Objects_Utils = () => {
         tableBodyEl.on('click', 'button.workflows_child', (e) => {
             if(table_id.indexOf('strains_table') > - 1){
 
-                const workflow_name = $(this).attr('name');
-                const strainID = $(this).attr('strainID');
-                const shown = $(this).attr("shown_child");
+                const workflow_name = $(e.target).attr('name');
+                const strainID = $(e.target).attr('strainID');
+                const shown = $(e.target).attr("shown_child");
 
 
                 if (prevWorkflow[0] !== null && workflow_name !== prevWorkflow[1]){
@@ -334,7 +334,7 @@ const Objects_Utils = () => {
                             ' class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
 
                         $("#"+strainID+"_workflows").css({"display":"block"});
-                        $(this).attr("shown_child", "true");
+                        $(e.target).attr("shown_child", "true");
 
                         for(const x in current_job_status_color){
                             $('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
@@ -343,9 +343,9 @@ const Objects_Utils = () => {
                     }
                     else{
                         $("#"+strainID+"_workflows").css({"display":"none"});
-                        $(this).attr("shown_child", "false");
+                        $(e.target).attr("shown_child", "false");
                     }
-                    prevWorkflow = [strainID, workflow_name, this];
+                    prevWorkflow = [strainID, workflow_name, e.target];
                 }
             }
         } );

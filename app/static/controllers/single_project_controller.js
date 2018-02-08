@@ -527,8 +527,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             });
                         });
 
-                        $('#fromfile_file').on("change", () => {
-                            $("#file_text").val(this.files[0].name);
+                        $('#fromfile_file').on("change", (e) => {
+                            $("#file_text").val(e.target.files[0].name);
                         });
 
                         $('#get_template_file').on('click', (e) => {
@@ -735,11 +735,11 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             setTimeout( () => {
 
                 //Set the jQuery click on the new pipeline button
-                newPipEl.off('click').on('click', () => {
-                    let s_id = $(this).attr("strain_id");
+                newPipEl.off('click').on('click', (e) => {
+                    let s_id = $(e.target).attr("strain_id");
 
                     //Add the strain. The new pipeline will only be created at run time
-                    add_strain([strains_dict[$(this).attr("strain_id")]], (results) => {
+                    add_strain([strains_dict[$(e.target).attr("strain_id")]], (results) => {
 
                         const pipelineGroupEl = $('#pipeline_group_'+s_id.replace(/ /g, "_"));
 

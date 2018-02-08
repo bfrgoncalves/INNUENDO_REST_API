@@ -118,8 +118,8 @@ const Workflows = ($http) => {
 		*/
 		save_workflow: (callback) => {
 
-			const values = $('#sortable_list li').map(function() {
-			    return this.value;
+			const values = $('#sortable_list li').map( (e) => {
+			    return e.target.value;
 			});
 
 			let list_values = values.get().join(',');

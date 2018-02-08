@@ -49,8 +49,8 @@ const INFO_OR_RESULTS = {"chewBBACA": 0, "PathoTyping": 1, "INNUca": 1}
 let PREVIOUS_PAGE_ARRAY = [];
 let current_scope_template = "";
 
-$('a').click( () => {
-    $(this).parent().addClass("active").siblings().removeClass("active");
+$('a').click( (e) => {
+    $(e.target).parent().addClass("active").siblings().removeClass("active");
 });
 
 const tclick = () => {

@@ -242,8 +242,8 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             else $scope.added_protocols = results.added_protocols;
 
             setTimeout( () => {
-                $(".current_workflow_close").on("click", () => {
-                    $scope.removeFromPipeline($(this).closest("li").attr("protocol_name"))
+                $(".current_workflow_close").on("click", (e) => {
+                    $scope.removeFromPipeline($(e.target).closest("li").attr("protocol_name"))
                 });
             }, 800);
         });

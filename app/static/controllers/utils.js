@@ -1,4 +1,6 @@
-function get_userid(){
-	//get user identifier
-	return current_user_id;
-}
+/**
+ * Function to get user id
+ */
+const get_userid = () => {
+    return current_user_id;
+};

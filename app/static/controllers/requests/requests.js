@@ -1,142 +1,135 @@
-function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
+const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 	return {
 
 		//////////////// Protocols Requests /////////////////////////////////////////
-		download_accession: function(username, accession_numbers, callback){
+		download_accession: (username, accession_numbers, callback) => {
 
-			req = {
+			const req = {
 		        url:'api/v1.0/downloads/',
 		        method:'POST',
 		        data: { accession_numbers: accession_numbers }
-		    }
+		    };
 
-		    ////console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response, accession_numbers);
-		    }, function(response){
+		    }, (response) => {
 		    	callback(response, accession_numbers);
 		    });
 		},
 
-		check_download_accession_status: function(file_name, accession_numbers, callback){
+		check_download_accession_status: (file_name, accession_numbers, callback) => {
 
-			req = {
+			const req = {
 		        url:'api/v1.0/downloads/',
 		        method:'GET',
 		        params: { accession_numbers: file_name }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response, accession_numbers);
-		    }, function(response){
+		    }, (response) => {
 		    	callback(response, accession_numbers);
 		    });
 		},
-		create_protocol: function(protocol_object, callback){
-			req = {
+		create_protocol: (protocol_object, callback) => {
+
+			const req = {
 		        url:'api/v1.0/protocols/',
 		        method:'POST',
 		        headers: {'Content-Type': 'application/json'},
 		        data: { steps: protocol_object, name: protocol_object.name}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-		    }, function(response){
+		    }, (response) => {
 		    	callback(response);
 		    });
 		},
-		get_protocols_of_type: function(selectedType, callback){
-			req = {
+		get_protocols_of_type: (selectedType, callback) => {
+
+			const req = {
 		        url:'api/v1.0/protocols/',
 		        method:'GET',
 		        params: { type: selectedType }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-		    }, function(response){
+		    }, (response) => {
 		    	callback(response);
 		    });
 		},
-		get_protocols_by_ids: function(ids, workflow_entry, callback){
-			req = {
+		get_protocols_by_ids: (ids, workflow_entry, callback) => {
+
+			const req = {
 		        url:'api/v1.0/protocols/ids',
 		        method:'GET',
 		        params: { protocol_ids: ids }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response, workflow_entry);
-		    }, function(response){
+		    }, (response) => {
 		    	callback(response, workflow_entry);
 		    });
 		},
-		//////////////// Workflows Requests /////////////////////////////////////////
-		add_workflow: function(callback){
 
-			//console.log($('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text());
-			
-			req = {
+
+		//////////////// Workflows Requests /////////////////////////////////////////
+		add_workflow: (callback) => {
+
+			const selClassEl = $( "#select_classifier option:selected" );
+			const workflowSpecieEl = $( "#workflow_species option:selected" );
+			const selectDependency = $( "#select_dependency option:selected" );
+
+			const req = {
 		        url:'api/v1.0/workflows/',
 		        method:'POST',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        data: $('#new_workflow_form').serialize() + "&classifier=" + $( "#select_classifier option:selected" ).text() + "&species=" + $( "#workflow_species option:selected" ).text() + "&dependency=" + $( "#select_dependency option:selected" ).text()
-		    }
+		        data: $('#new_workflow_form').serialize() + "&classifier=" + selClassEl.text() + "&species=" + workflowSpecieEl.text() + "&dependency=" + selectDependency.text()
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-		    }, function(response){
+		    }, (response) => {
 		    	callback(response);
 		    });
 		    
 		},
 		//////////////// Projects Table Requests /////////////////////////////////////////
-		get_species_names: function(callback){
-			req = {
+		get_species_names: (callback) => {
+
+			const req = {
 	            url:'api/v1.0/species/',
 	            method:'GET'
-	        }
+	        };
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then((response) => {
 	            callback(response);
-	        }, function(response){
+	        }, (response) => {
 	        	callback(response);
 	        });
 		},
 
-		get_all_workflows: function(callback){
-			req = {
+		get_all_workflows: (callback) => {
+
+			const req = {
 	            url:'api/v1.0/workflows/all/',
 	            method:'GET'
-	        }
+	        };
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then( (response) => {
 	            callback(response);
-	        }, function(response){
+	        }, (response) => {
 	        	callback(response);
 	        });
 		},
 
-		change_workflow_state: function(selected_data, callback){
+		change_workflow_state: (selected_data, callback) => {
 
-			req = {
+			const req = {
 	            url:'api/v1.0/workflows/availability/',
 	            method:'PUT',
 	            params:
@@ -144,22 +137,20 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	identifier: String(selected_data[0]),
 		        	to_change: String(selected_data[1])
 		        }
-	        }
+	        };
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
-	        	//console.log(response);
+	        $http(req).then( (response) => {
 	            callback(response);
-	        }, function(response){
-	        	//console.log(response);
+	        }, (response) => {
 	        	callback(response);
 	        });
 		},
 
-		get_species_projects: function(species_id, is_others, callback){
+		get_species_projects: (species_id, is_others, callback) => {
 
 			//Get user projects for specie 1
+			let req = {};
+
 			if(is_others){
 				req = {
 	                url:'api/v1.0/projects/species/' + species_id,
@@ -174,266 +165,235 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 			}
 
-			//console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then( (response) => {
 	        	callback(response);
-	      
-	        }, function(response){
+	        }, (response) => {
 	        	callback(response);
 	        });
 		},
-		add_project_to_database: function(callback){
+		add_project_to_database: (callback) => {
 
-			req = {
+			const req = {
 		        url:'api/v1.0/projects/',
 		        method:'POST',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        data: $('#new_project_form').serialize()
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-		    }, function(response){
+		    }, (response) => {
 		        callback(response);
 		    });	
 		},
-		delete_project_from_database: function(project_id, callback){
+		delete_project_from_database: (project_id, callback) => {
 
-			req = {
+			const req = {
 	            url:'api/v1.0/projects/' + project_id,
 	            method:'DELETE'
-	        }
+	        };
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then( (response) => {
 	            callback(response);
-	        }, function(response){
+	        }, (response) => {
 	        	callback(response);
 	        });
 		},
-		load_project: function(project_id, callback){
+		load_project: (project_id, callback) => {
 
-			req = {
+			const req = {
 	            url:'api/v1.0/projects/' + project_id,
 	            method:'GET'
-	        }
+	        };
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then( (response) => {
 	            callback(response);
-	        }, function(response){
+	        }, (response) => {
 	        	callback(response);
 	        });
 		},
-		//////////////// Reports Requests /////////////////////////////////////////
-		get_user_reports: function(callback){
 
-		    req = {
+
+		//////////////// Reports Requests /////////////////////////////////////////
+		get_user_reports: (callback) => {
+
+		    const req = {
 		        url: 'api/v1.0/reports/', //Defined at utils.js
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		get_project_reports: function(project_id, pipelines_to_check, callback){
+		get_project_reports: (project_id, pipelines_to_check, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/reports/project', //Defined at utils.js
 		        method:'GET',
 		        params:{'project_id': project_id, 'pipelines_to_check':pipelines_to_check}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		get_reports_by_strain: function(strain_id_to_search, callback){
+		get_reports_by_strain: (strain_id_to_search, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/reports/strain', //Defined at utils.js
 		        method:'GET',
 		        params:{'strain_id': strain_id_to_search}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		get_multiple_user_reports: function(job_ids, callback){
-		    req = {
+		get_multiple_user_reports: (job_ids, callback) => {
+
+			const req = {
 		        url: 'api/v1.0/reports/', //Defined at utils.js
 		        method:'GET',
 		        params: {
 		        	job_ids:job_ids.toString()
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		save_reports: function(job_ids, strain_names, CURRENT_SPECIES_ID, callback){
+		save_reports: (job_ids, strain_names, CURRENT_SPECIES_ID, callback) => {
 
-			//console.log(strain_names,job_ids);
-
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/reports/combined', //Defined at utils.js
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        method:'POST',
 		        data: $('#save_report_form').serialize() + '&job_ids=' + job_ids + '&strain_ids=' + strain_names +'&species_id='+ CURRENT_SPECIES_ID
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
 	        },function(response){
 	            callback(response);
 		    });
 
 		},
-		get_saved_user_reports: function(CURRENT_SPECIES_ID, callback){
+		get_saved_user_reports: (CURRENT_SPECIES_ID, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/reports/combined', //Defined at utils.js
 		        method:'GET',
 		        params:{"species_id": CURRENT_SPECIES_ID}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	//console.log(response);
 		    	callback(response);
-	        },function(response){
+	        }, (response) => {
 	        	//console.log(response);
 	            callback(response);
 		    });
 
 		},
-		get_user_trees: function(CURRENT_SPECIES_ID, callback){
+		get_user_trees: (CURRENT_SPECIES_ID, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/phyloviz/trees', //Defined at utils.js
 		        method:'GET',
 		        params:{"species_id": CURRENT_SPECIES_ID}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
-		    	//console.log(response);
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
-	        	//console.log(response);
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		delete_combined_report: function(report_name, callback){
+		delete_combined_report: (report_name, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/reports/combined', //Defined at utils.js
 		        method:'DELETE',
 		        params: {
 		        	"report_name": report_name
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		get_saved_report: function(callback){
 
-		    req = {
+		get_saved_report: (callback) => {
+
+		    const req = {
 		        url: 'api/v1.0/reports/combined/show', //Defined at utils.js
 		        method:'GET',
-		    }
+		    };
 
-		    //console.log(req);
 
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		//////////////// Single Project Requests /////////////////////////////////////////
-		get_workflows: function(classifier, species, callback){
 
-		    req = {
+		//////////////// Single Project Requests /////////////////////////////////////////
+		get_workflows: (classifier, species, callback) => {
+
+		    const req = {
 		        url: 'api/v1.0/workflows/', //Defined at utils.js
 		        method:'GET',
 		        params:{"classifier": classifier, "species":species}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		    	callback(response);
-	        },function(response){
-	        	//console.log(response);
+	        }, (response) => {
 	            callback(response);
 		    });
 
 		},
-		add_pipeline: function(pipelineformID, callback){
+		add_pipeline: (pipelineformID, callback) => {
 
-		    req = {
+		    const req = {
 		        url: CURRENT_PROJECT.pipelines,
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        method:'POST',
 		        data:$('#' + pipelineformID).serialize()
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		      		callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });	
 
 		},
-		get_strains: function(CURRENT_SPECIES_ID, from_user, callback){
+		get_strains: (CURRENT_SPECIES_ID, from_user, callback) => {
 
-
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/strains/',
 		        method:'GET',
 		        params:
@@ -441,21 +401,19 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	speciesID: CURRENT_SPECIES_ID,
 		        	from_user: from_user
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 
 		},
-		update_strain: function(strain_id, key, value, callback){
+		update_strain: (strain_id, key, value, callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/strains/',
 		        method:'PUT',
 		        params:
@@ -464,39 +422,36 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	key: key,
 		        	value: value
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 
 		},
-		get_strain_by_name: function(strain_name, callback){
+		get_strain_by_name: (strain_name, callback) => {
 
-
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/strains/' + strain_name,
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 
 		},
-		get_applied_pipelines: function(strain_id, project_id, callback){
+		get_applied_pipelines: (strain_id, project_id, callback) => {
 
-			if (strain_id == null){
+			let req = {};
+
+			if (strain_id === null){
 				req = {
 			        url: 'api/v1.0/projects/'+project_id+'/pipelines/',
 			        method:'GET'
@@ -510,186 +465,162 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			    }
 			}
 
-			//console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		        callback(response, strain_id);
 	        },
-	        function(response){
-	        	//console.log(response);
+	        (response) => {
 	            callback(response, strain_id);
 		    });
 		},
-		get_public_strains_applied_pipelines: function(callback){
+		get_public_strains_applied_pipelines: (callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
 		        method:'GET',
 		        params:{all:true}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		        callback(response);
 	        },
-	        function(response){
+	        (response) => {
 	            callback(response);
 		    });
 		},
-		remove_pipeline_from_project: function(strain_id, tag_remove, callback){
+		remove_pipeline_from_project: (strain_id, tag_remove, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
 		        method:'DELETE',
 		        params: {
 		        	"strain_id": strain_id,
 		        	tag_remove: tag_remove
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		        callback(response);
 	        },
-	        function(response){
+	        (response) => {
 	            callback(response);
 		    });
 		},
-		change_pipeline_from_project: function(strain_id, tag_remove, pipeline_to_use, callback){
+		change_pipeline_from_project: (strain_id, tag_remove, pipeline_to_use, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
 		        method:'PUT',
 		        params: {
 		        	"strain_id": strain_id,
 		        	tag_remove: tag_remove
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		        callback(response, strain_id, pipeline_to_use);
 	        },
-	        function(response){
+	        (response) => {
 	            callback(response, strain_id, pipeline_to_use);
 		    });
 		},
-		get_uploaded_files: function(callback){
+		get_uploaded_files: (callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/uploads/',
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		},
-		get_project_strains: function(callback){
+		get_project_strains: (callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		},
-		get_project_strains_2: function(strain_id, is_there, callback){
+		get_project_strains_2: (strain_id, is_there, callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response, strain_id, is_there);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response, strain_id, is_there);
 		    });
 		},
-		add_strain_to_project: function(strain_name, callback){
+		add_strain_to_project: (strain_name, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
 		        method:'PUT',
 		        data: {
 		            "strainID": strain_name.trim()
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){      
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
-		        	//console.log(response);  
+		        (response) => {
 		            callback(response);
 		    });
 		},
-		add_new_strain: function(callback){
+		add_new_strain: (callback) => {
 		    
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        method:'POST',
 		        data: $('#new_strain_form').find("select, input, textarea").serialize()
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
-		    		//console.log(response);
+		    $http(req).then((response) => {
 		            callback(response);
 		        },
-		        function(response){
-		        	//console.log(response);
+		        (response) => {
 		            callback(response);
 		    });
 
 		},
 
-		update_metadata: function(strain_id, callback){
+		update_metadata: (strain_id, callback) => {
 		    
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 		        method:'PUT',
 		        data: $('#modify_strain_form').find("select, input, textarea").serialize() + "&strain_id=" + strain_id
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then((response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 
 		},
 
-		remove_strain_from_project: function(strain_name, callback){
+		remove_strain_from_project: (strain_name, callback) => {
 
-			req = {
+			const req = {
 	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
 	            method:'DELETE',
 	            params: {
@@ -697,37 +628,34 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	            }
 	        }
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then( (response) => {
 	                callback(response);
 	            },
-	            function(response){
+	            (response) => {
 	                callback(response);
 	        });
 		},
-		check_if_pipeline_exists: function(strain_id, strainID, callback){
-			req = {
+		check_if_pipeline_exists: (strain_id, strainID, callback) => {
+
+		    const req = {
 	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
 	            method:'GET',
 	            params: {
 	                strain_id_all: strain_id,
 	                parent_project_id: CURRENT_PROJECT_ID
 	            }
-	        }
+	        };
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then( (response) => {
 	               callback(response, strain_id, strainID);
 	            },
-	            function(response){
+	            (response) => {
 	               callback(response, strain_id, strainID);
 	        });
 		},
-		add_pipeline: function(strain_id, parent_pipeline_id, parent_project_id, callback){
+		add_pipeline: (strain_id, parent_pipeline_id, parent_project_id, callback) => {
 
-	        req = {
+	        const req = {
 	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
 	            method:'POST',
 	            data: {
@@ -735,23 +663,21 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 	                parent_pipeline_id:parent_pipeline_id,
 	                parent_project_id:parent_project_id
 	            }
-	        }
+	        };
 
-	        //console.log(req);
-
-	        $http(req).then(function(response){
+	        $http(req).then( (response) => {
 	               callback(response);
 	            },
-	            function(response){
+	            (response) => {
 	               callback(response);
 	        });
 		},
-		run_job: function(strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, to_run, process_to_wrkdir, callback){
+		run_job: (strain_id, protocol_ids, pipeline_id, process_id, strain_name, strain_submitter, current_specie, strainName, to_run, process_to_wrkdir, callback) => {
 
-			processes_wrkdir = []
+			const processes_wrkdir = [];
 
-			for(x in process_id){
-				if (process_to_wrkdir[String(pipeline_id) + "-" + String(process_id[x])] != undefined){
+			for(const x in process_id){
+				if (process_to_wrkdir[String(pipeline_id) + "-" + String(process_id[x])] !== undefined){
 					processes_wrkdir.push(process_to_wrkdir[String(pipeline_id) + "-" + String(process_id[x])])
 				}
 				else{
@@ -759,7 +685,7 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 				}
 			}
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/jobs/',
 		        method:'POST',
 		        data: {
@@ -774,21 +700,19 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	processes_to_run: to_run.join(),
 		        	processes_wrkdir: processes_wrkdir.join()
 		    	}
-		    }
+		    };
 
-		    console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response, strain_name, pipeline_id);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response, strain_name, pipeline_id);
 		    });
 
 		},
-		get_job_status: function(job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, callback){
+		get_job_status: (job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, callback) => {
 
-		    req = {
+		    const req = {
 		        url: 'api/v1.0/jobs/',
 		        method:'GET',
 		        params: {
@@ -805,127 +729,113 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	from_process_controller: "false",
 		        	homedir: HOME_DIR
 		    	}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response, job_ids, pipeline_id);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response, job_ids, pipeline_id);
 		    });
 
 		},
 
 		//////////////////////////////// GET FILES ////////////////////////////////////////
-		get_user_files: function(callback){
+		get_user_files: (callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/files/',
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		},
 
-		get_user_files: function(callback){
+		get_user_files: (callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/files/',
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		},
 
-		set_user_parameters: function(parameters_object_string, callback){
+		set_user_parameters: (parameters_object_string, callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/user/',
 		        method:'PUT',
 		        params: {
 		        	parameters_object: parameters_object_string
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		},
 
-		get_user_parameters: function(callback){
+		get_user_parameters: (callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/user/',
 		        method:'GET'
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		},
 
-		download_file: function(path, callback){
+		download_file: (path, callback) => {
 
-			req = {
+			const req = {
 		        //url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
 		        url: 'api/v1.0/jobs/results/download/',
 		        method:'GET',
 		        params: {
 		        	file_path: encodeURI(path)
 		        }
-		    }
+		    };
 
-		    //console.log(req);
+		    $http(req).then( (response) => {
 
-		    $http(req).then(function(response){
-		    		//console.log(response)
-		            //url = CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
-		            url = 'api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
-					//console.log(url);
+		            const url = 'api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
 
-					var link = document.createElement("a");
+					let link = document.createElement("a");
 				    link.download = path.split('/').slice(-1)[0];
 				    link.href = url;
 				    link.click();
 				    callback();
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 			
 		},
 
-		download_template_strain_file: function(callback){
+		download_template_strain_file: (callback) => {
 
-			url = 'api/v1.0/templates/batch_submission/'
+			const url = 'api/v1.0/templates/batch_submission/';
 
-			var link = document.createElement("a");
+			let link = document.createElement("a");
 		    link.href = url;
 		    link.click();
 		    link.remove();
@@ -933,9 +843,9 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 			
 		},
 
-		get_nextflow_log: function(filename, pipeline_id, project_id, callback){
-			req = {
-		        //url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
+		get_nextflow_log: (filename, pipeline_id, project_id, callback) => {
+
+		    const req = {
 		        url: 'api/v1.0/jobs/logs/nextflow/',
 		        method:'GET',
 		        params: {
@@ -943,23 +853,20 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 		        	pipeline_id:pipeline_id,
 		        	project_id:project_id
 		        }
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
-		    		//console.log(response)
+		    $http(req).then( (response) => {
 				    callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		},
 
-		send_to_phyloviz: function(job_ids, global_additional_data, species_id, callback){
+		send_to_phyloviz: (job_ids, global_additional_data, species_id, callback) => {
 			
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/phyloviz/',
 		        method:'POST',
 		        data: {
@@ -976,59 +883,51 @@ function Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) {
 					phyloviz_pass: $('#phyloviz_pass').val(),
 					makePublic: $('#makePublic_checkbox').is(":checked")
 		    	}
-		    }
-
-		    //console.log(req);
+		    };
 		    
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response);
 		    });
 		    
 		},
 
-		delete_tree: function(tree_name, callback){
+		delete_tree: (tree_name, callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/phyloviz/trees/',
 		        method:'DELETE',
 		        params: {
 		        	tree_name: tree_name
 		    	}
-		    }
-
-		    //console.log(req);
+		    };
 		    
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response);
 		        },
-		        function(response){
-		        	//console.log(response);
+		        (response) => {
 		            callback(response);
 		    });
 		},
 
-		fetch_job: function(redis_job_id, callback){
+		fetch_job: (redis_job_id, callback) => {
 
-			req = {
+			const req = {
 		        url: 'api/v1.0/phyloviz/',
 		        method:'GET',
 		        params: {
 		        	job_id: redis_job_id
 		    	}
-		    }
+		    };
 
-		    //console.log(req);
-
-		    $http(req).then(function(response){
+		    $http(req).then( (response) => {
 		            callback(response, redis_job_id);
 		        },
-		        function(response){
+		        (response) => {
 		            callback(response, redis_job_id);
 		    });
-
 		}
 	}
-}
+};

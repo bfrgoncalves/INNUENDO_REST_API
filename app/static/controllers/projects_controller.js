@@ -177,6 +177,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
                 //Sets the CURRENT_PROJECT_ID to be loaded later
                 $('#projects_table').off("click").on('click', 'tr', () => {
+                    console.log(this);
                     CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( this ).data().id;
                 });
 

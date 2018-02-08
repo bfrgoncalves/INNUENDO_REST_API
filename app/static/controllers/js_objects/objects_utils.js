@@ -181,13 +181,11 @@ const Objects_Utils = () => {
         });
 
         // Apply the search
-        table.columns().every( (e) => {
+        table.columns().every( function () {
             //const that = this;
             const table_to_search = table;
 
-            console.log(e, e.target);
-
-            $( 'input', e.target.footer() ).on( 'keyup change', () => {
+            $( 'input', this.footer() ).on( 'keyup change', () => {
                 table_to_search
                     .column( $(this).parent().index()+':visible' )
                     .search( this.value )

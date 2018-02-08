@@ -330,7 +330,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			let process_positions = [];
 			let procedure_names = [];
 
-			let job_ids = job_ids.split(",");
+			job_ids = job_ids.split(",");
 
 			for (const job_id in job_ids){
 				let procedure_name = workflow_id_to_name[tasks_to_buttons[job_ids[job_id]].replace(/ /g, "_")];

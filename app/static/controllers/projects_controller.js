@@ -155,8 +155,8 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     $("#current_species_nav").text(CURRENT_SPECIES_NAME);
 
-    const projects_table = new Projects_Table(0, null, $http);
-    const objects_utils = new Objects_Utils();
+    const projects_table = Projects_Table(0, null, $http);
+    const objects_utils = Objects_Utils();
 
     if (get_userid() !== 0){
 

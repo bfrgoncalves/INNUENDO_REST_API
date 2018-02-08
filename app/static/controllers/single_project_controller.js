@@ -47,7 +47,7 @@ Uses:
  */
 const set_headers_single_project = (table_id, global_strains) => {
 
-    const  metadata = new Metadata();
+    const  metadata = Metadata();
     let matching_fields = metadata.get_dict_fields_reverse();
     let minimal_fields = metadata.get_default_headers();
     let headers_order = metadata.get_minimal_fields();
@@ -245,14 +245,14 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $scope.specie_name, $scope.species_id = "";
     $scope.current_user_name = CURRENT_USER_NAME;
 
-    const single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
+    const single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
 
     $scope.getAppliedPipelines = single_project.get_applied_pipelines;
     $scope.createPipeline = single_project.create_pipeline;
     $scope.getIdsFromProjects = single_project.get_ids_from_processes;
 
-    const objects_utils = new Objects_Utils();
-    const metadata = new Metadata();
+    const objects_utils = Objects_Utils();
+    const metadata = Metadata();
 
     metadata.add_owner(CURRENT_USER_NAME);
 
@@ -1062,7 +1062,7 @@ const checkPipelineFromFile = (element) => {
 Add a new pipeline if a strain loaded trhough a file already exists
 */
 const newPipelineFromFile = (element) => {
-    const objects_utils = new Objects_Utils();
+    const objects_utils = Objects_Utils();
 
     single_project.add_strain_to_project($(element).attr("strain_name"), (strains_results, strain_name) => {
         objects_utils.destroyTable('strains_table');

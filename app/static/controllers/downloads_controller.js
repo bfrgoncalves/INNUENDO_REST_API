@@ -13,7 +13,7 @@ innuendoApp.controller("downloadsCtrl", ($scope, $http) => {
         })
     });
 
-    const pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
+    const pg_requests = Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
     $("#reset_strain").on("click", () => {
         $scope.$apply( () => {

@@ -50,7 +50,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 	$scope.protocols_of_type = [];
 	$scope.protocolTypeParameters = {};
 
-	const protocols_list = new Protocol_List($http);
+	const protocols_list = Protocol_List($http);
 
 	/*
 	Lists of used softwares and nextflow tags. This should pass to the

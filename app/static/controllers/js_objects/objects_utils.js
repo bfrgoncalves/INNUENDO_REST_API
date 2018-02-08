@@ -296,27 +296,27 @@ const Objects_Utils = () => {
         tableBodyEl.on('click', 'button.workflows_child', (e) => {
             if(table_id.indexOf('strains_table') > - 1){
 
-                var workflow_name = $(this).attr('name');
-                var strainID = $(this).attr('strainID');
-                var shown = $(this).attr("shown_child");
+                const workflow_name = $(this).attr('name');
+                const strainID = $(this).attr('strainID');
+                const shown = $(this).attr("shown_child");
 
 
-                if (prevWorkflow[0] != null && workflow_name != prevWorkflow[1]){
+                if (prevWorkflow[0] !== null && workflow_name !== prevWorkflow[1]){
                     $("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
                     $(prevWorkflow[2]).attr("shown_child", "false");
                 }
 
-                event = e || window.event;
+                const event = e || window.event;
 
-                isShift = !!event.shiftKey;
+                let isShift = !!event.shiftKey;
 
                 if(isShift){
 
-                    if(prevWorkflow_toggle[0] == true && prevWorkflow_toggle[2] != workflow_name){
+                    if(prevWorkflow_toggle[0] === true && prevWorkflow_toggle[2] !== workflow_name){
                         $("#"+prevWorkflow_toggle[1]+"_"+prevWorkflow_toggle[2]).toggle();
                         is_open = false;
                     }
-                    if(is_open == true) is_open = false;
+                    if(is_open === true) is_open = false;
                     else is_open = true;
 
                     $("#"+strainID+"_"+workflow_name).toggle();
@@ -327,15 +327,16 @@ const Objects_Utils = () => {
 
                 }
                 else{
-                    if(shown =='false'){
-                        $("#"+strainID+"_protocols").empty();
-                        $("#"+strainID+"_protocols").html('<p class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
-                        //params = jobs_to_parameters[strainName_to_tids[strainID]];
-                        //pipeline_status[strainName_to_tids[strainID]](params[0], params[1], params[2], params[3]);
+                    if(shown === 'false'){
+                        const strainProtocolEl = $("#"+strainID+"_protocols");
+                        strainProtocolEl.empty();
+                        strainProtocolEl.html('<p' +
+                            ' class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
+
                         $("#"+strainID+"_workflows").css({"display":"block"});
                         $(this).attr("shown_child", "true");
 
-                        for(x in current_job_status_color){
+                        for(const x in current_job_status_color){
                             $('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
                         }
 
@@ -346,19 +347,21 @@ const Objects_Utils = () => {
                     }
                     prevWorkflow = [strainID, workflow_name, this];
                 }
-
-
             }
         } );
 
-    }
+    };
 
-    function nestedTable(table_id, columnDefinitions, data, visible_headers){
+    const nestedTable = (table_id, columnDefinitions, data, visible_headers) => {
 
-        if(table_id == "public_strains_table") page_length = 10;
-        else page_length = 50;
+        if(table_id === "public_strains_table") {
+            page_length = 10;
+        }
+        else {
+            page_length = 50;
+        }
 
-        table = $('#' + table_id).DataTable({
+        const table = $('#' + table_id).DataTable({
             dom: 'Blfrtip',
             "scrollCollapse": true,
             paging:false,
@@ -385,11 +388,11 @@ const Objects_Utils = () => {
         table.columns.adjust().draw();
 
 
-    }
+    };
 
-    function tableFromData(table_id, table_headers, table_data){
+    const tableFromData = (table_id, table_headers, table_data) => {
 
-        table = $('#' + table_id).DataTable({
+        const table = $('#' + table_id).DataTable({
             dom: 'Bfrtip',
             "scrollY": "200px",
             "scrollCollapse": true,
@@ -402,68 +405,74 @@ const Objects_Utils = () => {
             "data": table_data
         });
 
-    }
+    };
 
 
-    function create_table_headers(array_of_headers, has_analysis, table_id){
-        headers_html = "<tr><th></th>";
+    const create_table_headers = (array_of_headers, has_analysis, table_id) => {
+        let headers_html = "<tr><th></th>";
 
-        for(x in array_of_headers){
+        for(const x in array_of_headers){
             headers_html += "<th>" + array_of_headers[x] + "</th>";
         }
 
-        if(has_analysis == true) headers_html += "<th>Analysis <button onclick=show_all_analysis()><i class='fa fa-eye' aria-hidden='true'></i></button><button onclick=hide_all_analysis()><i class='fa fa-eye-slash' aria-hidden='true'></i></button></th>";
+        if(has_analysis === true) headers_html += "<th>Analysis <button" +
+            " onclick=show_all_analysis()><i class='fa fa-eye'" +
+            " aria-hidden='true'></i></button><button" +
+            " onclick=hide_all_analysis()><i class='fa fa-eye-slash'" +
+            " aria-hidden='true'></i></button></th>";
 
         headers_html += "</tr>";
         return headers_html;
-    }
+    };
 
     return {
 
-        apply_pipeline_to_strain: function(strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, callback){
+        apply_pipeline_to_strain: (strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, callback) => {
 
-            var table = $('#' + strain_table_id).DataTable();
+            const table = $('#' + strain_table_id).DataTable();
 
-            var selected_indexes = $.map(table.rows().indexes(), function(index){
+            const selected_indexes = $.map(table.rows().indexes(), (index) => {
                 return index;
             });
 
-            var strain_data = $.map(table.rows().data(), function(item){
+            const strain_data = $.map(table.rows().data(), (item) => {
                 return item;
             });
 
-            var count = 0;
-            var strain_index = '';
-            var workflow_names = [];
-            var workflowids = [];
+            let count = 0;
+            let strain_index = '';
+            let workflow_names = [];
+            let workflowids = [];
 
-            numberOfWorkflows = workflow_ids.length;
-            var new_proc_count = 0;
+            const numberOfWorkflows = workflow_ids.length;
+            let new_proc_count = 0;
 
-            for(w in workflow_ids){
+            for(const w in workflow_ids){
                 count+=1;
-                workflow_id = workflow_ids[w];
+                const workflow_id = workflow_ids[w];
 
-                for(i in selected_indexes){
-                    var toAdd = '';
-                    var to_add_protocols = "";
-                    var s_name = strain_data[i]['strainID'];
+                for(const i in selected_indexes){
+                    let toAdd = '';
+                    let to_add_protocols = "";
+                    let s_name = strain_data[i]['strainID'];
 
-                    if(s_name == strain_name){
-                        buttonselectedPipeline = '<div class="dropdown" style="float:left;">'+
+                    if(s_name === strain_name){
+                        let buttonselectedPipeline = '<div class="dropdown"' +
+                            ' style="float:left;">'+
                             '<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="'+strain_name+'" name="'+pipelinesByID[workflow_id]+'" id="'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'"><i class="fa fa-arrow-down"></i>'+ pipelinesByID[workflow_id] + '</button>'+
                             '<ul class="dropdown-menu" id="'+strain_name+'_'+pipelinesByID[workflow_id]+'" style="position:relative;float:right;">'+
                             '<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>'+
                             '<li class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)" style="display:none;"><a>Get Run Log</a></li>';
 
-                        if(count == numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
+                        if(count === numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
                         else buttonselectedPipeline += '<li style="display:none;" class="'+pipelinesByID[workflow_id]+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
 
-                        just_button = '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>';
+                        let just_button = '<button class="btn btn-sm' +
+                            ' btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelinesByID[workflow_id] + '</button>';
 
-                        protocol_buttons = "";
+                        let protocol_buttons = "";
 
-                        for(pt in workflowname_to_protocols[pipelinesByID[workflow_id]]){
+                        for(const pt in workflowname_to_protocols[pipelinesByID[workflow_id]]){
                             new_proc_count += 1;
                             protocol_buttons += '<div class="dropdown" style="float:left;">'+
                                 '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[pipelinesByID[workflow_id]][pt][2] + '</button>'+
@@ -505,7 +514,7 @@ const Objects_Utils = () => {
                             protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]].push(protocol_buttons);
                         }
 
-                        for(j in pipelines_applied[strain_name]){
+                        for(const j in pipelines_applied[strain_name]){
                             toAdd += pipelines_applied[strain_name][j];
                             to_add_protocols += protocols_applied[strain_name][j];
                         }
@@ -517,43 +526,52 @@ const Objects_Utils = () => {
                         break;
                     }
                 }
-                if(count == workflow_ids.length) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
+                if(count === workflow_ids.length) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
             }
-            if(workflow_ids.length == 0) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
+            if(workflow_ids.length === 0) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
         },
-        show_message: function(element, type, message){
+
+        show_message: (element, type, message) => {
 
             $('.alert').remove();
-            $('#' + element).empty();
-            $('#' + element).append('<div class="alert alert-'+type+'"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+type+'!</strong> '+message+'</div>')
 
-            setTimeout(function(){$('.alert').remove();}, 2000);
+            const El = $('#' + element);
+            El.empty();
+            El.append('<div class="alert alert-'+type+'"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+type+'!</strong> '+message+'</div>')
+
+            setTimeout(() => {
+                $('.alert').remove();
+            }, 2000);
 
         },
-        destroyTable: function(table_id){
+        destroyTable: (table_id) => {
             if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
                 $('#' + table_id).DataTable().destroy();
-                if(table_id == 'merged_results_table') $('#' + table_id).empty();
+                if(table_id === 'merged_results_table') $('#' + table_id).empty();
             }
         },
-        updateTable: function(table_id, data){
+        updateTable: (table_id, data) => {
             table = $('#' + table_id).DataTable();
             table.clear();
             table.rows.add(data);
             table.draw();
         },
 
-        loadDataTables: function(table_id, table_values, columnDefinitions, visible_headers){
+        loadDataTables: (table_id, table_values, columnDefinitions, visible_headers) => {
 
             if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
                 return false;
             }
-            if (table_id.indexOf('reports') > -1 || table_id.indexOf('strains_table') > -1) searchableTable(table_id, columnDefinitions, table_values, visible_headers);
-            else nestedTable(table_id, columnDefinitions, table_values, visible_headers);
+            if (table_id.indexOf('reports') > -1 || table_id.indexOf('strains_table') > -1) {
+                searchableTable(table_id, columnDefinitions, table_values, visible_headers);
+            }
+            else {
+                nestedTable(table_id, columnDefinitions, table_values, visible_headers);
+            }
 
         },
 
-        loadTableFromArrayData: function(table_id, table_headers, table_data){
+        loadTableFromArrayData: (table_id, table_headers, table_data) => {
 
             if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
                 return false;
@@ -563,12 +581,14 @@ const Objects_Utils = () => {
 
         },
 
-        restore_table_headers: function(table_id, table_headers, has_analysis, callback){
+        restore_table_headers: (table_id, table_headers, has_analysis, callback) => {
 
             $('#'+table_id+' thead > tr').remove();
             $('#'+table_id+' tbody > tr').remove();
 
-            if (table_id === "public_strains_table") has_analysis = false;
+            if (table_id === "public_strains_table") {
+                has_analysis = false;
+            }
 
             $('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis, table_id));
             $('#'+table_id+' tfoot > tr').remove();
@@ -578,14 +598,14 @@ const Objects_Utils = () => {
             callback();
         }
     }
-}
+};
 
-function show_all_analysis(){
+const show_all_analysis = () => {
     $("button.analysis-control:not(.shown)").trigger("click");
-}
+};
 
-function hide_all_analysis(){
+const hide_all_analysis = () => {
     $("button.analysis-control.shown").trigger("click");
-}
+};
 
 

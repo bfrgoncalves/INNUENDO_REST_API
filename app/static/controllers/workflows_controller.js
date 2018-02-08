@@ -59,10 +59,10 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
     selectPickerEl.selectpicker({});
     selectPickerEl.selectpicker("refresh");
 
-    const protocols = new Protocol_List($http);
-    const workflows = new Workflows($http);
-    const projects_table = new Projects_Table(0, null, $http);
-    const objects_utils = new Objects_Utils();
+    const protocols = Protocol_List($http);
+    const workflows = Workflows($http);
+    const projects_table = Projects_Table(0, null, $http);
+    const objects_utils = Objects_Utils();
 
 
     let workflows_col_defs = [

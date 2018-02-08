@@ -7,7 +7,7 @@ $(document).ready( () => {
         overlay = $('.overlay'),
         isClosed = false;
 
-    trigger.click(function () {
+    trigger.click( () => {
         hamburger_cross();
     });
 

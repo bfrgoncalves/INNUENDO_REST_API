@@ -123,9 +123,9 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
     $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
-    const objects_utils = new Objects_Utils();
-    const metadata = new Metadata();
-    const single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
+    const objects_utils = Objects_Utils();
+    const metadata = Metadata();
+    const single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
     //const reports = new Report($http);
 
     metadata.add_owner(CURRENT_USER_NAME);

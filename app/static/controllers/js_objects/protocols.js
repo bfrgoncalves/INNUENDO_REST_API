@@ -12,86 +12,93 @@ Protocol_List Object - An object with all functions used in the protocols contro
 /*
 Launch a protocol_list instance
 */
-function Protocol_List($http){
+const Protocol_List = ($http) => {
 
-	var file_formats = ["fastq", "gbk", "bam", "sam"];
+	const file_formats = ["fastq", "gbk", "bam", "sam"];
 
-	var protocolTypeObject = {}, protocols = {};
-	var selectedProtocolType = '', selectedNewProtocolType = '', currentProtocolType = '';
+	let protocolTypeObject = {}, protocols = {};
+	let selectedProtocolType = '', selectedNewProtocolType = '', currentProtocolType = '';
 	
-	var protocol_type = {}, protocolTypeParameters = {};
-	var protocols_of_type = [];
+	let protocol_type = {}, protocolTypeParameters = {};
+	let protocols_of_type = [];
 
-	var pg_requests = new Requests(0, null, $http);
-    var ngs_onto_requests = new ngs_onto_client(0, $http);
-    var objects_utils = new Objects_Utils();
-
-
-    function processProtocolForm(property, uri){
+	const pg_requests = Requests(0, null, $http);
+    const ngs_onto_requests = ngs_onto_client(0, $http);
+    const objects_utils = Objects_Utils();
 
 
-		if(property == 'used Parameter'){
+    const processProtocolForm = (property, uri) => {
+
+
+		if(property === 'used Parameter'){
 			return ["button", "text", uri];
 		}
-		if(property == 'used Software'){
+		if(property === 'used Software'){
 			return ["select", "text"];
 		}
-		if(property == 'name' || property == 'CPUs'){
+		if(property === 'name' || property === 'CPUs'){
 			return ["input", "required"];
 		}
 		return ["input", "text"];
 
-	}
+	};
 
-	var returned_functions = {
+	const returned_functions = {
 
 		/*
 		Get the types of protocols from the ngsonto
 		*/
-		get_protocol_types: function(callback){
+		get_protocol_types: (callback) => {
 			
-			ngs_onto_requests.ngs_onto_get_protocol_types(function(response){
-				protocol_types = response.data.map(function(d){
-		    		pname = d.protocTypeLabel.split('"')[1].replace(/'/g, "")
-		    		puri = d.protocType;
+			ngs_onto_requests.ngs_onto_get_protocol_types( (response) => {
+
+				protocol_types = response.data.map( (d) => {
+
+					let pname = d.protocTypeLabel.split('"')[1].replace(/'/g, "")
+		    		let puri = d.protocType;
 		    		protocolTypeObject[pname] = puri;
 		            return pname;
 		        });
-		        callback({protocol_types: protocol_types, protocolTypeObject:protocolTypeObject});
+
+				callback({protocol_types: protocol_types, protocolTypeObject:protocolTypeObject});
 			});
 		},
 
 		/*
 		Add a protocol
 		*/
-		add_protocol: function(callback){
+		add_protocol: (callback) => {
 			
-			form_serialized = $('#new_protocol_form').serializeArray();
-			var protocol_object = {};
+			const form_serialized = $('#new_protocol_form').serializeArray();
+			let protocol_object = {};
 
 			//Parse the information to send to postgresql
 			if ( $( "#parameter_select" ).length ) {
-		 		var options = $('#parameter_select option');
-		 		var values = {};
-				$.map(options ,function(option) {
-					parts = option.value.split(':');
+		 		let options = $('#parameter_select option');
+		 		let values = {};
+
+		 		$.map(options , (option) => {
+					let parts = option.value.split(':');
 				    values[parts[0]] = parts[1];
 				});
-				protocol_object['used Parameter'] = values;
+
+		 		protocol_object['used Parameter'] = values;
 			}
 			protocol_object['protocol_type'] = currentProtocolType;
 
-			for (i in form_serialized){
+			for (const i in form_serialized){
 				protocol_object[form_serialized[i].name.split('_')[1]] = form_serialized[i].value;
 			}
 
 			//Send the protocol to the database
 			
-			pg_requests.create_protocol(protocol_object, function(response){
-				if(response.status == 201){
-					new_protocol_id = response.data.id;
+			pg_requests.create_protocol(protocol_object, (response) => {
+				if(response.status === 201){
+
+					let new_protocol_id = response.data.id;
+
 					//Add the protocol to the ngsonto
-					ngs_onto_requests.ngs_onto_request_create_protocol(protocolTypeObject, currentProtocolType, new_protocol_id, function(response){
+					ngs_onto_requests.ngs_onto_request_create_protocol(protocolTypeObject, currentProtocolType, new_protocol_id, (response) => {
 						callback({message: "protocol added to ngs onto"});
 						objects_utils.show_message('protocols_message_div', 'success', 'Protocol saved.');
 					})
@@ -106,18 +113,22 @@ function Protocol_List($http){
 		/*
 		Load the form to construct a protocol
 		*/
-		load_protocol_form: function(selectedType, callback){
+		load_protocol_form: (selectedType, callback) => {
 
 			selectedNewProtocolType = selectedType;
 			currentProtocolType = selectedNewProtocolType;
-			ngs_onto_requests.ngs_onto_load_protocol_properties(protocolTypeObject[selectedNewProtocolType], function(response){
+			ngs_onto_requests.ngs_onto_load_protocol_properties(protocolTypeObject[selectedNewProtocolType], (response) => {
 				protocol_type = {};
-		    	protocol_parameters = [];
-		    	for(i in response.data){
-		    		protocolProperty = response.data[i].plabel.split('"')[1]
-		    		protocolUri = response.data[i].rangeClass
-		    		protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
-		    		if (protocolProperty == "used Software"){
+
+				let protocol_parameters = [];
+
+		    	for(const i in response.data){
+		    		let protocolProperty = response.data[i].plabel.split('"')[1]
+		    		let protocolUri = response.data[i].rangeClass
+
+					protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
+
+		    		if (protocolProperty === "used Software"){
 		    			protocol_type["Nextflow Tag"] = ["select", "nextflow"];
 		    		}
 		    	}
@@ -129,17 +140,19 @@ function Protocol_List($http){
 		/*
 		Get the available protocols of a given type
 		*/
-		get_protocols_of_type: function(selectedType, callback){
-			pg_requests.get_protocols_of_type(selectedType, function(response){
-				if(response.status == 200){
-					property_fields = [];
+		get_protocols_of_type: (selectedType, callback) => {
+
+			pg_requests.get_protocols_of_type(selectedType, (response) => {
+				if(response.status === 200){
+					let property_fields = [];
 			    	protocols_of_type = [];
-			    	for(i in response.data){
+
+			    	for(const i in response.data){
 			    		protocols_of_type.push(response.data[i].name);
 			    		if (!protocols.hasOwnProperty(response.data[i].name)){
 			    			protocols[response.data[i].name] = {};
 			    		}
-			    		ps = $.parseJSON(response.data[i].steps.replace(/'/g, '"'));
+			    		let ps = $.parseJSON(response.data[i].steps.replace(/'/g, '"'));
 			    		for (j in ps){
 			    			protocols[response.data[i].name][j] = ps[j];
 			    		}
@@ -150,7 +163,7 @@ function Protocol_List($http){
 				}
 				else{
 					protocols_of_type = [];
-					property_fields = [];
+					let property_fields = [];
 					callback({protocols_of_type:protocols_of_type, property_fields:property_fields, protocols:protocols});
 				}
 			})
@@ -159,7 +172,7 @@ function Protocol_List($http){
 		/*
 		Load a protocol to show its fields
 		*/
-		load_protocol: function(selectedProtocol, callback){
+		load_protocol: (selectedProtocol, callback) => {
 
 			callback({protocol:protocols[selectedProtocol]});
 
@@ -168,15 +181,19 @@ function Protocol_List($http){
 		/*
 		Get the fields to create a new protocol
 		*/
-		get_protocol_fields: function(uri, callback){
-			ngs_onto_requests.ngs_onto_get_protocol_fields(uri, function(response){
-		        property_fields = [];
-		    	for(i in response.data){
+		get_protocol_fields: (uri, callback) => {
+			ngs_onto_requests.ngs_onto_get_protocol_fields(uri, (response) => {
+		        let property_fields = [];
+
+		        for(const i in response.data){
 		    		if(property_fields.indexOf(response.data[i].plabel.split('"')[1]) < 0) property_fields.push(response.data[i].plabel.split('"')[1])
 		    	}
-		        property_fields = property_fields.reverse();
+
+		    	property_fields = property_fields.reverse();
 		        property_fields = property_fields;
+
 		        $('#newProtocolModal').modal('show');
+
 		        callback({property_fields:property_fields});
 			});
 		},
@@ -184,12 +201,12 @@ function Protocol_List($http){
 		/*
 		Get the type of the current protocol
 		*/
-		get_current_protocol_type: function(callback){
+		get_current_protocol_type: (callback) => {
 			callback({currentProtocolType: currentProtocolType});
 		}
 
 
-	}
+	};
 
 	return returned_functions;
-}
+};

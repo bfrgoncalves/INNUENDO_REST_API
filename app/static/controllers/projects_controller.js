@@ -176,13 +176,13 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
                 $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 
                 //Sets the CURRENT_PROJECT_ID to be loaded later
-                $('#projects_table').off("click").on('click', 'tr', () => {
-                    console.log(this);
-                    CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( this ).data().id;
+                $('#projects_table').off("click").on('click', 'tr', (e) => {
+                    console.log(e.target);
+                    CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( e.target ).data().id;
                 });
 
-                $('#other_projects_table').off("click").on('click', 'tr', () => {
-                    CURRENT_PROJECT_ID = $('#other_projects_table').DataTable().row( this ).data().id;
+                $('#other_projects_table').off("click").on('click', 'tr', (e) => {
+                    CURRENT_PROJECT_ID = $('#other_projects_table').DataTable().row( e.target ).data().id;
                 });
 
             });

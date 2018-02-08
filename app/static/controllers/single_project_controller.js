@@ -245,7 +245,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $scope.specie_name, $scope.species_id = "";
     $scope.current_user_name = CURRENT_USER_NAME;
 
-    const single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
+    let single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
 
     $scope.getAppliedPipelines = single_project.get_applied_pipelines;
     $scope.createPipeline = single_project.create_pipeline;

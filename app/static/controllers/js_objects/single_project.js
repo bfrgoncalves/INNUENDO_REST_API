@@ -43,7 +43,7 @@ Uses:
 
 let pipelinesByID = {}, strainID_pipeline = {}, strains_dict= {};
 
-const Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) => {
+let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) => {
 
 	pipelinesByID = {};
 	strainID_pipeline = {};

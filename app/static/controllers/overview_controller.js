@@ -61,8 +61,8 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
         $("#species_drop_button_li").css({"display":"none"});
         $("#overview_li").css({"display":"block"});
 
-        const projects_table = new Projects_Table(0, null, $http);
-        const pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
+        const projects_table = Projects_Table(0, null, $http);
+        const pg_requests = Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 
         if(CURRENT_USER_NAME === ""){
             $("#load_species_row").css({"display":"none"});

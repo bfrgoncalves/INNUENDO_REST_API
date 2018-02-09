@@ -183,6 +183,8 @@ const Objects_Utils = () => {
         // Apply the search
         table.columns().every( (i, el) => {
             //const that = this;
+            console.log(i, el);
+
             const table_to_search = table;
 
             $( 'input', el.footer() ).on( 'keyup change', (index, element) => {

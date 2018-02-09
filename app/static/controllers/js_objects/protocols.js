@@ -153,7 +153,7 @@ const Protocol_List = ($http) => {
 			    			protocols[response.data[i].name] = {};
 			    		}
 			    		let ps = $.parseJSON(response.data[i].steps.replace(/'/g, '"'));
-			    		for (j in ps){
+			    		for (const j in ps){
 			    			protocols[response.data[i].name][j] = ps[j];
 			    		}
 			    		protocols[response.data[i].name].id = response.data[i].id;
@@ -190,7 +190,7 @@ const Protocol_List = ($http) => {
 		    	}
 
 		    	property_fields = property_fields.reverse();
-		        property_fields = property_fields;
+		        //property_fields = property_fields;
 
 		        $('#newProtocolModal').modal('show');
 

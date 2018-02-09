@@ -181,16 +181,14 @@ const Objects_Utils = () => {
         });
 
         // Apply the search
-        table.columns().every( (i, el) => {
+        table.columns().every( function () {
             //const that = this;
-            console.log(i, el);
-
             const table_to_search = table;
 
-            $( 'input', el.footer() ).on( 'keyup change', (index, element) => {
+            $( 'input', this.footer() ).on( 'keyup change', (e) => {
                 table_to_search
-                    .column( $(element).parent().index()+':visible' )
-                    .search( element.value )
+                    .column( $(e.target).parent().index()+':visible' )
+                    .search( el.target.value )
                     .draw();
             });
         } );

@@ -1904,7 +1904,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 					processed_proc[strains[i].strainID] = 0;
 					let single_strain_processes = [];
 
-					console.log(strain_processes);
 					let s_final_p;
 					
 					for(const s_p in strain_processes){
@@ -1982,6 +1981,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						    	strain_data[x]['protocols'] = {};
 
 						    	let s_name = strain_data[x]['strainID'];
+
+						    	console.log(pipelines_applied, protocols_applied_by_pipeline);
 
 						    	for(const j in pipelines_applied[s_name]){
 						    			let pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];

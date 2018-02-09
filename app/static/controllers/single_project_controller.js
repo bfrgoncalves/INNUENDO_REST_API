@@ -327,7 +327,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     ];*/
 
-    let global_strains = [];
+    global_strains = [];
     let global_public_strains = [];
 
 

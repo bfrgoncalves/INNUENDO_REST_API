@@ -132,13 +132,15 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
                     console.log(options, options_nextflow);
 
+                    const selectPickerEl = $(".selectpicker");
+
                     $('#select_software').empty().append(options);
                     $('#nextflow_tag').empty().append(options_nextflow);
 
-                    $(".selectpicker").selectpicker({});
-                    $("#new_protocol_form").css({"display":"block"});
+                    selectPickerEl.selectpicker({});
+                    selectPickerEl.selectpicker("refresh");
 
-                    $(".selectpicker").selectpicker("refresh");
+                    $("#new_protocol_form").css({"display":"block"});
                 }
             }, 800);
         });

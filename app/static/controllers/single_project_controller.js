@@ -733,7 +733,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             setTimeout( () => {
 
-                console.log(newPipEl);
                 //Set the jQuery click on the new pipeline button
                 $(".new_pipeline_button").off('click').on('click', (e) => {
                     let s_id = $(e.target).attr("strain_id");

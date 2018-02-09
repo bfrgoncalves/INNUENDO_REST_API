@@ -656,6 +656,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, (response, strainid) => {
 				let total_pipelines = response.data.length;
 
+				console.log(response);
+
 				if(response.data.hasOwnProperty("message") === true){
 				   return callback({strains: "no_pipelines"});
                 }

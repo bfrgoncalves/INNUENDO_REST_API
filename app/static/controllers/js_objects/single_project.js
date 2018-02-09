@@ -1320,12 +1320,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 			        for(const j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	for(const o in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
-
-			        	    console.log(j);
 			        		if(j === String(0)) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 	        				else if (j === String(1)) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 			        		else toAdd_Protocols = pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
-			        		console.log(toAdd_analysis);
 			        	}
 			        }
 			        
@@ -1333,8 +1330,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        else if(mode === 'same'){
 		        	for(const j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	for(const o in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
-			        		if(j === 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
-	        				else if (j === 1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
+			        		if(j === String(0)) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
+	        				else if (j === String(1)) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 	        				else toAdd_Protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 			        	}
 			        }
@@ -1906,14 +1903,18 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 					let proc_ids = [];
 					processed_proc[strains[i].strainID] = 0;
 					let single_strain_processes = [];
+
+					console.log(strain_processes);
+					let s_final_p;
 					
 					for(const s_p in strain_processes){
 						single_strain_processes.push(strain_processes[s_p][2])
+                        s_final_p = s_p;
 					} 
 					
 					//for(s_p in strain_processes){
 					//	console.log(strain_processes);
-					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_p][1], single_strain_processes, strain_processes[s_p][0], strains[i].strainID, countStrain, strain_processes, t_ids, proc_ids, processed_proc, (response, pr_ids, strain_id, count_process, pip_id, proj_id, strain_processes_from_request, t_ids, proc_ids, processed_proc) => {
+					ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_final_p][1], single_strain_processes, strain_processes[s_final_p][0], strains[i].strainID, countStrain, strain_processes, t_ids, proc_ids, processed_proc, (response, pr_ids, strain_id, count_process, pip_id, proj_id, strain_processes_from_request, t_ids, proc_ids, processed_proc) => {
 
 						//When error occurs when loading the job_id
 						if(response.data === 404){

@@ -115,7 +115,7 @@ const Objects_Utils = (single_project) => {
         let page_length;
         let selection_style;
 
-        $('#' + table_id + ' tfoot th').each( (e) => {
+        $('#' + table_id + ' tfoot th').each( (i, e) => {
             const title = $('#' + table_id + ' thead th').eq( $(e).index() ).text();
             $(e).html( '<input type="text" placeholder="Search '+title+'" />' );
         } );
@@ -211,15 +211,15 @@ const Objects_Utils = (single_project) => {
         tableBodyEl.off('click', 'button.lab-protocols-control');
         tableBodyTrEl.off('click', 'td:first');
 
-        tableBodyTrEl.on('click', 'td:first:not(.child_row)', (i, el) => {
+        tableBodyTrEl.on('click', 'td:first:not(.child_row)', (el) => {
 
             if(CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 
-            if(!$(el).parent().hasClass("selected") && $.inArray(table.row( el ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
-                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( el ).index());
+            if(!$(el.target).parent().hasClass("selected") && $.inArray(table.row( el.target ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
+                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( el.target ).index());
             }
             else{
-                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( el ).index());
+                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( el.target ).index());
                 CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
             }
         } );
@@ -247,7 +247,7 @@ const Objects_Utils = (single_project) => {
                 }
                 else {
                     // Open this row
-
+                    console.log(row.data());
                     row.child( format_analysis(row.data(), table_id), 'child_row').show();
                     $(e.target).addClass('shown');
                     tr.addClass('shown');

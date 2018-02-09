@@ -1161,8 +1161,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 	    	let workflow_already_applied = false;
 
 
-	        if(type_proc === 'lab_protocol') proc_value = $( "#classifier_selector option:selected" ).val();
-	        else if (type_proc === 'analysis_protocol') proc_value = $( "#pipeline_selector option:selected" ).val();
+	        if(type_proc === 'lab_protocol') {
+	            proc_value = $( "#classifier_selector option:selected" ).val();
+            }
+	        else if (type_proc === 'analysis_protocol') {
+	            proc_value = $( "#pipeline_selector option:selected" ).val();
+            }
 		    
 		    let needs_dependency = false;
 
@@ -1333,6 +1337,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        if(!strain_data[i].hasOwnProperty('protocols')) {
 		            strain_data[i]['protocols'] = {};
                 }
+
+                console.log(toAdd_analysis);
 		        
 
 		        if(type_proc === 'lab_protocol' && local_workflow_applied !== true) {

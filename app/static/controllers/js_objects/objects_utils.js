@@ -247,7 +247,6 @@ const Objects_Utils = (single_project) => {
                 }
                 else {
                     // Open this row
-                    console.log(row.data());
                     row.child( format_analysis(row.data(), table_id), 'child_row').show();
                     $(e.target).addClass('shown');
                     tr.addClass('shown');

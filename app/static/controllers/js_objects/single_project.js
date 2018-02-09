@@ -2259,9 +2259,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						}
 
 						let needs_param_check = true;
+                        let n_protocols;
 
 						try{
-							let n_protocols = protocols_on_button[sp_name].length;
+							n_protocols = protocols_on_button[sp_name].length;
 						}
 						catch(e){
 							console.log("Error loading protocols");

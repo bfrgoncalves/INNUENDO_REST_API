@@ -1265,6 +1265,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     					process_id_to_workflow[strain_data[counter]['strainID'] + protoc_counter] = strain_data[counter]['strainID'] + "_workflow_" + workflow_counter + "_" + CURRENT_PROJECT_ID;
 			        }
 
+			        console.log(buttonselectedPipeline);
+
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
 			        	pipelines_type_by_strain[strain_data[counter]['strainID']] = [[],[],[]];
@@ -1312,6 +1314,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			        		pipelines_type_by_strain[strain_data[counter]['strainID']][2].push(protocol_buttons.replace("&&&", ""));
 			        	}
 			        }
+
+			        console.log(pipelines_applied, counter, strain_data);
 
 
 			        for(const j in pipelines_type_by_strain[strain_data[counter]['strainID']]){

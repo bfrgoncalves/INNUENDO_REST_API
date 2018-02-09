@@ -729,7 +729,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             $('#choosePipelineModal').modal('show');
 
-            const newPipEl = $(".new_pipeline_button");
+            let newPipEl = $(".new_pipeline_button");
 
             setTimeout( () => {
 

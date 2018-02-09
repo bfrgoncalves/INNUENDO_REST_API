@@ -6,6 +6,7 @@ let get_sp;
 let sh;
 let pcol;
 let global_strains, project_col_defs;
+let single_p;
 /*
 *
 */
@@ -246,6 +247,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $scope.current_user_name = CURRENT_USER_NAME;
 
     const single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
+
+    single_p = single_project;
 
     $scope.getAppliedPipelines = single_project.get_applied_pipelines;
     $scope.createPipeline = single_project.create_pipeline;
@@ -729,8 +732,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             $('#choosePipelineModal').modal('show');
 
-            let newPipEl = $(".new_pipeline_button");
-
             setTimeout( () => {
 
                 //Set the jQuery click on the new pipeline button
@@ -827,6 +828,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             objects_utils.destroyTable('strains_table');
             global_strains = strains_results.strains;
             let headers_defs = set_headers_single_project('strains_table', global_strains);
+
             CURRENT_TABLE_ROWS_SELECTED['strains_table'] = [];
             CURRENT_TABLE_ROW_ANALYSIS_SELECTED['strains_table'] = [];
 
@@ -995,16 +997,16 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 DEPRECATED?
 */
 const showCombinedReports = (li) => {
-    single_project.show_combined_reports(li.className);
+    single_p.show_combined_reports(li.className);
 };
 
 /*
 Get the results file from a workflow
 */
 const getProcessesOutputs = (li) => {
-    single_project.get_processes_outputs(li.className, (response) => {
+    single_p.get_processes_outputs(li.className, (response) => {
         //Download only the result file from all the outputs
-        single_project.download_result(response, (response) => {
+        single_p.download_result(response, (response) => {
         })
     });
 };
@@ -1013,9 +1015,9 @@ const getProcessesOutputs = (li) => {
 Get the run log from a workflow
 */
 const getProcessesLog = (li) => {
-    single_project.get_processes_outputs(li.className, (response) => {
+    single_p.get_processes_outputs(li.className, (response) => {
         //Download only the log file from all the outputs
-        single_project.download_log(response, (response) => {
+        single_p.download_log(response, (response) => {
         })
     });
 };
@@ -1026,7 +1028,7 @@ Remove a workflow from a pipeline
 const removeAnalysis = (li) => {
     const  objects_utils = Objects_Utils();
 
-    single_project.remove_analysis(li, (strain_results) => {
+    single_p.remove_analysis(li, (strain_results) => {
         for(const i in strain_results.selected_indexes){
             global_strains[i] = strain_results.strains[i];
         }
@@ -1065,7 +1067,7 @@ Add a new pipeline if a strain loaded trhough a file already exists
 const newPipelineFromFile = (element) => {
     const objects_utils = Objects_Utils();
 
-    single_project.add_strain_to_project($(element).attr("strain_name"), (strains_results, strain_name) => {
+    single_p.add_strain_to_project($(element).attr("strain_name"), (strains_results, strain_name) => {
         objects_utils.destroyTable('strains_table');
         global_strains = strains_results.strains;
         let headers_defs = set_headers_single_project('strains_table', global_strains);

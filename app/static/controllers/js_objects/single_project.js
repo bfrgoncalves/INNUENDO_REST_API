@@ -552,6 +552,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            objects_utils.destroyTable('public_strains_table');
 		            let new_strains = [];
 
+		            console.log(response);
+
+		            let public_strains_headers = [];
+
 		            if (data.length !== 0){
 
 		                let public_strains_headers = JSON.parse(data[0].fields).metadata_fields;

@@ -1101,16 +1101,24 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 				        pg_requests.remove_strain_from_project(strain_name, (response) => {
 				        	count_removed += 1;
 
+				        	console.log(response);
+				        	console.log(to_use);
+
 				        	if(response.status === 200){
 				        		let new_strains = [];
-				                to_use.map( (d) => {
+
+				        		to_use.map( (d) => {
 				                    if (d.strainID !== response.data.strainID) {
 				                        new_strains.push(d);
                                     }
 				                    else{
-				                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], response.data.strainID, (response, strainid, strainID) => {
-				                    		if(response.status === 200){
+				                        console.log("check");
+				                        console.log(strains_dict[response.data.strainID], response.data.strainID);
 
+				                    	pg_requests.check_if_pipeline_exists(strains_dict[response.data.strainID], response.data.strainID, (response, strainid, strainID) => {
+				                    		console.log(response);
+				                    	    if(response.status === 200){
+                                                console.log(strainid);
 				                    			pg_requests.change_pipeline_from_project(strainid, true, "", (response, strainid) => {
 					                    		});
 

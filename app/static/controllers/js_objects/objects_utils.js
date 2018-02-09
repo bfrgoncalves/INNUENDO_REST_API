@@ -20,7 +20,7 @@ Launch a object_utils instance
 
 let protocols_on_table = {};
 
-const Objects_Utils = () => {
+const Objects_Utils = (single_project) => {
 
     //const metadata = new Metadata();
 
@@ -279,6 +279,7 @@ const Objects_Utils = () => {
 
             nextflowLogEl.off("click").on("click", (e) => {
                 const href = $(e.target).attr("href");
+
                 single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
                     $(href).html("<pre>"+response.data.content+"</pre>");
                 });

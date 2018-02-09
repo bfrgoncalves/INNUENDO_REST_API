@@ -251,7 +251,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $scope.createPipeline = single_project.create_pipeline;
     $scope.getIdsFromProjects = single_project.get_ids_from_processes;
 
-    const objects_utils = Objects_Utils();
+    const objects_utils = Objects_Utils(single_project);
     const metadata = Metadata();
 
     metadata.add_owner(CURRENT_USER_NAME);
@@ -418,9 +418,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                         t_use_f2 += '<option>' + response.data.files[r] + '</option>';
                     }
                 }
-
-                console.log(t_use_f1);
-                console.log(t_use_f2);
 
                 $('#File_1').append(t_use_f1);
                 $('#File_2').append(t_use_f2);

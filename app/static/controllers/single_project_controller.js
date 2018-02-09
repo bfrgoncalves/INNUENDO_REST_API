@@ -1027,11 +1027,12 @@ Remove a workflow from a pipeline
 */
 const removeAnalysis = (li) => {
     const  objects_utils = Objects_Utils();
-
+    console.log(global_strains);
     single_p.remove_analysis(li, (strain_results) => {
         for(const i in strain_results.selected_indexes){
             global_strains[i] = strain_results.strains[i];
         }
+        console.log(global_strains);
         objects_utils.destroyTable('strains_table');
         let headers_defs = set_headers_single_project('strains_table', global_strains);
         objects_utils.restore_table_headers('strains_table', sh, true, () => {

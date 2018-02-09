@@ -1320,9 +1320,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 			        for(const j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
 			        	for(const o in pipelines_type_by_strain[strain_data[counter]['strainID']][j]){
+
+			        	    console.log(j);
 			        		if(j === 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 	        				else if (j === 1) toAdd_analysis += pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
 			        		else toAdd_Protocols = pipelines_type_by_strain[strain_data[counter]['strainID']][j][o];
+			        		console.log(toAdd_analysis);
 			        	}
 			        }
 			        

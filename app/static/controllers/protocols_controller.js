@@ -137,7 +137,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 		    		selPickerEl.selectpicker({});
 		    		$("#new_protocol_form").css({"display":"block"});
 		    	}
-	    	}, 600);
+	    	}, 800);
 		});
 	};
 

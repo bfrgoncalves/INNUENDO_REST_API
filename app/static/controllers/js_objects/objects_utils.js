@@ -181,14 +181,14 @@ const Objects_Utils = () => {
         });
 
         // Apply the search
-        table.columns().every( function () {
+        table.columns().every( (i, el) {
             //const that = this;
             const table_to_search = table;
 
-            $( 'input', this.footer() ).on( 'keyup change', () => {
+            $( 'input', el.footer() ).on( 'keyup change', (index, element) => {
                 table_to_search
-                    .column( $(this).parent().index()+':visible' )
-                    .search( this.value )
+                    .column( $(element).parent().index()+':visible' )
+                    .search( element.value )
                     .draw();
             });
         } );
@@ -211,15 +211,15 @@ const Objects_Utils = () => {
         tableBodyEl.off('click', 'button.lab-protocols-control');
         tableBodyTrEl.off('click', 'td:first');
 
-        tableBodyTrEl.on('click', 'td:first:not(.child_row)', function (e) {
+        tableBodyTrEl.on('click', 'td:first:not(.child_row)', (i, el) => {
 
             if(CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
 
-            if(!$(e.target).parent().hasClass("selected") && $.inArray(table.row( e.target ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
-                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( e.target ).index());
+            if(!$(el).parent().hasClass("selected") && $.inArray(table.row( el ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
+                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( el ).index());
             }
             else{
-                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( e.target ).index());
+                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( el ).index());
                 CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
             }
         } );
@@ -229,7 +229,7 @@ const Objects_Utils = () => {
         clickedTimes["analysis"] = 0;
         clickedTimes["protocols"] = 0;
 
-        tableBodyEl.on('click', 'button.analysis-control', function (e) {
+        tableBodyEl.on('click', 'button.analysis-control', (e) => {
             if(table_id.indexOf('strains_table') > - 1){
 
                 const tableIdEl = $('#'+table_id);

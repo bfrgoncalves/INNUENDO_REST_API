@@ -1024,7 +1024,7 @@ const getProcessesLog = (li) => {
 Remove a workflow from a pipeline
 */
 const removeAnalysis = (li) => {
-    const  objects_utils = new Objects_Utils();
+    const  objects_utils = Objects_Utils();
 
     single_project.remove_analysis(li, (strain_results) => {
         for(const i in strain_results.selected_indexes){

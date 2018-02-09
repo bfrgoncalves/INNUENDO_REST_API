@@ -1982,8 +1982,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 						    	let s_name = strain_data[x]['strainID'];
 
-						    	console.log(pipelines_applied, protocols_applied_by_pipeline);
-
 						    	for(const j in pipelines_applied[s_name]){
 						    			let pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
 						    			let pipeline_name = pipelines_applied[s_name][j].split('button')[1].split('</i>')[1].split('</')[0];

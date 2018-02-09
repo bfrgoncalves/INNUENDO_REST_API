@@ -181,7 +181,7 @@ const Objects_Utils = () => {
         });
 
         // Apply the search
-        table.columns().every( (i, el) {
+        table.columns().every( (i, el) => {
             //const that = this;
             const table_to_search = table;
 

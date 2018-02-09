@@ -729,12 +729,12 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             $('#choosePipelineModal').modal('show');
 
-            let newPipEl = $(".new_pipeline_button");
+            //let newPipEl = $(".new_pipeline_button");
 
             setTimeout( () => {
 
                 //Set the jQuery click on the new pipeline button
-                newPipEl.off('click').on('click', (e) => {
+                $(".new_pipeline_button").off('click').on('click', (e) => {
                     let s_id = $(e.target).attr("strain_id");
 
                     //Add the strain. The new pipeline will only be created at run time

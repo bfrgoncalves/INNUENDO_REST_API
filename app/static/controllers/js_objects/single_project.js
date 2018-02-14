@@ -1544,6 +1544,18 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			                }
 		            	});
 		        	}
+
+		        	else {
+                        console.log("No pipeline for strain");
+                        count_finished += 1;
+
+                        if(count_finished === total_index_length){
+                            return callback(true);
+                        }
+                        else{
+                            save_single_pipeline();
+                        }
+                    }
 		        });
 
 		    }
@@ -1576,6 +1588,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    let workflow_order = {};
 		    let strain_names_clone = strain_names.slice(0);
 		    let count_total_strains = strain_names_clone.length;
+		    let no_pip_strains = [];
 
 
 
@@ -1583,14 +1596,30 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    const run_single_strain = () => {
 
 		    	if (count_strains_added_run === count_total_strains){
-					modalAlert("Jobs for all the selected strains have been" +
-                        " submitted", () => {});
-					$('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
-					$("#overlayProjects").css({"display":"none"});
-					$("#overlayWorking").css({"display":"none"});
-					$("#single_project_controller_div").css({"display":"block"});
-					return;
-				}
+                    let message = "";
+
+                    //Verification case there are no workflows applied to the strains
+                    if (no_pip_strains.length > 0) {
+                        message = "<p>Jobs for some of the strains were not submitted:</p>";
+                        message += "<ul>";
+
+                        for (x in no_pip_strains){
+                            message += "<li>Please add workflows first for <b>" + no_pip_strains[x] + "</b></li>";
+                        }
+
+                        message += "</ul>";
+                    }
+                    else {
+                        message = "<p>Jobs for all the selected strains have been submitted.</p>";
+                    }
+
+                    modalAlert(message, function(){});
+                    $('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+                    $("#overlayProjects").css({"display":"none"});
+                    $("#overlayWorking").css({"display":"none"});
+                    $("#single_project_controller_div").css({"display":"block"});
+                    return;
+                }
 
 				let strain_in_use = strain_names.shift();
 
@@ -1812,6 +1841,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			        	}
 			        });
 		        }
+
+		        else {
+                    no_pip_strains.push(strain_in_use);
+                    count_strains_added_run += 1;
+                    run_single_strain();
+
+                }
 		    };
 
 		    //Trigger fist run

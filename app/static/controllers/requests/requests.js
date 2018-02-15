@@ -527,7 +527,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 			const req = {
 	            url: 'api/v1.0/user/quota/',
-	            method:'GET'
+	            method:'GET',
 				params: {
 	                project_id: CURRENT_PROJECT_ID
 	            }

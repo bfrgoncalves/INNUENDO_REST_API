@@ -117,5 +117,12 @@ class UserQuotaResource(Resource):
         print out
         print err
 
+        proc = subprocess.Popen(["df", "-h"],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = proc.communicate()
+
+        print out
+        print err
+
         return {"obj": out}
 

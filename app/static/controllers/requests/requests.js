@@ -523,7 +523,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	            callback(response, strain_id, pipeline_to_use);
 		    });
 		},
-		get_quota: () => {
+		get_quota: (callback) => {
 
 			const req = {
 	            url: 'api/v1.0/user/quota/',

@@ -93,5 +93,5 @@ class UserQuotaResource(Resource):
         print out
         print err
 
-        return {"obj": True}
+        return {"obj": out}
 

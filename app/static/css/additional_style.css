@@ -74,10 +74,8 @@ table.display{
 
 .banner_strains_no_width {
     /*border: 1px solid #313131;*/
-    margin-top: 20px;
-    margin-left:2.5%;
+    margin: 0 auto;
     border-radius: 1%;
-    min-width: 300px;
     box-shadow: 1px 2px 8px #626262;
     padding: 10px;
     display:inline-block;

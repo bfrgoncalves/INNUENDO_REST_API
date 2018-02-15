@@ -30,6 +30,9 @@ user_login_parser = reqparse.RequestParser()
 user_login_parser.add_argument('username', dest='username', type=str, required=True, help="Username")
 user_login_parser.add_argument('password', dest='password', type=str, required=True, help="Password")
 
+user_quota_parser = reqparse.RequestParser()
+user_quota_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="Project id")
+
 class UserListResource(Resource):
 
     @login_required
@@ -83,10 +86,31 @@ class UserQuotaResource(Resource):
 
     @login_required
     def get(self):
+        args = user_quota_parser.parse_args()
+        project_id = args.project_id
 
         print current_user.homedir
+        instStorage = "/".join(current_user.homedir.split("/")[0:-1])
+        project_dir = os.path.join(current_user.homedir, "jobs",
+                                   project_id+"-*")
+
+
         #Get size of homedir
         proc = subprocess.Popen(["du", "-sh", current_user.homedir],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = proc.communicate()
+
+        print out
+        print err
+
+        proc = subprocess.Popen(["du", "-sh", instStorage],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = proc.communicate()
+
+        print out
+        print err
+
+        proc = subprocess.Popen(["du", "-sh", project_dir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = proc.communicate()
 

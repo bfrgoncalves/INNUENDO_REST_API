@@ -84,9 +84,10 @@ class UserQuotaResource(Resource):
     @login_required
     def get(self):
 
+        print current_user.homeDir
         #Get size of homedir
         proc = subprocess.Popen(["du", "-sh", current_user.homeDir],
-                                stdout=subprocess.PIPE, shell=True)
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = proc.communicate()
 
         print out

@@ -90,7 +90,7 @@ class UserQuotaResource(Resource):
         project_id = args.project_id
 
         print current_user.homedir
-        instStorage = "/".join(current_user.homedir.split("/")[0:-1])
+        instStorage = "/".join(current_user.homedir.split("/")[0:-2])
         print instStorage
         project_dir = os.path.join(current_user.homedir, "jobs",
                                    project_id+"-*")
@@ -99,31 +99,31 @@ class UserQuotaResource(Resource):
         #Get size of homedir
         proc = subprocess.Popen(["du", "-sh", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = proc.communicate()
+        out1, err = proc.communicate()
 
         print out
         print err
 
         proc = subprocess.Popen(["du", "-sh", "-B1", instStorage],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = proc.communicate()
+        out2, err = proc.communicate()
 
         print out
         print err
 
         proc = subprocess.Popen(["du", "-sh", "-B1", project_dir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = proc.communicate()
+        out3, err = proc.communicate()
 
         print out
         print err
 
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = proc.communicate()
+        out4, err = proc.communicate()
 
         print out
         print err
 
-        return {"obj": out}
+        return {"u_quota": out1, "i_quota":out2, "f_space": out4, "p_space": out3, "t_quota": out4}
 

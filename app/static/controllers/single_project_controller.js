@@ -382,8 +382,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         loadGoogleChart();
         $scope.t_quota = t_quota.t_quota;
         $scope.f_quota = t_quota.f_quota;
-        $scope.p_quota = t_quota.p_quota;
-        $scope.u_quota = t_quota.u_quota;
+        $scope.p_space = t_quota.p_space;
+        $scope.u_space = t_quota.u_space;
 
     });
 

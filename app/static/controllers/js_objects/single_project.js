@@ -548,8 +548,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             quota_dict = {
                 "t_quota": 50000,
                 "f_quota": 40000,
-                "p_quota": 1000,
-                "u_quota": 20000
+                "p_space": 1000,
+                "u_space": 20000
             }
 
             callback(quota_dict);

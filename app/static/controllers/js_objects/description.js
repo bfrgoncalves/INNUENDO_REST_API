@@ -1,29 +1,56 @@
 
 
-function loadGoogleChart() {
-  // Load google charts
-
-    console.log("LOAD PIE");
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-
-    // Draw the chart and set the chart values
-    function drawChart() {
-      var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-      ['Work', 8],
-      ['Friends', 2],
-      ['Eat', 2],
-      ['TV', 3],
-      ['Gym', 2],
-      ['Sleep', 7]
-    ]);
-
-    // Optional; add a title and set the width and height of the chart
-    var options = {'title':'My Average Day', 'width':400, 'height':300};
-
-    // Display the chart inside the <div> element with id="piechart"
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-    chart.draw(data, options);
-    };
+const loadGoogleChart = () => {
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Browser market shares January, 2015 to May, 2015'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: 'IE',
+                y: 56.33
+            }, {
+                name: 'Chrome',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            }, {
+                name: 'Firefox',
+                y: 10.38
+            }, {
+                name: 'Safari',
+                y: 4.77
+            }, {
+                name: 'Opera',
+                y: 0.91
+            }, {
+                name: 'Other',
+                y: 0.2
+            }]
+        }]
+    });
 };

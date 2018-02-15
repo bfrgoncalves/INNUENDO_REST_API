@@ -10,6 +10,7 @@ from app.models.models import User
 import os
 import requests
 import ldap
+import subprocess
 
 #Defining response
 
@@ -77,5 +78,19 @@ class UserExternalLogin(Resource):
         return {"access":True, "user_id": user.id}
 
 
+#For user external authentication to be able to access to the reports remotely
+class UserQuotaResource(Resource):
 
+    @login_required
+    def get(self):
+
+        #Get size of homedir
+        proc = subprocess.Popen(["du", "-sh", current_user.homeDir],
+                                stdout=subprocess.PIPE, shell=True)
+        (out, err) = proc.communicate()
+
+        print out
+        print err
+
+        return {"obj": True}
 

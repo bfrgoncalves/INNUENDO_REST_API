@@ -542,17 +542,19 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         Get quota available for the user and institution
          */
         get_quota: (callback) => {
-            let quota_dict = {};
 
             //Request to get quota
-            quota_dict = {
-                "t_quota": 50000,
-                "f_quota": 40000,
-                "p_space": 1000,
-                "u_space": 20000
-            }
+            pg_requests.get_quota( (quota_obj) => {
 
-            callback(quota_dict);
+                let quota_dict = {
+                    "t_quota": quota_obj.t_quota,
+                    "f_quota": quota_obj.f_quota,
+                    "p_space": quota_obj.p_space,
+                    "u_space": quota_obj.u_space
+                };
+
+                callback(quota_dict);
+            });
 
         },
 

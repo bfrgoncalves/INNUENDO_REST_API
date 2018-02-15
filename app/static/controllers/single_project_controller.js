@@ -196,6 +196,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     const backButtonEl = $("#backbutton");
 
+    loadGoogleChart();
+
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
     else backButtonEl.css({"display":"none"});
 
@@ -458,8 +460,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                     $("#overlayWorking").css({"display":"none"});
                                     $("#single_project_controller_div").css({"display":"block"});
                                     $("#submission_status").empty();
-
-                                    loadGoogleChart();
 
                                     $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
                                 });

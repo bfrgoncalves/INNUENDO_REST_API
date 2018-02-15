@@ -3,7 +3,6 @@
 const loadGoogleChart = () => {
   // Load google charts
     google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
 
     // Draw the chart and set the chart values
     const drawChart = () => {
@@ -17,11 +16,13 @@ const loadGoogleChart = () => {
       ['Sleep', 7]
     ]);
 
-      // Optional; add a title and set the width and height of the chart
-      const options = {'title':'My Average Day', 'width':400, 'height':300};
+    google.charts.setOnLoadCallback(drawChart);
 
-      // Display the chart inside the <div> element with id="piechart"
-      const chart = new google.visualization.PieChart(document.getElementById('piechart'));
-      chart.draw(data, options);
+    // Optional; add a title and set the width and height of the chart
+    const options = {'title':'My Average Day', 'width':400, 'height':300};
+
+    // Display the chart inside the <div> element with id="piechart"
+    const chart = new google.visualization.PieChart(document.getElementById('piechart'));
+    chart.draw(data, options);
     };
 };

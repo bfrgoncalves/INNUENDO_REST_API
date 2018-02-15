@@ -36,7 +36,7 @@ api = Api(app)
 
 api.add_resource(UserListResource, '/api/v1.0/users/', endpoint = 'all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint = 'single_user')
-api.add_resource(UserResource, '/api/v1.0/user/quota/', endpoint =
+api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/', endpoint =
 'user_quota')
 api.add_resource(UserExternalLogin, '/api/v1.0/user/external/login/', endpoint = 'single_user_external')
 

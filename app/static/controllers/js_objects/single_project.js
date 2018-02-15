@@ -538,6 +538,24 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			});
 		},
 
+        /*
+        Get quota available for the user and institution
+         */
+        get_quota: (callback) => {
+            let quota_dict = {};
+
+            //Request to get quota
+            quota_dict = {
+                "t_quota": 50000,
+                "f_quota": 40000,
+                "p_quota": 1000,
+                "u_quota": 20000
+            }
+
+            callback(quota_dict);
+
+        },
+
 		/*
 	    Get the strains for that project or the public strains
 	    from_user = true ? Search only on user

@@ -196,7 +196,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     const backButtonEl = $("#backbutton");
 
-    loadGoogleChart();
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
     else backButtonEl.css({"display":"none"});
@@ -377,6 +376,16 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             return " " + x;
         });
     };
+
+    single_project.get_quota((t_quota) => {
+
+        loadGoogleChart();
+        $scope.t_quota = t_quota.t_quota;
+        $scope.f_quota = t_quota.f_quota;
+        $scope.p_quota = t_quota.p_quota;
+        $scope.u_quota = t_quota.u_quota;
+
+    });
 
     /*
     Loads a complete project. Gets the workflows, the strains and the applied pipelines for those strains

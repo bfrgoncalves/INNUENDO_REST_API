@@ -302,31 +302,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     pcol = project_col_defs;
 
-    /*let public_project_col_defs = [
-    	{
-            "className":      'select-checkbox',
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": ''
-        },
-        { 
-        	"data": "strainID",
-        	"className": 'strain_cell',
-         },
-        { "data": "species_id" },
-        { "data": "source_Source" },
-        { "data": "Location" },
-        { "data": "SampleReceivedDate" },
-        { "data": "SamplingDate" },
-        {
-            "className":      'details-control',
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": '<div style="width:100%;text-align:center;"><button class="details-control"><i class="fa fa-info" data-toggle="tooltip" data-placement="top" title="More info"></i></button></div>'
-        }
-
-    ];*/
-
     global_strains = [];
     let global_public_strains = [];
 
@@ -483,6 +458,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                     $("#overlayWorking").css({"display":"none"});
                                     $("#single_project_controller_div").css({"display":"block"});
                                     $("#submission_status").empty();
+
+                                    loadGoogleChart();
 
                                     $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
                                 });

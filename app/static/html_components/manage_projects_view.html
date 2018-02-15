@@ -22,23 +22,21 @@
 
   	<!-- Main jumbotron for project description -->
     <div id="div_description" style="display:none;">
-      <div class="col-md-12">
-        <div class="sub_container">
-          <span>{{ project.description }}</span>
-          <!--<div class="jumbotron">
+      <div class="col-md-12 banner_strains" style="padding:10px;">
+          <div class="row" style="text-align: center;">
               <span>{{ project.description }}</span>
-          </div>-->
-        </div>
+          </div>
+          <div class="col-md-6">
+              <span>Text</span>
+          </div>
+          <div class="col-md-6">
+              <span>Pie Chart</span>
+              <div id="piechart"></div>
+          </div>
       </div>
     </div>
 
     <div id="div_project">
-      <!--<div id="buttons_procedures" style="float:left;padding-left:1%;margin-top: 10px;">
-        <ul class="nav nav-pills">
-          <li class="active" id="an_proc"><a href="#">Analytical Procedures</a></li>
-        </ul>
-      </div>-->
-
 
     <div ng-include src="'static/html_components/modals/new_pipeline_modal.html'"></div>
     <div ng-include src="'static/html_components/modals/new_strain_modal.html'"></div>

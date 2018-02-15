@@ -2,6 +2,8 @@
 
 const loadGoogleChart = () => {
   // Load google charts
+
+    console.log("LOAD PIE");
     google.charts.load('current', {'packages':['corechart']});
 
     // Draw the chart and set the chart values

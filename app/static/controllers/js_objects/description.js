@@ -1,7 +1,7 @@
 
 
 const loadGoogleChart = () => {
-    Highcharts.chart('container', {
+    Highcharts.chart('piecharts', {
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: null,

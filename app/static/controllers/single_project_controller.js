@@ -350,6 +350,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $scope.f_quota = t_quota.f_quota;
             $scope.p_space = t_quota.p_space;
             $scope.u_space = t_quota.u_space;
+            $scope.u_quota = t_quota.t_quota - t_quota.f_quota;
 
             $("#overlayProjects").css({"display":"none"});
             $("#overlayWorking").css({"display":"none"});

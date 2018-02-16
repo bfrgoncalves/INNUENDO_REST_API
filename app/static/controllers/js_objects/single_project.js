@@ -555,8 +555,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     "i_quota": quota_obj.data.i_quota.split(/\s/g)[0]
                 };
 
-                console.log(quota_dict);
-
                 callback(quota_dict);
             });
 

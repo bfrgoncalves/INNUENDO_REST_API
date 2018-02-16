@@ -380,10 +380,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     single_project.get_quota((t_quota) => {
 
         loadGoogleChart();
-        $scope.t_quota = t_quota.t_quota;
-        $scope.f_quota = t_quota.f_quota;
-        $scope.p_space = t_quota.p_space;
-        $scope.u_space = t_quota.u_space;
+        $scope.t_quota = t_quota.t_quota === "" ? 0 : parseInt(t_quota.t_quota);
+        $scope.f_quota = t_quota.f_quota === "" ? 0 : parseInt(t_quota.f_quota);
+        $scope.p_space = t_quota.p_space === "" ? 0 : parseInt(t_quota.p_space);
+        $scope.u_space = t_quota.u_space === "" ? 0 : parseInt(t_quota.u_space);
 
     });
 

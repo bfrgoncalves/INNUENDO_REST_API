@@ -242,4 +242,9 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     };
 
+    $scope.LockProject = () => {
+        projects_table.lock_project(CURRENT_PROJECT_ID, (response) => {
+        });
+    }
+
 });

@@ -90,7 +90,7 @@ class UserQuotaResource(Resource):
         project_id = args.project_id
 
         print current_user.homedir
-        instStorage = "/".join(current_user.homedir.split("/")[0:-2])
+        instStorage = "/".join(current_user.homedir.split("/")[0:-2]) + "/"
         print instStorage
         project_dir = os.path.join(current_user.homedir, "jobs",
                                    project_id+"-*")

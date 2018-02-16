@@ -97,24 +97,21 @@ class UserQuotaResource(Resource):
 
 
         #Get size of homedir
-        proc = subprocess.Popen(["du", "-sh", "-B1", current_user.homedir, "|", "cut",
-                                 "-f1"],
+        proc = subprocess.Popen(["du", "-sh", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out1, err = proc.communicate()
 
         print out1
         print err
 
-        proc = subprocess.Popen(["du", "-sh", "-B1", instStorage, "|", "cut",
-                                 "-f1"],
+        proc = subprocess.Popen(["du", "-sh", "-B1", instStorage],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out2, err = proc.communicate()
 
         print out2
         print err
 
-        proc = subprocess.Popen(["du", "-sh", "-B1", project_dir, "|", "cut",
-                                 "-f1"],
+        proc = subprocess.Popen(["du", "-sh", "-B1", project_dir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out3, err = proc.communicate()
 

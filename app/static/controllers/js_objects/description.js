@@ -34,7 +34,7 @@ const loadGoogleChart = (t_quota) => {
                 name: 'Free Space',
                 y: t_quota.f_quota
             }, {
-                name: 'Fill Space',
+                name: 'Used Quota',
                 y: t_quota.t_quota - t_quota.f_quota,
                 sliced: true,
                 selected: true
@@ -51,7 +51,7 @@ const loadGoogleChart = (t_quota) => {
             type: 'pie'
         },
         title: {
-            text: 'User Space'
+            text: 'Projects Space'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -70,28 +70,16 @@ const loadGoogleChart = (t_quota) => {
             }
         },
         series: [{
-            name: 'Brands',
+            name: 'Space',
             colorByPoint: true,
             data: [{
-                name: 'IE',
-                y: 56.33
+                name: 'Other Projects',
+                y: t_quota.p_space - t_quota.u_space
             }, {
-                name: 'Chrome',
-                y: 24.03,
+                name: 'User Projects',
+                y: t_quota.u_space,
                 sliced: true,
                 selected: true
-            }, {
-                name: 'Firefox',
-                y: 10.38
-            }, {
-                name: 'Safari',
-                y: 4.77
-            }, {
-                name: 'Opera',
-                y: 0.91
-            }, {
-                name: 'Other',
-                y: 0.2
             }]
         }]
     });

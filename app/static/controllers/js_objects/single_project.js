@@ -561,6 +561,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 quota_dict.p_space = quota_dict.p_space === "" ? 0 : parseInt(quota_dict.p_space);
                 quota_dict.u_space = quota_dict.u_space === "" ? 0 : parseInt(quota_dict.u_space);
 
+                console.log(quota_dict);
+
                 callback(quota_dict);
             });
 

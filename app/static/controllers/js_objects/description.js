@@ -1,6 +1,6 @@
 
 
-const loadGoogleChart = () => {
+const loadGoogleChart = (t_quota) => {
     Highcharts.chart('piechart_quota', {
         chart: {
             plotBackgroundColor: null,
@@ -28,28 +28,16 @@ const loadGoogleChart = () => {
             }
         },
         series: [{
-            name: 'Brands',
+            name: 'Space',
             colorByPoint: true,
             data: [{
-                name: 'IE',
-                y: 56.33
+                name: 'Free Space',
+                y: t_quota.f_quota
             }, {
-                name: 'Chrome',
-                y: 24.03,
+                name: 'Fill Space',
+                y: t_quota.t_quota - t_quota.f_quota,
                 sliced: true,
                 selected: true
-            }, {
-                name: 'Firefox',
-                y: 10.38
-            }, {
-                name: 'Safari',
-                y: 4.77
-            }, {
-                name: 'Opera',
-                y: 0.91
-            }, {
-                name: 'Other',
-                y: 0.2
             }]
         }]
     });

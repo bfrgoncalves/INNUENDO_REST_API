@@ -126,5 +126,5 @@ class UserQuotaResource(Resource):
         print err
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
-                "p_space":out3, "t_quota": out4}
+                "p_space":out3}
 

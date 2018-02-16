@@ -338,6 +338,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#description_tab").addClass("active");
         $("#project_tab").removeClass("active");
 
+        $("#overlayProjects").css({"display":"block"});
+        $("#overlayWorking").css({"display":"block"});
+        $("#single_project_controller_div").css({"display":"none"});
+
         //Get quota when clicking on description tab
         single_project.get_quota((t_quota) => {
 
@@ -346,6 +350,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $scope.f_quota = t_quota.f_quota;
             $scope.p_space = t_quota.p_space;
             $scope.u_space = t_quota.u_space;
+
+            $("#overlayProjects").css({"display":"none"});
+            $("#overlayWorking").css({"display":"none"});
+            $("#single_project_controller_div").css({"display":"block"});
 
         });
     });

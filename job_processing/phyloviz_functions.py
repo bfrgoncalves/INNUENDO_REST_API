@@ -187,7 +187,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					if x == "ID":
 						continue
 					else:
-						straind.append(strain_metadata[x])
+						straind.append(strain_metadata[x].replace("\n", "").replace("\r", ""))
 				except KeyError:
 					is_added = False
 					try:
@@ -280,7 +280,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
 					elif x != "Project Name":
 						string_metadata.append(strain_metadata[x].replace(" ", "-"))
 					else:
-						string_metadata.append(strain_metadata[x])
+						string_metadata.append(strain_metadata[x].replace("\n", "").replace("\r", ""))
 				except Exception as e:
 					string_metadata.append("NA")
 

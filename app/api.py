@@ -36,8 +36,7 @@ api = Api(app)
 
 api.add_resource(UserListResource, '/api/v1.0/users/', endpoint = 'all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint = 'single_user')
-api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/', endpoint =
-'user_quota')
+api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/', endpoint ='user_quota')
 api.add_resource(UserExternalLogin, '/api/v1.0/user/external/login/', endpoint = 'single_user_external')
 
 api.add_resource(ProjectListUserResource, '/api/v1.0/projects/', endpoint = 'user_projects')
@@ -58,8 +57,6 @@ api.add_resource(SpecieListResource, '/api/v1.0/species/', endpoint = 'species')
 api.add_resource(ProtocolListResource, '/api/v1.0/protocols/', endpoint = 'protocols')
 api.add_resource(ProtocolResource, '/api/v1.0/protocols/<int:id>', endpoint = 'protocol')
 api.add_resource(ProtocolByIDResource, '/api/v1.0/protocols/ids', endpoint = 'protocol_ids')
-
-StrainsByNameResource
 
 api.add_resource(StrainListResource, '/api/v1.0/strains/', endpoint = 'strains')
 api.add_resource(StrainsByNameResource, '/api/v1.0/strains/name/', endpoint = 'strains_name')

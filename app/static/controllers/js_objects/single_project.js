@@ -549,11 +549,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 console.log(quota_obj);
 
                 let quota_dict = {
-                    "t_quota": quota_obj.t_quota,
-                    "f_quota": quota_obj.f_quota,
-                    "p_space": quota_obj.p_space,
-                    "u_space": quota_obj.u_space,
-                    "i_quota": quota_obj.i_quota.split("/t")
+                    "t_quota": quota_obj.data.t_quota,
+                    "f_quota": quota_obj.data.f_quota,
+                    "p_space": quota_obj.data.p_space,
+                    "u_space": quota_obj.data.u_space,
+                    "i_quota": quota_obj.data.i_quota.split("/t")
                 };
 
                 callback(quota_dict);

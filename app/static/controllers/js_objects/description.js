@@ -1,6 +1,10 @@
 
 
 const loadGoogleChart = (t_quota) => {
+
+    $("#piechart_quota").empty();
+    $("#piechart_user").empty();
+
     Highcharts.chart('piechart_quota', {
         chart: {
             plotBackgroundColor: null,

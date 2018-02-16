@@ -337,6 +337,17 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#div_project").css({"display":"none"});
         $("#description_tab").addClass("active");
         $("#project_tab").removeClass("active");
+
+        //Get quota when clicking on description tab
+        single_project.get_quota((t_quota) => {
+
+            loadGoogleChart(t_quota);
+            $scope.t_quota = t_quota.t_quota;
+            $scope.f_quota = t_quota.f_quota;
+            $scope.p_space = t_quota.p_space;
+            $scope.u_space = t_quota.u_space;
+
+        });
     });
 
     $("#project_tab").on("click", () => {
@@ -376,16 +387,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             return " " + x;
         });
     };
-
-    single_project.get_quota((t_quota) => {
-
-        loadGoogleChart(t_quota);
-        $scope.t_quota = t_quota.t_quota;
-        $scope.f_quota = t_quota.f_quota;
-        $scope.p_space = t_quota.p_space;
-        $scope.u_space = t_quota.u_space;
-
-    });
 
     /*
     Loads a complete project. Gets the workflows, the strains and the applied pipelines for those strains

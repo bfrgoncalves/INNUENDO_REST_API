@@ -20,8 +20,7 @@ project_get_parser.add_argument('get_others', dest='get_others', type=bool, requ
 project_get_parser.add_argument('all', dest='all', type=bool, required=False, help="Get all projects")
 
 project_put_parser = reqparse.RequestParser()
-project_put_parser.add_argument('lock', dest='lock', type=bool, required=True,
-							  help="lock info")
+project_put_parser.add_argument('lock', dest='lock', type=str, required=True,help="lock info")
 
 #Defining response fields
 

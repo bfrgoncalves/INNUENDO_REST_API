@@ -75,14 +75,13 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                 let lockStatus = "";
 
                                 if(d.is_removed === 'lock'){
-                                    lockStatus = '<button><i' +
-                                        ' class="fa' +
+                                    lockStatus = '<button><i class="fa' +
                                         ' fa-lock"></i></button>';
                                 }
                                 else{
                                     lockStatus = '<button><i' +
                                         ' class="fa' +
-                                        ' fa-lock-open"></i></button>';
+                                        ' fa-unlock"></i></button>';
                                 }
 
                                 other_projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});
@@ -106,7 +105,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                 else{
                                     lockStatus = '<button><i' +
                                         ' class="fa' +
-                                        ' fa-lock-open"></i></button>';
+                                        ' fa-unlock"></i></button>';
                                 }
 
                                 projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});

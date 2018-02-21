@@ -229,6 +229,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 return index;
             });
 
+            console.log(project_id);
             if(selectedData.length > 0){
                 modalAlert('By choosing this option, you are Locking the' +
                     ' selected Project. This means that all the analysis' +
@@ -239,7 +240,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     ' want to proceed?', (
 
                 ) => {
-                    pg_requests.lock_project(CURRENT_PROJECT_ID, () => {
+                    pg_requests.lock_project(project_id, () => {
                         callback();
                     });
                 });

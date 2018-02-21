@@ -239,7 +239,9 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     ' want to proceed?', (
 
                 ) => {
-                    callback();
+                    pg_requests.lock_project(CURRENT_PROJECT_ID, () => {
+                        callback();
+                    });
                 });
             }
             else{

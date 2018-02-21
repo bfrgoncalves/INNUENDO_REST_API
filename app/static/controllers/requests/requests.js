@@ -541,6 +541,24 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        });
 
 		},
+		lock_project: (project_id, callback) => {
+
+			const req = {
+	            url: 'api/v1.0/projects/' + project_id,
+	            method:'PUT',
+				params: {
+	                lock: "lock"
+	            }
+	        };
+
+	        $http(req).then( (response) => {
+	               callback(response);
+	            },
+	            (response) => {
+	               callback(response);
+	        });
+
+		},
 		get_uploaded_files: (callback) => {
 
 		    const req = {

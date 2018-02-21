@@ -91,9 +91,6 @@ class ProjectUserResource(Resource):
 
 		project = db.session.query(Project).filter(Project.id == id, Project.user_id == current_user.id).first()
 
-		project.name = project.name + "_" + ''.join(
-			random.choice(string.ascii_uppercase + string.digits) for _ in
-			range(4))
 		if not project:
 			abort(404, message="Project {} doesn't exist".format(id))
 		project.is_removed = args.lock

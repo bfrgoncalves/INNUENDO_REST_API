@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #
 from flask_security import current_user
 from flask import jsonify
 
-from app.models.models import Project
+from app.models.models import Project, User
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
 import random
@@ -34,7 +34,8 @@ all_project_fields = {
 	'timestamp': fields.DateTime,
 	'uri': fields.Url('user_single_project', absolute=True),
 	'species_id': fields.String,
-	'is_removed': fields.String
+	'is_removed': fields.String,
+	'username': fields.String
 }
 
 project_fields = {
@@ -91,6 +92,11 @@ class ProjectListUserResource(Resource):
 			projects = db.session.query(Project).filter(Project.user_id == current_user.id).all()
 		if not projects:
 			abort(404, message="No projects for user {}".format(current_user.id))
+
+		for project in projects:
+			user = db.session.query(User).filter(project.user_id == User.id).first()
+			project.username = user.username
+
 		return projects, 200
 
 	@login_required
@@ -126,6 +132,11 @@ class ProjectListUserSpecieResource(Resource):
 			projects = db.session.query(Project).filter(Project.user_id == current_user.id, Project.species_id == id).all()
 		if not projects:
 			abort(404, message="No projects for specie {}".format(id))
+
+		for project in projects:
+			user = db.session.query(User).filter(project.user_id == User.id).first()
+			project.username = user.username
+
 		return projects, 200
 
 class ProjectListAllResource(Resource):

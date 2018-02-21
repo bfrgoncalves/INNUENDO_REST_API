@@ -180,11 +180,10 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         },
 
         lock_project: (project_id, callback) => {
-            let selectedData = [];
 
             const table = $('#projects_table').DataTable();
 
-            selectedData = $.map(table.rows('.selected').indexes(), (index) => {
+            let selectedData = $.map(table.rows('.selected').indexes(), (index) => {
                 return index;
             });
 

@@ -63,6 +63,9 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         get_projects_from_species: (species_id, is_others, callback) => {
 
             pg_requests.get_species_projects(species_id, is_others, (response) => {
+
+                console.log(response);
+
                 if(response.status === 200){
                     if(is_others){
                         other_projects = [];
@@ -78,6 +81,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                             if(d.is_removed === null) projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id});
                         });
                         callback(projects);
+
                         objects_utils.loadDataTables('projects_table', projects);
                     }
                 }

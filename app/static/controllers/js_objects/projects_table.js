@@ -64,8 +64,6 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
             pg_requests.get_species_projects(species_id, is_others, (response) => {
 
-                console.log(response);
-
                 if(response.status === 200){
                     if(is_others){
                         other_projects = [];
@@ -75,13 +73,18 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                 let lockStatus = "";
 
                                 if(d.is_removed === 'lock'){
-                                    lockStatus = '<button><i class="fa' +
-                                        ' fa-lock"></i></button>';
+                                    lockStatus = '<div' +
+                                        ' style="width:100%;text-align:' +
+                                        ' center;"<button><i' +
+                                        ' class="fa' +
+                                        ' fa-lock"></i></button></div>';
                                 }
                                 else{
-                                    lockStatus = '<button><i' +
+                                    lockStatus = '<div' +
+                                        ' style="width:100%;text-align:' +
+                                        ' center;"<button><i' +
                                         ' class="fa' +
-                                        ' fa-unlock"></i></button>';
+                                        ' fa-unlock"></i></button></div>';
                                 }
 
                                 other_projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});
@@ -98,14 +101,18 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                 let lockStatus = "";
 
                                 if(d.is_removed === 'lock'){
-                                    lockStatus = '<button><i' +
+                                    lockStatus = '<div' +
+                                        ' style="width:100%;text-align:' +
+                                        ' center;"<button><i' +
                                         ' class="fa' +
-                                        ' fa-lock"></i></button>';
+                                        ' fa-lock"></i></button></div>';
                                 }
                                 else{
-                                    lockStatus = '<button><i' +
+                                    lockStatus = '<div' +
+                                        ' style="width:100%;text-align:' +
+                                        ' center;"<button><i' +
                                         ' class="fa' +
-                                        ' fa-unlock"></i></button>';
+                                        ' fa-unlock"></i></button></div>';
                                 }
 
                                 projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});

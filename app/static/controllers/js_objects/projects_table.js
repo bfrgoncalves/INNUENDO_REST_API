@@ -142,7 +142,13 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     ngs_onto_requests.ngs_onto_request_add_project_to_database(response.data.id, (response) => {
                         //Do something if needed
                     });
-                    projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id});
+
+                    let lockStatus = '<div' +
+                        ' style="width:100%;text-align:center;"><i class="fa' +
+                        ' fa-unlock"></i></div>';
+
+                    projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id, username: response.data.username, lockStatus:lockStatus});
+
                     $('#newProjectModal').modal('hide');
                     modalAlert('Project created.', () => {});
                     callback({projects: projects});
@@ -177,6 +183,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
                     for(const i in project_indexes){
                         const project_id = projects[project_indexes[i]].id;
+
                         pg_requests.delete_project_from_database(project_id, (response) => {
                             count_to_delete+=1;
                             if(response.status === 204){

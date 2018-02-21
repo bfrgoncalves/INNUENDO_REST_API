@@ -68,21 +68,21 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     if(is_others){
                         other_projects = [];
                         response.data.map( (d) => {
-                            if(d.is_removed === null) {
+                            if(d.is_removed !== "true") {
 
                                 let lockStatus = "";
 
                                 if(d.is_removed === 'lock'){
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
-                                        ' center;<i' +
+                                        ' center;"><i' +
                                         ' class="fa' +
                                         ' fa-lock"></i></div>';
                                 }
                                 else{
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
-                                        ' center;"<i' +
+                                        ' center;"><i' +
                                         ' class="fa' +
                                         ' fa-unlock"></i></div>';
                                 }
@@ -96,21 +96,21 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     else{
                         projects = [];
                         response.data.map( (d) => {
-                            if(d.is_removed === null) {
+                            if(d.is_removed !== "true") {
 
                                 let lockStatus = "";
 
                                 if(d.is_removed === 'lock'){
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
-                                        ' center;<i' +
+                                        ' center;"><i' +
                                         ' class="fa' +
                                         ' fa-lock"></i></div>';
                                 }
                                 else{
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
-                                        ' center;"<i' +
+                                        ' center;"><i' +
                                         ' class="fa' +
                                         ' fa-unlock"></i></div>';
                                 }
@@ -229,7 +229,6 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 return index;
             });
 
-            console.log(project_id);
             if(selectedData.length > 0){
                 modalAlert('By choosing this option, you are Locking the' +
                     ' selected Project. This means that all the analysis' +

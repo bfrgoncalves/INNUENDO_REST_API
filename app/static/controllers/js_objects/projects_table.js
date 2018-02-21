@@ -180,17 +180,35 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         },
 
         lock_project: (project_id, callback) => {
-            modalAlert('By choosing this option, you are Locking the' +
-                ' selected Project. This means that all the analysis' +
-                ' results for this Project will still be visible in the' +
-                ' reports and in the Project page. However, you will not be' +
-                ' able to run more analysis on this Project. This option is' +
-                ' useful to release space from the Storage. Do you really' +
-                ' want to proceed?', (
+            let selectedData = [];
 
-            ) => {
-                callback();
+            const table = $('#projects_table').DataTable();
+
+            selectedData = $.map(table.rows('.selected').indexes(), (index) => {
+                return index;
             });
+
+            if(selectedData.length > 0){
+                modalAlert('By choosing this option, you are Locking the' +
+                    ' selected Project. This means that all the analysis' +
+                    ' results for this Project will still be visible in the' +
+                    ' reports and in the Project page. However, you will not be' +
+                    ' able to run more analysis on this Project. This option is' +
+                    ' useful to release space from the Storage. Do you really' +
+                    ' want to proceed?', (
+
+                ) => {
+                    callback();
+                });
+            }
+            else{
+                modalAlert('Please select a Project first.', (
+
+                ) => {
+                    callback();
+                });
+            }
+
         }
 
 

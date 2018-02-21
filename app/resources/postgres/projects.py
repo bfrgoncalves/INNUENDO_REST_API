@@ -19,6 +19,10 @@ project_get_parser = reqparse.RequestParser()
 project_get_parser.add_argument('get_others', dest='get_others', type=bool, required=False, help="Get other projects")
 project_get_parser.add_argument('all', dest='all', type=bool, required=False, help="Get all projects")
 
+project_put_parser = reqparse.RequestParser()
+project_put_parser.add_argument('lock', dest='lock', type=bool, required=True,
+							  help="lock info")
+
 #Defining response fields
 
 author_fields = {
@@ -46,7 +50,8 @@ project_fields = {
 	'pipelines': fields.Url('pipelines', absolute=True),
 	'strains': fields.Url('project_strains', absolute=True),
 	'species_id': fields.String,
-	'is_removed': fields.String
+	'is_removed': fields.String,
+	'username': fields.String
 }
 
 #Define projects resources
@@ -57,7 +62,7 @@ class ProjectUserResource(Resource):
 	@marshal_with(project_fields)
 	def get(self, id): #id=project_id
 		if not current_user.is_authenticated:
-				abort(403, message="No permissions")
+			abort(403, message="No permissions")
 		project = db.session.query(Project).filter(Project.id == id).first()
 		if not project:
 			abort(404, message="Project {} doesn't exist".format(id))
@@ -67,12 +72,31 @@ class ProjectUserResource(Resource):
 	@marshal_with(project_fields)
 	def delete(self, id):
 		if not current_user.is_authenticated:
-				abort(403, message="No permissions")
+			abort(403, message="No permissions")
 		project = db.session.query(Project).filter(Project.id == id, Project.user_id == current_user.id).first()
 		project.name = project.name + "_" + ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(4))
 		if not project:
 			abort(404, message="Project {} doesn't exist".format(id))
 		project.is_removed = True
+		db.session.commit()
+		return project, 204
+
+	@login_required
+	@marshal_with(project_fields)
+	def put(self, id):
+		if not current_user.is_authenticated:
+			abort(403, message="No permissions")
+
+		args = project_put_parser.parse_args()
+
+		project = db.session.query(Project).filter(Project.id == id, Project.user_id == current_user.id).first()
+
+		project.name = project.name + "_" + ''.join(
+			random.choice(string.ascii_uppercase + string.digits) for _ in
+			range(4))
+		if not project:
+			abort(404, message="Project {} doesn't exist".format(id))
+		project.is_removed = args.lock
 		db.session.commit()
 		return project, 204
 
@@ -100,7 +124,7 @@ class ProjectListUserResource(Resource):
 		return projects, 200
 
 	@login_required
-	@marshal_with(all_project_fields)  
+	@marshal_with(all_project_fields)
 	def post(self): #id=user_id
 		args=project_post_parser.parse_args()
 		if not current_user.is_authenticated:

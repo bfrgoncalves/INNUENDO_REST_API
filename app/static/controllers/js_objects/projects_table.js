@@ -70,7 +70,19 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     if(is_others){
                         other_projects = [];
                         response.data.map( (d) => {
-                            if(d.is_removed === null) other_projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id});
+                            if(d.is_removed === null) {
+
+                                let lockStatus = "";
+
+                                if(d.is_removed === 'lock'){
+                                    lockStatus = '<i class="fa fa-lock"></i>';
+                                }
+                                else{
+                                    lockStatus = '<i class="fa fa-lock-open"></i>';
+                                }
+
+                                other_projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});
+                            }
                         });
                         callback(other_projects);
                         objects_utils.loadDataTables('projects_table', projects);
@@ -78,7 +90,19 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     else{
                         projects = [];
                         response.data.map( (d) => {
-                            if(d.is_removed === null) projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id});
+                            if(d.is_removed === null) {
+
+                                let lockStatus = "";
+
+                                if(d.is_removed === 'lock'){
+                                    lockStatus = '<i class="fa fa-lock"></i>';
+                                }
+                                else{
+                                    lockStatus = '<i class="fa fa-lock-open"></i>';
+                                }
+
+                                projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});
+                            }
                         });
                         callback(projects);
 

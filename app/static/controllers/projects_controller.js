@@ -140,12 +140,14 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
             "data":           null,
             "defaultContent": ''
         },
+        { "data": "lockStatus" },
         { "data": "name" },
+        { "data": "username" },
         { "data": "description" },
         { "data": "date" }
     ];
 
-    $scope.projects_headers = ['Name', 'Description', "Date"];
+    $scope.projects_headers = ['Lock Status','Name', 'Owner','Description', "Date"];
 
     let other_projects = [];
 

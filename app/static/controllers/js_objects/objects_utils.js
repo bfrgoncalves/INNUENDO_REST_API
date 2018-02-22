@@ -22,68 +22,6 @@ let protocols_on_table = {};
 
 const Objects_Utils = (single_project) => {
 
-    //const metadata = new Metadata();
-
-    /*function format ( d, visible_headers, table_id ) {
-        // `d` is the original data object for the row
-        tr_string='<tbody><tr class="child_row">';
-        tr_headers = '<thead><tr>';
-
-        var convert_dict = metadata.get_dict_fields();
-        var convert_dict_reverse = metadata.get_dict_fields_reverse();
-
-        toUse = [];
-        isThere = true;
-
-        for(keys in d){
-            isThere = false;
-            for(header in visible_headers){
-                if (table_id.indexOf('reports') > -1 && table_id.indexOf('reports_metadata') < 0){
-                    if(visible_headers[header] == keys){
-                        isThere = true;
-                        break;
-                    }
-                }
-                else{
-                    if(convert_dict[visible_headers[header]] == keys){
-                        console.log(keys);
-                        isThere = true;
-                        break;
-                    }
-                }
-            }
-            if(!isThere){
-                if (table_id.indexOf('reports') > -1 && table_id.indexOf('reports_metadata') < 0) toUse.push([keys, d[keys]]);
-                else {
-                    if(convert_dict_reverse[keys] == undefined) toUse.push([keys, d[keys]]);
-                    else toUse.push([convert_dict_reverse[keys], d[keys]]);
-                }
-            }
-        }
-        for(x in toUse){
-            if(toUse[x][0] == 'job_id' || toUse[x][0] == undefined || toUse[x][0] == 'Analysis')continue;
-            tr_headers += '<td><b>'+toUse[x][0]+'</b></td>';
-
-            tr_string += '<td>'+toUse[x][1]+'</td>';
-        }
-
-        tr_headers += '</tr></thead>';
-        tr_string += '</tr></tbody>';
-
-        return '<div class="inside_table"><table cellpadding="5" cellspacing="0" border="0">'+tr_headers+tr_string+'</table></div>';
-    }*/
-
-    /*function format_lab_protocols ( d, table_id ) {
-        // `d` is the original data object for the row
-        tr_string='';
-
-        tr_string += '<tr class="child_row">'+
-                '<td><b>Lab Protocols</b></td>'+
-                '<td colspan="6">'+d.lab_protocols+'</td>'+
-            '</tr>';
-
-        return '<table cellpadding="5" cellspacing="0" border="0">'+tr_string+'</table>';
-    }*/
 
     const format_analysis = ( d, table_id ) => {
         // `d` is the original data object for the row
@@ -158,8 +96,6 @@ const Objects_Utils = (single_project) => {
             "data": data,
             "stateSave":true,
             "initComplete": () => {
-
-                $('#' + table_id).addClass("nowrap");
 
                 let already_added = [];
                 for(const r in CURRENT_TABLE_ROWS_SELECTED[table_id]){

@@ -86,7 +86,7 @@ table.display{
   overflow-x:auto;
 }
 
-.display td {
+.table td {
   overflow: hidden; /* this is what fixes the expansion */
   text-overflow: ellipsis; /* not supported in all browsers, but I accepted the tradeoff */
 }

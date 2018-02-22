@@ -1,22 +1,12 @@
-from app import app, db, dbconAg,dedicateddbconAg
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask_security import current_user
+from app import db, dbconAg
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask import jsonify, send_file, request
-from app.utils.queryParse2Json import parseAgraphStatementsRes,parseAgraphQueryRes
-
+from app.utils.queryParse2Json import parseAgraphQueryRes
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
-
-from rq import Queue #Queue
-from redis import Redis
-
 from config import CURRENT_ROOT, JOBS_ROOT, OUTPUT_URL, USER_STORAGES
 from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
-from franz.openrdf.vocabulary.rdf import RDF
-from franz.openrdf.vocabulary.xmlschema import XMLSchema
 from franz.openrdf.query.query import QueryLanguage
-from franz.openrdf.model import URI
-
 from app.models.models import Protocol
 from app.models.models import Strain
 from app.models.models import Report, Project, User
@@ -28,16 +18,15 @@ import requests
 import os
 import string
 import random
-import subprocess
 import shutil
 
 from job_processing.queue_processor import Queue_Processor
 
 '''
 Jobs resources:
-	- send job to slurm
-	- add results to database
-	- classify profile using fast-mlst
+    - send job to slurm
+    - add results to database
+    - classify profile using fast-mlst
 '''
 
 job_post_parser = reqparse.RequestParser()
@@ -83,393 +72,374 @@ nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str, req
 
 database_processor = Queue_Processor()
 
-#Add job data to db
+
+# Add job data to db
 def add_data_to_db(results, sample, project_id, pipeline_id, process_position, username, user_id, procedure, species, overwrite):
 
-	report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.procedure == procedure).first()
+    report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.procedure == procedure).first()
 
+    if "chewbbaca" in procedure:
+        new_job_id = project_id + pipeline_id + process_position
 
-	if "chewbbaca" in procedure:
-		print "CLASSIFY CHEWBBACA"
-		new_job_id = project_id + pipeline_id + process_position
+        if results["status"] != "fail":
+            jobID = database_processor.classify_profile(results, species, sample, new_job_id)
+            strain = db.session.query(Strain).filter(Strain.name == sample).first()
 
-		if results["status"] != "fail":
-			jobID = database_processor.classify_profile(results, species, sample, new_job_id)
-			strain = db.session.query(Strain).filter(Strain.name == sample).first()
-			
-			if not strain:
-				print "No strain with name " + sample
-			else:
-				try:
-					metadata = json.loads(strain.strain_metadata)
-					chewstatus = results["status"]
-					metadata["chewBBACAStatus"] = chewstatus
-					strain.strain_metadata = json.dumps(metadata)
-					db.session.commit()
-				except Exception:
-					print "No chewbbaca status"
-		else:
-			print "chewBBACA failed"
+            if not strain:
+                print "No strain with name " + sample
+            else:
+                try:
+                    metadata = json.loads(strain.strain_metadata)
+                    chewstatus = results["status"]
+                    metadata["chewBBACAStatus"] = chewstatus
+                    strain.strain_metadata = json.dumps(metadata)
+                    db.session.commit()
+                except Exception:
+                    print "No chewbbaca status"
+        else:
+            print "chewBBACA failed"
 
-	if "seq_typing" in procedure:
-		print "SEQ TYPING"
-		strain = db.session.query(Strain).filter(Strain.name == sample).first()
-		
-		if not strain:
-			print "No strain with name " + sample
-		else:
-			try:
-				metadata = json.loads(strain.strain_metadata)
-				typing = results["typing"]["seqtyping"]
-				metadata["Serotype"] = typing
-				strain.strain_metadata = json.dumps(metadata)
-				db.session.commit()
-			except Exception:
-				print "No seqtyping data"
+    if "seq_typing" in procedure:
+        strain = db.session.query(Strain).filter(Strain.name == sample).first()
 
-	if "patho_typing" in procedure:
-		print "PATHO TYPING"
-		strain = db.session.query(Strain).filter(Strain.name == sample).first()
-		
-		if not strain:
-			print "No strain with name " + sample
-		else:
-			try:
-				metadata = json.loads(strain.strain_metadata)
-				typing = results["typing"]["pathotyping"]
-				metadata["Pathotype"] = typing
-				strain.strain_metadata = json.dumps(metadata)
-				db.session.commit()
-			except Exception:
-				print "No pathotyping data"
+        if not strain:
+            print "No strain with name " + sample
+        else:
+            try:
+                metadata = json.loads(strain.strain_metadata)
+                typing = results["typing"]["seqtyping"]
+                metadata["Serotype"] = typing
+                strain.strain_metadata = json.dumps(metadata)
+                db.session.commit()
+            except Exception:
+                print "No seqtyping data"
 
-	#job_id = 1
+    if "patho_typing" in procedure:
+        strain = db.session.query(Strain).filter(Strain.name == sample).first()
 
-	if not report:
-		report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample, process_position=process_position, procedure=procedure)
-		if not report:
-			abort(404, message="An error as occurried when uploading the data")
+        if not strain:
+            print "No strain with name " + sample
+        else:
+            try:
+                metadata = json.loads(strain.strain_metadata)
+                typing = results["typing"]["pathotyping"]
+                metadata["Pathotype"] = typing
+                strain.strain_metadata = json.dumps(metadata)
+                db.session.commit()
+            except Exception:
+                print "No pathotyping data"
 
-		db.session.add(report)
-		db.session.commit()
+    if not report:
+        report = Report(project_id=project_id, pipeline_id=pipeline_id, report_data=results, timestamp=datetime.datetime.utcnow(), user_id=user_id, username=username, sample_name=sample, process_position=process_position, procedure=procedure)
+        if not report:
+            abort(404, message="An error as occurried when uploading the data")
 
-		return True
-	else:
+        db.session.add(report)
+        db.session.commit()
 
-		report_to_append = ["trace"]
+        return True
+    else:
 
-		#Appends to report data
-		if overwrite == "false":
-			for el in report_to_append:
-				try:
-					results[el].extend(report.report_data[el])
-				except Exception:
-					print "No trace to append"
+        report_to_append = ["trace"]
 
-		report.project_id=project_id
-		report.pipeline_id=pipeline_id
-		report.process_position=process_position
-		report.report_data=results
-		report.timestamp=datetime.datetime.utcnow()
-		report.user_id=user_id
-		report.username=username
-		report.sample_name=sample
-		report.procedure = procedure
+        if overwrite == "false":
+            for el in report_to_append:
+                try:
+                    results[el].extend(report.report_data[el])
+                except Exception:
+                    print "No trace to append"
 
-		db.session.commit()
+        report.project_id=project_id
+        report.pipeline_id=pipeline_id
+        report.process_position=process_position
+        report.report_data=results
+        report.timestamp=datetime.datetime.utcnow()
+        report.user_id=user_id
+        report.username=username
+        report.sample_name=sample
+        report.procedure = procedure
 
+        db.session.commit()
 
-	return True
-
+    return True
 
 
 class Job_Reports(Resource):
 
-	def post(self):
-		parameters = request.json
-		try:
-			parameters_json = json.loads(parameters.replace("'", '"'))
-		except Exception as e:
-			print e
-			return 500
-		
-		json_data = parameters_json["report_json"]
-		username = parameters_json["current_user_name"]
-		user_id = parameters_json["current_user_id"]
-		task = parameters_json["task"]
-		workdir = parameters_json["workdir"]
-		versions = parameters_json["versions"]
-		trace = parameters_json["trace"]
-		overwrite = parameters_json["overwrite"]
+    def post(self):
+        parameters = request.json
+        try:
+            parameters_json = json.loads(parameters.replace("'", '"'))
+        except Exception as e:
+            print e
+            return 500
 
-		json_data["trace"] = [trace]
-		json_data["versions"] = versions
-		json_data["task"] = task
-		json_data["workdir"] = workdir
+        json_data = parameters_json["report_json"]
+        username = parameters_json["current_user_name"]
+        user_id = parameters_json["current_user_id"]
+        task = parameters_json["task"]
+        workdir = parameters_json["workdir"]
+        versions = parameters_json["versions"]
+        trace = parameters_json["trace"]
+        overwrite = parameters_json["overwrite"]
 
-		is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id, json_data["task"], parameters_json["species"], overwrite)
+        json_data["trace"] = [trace]
+        json_data["versions"] = versions
+        json_data["task"] = task
+        json_data["workdir"] = workdir
 
-		return True
+        is_added = add_data_to_db(json_data, parameters_json["sample_name"], parameters_json["project_id"], parameters_json["pipeline_id"], parameters_json["process_id"],  username, user_id, json_data["task"], parameters_json["species"], overwrite)
+
+        return True
 
 
-#Run jobs using slurm and get job status
+# Run jobs using nextflow and get job status
 class Job_queue(Resource):
 
-	@login_required
-	def post(self):
-		args = job_post_parser.parse_args()
-		protocol_ids = args.protocol_ids.split(',')
-		process_ids = args.process_id.split(',')
-		processes_wrkdir = args.processes_wrkdir.split(',')
-		strain_id = args.strain_id
-		processes_to_run = args.processes_to_run.split(',')
+    @login_required
+    def post(self):
+        args = job_post_parser.parse_args()
+        protocol_ids = args.protocol_ids.split(',')
+        process_ids = args.process_id.split(',')
+        processes_wrkdir = args.processes_wrkdir.split(',')
+        strain_id = args.strain_id
+        processes_to_run = args.processes_to_run.split(',')
 
-		data = []
-		to_send = []
+        data = []
+        to_send = []
 
-		counter = 0;
-		for protocol_id in protocol_ids:
-			protocol = db.session.query(Protocol).filter(Protocol.id == protocol_id).first()
-			strain = db.session.query(Strain).filter(Strain.id == strain_id).first()
-			protocol.steps = protocol.steps.replace("'", '"')
+        counter = 0
 
-			steps = json.loads(protocol.steps)
-			fields = json.loads(strain.fields)
-			metadata = json.loads(strain.strain_metadata)
+        for protocol_id in protocol_ids:
+            protocol = db.session.query(Protocol).filter(Protocol.id == protocol_id).first()
+            strain = db.session.query(Strain).filter(Strain.id == strain_id).first()
+            protocol.steps = protocol.steps.replace("'", '"')
 
-			files = {}
+            steps = json.loads(protocol.steps)
+            fields = json.loads(strain.fields)
+            metadata = json.loads(strain.strain_metadata)
 
-			if processes_wrkdir[counter] != "false" and processes_to_run[counter] == "true":
-				wdirs = processes_wrkdir[counter].split(";")
-				
-				#Remove nextflow dirs
-				for wd in wdirs:
-					if wd == "":
-						continue
-						
-					workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", wd)
-					try:
-						shutil.rmtree(workdirPath)
-					except OSError:
-						print "No such directory", workdirPath
+            files = {}
 
-				#Remove reports from process id
-				reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.pipeline_id == args.pipeline_id, cast(Report.process_position, Integer) >= int(process_ids[counter])).all()
+            if processes_wrkdir[counter] != "false" and processes_to_run[counter] == "true":
+                wdirs = processes_wrkdir[counter].split(";")
 
-				if reports:
-					for report in reports:
-						print "has report"
-						db.session.delete(report)
-					db.session.commit()
+                # Remove nextflow dirs
+                for wd in wdirs:
+                    if wd == "":
+                        continue
 
+                    workdirPath = os.path.join(current_user.homedir, "jobs", args.project_id + "-" + args.pipeline_id, "work", wd)
 
-			for x in fields['metadata_fields']:
-				if 'File_' in x:
-					files[x] = metadata[x]
+                    try:
+                        shutil.rmtree(workdirPath)
+                    except OSError:
+                        print "No such directory", workdirPath
 
-			if 'used Parameter' in steps:
-				data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter], 'process_to_run': processes_to_run[counter]})
-			else:
-				to_send.append("null")
-			counter += 1
+                # Remove reports from process id
+                reports = db.session.query(Report).filter(Report.project_id == args.project_id, Report.pipeline_id == args.pipeline_id, cast(Report.process_position, Integer) >= int(process_ids[counter])).all()
 
-		request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
-		to_send.append(request.json()['jobID'])
-		return to_send, 200
+                if reports:
+                    for report in reports:
+                        print "has report"
+                        db.session.delete(report)
+                    db.session.commit()
 
-	def get(self):
-		args = job_get_parser.parse_args()
-		username = args.current_user_name
-		user_id = args.current_user_id
-		from_process_controller = args.from_process_controller
-		homedir = args.homedir
+            for x in fields['metadata_fields']:
+                if 'File_' in x:
+                    files[x] = metadata[x]
 
-		job_ids = args.job_id.split(",")
-		process_ids = args.process_id.split(",")
-		store_jobs_in_db = []
-		all_results = []
-		all_std_out = []
-		all_paths = []
-		all_wrkdirs = []
+            if 'used Parameter' in steps:
+                data.append({'parameters':json.dumps(steps), 'username':str(current_user.username), 'strain_submitter': args.strain_submitter,'files': json.dumps(files), 'project_id': args.project_id, 'pipeline_id': args.pipeline_id, 'process_id':process_ids[counter], 'process_to_run': processes_to_run[counter]})
+            else:
+                to_send.append("null")
+            counter += 1
 
-		for k in range(0, len(job_ids)):
+        request = requests.post(JOBS_ROOT, data={'data':json.dumps(data), 'homedir':current_user.homedir, 'current_specie':args.current_specie, 'sampleName':args.sampleName, 'current_user_id':str(current_user.id), 'current_user_name':str(current_user.username)})
+        to_send.append(request.json()['jobID'])
+        return to_send, 200
 
-			job_id = job_ids[k]
-			process_id = process_ids[k]
-			from_process_controller = args.from_process_controller
+    def get(self):
 
-			go_to_pending = False
+        args = job_get_parser.parse_args()
 
-			results = [[],[]]
-			store_in_db = False
+        job_ids = args.job_id.split(",")
+        process_ids = args.process_id.split(",")
+        store_jobs_in_db = []
+        all_results = []
+        all_std_out = []
+        all_paths = []
+        all_wrkdirs = []
 
-			final_status = ""
-			file2Path = []
+        for k in range(0, len(job_ids)):
 
-			print '--project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
+            job_id = job_ids[k]
+            process_id = process_ids[k]
 
-			try:
-				procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(process_id)
-				queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?file4) as ?file_4) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000096 ?file4; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
+            results = [[],[]]
+            store_in_db = False
 
-				tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
-				result = tupleQuery.evaluate()
-				
-				jsonResult=parseAgraphQueryRes(result,["statusStr", "file_2", "file_4"])
+            final_status = ""
+            file2Path = []
 
-				result.close()
+            print '--project ' + args.project_id + ' --pipeline ' + args.pipeline_id + ' --process ' + process_id + ' -t status'
 
-				if "pass" in jsonResult[0]["statusStr"]:
-					final_status = "COMPLETED"
-				elif "None" in jsonResult[0]["statusStr"]:
-					final_status = "PD"
-				elif "running" in jsonResult[0]["statusStr"]:
-					final_status = "R"
-				elif "pending" in jsonResult[0]["statusStr"]:
-					final_status = "PD"
-				elif "warning" in jsonResult[0]["statusStr"]:
-					final_status = "WARNING"
-				elif "fail" in jsonResult[0]["statusStr"]:
-					final_status = "FAILED"
-				elif "error" in jsonResult[0]["statusStr"]:
-					final_status = "FAILED"
-				
-				try:
-					for r in jsonResult:
-						file2Path.append('/'.join(r["file_4"].split("/")[-3:-1]))
-				except Exception as p:
-					file2Path = []
+            try:
+                procStr = localNSpace + "projects/" + str(args.project_id) + "/pipelines/" + str(args.pipeline_id) + "/processes/" + str(process_id)
+                queryString = "SELECT (str(?typelabel) as ?label) (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?file4) as ?file_4) (str(?status) as ?statusStr) WHERE{<"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000096 ?file4; obo:NGS_0000094 ?file3. } OPTIONAL {?in obo:NGS_0000097 ?status.} }"
 
+                tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+                result = tupleQuery.evaluate()
 
-			except Exception as e:
-				final_status = "NEUTRAL"
-				print e
+                jsonResult = parseAgraphQueryRes(result,["statusStr", "file_2", "file_4"])
 
-			print final_status
-			stdout = [job_id, final_status]
+                result.close()
 
-			all_std_out.append(stdout)
-			store_jobs_in_db.append(store_in_db)
-			all_results.append(results[0])
-			all_paths.append(results[1])
-			all_wrkdirs.append(file2Path)
+                if "pass" in jsonResult[0]["statusStr"]:
+                    final_status = "COMPLETED"
+                elif "None" in jsonResult[0]["statusStr"]:
+                    final_status = "PD"
+                elif "running" in jsonResult[0]["statusStr"]:
+                    final_status = "R"
+                elif "pending" in jsonResult[0]["statusStr"]:
+                    final_status = "PD"
+                elif "warning" in jsonResult[0]["statusStr"]:
+                    final_status = "WARNING"
+                elif "fail" in jsonResult[0]["statusStr"]:
+                    final_status = "FAILED"
+                elif "error" in jsonResult[0]["statusStr"]:
+                    final_status = "FAILED"
+
+                try:
+                    for r in jsonResult:
+                        file2Path.append('/'.join(r["file_4"].split("/")[-3:-1]))
+                except Exception as p:
+                    file2Path = []
+
+            except Exception as e:
+                final_status = "NEUTRAL"
+                print e
+
+            print final_status
+            stdout = [job_id, final_status]
+
+            all_std_out.append(stdout)
+            store_jobs_in_db.append(store_in_db)
+            all_results.append(results[0])
+            all_paths.append(results[1])
+            all_wrkdirs.append(file2Path)
+
+        results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids, 'all_wrkdirs':all_wrkdirs, 'process_ids': process_ids}
+
+        return results, 200
 
 
-		results = {'stdout':all_std_out, 'store_in_db':store_jobs_in_db, 'results':all_results, 'paths':all_paths, 'job_id': job_ids, 'all_wrkdirs':all_wrkdirs, 'process_ids': process_ids}
-
-		procedure_names = args.procedure_name.split(",")
-		process_positions = args.process_position.split(",")
-		all_jobs_status = []
-
-		return results, 200
-
-#Load job results to display on graphical interface
+# Load job results to display on graphical interface
 class Job_results(Resource):
 
-	@login_required
-	def get(self):
-		args = job_results_get_parser.parse_args()
-		report = db.session.query(Report).filter(Report.job_id == args.job_id).first()
-		return report.report_data
+    @login_required
+    def get(self):
+
+        args = job_results_get_parser.parse_args()
+        report = db.session.query(Report).filter(Report.job_id == args.job_id).first()
+        return report.report_data
 
 
-#Load job results and classify it
+# Load job results and classify it
 class Job_classify_chewbbaca(Resource):
 
-	def get(self):
-		args = job_classify_chewbbaca_post_parser.parse_args()
-		database_processor.classify_profile(args.job_id, args.database_to_include)
+    def get(self):
+
+        args = job_classify_chewbbaca_post_parser.parse_args()
+        database_processor.classify_profile(args.job_id, args.database_to_include)
 
 
-#Load job results to display on graphical interface
+# Load job results to display on graphical interface
 class Job_Result_Download(Resource):
 
-	#@login_required
-	def get(self):
-		args = job_download_results_get_parser.parse_args()
-		local_filename = 'app/results/'+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
-		response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
+    # @login_required
+    def get(self):
 
-		with open(local_filename, 'wb') as f:
-			for chunk in response.iter_content(chunk_size=1024): 
-				if chunk: # filter out keep-alive new chunks
-					f.write(chunk)
+        args = job_download_results_get_parser.parse_args()
+        local_filename = 'app/results/'+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(5)) + '.txt'
+        response = requests.get(JOBS_ROOT + 'results/download/', params={'file_path':args.file_path}, stream=True)
 
-		return local_filename
+        with open(local_filename, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+
+        return local_filename
 
 
-#Load job results to display on graphical interface
+# Load job results to display on graphical interface
 class Job_Result_Download_click(Resource):
 
-	def get(self):
-		args = job_download_results_get_parser.parse_args()
-		try:
-			local_filename = '/'.join(args.file_path.split('/')[-2:])
-			response = send_file(local_filename, as_attachment=True)
-			response.headers.add('Access-Control-Allow-Origin', '*')
-			response.headers.add('Content-Type', 'application/force-download')
-			#os.remove(local_filename)
-			return response
-		except Exception as e:
-			print e
-			#self.Error(400)
-			return 404
+    def get(self):
 
-#Load job results to display on graphical interface
+        args = job_download_results_get_parser.parse_args()
+        try:
+            local_filename = '/'.join(args.file_path.split('/')[-2:])
+            response = send_file(local_filename, as_attachment=True)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Content-Type', 'application/force-download')
+            return response
+        except Exception as e:
+            print e
+            return 404
+
+
+# Load job results to display on graphical interface
 class Job_Report_Download_click(Resource):
 
-	def get(self):
-		args = job_download_results_get_parser.parse_args()
-		try:
-			local_filename = args.file_path
-			response = send_file(local_filename, as_attachment=True)
-			response.headers.add('Access-Control-Allow-Origin', '*')
-			response.headers.add('Content-Type', 'application/force-download')
-			#os.remove(local_filename)
-			return response
-		except Exception as e:
-			print e
-			#self.Error(400)
-			return 404
+    def get(self):
+
+        args = job_download_results_get_parser.parse_args()
+        try:
+            local_filename = args.file_path
+            response = send_file(local_filename, as_attachment=True)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Content-Type', 'application/force-download')
+            return response
+        except Exception as e:
+            print e
+            return 404
 
 
 class NextflowLogs(Resource):
-	
-	@login_required
-	def get(self):
-		args = nextflow_logs_get_parser.parse_args()
 
-		#username = current_user.homedir.split("/")[-1]
-		til_storage = "/".join(current_user.homedir.split("/")[0:-3])
+    @login_required
+    def get(self):
 
-		project = db.session.query(Project).filter(Project.id == args.project_id).first()
+        args = nextflow_logs_get_parser.parse_args()
 
-		if not project:
-			content = "file not found"
-		else:
-			user_of_project = db.session.query(User).filter(User.id == project.user_id).first()
+        til_storage = "/".join(current_user.homedir.split("/")[0:-3])
+        content = ""
 
-			if not user_of_project:
-				content = "file not found"
-			else:
-				username = user_of_project.username
+        project = db.session.query(Project).filter(Project.id == args.project_id).first()
 
-				print til_storage
-				print current_user.homedir
-				print username
+        if not project:
+            content = "file not found"
+        else:
+            user_of_project = db.session.query(User).filter(User.id == project.user_id).first()
 
-				for x in USER_STORAGES:
-					file_location = os.path.join(til_storage, x, username, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
-					print file_location
-					try:
-						with open(file_location, "r") as file_r:
-							content = file_r.read()
-						break
-					except IOError:
-						content = "file not found"
+            if not user_of_project:
+                content = "file not found"
+            else:
+                username = user_of_project.username
 
-		return {"content": content}, 200
-		
+                for x in USER_STORAGES:
+                    file_location = os.path.join(til_storage, x, username, "jobs", args.project_id+"-"+args.pipeline_id, args.filename)
+                    print file_location
+                    try:
+                        with open(file_location, "r") as file_r:
+                            content = file_r.read()
+                        break
+                    except IOError:
+                        content = "file not found"
+
+        return {"content": content}, 200
+
 
 
 

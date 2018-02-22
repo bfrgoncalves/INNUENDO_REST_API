@@ -2423,6 +2423,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             else {
                 console.log(selectedRows, CURRENT_PROJECT_ID);
                 //Send to reports Page
+                loadReport(selectedRows, CURRENT_PROJECT_ID);
             }
 		    callback();
         },

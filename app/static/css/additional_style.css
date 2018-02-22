@@ -86,9 +86,15 @@ table.display{
   overflow-x:auto;
 }
 
-.table td {
-  overflow: hidden; /* this is what fixes the expansion */
-  text-overflow: ellipsis; /* not supported in all browsers, but I accepted the tradeoff */
+table.table {
+    table-layout: fixed;
+}
+
+table.table td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
 }
 
 .scroll_div{

@@ -2408,6 +2408,14 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		},
 
 		/*
+		Show reports from single project table
+		 */
+		showReports: (dt, callback) => {
+		    console.log(dt);
+		    callback();
+        },
+
+		/*
 	    Load strains from a file. Parses the file and trigger the add_new_strain function
 	    */
 		load_strains_from_file: (input_element, separator, callback) => {

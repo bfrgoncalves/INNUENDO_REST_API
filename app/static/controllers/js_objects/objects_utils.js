@@ -52,6 +52,7 @@ const Objects_Utils = (single_project) => {
         protocols_on_table = {};
         let page_length;
         let selection_style;
+        let additionalButtons;
 
         $('#' + table_id + ' tfoot th').each( (i, e) => {
             const title = $('#' + table_id + ' thead th').eq( $(e).index() ).text();
@@ -63,6 +64,19 @@ const Objects_Utils = (single_project) => {
         }
         else {
             page_length = 50;
+        }
+
+        if(table_id === "strains_table"){
+            additionalButtons = {
+                text: "Show Reports",
+                action: ( e, dt, node, config ) => {
+
+                    single_project.showReports(dt, () => {
+
+                    });
+
+                }
+            }
         }
 
         if(table_id === "modify_strains_table" || table_id === "reports_trees_table") {
@@ -90,7 +104,8 @@ const Objects_Utils = (single_project) => {
                 {
                     extend: 'colvis',
                     collectionLayout: 'fixed two-column'
-                }
+                },
+                additionalButtons
             ],
             columns: columnDefinitions,
             "data": data,

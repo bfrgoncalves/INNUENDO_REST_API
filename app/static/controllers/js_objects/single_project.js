@@ -2412,13 +2412,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		 */
 		showReports: (dt, callback) => {
 
-            let selectedRows = dt.rows(".selected").data();
+            let selectedRows = $.map(dt.rows(".selected").data(), (d) => {
+                return d.strainID;
+            });
+
 		    if(selectedRows.length === 0){
 		        modalAlert("Please select one or more entries from the" +
                     " Project first.", () => {});
             }
             else {
-                console.log(selectedRows);
+                console.log(selectedRows, CURRENT_PROJECT_ID);
+                //Send to reports Page
             }
 		    callback();
         },

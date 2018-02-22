@@ -159,6 +159,8 @@ const Objects_Utils = (single_project) => {
             "stateSave":true,
             "initComplete": () => {
 
+                $('#' + table_id).addClass("nowrap");
+
                 let already_added = [];
                 for(const r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
                     already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);

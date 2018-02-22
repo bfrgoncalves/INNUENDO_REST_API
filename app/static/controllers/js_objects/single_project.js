@@ -2411,7 +2411,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		Show reports from single project table
 		 */
 		showReports: (dt, callback) => {
-		    console.log(dt);
+
+            let selectedRows = dt.rows(".selected").data();
+		    if(selectedRows.length === 0){
+		        modalAlert("Please select one or more entries from the" +
+                    " Project first.", () => {});
+            }
+            else {
+                console.log(selectedRows);
+            }
 		    callback();
         },
 

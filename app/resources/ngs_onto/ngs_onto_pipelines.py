@@ -1,64 +1,56 @@
-from app import app, dbconAg,dedicateddbconAg
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from app import dbconAg
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_security import current_user, login_required
-from flask import jsonify
-from app.utils.queryParse2Json import parseAgraphStatementsRes,parseAgraphQueryRes
+from app.utils.queryParse2Json import parseAgraphStatementsRes
 
 from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
 from franz.openrdf.vocabulary.rdf import RDF
-from franz.openrdf.vocabulary.xmlschema import XMLSchema
-from franz.openrdf.query.query import QueryLanguage
-from franz.openrdf.model import URI
 
-
-#Defining post arguments parser
-
+# Defining post arguments parser
 pipeline_post_parser = reqparse.RequestParser()
 pipeline_post_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline id")
 
 pipeline_delete_parser = reqparse.RequestParser()
 pipeline_delete_parser.add_argument('pipeline_id', dest='pipeline_id', type=str, required=True, help="Pipeline id")
 
+
 class NGSOnto_PipelineListProjectResource(Resource):
     
-	@login_required
-	def get(self, id):
+    @login_required
+    def get(self, id):
 
-		#Agraph
-		studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
-		hasPart = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
-		statements = dbconAg.getStatements(studyURI, hasPart, None)
-		jsonResult=parseAgraphStatementsRes(statements)
-		statements.close()
+        studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
+        hasPart = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
+        statements = dbconAg.getStatements(studyURI, hasPart, None)
+        jsonResult = parseAgraphStatementsRes(statements)
+        statements.close()
 
-		return jsonResult,200
+        return jsonResult,200
 
-	@login_required
-	def post(self, id):
+    @login_required
+    def post(self, id):
 
-		#Agraph
-		args=pipeline_post_parser.parse_args()
-		newpipelineid=args.pipeline_id
-		pipelineURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(newpipelineid))#need new pipeline ID
+        args = pipeline_post_parser.parse_args()
+        newpipelineid = args.pipeline_id
+        pipelineURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(newpipelineid))#need new pipeline ID
 
-		studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
-		hasPart = dbconAg.createURI(namespace=obo, localname="BFO_0000051")
-		pipelineType = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
+        studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
+        hasPart = dbconAg.createURI(namespace=obo, localname="BFO_0000051")
+        pipelineType = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
 
-		dbconAg.add(pipelineURI, RDF.TYPE, pipelineType)
-		dbconAg.add(studyURI, hasPart, pipelineURI)
+        dbconAg.add(pipelineURI, RDF.TYPE, pipelineType)
+        dbconAg.add(studyURI, hasPart, pipelineURI)
 
-		return 201
-		
+        return 201
 
-	def delete(self, id):
+    def delete(self, id):
 
-		args=pipeline_delete_parser.parse_args()
-		pipeline_id=args.pipeline_id
-		#Agraph
-		studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
-		hasPart = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
-		pipelineURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(pipeline_id))
-		dbconAg.remove(studyURI, hasPart, pipelineURI)
+        args = pipeline_delete_parser.parse_args()
+        pipeline_id = args.pipeline_id
 
-		return 204
+        studyURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id))
+        hasPart = dbconAg.createURI(namespace=obo, localname="OBI_0000471")
+        pipelineURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(pipeline_id))
+        dbconAg.remove(studyURI, hasPart, pipelineURI)
+
+        return 204

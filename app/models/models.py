@@ -78,7 +78,7 @@ class User(db.Model, UserMixin):
                 'iso-8859-1')
 
             unicode_pass_new = unicode(
-                '\"' + str(password) + '\"',
+                '\"' + str(new_password) + '\"',
                 'iso-8859-1')
 
             hash_object_old = hashlib.md5(unicode_pass_old)

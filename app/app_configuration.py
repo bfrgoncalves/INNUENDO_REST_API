@@ -76,11 +76,11 @@ def change_password():
 
             print result
             if result == False:
-                return False
+                return {"status": False}
 
         except ldap.INVALID_CREDENTIALS, e:
             print e
-            return False
+            return {"status": False}
 
         if request.form.get('new_password') == request.form.get(
                 'new_password_confirm'):
@@ -92,7 +92,7 @@ def change_password():
             print "passwords dont match"
 
     else:
-        return False
+        return {"status": False}
 
     '''
     form_class = _security.change_password_form

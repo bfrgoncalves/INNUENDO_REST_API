@@ -3,6 +3,7 @@ from app import db
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
 from config import LDAP_PROVIDER_URL, baseDN
+import hashlib
 
 '''
 Models:
@@ -74,8 +75,11 @@ class User(db.Model, UserMixin):
             unicode_pass = unicode(
                 '\"' + str(password) + '\"',
                 'iso-8859-1')
-            password_value = unicode_pass.encode('utf-16-le')
-            add_pass = [(ldap.MOD_REPLACE, 'unicodePwd', [password_value])]
+
+            hash_object = hashlib.md5(unicode_pass)
+
+            password_value = hash_object.hexdigest()
+            add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
 
             conn.modify_s("cn=" + email + ",ou=users," + baseDN, add_pass)
 

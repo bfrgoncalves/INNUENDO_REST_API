@@ -65,8 +65,14 @@ def after_request(response):
 def change_password():
     """View function which handles a change password request."""
 
-    form_class = _security.change_password_form
+    print request
+    print request.form.get('password')
+    print request.form.get('new_password')
+    print request.form.get('new_password_confirm')
 
+    '''
+    form_class = _security.change_password_form
+    
     if request.is_json:
         form = form_class(MultiDict(request.get_json()))
     else:
@@ -84,6 +90,7 @@ def change_password():
     if request.is_json:
         form.user = current_user
         return _render_json(form)
+    '''
 
     return {'foo': 'bar'}
 

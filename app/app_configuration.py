@@ -70,6 +70,25 @@ def change_password():
     print request.form.get('new_password')
     print request.form.get('new_password_confirm')
 
+    try:
+        result = User.try_login(current_user.username, request.form.get('password'))
+        print result
+        if result == False:
+            return None
+
+    except ldap.INVALID_CREDENTIALS, e:
+        print e
+        return None
+
+    if request.form.get('new_password') == request.form.get(
+            'new_password_confirm'):
+
+        User.change_pass(current_user.username, request.form.get('new_password'))
+
+        print "password changed"
+    else:
+        print "passwords dont match"
+
     '''
     form_class = _security.change_password_form
     

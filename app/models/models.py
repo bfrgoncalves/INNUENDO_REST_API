@@ -64,6 +64,25 @@ class User(db.Model, UserMixin):
         else:
             return False
 
+    @staticmethod
+    def change_pass(email, password):
+        conn = get_ldap_connection()
+
+        try:
+            # Reset Password
+            unicode_pass = unicode(
+                '\"' + str(password) + '\"',
+                'iso-8859-1')
+            password_value = unicode_pass.encode('utf-16-le')
+            add_pass = [(ldap.MOD_REPLACE, 'unicodePwd', [password_value])]
+
+            conn.modify_s("cn=" + email + ",ou=users," + baseDN, add_pass)
+
+            return True
+
+        except Exception as e:
+            return False
+
 
 class Role(db.Model, RoleMixin):
     __tablename__ = "roles"

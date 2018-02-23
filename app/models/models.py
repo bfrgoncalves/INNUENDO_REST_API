@@ -91,6 +91,8 @@ class User(db.Model, UserMixin):
             password_value_old = {"userPassword": password_value_old}
             password_value_new = {"userPassword": password_value_new}
             print "2"
+            conn.simple_bind_s("cn=" + email + ",ou=users," + baseDN, old)
+
             ldif = modlist.modifyModlist(password_value_old, password_value_new)
             print "3"
             #add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]

@@ -55,6 +55,12 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
   return response
 
+
+@app.before_request
+def before_request(request):
+    print request.method
+
+
 @app.login_manager.request_loader
 def load_user_from_request(request):
 

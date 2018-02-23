@@ -1,13 +1,14 @@
 from flask_security import Security, SQLAlchemyUserDatastore, login_required,\
     current_user, utils, roles_required, user_registered, login_user, utils
-from flask_security.views import _security, _ctx
+from flask_security.views import _security, _ctx, _render_json, _commit
 from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
 from app.models.models import Specie, User
 import os
 import requests
 import ldap
-from flask import request
+from flask import request, after_this_request, redirect
 from werkzeug.datastructures import MultiDict
+from flask_security.changeable import change_user_password
 
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
@@ -64,6 +65,8 @@ def after_request(response):
 def change_password():
     print "AQUI 1"
 
+    """View function which handles a change password request."""
+
     form_class = _security.change_password_form
 
     if request.is_json:
@@ -71,13 +74,24 @@ def change_password():
     else:
         form = form_class()
 
+    if form.validate_on_submit():
+        after_this_request(_commit)
+        change_user_password(current_user._get_current_object(),
+                             form.new_password.data)
+        if not request.is_json:
+            utils.do_flash(*utils.get_message('PASSWORD_CHANGE'))
+            return redirect(utils.get_url(_security.post_change_view) or
+                            utils.get_url(_security.post_login_view))
+
+    if request.is_json:
+        form.user = current_user
+        return _render_json(form)
+
     return _security.render_template(
         utils.config_value('CHANGE_PASSWORD_TEMPLATE'),
         change_password_form=form,
         **_ctx('change_password')
     )
-
-    from .utils import config_value
 
 
 @app.login_manager.request_loader

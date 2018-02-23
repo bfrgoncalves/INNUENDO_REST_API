@@ -120,3 +120,7 @@ class UserQuotaResource(Resource):
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
                 "p_space": out3}
+
+
+class UserChangePass(Resource):
+    print "AQUI"

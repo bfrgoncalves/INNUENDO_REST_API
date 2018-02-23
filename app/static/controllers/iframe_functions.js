@@ -29,6 +29,12 @@ var loadReport = (selectedRows, current_project_d) => {
         if(frame !== undefined){
             frame.loadReport(selectedRows, current_project_d);
         }
-    }, 5000);
+
+        $("#overlayProjects").css({"display":"none"});
+        $("#overlayWorking").css({"display":"none"});
+        $("#single_project_controller_div").css({"display":"block"});
+        $("#submission_status").empty();
+
+    }, 3000);
 
 };

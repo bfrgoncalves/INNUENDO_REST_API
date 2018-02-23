@@ -68,9 +68,11 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def change_pass(entry, password):
-        l = ldap.initialize(LDAP_PROVIDER_URL)
+
+        l = ldap.open(LDAP_PROVIDER_URL)
 
         entry.entry_get_dn()
+
         try:
             # Reset Password
             unicode_pass = unicode(

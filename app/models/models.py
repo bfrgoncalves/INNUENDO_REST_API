@@ -1,4 +1,5 @@
 import ldap
+import ldap.modlist as modlist
 from app import db
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
@@ -67,26 +68,35 @@ class User(db.Model, UserMixin):
             return False
 
     @staticmethod
-    def change_pass(entry, password):
-
-        l = ldap.open(LDAP_PROVIDER_URL)
-
-        entry.entry_get_dn()
+    def change_pass(email, old, new_password):
+        conn = get_ldap_connection()
 
         try:
             # Reset Password
-            unicode_pass = unicode(
+            unicode_pass_old = unicode(
+                '\"' + str(old) + '\"',
+                'iso-8859-1')
+
+            unicode_pass_new = unicode(
                 '\"' + str(password) + '\"',
                 'iso-8859-1')
 
-            hash_object = hashlib.md5(unicode_pass)
+            hash_object_old = hashlib.md5(unicode_pass_old)
+            hash_object_new = hashlib.md5(unicode_pass_new)
 
-            password_value = hash_object.hexdigest()
-            add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
+            password_value_old = hash_object_old.hexdigest()
+            password_value_new = hash_object_new.hexdigest()
+
+            old = {'userPassword': 'User object for replication using slurpd'}
+            new = {'userPassword': 'Bind object used for replication using slurpd'}
+
+            ldif = modlist.modifyModlist(password_value_old, password_value_new)
+
+            #add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
 
             print add_pass
-            print entry.entry_get_dn()
-            l.modify_s(entry.entry_get_dn(), add_pass)
+            print "cn=" + email + ",ou=users," + baseDN
+            conn.modify_s("cn=" + email + ",ou=users," + baseDN, ldif)
 
             return True
 

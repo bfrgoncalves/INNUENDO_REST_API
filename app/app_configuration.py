@@ -1,6 +1,4 @@
-from flask_security import Security, SQLAlchemyUserDatastore, login_required,\
-    current_user, utils, roles_required, user_registered, login_user, \
-    change_password
+from flask_security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
 from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
 from app.models.models import Specie, User
 import os
@@ -57,9 +55,7 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
   return response
 
-@change_password
-def change_password():
-    print "AQUI"
+
 
 @app.login_manager.request_loader
 def load_user_from_request(request):

@@ -101,6 +101,7 @@ class User(db.Model, UserMixin):
             return True
 
         except Exception as e:
+            print e
             return False
 
 

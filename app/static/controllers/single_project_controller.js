@@ -52,7 +52,7 @@ const set_headers_single_project = (table_id, global_strains) => {
     let matching_fields = metadata.get_dict_fields_reverse();
     let minimal_fields = metadata.get_default_headers();
     let headers_order = metadata.get_minimal_fields();
-    let dict_fields = metadata.get_dict_fields()
+    let dict_fields = metadata.get_dict_fields();
     let strains_headers = [];
     let p_col_defs = [];
 
@@ -255,7 +255,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $scope.createPipeline = single_project.create_pipeline;
     $scope.getIdsFromProjects = single_project.get_ids_from_processes;
 
-    const objects_utils = Objects_Utils(single_project);
+    const objects_utils = Objects_Utils(single_project, $scope);
     const metadata = Metadata();
 
     metadata.add_owner(CURRENT_USER_NAME);

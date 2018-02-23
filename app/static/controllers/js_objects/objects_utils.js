@@ -20,7 +20,7 @@ Launch a object_utils instance
 
 let protocols_on_table = {};
 
-const Objects_Utils = (single_project) => {
+const Objects_Utils = (single_project, $sc) => {
 
 
     const format_analysis = ( d, table_id ) => {
@@ -71,7 +71,7 @@ const Objects_Utils = (single_project) => {
                 text: "Show Reports",
                 action: ( e, dt, node, config ) => {
 
-                    single_project.showReports(dt, () => {
+                    single_project.showReports(dt, $sc, () => {
 
                     });
 

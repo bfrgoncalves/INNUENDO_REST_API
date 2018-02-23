@@ -12,7 +12,7 @@ var setUpFrame = () => {
     }
 };
 
-var loadReport = (selectedRows, current_project_d) => {
+var loadReport = (selectedRows, current_project_d, scope) => {
 
     $("#overlayProjects").css({"display":"block"});
     $("#overlayWorking").css({"display":"block"});
@@ -20,6 +20,8 @@ var loadReport = (selectedRows, current_project_d) => {
     $("#submission_status").empty();
 
     $("#reports_button").trigger("click");
+
+    scope.selectedTemplate.path = '/app/static/html_components/reports_view.html';
 
     setTimeout(() => {
         const reportFrameEl = $("#reportsIframe");

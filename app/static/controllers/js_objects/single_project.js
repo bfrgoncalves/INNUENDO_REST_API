@@ -2410,7 +2410,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		/*
 		Show reports from single project table
 		 */
-		showReports: (dt, callback) => {
+		showReports: (dt, scope, callback) => {
 
             let selectedRows = $.map(dt.rows(".selected").data(), (d) => {
                 return d.strainID;
@@ -2423,7 +2423,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             else {
                 console.log(selectedRows, CURRENT_PROJECT_ID);
                 //Send to reports Page
-                loadReport(selectedRows, CURRENT_PROJECT_ID);
+                loadReport(selectedRows, CURRENT_PROJECT_ID, scope);
             }
 		    callback();
         },

@@ -63,8 +63,6 @@ def after_request(response):
 
 @security.change_password_context_processor
 def change_password():
-    print "AQUI 1"
-
     """View function which handles a change password request."""
 
     form_class = _security.change_password_form
@@ -87,11 +85,7 @@ def change_password():
         form.user = current_user
         return _render_json(form)
 
-    return _security.render_template(
-        utils.config_value('CHANGE_PASSWORD_TEMPLATE'),
-        change_password_form=form,
-        **_ctx('change_password')
-    )
+    return {'foo': 'bar'}
 
 
 @app.login_manager.request_loader

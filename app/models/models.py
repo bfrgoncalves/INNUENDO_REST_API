@@ -73,7 +73,7 @@ class User(db.Model, UserMixin):
 
         try:
             # Reset Password
-            unicode_pass_old = unicode(
+            '''unicode_pass_old = unicode(
                 '\"' + str(old) + '\"',
                 'iso-8859-1')
 
@@ -81,15 +81,15 @@ class User(db.Model, UserMixin):
                 '\"' + str(new_password) + '\"',
                 'iso-8859-1')
 
-            hash_object_old = hashlib.md5(unicode_pass_old)
+            hash_object_old = 
             hash_object_new = hashlib.md5(unicode_pass_new)
             print "1"
 
             password_value_old = hash_object_old.hexdigest()
-            password_value_new = hash_object_new.hexdigest()
+            password_value_new = hash_object_new.hexdigest()'''
 
-            password_value_old = {"userPassword": password_value_old}
-            password_value_new = {"userPassword": password_value_new}
+            password_value_old = {"userPassword": old}
+            password_value_new = {"userPassword": new_password}
             print "2"
             conn.simple_bind_s("cn=" + email + ",ou=users," + baseDN, old)
 

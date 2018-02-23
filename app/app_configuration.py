@@ -57,12 +57,6 @@ def after_request(response):
   return response
 
 
-def change_password():
-    print "AQUI"
-
-
-views.change_password = change_password
-
 @app.login_manager.request_loader
 def load_user_from_request(request):
 

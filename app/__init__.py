@@ -62,7 +62,7 @@ from flask_admin import Admin
 
 
 #setup agraph
-server= AllegroGraphServer(AG_HOST, AG_PORT, AG_USER, AG_PASSWORD)
+server = AllegroGraphServer(AG_HOST, AG_PORT, AG_USER, AG_PASSWORD)
 catalog = server.openCatalog()             ## default rootCatalog
    
 myRepository = catalog.getRepository(AG_REPOSITORY, Repository.OPEN)

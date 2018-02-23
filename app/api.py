@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource, ProjectListAllResource
 from resources.postgres.users import UserResource, UserListResource, \
-    UserExternalLogin, UserQuotaResource, UserChangePass
+    UserExternalLogin, UserQuotaResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
 from resources.postgres.protocols import ProtocolResource, ProtocolListResource, ProtocolByIDResource
@@ -38,7 +38,6 @@ api.add_resource(UserListResource, '/api/v1.0/users/', endpoint = 'all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint = 'single_user')
 api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/', endpoint ='user_quota')
 api.add_resource(UserExternalLogin, '/api/v1.0/user/external/login/', endpoint = 'single_user_external')
-api.add_resource(UserChangePass, '/change', endpoint = 'change_password')
 
 api.add_resource(ProjectListUserResource, '/api/v1.0/projects/', endpoint = 'user_projects')
 api.add_resource(ProjectListAllResource, '/api/v1.0/projects/all/', endpoint = 'all_projects')

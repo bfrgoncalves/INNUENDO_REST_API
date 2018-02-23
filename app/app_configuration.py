@@ -57,6 +57,10 @@ def after_request(response):
   return response
 
 
+@security.change_password_context_processor
+def change_password_context_processor():
+    print "AQUI 1"
+
 @app.login_manager.request_loader
 def load_user_from_request(request):
 

@@ -19,8 +19,6 @@ var loadReport = (selectedRows, current_project_d, scope) => {
     $("#single_project_controller_div").css({"display":"none"});
     $("#submission_status").empty();
 
-    console.log(scope);
-
     scope.$apply( () => {
         scope.selectedTemplate.path = '/app/static/html_components/reports_view.html';
     });

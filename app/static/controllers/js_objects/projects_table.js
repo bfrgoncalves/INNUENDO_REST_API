@@ -96,7 +96,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     else{
                         projects = [];
                         response.data.map( (d) => {
-                            console.log(d);
+
                             if(d.is_removed !== "true") {
 
                                 let lockStatus = "";

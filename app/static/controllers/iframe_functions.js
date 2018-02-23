@@ -25,9 +25,10 @@ var loadReport = (selectedRows, current_project_d) => {
         const reportFrameEl = $("#reportsIframe");
         var frame = reportFrameEl.get(0).document || reportFrameEl.get(0).contentWindow;
 
+        console.log(frame);
         if(frame !== undefined){
             frame.loadReport(selectedRows, current_project_d);
         }
-    }, 1000);
+    }, 5000);
 
 };

@@ -57,12 +57,6 @@ def after_request(response):
   return response
 
 
-@password_changed.connect_via(app)
-def _record_user_password_changed(sender, user, **extra):
-    print sender
-    print user
-    print("This one does not work")
-
 def change_password():
     print "AQUI"
 

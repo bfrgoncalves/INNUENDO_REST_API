@@ -85,9 +85,11 @@ def change_password():
         if request.form.get('new_password') == request.form.get(
                 'new_password_confirm'):
 
-            User.change_pass(current_user.username, request.form.get('new_password'))
+            status = User.change_pass(current_user.username, request.form.get(
+                'new_password'))
 
-            print "password changed"
+            if status:
+                print "password changed"
         else:
             print "passwords dont match"
 

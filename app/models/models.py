@@ -82,6 +82,7 @@ class User(db.Model, UserMixin):
             add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
 
             print add_pass
+            print "cn=" + email + ",ou=users," + baseDN
             conn.modify_s("cn=" + email + ",ou=users," + baseDN, add_pass)
 
             return True

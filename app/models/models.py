@@ -83,17 +83,18 @@ class User(db.Model, UserMixin):
 
             hash_object_old = hashlib.md5(unicode_pass_old)
             hash_object_new = hashlib.md5(unicode_pass_new)
+            print "1"
 
             password_value_old = hash_object_old.hexdigest()
             password_value_new = hash_object_new.hexdigest()
-
+            print "2"
             ldif = modlist.modifyModlist(password_value_old, password_value_new)
-
+            print "3"
             #add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
 
             print "cn=" + email + ",ou=users," + baseDN
             conn.modify_s("cn=" + email + ",ou=users," + baseDN, ldif)
-
+            print "4"
             return True
 
         except Exception as e:

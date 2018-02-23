@@ -87,6 +87,9 @@ class User(db.Model, UserMixin):
 
             password_value_old = hash_object_old.hexdigest()
             password_value_new = hash_object_new.hexdigest()
+
+            password_value_old = {"userPassword": password_value_old}
+            password_value_new = {"userPassword": password_value_new}
             print "2"
             ldif = modlist.modifyModlist(password_value_old, password_value_new)
             print "3"

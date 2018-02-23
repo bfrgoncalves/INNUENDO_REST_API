@@ -31,13 +31,12 @@ var loadReport = (selectedRows, current_project_d, scope) => {
 
         console.log(frame);
         if(frame !== undefined){
+            $("#overlayProjects").css({"display":"none"});
+            $("#overlayWorking").css({"display":"none"});
+            $("#single_project_controller_div").css({"display":"block"});
+            $("#submission_status").empty();
             frame.loadReport(selectedRows, current_project_d);
         }
-
-        $("#overlayProjects").css({"display":"none"});
-        $("#overlayWorking").css({"display":"none"});
-        $("#single_project_controller_div").css({"display":"block"});
-        $("#submission_status").empty();
 
     }, 3000);
 

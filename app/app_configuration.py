@@ -1,5 +1,5 @@
 from flask_security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
-from flask_security.signals import password_changed
+from flask_security import views
 from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
 from app.models.models import Specie, User
 import os
@@ -63,6 +63,11 @@ def _record_user_password_changed(sender, user, **extra):
     print user
     print("This one does not work")
 
+def change_password():
+    print "AQUI"
+
+
+views.change_password = change_password
 
 @app.login_manager.request_loader
 def load_user_from_request(request):

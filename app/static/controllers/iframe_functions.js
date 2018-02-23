@@ -19,8 +19,6 @@ var loadReport = (selectedRows, current_project_d, scope) => {
     $("#single_project_controller_div").css({"display":"none"});
     $("#submission_status").empty();
 
-    $("#reports_button").trigger("click");
-
     scope.selectedTemplate.path = '/app/static/html_components/reports_view.html';
 
     setTimeout(() => {

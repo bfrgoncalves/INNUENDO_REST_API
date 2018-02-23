@@ -218,7 +218,7 @@ table.table td {
 
 #overlayProjects{
   z-index: 9998;
-  background-color: #8c8c8c;
+  background-color: #eee;
   opacity: 1;
   height: 100%;
   width: 100%;

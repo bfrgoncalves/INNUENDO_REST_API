@@ -44,6 +44,7 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def try_login(email, password):
+        print email
         conn = get_ldap_connection()
         try:
             conn.simple_bind_s("cn="+email+",ou=users,"+baseDN, password)

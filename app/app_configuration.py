@@ -72,6 +72,7 @@ def change_password():
 
     try:
         result = User.try_login(current_user.username, request.form.get('password'))
+
         print result
         if result == False:
             return None

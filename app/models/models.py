@@ -88,8 +88,8 @@ class User(db.Model, UserMixin):
             password_value_old = hash_object_old.hexdigest()
             password_value_new = hash_object_new.hexdigest()'''
 
-            password_value_old = {"userPassword": old}
-            password_value_new = {"userPassword": new_password}
+            password_value_old = {"userPassword": str(old)}
+            password_value_new = {"userPassword": str(new_password)}
             print "2"
             conn.simple_bind_s("cn=" + email + ",ou=users," + baseDN, old)
 

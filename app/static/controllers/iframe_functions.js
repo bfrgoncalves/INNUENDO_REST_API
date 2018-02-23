@@ -13,10 +13,21 @@ var setUpFrame = () => {
 };
 
 var loadReport = (selectedRows, current_project_d) => {
-    const reportFrameEl = $("#reportsIframe");
-    var frame = reportFrameEl.get(0).document || reportFrameEl.get(0).contentWindow;
 
-    if(frame !== undefined){
-        frame.loadReport(selectedRows, current_project_d);
-    }
+    $("#overlayProjects").css({"display":"block"});
+    $("#overlayWorking").css({"display":"block"});
+    $("#single_project_controller_div").css({"display":"none"});
+    $("#submission_status").empty();
+
+    $("#reports_button").trigger("click");
+
+    setTimeout(() => {
+        const reportFrameEl = $("#reportsIframe");
+        var frame = reportFrameEl.get(0).document || reportFrameEl.get(0).contentWindow;
+
+        if(frame !== undefined){
+            frame.loadReport(selectedRows, current_project_d);
+        }
+    }, 1000);
+
 };

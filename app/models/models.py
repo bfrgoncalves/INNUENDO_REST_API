@@ -87,14 +87,10 @@ class User(db.Model, UserMixin):
             password_value_old = hash_object_old.hexdigest()
             password_value_new = hash_object_new.hexdigest()
 
-            old = {'userPassword': 'User object for replication using slurpd'}
-            new = {'userPassword': 'Bind object used for replication using slurpd'}
-
             ldif = modlist.modifyModlist(password_value_old, password_value_new)
 
             #add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
 
-            print add_pass
             print "cn=" + email + ",ou=users," + baseDN
             conn.modify_s("cn=" + email + ",ou=users," + baseDN, ldif)
 

@@ -67,9 +67,10 @@ class User(db.Model, UserMixin):
             return False
 
     @staticmethod
-    def change_pass(email, password):
-        conn = get_ldap_connection()
+    def change_pass(entry, password):
+        l = ldap.initialize(LDAP_PROVIDER_URL)
 
+        entry.entry_get_dn()
         try:
             # Reset Password
             unicode_pass = unicode(
@@ -82,8 +83,8 @@ class User(db.Model, UserMixin):
             add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
 
             print add_pass
-            print "cn=" + email + ",ou=users," + baseDN
-            conn.modify_s("cn=" + email + ",ou=users," + baseDN, add_pass)
+            print entry.entry_get_dn()
+            l.modify_s(entry.entry_get_dn(), add_pass)
 
             return True
 

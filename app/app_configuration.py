@@ -1,6 +1,5 @@
-from flask_security import Security, SQLAlchemyUserDatastore, login_required,\
-    current_user, utils, roles_required, user_registered, login_user, \
-    password_changed
+from flask_security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
+from flask_security.signals import password_changed
 from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
 from app.models.models import Specie, User
 import os

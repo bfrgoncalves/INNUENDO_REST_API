@@ -219,7 +219,7 @@ table.table td {
 #overlayProjects{
   z-index: 9998;
   background-color: #8c8c8c;
-  opacity: 0.1;
+  opacity: 1;
   height: 100%;
   width: 100%;
   position: fixed;

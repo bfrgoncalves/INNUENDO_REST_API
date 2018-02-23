@@ -38,7 +38,7 @@ api.add_resource(UserListResource, '/api/v1.0/users/', endpoint = 'all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint = 'single_user')
 api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/', endpoint ='user_quota')
 api.add_resource(UserExternalLogin, '/api/v1.0/user/external/login/', endpoint = 'single_user_external')
-api.add_resource(UserChangePass, '/api/v1.0/user/pass/change', endpoint = 'change_pass')
+api.add_resource(UserChangePass, '/change', endpoint = 'change_password')
 
 api.add_resource(ProjectListUserResource, '/api/v1.0/projects/', endpoint = 'user_projects')
 api.add_resource(ProjectListAllResource, '/api/v1.0/projects/all/', endpoint = 'all_projects')

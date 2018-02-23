@@ -1,10 +1,13 @@
-from flask_security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
-from flask_security import views
+from flask_security import Security, SQLAlchemyUserDatastore, login_required,\
+    current_user, utils, roles_required, user_registered, login_user, utils
+from flask_security.views import _security, _ctx
 from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
 from app.models.models import Specie, User
 import os
 import requests
 import ldap
+from flask import request
+from werkzeug.datastructures import MultiDict
 
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
@@ -60,6 +63,21 @@ def after_request(response):
 @security.change_password_context_processor
 def change_password():
     print "AQUI 1"
+
+    form_class = _security.change_password_form
+
+    if request.is_json:
+        form = form_class(MultiDict(request.get_json()))
+    else:
+        form = form_class()
+
+    return _security.render_template(
+        utils.config_value('CHANGE_PASSWORD_TEMPLATE'),
+        change_password_form=form,
+        **_ctx('change_password')
+    )
+
+    from .utils import config_value
 
 
 @app.login_manager.request_loader

@@ -81,15 +81,25 @@ def change_password():
         if request.form.get('new_password') == request.form.get(
                 'new_password_confirm'):
 
-            status = User.change_pass(current_user.username,
-                                      request.form.get('password'),
-                                      request.form.get('new_password'))
+            form_class = _security.change_password_form
 
-            if status:
-                do_flash(*get_message('PASSWORD_CHANGE'))
-                print "password changed"
-                return redirect(get_url(_security.post_change_view) or
-                                get_url(_security.post_login_view))
+            if request.is_json:
+                form = form_class(MultiDict(request.get_json()))
+            else:
+                form = form_class()
+
+            if form.validate_on_submit():
+                after_this_request(_commit)
+
+                status = User.change_pass(current_user.username,
+                                          request.form.get('password'),
+                                          request.form.get('new_password'))
+
+                if status:
+                    do_flash(*get_message('PASSWORD_CHANGE'))
+                    print "password changed"
+                    return redirect(get_url(_security.post_change_view) or
+                                    get_url(_security.post_login_view))
         else:
             print "passwords dont match"
 

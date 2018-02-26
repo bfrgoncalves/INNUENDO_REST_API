@@ -217,6 +217,11 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
                 setTimeout( () => {
                     $("#modify_strains_table").DataTable().draw();
+
+                    $('.datetimepicker').datetimepicker({
+                        format: 'DD/MM/YYYY'
+                    });
+
                 }, 200);
             });
         });

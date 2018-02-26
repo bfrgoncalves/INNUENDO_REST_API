@@ -82,6 +82,7 @@ def change_password():
 
         except ldap.INVALID_CREDENTIALS, e:
             print e
+            do_flash(*get_message('INVALID_PASSWORD'))
             return {"status": False}
 
         if request.form.get('new_password') == request.form.get('password'):
@@ -115,30 +116,6 @@ def change_password():
             do_flash(*get_message('PASSWORD_NOT_PROVIDED'))
         return {"status": False}
 
-    '''
-    form_class = _security.change_password_form
-    
-    if request.is_json:
-        form = form_class(MultiDict(request.get_json()))
-    else:
-        form = form_class()
-
-    if form.validate_on_submit():
-        after_this_request(_commit)
-        change_user_password(current_user._get_current_object(),
-                             form.new_password.data)
-        if not request.is_json:
-            utils.do_flash(*utils.get_message('PASSWORD_CHANGE'))
-            return redirect(utils.get_url(_security.post_change_view) or
-                            utils.get_url(_security.post_login_view))
-
-    if request.is_json:
-        form.user = current_user
-        return _render_json(form)
-    '''
-
-    return {'foo': 'bar'}
-
 
 @app.login_manager.request_loader
 def load_user_from_request(request):
@@ -153,9 +130,11 @@ def load_user_from_request(request):
             result = User.try_login(username, password)
             print result
             if result == False:
+                do_flash(*get_message('INVALID_PASSWORD'))
                 return None
         except ldap.INVALID_CREDENTIALS, e:
             print e
+            do_flash(*get_message('INVALID_PASSWORD'))
             return None
 
         user = User.query.filter_by(username=result['uid'][0]).first()

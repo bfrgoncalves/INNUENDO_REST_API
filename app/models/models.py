@@ -88,8 +88,8 @@ class User(db.Model, UserMixin):
             password_value_old = hash_object_old.hexdigest()
             password_value_new = hash_object_new.hexdigest()'''
 
-            password_value_old = {"userPassword": ldap_md5.hash(str(old))}
-            password_value_new = {"userPassword": ldap_md5.hash(str(new_password))}
+            password_value_old = {"userPassword": ldap_md5.encrypt(str(old))}
+            password_value_new = {"userPassword": ldap_md5.encrypt(str(new_password))}
             print "2"
             conn.simple_bind_s("cn=" + email + ",ou=users," + baseDN, old)
 

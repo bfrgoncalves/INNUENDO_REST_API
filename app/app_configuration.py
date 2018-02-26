@@ -88,6 +88,7 @@ def change_password():
             if status:
                 do_flash(*get_message('PASSWORD_CHANGE'))
                 print "password changed"
+                return {"status": True}
         else:
             print "passwords dont match"
 

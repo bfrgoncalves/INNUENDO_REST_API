@@ -81,7 +81,7 @@ def change_password():
         if request.form.get('new_password') == request.form.get(
                 'new_password_confirm'):
 
-            after_this_request(_commit)
+            #after_this_request(_commit)
 
             status = User.change_pass(current_user.username,
                                       request.form.get('password'),

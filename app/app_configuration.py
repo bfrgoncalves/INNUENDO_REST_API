@@ -10,7 +10,7 @@ from flask import request, after_this_request, redirect
 from werkzeug.datastructures import MultiDict
 from flask_security.changeable import change_user_password
 
-from flask_security.utils import do_flash, get_message
+from flask_security.utils import do_flash, get_message, get_url
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
 
@@ -88,7 +88,8 @@ def change_password():
             if status:
                 do_flash(*get_message('PASSWORD_CHANGE'))
                 print "password changed"
-                return {"status": True}
+                return redirect(get_url(_security.post_change_view) or
+                                get_url(_security.post_login_view))
         else:
             print "passwords dont match"
 

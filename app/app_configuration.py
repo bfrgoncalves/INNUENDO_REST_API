@@ -6,11 +6,12 @@ from app.models.models import Specie, User
 import os
 import requests
 import ldap
-from flask import request, after_this_request, redirect
+from flask import request, after_this_request, redirect, current_app
 from werkzeug.datastructures import MultiDict
 from flask_security.changeable import change_user_password
 
 from flask_security.utils import do_flash, get_message, get_url
+from flask_security.signals import password_changed
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
 
@@ -81,13 +82,15 @@ def change_password():
         if request.form.get('new_password') == request.form.get(
                 'new_password_confirm'):
 
-            after_this_request(_commit)
+            #after_this_request(_commit)
 
             status = User.change_pass(current_user.username,
                                       request.form.get('password'),
                                       request.form.get('new_password'))
 
             if status:
+                password_changed.send(current_app._get_current_object(),
+                                      user=current_user._get_current_object())
                 do_flash(*get_message('PASSWORD_CHANGE'))
                 print "password changed"
                 return {"status": True}

@@ -88,6 +88,9 @@ def change_password():
             else:
                 form = form_class()
 
+            print form
+            print form.validate_on_submit()
+
             if form.validate_on_submit():
                 after_this_request(_commit)
 

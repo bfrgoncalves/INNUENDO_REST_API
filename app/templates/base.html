@@ -26,9 +26,9 @@
     <link href="{{ url_for('static', filename='css/test_new_css.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/navbar_style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/components-font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
     {% block stylesheets %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
-    <date-util format="dd/MM/yyyy"></date-util>
 </head>
 <body>
 
@@ -67,6 +67,10 @@
     <script src="{{ url_for('static', filename='bower_components/datatables.net-bs/js/dataTables.bootstrap.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/html.sortable/dist/html.sortable.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='bower_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+
     <script src="{{ url_for('static', filename='controllers/main_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/js_objects/objects_utils.js') }}"></script>

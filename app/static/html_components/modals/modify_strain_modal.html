@@ -14,12 +14,12 @@
 			
 			<div class="row">
 				<div class="form-group col-md-6">
-					<label>Strain Identifier</label>
+					<label>Strain Identifier<sup>*</sup></label>
 					<input type="text" class="form-control" id="Primary" name="Primary" placeholder="Primary Identifier" required readonly="readonly">
 					<input type="text" class="form-control" id="Food-Bug" name="Food-Bug" placeholder="Food-Bug" required readonly="readonly">
 				</div>
 				<div class="form-group col-md-6">
-					<label>Source</label>
+					<label>Source<sup>*</sup></label>
 					<select class="form-control" id="Source" name="source_Source">
 						<option>Human</option>
 						<option>Food</option>
@@ -35,10 +35,29 @@
 			<div class="row">
 				<div class="form-group col-md-6">
 					<label>Sampling Date</label>
-					<input type="date" class="form-control" id="SamplingDate" name="SamplingDate">
+					<div class="form-group">
+                        <div class='input-group date datetimepicker'>
+                            <input type='text' class="form-control" id='Sampling-Date' name="SamplingDate"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <!--<input type="date" class="form-control"
+                            id="Sampling-Date" name="SamplingDate">-->
 					<br>
 					<label>Sample Received Date</label>
-					<input type="date" class="form-control" id="SampleReceivedDate" name="SampleReceivedDate">
+					<div class="form-group">
+                        <div class='input-group date datetimepicker'>
+                            <input type='text' class="form-control" id='Sample-Received-Date' name="SampleReceivedDate"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <!--<input type="date" class="form-control"
+                            id="Sample-Received-Date"
+                            name="SampleReceivedDate">-->
 				</div>
 				<div class="form-group col-md-6">
 					<label>Owner</label>
@@ -47,7 +66,7 @@
 			</div>
 			<div class="row">
 				<div class="form-group col-md-6">
-					<label>Submitter</label>
+					<label>Submitter<sup>*</sup></label>
 					<input type="text" class="form-control" id="Submitter" name="Submitter" placeholder="Submitter" value="{{ current_user_name }}" readonly="readonly">
 				</div>
 				<div class="form-group col-md-6">
@@ -68,6 +87,11 @@
 				</div>
 			</div>-->
 			<br>
+            <div class="row">
+                <div class="col-md-12">
+                    <p><b><sup>*</sup></b>Required Fields</p>
+                </div>
+            </div>
 			
 			<div class="row">
 				<div class="col-md-12" style="text-align:center;">

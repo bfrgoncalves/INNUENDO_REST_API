@@ -5,7 +5,7 @@
  * @returns {[null,null]}
  */
 const set_headers_metadata = (global_strains, procedure) => {
-    const metadata = new Metadata();
+    const metadata = Metadata();
     const matching_fields = metadata.get_dict_fields_reverse();
     //const minimal_fields = metadata.get_default_headers();
 

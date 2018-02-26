@@ -83,12 +83,15 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
 
     $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Dependency", "Timestamp"];
 
-    const modalAlert = (text, callback) => {
+    const modalAlert = (text, header, callback) => {
 
         const buttonSubEl = $('#buttonSub');
         const modalBodyEl = $('#modalAlert .modal-body');
 
         $('#buttonCancelAlert').off("click");
+
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
         modalBodyEl.empty();
         modalBodyEl.append("<p>"+text+"</p>");
@@ -235,7 +238,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             if(results.more_than_one === true){
                 modalAlert("At the moment, only one protocol can be applied" +
                     " to the workflow. We will improve this option in the" +
-                    " near future.", () => {
+                    " near future.", "Protocols", () => {
                     $scope.added_protocols = results.added_protocols;
                 });
             }
@@ -255,7 +258,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             $scope.$apply( () => {
                 $scope.added_protocols = results.added_protocols;
             });
-            modalAlert("The protocol was removed from the workflow.", () => {
+            modalAlert("The protocol was removed from the workflow.", "Protocol Removed", () => {
             });
         });
 
@@ -268,11 +271,11 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             updateWorkflows();
 
             if(status === true){
-                modalAlert("Workflow saved.", () => {
+                modalAlert("Workflow saved.", "Workflows", () => {
                 });
             }
             else{
-                modalAlert("An error as occurried when saving the workflow.", () => {
+                modalAlert("An error as occurried when saving the workflow.", "Error", () => {
                 });
             }
         });

@@ -85,12 +85,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     //Colors for the Running, Pending, Completed, Failed, and Warning of the workflows buttons
     let status_dict = {'R': '#42c2f4', 'PD': '#f49542', 'COMPLETED': '#42f442', 'FAILED': '#f75454', 'WARNING': '#f9fb30', 'NEUTRAL': '#ffffff'}
 
-    const modalAlert = (text, callback) => {
+    const modalAlert = (text, header, callback) => {
 
     	const buttonSub = $('#buttonSub');
     	const modalBodyEl = $('#modalAlert .modal-body');
 
     	$('#buttonCancelAlert').off("click");
+
+    	$('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
     	modalBodyEl.empty();
     	modalBodyEl.append("<p>"+text+"</p>");
@@ -214,7 +217,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 			}
 			else{
-				modalAlert(response.data.message.split('.')[0]+'.', () => {});
+				modalAlert(response.data.message.split('.')[0]+'.', "Warning", () => {});
         		callback({message:"Strain already on Project."})
 			}
 		});
@@ -916,7 +919,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            });
 		        }
 		    }
-		    else modalAlert('Please select some strains first.', () => {});
+		    else modalAlert('Please select some strains first.', "Select" +
+                " Strains", () => {});
 		},
 
 		/*
@@ -960,7 +964,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 							if(is_from_file === true) {
 							    $('#status_upload_from_file').append(to_append);
                             }
-							else modalAlert(to_append, function(){});
+							else modalAlert(to_append, "Info", () => {});
 						}
 						
 						pg_requests.get_project_strains_2(response.data.id, false, (response, strain_id, is_there) => {
@@ -1032,7 +1036,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 							if(is_from_file === true) {
 							    $('#status_upload_from_file').append(to_append);
                             }
-							else modalAlert(to_append, () => {});
+							else modalAlert(to_append, "Info", () => {});
 
 							callback(results, is_from_file);
 			            });
@@ -1040,7 +1044,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 				}
 				else{
 					modalAlert("An error as occurried when creating a new" +
-                        " strain.", () => {});
+                        " strain.", "Error", () => {});
 				}
 			});
 		},
@@ -1123,7 +1127,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		    	modalAlert("By accepting this option you are removing the" +
                     " strain/strains from the project. Do you really want" +
-                    " proceed?", () => {
+                    " proceed?", "Warning", () => {
 
 			    	while(strain_names.length !== 0){
 
@@ -1182,7 +1186,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		    if (strain_data.length === 0) {
 		        modalAlert('Select strains to' +
-                    ' apply procedures.', () => {});
+                    ' apply procedures.', "Select Strains", () => {});
             }
 
 		    let counter = -1;
@@ -1248,7 +1252,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			        	else {
 			        	    message = 'Procedures applied.';
                         }
-			    		modalAlert(message, () => {});
+			    		modalAlert(message, "Info", () => {});
 			        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
 			        	return;
 			        }
@@ -1400,7 +1404,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        	else {
 	        	        message = 'Procedures applied.';
                     }
-		    		modalAlert(message, () => {});
+		    		modalAlert(message, "Info", () => {});
 
 		        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
 		        }
@@ -1469,7 +1473,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    //CASE THERE ARE NO STRAINS SELECTED
 		    if(strain_names.length === 0){
 		    	modalAlert('Please select at least one strain before running' +
-                    ' any analysis.', () => {});
+                    ' any analysis.', "Select Strains", () => {});
 		    	return callback("no_select");
 		    }
 		    
@@ -1643,7 +1647,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         message = "<p>Jobs for all the selected strains have been submitted.</p>";
                     }
 
-                    modalAlert(message, function(){});
+                    modalAlert(message, "Info", () => {});
                     $('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
                     $("#overlayProjects").css({"display":"none"});
                     $("#overlayWorking").css({"display":"none"});
@@ -2156,7 +2160,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 			if(real_p_data === undefined){
 				modalAlert('The output you are trying to obtain is not' +
-                    ' available yet.', () => {
+                    ' available yet.', "Information", () => {
 
 				});
 			}
@@ -2172,7 +2176,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 	    */
 		download_result: (response, callback) => {
 			if(response.data.length === 0 || response.data[0].file_3 === 'None'){
-				return modalAlert('The requested file is not available.', () => {});
+				return modalAlert('The requested file is not available.', "Information", () => {});
 			}
 
 			let f_path = response.data[0].file_3.split('^^')[0].replace(/"/g, "")
@@ -2187,7 +2191,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 	    */
 		download_log: (response, callback) => {
 			if(response.data.length === 0 || response.data[0].file_4 === 'None'){
-				return modalAlert('The requested file is not available.', () => {});
+				return modalAlert('The requested file is not available.', "Information", () => {});
 			}
 
 			let f_path = response.data[0].file_4.split('^^')[0].replace(/"/g, "")
@@ -2369,7 +2373,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						//console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
 			}
-			modalAlert("Procedure removed. This action will only be applied when running consequent analysis on this strain.", function(){});
+			modalAlert("Procedure removed. This action will only be applied" +
+                " when running consequent analysis on this strain.", "Procedure Removed", () => {});
 			callback({strains: strain_data, indexes:strain_indexes});
 
 		},
@@ -2418,7 +2423,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		    if(selectedRows.length === 0){
 		        modalAlert("Please select one or more entries from the" +
-                    " Project first.", () => {});
+                    " Project first.", "Select Strains", () => {});
             }
             else {
                 //Send to reports Page
@@ -2545,7 +2550,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						$("#single_project_controller_div").css({"display":"block"});
 						$("#submission_status").empty();
 
-		      			modalAlert(toModal, () => {
+		      			modalAlert(toModal, "Information", () => {
 		      					
 	      				});
 	      				return;
@@ -2561,7 +2566,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 							$("#single_project_controller_div").css({"display":"block"});
 							$("#submission_status").empty();
 
-		      				modalAlert("Uploaded file seems to be miss-formatted. Check if the number of headers and the rest of the file are the same.", function(){
+		      				modalAlert("Uploaded file seems to be" +
+                                " miss-formatted. Check if the number of" +
+                                " headers and the rest of the file are the" +
+                                " same.", "Warning", () => {
 		      					
 		      				});
 		      				return;
@@ -2770,7 +2778,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 					$("#single_project_controller_div").css({"display":"block"});
 					$("#submission_status").empty();
 
-		      		modalAlert( toModal , () => {
+		      		modalAlert( toModal , "Information", () => {
 
 		      		});
 		      	}

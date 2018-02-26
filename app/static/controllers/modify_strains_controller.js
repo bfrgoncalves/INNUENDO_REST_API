@@ -173,13 +173,16 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
     let global_public_strains = [];
 
 
-    const modalAlert = (text, callback) => {
+    const modalAlert = (text, header, callback) => {
 
         const buttonSubEl = $('#buttonSub');
         const modalBodyEl = $('#modalAlert .modal-body');
         const modalAlertEl = $('#modalAlert');
 
         $('#buttonCancelAlert').off("click");
+
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
         modalBodyEl.empty();
         modalBodyEl.append("<p>"+text+"</p>");
@@ -222,7 +225,8 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
             }
             else{
                 modalAlert("There are no strains associated with this" +
-                    " species. Define a new strain inside a Project.");
+                    " species. Define a new strain inside a Project.", "No" +
+                    " Strains in Project!", () => {});
             }
 
             objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, () => {
@@ -250,7 +254,7 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
         });
 
         if (strain_selected.length === 0){
-            modalAlert("Please select a strain first.", () => {
+            modalAlert("Please select a strain first.", "Select Strains", () => {
 
             });
             return;
@@ -283,7 +287,7 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
                 objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, () => {
                     objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
-                    modalAlert("Strain metadata was modified.", () => {
+                    modalAlert("Strain metadata was modified.", "Success!", () => {
                     });
                 });
             });

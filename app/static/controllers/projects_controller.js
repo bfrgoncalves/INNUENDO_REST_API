@@ -108,13 +108,16 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     initHomeButtonsToggle();
 
-    const modalAlert = (text, callback) => {
+    const modalAlert = (text, header, callback) => {
 
         const buttonSubEl = $('#buttonSub');
         const modalBodyEl = $('#modalAlert .modal-body');
 
         buttonSubEl.off("click");
         $('#buttonCancelAlert').off("click");
+
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
         modalBodyEl.empty();
         modalBodyEl.append("<p>"+text+"</p>");

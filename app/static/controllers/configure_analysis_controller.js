@@ -57,10 +57,13 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
     }*/
 
-    function modalAlert(text, callback){
+    function modalAlert(text, header, callback){
 
     	$('#buttonSub').off("click");
     	$('#buttonCancelAlert').off("click");
+
+    	$('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");

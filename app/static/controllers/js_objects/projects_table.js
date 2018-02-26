@@ -20,12 +20,15 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
     const pg_requests = Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     const ngs_onto_requests = ngs_onto_client(CURRENT_PROJECT_ID, $http);
 
-    const modalAlert = (text, callback) => {
+    const modalAlert = (text, header, callback) => {
 
         const modalBodyEl = $('#modalAlert .modal-body');
         const buttonSub = $('#buttonSub');
 
         $('#buttonCancelAlert').off("click");
+
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
         modalBodyEl.empty();
         modalBodyEl.append("<p>"+text+"</p>");
@@ -150,15 +153,15 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id, username: response.data.username, lockStatus:lockStatus});
 
                     $('#newProjectModal').modal('hide');
-                    modalAlert('Project created.', () => {});
+                    modalAlert('Project created.', "Project", () => {});
                     callback({projects: projects});
                 }
                 else if(response.status === 409){
                     modalAlert('An error as occuried when creating the new' +
-                        ' project.' + response.data.message, () => {});
+                        ' project.' + response.data.message, "Error", () => {});
                 }
                 else modalAlert('An error as occuried when creating the new' +
-                        ' project.', () => {});
+                        ' project.', "Error", () => {});
             })
         },
 
@@ -179,7 +182,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
                 modalAlert("By accepting this option you are removing the" +
                     " project/projects from the application. Do you really" +
-                    " want proceed?", () => {
+                    " want proceed?", "Warning", () => {
 
                     for(const i in project_indexes){
                         const project_id = projects[project_indexes[i]].id;
@@ -217,7 +220,8 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
             }
 
             if (selected_indexes.length === 0 && pass !== true){
-                modalAlert('Please select a project first.', () => {});
+                modalAlert('Please select a project first.', "Select" +
+                    " Projects", () => {});
             }
             else{
                 pg_requests.load_project(CURRENT_PROJECT_ID, (response) => {
@@ -244,7 +248,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     ' reports and in the Project page. However, you will not be' +
                     ' able to run more analysis on this Project. This option is' +
                     ' useful to release space from the Storage. Do you really' +
-                    ' want to proceed?', (
+                    ' want to proceed?', "Project Lock", (
 
                 ) => {
                     pg_requests.lock_project(project_id, () => {
@@ -253,7 +257,8 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 });
             }
             else{
-                modalAlert('Please select a Project first.', (
+                modalAlert('Please select a Project first.', "Select" +
+                    " a Project", (
 
                 ) => {
                     callback();

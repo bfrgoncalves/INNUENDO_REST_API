@@ -307,12 +307,15 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     let global_public_strains = [];
 
 
-    const modalAlert = (text, callback) => {
+    const modalAlert = (text, header, callback) => {
 
         const buttonSubEl = $('#buttonSub');
         const modalBodyEl = $('#modalAlert .modal-body');
 
         $('#buttonCancelAlert').off("click");
+
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
         modalBodyEl.empty();
         modalBodyEl.append("<p>"+text+"</p>");
@@ -563,7 +566,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                 }
                             }
                             else modalAlert("All (chosen) strains have a" +
-                                " pipeline attached (to them).", () => {});
+                                " pipeline attached (to them).", "Information", () => {});
                         });
 
                         $('#add_new_pip_from_fileSubmit').on("click", () => {
@@ -605,7 +608,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                 }
                             }
                             else modalAlert("There are no strains available" +
-                                " to add pipelines.", () => {});
+                                " to add pipelines.", "No Strains" +
+                                " Available", () => {});
                         })
 
                     });
@@ -681,7 +685,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             const singleProjEl = $("#single_project_controller_div");
 
             if(haspending === true){
-                modalAlert('One or more of the selected strains have jobs already submitted. Please wait until they finish before submit new jobs for those strains.', function(){});
+                modalAlert('One or more of the selected strains have jobs' +
+                    ' already submitted. Please wait until they finish' +
+                    ' before submit new jobs for those strains.', "Jobs" +
+                    " Still Running", () => {});
                 buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
                 overlayProjects.css({"display":"none"});
                 overlayWorking.css({"display":"none"});
@@ -689,7 +696,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             }
             else if(haspending === "no_selected"){
                 modalAlert('Please select at least one strain to run' +
-                    ' analysis.', () => {});
+                    ' analysis.', "Select Strains", () => {});
                 buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
                 overlayProjects.css({"display":"none"});
                 overlayWorking.css({"display":"none"});
@@ -702,7 +709,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                     if(run === true) single_project.run_pipelines();
                     else if(run !== "no_select") {
                         modalAlert('All processes for the selected strains' +
-                            ' have been run.', () => {});
+                            ' have been run.', "All Processes Submitted", () => {});
                         buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
                         overlayProjects.css({"display":"none"});
                         overlayWorking.css({"display":"none"});
@@ -761,7 +768,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                         else{
                             pipelineGroupEl.empty();
                             pipelineGroupEl.append('<p><b>New Pipeline applied!</b><i class="fa fa-check fa-2x" aria-hidden="true"></i></p>');
-                            modalAlert("Strains were added to the project.", () => {});
+                            modalAlert("Strains were added to the project.", "Strains Added", () => {});
                         }
 
                     });
@@ -819,7 +826,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             if(strains_results.already_there) return;
 
             if(is_from_file !== true) modalAlert('Strain added to the' +
-                ' project.', () => {});
+                ' project.', "Strains Added", () => {});
 
             objects_utils.destroyTable('strains_table');
             global_strains = strains_results.strains;
@@ -957,7 +964,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                 //objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
-                modalAlert("Strains were added to the project.", () => {});
+                modalAlert("Strains were added to the project.", "Strains" +
+                    " Added", () => {});
             });
         });
 
@@ -970,7 +978,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
         single_project.remove_strains_from_project(global_strains, (strains_results) => {
             if (strains_results === "no_select") modalAlert("Please select a" +
-                " strain to remove.", () => {});
+                " strain to remove.", "Select Strains", () => {});
             else{
                 objects_utils.destroyTable('strains_table');
                 global_strains = strains_results.strains;
@@ -1076,7 +1084,7 @@ const newPipelineFromFile = (element) => {
             fileColEl.empty();
             fileColEl.append('<p>New Pipeline applied!</p><p><i class="fa fa-check fa-4x" aria-hidden="true"></i></p>');
 
-            modalAlert('Strain added to the project.', () => {});
+            modalAlert('Strain added to the project.', "Strains Added", () => {});
         });
     });
 };

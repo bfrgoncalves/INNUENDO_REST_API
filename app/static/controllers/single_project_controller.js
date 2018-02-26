@@ -639,7 +639,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             single_project.get_workflows("Classifier", CURRENT_SPECIES_NAME, (pipelines) => {
                 $scope.pipelines_classifiers = pipelines;
                 $(".selectpicker").selectpicker({});
-                $('.datetimepicker').datetimepicker();
+                $('.datetimepicker').datetimepicker({
+                    format: 'DD/MM/YYYY'
+                });
+
                 callback();
             });
         });

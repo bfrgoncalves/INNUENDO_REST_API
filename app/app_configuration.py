@@ -63,6 +63,9 @@ def after_request(response):
   return response
 
 
+'''
+Function that overwrites the default password change from flask_security
+'''
 @security.change_password_context_processor
 def change_password():
     """View function which handles a change password request."""
@@ -73,16 +76,23 @@ def change_password():
 
             print result
             if not result:
+                do_flash(*get_message('INVALID_PASSWORD'))
                 return {"status": False}
 
         except ldap.INVALID_CREDENTIALS, e:
             print e
             return {"status": False}
 
+        if request.form.get('new_password') == request.form.get('password'):
+            do_flash(*get_message('PASSWORD_IS_THE_SAME'))
+            return {"status": False}
+
         if request.form.get('new_password') == request.form.get(
                 'new_password_confirm'):
 
-            #after_this_request(_commit)
+            if len(request.form.get('new_password_confirm')) < 6:
+                do_flash(*get_message('PASSWORD_INVALID_LENGTH'))
+                return {"status": False}
 
             status = User.change_pass(current_user.username,
                                       request.form.get('password'),
@@ -96,9 +106,11 @@ def change_password():
                 return {"status": True}
 
         else:
+            do_flash(*get_message('RETYPE_PASSWORD_MISMATCH'))
             print "passwords dont match"
 
     else:
+        do_flash(*get_message('PASSWORD_NOT_PROVIDED'))
         return {"status": False}
 
     '''

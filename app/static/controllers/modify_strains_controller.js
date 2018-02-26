@@ -4,7 +4,7 @@
  * @param procedure
  * @returns {[null,null]}
  */
-const set_headers_metadata = (global_strains, procedure) => {
+const set_headers_metadata = (global_strains) => {
     const metadata = Metadata();
     const matching_fields = metadata.get_dict_fields_reverse();
     //const minimal_fields = metadata.get_default_headers();
@@ -27,30 +27,6 @@ const set_headers_metadata = (global_strains, procedure) => {
         ];
 
         strains_headers = ["Sample","Run Identifier"]
-    }
-    else if(procedure !== null && procedure.indexOf("results_info_chewBBACA") > -1){
-
-        p_col_defs = [
-            {
-                "className":      'select-checkbox',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": ''
-            },
-            { "data": "Sample" },
-            { "data": "job_id" },
-            {
-                "className":      'get_results',
-                "orderable":      false,
-                "data":           null,
-                "defaultContent": '<div><button class="analysis-control' +
-                ' btn-warning"' +
-                ' onclick="download_profile(this)">Profile</button></div>'
-            }
-
-        ];
-
-        strains_headers = ["Sample","Run Identifier", "Results"]
     }
     else{
 

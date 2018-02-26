@@ -110,7 +110,7 @@ def change_password():
             print "passwords dont match"
 
     else:
-        if not request.form.get('new_password'):
+        if request.form.get('new_password'):
             do_flash(*get_message('PASSWORD_NOT_PROVIDED'))
         return {"status": False}
 

@@ -160,8 +160,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 	            let has_same_files = false;
 	            let message = "";
 	            let message_to_add = "";
-
+                console.log(response);
 	            for(const s in strains){
+	                console.log(response);
 	            	let md = JSON.parse(response.data.strain_metadata);
 	            	if(md.File_1 === strains[s].File_1){
 	            		has_same_files = true;

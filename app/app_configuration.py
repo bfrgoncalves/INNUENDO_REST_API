@@ -10,6 +10,7 @@ from flask import request, after_this_request, redirect
 from werkzeug.datastructures import MultiDict
 from flask_security.changeable import change_user_password
 
+from flask_security.utils import do_flash, get_message
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
 
@@ -70,7 +71,7 @@ def change_password():
             result = User.try_login(current_user.username, request.form.get('password'))
 
             print result
-            if result == False:
+            if not result:
                 return {"status": False}
 
         except ldap.INVALID_CREDENTIALS, e:
@@ -85,6 +86,7 @@ def change_password():
                                       request.form.get('new_password'))
 
             if status:
+                do_flash(*get_message('PASSWORD_CHANGE'))
                 print "password changed"
         else:
             print "passwords dont match"

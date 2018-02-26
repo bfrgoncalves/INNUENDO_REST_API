@@ -161,6 +161,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 	            let message = "";
 	            let message_to_add = "";
 
+	            console.log(response);
+
 	            for(const s in strains){
 	            	let md = JSON.parse(response.data.strain_metadata);
 	            	if(md.File_1 === strains[s].File_1){

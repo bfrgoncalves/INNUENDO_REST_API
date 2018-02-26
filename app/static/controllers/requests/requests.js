@@ -619,7 +619,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 		add_new_strain: (callback) => {
-		    
+
+			console.log($('#new_strain_form').find("select, input, textarea").serialize());
 		    const req = {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},

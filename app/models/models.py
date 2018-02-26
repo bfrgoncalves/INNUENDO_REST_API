@@ -90,16 +90,12 @@ class User(db.Model, UserMixin):
 
             password_value_old = {"userPassword": ldap_md5.encrypt(str(old))}
             password_value_new = {"userPassword": ldap_md5.encrypt(str(new_password))}
-            print "2"
+
             conn.simple_bind_s("cn=" + email + ",ou=users," + baseDN, old)
 
             ldif = modlist.modifyModlist(password_value_old, password_value_new)
-            print "3"
-            #add_pass = [(ldap.MOD_REPLACE, 'userPassword', [password_value])]
 
-            print "cn=" + email + ",ou=users," + baseDN
             conn.modify_s("cn=" + email + ",ou=users," + baseDN, ldif)
-            print "4"
             return True
 
         except Exception as e:

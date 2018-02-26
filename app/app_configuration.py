@@ -65,11 +65,6 @@ def after_request(response):
 def change_password():
     """View function which handles a change password request."""
 
-    print request
-    print request.form.get('password')
-    print request.form.get('new_password')
-    print request.form.get('new_password_confirm')
-
     if request.form.get('password'):
         try:
             result = User.try_login(current_user.username, request.form.get('password'))

@@ -10,7 +10,7 @@ message_post_parser = reqparse.RequestParser()
 message_post_parser.add_argument('recipients', dest='recipients', type=str,
                                  required=True, help="recipients")
 message_post_parser.add_argument('template', dest='template', type=str,
-                                 required=True, help="template")
+                                 required=False, help="template")
 message_post_parser.add_argument('information', dest='information', type=str,
                                  required=False, help="information")
 

@@ -249,6 +249,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $scope.LockProject = () => {
         projects_table.lock_project(CURRENT_PROJECT_ID, (response) => {
             projects = response.projects;
+            console.log(projects);
             objects_utils.loadDataTables('projects_table', projects, project_col_defs, []);
         });
     }

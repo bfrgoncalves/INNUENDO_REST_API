@@ -249,6 +249,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $scope.LockProject = () => {
         projects_table.lock_project(CURRENT_PROJECT_ID, (response) => {
             projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, (results) => {
+                console.log(results);
                 projects = results;
                 objects_utils.loadDataTables('projects_table', projects, project_col_defs);
             });

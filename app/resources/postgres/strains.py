@@ -33,6 +33,7 @@ strain_fields = {
     'species_id': fields.String,
     'file_1': fields.String,
     'file_2': fields.String,
+    'timestamp': fields.String,
     'classifier': fields.String,
     'fq_location': fields.String
 }
@@ -45,6 +46,7 @@ strain_fields_project = {
     'species_id': fields.String,
     'file_1': fields.String,
     'file_2': fields.String,
+    'timestamp': fields.String,
     'classifier': fields.String,
     'fq_location': fields.String,
     'project_id': fields.String

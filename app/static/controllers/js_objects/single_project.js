@@ -590,6 +590,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            let new_strains = [];
 
 		            let public_strains_headers = [];
+		            console.log(response);
 
 		            if (data.length !== 0){
 

@@ -475,6 +475,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                     strains_headers = headers_defs[1];
                                     sh = headers_defs[1];
                                 }
+
+                                console.log(strains_headers, global_strains, headers_defs[0]);
                                 objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                                     objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 
@@ -494,6 +496,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
                                 strains_headers = headers_defs[1];
                                 sh = headers_defs[1];
+
+                                console.log(strains_headers, global_strains, headers_defs[0]);
 
                                 objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                                     objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);

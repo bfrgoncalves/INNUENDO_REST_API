@@ -590,15 +590,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            let new_strains = [];
 
 		            let public_strains_headers = [];
-		            console.log(response);
 
 		            if (data.length !== 0){
 
 		                let public_strains_headers = JSON.parse(data[0].fields).metadata_fields;
 		                public_strains_headers.unshift("strainID");
 		                public_strains_headers.push("timestamp");
-
-		                console.log(public_strains_headers);
 
 		                for (const i in data){
 
@@ -615,11 +612,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    for (const j in public_strains_headers){
 		                        if(strain_data.hasOwnProperty(public_strains_headers[j])){
 		                            if (public_strains_headers[j] === "timestamp"){
-		                                console.log("AQUI");
 		                                let modified_data_parts = strain_data[public_strains_headers[j]].split(" ")[0].split("-");
 		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
 		                                sd[public_strains_headers[j]] = modified_data;
-		                                console.log(sd);
                                     }
                                     else{
 		                                sd[public_strains_headers[j]] = strain_data[public_strains_headers[j]];
@@ -628,7 +623,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    }
 		                    sd["id"] = data[i].id;
 		                    sd["FilesLocation"] = data[i].fq_location;
-		                    console.log(sd);
 		                    new_strains.push(sd);
 		                }
 		                public_strains = new_strains;
@@ -700,7 +694,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                        strains_dict[$.trim(data[i].strainID)] = data[i].id;
 		                    }
 
-		                    console.log(sd);
 		                    add_strains.push(sd);
 		                }
 		                strains = add_strains;

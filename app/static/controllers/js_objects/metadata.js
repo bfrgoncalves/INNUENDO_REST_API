@@ -49,6 +49,7 @@ const Metadata = () => {
         "Sample": "Sample",
         "Project Name":"project_name",
         "Classifier":"classifier"
+        "Timestamp":"timestamp"
     };
 
     //Conversion from the metadata fields stored in the db to how we want to see them on a table (Reverse)
@@ -73,11 +74,12 @@ const Metadata = () => {
         "Sample": "Sample",
         "project_name": "Project Name",
         "classifier": "Classifier"
+        "timestamp": "Timestamp"
     };
 
     //The minimum headers to be seen on a table
-    const minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location"];
-    const default_headers = ["Strain Name", "Received Date", "Source", "Sampling Date", "Location", "Sample", "Run Identifier", "Project Name", "Classifier"];
+    const minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location", "Timestamp"];
+    const default_headers = ["Strain Name", "Received Date", "Source", "Sampling Date", "Location", "Sample", "Run Identifier", "Project Name", "Classifier", "Timestamp"];
 
     return {
 

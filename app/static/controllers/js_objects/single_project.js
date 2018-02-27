@@ -610,7 +610,14 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    //Parse the metadata and add it to the public strains object
 		                    for (const j in public_strains_headers){
 		                        if(strain_data.hasOwnProperty(public_strains_headers[j])){
-		                            sd[public_strains_headers[j]] = strain_data[public_strains_headers[j]];
+		                            if (public_strains_headers[j] === "timestamp"){
+		                                let modified_data_parts = strain_data[public_strains_headers[j]].split(" ")[0].split("-");
+		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
+		                                sd[public_strains_headers[j]] = modified_data;
+                                    }
+                                    else{
+		                                sd[public_strains_headers[j]] = strain_data[public_strains_headers[j]];
+                                    }
 		                        }
 		                    }
 		                    sd["id"] = data[i].id;
@@ -667,12 +674,24 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    let sd = {};
 		                    for (const j in strains_headers){
 		                        if(strain_data.hasOwnProperty(strains_headers[j])){
-		                            sd[strains_headers[j]] = strain_data[strains_headers[j]];
+
+		                            if (public_strains_headers[j] === "timestamp"){
+		                                let modified_data_parts = strain_data[strains_headers[j]].split(" ")[0].split("-");
+		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
+		                                sd[strains_headers[j]] = modified_data;
+                                    }
+                                    else{
+		                                sd[strains_headers[j]] = strain_data[strains_headers[j]];
+                                    }
+		                            //sd[strains_headers[j]] =
+                                    // strain_data[strains_headers[j]];
 		                        }
 		                    }
 		                    if(!strains_dict.hasOwnProperty($.trim(data[i].strainID))){
 		                        strains_dict[$.trim(data[i].strainID)] = data[i].id;
 		                    }
+
+		                    console.log(sd);
 		                    add_strains.push(sd);
 		                }
 		                strains = add_strains;

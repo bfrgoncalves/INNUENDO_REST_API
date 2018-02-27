@@ -104,7 +104,6 @@ class ProjectUserResource(Resource):
         else:
             print "Project was not locked"
 
-
         return project, 204
 
 

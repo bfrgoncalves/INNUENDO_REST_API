@@ -34,6 +34,7 @@ let intervals_running = {};
 let strainName_to_tids = {};
 let pipeline_status = {};
 let jobs_to_parameters = {};
+let http = "";
 
 /*
 DEFINE ANALYSIS PARAMETERS FOR METADATA
@@ -57,8 +58,9 @@ const tclick = () => {
     $("#button_ham_navbar")[0].click();
 };
 
+
 const sendMail = () => {
-    let pg_requests = Requests("", "", "");
+    let pg_requests = Requests("", "", http);
     pg_requests.sendCustomMail(
         $("#recipients").val(),
         $("#email-title").val(),

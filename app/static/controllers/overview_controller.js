@@ -9,6 +9,8 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
 
     current_scope_template = $scope.selectedTemplate.path;
 
+    http = $http;
+
     const backButtonEl = $("#backbutton");
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});

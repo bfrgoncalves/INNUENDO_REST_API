@@ -19,6 +19,7 @@ project_get_parser.add_argument('all', dest='all', type=bool, required=False, he
 
 project_put_parser = reqparse.RequestParser()
 project_put_parser.add_argument('lock', dest='lock', type=str, required=True,help="lock info")
+project_put_parser.add_argument('project_id', dest='project_id', type=str, required=True,help="project id")
 
 # Defining response fields
 
@@ -91,8 +92,19 @@ class ProjectUserResource(Resource):
 
         if not project:
             abort(404, message="Project {} doesn't exist".format(id))
-        project.is_removed = args.lock
-        db.session.commit()
+
+        if args.lock == "lock":
+
+            project.is_removed = args.lock
+            db.session.commit()
+
+            print args.lock
+            print args.project_id
+
+        else:
+            print "Project was not locked"
+
+
         return project, 204
 
 

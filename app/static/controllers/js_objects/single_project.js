@@ -596,6 +596,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		                let public_strains_headers = JSON.parse(data[0].fields).metadata_fields;
 		                public_strains_headers.unshift("strainID");
+		                public_strains_headers.push("timestamp");
+
 		                console.log(public_strains_headers);
 
 		                for (const i in data){
@@ -669,6 +671,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains_headers.unshift("strainID");
 		                strains_headers.push('Analysis');
 		                strains_headers.push('FilesLocation');
+		                strains_headers.push("timestamp");
 		                
 		                for (const i in data){
 

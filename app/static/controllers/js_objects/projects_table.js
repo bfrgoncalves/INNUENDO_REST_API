@@ -252,7 +252,6 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
                 ) => {
                     pg_requests.lock_project(project_id, (response) => {
-                        console.log(response);
                         const new_projects = [];
 
                         projects.map( (d) => {

@@ -684,7 +684,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    for (const j in strains_headers){
 		                        if(strain_data.hasOwnProperty(strains_headers[j])){
 
-		                            if (public_strains_headers[j] === "timestamp"){
+		                            if (strains_headers[j] === "timestamp"){
 		                                let modified_data_parts = strain_data[strains_headers[j]].split(" ")[0].split("-");
 		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
 		                                sd[strains_headers[j]] = modified_data;

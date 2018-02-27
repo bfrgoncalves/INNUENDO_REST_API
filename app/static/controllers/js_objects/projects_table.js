@@ -251,8 +251,18 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     ' want to proceed?', "Project Lock", (
 
                 ) => {
-                    pg_requests.lock_project(project_id, () => {
-                        callback();
+                    pg_requests.lock_project(project_id, (response) => {
+                        console.log(response);
+                        const new_projects = [];
+
+                        projects.map( (d) => {
+                            if (d.id === project_id) new_projects.push(response.data[0]);
+                            else new_projects.push(d);
+                        });
+
+                        projects = new_projects;
+
+                        callback({projects: projects});
                     });
                 });
             }

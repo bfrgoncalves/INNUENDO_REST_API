@@ -182,9 +182,6 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
                 //Sets the CURRENT_PROJECT_ID to be loaded later
                 $('#projects_table').off("click").on('click', 'tr', (e) => {
-                    console.log(e.target);
-                    console.log($('#projects_table').DataTable().row( e.target ).data());
-                    console.log($('#projects_table').DataTable().row( e.target ).data().id);
                     CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( e.target ).data().id;
                 });
 
@@ -251,6 +248,8 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     $scope.LockProject = () => {
         projects_table.lock_project(CURRENT_PROJECT_ID, (response) => {
+            projects = response.projects;
+            objects_utils.loadDataTables('projects_table', projects, project_col_defs, []);
         });
     }
 

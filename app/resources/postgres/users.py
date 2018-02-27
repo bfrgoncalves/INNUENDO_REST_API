@@ -94,29 +94,17 @@ class UserQuotaResource(Resource):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out1, err = proc.communicate()
 
-        print out1
-        print err
-
         proc = subprocess.Popen(["du", "-sh", "-B1", instStorage],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out2, err = proc.communicate()
-
-        print out2
-        print err
 
         proc = subprocess.Popen(["du", "-sh", "-B1", project_dir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out3, err = proc.communicate()
 
-        print out3
-        print err
-
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out4, err = proc.communicate()
-
-        print out4
-        print err
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
                 "p_space": out3}

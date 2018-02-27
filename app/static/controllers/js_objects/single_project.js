@@ -622,6 +622,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    }
 		                    sd["id"] = data[i].id;
 		                    sd["FilesLocation"] = data[i].fq_location;
+		                    sd["timestamp"] = data[i].timestamp;
 		                    new_strains.push(sd);
 		                }
 		                public_strains = new_strains;
@@ -671,6 +672,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    strain_data["strainID"] = data[i].strainID;
 		                    strain_data['Analysis'] = "";
 		                    strain_data['FilesLocation'] = data[i].fq_location;
+		                    strain_data['timestamp'] = data[i].timestamp;
 		                    let sd = {};
 		                    for (const j in strains_headers){
 		                        if(strain_data.hasOwnProperty(strains_headers[j])){

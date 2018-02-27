@@ -256,7 +256,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                         const new_projects = [];
 
                         projects.map( (d) => {
-                            if (d.id === project_id) new_projects.push(response.data[0]);
+                            if (d.id === project_id) new_projects.push(response.data);
                             else new_projects.push(d);
                         });
 

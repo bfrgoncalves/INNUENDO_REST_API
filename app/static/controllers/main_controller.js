@@ -63,6 +63,10 @@ const tclick = () => {
 setTimeout( () => {
     $('#overviewLink').trigger('click');
 
+    $("#send_mail").off("click").on("click", () => {
+        $("#newMailModal").modal("show");
+    });
+
     $('#offcanvasleft').click(function() {
         $('.row-offcanvas-left').toggleClass('active');
     });

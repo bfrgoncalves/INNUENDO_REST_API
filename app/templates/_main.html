@@ -42,6 +42,7 @@
                 <span class="hamb-bottom"></span>
             </button>
             <div id="container">
+              <div ng-include src="'static/html_components/modals/new_mail_modal.html'"></div>
               <img src='static/img/spinner.gif' style="display:none; height:10%; width:auto" id="waiting_spinner" />
               {% include "security/_messages.html" %}
               <div data-ng-include="selectedTemplate.path" id="main_container"></div>    

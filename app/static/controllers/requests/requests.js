@@ -548,7 +548,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	            method:'PUT',
 				params: {
 	                lock: "lock",
-					project_id: CURRENT_PROJECT_ID
+					project_id: project_id
 	            }
 	        };
 

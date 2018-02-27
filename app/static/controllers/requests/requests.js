@@ -572,9 +572,11 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        };
 
 	        $http(req).then( (response) => {
+	            console.log(response);
 	               callback(response);
 	            },
 	            (response) => {
+	            console.log(response);
 	               callback(response);
 	        });
         },

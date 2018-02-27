@@ -12,7 +12,6 @@ from worker import conn
 
 # Setup Flask-Security
 from flask_security import Security, SQLAlchemyUserDatastore
-from app.models.models import User, Role
 from .adminutils import UserAdmin, RoleAdmin
 from flask_mail import Mail
 
@@ -48,6 +47,9 @@ db = SQLAlchemy(app)
 
 # SET THE REDIS QUEUE
 q = Queue(connection=conn)
+
+
+from app.models.models import User, Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 security = Security(app, user_datastore)

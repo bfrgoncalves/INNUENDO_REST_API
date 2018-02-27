@@ -104,7 +104,8 @@ class ProjectUserResource(Resource):
             print current_user.homedir
             dirs_to_remove = os.path.join(current_user.homedir, "jobs",
                                           args.project_id + "-*", "work")
-            print dirs_to_remove
+
+            os.system("rm -r " + dirs_to_remove)
 
         else:
             print "Project was not locked"

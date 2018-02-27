@@ -127,7 +127,8 @@ class StrainListResource(Resource):
         if not args["Food-Bug"]:
             s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-")
         else:
-            s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-") + "-" + args["Food-Bug"].replace(" ", "-").replace(".", "-").replace("#", "-")
+            # Remove concatenation of Food-bug and Primary identifier
+            s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-") # + "-" + args["Food-Bug"].replace(" ", "-").replace(".", "-").replace("#", "-")
 
         strain = db.session.query(Strain).filter(Strain.name == s_name).first()
 
@@ -139,6 +140,7 @@ class StrainListResource(Resource):
                     strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
             except KeyError as e:
                 print e
+                # Case no file is associated with the strain (Rarely happens)
                 strain.strain_metadata = json.dumps(args)
                 db.session.commit()
             return strain, 200

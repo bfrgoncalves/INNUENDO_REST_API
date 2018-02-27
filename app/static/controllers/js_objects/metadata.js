@@ -48,7 +48,7 @@ const Metadata = () => {
         "Run Identifier":"job_id",
         "Sample": "Sample",
         "Project Name":"project_name",
-        "Classifier":"classifier"
+        "Classifier":"classifier",
         "Timestamp":"timestamp"
     };
 
@@ -73,7 +73,7 @@ const Metadata = () => {
         "job_id": "Run Identifier",
         "Sample": "Sample",
         "project_name": "Project Name",
-        "classifier": "Classifier"
+        "classifier": "Classifier",
         "timestamp": "Timestamp"
     };
 

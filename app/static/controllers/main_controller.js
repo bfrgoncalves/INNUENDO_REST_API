@@ -57,6 +57,15 @@ const tclick = () => {
     $("#button_ham_navbar")[0].click();
 };
 
+const sendMail = () => {
+    let pg_requests = Requests("", "", "");
+    pg_requests.sendCustomMail(
+        $("#recipients").val(),
+        $("#email-title").val(),
+        $("#email-body").val()
+    );
+};
+
 /**
  * Function to trigger some events on main controller start
  */

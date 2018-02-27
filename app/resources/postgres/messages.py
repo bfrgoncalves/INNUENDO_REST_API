@@ -14,13 +14,19 @@ message_post_parser.add_argument('template', dest='template', type=str,
 message_post_parser.add_argument('information', dest='information', type=str,
                                  required=False, help="information")
 
+message_post_parser.add_argument('body', dest='body', type=str,
+                                 required=False, help="body")
+message_post_parser.add_argument('title', dest='title', type=str,
+                                 required=False, help="title")
+
 
 def msgTemplates(msg, info):
 
     templates = {
-        "send_tree": "Hey! Check out this <a href='{}'>PHYLOViZ Online "
-                     "Tree</a>".format(info),
-        "test": "This is a test email. Test string {}".format(info)
+        "send_tree": ["Tree", "Hey! Check out this <a href='{}'>PHYLOViZ "
+                              "Online "
+                     "Tree</a>".format(info)],
+        "test": ["Test", "This is a test email. Test string {}".format(info)]
     }
 
     return templates[msg]
@@ -32,9 +38,14 @@ class MailResource(Resource):
     def post(self):
         args = message_post_parser.parse_args()
 
-        msg = Message(msgTemplates(args.template, args.information)[0],
-                      sender=config1["MAIL_USERNAME"],recipients=args.recipients.split(","))
-        msg.body = msgTemplates(args.template, args.information)[1]
+        if not args.body:
+            msg = Message(msgTemplates(args.template, args.information)[0],
+                          sender=config1["MAIL_USERNAME"],recipients=args.recipients.split(","))
+        else:
+            msg = Message(args.title,
+                          sender=config1["MAIL_USERNAME"],
+                          recipients=args.recipients.split(","))
+        msg.body = args.body
         mail.send(msg)
 
         return "Sent"

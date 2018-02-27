@@ -560,6 +560,42 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        });
 
 		},
+        sendCustomMail: (recipients, title, body) => {
+		    const req = {
+	            url: 'api/v1.0/mail/',
+	            method:'POST',
+	            data: {
+	                recipients: recipients,
+	                title:title,
+	                body:body
+	            }
+	        };
+
+	        $http(req).then( (response) => {
+	               callback(response);
+	            },
+	            (response) => {
+	               callback(response);
+	        });
+        },
+        sendMail: (recipients, template, info) => {
+		    const req = {
+	            url: 'api/v1.0/mail/',
+	            method:'POST',
+	            data: {
+	                recipients: recipients,
+	                template: template,
+                    info: info
+	            }
+	        };
+
+	        $http(req).then( (response) => {
+	               callback(response);
+	            },
+	            (response) => {
+	               callback(response);
+	        });
+        },
 		get_uploaded_files: (callback) => {
 
 		    const req = {

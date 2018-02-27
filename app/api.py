@@ -40,7 +40,7 @@ api.add_resource(UserResource, '/api/v1.0/user/', endpoint='single_user')
 api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/', endpoint='user_quota')
 api.add_resource(UserExternalLogin, '/api/v1.0/user/external/login/', endpoint='single_user_external')
 
-api.add_resource(UserExternalLogin, '/api/v1.0/mail/', endpoint='send mail')
+api.add_resource(MailResource, '/api/v1.0/mail/', endpoint='send mail')
 
 api.add_resource(ProjectListUserResource, '/api/v1.0/projects/', endpoint='user_projects')
 api.add_resource(ProjectListAllResource, '/api/v1.0/projects/all/', endpoint='all_projects')

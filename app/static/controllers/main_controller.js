@@ -61,15 +61,12 @@ const tclick = () => {
 
 const sendMail = () => {
     let pg_requests = Requests("", "", http);
-    console.log($("#recipients").val(),
-        $("#email-title").val(),
-        $("#email-body").val());
 
     pg_requests.sendCustomMail(
         $("#recipients").val(),
         $("#email-title").val(),
-        $("#email-body").val()
-    );
+        $("#email-body").val(),
+        () => {});
 };
 
 /**

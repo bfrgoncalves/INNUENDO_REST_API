@@ -6,6 +6,7 @@ from flask_security import current_user, login_required, roles_required, auth_to
 import datetime
 import random
 import string
+import os
 
 # Defining post arguments parser
 project_post_parser = reqparse.RequestParser()

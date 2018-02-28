@@ -192,6 +192,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            if (data.length !== 0){
 		                strains_headers = JSON.parse(data.fields).metadata_fields;
 		                strains_headers.push('Analysis');
+		                strains_headers.push("timestamp");
 
 		                const strain_data = JSON.parse(data.strain_metadata);
 		                strain_data['Analysis'] = "";

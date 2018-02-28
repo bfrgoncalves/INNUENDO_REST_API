@@ -435,12 +435,13 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             const buttonAddStrainEl = $("#button_add_strain");
             const buttonProceduresEl = $("#buttons_procedures");
             const proceduresDivEl = $("#procedures_div");
+            const buttonremoveWorkflows = $("#button_remove_all_workflows");
 
-            console.log(PROJECT_STATUS);
             if(CURRENT_JOB_MINE === false || PROJECT_STATUS === "lock"){
                 buttonRunStrainEl.css({display:"none"});
                 buttonRemoveStrainEl.css({display:"none"});
                 buttonAddStrainEl.css({display:"none"});
+                buttonremoveWorkflows.css({display:"none"});
 
                 buttonProceduresEl.css({display:"none"});
                 $("#protocols_div").css({display:"none"});
@@ -450,6 +451,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                 buttonRunStrainEl.css({display:"block"});
                 buttonRemoveStrainEl.css({display:"block"});
                 buttonAddStrainEl.css({display:"block"});
+                buttonremoveWorkflows.css({display:"block"});
 
                 $("#group_buttons_strain").css({display:"block"});
                 buttonProceduresEl.css({display:"block"});

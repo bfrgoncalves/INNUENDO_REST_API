@@ -436,7 +436,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             const buttonProceduresEl = $("#buttons_procedures");
             const proceduresDivEl = $("#procedures_div");
 
-            if(CURRENT_JOB_MINE === false && PROJECT_STATUS !== "lock"){
+            if(CURRENT_JOB_MINE === false && PROJECT_STATUS === "lock"){
                 buttonRunStrainEl.css({display:"none"});
                 buttonRemoveStrainEl.css({display:"none"});
                 buttonAddStrainEl.css({display:"none"});

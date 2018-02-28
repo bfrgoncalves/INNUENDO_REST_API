@@ -34,6 +34,7 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
             CURRENT_PROJECT_NAME_ID = session_array[9];
             CURRENT_TABLE_ROWS_SELECTED = session_array[10];
             CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
+            PROJECT_STATUS = session_array[12];
 
             $scope.selectedTemplate.path = session_array[0];
 
@@ -110,7 +111,7 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
         const optionSelectedEl = $('#species_select_drop option:selected');
         CURRENT_SPECIES_NAME = optionSelectedEl.text();
         CURRENT_SPECIES_ID = optionSelectedEl.attr("species_id");
-        PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID, CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID, CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT, CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID]);
+        PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID, CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID, CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT, CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID, PROJECT_STATUS]);
         $scope.selectedTemplate.path = 'static/html_components/projects_view.html';
     }
 

@@ -29,6 +29,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             CURRENT_PROJECT_NAME_ID = session_array[9];
             CURRENT_TABLE_ROWS_SELECTED = session_array[10];
             CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
+            PROJECT_STATUS = session_array[12];
 
 
             $scope.selectedTemplate.path = session_array[0];

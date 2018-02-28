@@ -198,7 +198,14 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                let sd = {};
 		                for (const i in strains_headers){
 		                    if(strain_data.hasOwnProperty(strains_headers[i])){
-		                        sd[strains_headers[i]] = strain_data[strains_headers[i]];
+		                        if (strains_headers[j] === "timestamp"){
+                                    let modified_data_parts = strain_data[strains_headers[i]].split(" ")[0].split("-");
+                                    let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
+                                    sd[strains_headers[i]] = modified_data;
+                                }
+                                else{
+                                    sd[strains_headers[i]] = strain_data[strains_headers[i]];
+                                }
 		                    }
 		                }
 		                sd["strainID"] = data.strainID;

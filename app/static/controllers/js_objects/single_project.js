@@ -196,6 +196,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		                const strain_data = JSON.parse(data.strain_metadata);
 		                strain_data['Analysis'] = "";
+		                strain_data["timestamp"] = data.timestamp;
 		                let sd = {};
 		                for (const i in strains_headers){
 		                    if(strain_data.hasOwnProperty(strains_headers[i])){

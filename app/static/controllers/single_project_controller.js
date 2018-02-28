@@ -81,7 +81,8 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "Food-Bug", "visible":false },
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
-                { "data": "Location" }
+                { "data": "Location" },
+                { "data": "timestamp" }
 
             ];
         }
@@ -110,6 +111,7 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
                 { "data": "Location" },
+                 { "data": "timestamp" },
                 {
                     "className":      'details-control',
                     "orderable":      false,

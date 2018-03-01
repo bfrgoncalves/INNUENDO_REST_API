@@ -218,6 +218,7 @@ class Strain(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     fq_location = db.Column(db.String(255))
 
+
 # Table to store all procedure report data
 class Report(db.Model):
     __tablename__ = "reports"
@@ -245,20 +246,22 @@ class Combined_Reports(db.Model):
     username = db.Column(db.Text())
     name = db.Column(db.Text())
     description = db.Column(db.Text())
-    run_identifiers = db.Column(db.Text())
     strain_names = db.Column(db.Text())
-    species_id = db.Column(db.Text())
+    projects_id = db.Column(db.Text())
+    filters = db.Column(db.Text())
+    highlights = db.Column(db.Text())
     timestamp = db.Column(db.DateTime)
 
 
+# Table to store notifications between users in the platform
 class Message(db.Model):
     __tablename__ = "messages"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
     timestamp = db.Column(db.DateTime)
     name = db.Column(db.String(255))
-    description = db.Column(JSON)
-    process_id = db.Column(db.Integer, db.ForeignKey('processes.id'))
+    message = db.Column(db.Text())
+    status = db.Column(db.String(255))
 
 
 class Tree(db.Model):
@@ -272,6 +275,7 @@ class Tree(db.Model):
     species_id = db.Column(db.Text())
     uri = db.Column(db.Text())
     phyloviz_user = db.Column(db.Text())
+    status = db.Column(db.String(255))
 
 
 #######################MLST DATABASE##################################################

@@ -77,7 +77,8 @@ const Workflows = ($http) => {
 		},
 
 		change_workflow_state: (callback) => {
-			const selected_data = $.map(table.rows('.selected').data(), (data) => {
+
+			const selected_data = $.map($("#workflows_table").DataTable().rows('.selected').data(), (data) => {
 
 				let availability;
 

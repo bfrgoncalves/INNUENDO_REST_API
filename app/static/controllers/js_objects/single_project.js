@@ -243,6 +243,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		let strain_id = strains_dict[strain_Name];
 		let new_pipeline_id = '';
 
+		console.log(strains_dict, strain_id);
+
 		const add_pip = (strainid) => {
 			pg_requests.add_pipeline(strainid, null, null, (response) => {
 				if(response.status === 201){
@@ -262,6 +264,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			if(response.status === 200){
 				//For each pipeline applied on that strain, checks if the project associated is the CURRENT_PROJECT_ID
 				for(const x in response.data){
+				    console.log(response.data[x].project_id, CURRENT_PROJECT_ID, response.data[x].removed);
+				    console.log(response.data[x].project_id === CURRENT_PROJECT_ID && response.data[x].removed);
 					if(response.data[x].project_id === CURRENT_PROJECT_ID && response.data[x].removed !== 'true'){
 						new_pipeline_id = response.data[x].id;						
 						callback(strainid, response.data[x].id);

@@ -1,17 +1,15 @@
-from app import app, db
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask_security import current_user
-from flask import jsonify
-
+from app import db
+from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from app.models.models import Workflow
 from flask_security import current_user, login_required, roles_required
 import datetime
 
-#Defining post arguments parser
+# Defining post arguments parser
 workflow_post_parser = reqparse.RequestParser()
 workflow_post_parser.add_argument('name', dest='name', type=str, required=True, help="Workflow name")
 workflow_post_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
 workflow_post_parser.add_argument('species', dest='species', type=str, required=True, help="Workflow species")
+workflow_post_parser.add_argument('dependency', dest='dependency', type=str, required=True, help="Workflow dependency from other workflow")
 
 workflow_list_get_parser = reqparse.RequestParser()
 workflow_list_get_parser.add_argument('classifier', dest='classifier', type=str, required=True, help="Workflow classifier")
@@ -21,92 +19,101 @@ workflow_set_availability_put_parser = reqparse.RequestParser()
 workflow_set_availability_put_parser.add_argument('identifier', dest='identifier', type=str, required=True, help="Workflow id")
 workflow_set_availability_put_parser.add_argument('to_change', dest='to_change', type=str, required=True, help="Workflow state")
 
-#Defining response fields
+# Defining response fields
 
 workflow_fields = {
-	'id': fields.Integer,
-	'name': fields.String,
-	'timestamp': fields.DateTime,
-	'availability': fields.String
+    'id': fields.Integer,
+    'name': fields.String,
+    'timestamp': fields.DateTime,
+    'classifier': fields.String,
+    'species': fields.String,
+    'dependency': fields.String,
+    'availability': fields.String
 }
 
 workflow_all_fields = {
-	'id': fields.Integer,
-	'name': fields.String,
-	'timestamp': fields.DateTime,
-	'classifier': fields.String,
-	'species': fields.String,
-	'availability': fields.String
+    'id': fields.Integer,
+    'name': fields.String,
+    'timestamp': fields.DateTime,
+    'classifier': fields.String,
+    'species': fields.String,
+    'dependency': fields.String,
+    'availability': fields.String
 
 }
 
 
 class WorkflowResource(Resource):
 
-	@login_required
-	@marshal_with(workflow_fields)
-	def get(self, id): #id=user_id
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions")
-		workflows = db.session.query(Workflow).filter(Workflow.id == id).first()
-		if not workflows:
-			abort(404, message="No workflows are available".format(id))
-		return workflows, 200
+    @login_required
+    @marshal_with(workflow_fields)
+    def get(self, id):
+
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+        workflows = db.session.query(Workflow).filter(Workflow.id == id).first()
+        if not workflows:
+            abort(404, message="No workflows are available".format(id))
+        return workflows, 200
+
 
 class WorkflowAllResource(Resource):
 
-	@login_required
-	@marshal_with(workflow_all_fields)
-	def get(self): #id=user_id
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions")
-		workflows = db.session.query(Workflow).all()
-		if not workflows:
-			abort(404, message="No workflows are available".format(id))
-		return workflows, 200
+    @login_required
+    @marshal_with(workflow_all_fields)
+    def get(self):
+
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+        workflows = db.session.query(Workflow).all()
+        if not workflows:
+            abort(404, message="No workflows are available".format(id))
+        return workflows, 200
+
 
 class WorkflowSetAvailabilityResource(Resource):
 
-	@login_required
-	@marshal_with(workflow_all_fields)
-	def put(self): #id=user_id
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions")
+    @login_required
+    @marshal_with(workflow_all_fields)
+    def put(self):
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
 
-		args = workflow_set_availability_put_parser.parse_args()
-		print args
-		workflow = db.session.query(Workflow).filter(Workflow.id == args.identifier).first()
-		if not workflow:
-			abort(404, message="No workflows are available".format(id))
+        args = workflow_set_availability_put_parser.parse_args()
+        workflow = db.session.query(Workflow).filter(Workflow.id == args.identifier).first()
+        if not workflow:
+            abort(404, message="No workflows are available".format(id))
 
-		workflow.availability = args.to_change
-		db.session.commit()
+        workflow.availability = args.to_change
+        db.session.commit()
 
-		return workflow, 200
+        return workflow, 200
 
 
 class WorkflowListResource(Resource):
 
-	@login_required
-	@marshal_with(workflow_fields)
-	def get(self): #id=user_id
-		args = workflow_list_get_parser.parse_args()
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions")
-		workflow = db.session.query(Workflow).filter(Workflow.classifier == args.classifier, Workflow.species == args.species).all()
-		if not workflow:
-			abort(404, message="No workflows are available".format(id))
-		return workflow, 200
+    @login_required
+    @marshal_with(workflow_fields)
+    def get(self):
 
-	@login_required
-	@marshal_with(workflow_fields)  
-	def post(self): #id=user_id
-		args=workflow_post_parser.parse_args()
-		if not current_user.is_authenticated:
-			abort(403, message="No permissions to POST")
-		workflow = Workflow(classifier=args.classifier, name=args.name, timestamp=datetime.datetime.utcnow(), species=args.species)
-		if not workflow:
-			abort(404, message="An error as occurried")
-		db.session.add(workflow)
-		db.session.commit()
-		return workflow, 201
+        args = workflow_list_get_parser.parse_args()
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+        workflow = db.session.query(Workflow).filter(Workflow.classifier == args.classifier, Workflow.species == args.species).all()
+        if not workflow:
+            abort(404, message="No workflows are available".format(id))
+        return workflow, 200
+
+    @login_required
+    @marshal_with(workflow_fields)
+    def post(self):
+
+        args=workflow_post_parser.parse_args()
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions to POST")
+        workflow = Workflow(classifier=args.classifier, name=args.name, timestamp=datetime.datetime.utcnow(), species=args.species, dependency=args.dependency)
+        if not workflow:
+            abort(404, message="An error as occurried")
+        db.session.add(workflow)
+        db.session.commit()
+        return workflow, 201

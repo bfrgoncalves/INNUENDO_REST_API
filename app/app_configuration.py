@@ -1,10 +1,17 @@
-from flask_security import Security, SQLAlchemyUserDatastore, login_required, current_user, utils, roles_required, user_registered, login_user
+from flask_security import Security, SQLAlchemyUserDatastore, login_required,\
+    current_user, utils, roles_required, user_registered, login_user, utils
+from flask_security.views import _security, _ctx, _render_json, _commit
 from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
 from app.models.models import Specie, User
 import os
 import requests
 import ldap
+from flask import request, after_this_request, redirect, current_app
+from werkzeug.datastructures import MultiDict
+from flask_security.changeable import change_user_password
 
+from flask_security.utils import do_flash, get_message, get_url
+from flask_security.signals import password_changed
 from config import obo,localNSpace,dcterms, SFTP_HOST
 from franz.openrdf.vocabulary.rdf import RDF
 
@@ -48,9 +55,72 @@ def before_first_request():
 
     db.session.commit()
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
+
+
+'''
+Function that overwrites the default password change from flask_security
+'''
+@security.change_password_context_processor
+def change_password():
+    """View function which handles a change password request."""
+
+    if request.form.get('password'):
+        print request.form.get('password')
+        try:
+            result = User.try_login(current_user.username, request.form.get('password'))
+
+            print result
+            if not result:
+                do_flash(*get_message('INVALID_PASSWORD'))
+                return {"status": False}
+
+        except ldap.INVALID_CREDENTIALS, e:
+            print e
+            do_flash(*get_message('INVALID_PASSWORD'))
+            return {"status": False}
+
+        if request.form.get('new_password') == request.form.get('password'):
+            do_flash(*get_message('PASSWORD_IS_THE_SAME'))
+            return {"status": False}
+
+        if request.form.get('new_password') == request.form.get(
+                'new_password_confirm'):
+
+            if len(request.form.get('new_password_confirm')) < 6:
+                do_flash(*get_message('PASSWORD_INVALID_LENGTH'))
+                return {"status": False}
+
+            status = User.change_pass(current_user.username,
+                                      request.form.get('password'),
+                                      request.form.get('new_password'))
+
+            if status:
+                password_changed.send(current_app._get_current_object(),
+                                      user=current_user._get_current_object())
+                do_flash(*get_message('PASSWORD_CHANGE'))
+                print "password changed"
+                return {"status": True}
+
+        else:
+            do_flash(*get_message('RETYPE_PASSWORD_MISMATCH'))
+            print "passwords dont match"
+
+    else:
+        if request.form.get('new_password'):
+            do_flash(*get_message('PASSWORD_NOT_PROVIDED'))
+        return {"status": False}
+
 
 @app.login_manager.request_loader
 def load_user_from_request(request):
+
+    print request.method
     
     if request.method == 'POST' and "/outputs/" not in request.base_url:
         username = request.form.get('email')
@@ -60,9 +130,11 @@ def load_user_from_request(request):
             result = User.try_login(username, password)
             print result
             if result == False:
+                do_flash(*get_message('INVALID_PASSWORD'))
                 return None
         except ldap.INVALID_CREDENTIALS, e:
             print e
+            do_flash(*get_message('INVALID_PASSWORD'))
             return None
 
         user = User.query.filter_by(username=result['uid'][0]).first()

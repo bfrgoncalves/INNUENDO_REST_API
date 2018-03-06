@@ -23,12 +23,12 @@
 					
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label>Strain Identifier</label>
+							<label>Strain Identifier<sup>*</sup></label>
 							<input type="text" class="form-control" id="Primary-Identifier" name="Primary" placeholder="Primary Identifier" required>
 							<input type="text" class="form-control" id="Food-Bug" name="Food-Bug" placeholder="Case ID" required>
 						</div>
 						<div class="form-group col-md-6">
-							<label>Source</label>
+							<label>Source<sup>*</sup></label>
 							<select class="form-control" id="Source" name="source_Source">
 								<option>Human</option>
 								<option>Food</option>
@@ -44,10 +44,29 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							<label>Sampling Date</label>
-							<input type="date" class="form-control" id="Sampling-Date" name="SamplingDate">
+                            <div class="form-group">
+                                <div class='input-group date datetimepicker'>
+                                    <input type='text' class="form-control" id='Sampling-Date' name="SamplingDate"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+							<!--<input type="date" class="form-control"
+                                    id="Sampling-Date" name="SamplingDate">-->
 							<br>
 							<label>Sample Received Date</label>
-							<input type="date" class="form-control" id="Sample-Received-Date" name="SampleReceivedDate">
+                            <div class="form-group">
+                                <div class='input-group date datetimepicker'>
+                                    <input type='text' class="form-control" id='Sample-Received-Date' name="SampleReceivedDate"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+							<!--<input type="date" class="form-control"
+                                    id="Sample-Received-Date"
+                                    name="SampleReceivedDate">-->
 						</div>
 						<div class="form-group col-md-6">
 							<label>Owner</label>
@@ -56,7 +75,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label>Submitter</label>
+							<label>Submitter<sup>*</sup></label>
 							<input type="text" class="form-control" id="Submitter" name="Submitter" placeholder="Submitter" value="{{ current_user_name }}" readonly="readonly">
 						</div>
 						<div class="form-group col-md-6">
@@ -80,15 +99,21 @@
 						    </select>
 						</div>
 						<div class="form-group col-md-4">
-							<label>File 1</label>
+							<label>File 1<sup>*</sup></label>
 					    	<select name="File_1" data-width="100%" class="selectpicker" data-live-search="true" id="File_1">
 					    </select>
 						</div>
 						<div class="form-group col-md-4">
-							<label>File 2</label>
+							<label>File 2<sup>*</sup></label>
 					    	<select name="File_2" data-width="100%" class="selectpicker" data-live-search="true" id="File_2">
 					    </select>
 						</div>
+					</div>
+					<div class="row">
+                        <div class="col-md-12">
+                            <p><b><sup>*</sup></b>Required Fields</p>
+						    <p><b>NOTE: Only files with _R1_ , _R2_ , _1.fastq.gz and _2.fastq.gz can be used in the platform</b></p>
+                        </div>
 					</div>
 					<div class="row">
 						<div class="col-md-12" style="text-align:center;">
@@ -103,7 +128,7 @@
 					<button class="btn btn-primary" type="submit">Add Selected Strains</button>
 				</form>
 				<div class="scroll_div">
-				<table class="display nowrap public_s" id="public_strains_table" width='100%'>
+				<table class="table table-striped table-bordered public_s" id="public_strains_table" width='100%'>
 		            <thead>
 		              <tr>
 		                <th></th>
@@ -174,23 +199,28 @@
     <div class="modal-content">
       <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4>Available Pipelines</h4>
+		<h4>Pipelines Already Submitted</h4>
 	  </div>
       <div class="modal-body">
       	  <div style="height:70%;overflow-x:auto;">
+              <label id="hasPipelinesLabel">Some strains already have some
+                  pipelines applied to them on other projects. Check before
+                  performing duplicate analyses.
+              </label>
 			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines">
 			  	  <label style="font-size:14px;color:#3399ff">Strain {{ key }}:</label>
 			  	  <div id="pipeline_group_{{myReplace(key)}}">
 				  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">
 				  	  	 <div class="list-group-item">
-				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }}: </label>
+				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }} from Project {{ available_pipelines_ids[key][$index][0] }}: </label>
 						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
-						  	<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>
+						  	<!--<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>-->
 						  </div>
 				  	  </div>
-				  	  <label>Create a new one:</label>
+				  	  <div style="text-align:center;width:100%;">
 				  	  <br>
-			   		  <button class="btn btn-md btn-primary new_pipeline_button" strain_id="{{ key }}">New Pipeline</button>
+			   		  <button class="btn btn-md btn-primary new_pipeline_button" strain_id="{{ key }}">Add a NEW Pipeline</button>
+			   		  </div>
 			   	  </div>
 		   		  <hr>
 			  </div>

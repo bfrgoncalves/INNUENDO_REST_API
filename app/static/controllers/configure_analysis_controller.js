@@ -22,6 +22,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 			CURRENT_PROJECT_NAME_ID = session_array[9];
 			CURRENT_TABLE_ROWS_SELECTED = session_array[10];
 			CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
+			PROJECT_STATUS = session_array[12];
 
 			$scope.selectedTemplate.path = session_array[0];
 		})
@@ -57,10 +58,13 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 
     }*/
 
-    function modalAlert(text, callback){
+    function modalAlert(text, header, callback){
 
     	$('#buttonSub').off("click");
     	$('#buttonCancelAlert').off("click");
+
+    	$('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
     	$('#modalAlert .modal-body').empty();
     	$('#modalAlert .modal-body').append("<p>"+text+"</p>");

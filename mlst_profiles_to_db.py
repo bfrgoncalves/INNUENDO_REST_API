@@ -111,14 +111,12 @@ def read_chewBBACA_file_to_JSON(file_path, type_species):
 def read_metadata_file_to_JSON(file_path, table_id):
 
 	results_metadata = {}
-	
-	if table_id == "yersinia":
+
+	if table_id == "yersinia" or table_id == "ecoli":
 		real_metadata_to_use = metadata_to_use_yersinia
 	else:
 		real_metadata_to_use = metadata_to_use
-	
-	print real_metadata_to_use
-		
+
 	with open(file_path, 'rtU') as reader:
 		metadata_fields = None
 		for line in reader:
@@ -129,12 +127,12 @@ def read_metadata_file_to_JSON(file_path, table_id):
 					print metadata_fields
 				else:
 					line = line.split('\t')
-					
-					if table_id == "yersinia":
+
+					if table_id == "yersinia" or table_id == "ecoli":
 						sample = line[0]
-					else:
+ 					else:
 						sample = line[0] + ".fasta"
-					
+						
 					results_metadata[sample] = {}
 					line = line[0:]
 					if len(line) != len(metadata_fields):

@@ -4,6 +4,8 @@ import json
 from app import app
 import requests
 from config import FILES_ENTRY_POINT
+from config import ADMIN_GID
+from config import REPORTS_URL
 
 '''
 Views:
@@ -27,7 +29,7 @@ def index():
 		username = current_user.username
 		homedir = current_user.homedir
 	try:
-		if current_user.gid == "501":
+		if current_user.gid == ADMIN_GID:
 			show_protocols = True
 		else:
 			show_protocols = False
@@ -35,7 +37,7 @@ def index():
 		show_protocols = False
 	
 	print username
-	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), current_user_name=json.dumps(username), jobs_root=json.dumps(FILES_ENTRY_POINT), show_protocols=show_protocols, homedir=json.dumps(homedir))
+	return render_template('index.html', title='Home', current_user_id=json.dumps(current_user_id), reports_url=json.dumps(REPORTS_URL), current_user_name=json.dumps(username), jobs_root=json.dumps(FILES_ENTRY_POINT), show_protocols=show_protocols, show_info_button=json.dumps(show_protocols), homedir=json.dumps(homedir))
 
 
 @app.route('/logout')

@@ -1,18 +1,26 @@
 <div ng-controller="protocolsCtrl" ng-init="loadProtocols()">
   <div ng-include src="'static/html_components/modals/new_protocol_modal.html'"></div>
   <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
-  <div style="padding-left:1%;padding-right:1%;">
-  	<h3 class="sub-header">Protocols</h3>
-  </div>
+  
+  <div class="row">
+	  <div class="jumbotron jumbotron-fluid">
+	      <div class="container">
+	          <h1 class="home-header">Protocols</h1>
+	          <p class="lead">Create new Protocols to construct your Workflows!</p>
+	          <hr class="rule1">
+	      </div>
+	  </div>
+	</div>
+
   <div class="col-md-6">
   	<div class="sub_container">
-  		<div class="jumbotron">
+  		<div class="banner_strains">
   		<h3 class="sub-header">New Protocol</h3>
   		<label for ="protocol_type_selector">Protocol type</label>
 		<select class="selectpicker form-control" data-live-search="true" id="protocol_type_selector" width="100%">
 			<!--<option ng-repeat="type in protocol_types">{{type}}</option>-->
 		</select>
-		<div class="jumbotron">
+		<div style="padding: 20px 20px 20px 20px;">
 	    	<form id="new_protocol_form" style="display:none;">
 	    		<div ng-repeat="(key,type) in protocol_type" class="form-group row">
 	    			<label class="col-sm-3 col-form-label">{{key}}</label>
@@ -26,6 +34,9 @@
 		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'required'">
 		    			<textarea name="protocol_{{key}}" class="form-control to_empty" ng-if="type[0] == 'textarea'"></textarea>
 						<select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
+							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
+						</select>
+						<select id="nextflow_tag" name="nextflow_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'nextflow'">
 							<!--<option ng-repeat="option in type[1]">{{option}}</option>-->
 						</select>
 					</div>
@@ -47,7 +58,7 @@
 
   <div class="col-md-6">
   	<div class="sub_container">
-  		<div class="jumbotron">
+  		<div class="banner_strains">
 	  		<h3 class="sub-header">Check Available Protocols</h3>
 	  		<label for ="protocol_type_selector_load">Protocol type</label>
 			<select class="selectpicker form-control" id="protocol_type_selector_load" data-live-search="true">
@@ -58,8 +69,10 @@
 				<!--<option ng-repeat="protocol in protocols_of_type">{{protocol}}</option>-->
 			</select>
 			<br>
-	   		<div id="div_protocol_show" style="display:none;">
-	   			<span ng-repeat="(key,val) in selected_protocol"><b>{{key}}: </b>{{val}}<br></span>
+	   		<div id="div_protocol_show" style="display:none; padding: 20px 20px 20px 20px;">
+	   			<ul class="list-group">
+	   				<li class="list-group-item" ng-repeat="(key,val) in selected_protocol"><b>{{key}}: </b>{{val}}</li>
+	   			</ul>
 	   		</div>
 	  	</div>
    	</div>

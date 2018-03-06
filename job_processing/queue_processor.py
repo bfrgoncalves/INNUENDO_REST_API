@@ -1,12 +1,5 @@
-from rq import Queue  # Queue
 from rq.job import Job  # Queue
-from redis import Redis
-import subprocess
-import os
-import shlex
-import json
-import random
-import string
+
 
 # IMPORTING REDIS QUEUE CONNECTION
 from app import q
@@ -18,8 +11,8 @@ from worker import conn
 
 '''
 Queue Processor functions:
-	- Defining the Queue Processor class.
-	- Defining the methods that send jobs to the redis queue. (send_to_phyloviz, classify_profile, fetch_job)
+    - Defining the Queue Processor class.
+    - Defining the methods that send jobs to the redis queue. (send_to_phyloviz, classify_profile, fetch_job)
 '''
 
 # READ CONFIG FILE
@@ -36,9 +29,9 @@ class Queue_Processor:
             )
         return job.get_id()
 
-    def classify_profile(self, job_id, database_to_include):
+    def classify_profile(self, results, database_to_include, sample, new_job_id):
         job = q.enqueue_call(
-        func=database_functions.classify_profile, args=(job_id, database_to_include,), result_ttl=5000
+        func=database_functions.classify_profile, args=(results, database_to_include, sample, new_job_id,), result_ttl=5000
         )
         return job.get_id()
 

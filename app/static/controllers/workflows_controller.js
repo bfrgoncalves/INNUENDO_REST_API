@@ -1,57 +1,73 @@
-innuendoApp.controller("workflowsCtrl", function($scope, $http) {
+/**
+ * Angular controller for the workflows
+ * It comunicates with the workflows.js file to create workflows based on
+ * protocols
+ */
+innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
 
-	current_scope_template = $scope.selectedTemplate.path;
-	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
-	else $("#backbutton").css({"display":"none"});
+    const backButtonEl = $("#backbutton");
+    current_scope_template = $scope.selectedTemplate.path;
 
-	$("#backbutton").off("click");
-	$("#backbutton").on("click", function(){
-		$scope.$apply(function(){
-			session_array = PREVIOUS_PAGE_ARRAY.pop();
+    if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
+    else backButtonEl.css({"display":"none"});
 
-			CURRENT_PROJECT_ID = session_array[1];
-			CURRENT_JOB_MINE = session_array[2];
-			CURRENT_PROJECT = session_array[3];
-			CURRENT_SPECIES_ID = session_array[4];
-			CURRENT_SPECIES_NAME = session_array[5];
-			CURRENT_USER_NAME = session_array[6];
-			CURRENT_JOBS_ROOT = session_array[7];
+    $("#innuendofooter").css({"display":"none"});
 
-			CURRENT_JOB_ID = session_array[8];
-			CURRENT_PROJECT_NAME_ID = session_array[9];
-			CURRENT_TABLE_ROWS_SELECTED = session_array[10];
-			CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
+    backButtonEl.off("click").on("click", () => {
+        $scope.$apply( () => {
+            session_array = PREVIOUS_PAGE_ARRAY.pop();
 
+            CURRENT_PROJECT_ID = session_array[1];
+            CURRENT_JOB_MINE = session_array[2];
+            CURRENT_PROJECT = session_array[3];
+            CURRENT_SPECIES_ID = session_array[4];
+            CURRENT_SPECIES_NAME = session_array[5];
+            CURRENT_USER_NAME = session_array[6];
+            CURRENT_JOBS_ROOT = session_array[7];
 
-			$scope.selectedTemplate.path = session_array[0];
-		})
-	});
-
-	//RESET ROW SELECTION
-	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
-	CURRENT_TABLE_ROWS_SELECTED = {}
-
-	$scope.added_protocols = {};
-	$scope.class_options = ["Classifier", "Procedure"];
-
-	options=""
-	for(x in $scope.class_options){
-		options +="<option>"+$scope.class_options[x]+"</option>";
-	}
-
-	$("#select_classifier").empty();
-	$("#select_classifier").append(options);
-	$(".selectpicker").selectpicker({});
-	$(".selectpicker").selectpicker("refresh");
-
-	var protocols = new Protocol_List($http);
-	var workflows = new Workflows($http);
-	var projects_table = new Projects_Table(0, null, $http);
-	var objects_utils = new Objects_Utils();
+            CURRENT_JOB_ID = session_array[8];
+            CURRENT_PROJECT_NAME_ID = session_array[9];
+            CURRENT_TABLE_ROWS_SELECTED = session_array[10];
+            CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
+            PROJECT_STATUS = session_array[12];
 
 
-	var workflows_col_defs = [
-    	{
+            $scope.selectedTemplate.path = session_array[0];
+        });
+    });
+
+    //RESET ROW SELECTION
+    CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
+    CURRENT_TABLE_ROWS_SELECTED = {};
+
+    $scope.added_protocols = {};
+    $scope.class_options = ["Classifier", "Procedure"];
+
+    let options = "";
+
+    for(const x in $scope.class_options){
+        if ($scope.class_options.hasOwnProperty(x)){
+            options +="<option>"+$scope.class_options[x]+"</option>";
+        }
+    }
+
+    const selectClassEl = $("#select_classifier");
+    const selectPickerEl = $(".selectpicker");
+
+    selectClassEl.empty();
+    selectClassEl.append(options);
+
+    selectPickerEl.selectpicker({});
+    selectPickerEl.selectpicker("refresh");
+
+    const protocols = Protocol_List($http);
+    const workflows = Workflows($http);
+    const projects_table = Projects_Table(0, null, $http);
+    const objects_utils = Objects_Utils();
+
+
+    let workflows_col_defs = [
+        {
             "className":      'select-checkbox',
             "orderable":      false,
             "data":           null,
@@ -62,166 +78,210 @@ innuendoApp.controller("workflowsCtrl", function($scope, $http) {
         { "data": "classifier" },
         { "data": "species" },
         { "data": "availability" },
+        { "data": "dependency" },
         { "data": "timestamp" }
     ];
 
-    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Timestamp"];
+    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Dependency", "Timestamp"];
 
-	function modalAlert(text, callback){
+    const modalAlert = (text, header, callback) => {
 
-    	$('#buttonSub').off("click");
-    	$('#buttonCancelAlert').off("click");
+        const buttonSubEl = $('#buttonSub');
+        const modalBodyEl = $('#modalAlert .modal-body');
 
-    	$('#modalAlert .modal-body').empty();
-    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+        $('#buttonCancelAlert').off("click");
 
-    	$('#buttonSub').one("click", function(){
-    		$('#modalAlert').modal("hide");
-    		console.log("Alert");
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
-    		setTimeout(function(){return callback()}, 400);
-    	})
+        modalBodyEl.empty();
+        modalBodyEl.append("<p>"+text+"</p>");
 
-    	$('#modalAlert').modal("show");
+        buttonSubEl.off("click").on("click", () => {
 
-    }
+            $('#modalAlert').modal("hide");
+            console.log("Alert");
 
-	$scope.launch_sortable = function(){
-		sortable('.sortable');
-		$scope.getProtocolTypes();
-		$scope.getSpecies();
+            setTimeout( () => {
+                return callback();
+            }, 400);
+        });
 
-		workflows.get_all_workflows(function(results){
-	    	objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
-	    });
-	}
+        $('#modalAlert').modal("show");
 
-	$scope.changeWorkflowState = function(){
-		workflows.change_workflow_state(function(){
-			workflows.get_all_workflows(function(results){
-				objects_utils.destroyTable('workflows_table');
-		    	objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
-		    });
-		});
-	}
+    };
 
-	$scope.getProtocolTypes = function(){
+    $scope.launch_sortable = () => {
 
-		protocols.get_protocol_types(function(results){
-			$scope.protocol_types = results.protocol_types;
+        sortable('.sortable');
+        $scope.getProtocolTypes();
+        $scope.getSpecies();
 
-			options="";
-			for(x in results.protocol_types){
-				options +="<option>"+results.protocol_types[x]+"</option>";
-			}
+        workflows.get_all_workflows( (results) => {
 
-			$("#protocol_type_selector_load").empty();
-			$("#protocol_type_selector_load").append(options);
-			$(".selectpicker").selectpicker({});
-			$(".selectpicker").selectpicker("refresh");
-			
-			$("#protocol_type_selector_load").on("change", function(){
-				$scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
-			});
+            $scope.workflows_names = [];
+            let options = "";
 
-			$("#protocol_type_selector_load").trigger("change");
-			
-			workflows.set_protocol_types_object(results.protocolTypeObject);
-		});
+            options +="<option>None</option>";
 
-	}
+            for (const x in results.data){
+                options +="<option>"+results.data[x].name+"</option>";
+            }
 
-	$scope.getSpecies = function(){
+            const selectDependencyEl = $("#select_dependency");
 
-		projects_table.get_species_names(function(results){
-			options=""
-	        results.species.map(function(d){
-	        	options += "<option>"+d.name+"</option>";
-	        	//return d.name;
-	        });
+            selectDependencyEl.empty();
+            selectDependencyEl.append(options);
 
-	        $("#workflow_species").empty();
-	        $("#workflow_species").append(options);
-	        $(".selectpicker").selectpicker({});
-	        $(".selectpicker").selectpicker("refresh");
+            objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
+        });
+    };
 
-		});
+    $scope.changeWorkflowState = () => {
+        workflows.change_workflow_state( () => {
+            workflows.get_all_workflows( (results) => {
+                objects_utils.destroyTable('workflows_table');
+                objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
+            });
+        });
+    };
 
-	}
+    const updateWorkflows = () => {
+        workflows.get_all_workflows( (results) => {
+            objects_utils.destroyTable('workflows_table');
+            objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
+        });
+    };
 
-	$scope.loadProtocolType = function(selectedType){
+    $scope.getProtocolTypes = () => {
 
-		$("#div_button_addto_workflow").css({display:"none"});
+        protocols.get_protocol_types( (results) => {
+            $scope.protocol_types = results.protocol_types;
 
-		protocols.get_protocols_of_type(selectedType, function(results){
-			workflows.set_protocols_of_type(results.protocols);
-			$scope.property_fields = results.property_fields;
-			//$scope.protocols_of_type = results.protocols_of_type;
+            let options = "";
 
-			options = "";
-	    	for(x in results.protocols_of_type){
-				options +="<option>"+results.protocols_of_type[x]+"</option>";
-			}
+            for(const x in results.protocol_types){
+                options +="<option>"+results.protocol_types[x]+"</option>";
+            }
 
-			$("#protocol_selector_load").empty();
-			$("#protocol_selector_load").append(options);
-			$(".selectpicker").selectpicker("refresh");
+            const protocolTypeSelEl = $("#protocol_type_selector_load");
+            const selectPickerEl = $(".selectpicker");
 
-			$("#protocol_selector_load").on("change", function(){
-				$("#div_button_addto_workflow").css({display:"block"});
-			});
+            protocolTypeSelEl.empty();
+            protocolTypeSelEl.append(options);
+            selectPickerEl.selectpicker({});
+            selectPickerEl.selectpicker("refresh");
 
-			if(results.protocols.length != 0) $("#protocol_selector_load").trigger("change");
-		});
-	}
+            protocolTypeSelEl.on("change", () => {
+                $scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
+            });
+
+            protocolTypeSelEl.trigger("change");
+
+            workflows.set_protocol_types_object(results.protocolTypeObject);
+        });
+
+    };
+
+    $scope.getSpecies = () => {
+
+        projects_table.get_species_names( (results) => {
+            let options = "";
+            results.species.map( (d) => {
+                options += "<option>"+d.name+"</option>";
+            });
+
+            const workflowSpeciesEl = $("#workflow_species");
+            const selectPicker = $(".selectpicker");
+
+            workflowSpeciesEl.empty();
+            workflowSpeciesEl.append(options);
+            selectPicker.selectpicker({});
+            selectPicker.selectpicker("refresh");
+
+        });
+
+    };
+
+    $scope.loadProtocolType = (selectedType) => {
+
+        $("#div_button_addto_workflow").css({display:"none"});
+
+        protocols.get_protocols_of_type(selectedType, (results) => {
+            workflows.set_protocols_of_type(results.protocols);
+            $scope.property_fields = results.property_fields;
+
+            let options = "";
+
+            for(const x in results.protocols_of_type){
+                options +="<option>"+results.protocols_of_type[x]+"</option>";
+            }
+
+            const protocolSelEl = $("#protocol_selector_load");
+
+            protocolSelEl.empty();
+            protocolSelEl.append(options);
+            $(".selectpicker").selectpicker("refresh");
+
+            protocolSelEl.on("change", () => {
+                $("#div_button_addto_workflow").css({display:"block"});
+            });
+
+            if(results.protocols.length !== 0) protocolSelEl.trigger("change");
+        });
+    };
 
 
-	$scope.addToPipeline = function(){
+    $scope.addToPipeline = () => {
 
-		workflows.add_protocol_to_workflow($("#protocol_selector_load option:selected").text(), function(results){
-			if(results.more_than_one == true) modalAlert("At the moment, only one protocol can be applied to the workflow. We will improve this option in the near future.", function(){
-				$scope.added_protocols = results.added_protocols;
-			});
-			else $scope.added_protocols = results.added_protocols;
+        workflows.add_protocol_to_workflow($("#protocol_selector_load" +
+            " option:selected").text(), (results) => {
+            if(results.more_than_one === true){
+                modalAlert("At the moment, only one protocol can be applied" +
+                    " to the workflow. We will improve this option in the" +
+                    " near future.", "Protocols", () => {
+                    $scope.added_protocols = results.added_protocols;
+                });
+            }
+            else $scope.added_protocols = results.added_protocols;
 
-			setTimeout(function(){
-				$(".current_workflow_close").on("click", function(){
-					$scope.removeFromPipeline($(this).closest("li").attr("protocol_name"))
-				});
-			}, 800);
-		});
-	}
+            setTimeout( () => {
+                $(".current_workflow_close").on("click", (e) => {
+                    $scope.removeFromPipeline($(e.target).closest("li").attr("protocol_name"))
+                });
+            }, 800);
+        });
+    };
 
-	$scope.removeFromPipeline = function(protocol_name){
+    $scope.removeFromPipeline = (protocol_name) => {
 
-		console.log(protocol_name);
+        workflows.remove_protocol_from_workflow(protocol_name, (results) => {
+            $scope.$apply( () => {
+                $scope.added_protocols = results.added_protocols;
+            });
+            modalAlert("The protocol was removed from the workflow.", "Protocol Removed", () => {
+            });
+        });
 
-		workflows.remove_protocol_from_workflow(protocol_name, function(results){
-			console.log(results.added_protocols);
-			$scope.$apply(function(){
-				$scope.added_protocols = results.added_protocols;
-			})
-			modalAlert("The protocol was removed from the workflow.", function(){
-			});
-		});
+    };
 
-	}
+    $scope.add_New_Workflow = () => {
 
+        workflows.save_workflow( (status) => {
 
-	$scope.add_New_Workflow = function(){
+            updateWorkflows();
 
-		workflows.save_workflow(function(status){
-			if(status == true){
-				modalAlert("Workflow saved.", function(){
-				});
-			}
-			else{
-				modalAlert("An error as occurried when saving the workflow.", function(){
-				});
-			}
-		});
+            if(status === true){
+                modalAlert("Workflow saved.", "Workflows", () => {
+                });
+            }
+            else{
+                modalAlert("An error as occurried when saving the workflow.", "Error", () => {
+                });
+            }
+        });
 
-	}
+    };
 
 
 });

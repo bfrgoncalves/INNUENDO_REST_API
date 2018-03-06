@@ -1,93 +1,123 @@
 
 <div ng-controller="projectCtrl" ng-init="showProject()" style="display:none;" id="single_project_controller_div">
-	<ul class="nav nav-tabs">
+
+  <div class="row">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="home-header">{{ project.name }}</h1>
+            <p class="lead">{{ specie_name }}</p>
+            <hr class="rule1">
+        </div>
+    </div>
+  </div>
+
+
+  <ul class="nav nav-tabs">
     <li class="active" id="project_tab"><a href="#">Project</a></li>
     <li id="description_tab"><a href="#">Description</a></li>
   </ul>
 
-  <div class="col-md-12 sub-header" style="margin-bottom:2px;">
-    <h2>{{ project.name }} <span style="float:right;">{{ specie_name }}</span></h2>
-  </div>
 
   <div id="s_project_message_div"></div>
 
   	<!-- Main jumbotron for project description -->
     <div id="div_description" style="display:none;">
-      <div class="col-md-12">
-        <div class="sub_container">
-          <span>{{ project.description }}</span>
-          <!--<div class="jumbotron">
-              <span>{{ project.description }}</span>
-          </div>-->
-        </div>
+      <div class="col-md-12 banner_strains" style="padding-left: 1%;
+                       padding-right: 1%;">
+          <div class="row" style="text-align: center;width:100%;padding-left:
+           1%;">
+              <div class="banner_strains">
+                  <p>{{ project.description }}</p>
+              </div>
+          </div>
+          <div class="row" style="text-align: center;margin-top: 20px;
+          padding-left:1%;
+          padding-right:1%;">
+              <div style="width:100%;">
+                  <div class="col-md-6 banner_strains_no_width"
+                       style="text-align: left; padding-left: 1%;
+                       padding-right: 1%;">
+                      <p style="margin:1%;"><b>Total Institution Quota: </b>{{ t_quota }}</p>
+                      <p style="margin:1%;"><b>Free Quota Space: </b>{{
+                              f_quota }}</p>
+                      <p style="margin:1%;"><b>Used Quota Space: </b>{{ u_quota
+                              }}</p>
+                  </div>
+              </div>
+              <div style="width:100%; padding-left: 1%;padding-right: 1%;">
+                  <div class="col-md-6 banner_strains_no_width"
+                       style="text-align: left;">
+                      <p style="margin:1%;"><b>Total Space: </b>{{ t_quota
+                              }}</p>
+                      <p style="margin:1%;"><b>Other Projects Space: </b>{{
+                              u_space }}</p>
+                      <p style="margin:1%;"><b>Project Space: </b>{{ p_space }}</p>
+                  </div>
+              </div>
+          </div>
+          <div class="row" style="text-align: center; padding-left:1%;
+          padding-right:1%;padding-bottom: 2%;">
+              <div style="width:100%;">
+                  <div class="col-md-6 banner_strains_no_width">
+                      <div style="padding: 1%;" id="piechart_quota"></div>
+                  </div>
+              </div>
+              <div style="width:100%; padding-left: 1%;padding-right: 1%;">
+                  <div class="col-md-6 banner_strains_no_width">
+                      <div style="padding: 1%;" id="piechart_user"></div>
+                  </div>
+              </div>
+          </div>
       </div>
     </div>
 
     <div id="div_project">
-      <div id="buttons_procedures" style="float:left;padding-left:1%;margin-top: 10px;">
-        <ul class="nav nav-pills">
-          <li class="active" id="an_proc"><a href="#">Analytical Procedures</a></li>
-          <!--<li id="lab_prot"><a href="#">Lab Protocols</a></li>-->
-        </ul>
-      </div>
-
-      <!--<div id="protocols_div" class="col-md-3" style="display:none;">
-            <div class="input-group"> 
-              <select class="form-control" id="classifier_selector">
-                <option ng-repeat="pipeline in pipelines_classifiers" name="protocol_{{ pipeline.name }}">{{ pipeline.name }}</option>
-              </select> 
-              <span class="input-group-btn">
-                <button class="btn btn-md btn-primary" style="float:right;" ng-click="applyWorkflow('lab_protocol')"><i class="fa fa-arrow-circle-down" data-toggle="tooltip" data-placement="top" title="Apply workflow to strain"></i></button>
-              </span>
-            </div>
-      </div>-->
-
-      <div id="procedures_div" class="col-md-3" style="display:block;margin-top: 10px;">
-            <div class="input-group">           
-              <select class="selectpicker" id="pipeline_selector" data-live-search="true">
-                <option ng-repeat="pipeline in pipelines" name="analysis_{{ pipeline.name }}">{{ pipeline.name }}</option>
-              </select>
-              <span class="input-group-btn">
-                <button class="btn btn-primary" type="button" tabindex="-1" ng-click="applyWorkflow('analysis_protocol')"><i class="fa fa-arrow-circle-down" data-toggle="tooltip" data-placement="top" title="Apply workflow to strain"></i></button>
-              </span>
-          </div>
-        <div class="col-md-12" id="project_procedures_message_div"></div>
-      </div>
 
     <div ng-include src="'static/html_components/modals/new_pipeline_modal.html'"></div>
     <div ng-include src="'static/html_components/modals/new_strain_modal.html'"></div>
     <div ng-include src="'static/html_components/modals/strain_details_modal.html'"></div>
     <div ng-include src="'static/html_components/modals/lab_reports_modal.html'"></div>
     <div ng-include src="'static/html_components/modals/modal_alert.html'"></div>
+    <div ng-include src="'static/html_components/modals/modal_nextflow_logs.html'"></div>
 
-    <div class="col-md-12" style="padding:10px;">
-      <div class="col-md-12" id="project_strain_message_div"></div>
-      <div class="sub_container">
-        <div id="jumbotron-strains" class="jumbotron">
-        <h3 class="sub-header">Strains<button id="button_run_strain" type="button" class="btn btn-sm btn-primary" ng-click="runPipelines()" value="" style="float:right;"><i class="fa fa-sign-in" data-toggle="tooltip" data-placement="top" title="Run jobs"></i></button><button id="button_remove_strain" type="button" class="btn btn-sm btn-danger" ng-click="removeStrainsFromProject()" value="" style="float:right;"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Delete strain from project"></i></button><button id="button_add_strain" class="btn btn-sm btn-default" style="float:right;" data-toggle="modal" data-target="#newStrainModal"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add strain to project"></i></button>
-        <!--<div class="dropdown" style="float:right;">
-          <button class="btn btn-md btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li><a href="#" ng-click="removeFirstAnalysis()">Remove first Analysis</a></li>
-            <li><a href="#" ng-click="removeLastAnalysis()">Remove last Analysis</a></li>
-          </ul>
-        </div>-->
-        </h3>
-          <!--<div class="scroll_div">-->
-            <table class="display compact hover" id="strains_table" width='100%'>
-              <thead>
-              </thead>
-              <!--<tbody>
-                <tr ng-repeat="strain in strains">
-                  <td></td>
-                  <td ng-repeat="field in strain">{{ field }}</td>
-                  </td>
-                </tr>
-              </tbody>-->
-              <tfoot>
-              </tfoot>
-            </table>
-          <!--</div>-->
+    <div style="width:100%;">
+      <div class="col-md-12 banner_strains" style="padding:10px;">
+        
+        <div id="procedures_div" style="display:block;margin-top: 10px; width:40%; float:left;">
+              <div class="input-group">
+                <span class="input-group-addon">Workflows</span>           
+                <select class="selectpicker form-control" id="pipeline_selector" data-live-search="true">
+                  <option ng-repeat="pipeline in pipelines" name="analysis_{{ pipeline.name }}">{{ pipeline.name }}</option>
+                </select>
+                <span class="input-group-addon btn btn-primary" ng-click="applyWorkflow('analysis_protocol')">
+                  <i class="fa fa-arrow-circle-down" data-toggle="tooltip" data-placement="top" title="Apply workflow to strain"></i>
+                </span>
+            </div>
+          <div class="col-md-12" id="project_procedures_message_div"></div>
+        </div>
+
+        <div class="col-md-12" id="project_strain_message_div"></div>
+
+        <div style="margin-top: 4%;">
+          <!--<div id="jumbotron-strains">-->
+          <h3 class="sub-header">Strains<button id="button_run_strain" type="button" class="btn btn-sm btn-primary" ng-click="runPipelines()" value="" style="float:right;"><i class="fa fa-sign-in" data-toggle="tooltip" data-placement="top" title="Run jobs"></i></button><button id="button_remove_strain" type="button" class="btn btn-sm btn-danger" ng-click="removeStrainsFromProject()" value="" style="float:right;"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Delete strain from project"></i></button><button id="button_add_strain" class="btn btn-sm btn-default" style="float:right;" data-toggle="modal" data-target="#newStrainModal"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add strain to project"></i></button>
+          <button id="button_refresh_status" class="btn btn-sm btn-success" style="float:right;" ng-click="refreshStatus()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+          <button id="button_remove_all_workflows" class="btn btn-sm btn-danger" style="float:right;display:none;" ng-click="removeAllWorkflows()"><i class="fa" aria-hidden="true">Remove all Workflows</i></button>
+          </h3>
+            <!--<div class="scroll_div">-->
+              <table class="table table-striped table-bordered" id="strains_table" width='100%'>
+                <thead>
+                </thead>
+                <!--<tbody>
+                  <tr ng-repeat="strain in strains">
+                    <td></td>
+                    <td ng-repeat="field in strain">{{ field }}</td>
+                    </td>
+                  </tr>
+                </tbody>-->
+                <tfoot>
+                </tfoot>
+              </table>
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@
                     <ul class="nav nav-list" style="font-size: 12px;">
                       <!--<li id="uploads_button_li"><a  id="uploads_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/downloads_view.html') }}&#39;">Downloads</a></li>-->
                       <li id="modify_strains_button_li"><a  id="modify_strains_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/modify_strains_view.html') }}&#39;">Modify Strain Metadata</a></li>
-                      <li id="modify_strains_button_li"><a  id="modify_strains_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/configure_analysis_parameters_view.html') }}&#39;">Configure Analysis Metadata</a></li>
+                      <!--<li id="modify_strains_button_li"><a  id="modify_strains_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/configure_analysis_parameters_view.html') }}&#39;">Configure Analysis Metadata</a></li>-->
                     </ul>
                   </div>
                 </li>
@@ -38,11 +38,11 @@
         <div id="page-content-wrapper">
             <button id="button_ham_navbar" type="button" class="hamburger is-closed" data-toggle="offcanvas">
                 <span class="hamb-top"></span>
-          <span class="hamb-middle"></span>
-        <span class="hamb-bottom"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
             </button>
-            <button id="backbutton" class="btn btn-md btn-primary" style="margin-left:10px;display:none;" type="button"><i class="fa fa-arrow-left"></i>Back</button>
             <div id="container">
+              <div ng-include src="'static/html_components/modals/new_mail_modal.html'"></div>
               <img src='static/img/spinner.gif' style="display:none; height:10%; width:auto" id="waiting_spinner" />
               {% include "security/_messages.html" %}
               <div data-ng-include="selectedTemplate.path" id="main_container"></div>    

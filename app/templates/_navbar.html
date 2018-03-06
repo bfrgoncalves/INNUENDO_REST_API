@@ -1,5 +1,5 @@
 <header id="header" class="headroom">
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav id="navbar_platform" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
         <p class="pull-left visible-xs">
@@ -10,6 +10,9 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a id="backbutton"><i class="fa fa-arrow-left"></i></a>
+          </li>
           {% if current_user.is_authenticated %}
            {% include "_userdropdown.html" %}
           {% else %}

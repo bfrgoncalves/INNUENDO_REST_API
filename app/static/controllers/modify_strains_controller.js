@@ -1,64 +1,129 @@
+/**
+ * Function to set headers metadata
+ * @param global_strains
+ * @param procedure
+ * @returns {[null,null]}
+ */
+const set_headers_metadata = (global_strains) => {
+    const metadata = Metadata();
+    const matching_fields = metadata.get_dict_fields_reverse();
+    //const minimal_fields = metadata.get_default_headers();
 
-innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) {
-
-	current_scope_template = $scope.selectedTemplate.path;
-	if(PREVIOUS_PAGE_ARRAY.length > 0) $("#backbutton").css({"display":"block"});
-	else $("#backbutton").css({"display":"none"});
-
-	$("#backbutton").off("click");
-	$("#backbutton").on("click", function(){
-		$scope.$apply(function(){
-			session_array = PREVIOUS_PAGE_ARRAY.pop();
-
-			CURRENT_PROJECT_ID = session_array[1];
-			CURRENT_JOB_MINE = session_array[2];
-			CURRENT_PROJECT = session_array[3];
-			CURRENT_SPECIES_ID = session_array[4];
-			CURRENT_SPECIES_NAME = session_array[5];
-			CURRENT_USER_NAME = session_array[6];
-			CURRENT_JOBS_ROOT = session_array[7];
-
-			CURRENT_JOB_ID = session_array[8];
-			CURRENT_PROJECT_NAME_ID = session_array[9];
-			CURRENT_TABLE_ROWS_SELECTED = session_array[10];
-			CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
-
-			$scope.selectedTemplate.path = session_array[0];
-		})
-	});
-
-	//RESET ROW SELECTION
-	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
-	CURRENT_TABLE_ROWS_SELECTED = {}
-
-	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
-
-	var objects_utils = new Objects_Utils();
-
-	var metadata = new Metadata();
-
-	single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
-	reports = new Report($http);
-
-	metadata.add_owner(CURRENT_USER_NAME);
-
-	var jobs_to_reports = {};
-	var strain_name_to_id = {};
+    let strains_headers = [], p_col_defs = [];
 
 
-	$scope.metadata_fields = metadata.get_fields();
-	$scope.specie_name = CURRENT_SPECIES_NAME;
+    if(global_strains.length === 0){
 
-	var strains_headers = metadata.get_minimal_fields();
+        p_col_defs = [
+            {
+                "className":      'select-checkbox',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            },
+            { "data": "Sample" },
+            { "data": "job_id" }
 
-	$scope.strains_headers = strains_headers;
+        ];
+
+        strains_headers = ["Sample","Run Identifier"]
+    }
+    else{
+
+        p_col_defs = [
+            {
+                "className":      'select-checkbox',
+                "orderable":      false,
+                "data":           null,
+                "defaultContent": ''
+            }
+        ];
+
+        for(const x in global_strains[0]){
+            if (x !== "Analysis" && x !== "id" && x !== "species_id" && x !== "strain_id" && x !== "FilesLocation"){
+                p_col_defs.push({"data":x, "visible":true});
+                strains_headers.push(matching_fields[x] === undefined ? x:matching_fields[x]);
+            }
+        }
+    }
+
+    return [p_col_defs, strains_headers]
+};
+
+
+/**
+ * Update strain metadata controller. Interacts with js_objects files to
+ * update user metadata.
+ */
+innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
+
+    current_scope_template = $scope.selectedTemplate.path;
+
+    const backButtonEl = $("#backbutton");
+
+    if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
+    else backButtonEl.css({"display":"none"});
+
+    $("#innuendofooter").css({"display":"none"});
+
+    backButtonEl.off("click").on("click", () => {
+        $scope.$apply( () => {
+            session_array = PREVIOUS_PAGE_ARRAY.pop();
+
+            CURRENT_PROJECT_ID = session_array[1];
+            CURRENT_JOB_MINE = session_array[2];
+            CURRENT_PROJECT = session_array[3];
+            CURRENT_SPECIES_ID = session_array[4];
+            CURRENT_SPECIES_NAME = session_array[5];
+            CURRENT_USER_NAME = session_array[6];
+            CURRENT_JOBS_ROOT = session_array[7];
+
+            CURRENT_JOB_ID = session_array[8];
+            CURRENT_PROJECT_NAME_ID = session_array[9];
+            CURRENT_TABLE_ROWS_SELECTED = session_array[10];
+            CURRENT_TABLE_ROW_ANALYSIS_SELECTED = session_array[11];
+            PROJECT_STATUS = session_array[12];
+
+            $scope.selectedTemplate.path = session_array[0];
+        })
+    });
+
+    for (const interval in intervals_running){
+        if(intervals_running.hasOwnProperty(interval)){
+            clearInterval(intervals_running[interval]);
+        }
+    }
+
+    //RESET ROW SELECTION
+    CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
+    CURRENT_TABLE_ROWS_SELECTED = {};
+
+    $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
+
+    const objects_utils = Objects_Utils();
+    const metadata = Metadata();
+    const single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
+    //const reports = new Report($http);
+
+    metadata.add_owner(CURRENT_USER_NAME);
+
+    //let jobs_to_reports = {};
+    let strain_name_to_id = {};
+
+
+    $scope.metadata_fields = metadata.get_fields();
+    $scope.specie_name = CURRENT_SPECIES_NAME;
+
+    let strains_headers = metadata.get_minimal_fields();
+
+    $scope.strains_headers = strains_headers;
 
     $scope.species_id = CURRENT_SPECIES_ID;
 
-	sh = strains_headers;
+    sh = strains_headers;
 
-	var public_project_col_defs = [
-    	{
+    /*let public_project_col_defs = [
+        {
             "className":      'select-checkbox',
             "orderable":      false,
             "data":           null,
@@ -74,116 +139,141 @@ innuendoApp.controller("modifyStrainsCtrl", function($scope, $rootScope, $http) 
             "className":      'details-control',
             "orderable":      false,
             "data":           null,
-            "defaultContent": '<div style="width:100%;text-align:center;"><button class="details-control"><i class="fa fa-info" data-toggle="tooltip" data-placement="top" title="More info"></i></button></div>'
+            "defaultContent": '<div style="width:100%;text-align:center;">' +
+            '<button class="details-control"><i class="fa fa-info"' +
+            ' data-toggle="tooltip" data-placement="top" title="More' +
+            ' info"></i></button></div>'
         }
 
-    ];
+    ];*/
 
-	var global_public_strains = [];
+    let global_public_strains = [];
 
-	function modalAlert(text, callback){
 
-    	$('#buttonSub').off("click");
-    	$('#buttonCancelAlert').off("click");
+    const modalAlert = (text, header, callback) => {
 
-    	$('#modalAlert .modal-body').empty();
-    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
+        const buttonSubEl = $('#buttonSub');
+        const modalBodyEl = $('#modalAlert .modal-body');
+        const modalAlertEl = $('#modalAlert');
 
-    	$('#buttonSub').one("click", function(){
-    		$('#modalAlert').modal("hide");
-    		console.log("Alert");
+        $('#buttonCancelAlert').off("click");
 
-    		setTimeout(function(){return callback()}, 400);
-    	})
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
 
-    	$('#modalAlert').modal("show");
+        modalBodyEl.empty();
+        modalBodyEl.append("<p>"+text+"</p>");
 
-    }
+        buttonSubEl.off("click").on("click", () => {
+            modalAlertEl.modal("hide");
 
-    $("#reset_strain").on("click", function(){
-		$scope.$apply(function(){
-			$scope.selectedTemplate.path = 'static/html_components/overview.html';
-		})
-	});
+            setTimeout( () => {
+                return callback();
+            }, 400);
+        });
 
-	$scope.showUserStrains = function(){
-		$scope.getStrains();
-	}
+        modalAlertEl.modal("show");
 
-	$scope.getStrains = function(){
+    };
 
-		single_project.get_strains(true, function(strains_results){
-		    objects_utils.destroyTable('modify_strains_table');
-		    global_public_strains = strains_results.public_strains;
-		    headers_defs = set_headers_reports(global_public_strains);
 
-		    console.log(global_public_strains, headers_defs);
-			
-			if(headers_defs[1].length != 0) strains_headers = headers_defs[1];
-			else{
-				modalAlert("There are no strains associated with this species. Define a new strain inside a Project.")
-			}
-			
-			objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, function(){
-		    	objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
+    $("#reset_strain").on("click", () => {
+        $scope.$apply( () => {
+            $scope.selectedTemplate.path = 'static/html_components/overview.html';
+        })
+    });
 
-			    global_public_strains.map(function(d){
-			    	strain_name_to_id[d.strainID] = d.id;
-			    });
-			    $('#waiting_spinner').css({display:'none'});
-			    $('#modify_strains_controller_div').css({display:'block'}); 
-			    $("#modify_strains_table").DataTable().draw();
-			});
-		});
+    $scope.showUserStrains = () => {
+        $scope.getStrains();
+    };
 
-	}
+    $scope.getStrains = () => {
 
-	$scope.modifyStrains = function(){
-		strain_selected = [];
-		
-		var strain_selected = $.map($('#modify_strains_table').DataTable().rows('.selected').data(), function(item){
-			console.log(item);
-	        return item;
-	    });
-	    console.log(strain_selected);
+        single_project.get_strains(true, (strains_results) => {
+            objects_utils.destroyTable('modify_strains_table');
 
-	    if (strain_selected.length == 0){
-	    	modalAlert("Please select a strain first.", function(){
+            global_public_strains = strains_results.public_strains;
 
-			});
-			return;
-	    }
-	    var strain_id_in_use = strain_selected[0].id;
+            let headers_defs = set_headers_metadata(global_public_strains);
 
-	    for(key in strain_selected[0]){
-	    	$('#'+key).val(strain_selected[0][key]);
-	    }
-	    $('#modifyStrainModal').modal("show");
 
-	    $('#update_metadata_button').off("click");
+            if(headers_defs[1].length !== 0){
+                strains_headers = headers_defs[1];
+            }
+            else{
+                modalAlert("There are no strains associated with this" +
+                    " species. Define a new strain inside a Project.", "No" +
+                    " Strains in Project!", () => {});
+            }
 
-	    $('#update_metadata_button').on("click", function(){
-	    	updateMetadata(strain_id_in_use);
-	    });
-	}
+            objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, () => {
+                objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
 
-	updateMetadata = function(strain_id_in_use){
-		single_project.update_metadata(strain_id_in_use, function(response){
+                global_public_strains.map( (d) => {
+                    strain_name_to_id[d.strainID] = d.id;
+                });
 
-			single_project.get_strains(true, function(strains_results){
-			    objects_utils.destroyTable('modify_strains_table');
-			    global_public_strains = strains_results.public_strains;
-			    headers_defs = set_headers_reports(global_public_strains);
-				
-				strains_headers = headers_defs[1];
-				
-				objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, function(){
-				    objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
-						modalAlert("Strain metadata was modified.", function(){
-					});
-				});
-			});
-		});
-	}
+                $('#waiting_spinner').css({display:'none'});
+                $('#modify_strains_controller_div').css({display:'block'});
+
+                setTimeout( () => {
+                    $("#modify_strains_table").DataTable().draw();
+
+                    $('.datetimepicker').datetimepicker({
+                        format: 'DD/MM/YYYY'
+                    });
+
+                }, 200);
+            });
+        });
+
+    };
+
+    $scope.modifyStrains = () => {
+
+        const strain_selected = $.map($('#modify_strains_table').DataTable().rows('.selected').data(), (item) => {
+            return item;
+        });
+
+        if (strain_selected.length === 0){
+            modalAlert("Please select a strain first.", "Select Strains", () => {
+
+            });
+            return;
+        }
+
+        const strain_id_in_use = strain_selected[0].id;
+
+        for(const key in strain_selected[0]){
+            $('#'+key).val(strain_selected[0][key]);
+        }
+
+        $('#modifyStrainModal').modal("show");
+
+        const updateMetadataEl = $('#update_metadata_button');
+
+        updateMetadataEl.off("click").on("click", () => {
+            updateMetadata(strain_id_in_use);
+        });
+    };
+
+    const updateMetadata = (strain_id_in_use) => {
+        single_project.update_metadata(strain_id_in_use, (response) => {
+
+            single_project.get_strains(true, (strains_results) => {
+                objects_utils.destroyTable('modify_strains_table');
+                global_public_strains = strains_results.public_strains;
+                let headers_defs = set_headers_metadata(global_public_strains);
+
+                strains_headers = headers_defs[1];
+
+                objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, () => {
+                    objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
+                    modalAlert("Strain metadata was modified.", "Success!", () => {
+                    });
+                });
+            });
+        });
+    };
 
 });

@@ -13,21 +13,32 @@
     <link href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap-select/dist/css/bootstrap-select.css') }}">
     <link href="{{ url_for('static', filename='bower_components/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
-    <link href="{{ url_for('static', filename='bower_components/datatables/media/css/jquery.dataTables.min.css') }}" media="all" rel="stylesheet" type="text/css" />
-    <link href="{{ url_for('static', filename='bower_components/datatables.net-responsive-dt/css/responsive.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <!--<link href="{{ url_for('static', filename='bower_components/datatables/media/css/jquery.dataTables.min.css') }}" media="all" rel="stylesheet" type="text/css" />-->
+    <!--<link href="{{ url_for('static', filename='bower_components/datatables.net-responsive-dt/css/responsive.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />-->
     <link href="{{ url_for('static', filename='bower_components/datatables.net-colreorder-dt/css/colReorder.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ url_for('static', filename='bower_components/datatables.net-buttons-dt/css/buttons.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ url_for('static', filename='bower_components/datatables.net-select-dt/css/select.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
     <link href="{{ url_for('static', filename='bower_components/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
     <link href="{{ url_for('static', filename='css/screen_style.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/additional_style.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/test_new_css.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/navbar_style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/components-font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
     {% block stylesheets %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
 </head>
 <body>
+
+    <div id="overlayProjects"></div>
+      <div id="overlayWorking">
+        <img src='static/img/spinner.gif' style="height:35%; width:auto" />
+        <p style="margin-top: 10px;">Working...</p>
+        <p id="submission_status" style="margin-top: 10px;"></p>
+    </div>
+
 	{% block content %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
     <script>
@@ -35,6 +46,8 @@
         var current_user_name = {{ current_user_name|safe }}
         var homedir = {{ homedir|safe }}
         var jobs_root = {{ jobs_root|safe }}
+        var REPORTS_URL = {{ reports_url|safe }}
+        var SHOW_INFO_BUTTON = {{ show_info_button|safe }}
     </script>
 
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -44,14 +57,20 @@
     <script src="{{ url_for('static', filename='bower_components/bootstrap-select/dist/js/bootstrap-select.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/datatables/media/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/datatables.net-responsive/js/dataTables.responsive.js') }}"></script>
+    <!--<script src="{{ url_for('static', filename='bower_components/datatables.net-responsive/js/dataTables.responsive.js') }}"></script>-->
     <script src="{{ url_for('static', filename='bower_components/datatables.net-colreorder/js/dataTables.colReorder.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/datatables.net-buttons/js/dataTables.buttons.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/datatables.net-buttons/js/buttons.colVis.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/datatables.net-select/js/dataTables.select.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/datatables.net-fixedcolumns/js/dataTables.fixedColumns.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-bs/js/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/html.sortable/dist/html.sortable.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='bower_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+
     <script src="{{ url_for('static', filename='controllers/main_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/utils.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/js_objects/objects_utils.js') }}"></script>
@@ -62,6 +81,7 @@
     <script src="{{ url_for('static', filename='controllers/js_objects/protocols.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/js_objects/reports.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/js_objects/workflows.js') }}"></script>
+    <script src="{{ url_for('static', filename='controllers/js_objects/description.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/requests/requests.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/requests/ngs_onto_requests.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/projects_controller.js') }}"></script>
@@ -73,6 +93,9 @@
     <script src="{{ url_for('static', filename='controllers/workflows_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/reports_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='controllers/iframe_functions.js') }}"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+    <script type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
 
 
 </body>

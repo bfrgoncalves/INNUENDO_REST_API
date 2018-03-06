@@ -1343,7 +1343,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     					process_id_to_workflow[strain_data[counter]['strainID'] + protoc_counter] = strain_data[counter]['strainID'] + "_workflow_" + workflow_counter + "_" + CURRENT_PROJECT_ID;
 			        }
 
-			        console.log(buttonselectedPipeline);
+			        //console.log(buttonselectedPipeline);
 
 
 			        if(!pipelines_applied.hasOwnProperty(strain_data[counter]['strainID'])){
@@ -1393,7 +1393,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			        	}
 			        }
 
-			        console.log(pipelines_applied, counter, strain_data, pipelines_type_by_strain);
+			        //console.log(pipelines_applied, counter, strain_data,
+                    // pipelines_type_by_strain);
 
 
 			        for(const j in pipelines_type_by_strain[strain_data[counter]['strainID']]){
@@ -1419,9 +1420,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        if(!strain_data[i].hasOwnProperty('protocols')) {
 		            strain_data[i]['protocols'] = {};
                 }
-
-                console.log(toAdd_analysis);
-		        
 
 		        if(type_proc === 'lab_protocol' && local_workflow_applied !== true) {
 		            strain_data[i]['lab_protocols'] = toAdd_lab_protocols;

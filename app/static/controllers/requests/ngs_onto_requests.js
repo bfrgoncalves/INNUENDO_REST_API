@@ -290,7 +290,8 @@ const ngs_onto_client = (CURRENT_PROJECT_ID, $http) => {
         },
         ngs_onto_request_add_jobid_to_process: (pipeline_id, processes_ids, task_ids, strain_name, callback) => {
 
-            console.log('JOBID TO PROCESS', pipeline_id, processes_ids, task_ids);
+            //console.log('JOBID TO PROCESS', pipeline_id, processes_ids,
+            // task_ids);
 
             const req = {
                 url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/processes/jobid',

@@ -1544,8 +1544,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		        		pipelines_applied[strain_id_to_name[strain_id]].map( (d, x) => {
 
-		        		    console.log(d, x);
-
 		        		    let workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
 			                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
 			                let button_n = d.split("id")[1].split('"')[1];
@@ -1559,8 +1557,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			        		else counter_steps += 1;
 
 			        		counter_global += 1;
-
-			        		console.log(total_workflows, counter_global);
 
 			                if (total_workflows === counter_global){
 			                	if(workflow_ids.length === 0){
@@ -1815,7 +1811,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        				ngs_onto_requests.ngs_onto_request_get_workflow(pipelinesByName[workflowName], strain_name, count_pipelines_applied, (response, strain_name, count_pip_app) => {
 
 			        				dict_strain_names[strain_name][2]+=1;
-			        				console.log(response);
 
 			        				for(let k=response.data.length-1; k>=0;k--){
 
@@ -1880,8 +1875,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 							        				});
 					        					}
 					        				}
-
-					        				console.log(task_ids_to_map);
 
 
 					        				//Add job id to the process on ngsonto and start checking the job status

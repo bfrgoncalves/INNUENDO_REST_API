@@ -2341,6 +2341,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 							}
 						}
 
+						console.log(new_pipapplied);
+
 						pipelines_applied[strain_names[index]] = new_pipapplied;
 
 						pipelines_type_by_strain[strain_names[index]][0] = new_pipapplied_prot;
@@ -2349,8 +2351,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						let toAdd_lab_protocols = "";
 						let toAdd_analysis = "";
 
+						console.log(pipelines_type_by_strain[strain_names[index]]);
+
 						//UPDATE WORKFLOWS
 						for(const j in pipelines_type_by_strain[strain_names[index]]){
+						    console.log(j);
 				        	if(j === 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j];
 		        			else if (j === 1) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j];
 				        }

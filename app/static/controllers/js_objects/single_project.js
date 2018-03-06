@@ -2356,8 +2356,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						//UPDATE WORKFLOWS
 						for(const j in pipelines_type_by_strain[strain_names[index]]){
 						    console.log(j);
-				        	if(j === 0) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j];
-		        			else if (j === 1) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j];
+				        	if(j === String(0)) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j];
+		        			else if (j === String(1)) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j];
 				        }
 				        strain_data[index]['Analysis'] = toAdd_analysis;
 

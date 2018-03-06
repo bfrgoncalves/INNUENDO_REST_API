@@ -203,6 +203,10 @@
 	  </div>
       <div class="modal-body">
       	  <div style="height:70%;overflow-x:auto;">
+              <label id="hasPipelinesLabel">Some strains already have some
+                  pipelines applied to them on other projects. Check before
+                  performing duplicate analyses.
+              </label>
 			  <div class="list-group" ng-repeat="(key,val) in available_strain_pipelines">
 			  	  <label style="font-size:14px;color:#3399ff">Strain {{ key }}:</label>
 			  	  <div id="pipeline_group_{{myReplace(key)}}">

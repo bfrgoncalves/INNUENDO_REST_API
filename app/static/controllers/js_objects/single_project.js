@@ -257,6 +257,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		//Checks if pipeline alrasy exists for that strain on this project
 		pg_requests.check_if_pipeline_exists(strain_id, null, (response, strainid, not_used) => {
+
+		    console.log(response, strainid);
 			if(response.status === 200){
 				//For each pipeline applied on that strain, checks if the project associated is the CURRENT_PROJECT_ID
 				for(const x in response.data){
@@ -788,6 +790,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			let total_strains = strainids.length;
 			let total_wf = {};
 			let total_pips = {};
+			let hasPipelines = false;
 
 			for(const strainid in strainids){
 
@@ -806,6 +809,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 				    let available_workflows = [];
 					let workflow_ids_added = {};
 					let pipelines_ids = [];
+
+					console.log(response);
 
 					if (response.status === 200){
 						const total_pip = response.data.length;

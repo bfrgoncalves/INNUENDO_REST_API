@@ -917,15 +917,21 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     };
 
     $scope.removeAllWorkflows = () => {
-        single_project.deleteAllWorkflows( (strain_results) => {
 
-            objects_utils.destroyTable('strains_table');
-            let headers_defs = set_headers_single_project('strains_table', global_strains);
+        modalAlert("By accepting this option you are removing " +
+                    " all workflows applied to the strains. This will only" +
+            " be saved if you resubmit jobs using some of the strains. Do you" +
+            " really want proceed?", "Warning", () => {
+            single_project.deleteAllWorkflows((strain_results) => {
 
-            objects_utils.restore_table_headers('strains_table', sh, true, () => {
-                objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
+                objects_utils.destroyTable('strains_table');
+                let headers_defs = set_headers_single_project('strains_table', global_strains);
+
+                objects_utils.restore_table_headers('strains_table', sh, true, () => {
+                    objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], sh);
+                });
+
             });
-
         });
 
     };

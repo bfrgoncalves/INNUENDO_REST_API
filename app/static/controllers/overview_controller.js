@@ -80,8 +80,8 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
                 let t_use = "";
 
                 for(const r in results.species){
-                    //Select only for Ecoli
-                    if (results.species[r].name === "E.coli"){
+                    //Select only for Ecoli or Yersinia
+                    if (results.species[r].name === "E.coli" || results.species[r].name === "Yersinia"){
                         t_use += '<option species_id="'+results.species[r].id+'">' + results.species[r].name + '</option>';
                     }
                 }

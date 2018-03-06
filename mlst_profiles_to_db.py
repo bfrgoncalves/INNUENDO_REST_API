@@ -124,8 +124,10 @@ def read_metadata_file_to_JSON(file_path, table_id):
 			if len(line) > 0:
 				if line.startswith('Uberstrain') or line.startswith('FILE'):
 					metadata_fields = line.split('\t')[0:]
+					print metadata_fields
 				else:
 					line = line.split('\t')
+
 					if table_id == "yersinia" or table_id == "ecoli":
 						sample = line[0]
  					else:

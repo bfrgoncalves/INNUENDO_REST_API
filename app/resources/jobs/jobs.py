@@ -78,6 +78,8 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position, u
 
     report = db.session.query(Report).filter(Report.project_id == project_id, Report.pipeline_id == pipeline_id, Report.procedure == procedure).first()
 
+    print results.keys()
+
     if "chewbbaca" in procedure:
         new_job_id = project_id + pipeline_id + process_position
 

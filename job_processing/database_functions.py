@@ -17,7 +17,6 @@ Database Functions:
 database_correspondece = {"E.coli": Ecoli, "Yersinia": Yersinia}
 
 
-
 def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file_path):
 
     count_headers = 0

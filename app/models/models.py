@@ -285,7 +285,8 @@ class Ecoli(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
-    classifier = db.Column(db.String(255))
+    classifier_l1 = db.Column(db.String(255))
+    classifier_l2 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform
@@ -298,7 +299,8 @@ class Yersinia(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
-    classifier = db.Column(db.String(255))
+    classifier_l1 = db.Column(db.String(255))
+    classifier_l2 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform
@@ -311,7 +313,8 @@ class Campylobacter(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
-    classifier = db.Column(db.String(255))
+    classifier_l1 = db.Column(db.String(255))
+    classifier_l2 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform
@@ -324,7 +327,8 @@ class Salmonella(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
-    classifier = db.Column(db.String(255))
+    classifier_l1 = db.Column(db.String(255))
+    classifier_l2 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform

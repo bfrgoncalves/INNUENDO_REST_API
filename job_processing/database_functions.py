@@ -7,7 +7,10 @@ import datetime
 import subprocess
 from sqlalchemy import cast, Integer
 
-from config import wg_index_correspondece, core_index_correspondece, core_headers_correspondece, wg_headers_correspondece, allele_classes_to_ignore, core_increment_profile_file_correspondece, wg_increment_profile_file_correspondece
+from config import wg_index_correspondece, core_index_correspondece, \
+    core_headers_correspondece, wg_headers_correspondece, \
+    allele_classes_to_ignore, core_increment_profile_file_correspondece, \
+    wg_increment_profile_file_correspondece, classification_levels
 
 '''
 Database Functions:
@@ -101,41 +104,80 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         string_list = string_list.replace(k,v)
         string_list_wg = string_list_wg.replace(k,v)
 
-
     with open(query_profle_path, 'w') as writer:
         writer.write(string_list+"\n")
 
     with open(query_profle_path_wg, 'w') as writer:
         writer.write(string_list_wg+"\n")
 
-    closest_profiles = fast_mlst_functions.get_closest_profiles(query_profle_path, core_index_correspondece[database_name], 7)
+    # First level classification
+    closest_profiles = fast_mlst_functions.get_closest_profiles(
+        query_profle_path, core_index_correspondece[database_name],
+        classification_levels[database_name][0])
 
+    # First level classification
+    closest_profiles_2 = fast_mlst_functions.get_closest_profiles(
+        query_profle_path, core_index_correspondece[database_name],
+        classification_levels[database_name][1])
+
+    # Total closest ids on first level
     closest_ids = []
     for i, x in enumerate(closest_profiles):
         closest_ids.append(closest_profiles[i].split("\t")[0])
 
+    # Total closest ids on second level
+    closest_ids_2 = []
+    for i, x in enumerate(closest_profiles_2):
+        closest_ids_2.append(closest_profiles_2[i].split("\t")[0])
+
+    # Closest on first level
     if len(closest_profiles) == 0:
-        classification = "undefined"
         first_closest = [None]
     else:
         # ID\tDIFFERENCES
         first_closest = closest_profiles[0].split("\t")
 
-    print "Closest:" + str(first_closest[0])
+    # Closest on second level
+    if len(closest_profiles_2) == 0:
+        first_closest_2 = [None]
+    else:
+        # ID\tDIFFERENCES
+        first_closest_2 = closest_profiles_2[0].split("\t")
 
-    if sample.replace(" ", "_") in closest_ids:
+    print "Closest first level:" + str(first_closest[0])
+    print "Closest second level:" + str(first_closest_2[0])
+
+    if sample.replace(" ", "_") in closest_ids or sample.replace(" ", "_") in\
+            closest_ids_2:
         print "ALREADY ON DB AND INDEX"
         return True
     else:
-        database_entry = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].name == first_closest[0]).first()
+        # Get Id of closest at first level
+        database_entry = db.session.query(
+            database_correspondece[database_name]).filter(
+                database_correspondece[database_name].name == first_closest[0]
+            ).first()
 
+        # Get Id of closest at second level
+        database_entry_2 = db.session.query(
+            database_correspondece[database_name]).filter(
+            database_correspondece[database_name].name == first_closest_2[0]
+        ).first()
+
+        # Get classification of closets at first level or get the last
+        # classifier
         if database_entry:
             classification = database_entry.classifier
         else:
-            highest_classifier = db.session.query(database_correspondece[database_name]).filter(database_correspondece[database_name].classifier != "undefined").order_by(cast(database_correspondece[database_name].classifier, Integer).desc()).first()
+            highest_classifier = db.session.query(
+                database_correspondece[database_name]).filter(
+                database_correspondece[database_name].classifier_l1 != "undefined")\
+                .order_by(cast(database_correspondece[database_name].classifier_l1, Integer)
+                .desc()
+            ).first()
 
             if highest_classifier:
-                classification = highest_classifier.classifier
+                classification = highest_classifier.classifier_l1
 
                 if "New_" in classification:
                     classification = classification.split("_")[1]
@@ -147,11 +189,48 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 
         print classification
 
+        # Get classification of closets at second level or get the last
+        # classifier
+        if database_entry_2:
+            classification_2 = database_entry_2.classifier
+        else:
+            highest_classifier_2 = db.session.query(
+                database_correspondece[database_name]).filter(
+                database_correspondece[
+                    database_name].classifier_l2 != "undefined") \
+                .order_by(
+                cast(database_correspondece[database_name].classifier_l2,
+                     Integer)
+                .desc()
+                ).first()
+
+            if highest_classifier_2:
+                classification_2 = highest_classifier_2.classifier_l1
+
+                if "New_" in classification_2:
+                    classification_2 = classification_2.split("_")[1]
+
+                classification_2 = str(int(classification_2) + 1)
+
+            else:
+                classification_2 = "P_" + job_id.split("_")[0]
+
+        print classification_2
+
         try:
-            new_database_entry = database_correspondece[database_name](name = sample.replace(" ", "_"), classifier = classification, allelic_profile = strain_allele_profile, strain_metadata = {}, platform_tag = "FP", timestamp = datetime.datetime.utcnow())
+            new_database_entry = database_correspondece[database_name](
+                name=sample.replace(" ", "_"),
+                classifier_l1=classification,
+                classifier_l2=classification_2,
+                allelic_profile=strain_allele_profile,
+                strain_metadata={},
+                platform_tag="FP",
+                timestamp=datetime.datetime.utcnow()
+            )
 
             db.session.add(new_database_entry)
             db.session.commit()
+
         except Exception as e:
             print "ERRO"
 
@@ -162,7 +241,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 
         myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out", 'w')
 
-        command = 'cat '+core_increment_profile_file_correspondece[database_name]+' '+query_profle_path;
+        command = 'cat '+core_increment_profile_file_correspondece[database_name]+' '+query_profle_path
         command = command.split(' ')
         print command
         proc = subprocess.Popen(command, stdout=myoutput, stderr=subprocess.PIPE)

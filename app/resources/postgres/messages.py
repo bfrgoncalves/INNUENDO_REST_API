@@ -21,6 +21,22 @@ message_post_parser.add_argument('title', dest='title', type=str,
 
 
 def msgTemplates(msg, info):
+    """Templates for messages to be sent
+
+    This function aggregates all possible templates for specific actions in
+    the platform
+
+    Parameters
+    ----------
+    msg: str
+        message key to sent
+    info: str
+        Information to be added to the message
+
+    Returns
+    -------
+    str: Content of the message
+    """
 
     templates = {
         "send_tree": ["Tree", "Hey! Check out this <a href='{}'>PHYLOViZ "
@@ -33,14 +49,27 @@ def msgTemplates(msg, info):
 
 
 class MailResource(Resource):
+    """
+    Class of the Mail resource
+    """
 
     @login_required
     def post(self):
+        """Sends messages to users
+
+        This method sends emails to users based on the templates. Case there
+        is info, it send the information.
+
+        Returns
+        -------
+        bool: True case the message is sent
+        """
         args = message_post_parser.parse_args()
 
         if not args.body:
             msg = Message(msgTemplates(args.template, args.information)[0],
-                          sender=config1["MAIL_USERNAME"],recipients=args.recipients.split(","))
+                          sender=config1["MAIL_USERNAME"],
+                          recipients=args.recipients.split(","))
         else:
             msg = Message(args.title,
                           sender=config1["MAIL_USERNAME"],
@@ -48,4 +77,4 @@ class MailResource(Resource):
         msg.body = args.body
         mail.send(msg)
 
-        return "Sent"
+        return True

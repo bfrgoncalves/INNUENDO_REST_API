@@ -17,33 +17,127 @@ Processes are being defined in the ngsonto resources
 
 # Defining post arguments parser
 report_get_parser = reqparse.RequestParser()
-report_get_parser.add_argument('job_ids', dest='job_ids', type=str, required=False, help="job identifier")
-report_get_parser.add_argument('species_id', dest='species_id', type=str, required=False, help="Species ID")
 
+report_get_parser.add_argument('job_ids',
+                               dest='job_ids',
+                               type=str,
+                               required=False,
+                               help="job identifier"
+                               )
+report_get_parser.add_argument('species_id',
+                               dest='species_id',
+                               type=str,
+                               required=False,
+                               help="Species ID"
+                               )
+
+# Defining projects get arguments parser
 report_get_project_parser = reqparse.RequestParser()
-report_get_project_parser.add_argument('project_id', dest='project_id', type=str, required=False, help="project id")
-report_get_project_parser.add_argument('pipelines_to_check', dest='pipelines_to_check', type=str, required=False, help="pipelines_to_check")
 
+report_get_project_parser.add_argument('project_id',
+                                       dest='project_id',
+                                       type=str,
+                                       required=False,
+                                       help="project id"
+                                       )
+report_get_project_parser.add_argument('pipelines_to_check',
+                                       dest='pipelines_to_check',
+                                       type=str,
+                                       required=False,
+                                       help="pipelines_to_check"
+                                       )
+
+# Defining report filter get arguments parser
 report_get_filter_project_parser = reqparse.RequestParser()
-report_get_filter_project_parser.add_argument('selectedProjects', dest='selectedProjects', type=str, required=False, help="selectedProjects")
-report_get_filter_project_parser.add_argument('selectedStrains', dest='selectedStrains', type=str, required=False, help="selectedStrains")
 
+report_get_filter_project_parser.add_argument('selectedProjects',
+                                              dest='selectedProjects',
+                                              type=str,
+                                              required=False,
+                                              help="selectedProjects"
+                                              )
+report_get_filter_project_parser.add_argument('selectedStrains',
+                                              dest='selectedStrains',
+                                              type=str,
+                                              required=False,
+                                              help="selectedStrains"
+                                              )
+
+# Defining strains in report get arguments parser
 report_strain_get_project_parser = reqparse.RequestParser()
-report_strain_get_project_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="strain id")
 
+report_strain_get_project_parser.add_argument('strain_id',
+                                              dest='strain_id',
+                                              type=str,
+                                              required=False,
+                                              help="strain id"
+                                              )
+
+# Defining report delete arguments parser
 report_delete_parser = reqparse.RequestParser()
-report_delete_parser.add_argument('report_name', dest='report_name', type=str, required=False, help="report name")
 
+report_delete_parser.add_argument('report_name',
+                                  dest='report_name',
+                                  type=str,
+                                  required=False,
+                                  help="report name"
+                                  )
+
+# Defining report get files arguments parser
 report_get__files_parser = reqparse.RequestParser()
-report_get__files_parser.add_argument('path', dest='path', type=str, required=True, help="path")
-report_get__files_parser.add_argument('sampleNames', dest='sampleNames', type=str, required=True, help="sampleNames")
 
+report_get__files_parser.add_argument('path',
+                                      dest='path',
+                                      type=str,
+                                      required=True,
+                                      help="path"
+                                      )
+report_get__files_parser.add_argument('sampleNames',
+                                      dest='sampleNames',
+                                      type=str,
+                                      required=True,
+                                      help="sampleNames"
+                                      )
+
+# Defining save report arguments parser
 save_reports_parser = reqparse.RequestParser()
-save_reports_parser.add_argument('job_ids', dest='job_ids', type=str, required=False, help="job identifier")
-save_reports_parser.add_argument('species_id', dest='species_id', type=str, required=False, help="Species ID")
-save_reports_parser.add_argument('strain_ids', dest='strain_ids', type=str, required=True, help="strains identifier")
-save_reports_parser.add_argument('report_name', dest='report_name', type=str, required=False, help="Report Name")
-save_reports_parser.add_argument('report_description', dest='report_description', type=str, required=False, help="Report Description")
+
+save_reports_parser.add_argument('projects_ids',
+                                 dest='job_ids',
+                                 type=str,
+                                 required=False,
+                                 help="job identifier"
+                                 )
+save_reports_parser.add_argument('filters',
+                                 dest='filters',
+                                 type=str,
+                                 required=False,
+                                 help="Applied filters"
+                                 )
+save_reports_parser.add_argument('highlights',
+                                 dest='highlights',
+                                 type=str,
+                                 required=False,
+                                 help="Applied highlights"
+                                 )
+save_reports_parser.add_argument('strain_names',
+                                 dest='strain_ids',
+                                 type=str,
+                                 required=True,
+                                 help="strains identifier"
+                                 )
+save_reports_parser.add_argument('name',
+                                 dest='name',
+                                 type=str,
+                                 required=False,
+                                 help="Report Name"
+                                 )
+save_reports_parser.add_argument('description',
+                                 dest='description',
+                                 type=str,
+                                 required=False,
+                                 help="description"
+                                 )
 
 
 class ReportsResource(Resource):

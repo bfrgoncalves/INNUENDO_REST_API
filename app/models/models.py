@@ -12,20 +12,70 @@ Models:
 '''
 
 # Secondary role table
-roles_users = db.Table('roles_users', db.Column('user_id', db.Integer(), db.ForeignKey('users.id')), db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')), info={'bind_key': 'innuendo_database'})
-pipelines_workflows = db.Table('pipelines_workflows', db.Column('pipeline_id', db.Integer(), db.ForeignKey('pipelines.id')), db.Column('workflow_id', db.Integer(), db.ForeignKey('workflows.id')), info={'bind_key': 'innuendo_database'})
-projects_strains = db.Table('projects_strains', db.Column('project_id', db.Integer(), db.ForeignKey('projects.id')), db.Column('strains_id', db.Integer(), db.ForeignKey('strains.id')), info={'bind_key': 'innuendo_database'})
+roles_users = db.Table('roles_users',
+                       db.Column(
+                           'user_id',
+                           db.Integer(),
+                           db.ForeignKey('users.id')
+                       ),
+                       db.Column(
+                           'role_id',
+                           db.Integer(),
+                           db.ForeignKey('roles.id')
+                       ),
+                       info={'bind_key': 'innuendo_database'}
+                       )
+
+pipelines_workflows = db.Table('pipelines_workflows',
+                               db.Column(
+                                   'pipeline_id',
+                                   db.Integer(),
+                                   db.ForeignKey('pipelines.id')
+                               ),
+                               db.Column(
+                                   'workflow_id',
+                                   db.Integer(),
+                                   db.ForeignKey('workflows.id')
+                               ),
+                               info={'bind_key': 'innuendo_database'}
+                               )
+
+projects_strains = db.Table('projects_strains',
+                            db.Column(
+                                'project_id',
+                                db.Integer(),
+                                db.ForeignKey('projects.id')
+                            ),
+                            db.Column(
+                                'strains_id',
+                                db.Integer(),
+                                db.ForeignKey('strains.id')
+                            ),
+                            info={'bind_key': 'innuendo_database'}
+                            )
 
 
-# LADP connection
+# LDAP connection
 def get_ldap_connection():
-    print LDAP_PROVIDER_URL
+    """Get ldap connection
+
+    Method to get a connection to the ldap server. From here you can perform
+    requests to the LDAP server.
+
+    Returns
+    -------
+    Namespace: Connection object to apply some methods.
+    """
+
     conn = ldap.open(LDAP_PROVIDER_URL)
     return conn
 
 
 class User(db.Model, UserMixin):
-    # change table name from user to users just not clash with postgresql
+    """
+    Definition of the User model for the database
+    """
+
     __tablename__ = "users"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer, primary_key=True)
@@ -36,60 +86,82 @@ class User(db.Model, UserMixin):
     password = db.Column('password' , db.String(255))
     active = db.Column(db.Boolean())
     email = db.Column(db.String(120), index=True, unique=True)
-    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    roles = db.relationship('Role', secondary=roles_users,
+                            backref=db.backref('users', lazy='dynamic'))
     projects = db.relationship('Project', backref='author', lazy='dynamic')
     analysis_parameters_object = db.Column(JSON)
-    # The backref argument defines a field that will be added to the objects
-    # of the "many" class that points back at the "one" object.
-    # In our case this means that we can use post.author to get the User
-    # instance that created a post.
 
     @staticmethod
     def try_login(email, password):
-        print email
+        """LDAP login
+
+        Function to login to the LDAP server based on the username and password
+
+        Parameters
+        ----------
+        email: str
+            Username of the ldap user
+        password: str
+            Password of the ldap user
+
+        Returns
+        -------
+        bool: Returns false if error on login
+        Object: User entry if successful connection
+        """
+
         conn = get_ldap_connection()
         try:
             conn.simple_bind_s("cn="+email+",ou=users,"+baseDN, password)
         except Exception as e:
             return False
         search_filter = "uid="+email
-        Entry = ""
-        result = conn.search_s(baseDN,ldap.SCOPE_SUBTREE,search_filter)
-        for dn, entry in result:
-            DN = str(dn)
-            Entry = entry
-            print Entry
+        entry = ""
+        result = conn.search_s(baseDN, ldap.SCOPE_SUBTREE, search_filter)
+        for dn, ent in result:
+            entry = ent
             break
 
         conn.unbind()
-        if Entry != "":
-            return Entry
+        if entry != "":
+            return entry
         else:
             return False
 
     @staticmethod
     def change_pass(email, old, new_password):
+        """Change LDAP password method
+
+        Function to change the password of the LDAP user. It requires the
+        username, the old password and a new password. It binds to the ldap
+        server and then performs the operation by storing the encrypted
+        password in the ldap database.
+
+        Parameters
+        ----------
+        email: str
+            Username of the ldap user
+        old: str
+            Old password
+        new_password: str
+            New password
+
+        Returns
+        -------
+        bool: True if successfully changed the password, False if not.
+        """
+
         conn = get_ldap_connection()
 
         try:
             # Reset Password
-            '''unicode_pass_old = unicode(
-                '\"' + str(old) + '\"',
-                'iso-8859-1')
+            password_value_old = {
+                "userPassword": ldap_md5.encrypt(str(old))
+            }
 
-            unicode_pass_new = unicode(
-                '\"' + str(new_password) + '\"',
-                'iso-8859-1')
-
-            hash_object_old = 
-            hash_object_new = hashlib.md5(unicode_pass_new)
-            print "1"
-
-            password_value_old = hash_object_old.hexdigest()
-            password_value_new = hash_object_new.hexdigest()'''
-
-            password_value_old = {"userPassword": ldap_md5.encrypt(str(old))}
-            password_value_new = {"userPassword": ldap_md5.encrypt(str(new_password))}
+            password_value_new = {
+                "userPassword": ldap_md5.encrypt(str(new_password))
+            }
 
             conn.simple_bind_s("cn=" + email + ",ou=users," + baseDN, old)
 
@@ -99,11 +171,14 @@ class User(db.Model, UserMixin):
             return True
 
         except Exception as e:
-            print e
             return False
 
 
 class Role(db.Model, RoleMixin):
+    """
+    Definition of the Role model for the database
+    """
+
     __tablename__ = "roles"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -123,6 +198,11 @@ class Role(db.Model, RoleMixin):
 
 
 class Project(db.Model):
+    """
+    Definition of the Project model for the database. A Project is a
+    collection of strains on which can then be applied pipelines.
+    """
+
     __tablename__ = "projects"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -132,10 +212,27 @@ class Project(db.Model):
     timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     pipelines = db.relationship('Pipeline', backref='project', lazy='dynamic')
-    strains = db.relationship('Strain', secondary=projects_strains, backref=db.backref('project', lazy='dynamic'), lazy='dynamic')
+    strains = db.relationship('Strain', secondary=projects_strains,
+                              backref=db.backref('project', lazy='dynamic'),
+                              lazy='dynamic')
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
 
     def add_Strain(self, strain):
+        """Add strain to the project
+
+        This method allows adding a specific strain to a project by creating
+        a relationship between a strain and the project.
+
+        Parameters
+        ----------
+        strain: str
+            Strain identifier to perform queries on
+
+        Returns
+        -------
+        bool: Returns False if not successfully added.
+        """
+
         if not self.is_strain_added(strain):
             self.strains.append(strain)
             return self
@@ -143,6 +240,21 @@ class Project(db.Model):
             return False
 
     def remove_Strain(self, strain):
+        """Remove strain from project
+
+        This method allows removing a strain from a project by removing the
+        relationships between the strain and the project.
+
+        Parameters
+        ----------
+        strain: str
+            Strain identifier to remove from the project
+
+        Returns
+        -------
+        bool: Returns False if not successfully added.
+        """
+
         if self.is_strain_added(strain):
             self.strains.remove(strain)
             return self
@@ -150,13 +262,22 @@ class Project(db.Model):
             return False
 
     def is_strain_added(self, strain):
-        return self.strains.filter(projects_strains.c.strains_id == strain.id).count() > 0
+        return self.strains.filter(
+            projects_strains.c.strains_id == strain.id).count() > 0
 
     def project_strains(self):
-        return Strain.query.join(projects_strains, (projects_strains.c.strains_id == Strain.id)).filter(projects_strains.c.project_id == self.id).all()
+        return Strain.query.join(
+            projects_strains,(projects_strains.c.strains_id == Strain.id))\
+            .filter(projects_strains.c.project_id == self.id).all()
 
 
 class Pipeline(db.Model):
+    """
+    Definition of the Pipeline model of the database. It as relationships
+    with the projects and the strains. A pipeline is applied to a Strain and
+    consists of a series of Workflows.
+    """
+
     __tablename__ = "pipelines"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -169,6 +290,10 @@ class Pipeline(db.Model):
 
 
 class Workflow(db.Model):
+    """
+    Definition of the Workflow model of the database. A workflow is part of a
+    pipeline and consists of a series of Protocols.
+    """
     __tablename__ = "workflows"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -181,6 +306,12 @@ class Workflow(db.Model):
 
 
 class Process(db.Model):
+    """
+    Definition of the Process model of the database. It has a relationship
+    with the pipelines since a process is part of a pipeline. A Process is an
+    instance of a Protocol.
+    """
+
     __tablename__ = "processes"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -190,6 +321,11 @@ class Process(db.Model):
 
 
 class Protocol(db.Model):
+    """
+    Definition of the Protocol model of the database. It defines what is
+    going to be run in a given strain.
+    """
+
     __tablename__ = "protocols"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -199,6 +335,11 @@ class Protocol(db.Model):
 
 
 class Specie(db.Model):
+    """
+    Definition of the Species model of the database. It has relationships
+    with each strain since strains need to belong to a given species.
+    """
+
     __tablename__ = "species"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -207,6 +348,11 @@ class Specie(db.Model):
 
 
 class Strain(db.Model):
+    """
+    Definition if the Strain model of the database. It has relationships with
+    the species and the user. The strain also has metadata associated with it.
+    """
+
     __tablename__ = "strains"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -221,6 +367,12 @@ class Strain(db.Model):
 
 # Table to store all procedure report data
 class Report(db.Model):
+    """
+    Define the report model of the database. It has information about the
+    user producing the report, the sample, the pipeline and the process.
+    Report data is stored in a JSON format that can then be parsed.
+    """
+
     __tablename__ = "reports"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -239,6 +391,12 @@ class Report(db.Model):
 
 # Table to store all combined reports
 class Combined_Reports(db.Model):
+    """
+    Define the saved report model of the database. It allows to store an
+    instance of a report to be loaded after. It has information about the
+    projects, strains, filters applied and highlights.
+    """
+
     __tablename__ = "combined_reports"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -255,6 +413,11 @@ class Combined_Reports(db.Model):
 
 # Table to store notifications between users in the platform
 class Message(db.Model):
+    """
+    Define the message model of the database. Allows communication and
+    provides notifications to users.
+    """
+
     __tablename__ = "messages"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -265,6 +428,11 @@ class Message(db.Model):
 
 
 class Tree(db.Model):
+    """
+    Define the tree entries model of the database. It has information about
+    the using submitting the data and also stores the tree URL.
+    """
+
     __tablename__ = "trees"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -278,9 +446,14 @@ class Tree(db.Model):
     status = db.Column(db.String(255))
 
 
-#######################MLST DATABASE##################################################
+#######################MLST DATABASE############################################
 
 class Ecoli(db.Model):
+    """
+    Defines the species specific storage of profiles and its classification.
+    Ecoli specification.
+    """
+
     __tablename__ = "ecoli"
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -295,6 +468,11 @@ class Ecoli(db.Model):
 
 
 class Yersinia(db.Model):
+    """
+    Defines the species specific storage of profiles and its classification.
+    Yersinia specification.
+    """
+
     __tablename__ = "yersinia"
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -309,6 +487,11 @@ class Yersinia(db.Model):
 
 
 class Campylobacter(db.Model):
+    """
+    Defines the species specific storage of profiles and its classification.
+    Campylobacter specification.
+    """
+
     __tablename__ = "campylobacter"
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -323,6 +506,11 @@ class Campylobacter(db.Model):
 
 
 class Salmonella(db.Model):
+    """
+    Defines the species specific storage of profiles and its classification.
+    Salmonella specification.
+    """
+
     __tablename__ = "salmonella"
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
@@ -337,6 +525,10 @@ class Salmonella(db.Model):
 
 
 class Core_Schemas(db.Model):
+    """
+    DEPRECATED MODEL
+    """
+
     __tablename__ = "core_schemas"
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)

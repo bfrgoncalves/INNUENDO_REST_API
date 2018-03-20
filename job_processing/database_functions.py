@@ -130,6 +130,9 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         query_profle_path, core_index_correspondece[database_name],
         classification_levels[database_name][1])
 
+    print closest_profiles
+    print closest_profiles_2
+
     # Total closest ids on first level
     closest_ids = []
     for i, x in enumerate(closest_profiles):

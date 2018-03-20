@@ -10,82 +10,108 @@ import argparse
 from config import allele_classes_to_ignore, metadata_to_use, base_metadata, metadata_to_use_yersinia
 
 
-
 def main():
-    parser = argparse.ArgumentParser(description="This program populates a database according with a set of input files")
-    parser.add_argument('-i', nargs='?', type=str, help='Allelic profiles', required=True)
-    parser.add_argument('-c', nargs='?', type=str, help='classification file', required=True)
-    parser.add_argument('-m', nargs='?', type=str, help='metadata file', required=True)
-    parser.add_argument('-d', nargs='?', type=str, help='database to populate(str)', required=True)
-    parser.add_argument('-p', nargs='?', type=str, help='platform tag', required=True)
+    parser = argparse.ArgumentParser(
+        description="This program populates a database according with a set of "
+                    "input files")
+    parser.add_argument('-i', nargs='?', type=str, help='Allelic profiles',
+                        required=True)
+    parser.add_argument('-c', nargs='?', type=str, help='classification file',
+                        required=True)
+    parser.add_argument('-m', nargs='?', type=str, help='metadata file',
+                        required=True)
+    parser.add_argument('-d', nargs='?', type=str,
+                        help='database to populate(str)', required=True)
+    parser.add_argument('-p', nargs='?', type=str, help='platform tag',
+                        required=True)
 
     args = parser.parse_args()
     args.i, args.c, args.m, args.d, args.p
     mlst_profiles_to_db(args.i, args.c, args.m, args.d, args.p)
 
 
+def populate_db_ecoli(name, classifierl1, classifierl2, allelic_profile,
+                      strain_metadata, from_platform_tag):
 
-def populate_db_ecoli(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
-
-    ecoli = Ecoli(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
-
-    db.session.add(ecoli)
-    db.session.commit()
-
-    return 201
-
-def populate_db_yersinia(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
-
-    ecoli = Yersinia(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
+    ecoli = Ecoli(name=name, classifier_l1=classifierl1,
+                  classifier_l2=classifierl2,
+                  allelic_profile=allelic_profile,
+                  strain_metadata=strain_metadata,
+                  platform_tag=from_platform_tag,
+                  timestamp=datetime.datetime.utcnow())
 
     db.session.add(ecoli)
     db.session.commit()
 
     return 201
 
-def populate_db_campylobacter(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
 
-    ecoli = Campylobacter(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
+def populate_db_yersinia(name, classifier, allelic_profile, strain_metadata,
+                         from_platform_tag):
 
-    db.session.add(ecoli)
-    db.session.commit()
-
-    return 201
-
-def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata, from_platform_tag):
-
-    ecoli = Salmonella(name = name, classifier = classifier, allelic_profile = allelic_profile, strain_metadata = strain_metadata, platform_tag = from_platform_tag, timestamp = datetime.datetime.utcnow())
+    ecoli = Yersinia(name=name, classifier=classifier,
+                     allelic_profile=allelic_profile,
+                     strain_metadata=strain_metadata,
+                     platform_tag=from_platform_tag,
+                     timestamp=datetime.datetime.utcnow())
 
     db.session.add(ecoli)
     db.session.commit()
 
     return 201
 
-populate_dbs = {"ecoli": populate_db_ecoli, "yersinia": populate_db_yersinia, "campylobacter": populate_db_campylobacter, "salmonella": populate_db_salmonella}
-'''
-populate_dbs = {"ecoli": populate_db_ecoli, "yersinia": populate_db_yersinia, "campylobacter": populate_db_campylobacter, "salmonella": populate_db_salmonella}
-allele_classes_to_ignore = {'LNF': '0', 'INF-': '', 'NIPHEM': '0', 'NIPH': '0', 'LOTSC': '0', 'PLOT3': '0', 'PLOT5': '0', 'ALM': '0', 'ASM': '0'}
-metadata_to_use = {'Uberstrain': 'strainID', 'SourceType': 'Source', 'Country': 'Country', 'Serotype': 'Serotype', 'Simple Patho': 'Pathotyping', 'ST(Achtman 7 Gene)': 'ST'}
-base_metadata = {'strainID':"", "Source":"", "Country":"", "Serotype":"", "Pathotyping":"", "ST":""}
-'''
+
+def populate_db_campylobacter(name, classifier, allelic_profile,
+                              strain_metadata, from_platform_tag):
+
+    ecoli = Campylobacter(name=name, classifier=classifier,
+                          allelic_profile=allelic_profile,
+                          strain_metadata=strain_metadata,
+                          platform_tag=from_platform_tag,
+                          timestamp=datetime.datetime.utcnow())
+
+    db.session.add(ecoli)
+    db.session.commit()
+
+    return 201
+
+
+def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata,
+                           from_platform_tag):
+
+    ecoli = Salmonella(name=name, classifier=classifier,
+                       allelic_profile=allelic_profile,
+                       strain_metadata=strain_metadata,
+                       platform_tag=from_platform_tag,
+                       timestamp=datetime.datetime.utcnow())
+
+    db.session.add(ecoli)
+    db.session.commit()
+
+    return 201
+
+populate_dbs = {
+    "ecoli": populate_db_ecoli,
+    "yersinia": populate_db_yersinia,
+    "campylobacter": populate_db_campylobacter,
+    "salmonella": populate_db_salmonella
+}
+
 
 def read_chewBBACA_file_to_JSON(file_path, type_species):
 
     results_alleles = {}
     headers_file_path = file_path + ".headers"
-    headers_file_path = "./chewbbaca_database_profiles/profiles_headers/" + type_species + ".txt"
-    #key_val_file_path = './chewbbaca_database_profiles/indexes/'+type_species+'_correspondece.tab'
+    headers_file_path = "./chewbbaca_database_profiles/profiles_headers/" + \
+                        type_species + ".txt"
 
     with open(file_path, 'rtU') as reader:
-        #with open(key_val_file_path, 'w') as w:
         with open(headers_file_path, 'w') as p:
             loci = None
             count = 0
             for line in reader:
-                count+=1
+                count += 1
                 line = line.splitlines()[0]
-                #if not line.startswith('FILE'):
-                    #w.write(line.split('\t')[0]+"###"+str(count)+"\n")
 
                 if len(line) > 0:
                     if line.startswith('FILE'):
@@ -100,7 +126,8 @@ def read_chewBBACA_file_to_JSON(file_path, type_species):
                         if len(line) != len(loci):
                             sys.exit('Different number of loci')
                         for x, allele_locus in enumerate(line):
-                            if allele_locus.startswith(tuple(allele_classes_to_ignore.keys())):
+                            if allele_locus.startswith(
+                                    tuple(allele_classes_to_ignore.keys())):
                                 for k, v in allele_classes_to_ignore.items():
                                     allele_locus = allele_locus.replace(k, v)
                             results_alleles[sample][loci[x]] = allele_locus
@@ -158,12 +185,19 @@ def read_classification_file_to_JSON(file_path):
                     sample = line[0]
                     results_classification[sample] = {}
                     line = line[1:]
+                    classifications = []
+
                     for x, classification in enumerate(line):
-                        results_classification[sample] = classification
+                        classifications.append(classification)
+
+                    results_classification[sample] = classifications
 
     return results_classification
 
-def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_file_path, table_id, platform_tag):
+
+def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
+                        metadata_file_path, table_id, platform_tag):
+
     chewbbaca_json = read_chewBBACA_file_to_JSON(chewbbaca_file_path, table_id)
     print "DONE chewBBACA parse"
     classification_json = read_classification_file_to_JSON(classification_file_path)
@@ -184,9 +218,10 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
                 try:
                     classification_to_use = classification_json[strain_id]
                 except KeyError as e:
-                    print "No classification found for " + strain_id + ". Adding undefined..."
+                    print "No classification found for " + strain_id +\
+                          ". Adding undefined..."
                     w.write(strain_id + "\n")
-                    classification_to_use = "undefined"
+                    classification_to_use = ["undefined", "undefined"]
                     count_no_class += 1
                     print count_no_class
                 try:
@@ -197,10 +232,13 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path, metadata_
                     count_no_meta += 1
                     print count_no_meta
                     metadata_to_use = base_metadata
-                populate_dbs[table_id](strain_id, classification_to_use, allelic_profile, metadata_to_use, platform_tag)
+
+                populate_dbs[table_id](strain_id, classification_to_use[0],
+                                       classification_to_use[1],
+                                       allelic_profile, metadata_to_use,
+                                       platform_tag)
 
     print "DONE IMPORTING TO DB AND CREATING PROFILE HEADERS FILE"
-
 
 
 if __name__ == "__main__":

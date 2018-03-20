@@ -15,9 +15,22 @@ Users are defined in the postgres resources
 
 
 class NGSOnto_UserListResource(Resource):
+    """
+    Class of the resource to get NGSONto users
+    """
 
     @login_required
     def get(self):
+        """Get users
+
+        This method allows getting a list of the available users from the
+        NGSOnto database
+
+        Returns
+        -------
+        list: list of the available users
+        """
+
         # Agraph
         userType = dbconAg.createURI(namespace=dcterms, localname="Agent")
         statements = dbconAg.getStatements(None, RDF.TYPE, userType)
@@ -28,9 +41,18 @@ class NGSOnto_UserListResource(Resource):
 
     @login_required
     def post(self):
+        """Add user
+
+        This method adds a user the the NGSONoo database
+
+        Returns
+        -------
+        code: 201 if successfully added.
+        """
 
         id=1
-        UserURI = dbconAg.createURI(namespace=localNSpace, localname="users/"+str(id))
+        UserURI = dbconAg.createURI(namespace=localNSpace,
+                                    localname="users/"+str(id))
         userType = dbconAg.createURI(namespace=dcterms, localname="Agent")
         dedicateddbconAg.openSession()
         try:
@@ -45,12 +67,31 @@ class NGSOnto_UserListResource(Resource):
 
 
 class NGSOnto_UserResource(Resource):
+    """
+    Class of the resource to get a specific user
+    """
 
     # @login_required
     # @marshal_with(user_fields)
     def get(self, id):
+        """Get user
+
+        This method allows getting a specific user available at the NGSOnto
+        database.
+
+        Parameters
+        ----------
+        id: str
+            user identifier
+
+        Returns
+        -------
+
+        """
+
         # Agraph
-        UserURI = dbconAg.createURI(namespace=localNSpace, localname="users/"+str(id))
+        UserURI = dbconAg.createURI(namespace=localNSpace,
+                                    localname="users/"+str(id))
         statements = dbconAg.getStatements(UserURI, None, None)
         usersAg=parseAgraphStatementsRes(statements)
         statements.close()

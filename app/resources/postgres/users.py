@@ -15,41 +15,78 @@ user_fields = {
 }
 
 user_parser = reqparse.RequestParser()
-user_parser.add_argument('parameters_object', dest='parameters_object', type=str, required=True, help="Analysis parameters selector")
+user_parser.add_argument('parameters_object', dest='parameters_object',
+                         type=str, required=True,
+                         help="Analysis parameters selector")
 
 user_login_parser = reqparse.RequestParser()
-user_login_parser.add_argument('username', dest='username', type=str, required=True, help="Username")
-user_login_parser.add_argument('password', dest='password', type=str, required=True, help="Password")
+user_login_parser.add_argument('username', dest='username', type=str,
+                               required=True, help="Username")
+user_login_parser.add_argument('password', dest='password', type=str,
+                               required=True, help="Password")
 
 user_quota_parser = reqparse.RequestParser()
-user_quota_parser.add_argument('project_id', dest='project_id', type=str, required=True, help="Project id")
+user_quota_parser.add_argument('project_id', dest='project_id', type=str,
+                               required=True, help="Project id")
 
 
 class UserListResource(Resource):
+    """
+    Class to get users
+    """
 
     @login_required
     @marshal_with(user_fields)
     def get(self):
+        """Get list of users
+
+        This method gets the list of all users in the database
+
+        Returns
+        -------
+        list: list of users
+        """
 
         users = db.session.query(User).all()
         return users
 
 
 class UserResource(Resource):
+    """
+    Class to get or modify single users
+    """
 
     @login_required
     @marshal_with(user_fields)
     def get(self):
+        """Get a given user
 
-        users = db.session.query(User).filter(User.id == current_user.id).first()
+        This method allows getting the instance of the authenticated user.
+
+        Returns
+        -------
+        list: list of users
+        """
+
+        users = db.session.query(User)\
+            .filter(User.id == current_user.id).first()
         return users
 
     @login_required
     @marshal_with(user_fields)
     def put(self):
+        """Add property to users.
+
+        (DEPRECATED)
+
+        Returns
+        -------
+
+        """
 
         args = user_parser.parse_args()
-        users = db.session.query(User).filter(User.id == current_user.id).first()
+        users = db.session.query(User)\
+            .filter(User.id == current_user.id).first()
         users.analysis_parameters_object = args.parameters_object
         db.session.commit()
         return users
@@ -57,9 +94,19 @@ class UserResource(Resource):
 
 # For user external authentication to be able to access to the reports remotely
 class UserExternalLogin(Resource):
+    """
+    Allows external handshake of user
+    """
 
     def post(self):
+        """External user login
 
+        This method allows an external handshake of a user to the LDAP database
+
+        Returns
+        -------
+
+        """
         args = user_login_parser.parse_args()
         username = args.username
         password = args.password
@@ -74,13 +121,25 @@ class UserExternalLogin(Resource):
 
         user = User.query.filter_by(username=result['uid'][0]).first()
 
-        return {"access":True, "user_id": user.id}
+        return {"access": True, "user_id": user.id}
 
 
 class UserQuotaResource(Resource):
+    """
+    Class to get the quota available for each user
+    """
 
     @login_required
     def get(self):
+        """Get quota information
+
+        This method returns information about the quota available for each
+        user, his institution and the global size.
+
+        Returns
+        -------
+        dict: different quota parts information
+        """
 
         args = user_quota_parser.parse_args()
         project_id = args.project_id

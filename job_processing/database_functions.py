@@ -177,7 +177,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         # Get classification of closets at first level or get the last
         # classifier
         if database_entry:
-            classification = database_entry.classifier_li
+            classification = database_entry.classifier_l1
         else:
             highest_classifier = db.session.query(
                 database_correspondece[database_name]).filter(

@@ -177,7 +177,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         # Get classification of closets at first level or get the last
         # classifier
         if database_entry:
-            classification = database_entry.classifier
+            classification = database_entry.classifier_li
         else:
             highest_classifier = db.session.query(
                 database_correspondece[database_name]).filter(
@@ -202,7 +202,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         # Get classification of closets at second level or get the last
         # classifier
         if database_entry_2:
-            classification_2 = database_entry_2.classifier
+            classification_2 = database_entry_2.classifier_l2
         else:
             highest_classifier_2 = db.session.query(
                 database_correspondece[database_name]).filter(
@@ -215,7 +215,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
                 ).first()
 
             if highest_classifier_2:
-                classification_2 = highest_classifier_2.classifier_l1
+                classification_2 = highest_classifier_2.classifier_l2
 
                 if "New_" in classification_2:
                     classification_2 = classification_2.split("_")[1]

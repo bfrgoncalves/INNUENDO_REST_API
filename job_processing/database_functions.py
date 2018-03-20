@@ -1,7 +1,8 @@
 from app import db
 import random
 import string
-from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, Core_Schemas, Report
+from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, \
+    Core_Schemas, Report
 import fast_mlst_functions
 import datetime
 import subprocess
@@ -14,17 +15,20 @@ from config import wg_index_correspondece, core_index_correspondece, \
 
 '''
 Database Functions:
-    - Classify a profile based on Fast-MLST (https://github.com/aplf/fast-mlst) by using the closest strain classifier from the profiles db 
+    - Classify a profile based on Fast-MLST (https://github.com/aplf/fast-mlst) 
+    by using the closest strain classifier from the profiles db 
 '''
 
 database_correspondece = {"E.coli": Ecoli, "Yersinia": Yersinia}
 
 
-def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file_path):
+def tab_profile_from_db(strain_id, database, headers_file_path,
+                        profile_tab_file_path):
 
     count_headers = 0
 
-    strain_to_use = db.session.query(database).filter(database.name == strain_id).first()
+    strain_to_use = db.session.query(database)\
+        .filter(database.name == strain_id).first()
 
     if strain_to_use:
         allelic_profile = strain_to_use.allelic_profile
@@ -32,12 +36,13 @@ def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file
 
         with open(profile_tab_file_path, 'w') as w:
 
-            if headers_file_path != None:
+            if headers_file_path is not None:
                 with open(headers_file_path, 'rtU') as reader:
                     for i, line in enumerate(reader):
                         count_headers += 1
                         if i != 0:
-                            profile_array.append(allelic_profile[line.rstrip()])
+                            profile_array\
+                                .append(allelic_profile[line.rstrip()])
                         else:
                             profile_array.append(str(i+1))
                 w.write('\t'.join(profile_array))
@@ -47,9 +52,14 @@ def tab_profile_from_db(strain_id, database, headers_file_path, profile_tab_file
 
 def classify_profile(allcall_results, database_name, sample, job_id):
 
-    file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
-    query_profle_path = "./chewbbaca_database_profiles/query_files/" + file_name + ".tab"
-    query_profle_path_wg = "./chewbbaca_database_profiles/query_files/" + file_name + "_wg.tab"
+    file_name = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                        for _ in range(8))
+
+    query_profle_path = "./chewbbaca_database_profiles/query_files/" +\
+                        file_name + ".tab"
+
+    query_profle_path_wg = "./chewbbaca_database_profiles/query_files/" +\
+                           file_name + "_wg.tab"
 
     headers_profile = []
     headers = []
@@ -239,41 +249,72 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         # FOR CORE GENOME INDEX
         print "UPGRADING CG INDEX"
 
-        myoutput = open(core_increment_profile_file_correspondece[database_name] + ".out", 'w')
+        myoutput = open(core_increment_profile_file_correspondece[database_name]
+                        + ".out", 'w')
 
-        command = 'cat '+core_increment_profile_file_correspondece[database_name]+' '+query_profle_path
+        command = 'cat '+\
+                  core_increment_profile_file_correspondece[database_name] + \
+                  ' '+query_profle_path
+
         command = command.split(' ')
+
         print command
-        proc = subprocess.Popen(command, stdout=myoutput, stderr=subprocess.PIPE)
+
+        proc = subprocess.Popen(command, stdout=myoutput,
+                                stderr=subprocess.PIPE)
+
         stdout, stderr = proc.communicate()
 
-        command = 'mv '+core_increment_profile_file_correspondece[database_name] + ".out "+core_increment_profile_file_correspondece[database_name]
+        command = 'mv ' + \
+                  core_increment_profile_file_correspondece[database_name]\
+                  + ".out " + \
+                  core_increment_profile_file_correspondece[database_name]
+
         command = command.split(' ')
+
         print command
 
-        proc2 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc2 = subprocess.Popen(command, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
         stdout, stderr = proc2.communicate()
 
-        status = fast_mlst_functions.update_index(core_increment_profile_file_correspondece[database_name], core_index_correspondece[database_name])
+        status = fast_mlst_functions\
+            .update_index(core_increment_profile_file_correspondece[database_name],
+                          core_index_correspondece[database_name])
 
         # FOR WG INDEX
         print "UPGRADING WG INDEX"
 
-        myoutput_wg = open(wg_increment_profile_file_correspondece[database_name] + ".out", 'w')
+        myoutput_wg = open(
+            wg_increment_profile_file_correspondece[database_name] + ".out",
+            'w')
 
-        command = 'cat '+wg_increment_profile_file_correspondece[database_name]+' '+query_profle_path_wg
+        command = 'cat '+wg_increment_profile_file_correspondece[database_name]\
+                  + ' ' + query_profle_path_wg
+
         command = command.split(' ')
+
         print command
-        proc3 = subprocess.Popen(command, stdout=myoutput_wg, stderr=subprocess.PIPE)
+
+        proc3 = subprocess.Popen(command, stdout=myoutput_wg,
+                                 stderr=subprocess.PIPE)
+
         stdout, stderr = proc3.communicate()
 
-        command = 'mv '+wg_increment_profile_file_correspondece[database_name] + ".out "+wg_increment_profile_file_correspondece[database_name]
+        command = 'mv '+wg_increment_profile_file_correspondece[database_name]\
+                  + ".out "+\
+                  wg_increment_profile_file_correspondece[database_name]
+
         command = command.split(' ')
+
         print command
 
-        proc4 = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc4 = subprocess.Popen(command, stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
         stdout, stderr = proc4.communicate()
 
-        status = fast_mlst_functions.update_index(wg_increment_profile_file_correspondece[database_name], wg_index_correspondece[database_name])
+        status = fast_mlst_functions\
+            .update_index(wg_increment_profile_file_correspondece[database_name],
+                          wg_index_correspondece[database_name])
 
         print "INDEX UPDATED"

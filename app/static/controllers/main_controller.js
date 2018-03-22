@@ -92,7 +92,18 @@ setTimeout( () => {
         let pg_requests = Requests("", "", http);
 
         pg_requests.get_user_mails((response) => {
-            console.log(response);
+
+            if (response.data.length > 0){
+                let options = "";
+                for(const x of response.data){
+                    options += "<option>" + x.username + ": " + x.email +
+                        "</option>";
+                }
+                $("#recipients").empty().append(options);
+            }
+
+            $('.selectpicker').selectpicker('refresh');
+
         });
 
         $("#newMailModal").modal("show");

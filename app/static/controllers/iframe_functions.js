@@ -28,6 +28,7 @@ var loadReport = (selectedRows, current_project_d, scope) => {
         var frame = reportFrameEl.get(0).document || reportFrameEl.get(0).contentWindow;
 
         console.log(frame);
+        console.log(selectedRows, current_project_d);
         if(frame !== undefined){
             frame.loadReport(selectedRows, current_project_d);
         }

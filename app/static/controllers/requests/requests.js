@@ -573,7 +573,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        });
 
 		},
-        sendCustomMail: (recipients, title, body) => {
+        sendCustomMail: (recipients, title, body, callback) => {
 		    const req = {
 	            url: 'api/v1.0/mail/',
 	            method:'POST',

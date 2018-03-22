@@ -80,7 +80,10 @@ const sendMail = () => {
         $("#recipients").val(),
         $("#email-title").val(),
         $("#email-body").val(),
-        () => {});
+        (response) => {
+            console.log(response);
+            $("#email_res_text").text("Email sucessfully sent.")
+        });
 };
 
 /**

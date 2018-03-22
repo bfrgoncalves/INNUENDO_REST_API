@@ -32,6 +32,6 @@ var loadReport = (selectedRows, current_project_d, scope) => {
             frame.loadReport(selectedRows, current_project_d);
         }
 
-    }, 3000);
+    }, 4000);
 
 };

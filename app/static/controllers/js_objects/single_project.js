@@ -540,6 +540,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            				workflowname_to_protocols[workflow_name].push([index,protoc]);
 		            			}
 
+		            			console.log(workflowname_to_protocols);
+
 		            			workflowname_to_protocols[workflow_name].sort(sortFunction);
 
 		            			for(const y in workflowname_to_protocols[workflow_name]){

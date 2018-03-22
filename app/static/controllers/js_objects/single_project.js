@@ -403,7 +403,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						if(status === "PD") pending_jobs += 1;
 						if(status === "WARNING") has_warning = true;
 
-						if(prev_process_status === 'FAILED' && status === PD){
+						if(prev_process_status === 'FAILED' && status === "PD"){
 							dict_of_tasks_status[task_id] = 'NEUTRAL';
 							current_job_status_color[tasks_to_buttons[task_id]] = status_dict['NEUTRAL'];
 							$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict['NEUTRAL']});

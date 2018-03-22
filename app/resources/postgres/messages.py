@@ -66,14 +66,21 @@ class MailResource(Resource):
         """
         args = message_post_parser.parse_args()
 
+        recipients = []
+
+        r_temp = args.recipients.split(",")
+
+        for x in r_temp:
+            recipients.append(x.split(":")[1])
+
         if not args.body:
             msg = Message(msgTemplates(args.template, args.information)[0],
                           sender=config1["MAIL_USERNAME"],
-                          recipients=args.recipients.split(","))
+                          recipients=recipients)
         else:
             msg = Message(args.title,
                           sender=config1["MAIL_USERNAME"],
-                          recipients=args.recipients.split(","))
+                          recipients=recipients)
         msg.body = args.body
         mail.send(msg)
 

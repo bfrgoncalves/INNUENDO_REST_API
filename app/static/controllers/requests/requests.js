@@ -578,7 +578,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	            url: 'api/v1.0/mail/',
 	            method:'POST',
 	            data: {
-	                recipients: recipients,
+	                recipients: ",".join(recipients),
 	                title:title,
 	                body:body
 	            }

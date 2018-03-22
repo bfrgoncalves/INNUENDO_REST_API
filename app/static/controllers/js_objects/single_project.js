@@ -140,11 +140,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     };
 
     const sortFunction = (a, b) => {
-	    if (a[0] === b[0]) {
+	    if (parseInt(a[0]) === parseInt(b[0])) {
 	        return 0;
 	    }
 	    else {
-	        return (a[0] < b[0]) ? -1 : 1;
+	        return (parseInt(a[0]) < parseInt(b[0])) ? -1 : 1;
 	    }
 	};
 

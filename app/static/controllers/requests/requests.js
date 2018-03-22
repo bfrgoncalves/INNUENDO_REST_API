@@ -3,12 +3,25 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	return {
 
 		//////////////// Protocols Requests /////////////////////////////////////////
-		download_accession: (username, accession_numbers, callback) => {
+		download_accession: (callback) => {
 
 			const req = {
+		        url:'api/v1.0/users/emails/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		get_user_mails: () => {
+			const req = {
 		        url:'api/v1.0/downloads/',
-		        method:'POST',
-		        data: { accession_numbers: accession_numbers }
+		        method:'GET',
+		        params: { accession_numbers: file_name }
 		    };
 
 		    $http(req).then( (response) => {

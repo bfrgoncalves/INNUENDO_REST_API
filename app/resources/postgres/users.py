@@ -92,6 +92,26 @@ class UserResource(Resource):
         return users
 
 
+class UserEmails(Resource):
+    """
+    Class to get user emails for communication
+    """
+
+    @login_required
+    def get(self):
+        users = db.session.query(User).all()
+
+        if not users:
+            return 404
+
+        users_to_send = []
+
+        for x in users:
+            users_to_send.append({"username": x.username, "email": x.email})
+
+        return users_to_send, 200
+
+
 # For user external authentication to be able to access to the reports remotely
 class UserExternalLogin(Resource):
     """

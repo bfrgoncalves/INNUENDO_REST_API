@@ -68,20 +68,25 @@ class MailResource(Resource):
 
         recipients = []
 
-        r_temp = args.recipients.split(",")
+        try:
 
-        for x in r_temp:
-            recipients.append(x.split(":")[1])
+            r_temp = args.recipients.split(",")
 
-        if not args.body:
-            msg = Message(msgTemplates(args.template, args.information)[0],
-                          sender=config1["MAIL_USERNAME"],
-                          recipients=recipients)
-        else:
-            msg = Message(args.title,
-                          sender=config1["MAIL_USERNAME"],
-                          recipients=recipients)
-        msg.body = args.body
-        mail.send(msg)
+            for x in r_temp:
+                recipients.append(x.split(":")[1])
+
+            if not args.body:
+                msg = Message(msgTemplates(args.template, args.information)[0],
+                              sender=config1["MAIL_USERNAME"],
+                              recipients=recipients)
+            else:
+                msg = Message(args.title,
+                              sender=config1["MAIL_USERNAME"],
+                              recipients=recipients)
+            msg.body = args.body
+            mail.send(msg)
+
+        except Exception as e:
+            return False
 
         return True

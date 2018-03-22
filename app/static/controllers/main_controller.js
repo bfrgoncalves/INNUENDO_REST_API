@@ -74,15 +74,18 @@ const tclick = () => {
 const sendMail = () => {
     let pg_requests = Requests("", "", http);
 
-    console.log($("#recipients").val());
-
     pg_requests.sendCustomMail(
         $("#recipients").val(),
         $("#email-title").val(),
         $("#email-body").val(),
         (response) => {
-            console.log(response);
-            $("#email_res_text").text("Email sucessfully sent.")
+            if (response.data === true){
+                $("#email_res_text").text("Email sucessfully sent.")
+            }
+            else {
+                $("#email_res_text").text("There was an error when sending" +
+                    " the email.")
+            }
         });
 };
 

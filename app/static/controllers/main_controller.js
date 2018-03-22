@@ -87,9 +87,9 @@ const sendMail = () => {
 setTimeout( () => {
     $('#overviewLink').trigger('click');
 
-    let pg_requests = Requests("", "", http);
-
     $("#send_mail").off("click").on("click", () => {
+
+        let pg_requests = Requests("", "", http);
 
         pg_requests.get_user_mails((response) => {
             console.log(response);

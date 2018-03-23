@@ -9,6 +9,7 @@ var setUpFrame = (callback) => {
 
     if(frame !== undefined){
         frame.addUserData(current_user_name, current_user_id, () => {
+            console.log("LOADED_USER_DATA");
             callback();
         });
     }
@@ -19,6 +20,8 @@ var check_to_load_reports = () => {
     if (TO_LOAD_STRAINS === "" && TO_LOAD_PROJECTS === ""){
         return false;
     }
+
+    console.log("CHECKING REPORTS");
 
     $("#overlayProjects").css({"display":"block"});
     $("#overlayWorking").css({"display":"block"});

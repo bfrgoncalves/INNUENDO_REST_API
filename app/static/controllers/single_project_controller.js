@@ -951,8 +951,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             let headers_defs = set_headers_single_project('public_strains_table', global_public_strains);
 
-            console.log(global_public_strains, headers_defs[0], strains_headers);
-
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
                 callback();

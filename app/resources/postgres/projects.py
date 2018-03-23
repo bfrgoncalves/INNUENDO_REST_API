@@ -167,13 +167,18 @@ class ProjectUserResource(Resource):
             db.session.commit()
 
             print current_user.homedir
-            dirs_to_remove = os.path.join(current_user.homedir, "jobs",
+
+            project_path = os.path.join(current_user.homedir, "jobs",
                                           args.project_id + "-*", "work")
 
-            try:
-                os.system("rm -r " + dirs_to_remove)
-            except Exception as e:
-                return project
+            print project_path
+
+            for root, dirs, files in os.walk(project_path, topdown=False):
+                for name in files:
+                    if not name.endswith(".log"):
+                        os.remove(os.path.join(root, name))
+
+            return project
 
         else:
             print "Project was not locked"

@@ -2503,9 +2503,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 	      	reader.onload = (f) => {
 
-	      	    console.log(this);
-	      	    console.log(f);
-	      	    let lines = this.result.split('\n');
+	      		console.log(f.target);
+	      	    let lines = f.target.result.split('\n');
 		      	let firstLine = true;
 		      	let strains_object = {};
 		      	let count_lines = 0;

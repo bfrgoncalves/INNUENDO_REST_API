@@ -2646,9 +2646,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		      					if(headers_array[header_to_check] === "Source") {
 
-		      						$('#'+hline_to_use[x] + " option").filter( (e) => {
+		      						$('#'+hline_to_use[x] + " option").filter( (e, i) => {
 
-										console.log(e);
+										console.log(e, i);
 		      							console.log($(e.target).text().trim());
 		      							console.log(bline_to_use[x]);
 									    if($(e.target).text().trim() === bline_to_use[x].trim()){

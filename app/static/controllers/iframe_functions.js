@@ -17,6 +17,8 @@ var setUpFrame = (callback) => {
 
 var check_to_load_reports = () => {
 
+    console.log(TO_LOAD_PROJECTS, TO_LOAD_STRAINS, "CHECKING");
+
     if (TO_LOAD_STRAINS === "" && TO_LOAD_PROJECTS === ""){
         return false;
     }
@@ -50,6 +52,8 @@ var loadReport = (selectedRows, current_project_d, scope) => {
 
     TO_LOAD_PROJECTS = current_project_d;
     TO_LOAD_STRAINS = selectedRows;
+
+    console.log(TO_LOAD_PROJECTS, TO_LOAD_STRAINS);
 
     scope.$apply( () => {
         scope.selectedTemplate.path = '/app/static/html_components/reports_view.html';

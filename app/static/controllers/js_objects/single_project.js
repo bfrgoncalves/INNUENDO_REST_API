@@ -2485,7 +2485,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 			const used_headers = {
 				"Primary-Identifier": [true, "Required", "Primary strain identifier is required."],
-				"Food-Bug": [true, "Required", "Additional species identifier is required."],
+				"Case-ID": [true, "Optional"],
 				"Source": [true, "Required", "Source is required. Choose between: Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water;"],
 				"Sampling-Date": [true, "Optional"],
 				"Sample-Received-Date": [true, "Optional"],
@@ -2628,16 +2628,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
 		      						}
 
-		      						const food_bug_index = hline_to_use.indexOf("Food-Bug");
+		      						//const food_bug_index =
+									// hline_to_use.indexOf("Food-Bug");
 
-				      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[food_bug_index]).replace(/ /g, "-");
+				      				identifier_s = String(bline_to_use[x]);// + "-" + bline_to_use[food_bug_index]).replace(/ /g, "-");
 				      				
 				      				if(!strains_with_problems.hasOwnProperty(identifier_s)){
 				      					strains_with_problems[identifier_s] = [];
 				      				}
 		      					}
 
-		      					if(headers_array[header_to_check] === "Food-Bug") {
+		      					if(headers_array[header_to_check] === "Case-ID") {
 		      						if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] === ""){
 		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
 		      						}
@@ -2684,7 +2685,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      						}
 
 								}
-								else $('#'+hline_to_use[x]).val(bline_to_use[x] === "" ? "NA":bline_to_use[x]);
+								else {
+				      				if (hline_to_use === "Case-ID") {
+				      					sel_element = "Food-Bug";
+									}
+									else{
+				      					sel_element = hline_to_use[x];
+									}
+				      				$('#'+sel_element).val(bline_to_use[x] === "" ? "NA":bline_to_use[x]);
+                                }
 
 
 		      				}
@@ -2705,6 +2714,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			      			else {
 			      				showDoneImportModal();
 			      				hline_to_use.map( (a) => { $("#"+a).val("")});
+			      				$('#Submitter').val(CURRENT_USER_NAME);
 			      			}
 		      			}
 		      			else if(required_headers_missed.length > 0){

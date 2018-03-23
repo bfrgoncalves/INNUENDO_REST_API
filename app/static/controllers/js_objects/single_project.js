@@ -2686,6 +2686,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 								}
 								else {
+				      			    let sel_element;
+
 				      				if (hline_to_use === "Case-ID") {
 				      					sel_element = "Food-Bug";
 									}

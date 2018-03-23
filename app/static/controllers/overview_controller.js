@@ -53,6 +53,10 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
 
+    //RESET REPORT SELECTOR
+	TO_LOAD_STRAINS = "";
+	TO_LOAD_PROJECTS = "";
+
     $scope.showSpeciesDrop = () => {
 
         $("#projects_button_li").css({"display":"none"});

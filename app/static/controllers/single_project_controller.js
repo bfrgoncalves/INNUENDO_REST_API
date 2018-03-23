@@ -236,6 +236,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
 
+    //RESET REPORT SELECTOR
+	TO_LOAD_STRAINS = "";
+	TO_LOAD_PROJECTS = "";
+
     $("#overlayProjects").css({"display":"block"});
     $("#overlayWorking").css({"display":"block"});
     $("#single_project_controller_div").css({"display":"none"});

@@ -53,6 +53,10 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
 
+    //RESET REPORT SELECTOR
+	TO_LOAD_STRAINS = "";
+	TO_LOAD_PROJECTS = "";
+
     $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
     $("#projects_button_li").css({"display":"block"});

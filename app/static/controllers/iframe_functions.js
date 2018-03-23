@@ -20,15 +20,13 @@ var check_to_load_reports = () => {
     console.log(TO_LOAD_PROJECTS, TO_LOAD_STRAINS, "CHECKING");
 
     if (TO_LOAD_STRAINS === "" && TO_LOAD_PROJECTS === ""){
+        $("#overlayProjects").css({"display":"none"});
+        $("#overlayWorking").css({"display":"none"});
+        $("#submission_status").empty();
         return false;
     }
 
     console.log("CHECKING REPORTS");
-
-    $("#overlayProjects").css({"display":"block"});
-    $("#overlayWorking").css({"display":"block"});
-    $("#single_project_controller_div").css({"display":"none"});
-    $("#submission_status").empty();
 
     const reportFrameEl = $("#reportsIframe");
     var frame = reportFrameEl.get(0).document || reportFrameEl.get(0).contentWindow;

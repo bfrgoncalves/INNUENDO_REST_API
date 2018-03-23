@@ -348,9 +348,9 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#overlayWorking").css({"display":"block"});
         $("#single_project_controller_div").css({"display":"none"});
 
-        $("#overlayProjects").css({"display":"none"});
-        $("#overlayWorking").css({"display":"none"});
-        $("#single_project_controller_div").css({"display":"block"});
+        $("#overlayProjects").css({"display":"block"});
+        $("#overlayWorking").css({"display":"block"});
+        $("#single_project_controller_div").css({"display":"none"});
 
         //Get quota when clicking on description tab
         single_project.get_quota((t_quota) => {

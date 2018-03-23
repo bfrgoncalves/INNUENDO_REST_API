@@ -2648,6 +2648,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		      						$('#'+hline_to_use[x] + " option").filter( (e) => {
 
+										console.log(e);
 		      							console.log($(e.target).text().trim());
 		      							console.log(bline_to_use[x]);
 									    if($(e.target).text().trim() === bline_to_use[x].trim()){

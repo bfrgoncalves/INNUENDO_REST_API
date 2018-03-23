@@ -353,7 +353,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#single_project_controller_div").css({"display":"block"});
 
         //Get quota when clicking on description tab
-        /*single_project.get_quota((t_quota) => {
+        single_project.get_quota((t_quota) => {
 
             loadGoogleChart(t_quota);
             $scope.t_quota = humanFileSize(t_quota.t_quota, true);
@@ -366,7 +366,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $("#overlayWorking").css({"display":"none"});
             $("#single_project_controller_div").css({"display":"block"});
 
-        });*/
+        });
     });
 
     $("#project_tab").on("click", () => {

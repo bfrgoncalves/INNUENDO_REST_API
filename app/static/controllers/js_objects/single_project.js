@@ -243,8 +243,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		let strain_id = strains_dict[strain_Name];
 		let new_pipeline_id = '';
 
-		console.log(strains_dict, strain_id);
-
 		const add_pip = (strainid) => {
 			pg_requests.add_pipeline(strainid, null, null, (response) => {
 				if(response.status === 201){
@@ -531,16 +529,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		                    ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, (response, nn, workflow_name) => {
 		            			let protocol_data = response.data.reverse();
-
-		            			console.log(response.data);
 		            			
 		            			for(const x in protocol_data){
 		            				let index = protocol_data[x].index.split("^^")[0].split('"')[1]
 		            				let protoc = protocol_data[x].protocol.split("protocols/")[1].split('>')[0]
 		            				workflowname_to_protocols[workflow_name].push([index,protoc]);
 		            			}
-
-		            			console.log(workflowname_to_protocols);
 
 		            			workflowname_to_protocols[workflow_name].sort(sortFunction);
 
@@ -731,8 +725,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			//Get the pipeline ids for that strain
 			pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, (response, strainid) => {
 				let total_pipelines = response.data.length;
-
-				console.log(response);
 
 				if(response.data.hasOwnProperty("message") === true){
 				   return callback({strains: "no_pipelines"});

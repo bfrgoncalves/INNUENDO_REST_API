@@ -2552,7 +2552,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      		}
 		      	}
 
-		      	console.log(strains_object);
 
 		      	let lines_clone = strains_object['body'].slice(0);
 
@@ -2648,6 +2647,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      					if(headers_array[header_to_check] === "Source") {
 
 		      						$('#'+hline_to_use[x] + " option").filter( (e) => {
+		      							console.log($(e).text().trim());
+		      							console.log(bline_to_use[x]);
 									    if($(e).text().trim() === bline_to_use[x].trim()){
 									    	has_valid_source = true;
 									    	return bline_to_use[x];

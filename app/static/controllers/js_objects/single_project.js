@@ -2649,9 +2649,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      						$('#'+hline_to_use[x] + " option").filter( (e, i) => {
 
 										console.log(e, i);
-		      							console.log($(e.target).text().trim());
+		      							console.log($(i).text().trim());
 		      							console.log(bline_to_use[x]);
-									    if($(e.target).text().trim() === bline_to_use[x].trim()){
+									    if($(i).text().trim() === bline_to_use[x].trim()){
 									    	has_valid_source = true;
 									    	return bline_to_use[x];
 									    }
@@ -2677,8 +2677,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 				      				//check for files in user area
 				      				has_files += 1;
 
-				      				$('#'+hline_to_use[x] + " option").filter( (e) => {
-									    if($(e.target).text().trim() === bline_to_use[x].trim()){
+				      				$('#'+hline_to_use[x] + " option").filter( (e, i) => {
+									    if($(i).text().trim() === bline_to_use[x].trim()){
 									    	files_in_user_folder += 1;
 									    	return bline_to_use[x];
 									    }

@@ -2503,6 +2503,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 	      	reader.onload = (f) => {
 
+	      	    console.log(this);
+	      	    console.log(f);
 	      	    let lines = this.result.split('\n');
 		      	let firstLine = true;
 		      	let strains_object = {};

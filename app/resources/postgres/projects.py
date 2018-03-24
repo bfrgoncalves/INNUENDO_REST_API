@@ -9,6 +9,7 @@ import datetime
 import random
 import string
 import os
+import glob
 
 # Defining post arguments parser
 project_post_parser = reqparse.RequestParser()
@@ -173,13 +174,14 @@ class ProjectUserResource(Resource):
 
             print project_path
 
-            for root, dirs, files in os.walk(project_path, topdown=False):
-                print "AQUI"
-                for name in files:
-                    print name
-                    if not name.endswith(".log"):
-                        print os.path.join(root, name)
-                        #os.remove(os.path.join(root, name))
+            for result in glob.iglob(project_path):
+                for root, dirs, files in os.walk(result, topdown=False):
+                    print "AQUI"
+                    for name in files:
+                        print name
+                        if not name.endswith(".log"):
+                            print os.path.join(root, name)
+                            #os.remove(os.path.join(root, name))
 
             return project
 

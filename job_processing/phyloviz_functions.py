@@ -202,7 +202,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
                             print "no additional data for that strain"
 
                     if not is_added:
-                        if x != "Platform tag" and x != "Classifier":
+                        if x != "Platform tag" and x != "Cluster L1" and x !=\
+                                "Cluster L2":
                             straind.append("NA")
                     continue
 

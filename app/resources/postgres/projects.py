@@ -176,12 +176,9 @@ class ProjectUserResource(Resource):
 
             for result in glob.iglob(project_path):
                 for root, dirs, files in os.walk(result, topdown=False):
-                    print "AQUI"
                     for name in files:
-                        print name
                         if not name.endswith(".log"):
-                            print os.path.join(root, name)
-                            #os.remove(os.path.join(root, name))
+                            os.remove(os.path.join(root, name))
 
             return project
 

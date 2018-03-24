@@ -169,7 +169,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
                             headers_metadata.append(key1)
 
                 headers_metadata.append("Platform tag")
-                headers_metadata.append("Classifier")
+                headers_metadata.append("Cluster L1")
+                headers_metadata.append("Cluster L2")
 
                 print headers_metadata
 
@@ -208,7 +209,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
             straind.append("FP")
             strain_at_db_but_clicked = db.session.query(database_correspondece[database_to_include]).filter(database_correspondece[database_to_include].name == report.sample_name).first()
             if strain_at_db_but_clicked:
-                straind.append(strain_at_db_but_clicked.classifier)
+                straind.append(strain_at_db_but_clicked.classifier_l1)
+                straind.append(strain_at_db_but_clicked.classifier_l2)
             else:
                 straind.append("NA")
             all_metadata.append('\t'.join(straind))
@@ -271,8 +273,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description, additional_data
                         string_metadata.append(strain_from_db.name)
                     elif x == "Platform tag":
                         string_metadata.append(strain_from_db.platform_tag)
-                    elif x == "Classifier":
-                        string_metadata.append(strain_from_db.classifier)
+                    elif x == "Cluster L1":
+                        string_metadata.append(strain_from_db.classifier_l1)
+                    elif x == "Cluster L2":
+                        string_metadata.append(strain_from_db.classifier_l2)
                     elif x != "Project Name":
                         string_metadata.append(strain_metadata[x].replace(" ", "-"))
                     else:

@@ -174,11 +174,12 @@ class ProjectUserResource(Resource):
             print project_path
 
             for root, dirs, files in os.walk(project_path, topdown=False):
+                print "AQUI"
                 for name in files:
                     print name
                     if not name.endswith(".log"):
                         print os.path.join(root, name)
-                        os.remove(os.path.join(root, name))
+                        #os.remove(os.path.join(root, name))
 
             return project
 

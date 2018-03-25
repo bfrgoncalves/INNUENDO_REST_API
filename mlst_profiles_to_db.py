@@ -46,10 +46,11 @@ def populate_db_ecoli(name, classifierl1, classifierl2, allelic_profile,
     return 201
 
 
-def populate_db_yersinia(name, classifier, allelic_profile, strain_metadata,
-                         from_platform_tag):
+def populate_db_yersinia(name, classifierl1, classifierl2, allelic_profile,
+                         strain_metadata, from_platform_tag):
 
-    ecoli = Yersinia(name=name, classifier=classifier,
+    ecoli = Yersinia(name=name, classifier_l1=classifierl1,
+                     classifier_l2=classifierl2,
                      allelic_profile=allelic_profile,
                      strain_metadata=strain_metadata,
                      platform_tag=from_platform_tag,
@@ -61,10 +62,11 @@ def populate_db_yersinia(name, classifier, allelic_profile, strain_metadata,
     return 201
 
 
-def populate_db_campylobacter(name, classifier, allelic_profile,
+def populate_db_campylobacter(name, classifierl1, classifierl2, allelic_profile,
                               strain_metadata, from_platform_tag):
 
-    ecoli = Campylobacter(name=name, classifier=classifier,
+    ecoli = Campylobacter(name=name, classifier_l1=classifierl1,
+                          classifier_l2=classifierl2,
                           allelic_profile=allelic_profile,
                           strain_metadata=strain_metadata,
                           platform_tag=from_platform_tag,
@@ -76,10 +78,11 @@ def populate_db_campylobacter(name, classifier, allelic_profile,
     return 201
 
 
-def populate_db_salmonella(name, classifier, allelic_profile, strain_metadata,
+def populate_db_salmonella(name, classifierl1, classifierl2, allelic_profile, strain_metadata,
                            from_platform_tag):
 
-    ecoli = Salmonella(name=name, classifier=classifier,
+    ecoli = Salmonella(name=name, classifier_l1=classifierl1,
+                       classifier_l2=classifierl2,
                        allelic_profile=allelic_profile,
                        strain_metadata=strain_metadata,
                        platform_tag=from_platform_tag,

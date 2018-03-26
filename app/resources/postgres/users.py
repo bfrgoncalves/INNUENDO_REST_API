@@ -6,6 +6,7 @@ from app.models.models import User
 import os
 import ldap
 import subprocess
+import glob
 
 user_fields = {
     'id': fields.Integer,
@@ -179,11 +180,11 @@ class UserQuotaResource(Resource):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out2, err = proc.communicate()
 
-        proc = subprocess.Popen(["du", "-sh", "-B1", project_dir],
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out3, err = proc.communicate()
+        for result in glob.iglob(project_dir):
+            for root, dirs, files in os.walk(result, topdown=False):
+                print root, dirs
 
-        print out3, err
+        out3 = ""
 
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)

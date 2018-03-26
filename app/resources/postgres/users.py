@@ -188,7 +188,7 @@ class UserQuotaResource(Resource):
                     try:
                         out3 += os.path.getsize(fp)
                     except Exception as e:
-                        print "error loading " + os.path.getsize(fp)
+                        print "error loading " + fp
 
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)

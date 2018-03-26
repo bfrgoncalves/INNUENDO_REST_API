@@ -194,4 +194,4 @@ class UserQuotaResource(Resource):
         out4, err = proc.communicate()
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
-                "p_space": out3}
+                "p_space": str(out3)}

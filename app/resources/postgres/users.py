@@ -180,15 +180,18 @@ class UserQuotaResource(Resource):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out2, err = proc.communicate()
 
+        out3 = ""
+
         for result in glob.iglob(project_dir):
             for root, dirs, files in os.walk(result, topdown=False):
                 print root, dirs
-
-        out3 = ""
+                for f in files:
+                    fp = os.path.join(root, f)
+                    out3 += os.path.getsize(fp)
 
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out4, err = proc.communicate()
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
-                "p_space": out3.split("\n")}
+                "p_space": out3}

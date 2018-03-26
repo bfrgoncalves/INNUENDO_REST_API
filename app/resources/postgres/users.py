@@ -180,7 +180,7 @@ class UserQuotaResource(Resource):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out2, err = proc.communicate()
 
-        out3 = ""
+        out3 = 0
 
         for result in glob.iglob(project_dir):
             for root, dirs, files in os.walk(result, topdown=False):

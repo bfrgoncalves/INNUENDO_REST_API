@@ -183,7 +183,7 @@ class UserQuotaResource(Resource):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out3, err = proc.communicate()
 
-        print out3
+        print out3, err
 
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)

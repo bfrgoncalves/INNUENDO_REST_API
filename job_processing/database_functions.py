@@ -65,7 +65,7 @@ def get_profiles(strain_ids, database_name):
     firstTime = True
     strain_ids = strain_ids.split(",")
     profiles = [[], []]
-    headers_profile = [[], []]
+    headers_profile = []
 
     for s_id in strain_ids:
         strain_entry = db.session.query(database_correspondece[database_name])\
@@ -109,8 +109,8 @@ def get_profiles(strain_ids, database_name):
             profiles[1].append(wg_profile)
 
             if firstTime:
-                headers_profile[0].append(core_header)
-                headers_profile[1].append(wg_header)
+                headers_profile.append(core_header)
+                headers_profile.append(wg_header)
                 firstTime = False
 
     write_headers = True

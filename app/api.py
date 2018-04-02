@@ -11,7 +11,9 @@ from resources.postgres.protocols import ProtocolResource, ProtocolListResource,
 from resources.postgres.processes import ProcessResource, ProcessListResource
 from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource, StrainsByNameResource
 from resources.postgres.species import SpecieListResource
-from resources.postgres.reports import ReportsResource, CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, ReportsByProjectResource, ReportInfoResource, ReportFilterResource, ReportsFileStrainResource
+from resources.postgres.reports import ReportsResource, \
+    CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, \
+    ReportsByProjectResource, ReportInfoResource, ReportFilterResource, ReportsFileStrainResource, FilePathOnZipResource
 from resources.postgres.uploads import GetFilesResource, DownloadFilesResource
 from resources.ngs_onto.ngs_onto_users import NGSOnto_UserResource, NGSOnto_UserListResource
 from resources.ngs_onto.ngs_onto_projects import NGSOnto_ProjectListResource, NGSOnto_ProjectUserResource, NGSOnto_ProjectListUserResource
@@ -107,6 +109,7 @@ api.add_resource(ReportInfoResource, '/api/v1.0/reports/project/info/')
 api.add_resource(ReportFilterResource, '/api/v1.0/reports/project/filter/')
 api.add_resource(ReportsStrainResource, '/api/v1.0/reports/strain')
 api.add_resource(ReportsFileStrainResource, '/api/v1.0/reports/strain/files/')
+api.add_resource(FilePathOnZipResource, '/api/v1.0/reports/files/')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
 
 

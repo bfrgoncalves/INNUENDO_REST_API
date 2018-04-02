@@ -69,6 +69,16 @@ report_get__files_parser.add_argument('sampleNames', dest='sampleNames',
                                       type=str, required=True,
                                       help="sampleNames")
 
+# Defining report get files arguments parser
+report_get__files_path_parser = reqparse.RequestParser()
+
+report_get__files_path_parser.add_argument('paths',
+                                      dest='paths', type=str, required=True,
+                                      help="paths")
+report_get__files_path_parser.add_argument('file_names',
+                                      dest='file_names', type=str, required=True,
+                                      help="file_names")
+
 # Defining save report arguments parser
 save_reports_parser = reqparse.RequestParser()
 
@@ -480,6 +490,45 @@ class ReportsFileStrainResource(Resource):
             with zipfile.ZipFile(zip_file_name, 'w') as myzip:
                 for i, f in enumerate(args.path.split(";")):
                     myzip.write(f, sampleNames[i] + ".fasta")
+
+            response = send_file(zip_file_name, as_attachment=True)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Content-Type', 'application/force-download')
+
+            return response
+        except Exception as e:
+            print e
+            return 404
+
+
+class FilePathOnZipResource(Resource):
+    """
+    Class to get files in path and return a zip
+    """
+
+    def get(self):
+        """Get paths
+
+        Returns the files in the provided paths in a zip format
+
+        Returns
+        -------
+        zip file with the assemblies
+        """
+
+        args = report_get__files_path_parser.parse_args()
+        try:
+            randomString = ''\
+                .join(random.choice(string.ascii_uppercase + string.digits)
+                      for _ in range(2))
+
+            zip_file_name = "/tmp/files_" + randomString + ".zip"
+
+            file_names = args.file_names.split(";")
+
+            with zipfile.ZipFile(zip_file_name, 'w') as myzip:
+                for i, f in enumerate(args.paths.split(";")):
+                    myzip.write(f, file_names[i])
 
             response = send_file(zip_file_name, as_attachment=True)
             response.headers.add('Access-Control-Allow-Origin', '*')

@@ -50,6 +50,103 @@ def tab_profile_from_db(strain_id, database, headers_file_path,
     return profile_tab_file_path, count_headers
 
 
+def get_profiles(strain_ids, database_name):
+
+    file_name = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                        for _ in range(8))
+
+    core_profle_path = "./chewbbaca_database_profiles/query_files/" + \
+                        file_name + "_core.tab"
+
+    wg_profle_path = "./chewbbaca_database_profiles/query_files/" + \
+                       file_name + "_wg.tab"
+
+    to_replace = allele_classes_to_ignore
+    firstTime = True
+    strain_ids = strain_ids.split(",")
+    profiles = [[], []]
+    headers_profile = [[], []]
+
+    for s_id in strain_ids:
+        strain_entry = db.session.query(database_correspondece[
+                                       database_name]).filter(name=s_id).first()
+
+        if strain_entry:
+
+            core_profile = []
+            core_header = []
+            wg_header = []
+            wg_profile = []
+            count_core = 0
+
+            strain_allele_profile = strain_entry.allelic_profile
+
+            with open(core_headers_correspondece[database_name], 'r') as reader:
+                for i, line in enumerate(reader):
+                    count_core += 1
+                    if line.rstrip() == "FILE":
+                        core_header.append(line.rstrip())
+                        core_profile.append(strain_entry.name)
+                    else:
+                        if line.rstrip() in strain_allele_profile:
+                            core_header.append(line.rstrip())
+                            core_profile.append(
+                                strain_allele_profile[line.rstrip()])
+
+            profiles[0].append(core_profile)
+
+            with open(wg_headers_correspondece[database_name], 'r') as reader:
+                for i, line in enumerate(reader):
+                    if line.rstrip() == "FILE":
+                        wg_header.append(line.rstrip())
+                        wg_profile.append(strain_entry.name)
+                    else:
+                        if line.rstrip() in strain_allele_profile:
+                            wg_header.append(line.rstrip())
+                            wg_profile.append(
+                                    strain_allele_profile[line.rstrip()])
+
+            profiles[1].append(wg_profile)
+
+            if firstTime:
+                headers_profile[0].append(core_header)
+                headers_profile[1].append(wg_header)
+                firstTime = False
+
+    write_headers = True
+
+    with open(core_profle_path, 'w') as writer:
+
+        for x in profiles[0]:
+            if write_headers:
+                string_headers_list = "\t".join(headers_profile[0])
+                writer.write(string_headers_list + "\n")
+                write_headers = False
+
+            string_list = "\t".join(x)
+            writer.write(string_list + "\n")
+
+    write_headers = True
+
+    with open(wg_profle_path, 'w') as writer:
+
+        for x in profiles[1]:
+            if write_headers:
+                string_headers_list = "\t".join(headers_profile[1])
+                writer.write(string_headers_list + "\n")
+                write_headers = False
+
+            string_list = "\t".join(x)
+            writer.write(string_list + "\n")
+
+    file_paths = [core_profle_path, wg_profle_path]
+    file_names = ["cg_profile.tab", "wg_profile.tab"]
+    json_data = [headers_profile, profiles]
+
+    return {"file_paths": file_paths, "file_names": file_names,
+            "json": json_data}
+
+
 def classify_profile(allcall_results, database_name, sample, job_id):
 
     file_name = ''.join(random.choice(string.ascii_uppercase + string.digits)

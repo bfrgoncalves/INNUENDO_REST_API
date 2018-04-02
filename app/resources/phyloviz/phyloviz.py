@@ -8,6 +8,7 @@ import requests
 import os
 
 from job_processing.queue_processor import Queue_Processor
+from job_processing.database_functions import get_profiles
 
 '''
 PHYLOViZ Online routes:
@@ -84,6 +85,13 @@ trees_delete_parser = reqparse.RequestParser()
 trees_delete_parser.add_argument('tree_name', dest='tree_name', type=str,
                                  required=True, help="tree name")
 
+# Defining tree delete arguments parser
+profiles_get_parser = reqparse.RequestParser()
+profiles_get_parser.add_argument('strain_names', dest='strain_names', type=str,
+                                 required=True, help="strain_names")
+profiles_get_parser.add_argument('database_name', dest='database_name', type=str,
+                                 required=True, help="database_name")
+
 phyloviz_processor = Queue_Processor()
 
 
@@ -138,6 +146,17 @@ class PHYLOViZResource(Resource):
             return {"status": False, "result": "Failed"}, 200
         else:
             return {"status": "Pending"}, 200
+
+
+class getProfilesResource(Resource):
+    """
+    Class to get wg and cgMLST profiles
+    """
+
+    def get(self):
+        args = profiles_get_parser.parse_args()
+        res = get_profiles(args.strain_names, args.database_name)
+        return res
 
 
 class PHYLOViZJobResource(Resource):

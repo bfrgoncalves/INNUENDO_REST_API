@@ -91,6 +91,8 @@ profiles_get_parser.add_argument('strain_names', dest='strain_names', type=str,
                                  required=True, help="strain_names")
 profiles_get_parser.add_argument('database_name', dest='database_name', type=str,
                                  required=True, help="database_name")
+profiles_get_parser.add_argument('get_json', dest='get_json', type=str,
+                                 required=True, help="get_json")
 
 phyloviz_processor = Queue_Processor()
 
@@ -155,7 +157,7 @@ class getProfilesResource(Resource):
 
     def get(self):
         args = profiles_get_parser.parse_args()
-        res = get_profiles(args.strain_names, args.database_name)
+        res = get_profiles(args.strain_names, args.database_name, args.get_json)
         return res
 
 

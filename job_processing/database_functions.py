@@ -50,7 +50,7 @@ def tab_profile_from_db(strain_id, database, headers_file_path,
     return profile_tab_file_path, count_headers
 
 
-def get_profiles(strain_ids, database_name):
+def get_profiles(strain_ids, database_name, get_json):
 
     file_name = ''.join(random.choice(string.ascii_uppercase + string.digits)
                         for _ in range(8))
@@ -141,7 +141,11 @@ def get_profiles(strain_ids, database_name):
 
     file_paths = [core_profle_path, wg_profle_path]
     file_names = ["cg_profile.tab", "wg_profile.tab"]
-    json_data = [headers_profile, profiles]
+
+    if get_json == "true":
+        json_data = [headers_profile, profiles]
+    else:
+        json_data = []
 
     return {"file_paths": file_paths, "file_names": file_names,
             "json": json_data}

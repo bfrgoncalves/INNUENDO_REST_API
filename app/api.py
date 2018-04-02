@@ -24,7 +24,7 @@ from resources.ngs_onto.ngs_onto_strains import NGSOnto_StrainsListUserResource
 from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, NGSOnto_ProcessJobID, NGSOnto_ProcessOutputResource
 from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download, Job_classify_chewbbaca, Job_Result_Download_click, Job_Reports, NextflowLogs, Job_Report_Download_click
 from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, \
-    TreeUserResource, PHYLOViZJobResource, getProfilesResource
+    TreeUserResource, PHYLOViZJobResource, getProfilesResource, getAllProfilesResource
 from resources.file_resources.file_resources import TemplateResource
 
 '''
@@ -92,6 +92,7 @@ api.add_resource(Job_classify_chewbbaca, '/api/v1.0/jobs/classify/')
 
 api.add_resource(PHYLOViZResource, '/api/v1.0/phyloviz/')
 api.add_resource(getProfilesResource, '/api/v1.0/phyloviz/profiles/')
+api.add_resource(getAllProfilesResource, '/api/v1.0/phyloviz/database/profiles/')
 api.add_resource(TreeResource, '/api/v1.0/phyloviz/trees/')
 api.add_resource(TreeUserResource, '/api/v1.0/phyloviz/trees/user/')
 api.add_resource(PHYLOViZJobResource, '/api/v1.0/phyloviz/job/')

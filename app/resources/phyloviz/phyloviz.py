@@ -6,9 +6,17 @@ from config import CURRENT_ROOT, JOBS_ROOT, phyloviz_root
 from app.models.models import Tree
 import requests
 import os
+import random
+from flask import jsonify, request, send_file
+import zipfile
+import string
+
+from config import core_increment_profile_file_correspondece, \
+    wg_increment_profile_file_correspondece
 
 from job_processing.queue_processor import Queue_Processor
 from job_processing.database_functions import get_profiles
+from job_processing.database_functions import get_all_profiles
 
 '''
 PHYLOViZ Online routes:
@@ -85,7 +93,6 @@ trees_delete_parser = reqparse.RequestParser()
 trees_delete_parser.add_argument('tree_name', dest='tree_name', type=str,
                                  required=True, help="tree name")
 
-# Defining tree delete arguments parser
 profiles_get_parser = reqparse.RequestParser()
 profiles_get_parser.add_argument('strain_names', dest='strain_names', type=str,
                                  required=True, help="strain_names")
@@ -93,6 +100,10 @@ profiles_get_parser.add_argument('database_name', dest='database_name', type=str
                                  required=True, help="database_name")
 profiles_get_parser.add_argument('get_json', dest='get_json', type=str,
                                  required=True, help="get_json")
+
+profiles_get_all_parser = reqparse.RequestParser()
+profiles_get_all_parser.add_argument('database_name', dest='database_name', type=str,
+                                 required=True, help="database_name")
 
 phyloviz_processor = Queue_Processor()
 
@@ -156,8 +167,45 @@ class getProfilesResource(Resource):
     """
 
     def get(self):
-        args = profiles_get_parser.parse_args()
+        args = profiles_get_all_parser.parse_args()
         res = get_profiles(args.strain_names, args.database_name, args.get_json)
+        return res
+
+
+class getAllProfilesResource(Resource):
+    """
+    Class to get all wg and cgMLST profiles available for a given specie
+    """
+
+    def get(self):
+        args = profiles_get_parser.parse_args()
+
+        try:
+            randomString = ''\
+                .join(random.choice(string.ascii_uppercase + string.digits)
+                      for _ in range(2))
+
+            zip_file_name = "/tmp/files_" + randomString + ".zip"
+
+            file_names = ["coreMLST_profiles.tab", "wgMLST_profiles.tab"]
+            file_paths = [core_increment_profile_file_correspondece[
+                              args.database_name],
+                          wg_increment_profile_file_correspondece[
+                              args.database_name]]
+
+            with zipfile.ZipFile(zip_file_name, 'w') as myzip:
+                for i, f in enumerate(file_paths):
+                    myzip.write(f, file_names[i])
+
+            response = send_file(zip_file_name, as_attachment=True)
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add('Content-Type', 'application/force-download')
+
+            return response
+        except Exception as e:
+            print e
+            return 404
+
         return res
 
 

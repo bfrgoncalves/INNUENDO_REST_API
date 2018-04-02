@@ -166,7 +166,7 @@ class getProfilesResource(Resource):
     """
 
     def get(self):
-        args = profiles_get_all_parser.parse_args()
+        args = profiles_get_parser.parse_args()
         res = get_profiles(args.strain_names, args.database_name, args.get_json)
         return res
 
@@ -177,7 +177,7 @@ class getAllProfilesResource(Resource):
     """
 
     def get(self):
-        args = profiles_get_parser.parse_args()
+        args = profiles_get_all_parser.parse_args()
 
         try:
             randomString = ''\

@@ -68,8 +68,8 @@ def get_profiles(strain_ids, database_name):
     headers_profile = [[], []]
 
     for s_id in strain_ids:
-        strain_entry = db.session.query(database_correspondece[
-                                       database_name]).filter(name=s_id).first()
+        strain_entry = db.session.query(database_correspondece[database_name])\
+            .filter(database_correspondece[database_name].name == s_id).first()
 
         if strain_entry:
 

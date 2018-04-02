@@ -16,7 +16,6 @@ from config import core_increment_profile_file_correspondece, \
 
 from job_processing.queue_processor import Queue_Processor
 from job_processing.database_functions import get_profiles
-from job_processing.database_functions import get_all_profiles
 
 '''
 PHYLOViZ Online routes:

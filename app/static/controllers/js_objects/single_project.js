@@ -580,8 +580,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 quota_dict.user_quota = quota_dict.user_quota === "" ? 0 : parseInt(quota_dict.user_quota);
                 quota_dict.i_quota = quota_dict.i_quota === "" ? 0 : parseInt(quota_dict.i_quota);
 
-                console.log(quota_dict);
-
                 callback(quota_dict);
             });
 
@@ -608,8 +606,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                let public_strains_headers = JSON.parse(data[0].fields).metadata_fields;
 		                public_strains_headers.unshift("strainID");
 		                public_strains_headers.push("timestamp");
-
-		                console.log(data);
 
 		                for (const i in data){
 
@@ -643,7 +639,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                public_strains = new_strains;
 		                
 		            }
-		            console.log(public_strains, public_strains_headers);
+
 		            callback({ public_strains_headers: public_strains_headers, public_strains: public_strains});
 				}
 				else{
@@ -683,8 +679,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains_headers.push('FilesLocation');
 		                strains_headers.push("timestamp");
 		                strains_headers.push("has_files");
-
-		                console.log(data);
 		                
 		                for (const i in data){
 
@@ -707,8 +701,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                     else{
 		                                sd[strains_headers[j]] = strain_data[strains_headers[j]];
                                     }
-		                            //sd[strains_headers[j]] =
-                                    // strain_data[strains_headers[j]];
 		                        }
 		                    }
 		                    if(!strains_dict.hasOwnProperty($.trim(data[i].strainID))){
@@ -720,7 +712,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains = add_strains;
 		                
 		            }
-		            console.log(strains, strains_headers);
+
 		            callback({ strains: strains, strains_headers: strains_headers});
 				}
 				else callback({strains: [], strains_headers: []});

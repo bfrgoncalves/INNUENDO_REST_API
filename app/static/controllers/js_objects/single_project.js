@@ -2515,7 +2515,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             }
             else {
                 //Send to reports Page
-				console.log(selectedRows, CURRENT_PROJECT_ID, scope);
                 loadReport(selectedRows, CURRENT_PROJECT_ID, scope);
             }
 		    callback();

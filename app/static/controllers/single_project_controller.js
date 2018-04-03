@@ -763,8 +763,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                     let strain_id = $(e.target).attr("strain_id");
                     let project = $(e.target).attr("ownerproject");
 
-                    console.log([strain_id], project, $scope);
-
+                    $('.modal').modal('hide');
                     loadReport([strain_id], parseInt(project), $scope);
 
 

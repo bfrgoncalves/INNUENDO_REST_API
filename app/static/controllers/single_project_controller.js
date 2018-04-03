@@ -764,8 +764,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                     let project = $(e.target).attr("ownerproject");
 
                     $('.modal').modal('hide');
-                    loadReport([strain_id], parseInt(project), $scope);
 
+                    setTimeout(() => {
+                        loadReport([strain_id], parseInt(project), $scope);
+                    }, 1000);
 
                 });
 

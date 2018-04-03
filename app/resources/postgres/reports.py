@@ -232,8 +232,6 @@ class ReportInfoResource(Resource):
                     )
                     inArray.append(x.sample_name)
 
-        print reports_to_send
-
         return reports_to_send, 200
 
 

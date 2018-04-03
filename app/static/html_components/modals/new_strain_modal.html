@@ -209,7 +209,7 @@
 				  	  	 	<label>Pipeline {{
                                     available_pipelines_ids[key][$index][0] }} from Project {{ available_pipelines_ids[key][$index][1] }}: </label>
 						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
-						  	<button class="btn btn-sm btn-default
+						  	<button class="btn btn-sm btn-primary
 						  	pipeline_strain_button" style="float:right;"
                             pipeline="{{ available_pipelines_ids[key][$index][0] }}"
 						  	strain_id="{{ key }}" ownerproject="{{

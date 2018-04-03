@@ -130,6 +130,8 @@ class StrainResource(Resource):
         else:
             strain.classifier = e_results.classifier
 
+        print "AQUI3"
+
         if not strain:
             abort(404, message="No strain available")
         return strain, 200
@@ -177,6 +179,8 @@ class StrainListResource(Resource):
 
         file1_path = os.path.join(fastq_files_dir, strain.file_1)
         file2_path = os.path.join(fastq_files_dir, strain.file_2)
+
+        print "AQUI2"
 
         if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
             strain.has_files = "false"
@@ -368,6 +372,8 @@ class StrainProjectListResource(Resource):
 
         if not strains:
             abort(404, message="No strain available")
+
+        print "AQUI1"
 
         for strain in strains:
             file_1 = json.loads(strain.strain_metadata)["File_1"]

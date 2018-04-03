@@ -110,6 +110,13 @@ const Objects_Utils = (single_project, $sc) => {
             columns: columnDefinitions,
             "data": data,
             "stateSave":true,
+            "createdRow": ( row, data, dataIndex) => {
+                console.log(data);
+                if( data.has_files === "false"){
+                    console.log("BABA");
+                    $(row).addClass("no_files_row");
+                }
+            },
             "initComplete": () => {
 
                 let already_added = [];
@@ -128,11 +135,6 @@ const Objects_Utils = (single_project, $sc) => {
                     tableBodyEl.find("tr.selected td button.analysis-control").trigger("click");
                     tableBodyEl.find("tr td button.button_table_to_trigger").trigger("click");
                     $('.child_row').css({"background-color":"#eeffff"});
-
-                    $.map($('#'+table_id).DataTable().rows().data(), (i, item) => {
-                        console.log(i,item);
-                    });
-
                 }, 50);
             }
         });

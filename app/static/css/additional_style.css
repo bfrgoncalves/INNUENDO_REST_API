@@ -262,3 +262,7 @@ table.table td {
 .footer-msg a {
     color: inherit;
 }
+
+.no_files_row {
+    color: red;
+}

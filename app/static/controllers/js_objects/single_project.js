@@ -1542,7 +1542,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        if (sel_has_file === "false") {
 		        	subStatusEl.empty();
 		        	subStatusEl.html("Strain " + String(sel_name) + " has no" +
-						" available files to run.";
+						" available files to run.");
 
 					count_finished += 1;
 

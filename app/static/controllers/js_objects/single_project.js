@@ -681,6 +681,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains_headers.push('FilesLocation');
 		                strains_headers.push("timestamp");
 		                strains_headers.push("has_files");
+
+		                console.log(data);
 		                
 		                for (const i in data){
 

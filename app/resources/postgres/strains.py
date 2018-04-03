@@ -179,9 +179,9 @@ class StrainListResource(Resource):
         file2_path = os.path.join(fastq_files_dir, strain.file_2)
 
         if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
-            strain.has_files = False
+            strain.has_files = "false"
         else:
-            strain.has_files = True
+            strain.has_files = "true"
 
         if not strains:
             abort(404, message="No strain available")
@@ -413,9 +413,9 @@ class StrainProjectListResource(Resource):
         file2_path = os.path.join(fastq_files_dir, strain.file_2)
 
         if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
-            strain.has_files = False
+            strain.has_files = "false"
         else:
-            strain.has_files = True
+            strain.has_files = "true"
 
         return strain, 200
 

@@ -635,11 +635,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    }
 		                    sd["id"] = data[i].id;
 		                    sd["FilesLocation"] = data[i].fq_location;
+		                    sd["has_files"] = data[i].has_files;
 		                    new_strains.push(sd);
 		                }
 		                public_strains = new_strains;
 		                
 		            }
+		            console.log(public_strains, public_strains_headers);
 		            callback({ public_strains_headers: public_strains_headers, public_strains: public_strains});
 				}
 				else{
@@ -678,6 +680,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains_headers.push('Analysis');
 		                strains_headers.push('FilesLocation');
 		                strains_headers.push("timestamp");
+		                strains_headers.push("has_files");
 		                
 		                for (const i in data){
 
@@ -686,6 +689,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    strain_data['Analysis'] = "";
 		                    strain_data['FilesLocation'] = data[i].fq_location;
 		                    strain_data['timestamp'] = data[i].timestamp;
+		                    strain_data['has_files'] = data[i].has_files;
+
 		                    let sd = {};
 		                    for (const j in strains_headers){
 		                        if(strain_data.hasOwnProperty(strains_headers[j])){
@@ -711,6 +716,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains = add_strains;
 		                
 		            }
+		            console.log(strains, strains_headers);
 		            callback({ strains: strains, strains_headers: strains_headers});
 				}
 				else callback({strains: [], strains_headers: []});

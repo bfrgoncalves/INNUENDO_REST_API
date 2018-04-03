@@ -6,6 +6,7 @@ import json
 from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, Campylobacter
 from flask_security import current_user, login_required, roles_required
 import datetime
+import os
 
 # Defining post arguments parser
 
@@ -34,6 +35,15 @@ strain_names_parser.add_argument('selectedProjects', dest='selectedProjects',
                                  type=str, required=False,
                                  help="selectedProjects")
 
+# Param parser to delete fastq from a strain
+strain_fastq_delete_parser = reqparse.RequestParser()
+strain_fastq_delete_parser.add_argument('strain_names', dest='strain_names',
+                                 type=str, required=True,
+                                 help="strain_names")
+strain_fastq_delete_parser.add_argument('speciesID', dest='speciesID',
+                                 type=str, required=True,
+                                 help="speciesID")
+
 # Defining response fields
 
 strain_fields = {
@@ -46,7 +56,8 @@ strain_fields = {
     'file_2': fields.String,
     'timestamp': fields.String,
     'classifier': fields.String,
-    'fq_location': fields.String
+    'fq_location': fields.String,
+    'has_files': fields.String
 }
 
 strain_fields_project = {
@@ -161,6 +172,16 @@ class StrainListResource(Resource):
         for strain in strains:
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
             strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+
+        fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+
+        file1_path = os.path.join(fastq_files_dir, strain.file_1)
+        file2_path = os.path.join(fastq_files_dir, strain.file_2)
+
+        if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
+            strain.has_files = False
+        else:
+            strain.has_files = True
 
         if not strains:
             abort(404, message="No strain available")
@@ -386,6 +407,16 @@ class StrainProjectListResource(Resource):
         strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
         strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
+        fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+
+        file1_path = os.path.join(fastq_files_dir, strain.file_1)
+        file2_path = os.path.join(fastq_files_dir, strain.file_2)
+
+        if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
+            strain.has_files = False
+        else:
+            strain.has_files = True
+
         return strain, 200
 
     @login_required
@@ -421,3 +452,45 @@ class StrainProjectListResource(Resource):
         db.session.commit()
 
         return strain, 200
+
+
+class DeleteReadsFromStrain(Resource):
+    """
+    Class of resource to delete strains from a given project.
+    """
+
+    def delete(self):
+
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+
+        args = strain_fastq_delete_parser.parse_args()
+
+        strains = db.session.query(Strain)\
+            .filter(Strain.species_id == args.speciesID,
+                    Strain.user_id == current_user.id,
+                    Strain.name.in_(args.strain_names.split(","))).all()
+
+        for strain in strains:
+            file_1 = json.loads(strain.strain_metadata)["File_1"]
+            file_2 = json.loads(strain.strain_metadata)["File_2"]
+
+            fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+
+            file1_path = os.path.join(fastq_files_dir, file_1)
+            file2_path = os.path.join(fastq_files_dir, file_2)
+
+            if os.path.isfile(file1_path):
+                os.remove(file1_path)
+
+            if os.path.isfile(file2_path):
+                os.remove(file2_path)
+
+            print "DELETED:"
+            print file1_path
+            print file2_path
+
+
+
+
+

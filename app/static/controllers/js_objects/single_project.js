@@ -1706,7 +1706,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         message += "<ul>";
 
                         for (const x in no_pip_strains){
-                            message += "<li>Please add workflows first for <b>" + no_pip_strains[x] + "</b></li>";
+                            message += "<li>Please add workflows first for <b>"
+								+ no_pip_strains[x] + "</b></li>";
                         }
 
                         message += "</ul>";
@@ -1716,10 +1717,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                     	message += "<ul>";
 
-                        for (const x in no_pip_strains){
+                        for (const x in no_files_strains){
                             message += "<li>Please resubmit the associated" +
 								" files for the strain " +
-								" <b>" + no_pip_strains[x] + "</b> or ask" +
+								" <b>" + no_files_strains[x] + "</b> or ask" +
 								" the owner to reupload them</li>";
                         }
 
@@ -1739,10 +1740,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 }
 
 				let strain_in_use = strain_names.shift();
-		    	let strain_has_files = strain_has_files.shift()
+		    	let strain_in_has_files = strain_has_files.shift();
 
 				//put_i.push(i);
-		        if(pipelines_applied[strain_in_use] !== undefined && strain_has_files !== "false"){
+		        if(pipelines_applied[strain_in_use] !== undefined && strain_in_has_files !== "false"){
 		        	dict_strain_names[strain_in_use] = [pipelines_applied[strain_in_use].length, [], 0, 0];
 
 		        	let pip_id_of_parents = [];
@@ -1958,7 +1959,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        }
 
 		        else {
-		        	if (strain_has_files === "false"){
+		        	if (strain_in_has_files === "false"){
 		        		no_files_strains.push(strain_in_use);
 						count_strains_added_run += 1;
 						run_single_strain();

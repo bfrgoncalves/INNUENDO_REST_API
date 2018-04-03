@@ -210,9 +210,8 @@
                                     available_pipelines_ids[key][$index][0] }} from Project {{ available_pipelines_ids[key][$index][1] }}: </label>
 						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
 						  	<button class="btn btn-sm btn-default
-						  	pipeline_strain_button" style="display:none;
-						  	float:right;" pipeline="{{
-						  	available_pipelines_ids[key][$index][0] }}"
+						  	pipeline_strain_button" style="float:right;"
+                            pipeline="{{ available_pipelines_ids[key][$index][0] }}"
 						  	strain_id="{{ key }}" ownerproject="{{
 						  	available_pipelines_ids[key][$index][1] }}">Show
 						  	Report</button>

@@ -361,11 +361,28 @@ class StrainProjectListResource(Resource):
         if not current_user.is_authenticated:
             abort(403, message="No permissions")
         project = db.session.query(Project).filter(Project.id == id).first()
+
         if not project:
             abort(404, message="No project available")
         strains = project.project_strains()
+
         if not strains:
             abort(404, message="No strain available")
+
+        for strain in strains:
+            file_1 = json.loads(strain.strain_metadata)["File_1"]
+            file_2 = json.loads(strain.strain_metadata)["File_2"]
+
+            fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+
+            file1_path = os.path.join(fastq_files_dir, file_1)
+            file2_path = os.path.join(fastq_files_dir, file_2)
+
+            if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
+                strain.has_files = "false"
+            else:
+                strain.has_files = "true"
+
         return strains, 200
 
     @login_required

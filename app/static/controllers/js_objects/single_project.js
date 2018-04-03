@@ -1510,6 +1510,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        return item['strainID'];
 		    });
 
+            /**
+			 * Check if strain has files to run
+             */
+		    const strain_has_files = $.map(table.rows('.selected').data(), (item) => {
+		        return item['has_files'];
+		    });
+
 		    //CASE THERE ARE NO STRAINS SELECTED
 		    if(strain_names.length === 0){
 		    	modalAlert('Please select at least one strain before running' +
@@ -1526,109 +1533,127 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    const save_single_pipeline = () => {
 
 		    	let sel_name = strain_names.shift();
+		    	let sel_has_file = strain_has_files.shift();
 		    	const subStatusEl = $("#submission_status");
 
 		    	subStatusEl.empty();
 		        subStatusEl.html("Saving pipeline " + String(count_finished+1) + " out of " + String(sel_index_clone.length) + "...");
 
-		    	create_pipeline(sel_name, (strain_id, pipeline_id) => {
-		        	strainID_pipeline[strain_id] = pipeline_id;
-		        	pipeline_ids.push(pipeline_id);
+		        if (sel_has_file === "false") {
+		        	subStatusEl.empty();
+		        	subStatusEl.html("Strain " + String(sel_name) + " has no" +
+						" available files to run.";
 
-		        	if(pipelines_applied.hasOwnProperty(strain_id_to_name[strain_id])){
+					count_finished += 1;
 
-		        	    let pipeline_to_use = pipeline_ids.shift();
-		        		let steps = [];
-		        		let workflow_ids = [];
-		        		let total_workflows = pipelines_applied[strain_id_to_name[strain_id]].length;
-		        		let counter_global = 0;
-		        		let counter_steps = 0;
-		        		let to_add = false;
-		        		let task_failed = false;
+					if (count_finished === total_index_length) {
+						return callback(true);
+					}
+					else {
+						save_single_pipeline();
+					}
+				}
+				else {
 
-		        		pipelines_applied[strain_id_to_name[strain_id]].map( (d, x) => {
+                    create_pipeline(sel_name, (strain_id, pipeline_id) => {
+                        strainID_pipeline[strain_id] = pipeline_id;
+                        pipeline_ids.push(pipeline_id);
 
-		        		    let workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
-			                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
-			                let button_n = d.split("id")[1].split('"')[1];
-			                
-			                if(buttons_to_tasks[button_n] === undefined){
-			                	buttons_to_tasks[button_n] = "buttonworkflow_" + pipeline_id + "_" + String(x+1);
-			                	workflow_ids.push(pipelinesByName[workflowName]);
-			                	counter_steps += 1;
-			                	steps.push(counter_steps);
-			        		}
-			        		else counter_steps += 1;
+                        if (pipelines_applied.hasOwnProperty(strain_id_to_name[strain_id])) {
 
-			        		counter_global += 1;
+                            let pipeline_to_use = pipeline_ids.shift();
+                            let steps = [];
+                            let workflow_ids = [];
+                            let total_workflows = pipelines_applied[strain_id_to_name[strain_id]].length;
+                            let counter_global = 0;
+                            let counter_steps = 0;
+                            let to_add = false;
+                            let task_failed = false;
 
-			                if (total_workflows === counter_global){
-			                	if(workflow_ids.length === 0){
-			                		return callback(false);
-			                	}
-			                	//In case of all workflows are new in the pipeline, update the pipeline to remove the parent
-			                	if(counter_steps === pipelines_applied[strain_id_to_name[strain_id]].length){
-			                		pg_requests.change_pipeline_from_project(strain_id, 'remove_parent', pipeline_to_use, (response, strain_id, pipeline_to_use) => {
-			                			//Say that this process belongs to this project
-			                			if(strain_to_real_pip.hasOwnProperty(strain_id)){
-			                				strain_to_real_pip[strain_id].map( (d) => {
-				                				d[0] = CURRENT_PROJECT_ID;
-				                			});
-			                			}
-			                			if(pipelines_type_by_strain[strain_id_to_name[strain_id]][3] !== undefined) {
-			                			    pipelines_type_by_strain[strain_id_to_name[strain_id]][3] = undefined;
-                                        }
-			                			
-			                			ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
-						                	if(response.status === 200){
-						                	}
-						                	else console.log(response.statusText);
+                            pipelines_applied[strain_id_to_name[strain_id]].map((d, x) => {
 
-						                	count_finished += 1;
+                                let workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
+                                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
+                                let button_n = d.split("id")[1].split('"')[1];
 
-						                	if(count_finished === total_index_length){
-								        		return callback(true);
-								        	}
-								        	else {
-												save_single_pipeline();
-								        	}
-						                });
-			                		});
-			                	}
-			                	else{
-			                		ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
-					                	if(response.status === 200){
-					                	}
-					                	else console.log(response.statusText);
+                                if (buttons_to_tasks[button_n] === undefined) {
+                                    buttons_to_tasks[button_n] = "buttonworkflow_" + pipeline_id + "_" + String(x + 1);
+                                    workflow_ids.push(pipelinesByName[workflowName]);
+                                    counter_steps += 1;
+                                    steps.push(counter_steps);
+                                }
+                                else counter_steps += 1;
 
-					                	count_finished += 1;
+                                counter_global += 1;
 
-					                	if(count_finished === total_index_length){
-							        		return callback(true);
-							        	}
-							        	else{
-							        		save_single_pipeline();
-							        	}
-					                });
-			                	}
-			                }
-		            	});
-		        	}
+                                if (total_workflows === counter_global) {
+                                    if (workflow_ids.length === 0) {
+                                        return callback(false);
+                                    }
+                                    //In case of all workflows are new in the pipeline, update the pipeline to remove the parent
+                                    if (counter_steps === pipelines_applied[strain_id_to_name[strain_id]].length) {
+                                        pg_requests.change_pipeline_from_project(strain_id, 'remove_parent', pipeline_to_use, (response, strain_id, pipeline_to_use) => {
+                                            //Say that this process belongs to this project
+                                            if (strain_to_real_pip.hasOwnProperty(strain_id)) {
+                                                strain_to_real_pip[strain_id].map((d) => {
+                                                    d[0] = CURRENT_PROJECT_ID;
+                                                });
+                                            }
+                                            if (pipelines_type_by_strain[strain_id_to_name[strain_id]][3] !== undefined) {
+                                                pipelines_type_by_strain[strain_id_to_name[strain_id]][3] = undefined;
+                                            }
 
-		        	else {
-                        console.log("No pipeline for strain");
-                        count_finished += 1;
+                                            ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
+                                                if (response.status === 200) {
+                                                }
+                                                else console.log(response.statusText);
 
-                        if(count_finished === total_index_length){
-                            return callback(true);
+                                                count_finished += 1;
+
+                                                if (count_finished === total_index_length) {
+                                                    return callback(true);
+                                                }
+                                                else {
+                                                    save_single_pipeline();
+                                                }
+                                            });
+                                        });
+                                    }
+                                    else {
+                                        ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
+                                            if (response.status === 200) {
+                                            }
+                                            else console.log(response.statusText);
+
+                                            count_finished += 1;
+
+                                            if (count_finished === total_index_length) {
+                                                return callback(true);
+                                            }
+                                            else {
+                                                save_single_pipeline();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                         }
-                        else{
-                            save_single_pipeline();
-                        }
-                    }
-		        });
 
-		    }
+                        else {
+                            console.log("No pipeline for strain");
+                            count_finished += 1;
+
+                            if (count_finished === total_index_length) {
+                                return callback(true);
+                            }
+                            else {
+                                save_single_pipeline();
+                            }
+                        }
+                    });
+                }
+
+		    };
 
 		    save_single_pipeline();
 
@@ -1649,6 +1674,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        return item['FilesLocation'];
 		    });
 
+		    /**
+			 * Check if strain has files to run
+             */
+		    const strain_has_files = $.map(table.rows('.selected').data(), (item) => {
+		        return item['has_files'];
+		    });
+
 		    let countWorkflows = 0;
 		    let countFinished = 0;
 		    let dict_strain_names = {};
@@ -1659,6 +1691,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    let strain_names_clone = strain_names.slice(0);
 		    let count_total_strains = strain_names_clone.length;
 		    let no_pip_strains = [];
+		    let no_files_strains = [];
 
 
 
@@ -1666,18 +1699,32 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    const run_single_strain = () => {
 
 		    	if (count_strains_added_run === count_total_strains){
-                    let message = "";
+                    let message = "<p>Jobs for some of the strains were not submitted:</p>";
 
                     //Verification case there are no workflows applied to the strains
                     if (no_pip_strains.length > 0) {
-                        message = "<p>Jobs for some of the strains were not submitted:</p>";
                         message += "<ul>";
 
-                        for (x in no_pip_strains){
+                        for (const x in no_pip_strains){
                             message += "<li>Please add workflows first for <b>" + no_pip_strains[x] + "</b></li>";
                         }
 
                         message += "</ul>";
+                    }
+
+                    if (no_files_strains.length > 0) {
+
+                    	message += "<ul>";
+
+                        for (const x in no_pip_strains){
+                            message += "<li>Please resubmit the associated" +
+								" files for the strain " +
+								" <b>" + no_pip_strains[x] + "</b> or ask" +
+								" the owner to reupload them</li>";
+                        }
+
+                        message += "</ul>";
+
                     }
                     else {
                         message = "<p>Jobs for all the selected strains have been submitted.</p>";
@@ -1692,9 +1739,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 }
 
 				let strain_in_use = strain_names.shift();
+		    	let strain_has_files = strain_has_files.shift()
 
 				//put_i.push(i);
-		        if(pipelines_applied[strain_in_use] !== undefined){
+		        if(pipelines_applied[strain_in_use] !== undefined && strain_has_files !== "false"){
 		        	dict_strain_names[strain_in_use] = [pipelines_applied[strain_in_use].length, [], 0, 0];
 
 		        	let pip_id_of_parents = [];
@@ -1910,9 +1958,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        }
 
 		        else {
-                    no_pip_strains.push(strain_in_use);
-                    count_strains_added_run += 1;
-                    run_single_strain();
+		        	if (strain_has_files === "false"){
+		        		no_files_strains.push(strain_in_use);
+						count_strains_added_run += 1;
+						run_single_strain();
+                    }
+                    else{
+		        		no_pip_strains.push(strain_in_use);
+						count_strains_added_run += 1;
+						run_single_strain();
+                    }
 
                 }
 		    };

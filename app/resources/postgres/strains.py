@@ -175,7 +175,7 @@ class StrainListResource(Resource):
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
             strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-        fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+        fastq_files_dir = os.path.join(strain.fq_location, "ftp")
 
         file1_path = os.path.join(fastq_files_dir, strain.file_1)
         file2_path = os.path.join(fastq_files_dir, strain.file_2)
@@ -379,7 +379,7 @@ class StrainProjectListResource(Resource):
             file_1 = json.loads(strain.strain_metadata)["File_1"]
             file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-            fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+            fastq_files_dir = os.path.join(strain.fq_location, "ftp")
 
             file1_path = os.path.join(fastq_files_dir, file_1)
             file2_path = os.path.join(fastq_files_dir, file_2)
@@ -388,6 +388,8 @@ class StrainProjectListResource(Resource):
                 strain.has_files = "false"
             else:
                 strain.has_files = "true"
+
+            print strain.has_files
 
         return strains, 200
 
@@ -430,7 +432,7 @@ class StrainProjectListResource(Resource):
         strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
         strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-        fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+        fastq_files_dir = os.path.join(strain.fq_location, "ftp")
 
         file1_path = os.path.join(fastq_files_dir, strain.file_1)
         file2_path = os.path.join(fastq_files_dir, strain.file_2)

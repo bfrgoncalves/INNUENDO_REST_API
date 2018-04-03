@@ -185,8 +185,6 @@ class StrainListResource(Resource):
             else:
                 strain.has_files = "true"
 
-            print strain.has_files
-
         if not strains:
             abort(404, message="No strain available")
 

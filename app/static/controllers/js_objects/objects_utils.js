@@ -111,9 +111,9 @@ const Objects_Utils = (single_project, $sc) => {
             "data": data,
             "stateSave":true,
             "createdRow": ( row, data, dataIndex) => {
-                console.log(data);
+                $(row).removeClass("odd");
+                $(row).removeClass("even");
                 if( data.has_files === "false"){
-                    console.log("BABA");
                     $(row).addClass("no_files_row");
                 }
             },

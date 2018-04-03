@@ -167,8 +167,6 @@ class ProjectUserResource(Resource):
             project.is_removed = args.lock
             db.session.commit()
 
-            print current_user.homedir
-
             project_path = os.path.join(current_user.homedir, "jobs",
                                           args.project_id + "-*", "work")
 

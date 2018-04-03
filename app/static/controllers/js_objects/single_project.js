@@ -212,7 +212,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                }
 		                sd["strainID"] = data.strainID;
 		                sd["FilesLocation"] = data.fq_location;
-		                console.log(sd);
+		                sd["has_files"] = data[i].has_files;
+
 		                if(!strains_dict.hasOwnProperty($.trim(data.strainID))){
 		                    strains_dict[$.trim(data.strainID)] = data.id;
 		                }

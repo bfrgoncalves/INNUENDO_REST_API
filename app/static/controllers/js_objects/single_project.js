@@ -1721,7 +1721,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             message += "<li>Please resubmit the associated" +
 								" files for the strain " +
 								" <b>" + no_files_strains[x] + "</b> or ask" +
-								" the owner to reupload them</li>";
+								" the owner to reupload them.</li>";
                         }
 
                         message += "</ul>";

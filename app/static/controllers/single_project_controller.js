@@ -752,6 +752,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $scope.available_strain_pipelines = applied_workflows;
             $scope.available_pipelines_ids = pipelines_ids;
 
+            console.log(applied_workflows, strain_ids, pipelines_ids, strains_dict);
+
             $('#choosePipelineModal').modal('show');
 
             setTimeout( () => {

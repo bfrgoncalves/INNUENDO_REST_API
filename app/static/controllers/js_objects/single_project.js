@@ -609,6 +609,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                public_strains_headers.unshift("strainID");
 		                public_strains_headers.push("timestamp");
 
+		                console.log(data);
+
 		                for (const i in data){
 
 		                    strains_dict[$.trim(data[i].strainID)] = data[i].id;

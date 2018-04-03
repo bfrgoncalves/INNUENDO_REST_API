@@ -175,7 +175,7 @@ class StrainListResource(Resource):
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
             strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-            fastq_files_dir = os.path.join(strain.fq_location, "ftp")
+            fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
 
             file1_path = os.path.join(fastq_files_dir, strain.file_1)
             file2_path = os.path.join(fastq_files_dir, strain.file_2)
@@ -373,26 +373,19 @@ class StrainProjectListResource(Resource):
         if not strains:
             abort(404, message="No strain available")
 
-        print "AQUI1"
-
         for strain in strains:
             file_1 = json.loads(strain.strain_metadata)["File_1"]
             file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-            fastq_files_dir = os.path.join(strain.fq_location, "ftp")
+            fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
 
             file1_path = os.path.join(fastq_files_dir, file_1)
             file2_path = os.path.join(fastq_files_dir, file_2)
-
-            print file1_path
-            print file2_path
 
             if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
                 strain.has_files = "false"
             else:
                 strain.has_files = "true"
-
-            print strain.has_files
 
         return strains, 200
 
@@ -435,7 +428,7 @@ class StrainProjectListResource(Resource):
         strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
         strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-        fastq_files_dir = os.path.join(strain.fq_location, "ftp")
+        fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
 
         file1_path = os.path.join(fastq_files_dir, strain.file_1)
         file2_path = os.path.join(fastq_files_dir, strain.file_2)
@@ -503,7 +496,7 @@ class DeleteReadsFromStrain(Resource):
             file_1 = json.loads(strain.strain_metadata)["File_1"]
             file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-            fastq_files_dir = os.path.join(current_user.homedir, "ftp")
+            fastq_files_dir = os.path.join(current_user.homedir, "ftp", "files")
 
             file1_path = os.path.join(fastq_files_dir, file_1)
             file2_path = os.path.join(fastq_files_dir, file_2)

@@ -175,17 +175,17 @@ class StrainListResource(Resource):
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
             strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
-        fastq_files_dir = os.path.join(strain.fq_location, "ftp")
+            fastq_files_dir = os.path.join(strain.fq_location, "ftp")
 
-        file1_path = os.path.join(fastq_files_dir, strain.file_1)
-        file2_path = os.path.join(fastq_files_dir, strain.file_2)
+            file1_path = os.path.join(fastq_files_dir, strain.file_1)
+            file2_path = os.path.join(fastq_files_dir, strain.file_2)
 
-        print "AQUI2"
+            if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
+                strain.has_files = "false"
+            else:
+                strain.has_files = "true"
 
-        if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
-            strain.has_files = "false"
-        else:
-            strain.has_files = "true"
+            print strain.has_files
 
         if not strains:
             abort(404, message="No strain available")
@@ -383,6 +383,9 @@ class StrainProjectListResource(Resource):
 
             file1_path = os.path.join(fastq_files_dir, file_1)
             file2_path = os.path.join(fastq_files_dir, file_2)
+
+            print file1_path
+            print file2_path
 
             if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
                 strain.has_files = "false"

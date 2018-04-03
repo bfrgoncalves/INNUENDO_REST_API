@@ -763,9 +763,9 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                     let strain_id = $(e.target).attr("strain_id");
                     let project = $(e.target).attr("ownerproject");
 
-                    console.log(pipeline_id, strain_id, project);
+                    console.log([strain_id], project, scope);
 
-                    loadReport([strain_id], project, $scope);
+                    loadReport([strain_id], parseInt(project), $scope);
 
 
                 });

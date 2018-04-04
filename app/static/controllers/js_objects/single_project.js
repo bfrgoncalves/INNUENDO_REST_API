@@ -205,6 +205,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                     let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
                                     sd[strains_headers[i]] = modified_data;
                                 }
+                                else if (strains_headers[i] === "SampleReceivedDate" || strains_headers[i] === "SamplingDate"){
+                                    let modified_data = strain_data[strains_headers[i]].replace(/\./g, "/");
+                                    modified_data = modified_data.replace(/-/g, "/");
+
+                                    sd[strains_headers[i]] = modified_data;
+                                }
+
                                 else{
                                     sd[strains_headers[i]] = strain_data[strains_headers[i]];
                                 }
@@ -631,6 +638,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 										sd[public_strains_headers[j]] = modified_data;
                                     }
+                                    else if (public_strains_headers[j] === "SampleReceivedDate" || public_strains_headers[j] === "SamplingDate"){
+		                                let modified_data = strain_data[public_strains_headers[j]].replace(/\./g, "/");
+		                                modified_data = modified_data.replace(/-/g, "/");
+
+		                                sd[public_strains_headers[j]] = modified_data;
+                                    }
                                     else{
 		                                sd[public_strains_headers[j]] = strain_data[public_strains_headers[j]];
                                     }
@@ -701,6 +714,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                            if (strains_headers[j] === "timestamp"){
 		                                let modified_data_parts = strain_data[strains_headers[j]].split(" ")[0].split("-");
 		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
+		                                sd[strains_headers[j]] = modified_data;
+                                    }
+
+                                    else if (strains_headers[j] === "SampleReceivedDate" || strains_headers[j] === "SamplingDate"){
+		                                let modified_data = strain_data[strains_headers[j]].replace(/\./g, "/");
+		                                modified_data = modified_data.replace(/-/g, "/");
+
 		                                sd[strains_headers[j]] = modified_data;
                                     }
                                     else{

@@ -73,13 +73,15 @@ const Objects_Utils = (single_project, $sc) => {
                 autoClose: true,
                 buttons: [{
                     text: "Show Reports",
-                    action: ( e, dt, node, config ) => {
+                    action: (e, dt, node, config) => {
 
                         single_project.showReports(dt, $sc, () => {
 
                         });
 
                     },
+                },
+                    {
                     text: "Delete Fastq",
                     action: ( e, dt, node, config ) => {
 

@@ -2532,16 +2532,43 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    if(selectedRows.length === 0){
 		        modalAlert("Please select one or more entries from the" +
                     " Project first.", "Select Strains", () => {});
+
+		        callback(false);
             }
             else {
                 //Send to reports Page
                 //loadReport(selectedRows, CURRENT_PROJECT_ID, scope);
-				console.log("DELETE FASTQ")
-				pg_requests.delete_fastq(selectedRows, () => {
+                console.log("DELETE FASTQ");
+                modalAlert("This option will delete the fastq files" +
+                    " associated with the selected strains. Do you wish to" +
+                    " continue?", "Delete Fastq", () => {
+
+                    pg_requests.delete_fastq(selectedRows, (response, status) => {
+
+                        if (status) {
+                            modalAlert("The Fastq files for the selected" +
+                                " strains have been removed. To run analyses" +
+                                " again on those strains, reupload the files" +
+                                " with the same name as the ones provided on" +
+                                " upload time.", "Fastq" +
+                                " files" +
+                                " deleted", () => {
+                            });
+                        }
+                        else {
+                            modalAlert("An error as occurried when deleting the" +
+                                " fastq files for the selected strains.", "Error",
+                                () => {
+                                });
+                        }
+
+                        callback(true);
+
+                    });
 
                 });
+
             }
-		    callback();
         },
 
 		/*

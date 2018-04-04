@@ -85,8 +85,10 @@ const Objects_Utils = (single_project, $sc) => {
                     text: "Delete Fastq",
                     action: ( e, dt, node, config ) => {
 
-                        single_project.deleteFastq(dt, $sc, () => {
-
+                        single_project.deleteFastq(dt, $sc, (status) => {
+                            if (status){
+                                dt.rows(".selected").addClass("no_files_row");
+                            }
                         });
                     },
                 }]

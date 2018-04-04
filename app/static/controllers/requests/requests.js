@@ -584,10 +584,10 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        };
 
 	        $http(req).then( (response) => {
-	               callback(response);
+	               callback(response, true);
 	            },
 	            (response) => {
-	               callback(response);
+	               callback(response, false);
 	        });
 		},
         sendCustomMail: (recipients, title, body, callback) => {

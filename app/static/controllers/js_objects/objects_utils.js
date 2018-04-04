@@ -87,7 +87,8 @@ const Objects_Utils = (single_project, $sc) => {
 
                         single_project.deleteFastq(dt, $sc, (status) => {
                             if (status){
-                                dt.rows(".selected").addClass("no_files_row");
+                                dt.rows(".selected").nodes().to$()
+                                    .addClass("no_files_row");
                             }
                         });
                     },

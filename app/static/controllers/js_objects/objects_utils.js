@@ -71,7 +71,7 @@ const Objects_Utils = (single_project, $sc) => {
                 extend: "collection",
                 text: "Selection",
                 autoClose: true,
-                buttons: {
+                buttons: [{
                     text: "Show Reports",
                     action: ( e, dt, node, config ) => {
 
@@ -86,11 +86,8 @@ const Objects_Utils = (single_project, $sc) => {
                         single_project.deleteFastq(dt, $sc, () => {
 
                         });
-
                     },
-
-                }
-
+                }]
             }
         }
 

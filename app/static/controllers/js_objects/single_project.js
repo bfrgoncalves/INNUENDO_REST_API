@@ -625,7 +625,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                            if (public_strains_headers[j] === "timestamp"){
 		                                let modified_data_parts = strain_data[public_strains_headers[j]].split(" ")[0].split("-");
 		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
-		                                sd[public_strains_headers[j]] = modified_data;
+
+		                                modified_data = modified_data.replace(/\./g, "/");
+										modified_data = modified_data.replace(/-/g, "/");
+
+										sd[public_strains_headers[j]] = modified_data;
                                     }
                                     else{
 		                                sd[public_strains_headers[j]] = strain_data[public_strains_headers[j]];

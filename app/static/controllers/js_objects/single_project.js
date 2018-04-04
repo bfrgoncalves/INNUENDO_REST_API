@@ -2521,6 +2521,27 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         },
 
 		/*
+		Show reports from single project table
+		 */
+		deleteFastq: (dt, scope, callback) => {
+
+            let selectedRows = $.map(dt.rows(".selected").data(), (d) => {
+                return d.strainID;
+            });
+
+		    if(selectedRows.length === 0){
+		        modalAlert("Please select one or more entries from the" +
+                    " Project first.", "Select Strains", () => {});
+            }
+            else {
+                //Send to reports Page
+                //loadReport(selectedRows, CURRENT_PROJECT_ID, scope);
+				console.log("DELETE FASTQ")
+            }
+		    callback();
+        },
+
+		/*
 	    Load strains from a file. Parses the file and trigger the add_new_strain function
 	    */
 		load_strains_from_file: (input_element, separator, callback) => {

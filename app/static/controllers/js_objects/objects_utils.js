@@ -68,14 +68,29 @@ const Objects_Utils = (single_project, $sc) => {
 
         if(table_id === "strains_table"){
             additionalButtons = {
-                text: "Show Reports",
-                action: ( e, dt, node, config ) => {
+                extend: "collection",
+                text: "Selection",
+                autoClose: true,
+                buttons: {
+                    text: "Show Reports",
+                    action: ( e, dt, node, config ) => {
 
-                    single_project.showReports(dt, $sc, () => {
+                        single_project.showReports(dt, $sc, () => {
 
-                    });
+                        });
+
+                    },
+                    text: "Delete Fastq",
+                    action: ( e, dt, node, config ) => {
+
+                        single_project.deleteFastq(dt, $sc, () => {
+
+                        });
+
+                    },
 
                 }
+
             }
         }
 

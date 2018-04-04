@@ -9,7 +9,8 @@ from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
 from resources.postgres.protocols import ProtocolResource, ProtocolListResource, ProtocolByIDResource
 from resources.postgres.processes import ProcessResource, ProcessListResource
-from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource, StrainsByNameResource
+from resources.postgres.strains import StrainResource, StrainListResource, \
+    StrainProjectListResource, StrainsByNameResource, DeleteReadsFromStrain
 from resources.postgres.species import SpecieListResource
 from resources.postgres.reports import ReportsResource, \
     CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, \
@@ -66,6 +67,7 @@ api.add_resource(ProtocolResource, '/api/v1.0/protocols/<int:id>', endpoint='pro
 api.add_resource(ProtocolByIDResource, '/api/v1.0/protocols/ids', endpoint='protocol_ids')
 
 api.add_resource(StrainListResource, '/api/v1.0/strains/', endpoint='strains')
+api.add_resource(DeleteReadsFromStrain, '/api/v1.0/strains/fastq/', endpoint='strains_fq')
 api.add_resource(StrainsByNameResource, '/api/v1.0/strains/name/', endpoint='strains_name')
 api.add_resource(StrainProjectListResource, '/api/v1.0/projects/<int:id>/strains/', endpoint='project_strains')
 api.add_resource(StrainResource, '/api/v1.0/strains/<string:name>', endpoint='strain')

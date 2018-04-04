@@ -2537,6 +2537,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 //Send to reports Page
                 //loadReport(selectedRows, CURRENT_PROJECT_ID, scope);
 				console.log("DELETE FASTQ")
+				pg_requests.delete_fastq(selectedRows, () => {
+
+                });
             }
 		    callback();
         },

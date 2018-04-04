@@ -573,6 +573,23 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        });
 
 		},
+		delete_fastq: (selectedNames, callback) => {
+			const req = {
+	            url: 'api/v1.0/strains/fastq/',
+	            method:'DELETE',
+				params: {
+	                strain_names: selectedNames.join(","),
+					speciesID: CURRENT_SPECIES_ID
+	            }
+	        };
+
+	        $http(req).then( (response) => {
+	               callback(response);
+	            },
+	            (response) => {
+	               callback(response);
+	        });
+		},
         sendCustomMail: (recipients, title, body, callback) => {
 		    const req = {
 	            url: 'api/v1.0/mail/',

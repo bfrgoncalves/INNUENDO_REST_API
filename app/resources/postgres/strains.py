@@ -499,17 +499,14 @@ class DeleteReadsFromStrain(Resource):
             file1_path = os.path.join(fastq_files_dir, file_1)
             file2_path = os.path.join(fastq_files_dir, file_2)
 
+            print "DELETED:"
+
             if os.path.isfile(file1_path):
                 os.remove(file1_path)
+                print file1_path
 
             if os.path.isfile(file2_path):
                 os.remove(file2_path)
+                print file2_path
 
-            print "DELETED:"
-            print file1_path
-            print file2_path
-
-
-
-
-
+        return 204

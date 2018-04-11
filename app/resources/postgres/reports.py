@@ -508,7 +508,8 @@ class SavedReportsResource(Resource):
         reports_to_send = []
 
         all_saved_reports = db.session.query(Combined_Reports) \
-            .filter(Combined_Reports.user_id == args.user_id).all()
+            .filter(Combined_Reports.user_id == args.user_id |
+                    Combined_Reports.is_public == "true").all()
 
         if not all_saved_reports:
             abort(404, message="No reports for user {}"
@@ -524,6 +525,7 @@ class SavedReportsResource(Resource):
                 "projects_id": x.projects_id,
                 "filters": x.filters,
                 "highlights": x.highlights,
+                "is_public": x.is_public,
                 "timestamp": x.timestamp
             })
 
@@ -550,6 +552,7 @@ class SavedReportsResource(Resource):
                                            projects_id=args.projects_id,
                                            filters=args.filters,
                                            highlights=args.highlights,
+                                           is_public=args.is_public,
                                            timestamp=datetime.datetime.utcnow())
 
         if not combined_report:
@@ -559,15 +562,16 @@ class SavedReportsResource(Resource):
 
         reports_to_send.append(
             {
-                "user_id":combined_report.user_id,
-                "username":combined_report.username,
-                "name":combined_report.name,
-                "description":combined_report.description,
-                "strain_names":combined_report.strain_names,
-                "projects_id":combined_report.projects_id,
-                "filters":combined_report.filters,
-                "highlights":combined_report.highlights,
-                "timestamp":combined_report.timestamp
+                "user_id": combined_report.user_id,
+                "username": combined_report.username,
+                "name": combined_report.name,
+                "description": combined_report.description,
+                "strain_names": combined_report.strain_names,
+                "projects_id": combined_report.projects_id,
+                "filters": combined_report.filters,
+                "highlights": combined_report.highlights,
+                "is_public": args.is_public,
+                "timestamp": combined_report.timestamp
             })
 
         db.session.add(combined_report)

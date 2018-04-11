@@ -408,6 +408,7 @@ class Combined_Reports(db.Model):
     projects_id = db.Column(db.Text())
     filters = db.Column(db.Text())
     highlights = db.Column(db.Text())
+    is_public = db.Column(db.Text())
     timestamp = db.Column(db.DateTime)
 
 

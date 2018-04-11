@@ -116,6 +116,8 @@ saved_report_post_parser.add_argument('filters', dest='filters', type=str,
                                  required=False, help="filters")
 saved_report_post_parser.add_argument('highlights', dest='highlights', type=str,
                                  required=False, help="highlights")
+saved_report_post_parser.add_argument('is_public', dest='is_public', type=str,
+                                 required=False, help="if public")
 
 saved_report_delete_parser = reqparse.RequestParser()
 saved_report_delete_parser.add_argument('user_id', dest='user_id', type=str,

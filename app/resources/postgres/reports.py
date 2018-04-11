@@ -524,7 +524,7 @@ class SavedReportsResource(Resource):
                 "filters": x.filters,
                 "highlights": x.highlights,
                 "is_public": x.is_public,
-                "timestamp": x.timestamp
+                "timestamp": x.timestamp.strftime("%d-%m-%Y %H:%M:%S")
             })
 
         return reports_to_send
@@ -567,7 +567,7 @@ class SavedReportsResource(Resource):
                 "filters": combined_report.filters,
                 "highlights": combined_report.highlights,
                 "is_public": args.is_public,
-                "timestamp": combined_report.timestamp
+                "timestamp": combined_report.timestamp.strftime("%d-%m-%Y %H:%M:%S")
             })
 
         db.session.add(combined_report)

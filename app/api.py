@@ -14,7 +14,8 @@ from resources.postgres.strains import StrainResource, StrainListResource, \
 from resources.postgres.species import SpecieListResource
 from resources.postgres.reports import ReportsResource, \
     CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, \
-    ReportsByProjectResource, ReportInfoResource, ReportFilterResource, ReportsFileStrainResource, FilePathOnZipResource
+    ReportsByProjectResource, ReportInfoResource, ReportFilterResource, \
+    ReportsFileStrainResource, FilePathOnZipResource, SavedReportsResource
 from resources.postgres.uploads import GetFilesResource, DownloadFilesResource
 from resources.ngs_onto.ngs_onto_users import NGSOnto_UserResource, NGSOnto_UserListResource
 from resources.ngs_onto.ngs_onto_projects import NGSOnto_ProjectListResource, NGSOnto_ProjectUserResource, NGSOnto_ProjectListUserResource
@@ -114,6 +115,7 @@ api.add_resource(ReportsStrainResource, '/api/v1.0/reports/strain')
 api.add_resource(ReportsFileStrainResource, '/api/v1.0/reports/strain/files/')
 api.add_resource(FilePathOnZipResource, '/api/v1.0/reports/files/')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
+api.add_resource(SavedReportsResource, '/api/v1.0/reports/saved/')
 
 
 #################################USER FILES################################

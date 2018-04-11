@@ -95,6 +95,34 @@ save_reports_parser.add_argument('name', dest='name', type=str, required=False,
 save_reports_parser.add_argument('description', dest='description', type=str,
                                  required=False, help="description")
 
+saved_report_get_parser = reqparse.RequestParser()
+saved_report_get_parser.add_argument('user_id', dest='user_id', type=str,
+                                 required=False, help="user identifier")
+
+saved_report_post_parser = reqparse.RequestParser()
+saved_report_post_parser.add_argument('user_id', dest='user_id', type=str,
+                                 required=False, help="user identifier")
+saved_report_post_parser.add_argument('username', dest='username', type=str,
+                                 required=False, help="user name")
+saved_report_post_parser.add_argument('name', dest='name', type=str,
+                                 required=False, help="report name")
+saved_report_post_parser.add_argument('description', dest='description', type=str,
+                                 required=False, help="description")
+saved_report_post_parser.add_argument('strain_names', dest='strain_names', type=str,
+                                 required=False, help="strain_names")
+saved_report_post_parser.add_argument('projects_id', dest='projects_id', type=str,
+                                 required=False, help="projects_id")
+saved_report_post_parser.add_argument('filters', dest='filters', type=str,
+                                 required=False, help="filters")
+saved_report_post_parser.add_argument('highlights', dest='highlights', type=str,
+                                 required=False, help="highlights")
+
+saved_report_delete_parser = reqparse.RequestParser()
+saved_report_delete_parser.add_argument('user_id', dest='user_id', type=str,
+                                 required=False, help="user identifier")
+saved_report_delete_parser.add_argument('report_id', dest='report_id', type=str,
+                                 required=False, help="report identifier")
+
 
 class ReportsResource(Resource):
     """
@@ -452,6 +480,117 @@ class CombinedReportsResource(Resource):
         report_to_remove = db.session.query(Combined_Reports)\
             .filter(Combined_Reports.user_id == current_user.id,
                     Combined_Reports.name == args.report_name).first()
+
+        if not report_to_remove:
+            abort(404, message="No report for user {}".format(current_user.id))
+
+        db.session.delete(report_to_remove)
+        db.session.commit()
+
+        return 204
+
+class SavedReportsResource(Resource):
+    """
+    Class to load, save and delete saved reports
+    """
+
+    def get(self):
+        """Get a list of saved reports for the user
+
+        This method allows getting a list with all the available saved
+        reports for a given user.
+
+        Returns
+        -------
+        list: list with the saved reports of a given user
+        """
+        args = saved_report_get_parser.parse_args()
+        reports_to_send = []
+
+        all_saved_reports = db.session.query(Combined_Reports) \
+            .filter(Combined_Reports.user_id == args.user_id).all()
+
+        if not all_saved_reports:
+            abort(404, message="No reports for user {}"
+                  .format(current_user.id))
+
+        for x in all_saved_reports:
+            reports_to_send.append({
+                "user_id": x.user_id,
+                "username": x.username,
+                "name": x.name,
+                "description": x.description,
+                "strain_names": x.strain_names,
+                "projects_id": x.projects_id,
+                "filters": x.filters,
+                "highlights": x.highlights,
+                "timestamp": x.timestamp
+            })
+
+        return reports_to_send
+
+    def post(self):
+        """Adds a saved report to the database
+
+        This method allows adding a report to the database by specifying the
+        projects, strains, filters and highlights applied at a given instance.
+
+        Returns
+        -------
+        list: added report
+        """
+
+        args = saved_report_post_parser.parse_args()
+        reports_to_send = []
+        combined_report = Combined_Reports(user_id=args.user_id,
+                                           username=args.username,
+                                           name=args.name,
+                                           description=args.description,
+                                           strain_names=args.strain_names,
+                                           projects_id=args.projects_id,
+                                           filters=args.filters,
+                                           highlights=args.highlights,
+                                           timestamp=datetime.datetime.utcnow())
+
+        if not combined_report:
+            abort(404,
+                  message="An error as occurried when uploading the data"
+                  .format(id))
+
+        reports_to_send.append(
+            {
+                "user_id":combined_report.user_id,
+                "username":combined_report.username,
+                "name":combined_report.name,
+                "description":combined_report.description,
+                "strain_names":combined_report.strain_names,
+                "projects_id":combined_report.projects_id,
+                "filters":combined_report.filters,
+                "highlights":combined_report.highlights,
+                "timestamp":combined_report.timestamp
+            })
+
+        db.session.add(combined_report)
+        db.session.commit()
+
+        return reports_to_send, 201
+
+    def delete(self):
+        """Deletes a seved report
+
+        This method allows deleting a saved report based on its id and on the
+        user_id.
+
+        Returns
+        -------
+        list: deleted report
+        """
+
+        args = saved_report_delete_parser.parse_args()
+
+        report_to_remove = db.session.query(Combined_Reports) \
+            .filter(Combined_Reports.user_id == args.user_id,
+                    Combined_Reports.id == args.report_id).first()
 
         if not report_to_remove:
             abort(404, message="No report for user {}".format(current_user.id))

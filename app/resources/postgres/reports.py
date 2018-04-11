@@ -508,8 +508,8 @@ class SavedReportsResource(Resource):
         reports_to_send = []
 
         all_saved_reports = db.session.query(Combined_Reports) \
-            .filter(Combined_Reports.user_id == args.user_id |
-                    Combined_Reports.is_public == "true").all()
+            .filter((Combined_Reports.user_id == args.user_id) |
+                    (Combined_Reports.is_public == "true")).all()
 
         if not all_saved_reports:
             abort(404, message="No reports for user {}"

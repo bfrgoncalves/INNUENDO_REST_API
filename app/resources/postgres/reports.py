@@ -511,10 +511,6 @@ class SavedReportsResource(Resource):
             .filter((Combined_Reports.user_id == args.user_id) |
                     (Combined_Reports.is_public == "true")).all()
 
-        if not all_saved_reports:
-            abort(404, message="No reports for user {}"
-                  .format(current_user.id))
-
         for x in all_saved_reports:
             reports_to_send.append({
                 "user_id": x.user_id,
@@ -556,9 +552,7 @@ class SavedReportsResource(Resource):
                                            timestamp=datetime.datetime.utcnow())
 
         if not combined_report:
-            abort(404,
-                  message="An error as occurried when uploading the data"
-                  .format(id))
+            return 404
 
         reports_to_send.append(
             {
@@ -597,7 +591,7 @@ class SavedReportsResource(Resource):
                     Combined_Reports.id == args.report_id).first()
 
         if not report_to_remove:
-            abort(404, message="No report for user {}".format(current_user.id))
+            return 404
 
         db.session.delete(report_to_remove)
         db.session.commit()

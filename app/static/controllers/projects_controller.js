@@ -53,6 +53,10 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
 
+    //RESET REPORT SELECTOR
+	TO_LOAD_STRAINS = "";
+	TO_LOAD_PROJECTS = "";
+
     $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
     $("#projects_button_li").css({"display":"block"});
@@ -241,7 +245,6 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
         }
         projects_table.load_project(table_id, CURRENT_PROJECT_ID, false, (results) => {
             CURRENT_PROJECT = results.project;
-            console.log(results.project);
             PROJECT_STATUS = results.project.is_removed;
             PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID, CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID, CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT, CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID, CURRENT_TABLE_ROWS_SELECTED, CURRENT_TABLE_ROW_ANALYSIS_SELECTED, PROJECT_STATUS]);
             $scope.selectedTemplate.path = results.template;

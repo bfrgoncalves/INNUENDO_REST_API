@@ -236,6 +236,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
 
+    //RESET REPORT SELECTOR
+	TO_LOAD_STRAINS = "";
+	TO_LOAD_PROJECTS = "";
+
     $("#overlayProjects").css({"display":"block"});
     $("#overlayWorking").css({"display":"block"});
     $("#single_project_controller_div").css({"display":"none"});
@@ -348,12 +352,12 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#overlayWorking").css({"display":"block"});
         $("#single_project_controller_div").css({"display":"none"});
 
-        $("#overlayProjects").css({"display":"none"});
-        $("#overlayWorking").css({"display":"none"});
-        $("#single_project_controller_div").css({"display":"block"});
+        $("#overlayProjects").css({"display":"block"});
+        $("#overlayWorking").css({"display":"block"});
+        $("#single_project_controller_div").css({"display":"none"});
 
         //Get quota when clicking on description tab
-        /*single_project.get_quota((t_quota) => {
+        single_project.get_quota((t_quota) => {
 
             loadGoogleChart(t_quota);
             $scope.t_quota = humanFileSize(t_quota.t_quota, true);
@@ -366,7 +370,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $("#overlayWorking").css({"display":"none"});
             $("#single_project_controller_div").css({"display":"block"});
 
-        });*/
+        });
     });
 
     $("#project_tab").on("click", () => {
@@ -748,9 +752,24 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $scope.available_strain_pipelines = applied_workflows;
             $scope.available_pipelines_ids = pipelines_ids;
 
+            console.log(applied_workflows, strain_ids, pipelines_ids, strains_dict);
+
             $('#choosePipelineModal').modal('show');
 
             setTimeout( () => {
+
+                $(".pipeline_strain_button").off("click").on("click", (e) => {
+                    let pipeline_id = $(e.target).attr("pipeline");
+                    let strain_id = $(e.target).attr("strain_id");
+                    let project = $(e.target).attr("ownerproject");
+
+                    $('.modal').modal('hide');
+
+                    setTimeout(() => {
+                        loadReport([strain_id], parseInt(project), $scope);
+                    }, 1000);
+
+                });
 
                 //Set the jQuery click on the new pipeline button
                 $(".new_pipeline_button").off('click').on('click', (e) => {
@@ -946,8 +965,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             global_public_strains = strains_results.public_strains;
 
             let headers_defs = set_headers_single_project('public_strains_table', global_public_strains);
-
-            console.log(global_public_strains, headers_defs[0], strains_headers);
 
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);

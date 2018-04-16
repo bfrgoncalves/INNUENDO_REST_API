@@ -3,15 +3,19 @@ from flask_restful import Api
 
 from resources.postgres.projects import ProjectUserResource, ProjectListUserResource, ProjectListUserSpecieResource, ProjectListAllResource
 from resources.postgres.users import UserResource, UserListResource, \
-    UserExternalLogin, UserQuotaResource
+    UserExternalLogin, UserQuotaResource, UserEmails
 from resources.postgres.messages import MailResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
 from resources.postgres.protocols import ProtocolResource, ProtocolListResource, ProtocolByIDResource
 from resources.postgres.processes import ProcessResource, ProcessListResource
-from resources.postgres.strains import StrainResource, StrainListResource, StrainProjectListResource, StrainsByNameResource
+from resources.postgres.strains import StrainResource, StrainListResource, \
+    StrainProjectListResource, StrainsByNameResource, DeleteReadsFromStrain
 from resources.postgres.species import SpecieListResource
-from resources.postgres.reports import ReportsResource, CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, ReportsByProjectResource, ReportInfoResource, ReportFilterResource, ReportsFileStrainResource
+from resources.postgres.reports import ReportsResource, \
+    CombinedReportsResource, ReportsProjectResource, ReportsStrainResource, \
+    ReportsByProjectResource, ReportInfoResource, ReportFilterResource, \
+    ReportsFileStrainResource, FilePathOnZipResource, SavedReportsResource
 from resources.postgres.uploads import GetFilesResource, DownloadFilesResource
 from resources.ngs_onto.ngs_onto_users import NGSOnto_UserResource, NGSOnto_UserListResource
 from resources.ngs_onto.ngs_onto_projects import NGSOnto_ProjectListResource, NGSOnto_ProjectUserResource, NGSOnto_ProjectListUserResource
@@ -21,7 +25,8 @@ from resources.ngs_onto.ngs_onto_pipelines import NGSOnto_PipelineListProjectRes
 from resources.ngs_onto.ngs_onto_strains import NGSOnto_StrainsListUserResource
 from resources.ngs_onto.ngs_onto_processes import NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, NGSOnto_ProcessJobID, NGSOnto_ProcessOutputResource
 from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download, Job_classify_chewbbaca, Job_Result_Download_click, Job_Reports, NextflowLogs, Job_Report_Download_click
-from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, TreeUserResource, PHYLOViZJobResource
+from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, \
+    TreeUserResource, PHYLOViZJobResource, getProfilesResource, getAllProfilesResource
 from resources.file_resources.file_resources import TemplateResource
 
 '''
@@ -37,6 +42,7 @@ api = Api(app)
 
 api.add_resource(UserListResource, '/api/v1.0/users/', endpoint='all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint='single_user')
+api.add_resource(UserEmails, '/api/v1.0/users/email/', endpoint='users_mails')
 api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/', endpoint='user_quota')
 api.add_resource(UserExternalLogin, '/api/v1.0/user/external/login/', endpoint='single_user_external')
 
@@ -62,6 +68,7 @@ api.add_resource(ProtocolResource, '/api/v1.0/protocols/<int:id>', endpoint='pro
 api.add_resource(ProtocolByIDResource, '/api/v1.0/protocols/ids', endpoint='protocol_ids')
 
 api.add_resource(StrainListResource, '/api/v1.0/strains/', endpoint='strains')
+api.add_resource(DeleteReadsFromStrain, '/api/v1.0/strains/fastq/', endpoint='strains_fq')
 api.add_resource(StrainsByNameResource, '/api/v1.0/strains/name/', endpoint='strains_name')
 api.add_resource(StrainProjectListResource, '/api/v1.0/projects/<int:id>/strains/', endpoint='project_strains')
 api.add_resource(StrainResource, '/api/v1.0/strains/<string:name>', endpoint='strain')
@@ -87,6 +94,8 @@ api.add_resource(Job_classify_chewbbaca, '/api/v1.0/jobs/classify/')
 ################################# PHYLOVIZ REQUESTS ###################################
 
 api.add_resource(PHYLOViZResource, '/api/v1.0/phyloviz/')
+api.add_resource(getProfilesResource, '/api/v1.0/phyloviz/profiles/')
+api.add_resource(getAllProfilesResource, '/api/v1.0/phyloviz/database/profiles/')
 api.add_resource(TreeResource, '/api/v1.0/phyloviz/trees/')
 api.add_resource(TreeUserResource, '/api/v1.0/phyloviz/trees/user/')
 api.add_resource(PHYLOViZJobResource, '/api/v1.0/phyloviz/job/')
@@ -104,7 +113,9 @@ api.add_resource(ReportInfoResource, '/api/v1.0/reports/project/info/')
 api.add_resource(ReportFilterResource, '/api/v1.0/reports/project/filter/')
 api.add_resource(ReportsStrainResource, '/api/v1.0/reports/strain')
 api.add_resource(ReportsFileStrainResource, '/api/v1.0/reports/strain/files/')
+api.add_resource(FilePathOnZipResource, '/api/v1.0/reports/files/')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
+api.add_resource(SavedReportsResource, '/api/v1.0/reports/saved/')
 
 
 #################################USER FILES################################

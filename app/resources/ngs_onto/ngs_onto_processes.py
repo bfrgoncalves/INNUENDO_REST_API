@@ -10,37 +10,75 @@ from franz.openrdf.query.query import QueryLanguage
 
 # process post parser
 process_post_parser = reqparse.RequestParser()
-process_post_parser.add_argument('strain_id', dest='strain_id', type=str, required=True, help="strain id")
-process_post_parser.add_argument('parent_pipeline_id', dest='parent_pipeline_id', type=str, required=True, help="parent_pipeline_id id")
-process_post_parser.add_argument('parent_project_id', dest='parent_project_id', type=str, required=True, help="parent_project_id id")
-process_post_parser.add_argument('parent_process_id', dest='parent_process_id', type=str, required=True, help="parent_process_id id")
-process_post_parser.add_argument('real_pipeline_id', dest='real_pipeline_id', type=str, required=True, help="real_pipeline_id id")
+process_post_parser.add_argument('strain_id', dest='strain_id', type=str,
+                                 required=True, help="strain id")
+process_post_parser.add_argument('parent_pipeline_id', dest='parent_pipeline_id'
+                                 , type=str, required=True,
+                                 help="parent_pipeline_id id")
+process_post_parser.add_argument('parent_project_id', dest='parent_project_id',
+                                 type=str, required=True,
+                                 help="parent_project_id id")
+process_post_parser.add_argument('parent_process_id', dest='parent_process_id',
+                                 type=str, required=True,
+                                 help="parent_process_id id")
+process_post_parser.add_argument('real_pipeline_id', dest='real_pipeline_id',
+                                 type=str, required=True,
+                                 help="real_pipeline_id id")
 
 # Defining get arguments parser
 process_get_parser = reqparse.RequestParser()
-process_get_parser.add_argument('workflow_id', dest='workflow_id', type=str, required=True, help="Workflow id")
+process_get_parser.add_argument('workflow_id', dest='workflow_id', type=str,
+                                required=True, help="Workflow id")
 
 # process post parser
 parser_jobid = reqparse.RequestParser()
-parser_jobid.add_argument('processes_ids', dest='processes_ids', type=str, required=True, help="processes ids")
-parser_jobid.add_argument('task_ids', dest='task_ids', type=str, required=True, help="slurm task ids")
+parser_jobid.add_argument('processes_ids', dest='processes_ids', type=str,
+                          required=True, help="processes ids")
+parser_jobid.add_argument('task_ids', dest='task_ids', type=str, required=True,
+                          help="slurm task ids")
 
 # get job id parser
 parser_get_jobid = reqparse.RequestParser()
-parser_get_jobid.add_argument('processes_ids', dest='processes_ids', type=str, required=True, help="processes ids")
+parser_get_jobid.add_argument('processes_ids', dest='processes_ids', type=str,
+                              required=True, help="processes ids")
 
 # post output parser
 process_post_output_parser = reqparse.RequestParser()
-process_post_output_parser.add_argument('run_stats', dest='run_stats', type=str, required=True, help="run stats")
-process_post_output_parser.add_argument('run_info', dest='run_info', type=str, required=True, help="run info")
-process_post_output_parser.add_argument('output', dest='output', type=str, required=True, help="output")
-process_post_output_parser.add_argument('status', dest='status', type=str, required=True, help="output")
+process_post_output_parser.add_argument('run_stats', dest='run_stats', type=str,
+                                        required=True, help="run stats")
+process_post_output_parser.add_argument('run_info', dest='run_info', type=str,
+                                        required=True, help="run info")
+process_post_output_parser.add_argument('output', dest='output', type=str,
+                                        required=True, help="output")
+process_post_output_parser.add_argument('status', dest='status', type=str,
+                                        required=True, help="output")
 
 
 class NGSOnto_ProcessListPipelineResource(Resource):
+    """
+    Class to get list of processes of pipeline
+    """
+
 
     @login_required
     def get(self, id, id2):
+        """Get processes of pipeline
+
+        This method allows getting all the processes of a given pipeline from
+        NGSOnto.
+        It requires the project if and the pipeline id
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+        id2: str
+            pipeline identifier
+
+        Returns
+        -------
+        list: list of processes from the pipeline
+        """
 
         pipelineStr = localNSpace+"projects/"+str(id)+"/pipelines/"+str(id2)
         pipelineURI = dbconAg.createURI(pipelineStr)
@@ -56,8 +94,15 @@ class NGSOnto_ProcessListPipelineResource(Resource):
         while not matSampleReached:
 
             # is first pipeline input a material sample?
-            queryString = "SELECT ?process  ?process2 ?pipeline2 {"+str(pipelineURI)+" obo:BFO_0000051 ?process. ?process obo:NGS_0000081 '1'^^<http://www.w3.org/2001/XMLSchema#int> ; obo:RO_0002233 ?input. ?process2 obo:RO_0002234 ?input. ?pipeline2 obo:BFO_0000051 ?process2. } "
-            tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+            queryString = "SELECT ?process" \
+                          "  ?process2 ?pipeline2 {"+str(pipelineURI)+\
+                          " obo:BFO_0000051 ?process. ?process obo:NGS_0000081"\
+                          " '1'^^<http://www.w3.org/2001/XMLSchema#int> ;" \
+                          " obo:RO_0002233 ?input. ?process2 obo:RO_0002234" \
+                          " ?input. ?pipeline2 obo:BFO_0000051 ?process2. } "
+
+            tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                                   queryString)
             result = tupleQuery.evaluate()
             jsonResult = parseAgraphQueryRes(result,["process2","pipeline2",
                                                     "process"])
@@ -82,11 +127,17 @@ class NGSOnto_ProcessListPipelineResource(Resource):
             pipeline=ListPipeline[i]
             lastproc=ListProcess[i]
 
-            queryString = "SELECT ?process  ?index {"+str(pipeline)+" obo:BFO_0000051 ?process. ?process obo:NGS_0000081 ?index.} ORDER BY ASC(?index)"
-            tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+            queryString = "SELECT ?process" \
+                          "  ?index {"+str(pipeline)+\
+                          " obo:BFO_0000051 ?process. ?process" \
+                          " obo:NGS_0000081 ?index.} ORDER BY ASC(?index)"
+
+            tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                                   queryString)
             result = tupleQuery.evaluate()
             jsonResult=parseAgraphQueryRes(result,["process"])
             result.close()
+
             for item in jsonResult:
                 finalListProc.append(item["process"])
                 if lastproc in item["process"]:
@@ -95,8 +146,13 @@ class NGSOnto_ProcessListPipelineResource(Resource):
             i += 1
 
         pipelineURI = dbconAg.createURI(pipelineStr)
-        queryString = "SELECT ?process  ?index {"+str(pipelineURI)+" obo:BFO_0000051 ?process. ?process obo:NGS_0000081 ?index.} ORDER BY ASC(?index)"
-        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+        queryString = "SELECT ?process" \
+                      "  ?index {"+str(pipelineURI)+\
+                      " obo:BFO_0000051 ?process. ?process obo:NGS_0000081" \
+                      " ?index.} ORDER BY ASC(?index)"
+
+        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                               queryString)
         result = tupleQuery.evaluate()
         jsonResult = parseAgraphQueryRes(result,["process"])
         result.close()
@@ -108,6 +164,24 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
     @login_required
     def post(self, id, id2):
+        """Add processes to pipeline
+
+        This method allows adding processes to a pipeline by linking the
+        protocol ids with the processes.
+        It requires the project id, pipeline id, protocol ids and strain
+        identifier.
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+        id2: str
+            pipeline identifier
+
+        Returns
+        -------
+        list: list of processes identifiers
+        """
 
         args = process_post_parser.parse_args()
 
@@ -125,10 +199,17 @@ class NGSOnto_ProcessListPipelineResource(Resource):
         print "Request 1", str(id2)
 
         # get all ordered workflows from pipeline
-        queryString = "SELECT (str(?proc) as ?StrProc) (str(?index) as ?StrIndex) WHERE{<"+pipelineStr+"> obo:BFO_0000051 ?proc. ?proc obo:NGS_0000081 ?index.}"
-        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+        queryString = "SELECT (str(?proc) " \
+                      "as ?StrProc) (str(?index) as ?StrIndex)" \
+                      " WHERE{<"+pipelineStr+"> obo:BFO_0000051 ?proc." \
+                                             " ?proc obo:NGS_0000081 ?index.}"
+
+        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                               queryString)
         result = tupleQuery.evaluate()
+
         procJsonResult = parseAgraphQueryRes(result,["StrProc","StrIndex"])
+
         result.close()
 
         numberOfProcesses = len(procJsonResult)
@@ -137,8 +218,16 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 
         # get all ordered workflows from pipeline
-        queryString = "SELECT ?execStep ?stepIndex ?workflowURI ?execStep  WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep. ?execStep obo:NGS_0000079 ?workflowURI; obo:NGS_0000081 ?stepIndex3} ORDER BY ASC(?stepIndex)"
-        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+        queryString = "SELECT ?execStep ?stepIndex" \
+                      " ?workflowURI ?execStep  " \
+                      "WHERE {<"+pipelineStr+"> obo:NGS_0000076 ?execStep." \
+                                             " ?execStep obo:NGS_0000079" \
+                                             " ?workflowURI; obo:NGS_0000081" \
+                                             " ?stepIndex3} ORDER BY" \
+                                             " ASC(?stepIndex)"
+
+        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                               queryString)
         result = tupleQuery.evaluate()
         jsonResult = parseAgraphQueryRes(result,["stepIndex","workflowURI",
                                                 "execStep"])
@@ -153,8 +242,16 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
         for result in jsonResult:
             workflowURI= result["workflowURI"]
-            queryString = "SELECT ?protocStep ?stepIndex ?protocolURI ?type  WHERE {"+workflowURI+" obo:NGS_0000078 ?protocStep. ?protocStep obo:NGS_0000077 ?protocolURI; obo:NGS_0000081 ?stepIndex. ?protocolURI a ?type. ?type rdfs:label ?typelabel.} ORDER BY ASC(?stepIndex)"
-            tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+            queryString = "SELECT ?protocStep ?stepIndex" \
+                          " ?protocolURI ?type  " \
+                          "WHERE {"+workflowURI+\
+                          " obo:NGS_0000078 ?protocStep. ?protocStep" \
+                          " obo:NGS_0000077 ?protocolURI; obo:NGS_0000081" \
+                          " ?stepIndex. ?protocolURI a ?type. ?type rdfs:label"\
+                          " ?typelabel.} ORDER BY ASC(?stepIndex)"
+
+            tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                                   queryString)
             result3 = tupleQuery.evaluate()
             jsonResult2 = parseAgraphQueryRes(result3,["stepIndex",
                                                       "protocolURI","type"])
@@ -169,25 +266,16 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
         print "Request 4 all protocols", str(id2)
 
-        '''queryString = """SELECT (COUNT (?prc) as ?pcount){
-        SELECT DISTINCT ?prc WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc.}
-        }"""
-        
-        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
-        result = tupleQuery.evaluate()'''
-
-
-        '''queryString = """SELECT (COUNT (?out) as ?ocount){
-        SELECT DISTINCT ?out WHERE { ?pip a obo:OBI_0000471;obo:BFO_0000051 ?proc. ?proc obo:RO_0002234 ?out.}
-        }"""'''
-
         # Starts at 500 in case does not exists
         messageid = 500
 
         # TEST query string
-        queryString = """SELECT ?index {?message rdf:type/rdfs:subClassOf* obo:NGS_0000061; obo:NGS_0000081 ?index} order by desc(?index) limit 1"""
+        queryString = """SELECT ?index {?message rdf:type/rdfs:subClassOf*
+         obo:NGS_0000061; obo:NGS_0000081 ?index} order by 
+         desc(?index) limit 1"""
 
-        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+        tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                               queryString)
         result = tupleQuery.evaluate()
 
         for bindingSet in result:
@@ -211,16 +299,21 @@ class NGSOnto_ProcessListPipelineResource(Resource):
             pprocid = args.parent_process_id
             rpipid = args.real_pipeline_id
 
-            parentProcessURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(ppropid)+"/pipelines/"+str(ppipid)+"/processes/"+str(pprocid))
+            parentProcessURI = dbconAg.createURI(
+                namespace=localNSpace+"projects/",
+                localname=str(ppropid)+"/pipelines/" +
+                          str(ppipid)+"/processes/"+str(pprocid))
 
         if ppipid == rpipid:
             for proc_json in procJsonResult:
                 if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):
-                    todelUri = dbconAg.createURI("<"+proc_json["StrProc"].replace('"', "")+">")
+                    todelUri = dbconAg.createURI("<"+proc_json["StrProc"]
+                                                 .replace('"', "")+">")
 
                     hasOutputRel = dbconAg.createURI(namespace=obo,
-                                                    localname="RO_0002234")
-                    statements = dbconAg.getStatements(todelUri, hasOutputRel, None)
+                                                     localname="RO_0002234")
+                    statements = dbconAg.getStatements(todelUri, hasOutputRel,
+                                                       None)
                     jsonResult = parseAgraphStatementsRes(statements)
                     statements.close()
 
@@ -252,7 +345,10 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
             # prev process to link (strain URI most of times)
             if args.strain_id != "null":
-                prevMessageURI = dbconAg.createURI(namespace=localNSpace, localname="strains/strain_"+str(strainid))
+                prevMessageURI = dbconAg.createURI(
+                    namespace=localNSpace,
+                    localname="strains/strain_"+str(strainid))
+
                 strainTypeURI = dbconAg.createURI(
                     'http://rdf.ebi.ac.uk/terms/biosd/Sample')
                 dbconAg.add(prevMessageURI, RDF.TYPE, strainTypeURI)
@@ -264,34 +360,48 @@ class NGSOnto_ProcessListPipelineResource(Resource):
             while addedProcesses < len(listOrderedProcessTypes):
                 processid += 1
                 messageid += 1
-                processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(processid))
+                processURI = dbconAg.createURI(
+                    namespace=localNSpace+"projects/",
+                    localname=str(id)+"/pipelines/"+str(id2)+"/processes/" +
+                              str(processid))
 
-                messageURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/messages/"+str(messageid))
+                messageURI = dbconAg.createURI(
+                    namespace=localNSpace+"projects/",
+                    localname=str(id)+"/pipelines/"+str(id2)+"/messages/" +
+                              str(messageid))
                 processTypeURI = dbconAg.createURI(listOrderedProcessTypes[
                                                       addedProcesses])
                 messageTypeURI = dbconAg.createURI(listOrderedMessageTypes[
                                                       addedProcesses])
-                protocolTypeURI = dbconAg.createURI(listOrderedProtocolsURI[addedProcesses])
-                indexProp = dbconAg.createURI(namespace=obo, localname="NGS_0000081")
-                indexInt = dbconAg.createLiteral((addedProcesses+1), datatype=XMLSchema.INT)
-                messageindexInt = dbconAg.createLiteral((messageid), datatype=XMLSchema.INT)
+                protocolTypeURI = dbconAg.createURI(
+                    listOrderedProtocolsURI[addedProcesses])
+                indexProp = dbconAg.createURI(namespace=obo,
+                                              localname="NGS_0000081")
+                indexInt = dbconAg.createLiteral((addedProcesses+1),
+                                                 datatype=XMLSchema.INT)
+                messageindexInt = dbconAg.createLiteral((messageid),
+                                                        datatype=XMLSchema.INT)
 
                 # get specific process input type and uri
 
-                queryString = """SELECT (STR(?out) as ?messageURI) WHERE {<"""+localNSpace+"projects/"+str(id)+"/pipelines/"+str(rpipid)+"""> obo:BFO_0000051  ?proc. ?proc obo:NGS_0000081 ?index; obo:RO_0002234 ?out}order by desc(?out)"""
+                queryString = """SELECT (STR(?out) as ?messageURI) WHERE
+                 {<"""+localNSpace+"projects/"+str(id)+"/pipelines/"+\
+                              str(rpipid)+"""> obo:BFO_0000051  ?proc. ?proc
+                               obo:NGS_0000081 ?index; obo:RO_0002234 ?out}
+                               order by desc(?out)"""
 
                 print queryString
 
-                tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+                tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                                       queryString)
                 result5 = tupleQuery.evaluate()
                 jsonResult2 = parseAgraphQueryRes(result5,["messageURI"])
                 result5.close()
 
                 for results in jsonResult2:
-                    prevMessageURI = dbconAg.createURI(results[
-                                                          "messageURI"].replace('"', ''))
+                    prevMessageURI = dbconAg.createURI(
+                        results["messageURI"].replace('"', ''))
                     break
-
 
                 # add process and link to pipeline
                 dbconAg.add(processURI, RDF.TYPE, processTypeURI)
@@ -322,13 +432,37 @@ class NGSOnto_ProcessListPipelineResource(Resource):
 
 
 class NGSOnto_ProcessResource(Resource):
+    """
+    Class to get specific a process
+    """
 
     @login_required
     def get(self, id,id2,id3):
+        """Get a specific process
 
-        processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(id3))
+        This method allows getting a specific process
+
+        Parameters
+        ----------
+        id: str
+            project id
+        id2: str
+            pipeline id
+        id3: str
+            process id
+
+        Returns
+        -------
+        list: list with the process object
+        """
+
+        processURI = dbconAg.createURI(
+            namespace=localNSpace+"projects/",
+            localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(id3))
+
         queryString = "describe "+str(processURI)
-        describeQuery = dbconAg.prepareGraphQuery(QueryLanguage.SPARQL, queryString)
+        describeQuery = dbconAg.prepareGraphQuery(QueryLanguage.SPARQL,
+                                                  queryString)
         result = describeQuery.evaluate()
         jsonResult2 = parseAgraphStatementsRes(result)
 
@@ -336,18 +470,42 @@ class NGSOnto_ProcessResource(Resource):
 
 
 class NGSOnto_ProcessJobID(Resource):
+    """
+    Class to get the job id of a process
+    """
     
     @login_required
     def get(self, id,id2):
+        """Get job identifier
+
+        This method allows getting the job identifier of a given process.
+        it requires the processes ids.
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+        id2: str
+            pipeline identifier
+
+        Returns
+        -------
+        list: list of job identifiers for the required processes
+        """
 
         args = parser_get_jobid.parse_args()
         processes = args.processes_ids.split(',')
         job_ids = []
         for x in processes:
             try:
-                processURI = localNSpace+"projects/"+str(id)+"/pipelines/"+str(id2)+"/processes/"+str(x)
-                queryString = "SELECT ?jobid  WHERE {<"+processURI+"> obo:NGS_0000089 ?jobid}"
-                tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
+                processURI = localNSpace+"projects/"+str(id)+"/pipelines/" + \
+                             str(id2)+"/processes/"+str(x)
+
+                queryString = "SELECT ?jobid  " \
+                              "WHERE {<"+processURI+"> obo:NGS_0000089 ?jobid}"
+
+                tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL,
+                                                       queryString)
                 result = tupleQuery.evaluate()
                 jsonResult2 = parseAgraphQueryRes(result,["jobid"])
                 jsonResult2[0]["process_id"] = x
@@ -360,6 +518,22 @@ class NGSOnto_ProcessJobID(Resource):
     
     @login_required
     def post(self, id, id2):
+        """Add job identifier to process
+
+        This method allows adding a job identifier to a process. It requires
+        the processes ids and the job identifiers.
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+        id2: str
+            pipeline identifier
+
+        Returns
+        -------
+        dict: status and job identifiers
+        """
 
         args = parser_jobid.parse_args()
 
@@ -369,9 +543,16 @@ class NGSOnto_ProcessJobID(Resource):
 
         for index in range(0, len(processes)):
             try:
-                processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(processes[index]))
-                indexProp = dbconAg.createURI(namespace=obo, localname="NGS_0000089")
-                indexInt = dbconAg.createLiteral(tasks[index], datatype=XMLSchema.STRING)
+                processURI = dbconAg.createURI(
+                    namespace=localNSpace+"projects/",
+                    localname=str(id)+"/pipelines/"+str(id2)+"/processes/" +
+                              str(processes[index]))
+
+                indexProp = dbconAg.createURI(namespace=obo,
+                                              localname="NGS_0000089")
+
+                indexInt = dbconAg.createLiteral(tasks[index],
+                                                 datatype=XMLSchema.STRING)
 
                 # add jobID to process
                 dbconAg.remove(processURI, indexProp, None)
@@ -391,12 +572,35 @@ class NGSOnto_ProcessJobID(Resource):
 
 
 class NGSOnto_ProcessOutputResource(Resource):
+    """
+    Class to perform operations on the process output
+    """
 
     def post(self, id, id2,id3):
+        """Add output to process
+
+        This method allows adding logs, run information, status and
+        statistics to the NGSOnto entry.
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+        id2: str
+            pipeline identifier
+        id3: str
+            process identifier
+
+        Returns
+        -------
+        code: status code of the request
+        """
 
         args = process_post_output_parser.parse_args()
         try:
-            processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(id3))
+            processURI = dbconAg.createURI(
+                namespace=localNSpace+"projects/",
+                localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(id3))
 
             # get output URI from process
             hasOutput = dbconAg.createURI(namespace=obo, localname="RO_0002234")
@@ -406,17 +610,25 @@ class NGSOnto_ProcessOutputResource(Resource):
 
             outputURI = dbconAg.createURI(outputURI[0]['obj'])
 
-            runInfo = dbconAg.createLiteral((args.run_info), datatype=XMLSchema.STRING)
-            runInfoProp = dbconAg.createURI(namespace=obo, localname="NGS_0000092")
+            runInfo = dbconAg.createLiteral((args.run_info),
+                                            datatype=XMLSchema.STRING)
+            runInfoProp = dbconAg.createURI(namespace=obo,
+                                            localname="NGS_0000092")
 
-            runStats = dbconAg.createLiteral((args.output), datatype=XMLSchema.STRING)
-            runStatsProp = dbconAg.createURI(namespace=obo, localname="NGS_0000093")
+            runStats = dbconAg.createLiteral((args.output),
+                                             datatype=XMLSchema.STRING)
+            runStatsProp = dbconAg.createURI(namespace=obo,
+                                             localname="NGS_0000093")
 
-            runFile = dbconAg.createLiteral((args.run_stats), datatype=XMLSchema.STRING)
-            runFileProp = dbconAg.createURI(namespace=obo, localname="NGS_0000094")
+            runFile = dbconAg.createLiteral((args.run_stats),
+                                            datatype=XMLSchema.STRING)
+            runFileProp = dbconAg.createURI(namespace=obo,
+                                            localname="NGS_0000094")
 
-            runStatus = dbconAg.createLiteral((args.status), datatype=XMLSchema.STRING)
-            runStatusProp = dbconAg.createURI(namespace=obo, localname="NGS_0000097")
+            runStatus = dbconAg.createLiteral((args.status),
+                                              datatype=XMLSchema.STRING)
+            runStatusProp = dbconAg.createURI(namespace=obo,
+                                              localname="NGS_0000097")
 
             dbconAg.remove(outputURI, runInfoProp, None)
             dbconAg.remove(outputURI, runStatsProp, None)
@@ -427,7 +639,8 @@ class NGSOnto_ProcessOutputResource(Resource):
             stmt1 = dbconAg.createStatement(outputURI, runInfoProp, runInfo)
             stmt2 = dbconAg.createStatement(outputURI, runStatsProp, runStats)
             stmt3 = dbconAg.createStatement(outputURI, runFileProp, runFile)
-            stmt4 = dbconAg.createStatement(processURI, runStatusProp, runStatus)
+            stmt4 = dbconAg.createStatement(processURI, runStatusProp,
+                                            runStatus)
 
             # send to allegro
             dbconAg.add(stmt1)
@@ -440,13 +653,33 @@ class NGSOnto_ProcessOutputResource(Resource):
             return 404
 
     def put(self, id, id2,id3):
+        """Change a specific output
+
+        (DEPRECATED)
+
+        Parameters
+        ----------
+        id
+        id2
+        id3
+
+        Returns
+        -------
+
+        """
 
         args = process_put_output_parser.parse_args()
 
-        output_prop_to_type = {"run_info":"NGS_0000092", "run_output":"NGS_0000093", "run_stats":"NGS_0000094", "log_file":"NGS_0000096", "status":"NGS_0000097"}
+        output_prop_to_type = {"run_info": "NGS_0000092",
+                               "run_output": "NGS_0000093",
+                               "run_stats": "NGS_0000094",
+                               "log_file": "NGS_0000096",
+                               "status": "NGS_0000097"}
 
         try:
-            processURI = dbconAg.createURI(namespace=localNSpace+"projects/", localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(id3))
+            processURI = dbconAg.createURI(
+                namespace=localNSpace+"projects/",
+                localname=str(id)+"/pipelines/"+str(id2)+"/processes/"+str(id3))
 
             # get output URI from process
             hasOutput = dbconAg.createURI(namespace=obo, localname="RO_0002234")
@@ -456,8 +689,11 @@ class NGSOnto_ProcessOutputResource(Resource):
 
             outputURI = dbconAg.createURI(outputURI[0]['obj'])
 
-            runInfo = dbconAg.createLiteral((args.property), datatype=XMLSchema.STRING)
-            runInfoProp = dbconAg.createURI(namespace=obo, localname=output_prop_to_type[args.property])
+            runInfo = dbconAg.createLiteral((args.property),
+                                            datatype=XMLSchema.STRING)
+            runInfoProp = dbconAg.createURI(
+                namespace=obo,
+                localname=output_prop_to_type[args.property])
 
             dbconAg.remove(outputURI, runInfoProp, None)
 
@@ -473,15 +709,36 @@ class NGSOnto_ProcessOutputResource(Resource):
             return 404
 
     def get(self, id, id2, id3):
+        """Get outputs of processes
+
+        This method allows getting all the outputs of a given process.
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+        id2: str
+            pipeline identifier
+        id3: str
+            process identifier
+
+        Returns
+        -------
+        list: list with paths to the output of processes
+        """
 
         try:
-            procStr = localNSpace + "projects/" + str(id) + "/pipelines/" + str(id2) + "/processes/" + str(id3)
+            procStr = localNSpace + "projects/" + str(id) + "/pipelines/" + \
+                      str(id2) + "/processes/" + str(id3)
+
             queryString = "SELECT (str(?file1) as ?file_1) (str(?file2) as ?file_2) (str(?file3) as ?file_3) (str(?file4) as ?file_4) (str(?status) as ?statusStr)  WHERE {<"+procStr+"> obo:RO_0002234 ?out. <"+procStr+"> obo:RO_0002234 ?in. ?in a ?type.?type rdfs:label ?typelabel. OPTIONAL { ?in obo:NGS_0000092 ?file1; obo:NGS_0000093 ?file2; obo:NGS_0000094 ?file3; obo:NGS_0000096 ?file4.} OPTIONAL {?in obo:NGS_0000097 ?status.} }"
+
             tupleQuery = dbconAg.prepareTupleQuery(QueryLanguage.SPARQL, queryString)
             result = tupleQuery.evaluate()
 
             jsonResult = parseAgraphQueryRes(result,["file_1", "file_2",
-                                                    "file_3", "file_4", "statusStr"])
+                                                    "file_3", "file_4",
+                                                     "statusStr"])
 
             result.close()
             return jsonResult, 200

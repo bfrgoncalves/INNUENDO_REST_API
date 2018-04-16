@@ -6,22 +6,43 @@ import json
 from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, Campylobacter
 from flask_security import current_user, login_required, roles_required
 import datetime
+import os
 
 # Defining post arguments parser
 
 strain_project_parser = reqparse.RequestParser()
-strain_project_parser.add_argument('strainID', dest='strainID', type=str, required=False, help="Strain identifier")
-strain_project_parser.add_argument('speciesID', dest='speciesID', type=str, required=False, help="Species identifier")
-strain_project_parser.add_argument('from_user', dest='from_user', type=str, required=False, help="Get strains submitter only by user")
+strain_project_parser.add_argument('strainID', dest='strainID', type=str,
+                                   required=False, help="Strain identifier")
+strain_project_parser.add_argument('speciesID', dest='speciesID', type=str,
+                                   required=False, help="Species identifier")
+strain_project_parser.add_argument('from_user', dest='from_user', type=str,
+                                   required=False,
+                                   help="Get strains submitter only by user")
 
 strain_update_parser = reqparse.RequestParser()
-strain_update_parser.add_argument('strain_id', dest='strain_id', type=str, required=False, help="Strain identifier")
-strain_update_parser.add_argument('key', dest='key', type=str, required=False, help="Key to change on metadata")
-strain_update_parser.add_argument('value', dest='value', type=str, required=False, help="Value to change")
+strain_update_parser.add_argument('strain_id', dest='strain_id', type=str,
+                                  required=False, help="Strain identifier")
+strain_update_parser.add_argument('key', dest='key', type=str, required=False,
+                                  help="Key to change on metadata")
+strain_update_parser.add_argument('value', dest='value', type=str,
+                                  required=False, help="Value to change")
 
 strain_names_parser = reqparse.RequestParser()
-strain_names_parser.add_argument('selectedStrains', dest='selectedStrains', type=str, required=False, help="selectedStrains")
-strain_names_parser.add_argument('selectedProjects', dest='selectedProjects', type=str, required=False, help="selectedProjects")
+strain_names_parser.add_argument('selectedStrains', dest='selectedStrains',
+                                 type=str, required=False,
+                                 help="selectedStrains")
+strain_names_parser.add_argument('selectedProjects', dest='selectedProjects',
+                                 type=str, required=False,
+                                 help="selectedProjects")
+
+# Param parser to delete fastq from a strain
+strain_fastq_delete_parser = reqparse.RequestParser()
+strain_fastq_delete_parser.add_argument('strain_names', dest='strain_names',
+                                 type=str, required=True,
+                                 help="strain_names")
+strain_fastq_delete_parser.add_argument('speciesID', dest='speciesID',
+                                 type=str, required=True,
+                                 help="speciesID")
 
 # Defining response fields
 
@@ -35,7 +56,8 @@ strain_fields = {
     'file_2': fields.String,
     'timestamp': fields.String,
     'classifier': fields.String,
-    'fq_location': fields.String
+    'fq_location': fields.String,
+    'has_files': fields.String
 }
 
 strain_fields_project = {
@@ -58,10 +80,27 @@ nottoStore = ["fileselector"]
 
 
 class StrainResource(Resource):
+    """
+    Class to load and add strain information
+    """
 
     @login_required
     @marshal_with(strain_fields)
     def get(self, name):
+        """Get strain
+
+        This method allows getting information about a given strain by
+        searching for its name
+
+        Parameters
+        ----------
+        name: str
+            Strain name
+
+        Returns
+        -------
+
+        """
 
         if not current_user.is_authenticated:
             abort(403, message="No permissions")
@@ -69,12 +108,19 @@ class StrainResource(Resource):
 
         # SEARCH FOR CLASSIFICATION ON EACH DB
         e_results = db.session.query(Ecoli).filter(Ecoli.name == name).first()
+
         if not e_results:
-            y_results = db.session.query(Yersinia).filter(Yersinia.name == name).first()
+            y_results = db.session.query(Yersinia)\
+                .filter(Yersinia.name == name).first()
+
             if not y_results:
-                c_results = db.session.query(Campylobacter).filter(Campylobacter.name == name).first()
+                c_results = db.session.query(Campylobacter)\
+                    .filter(Campylobacter.name == name).first()
+
                 if not c_results:
-                    s_results = db.session.query(Salmonella).filter(Salmonella.name == name).first()
+                    s_results = db.session.query(Salmonella)\
+                        .filter(Salmonella.name == name).first()
+
                     if not s_results:
                         strain.classifier = "NA"
                 else:
@@ -84,25 +130,44 @@ class StrainResource(Resource):
         else:
             strain.classifier = e_results.classifier
 
+        print "AQUI3"
+
         if not strain:
             abort(404, message="No strain available")
         return strain, 200
 
 
 class StrainListResource(Resource):
+    """
+    Class to get list of strains
+    """
 
     @login_required
     @marshal_with(strain_fields)
     def get(self):
+        """Get strains list
+
+        This method allows getting list of strains according to a set of
+        parameters.
+        Can return user and other user strains. Requires species id.
+
+        Returns
+        -------
+
+        """
 
         args = strain_project_parser.parse_args()
+
         if not current_user.is_authenticated:
             abort(403, message="No permissions")
 
         if args.speciesID and args.from_user == "true":
-            strains = db.session.query(Strain).filter(Strain.species_id == args.speciesID, Strain.user_id == current_user.id).all()
+            strains = db.session.query(Strain)\
+                .filter(Strain.species_id == args.speciesID,
+                        Strain.user_id == current_user.id).all()
         elif args.speciesID and args.from_user == "false":
-            strains = db.session.query(Strain).filter(Strain.species_id == args.speciesID).all()
+            strains = db.session.query(Strain)\
+                .filter(Strain.species_id == args.speciesID).all()
         else:
             strains = db.session.query(Strain).all()
 
@@ -110,13 +175,33 @@ class StrainListResource(Resource):
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
             strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
+            fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
+
+            file1_path = os.path.join(fastq_files_dir, strain.file_1)
+            file2_path = os.path.join(fastq_files_dir, strain.file_2)
+
+            if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
+                strain.has_files = "false"
+            else:
+                strain.has_files = "true"
+
         if not strains:
             abort(404, message="No strain available")
+
         return strains, 200
 
     @login_required
     @marshal_with(strain_fields)
     def post(self):
+        """Adds a strain to the database
+
+        This method adds a strains with the files associated and its metadata
+        to the database.
+
+        Returns
+        -------
+        new strain
+        """
 
         args = request.form
         metadata_fields = []
@@ -127,18 +212,33 @@ class StrainListResource(Resource):
             abort(403, message="No permissions to POST")
 
         if not args["Food-Bug"]:
-            s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-")
+            s_name = args["Primary"]\
+                .replace(" ", "-")\
+                .replace(".", "-")\
+                .replace("#", "-")
         else:
             # Remove concatenation of Food-bug and Primary identifier
-            s_name = args["Primary"].replace(" ", "-").replace(".", "-").replace("#", "-") # + "-" + args["Food-Bug"].replace(" ", "-").replace(".", "-").replace("#", "-")
+            s_name = args["Primary"]\
+                .replace(" ", "-")\
+                .replace(".", "-")\
+                .replace("#", "-")
 
         strain = db.session.query(Strain).filter(Strain.name == s_name).first()
 
         if strain:
             try:
-                if args["File_1"] and (json.loads(strain.strain_metadata)["File_1"] == args["File_1"] or json.loads(strain.strain_metadata)["File_1"] != args["File_1"]):
+                if args["File_1"] \
+                        and (json.loads(strain.strain_metadata)["File_1"] ==
+                                 args["File_1"]
+                             or json.loads(strain.strain_metadata)["File_1"] !=
+                                args["File_1"]):
                     strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
-                if args["File_2"] and (json.loads(strain.strain_metadata)["File_2"] == args["File_2"] or json.loads(strain.strain_metadata)["File_2"] != args["File_2"]):
+
+                if args["File_2"] \
+                        and (json.loads(strain.strain_metadata)["File_2"] ==
+                                 args["File_2"]
+                             or json.loads(strain.strain_metadata)["File_2"] !=
+                                args["File_2"]):
                     strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
             except KeyError as e:
                 print e
@@ -148,7 +248,13 @@ class StrainListResource(Resource):
             return strain, 200
 
         try:
-            strain = Strain(name=s_name, species_id=args["species_id"], fields=json.dumps({"metadata_fields": metadata_fields}), strain_metadata=json.dumps(args), timestamp=datetime.datetime.utcnow(), user_id=current_user.id, fq_location=current_user.homedir)
+            strain = Strain(name=s_name, species_id=args["species_id"],
+                            fields=json.dumps(
+                                {"metadata_fields": metadata_fields}),
+                            strain_metadata=json.dumps(args),
+                            timestamp=datetime.datetime.utcnow(),
+                            user_id=current_user.id,
+                            fq_location=current_user.homedir)
 
             if not strain:
                 abort(404, message="An error as occurried")
@@ -158,15 +264,26 @@ class StrainListResource(Resource):
         except Exception as erro:
             print erro
             db.session.rollback()
-            strain = db.session.query(Strain).filter(Strain.name == s_name).first()
+            strain = db.session.query(Strain).filter(Strain.name == s_name)\
+                .first()
+
         return strain, 201
 
     @login_required
     @marshal_with(strain_fields)
     def put(self):
+        """Modify strain metadata
 
+        This method allows the modification of certain aspects of the strain
+        metadata. Ids cannot be changed or the files associated with it.
+
+        Returns
+        -------
+
+        """
         args = request.form
-        strain = db.session.query(Strain).filter(Strain.id == args["strain_id"]).first()
+        strain = db.session.query(Strain)\
+            .filter(Strain.id == args["strain_id"]).first()
 
         if not strain:
             abort(404, message="An error as occurried")
@@ -183,8 +300,21 @@ class StrainListResource(Resource):
 
 
 class StrainsByNameResource(Resource):
+    """
+    Class that allows searching for strains by using a set of filters
+    """
+
     @marshal_with(strain_fields_project)
     def post(self):
+        """Get all strains with a given filter
+
+        Searches for strains with a given name and belonging to a set of
+        projects.
+
+        Returns
+        -------
+        list: list of strains
+        """
 
         args = strain_names_parser.parse_args()
         strains_to_search = args.selectedStrains.split(",")
@@ -195,7 +325,8 @@ class StrainsByNameResource(Resource):
         for i, y in enumerate(strains_to_search):
             nameToProject[strains_to_search[i]] = projects_to_search[i]
 
-        strains = db.session.query(Strain).filter(Strain.name.in_(strains_to_search)).all()
+        strains = db.session.query(Strain)\
+            .filter(Strain.name.in_(strains_to_search)).all()
 
         for i, strain in enumerate(strains):
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
@@ -208,24 +339,71 @@ class StrainsByNameResource(Resource):
 
 
 class StrainProjectListResource(Resource):
+    """
+    Class to perform operations of strains of a given project
+    """
 
     @login_required
     @marshal_with(strain_fields)
     def get(self, id):
+        """Get project strains
+
+        Get all strains of a given project.
+
+        Parameters
+        ----------
+        id: str
+            Project identifier
+
+        Returns
+        -------
+        list: list of strains
+        """
 
         if not current_user.is_authenticated:
             abort(403, message="No permissions")
         project = db.session.query(Project).filter(Project.id == id).first()
+
         if not project:
             abort(404, message="No project available")
         strains = project.project_strains()
+
         if not strains:
             abort(404, message="No strain available")
+
+        for strain in strains:
+            file_1 = json.loads(strain.strain_metadata)["File_1"]
+            file_2 = json.loads(strain.strain_metadata)["File_2"]
+
+            fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
+
+            file1_path = os.path.join(fastq_files_dir, file_1)
+            file2_path = os.path.join(fastq_files_dir, file_2)
+
+            if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
+                strain.has_files = "false"
+            else:
+                strain.has_files = "true"
+
         return strains, 200
 
     @login_required
     @marshal_with(strain_fields)
     def put(self, id):
+        """Add strain to project
+
+        This method allows adding a strain to a project.
+        Requires the strain name and the project identifier
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+
+        Returns
+        -------
+        strain object
+        """
 
         args = strain_project_parser.parse_args()
         if not current_user.is_authenticated:
@@ -233,7 +411,8 @@ class StrainProjectListResource(Resource):
         project = db.session.query(Project).filter(Project.id == id).first()
         if not project:
             abort(404, message="No project available")
-        strain = db.session.query(Strain).filter(Strain.name == args.strainID).first()
+        strain = db.session.query(Strain)\
+            .filter(Strain.name == args.strainID).first()
         if not strain:
             abort(404, message="No strain available")
 
@@ -247,11 +426,35 @@ class StrainProjectListResource(Resource):
         strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
         strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
+        fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
+
+        file1_path = os.path.join(fastq_files_dir, strain.file_1)
+        file2_path = os.path.join(fastq_files_dir, strain.file_2)
+
+        if not os.path.isfile(file1_path) or not os.path.isfile(file2_path):
+            strain.has_files = "false"
+        else:
+            strain.has_files = "true"
+
         return strain, 200
 
     @login_required
     @marshal_with(strain_fields)
     def delete(self, id):
+        """Remove strain from project
+
+        This method allows removing a strain from a project. Requires the
+        strain name and the project id
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+
+        Returns
+        -------
+        strain object
+        """
 
         args = strain_project_parser.parse_args()
         if not current_user.is_authenticated:
@@ -259,7 +462,8 @@ class StrainProjectListResource(Resource):
         project = db.session.query(Project).filter(Project.id == id).first()
         if not project:
             abort(404, message="No project available")
-        strain = db.session.query(Strain).filter(Strain.name == args.strainID).first()
+        strain = db.session.query(Strain)\
+            .filter(Strain.name == args.strainID).first()
         if not strain:
             abort(404, message="No strain available")
 
@@ -267,3 +471,42 @@ class StrainProjectListResource(Resource):
         db.session.commit()
 
         return strain, 200
+
+
+class DeleteReadsFromStrain(Resource):
+    """
+    Class of resource to delete strains from a given project.
+    """
+
+    def delete(self):
+
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+
+        args = strain_fastq_delete_parser.parse_args()
+
+        strains = db.session.query(Strain)\
+            .filter(Strain.species_id == args.speciesID,
+                    Strain.user_id == current_user.id,
+                    Strain.name.in_(args.strain_names.split(","))).all()
+
+        for strain in strains:
+            file_1 = json.loads(strain.strain_metadata)["File_1"]
+            file_2 = json.loads(strain.strain_metadata)["File_2"]
+
+            fastq_files_dir = os.path.join(current_user.homedir, "ftp", "files")
+
+            file1_path = os.path.join(fastq_files_dir, file_1)
+            file2_path = os.path.join(fastq_files_dir, file_2)
+
+            print "DELETED:"
+
+            if os.path.isfile(file1_path):
+                os.remove(file1_path)
+                print file1_path
+
+            if os.path.isfile(file2_path):
+                os.remove(file2_path)
+                print file2_path
+
+        return 204

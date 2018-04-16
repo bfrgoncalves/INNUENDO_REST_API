@@ -47,6 +47,10 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
 
+    //RESET REPORT SELECTOR
+	TO_LOAD_STRAINS = "";
+	TO_LOAD_PROJECTS = "";
+
     $scope.protocol_type = {};
     $scope.protocols_of_type = [];
     $scope.protocolTypeParameters = {};
@@ -57,8 +61,8 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
     Lists of used softwares and nextflow tags. This should pass to the
      config file of the platform in the future.
      */
-    const usedSoftware = ["INNUca", "chewBBACA", "PathoTyping", "integrity_coverage", "fastqc", "trimmomatic", "integrity_coverage_2", "fastqc2", "spades", "process_spades", "assembly_mapping", "process_assembly_mapping", "pilon", "mlst", "prokka", "abricate", "seq_typing", "patho_typing"];
-    const nextflow_tags = ["integrity_coverage", "check_coverage", "fastqc", "trimmomatic", "fastqc_trimmomatic", "spades", "process_spades", "assembly_mapping", "pilon", "mlst", "abricate", "prokka", "chewbbaca", "seq_typing", "patho_typing"];
+    const usedSoftware = ["INNUca", "chewBBACA", "PathoTyping", "integrity_coverage", "fastqc", "trimmomatic", "integrity_coverage_2", "fastqc2", "true_coverage", "spades", "process_spades", "assembly_mapping", "process_assembly_mapping", "pilon", "mlst", "prokka", "abricate", "seq_typing", "patho_typing"];
+    const nextflow_tags = ["integrity_coverage", "check_coverage", "fastqc", "trimmomatic", "fastqc_trimmomatic", "true_coverage", "spades", "process_spades", "assembly_mapping", "pilon", "mlst", "abricate", "prokka", "chewbbaca", "seq_typing", "patho_typing"];
 
 
     $scope.loadProtocols = () => {

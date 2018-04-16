@@ -25,7 +25,7 @@
 						<div class="form-group col-md-6">
 							<label>Strain Identifier<sup>*</sup></label>
 							<input type="text" class="form-control" id="Primary-Identifier" name="Primary" placeholder="Primary Identifier" required>
-							<input type="text" class="form-control" id="Food-Bug" name="Food-Bug" placeholder="Case ID" required>
+							<input type="text" class="form-control" id="Food-Bug" name="Food-Bug" placeholder="Case ID">
 						</div>
 						<div class="form-group col-md-6">
 							<label>Source<sup>*</sup></label>
@@ -128,6 +128,7 @@
 					<button class="btn btn-primary" type="submit">Add Selected Strains</button>
 				</form>
 				<div class="scroll_div">
+                <label style="text-align: left;">*Strains without available Fastq files are marked in <label style="color:red;">Red</label></label>
 				<table class="table table-striped table-bordered public_s" id="public_strains_table" width='100%'>
 		            <thead>
 		              <tr>
@@ -136,13 +137,6 @@
 		                <th></th>
 		              </tr>
 		            </thead>
-		            <!--<tbody class="public_s">
-		              <tr ng-repeat="strain in public_strains">
-		                <td></td>
-		                <td ng-repeat="field in strain">{{ field }}</td>
-		                </td>
-		              </tr>
-		            </tbody>-->
 		            <tfoot>
 		              <tr>
 		                <th></th>
@@ -212,9 +206,15 @@
 			  	  <div id="pipeline_group_{{myReplace(key)}}">
 				  	  <div ng-repeat="pipeline in available_strain_pipelines[key]">
 				  	  	 <div class="list-group-item">
-				  	  	 	<label>Pipeline {{ available_pipelines_ids[key][$index][0] }} from Project {{ available_pipelines_ids[key][$index][0] }}: </label>
+				  	  	 	<label>Pipeline {{
+                                    available_pipelines_ids[key][$index][0] }} from Project {{ available_pipelines_ids[key][$index][1] }}: </label>
 						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
-						  	<!--<button class="btn btn-sm btn-default pipeline_strain_button" style="display:none;float:right;" pipeline="{{ available_pipelines_ids[key][$index][0] }}" strain_id="{{ key }}" ownerproject="{{ available_pipelines_ids[key][$index][1] }}">Use Pipeline</button>-->
+						  	<button class="btn btn-sm btn-primary
+						  	pipeline_strain_button" style="float:right;"
+                            pipeline="{{ available_pipelines_ids[key][$index][0] }}"
+						  	strain_id="{{ key }}" ownerproject="{{
+						  	available_pipelines_ids[key][$index][1] }}">Show
+						  	Report</button>
 						  </div>
 				  	  </div>
 				  	  <div style="text-align:center;width:100%;">

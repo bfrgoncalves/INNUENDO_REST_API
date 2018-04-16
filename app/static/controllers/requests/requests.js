@@ -18,6 +18,19 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		get_user_mails: (callback) => {
+			const req = {
+		        url:'api/v1.0/users/email/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
 		check_download_accession_status: (file_name, accession_numbers, callback) => {
 
 			const req = {
@@ -560,12 +573,29 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        });
 
 		},
-        sendCustomMail: (recipients, title, body) => {
+		delete_fastq: (selectedNames, callback) => {
+			const req = {
+	            url: 'api/v1.0/strains/fastq/',
+	            method:'DELETE',
+				params: {
+	                strain_names: selectedNames.join(","),
+					speciesID: CURRENT_SPECIES_ID
+	            }
+	        };
+
+	        $http(req).then( (response) => {
+	               callback(response, true);
+	            },
+	            (response) => {
+	               callback(response, false);
+	        });
+		},
+        sendCustomMail: (recipients, title, body, callback) => {
 		    const req = {
 	            url: 'api/v1.0/mail/',
 	            method:'POST',
 	            data: {
-	                recipients: recipients,
+	                recipients: recipients.join(","),
 	                title:title,
 	                body:body
 	            }

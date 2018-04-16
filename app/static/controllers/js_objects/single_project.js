@@ -140,11 +140,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     };
 
     const sortFunction = (a, b) => {
-	    if (a[0] === b[0]) {
+	    if (parseInt(a[0]) === parseInt(b[0])) {
 	        return 0;
 	    }
 	    else {
-	        return (a[0] < b[0]) ? -1 : 1;
+	        return (parseInt(a[0]) < parseInt(b[0])) ? -1 : 1;
 	    }
 	};
 
@@ -205,6 +205,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                     let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
                                     sd[strains_headers[i]] = modified_data;
                                 }
+                                else if (strains_headers[i] === "SampleReceivedDate" || strains_headers[i] === "SamplingDate"){
+                                    let modified_data = strain_data[strains_headers[i]].replace(/\./g, "/");
+                                    modified_data = modified_data.replace(/-/g, "/");
+
+                                    sd[strains_headers[i]] = modified_data;
+                                }
+
                                 else{
                                     sd[strains_headers[i]] = strain_data[strains_headers[i]];
                                 }
@@ -212,7 +219,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                }
 		                sd["strainID"] = data.strainID;
 		                sd["FilesLocation"] = data.fq_location;
-		                console.log(sd);
+		                sd["has_files"] = data.has_files;
+
 		                if(!strains_dict.hasOwnProperty($.trim(data.strainID))){
 		                    strains_dict[$.trim(data.strainID)] = data.id;
 		                }
@@ -242,8 +250,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		strain_Name = $.trim(strain_Name);
 		let strain_id = strains_dict[strain_Name];
 		let new_pipeline_id = '';
-
-		console.log(strains_dict, strain_id);
 
 		const add_pip = (strainid) => {
 			pg_requests.add_pipeline(strainid, null, null, (response) => {
@@ -403,7 +409,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						if(status === "PD") pending_jobs += 1;
 						if(status === "WARNING") has_warning = true;
 
-						if(prev_process_status === 'FAILED'){
+						if(prev_process_status === 'FAILED' && status === "PD"){
 							dict_of_tasks_status[task_id] = 'NEUTRAL';
 							current_job_status_color[tasks_to_buttons[task_id]] = status_dict['NEUTRAL'];
 							$('#' + tasks_to_buttons[task_id].replace(/ /g, "_")).css({'background-color': status_dict['NEUTRAL']});
@@ -564,11 +570,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             //Request to get quota
             pg_requests.get_quota( (quota_obj) => {
 
+				console.log(quota_obj);
 
                 let quota_dict = {
-                    "t_quota": quota_obj.data.f_space.split(/\s/g)[54],
-                    "f_quota": quota_obj.data.f_space.split(/\s/g)[56],
-                    "user_quota": quota_obj.data.f_space.split(/\s/g)[55],
+                    "t_quota": quota_obj.data.f_space.split(/\s/g)[41],
+                    "f_quota": quota_obj.data.f_space.split(/\s/g)[43],
+                    "user_quota": quota_obj.data.f_space.split(/\s/g)[43],
                     "p_space": quota_obj.data.p_space.split(/\s/g)[0],
                     "u_space": quota_obj.data.u_quota.split(/\s/g)[0],
                     "i_quota": quota_obj.data.i_quota.split(/\s/g)[0]
@@ -580,8 +587,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 quota_dict.u_space = quota_dict.u_space === "" ? 0 : parseInt(quota_dict.u_space);
                 quota_dict.user_quota = quota_dict.user_quota === "" ? 0 : parseInt(quota_dict.user_quota);
                 quota_dict.i_quota = quota_dict.i_quota === "" ? 0 : parseInt(quota_dict.i_quota);
-
-                console.log(quota_dict);
 
                 callback(quota_dict);
             });
@@ -627,6 +632,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                            if (public_strains_headers[j] === "timestamp"){
 		                                let modified_data_parts = strain_data[public_strains_headers[j]].split(" ")[0].split("-");
 		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
+
+		                                modified_data = modified_data.replace(/\./g, "/");
+										modified_data = modified_data.replace(/-/g, "/");
+
+										sd[public_strains_headers[j]] = modified_data;
+                                    }
+                                    else if (public_strains_headers[j] === "SampleReceivedDate" || public_strains_headers[j] === "SamplingDate"){
+		                                let modified_data = strain_data[public_strains_headers[j]].replace(/\./g, "/");
+		                                modified_data = modified_data.replace(/-/g, "/");
+
 		                                sd[public_strains_headers[j]] = modified_data;
                                     }
                                     else{
@@ -636,11 +651,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    }
 		                    sd["id"] = data[i].id;
 		                    sd["FilesLocation"] = data[i].fq_location;
+		                    sd["has_files"] = data[i].has_files;
 		                    new_strains.push(sd);
 		                }
 		                public_strains = new_strains;
 		                
 		            }
+
 		            callback({ public_strains_headers: public_strains_headers, public_strains: public_strains});
 				}
 				else{
@@ -679,6 +696,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains_headers.push('Analysis');
 		                strains_headers.push('FilesLocation');
 		                strains_headers.push("timestamp");
+		                strains_headers.push("has_files");
 		                
 		                for (const i in data){
 
@@ -687,6 +705,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    strain_data['Analysis'] = "";
 		                    strain_data['FilesLocation'] = data[i].fq_location;
 		                    strain_data['timestamp'] = data[i].timestamp;
+		                    strain_data['has_files'] = data[i].has_files;
+
 		                    let sd = {};
 		                    for (const j in strains_headers){
 		                        if(strain_data.hasOwnProperty(strains_headers[j])){
@@ -696,11 +716,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                                let modified_data = modified_data_parts[2] + "/" + modified_data_parts[1] + "/" + modified_data_parts[0];
 		                                sd[strains_headers[j]] = modified_data;
                                     }
+
+                                    else if (strains_headers[j] === "SampleReceivedDate" || strains_headers[j] === "SamplingDate"){
+		                                let modified_data = strain_data[strains_headers[j]].replace(/\./g, "/");
+		                                modified_data = modified_data.replace(/-/g, "/");
+
+		                                sd[strains_headers[j]] = modified_data;
+                                    }
                                     else{
 		                                sd[strains_headers[j]] = strain_data[strains_headers[j]];
                                     }
-		                            //sd[strains_headers[j]] =
-                                    // strain_data[strains_headers[j]];
 		                        }
 		                    }
 		                    if(!strains_dict.hasOwnProperty($.trim(data[i].strainID))){
@@ -712,6 +737,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains = add_strains;
 		                
 		            }
+
 		            callback({ strains: strains, strains_headers: strains_headers});
 				}
 				else callback({strains: [], strains_headers: []});
@@ -727,8 +753,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			//Get the pipeline ids for that strain
 			pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, (response, strainid) => {
 				let total_pipelines = response.data.length;
-
-				console.log(response);
 
 				if(response.data.hasOwnProperty("message") === true){
 				   return callback({strains: "no_pipelines"});
@@ -1510,6 +1534,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        return item['strainID'];
 		    });
 
+            /**
+			 * Check if strain has files to run
+             */
+		    const strain_has_files = $.map(table.rows('.selected').data(), (item) => {
+		        return item['has_files'];
+		    });
+
 		    //CASE THERE ARE NO STRAINS SELECTED
 		    if(strain_names.length === 0){
 		    	modalAlert('Please select at least one strain before running' +
@@ -1526,109 +1557,127 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    const save_single_pipeline = () => {
 
 		    	let sel_name = strain_names.shift();
+		    	let sel_has_file = strain_has_files.shift();
 		    	const subStatusEl = $("#submission_status");
 
 		    	subStatusEl.empty();
 		        subStatusEl.html("Saving pipeline " + String(count_finished+1) + " out of " + String(sel_index_clone.length) + "...");
 
-		    	create_pipeline(sel_name, (strain_id, pipeline_id) => {
-		        	strainID_pipeline[strain_id] = pipeline_id;
-		        	pipeline_ids.push(pipeline_id);
+		        if (sel_has_file === "false") {
+		        	subStatusEl.empty();
+		        	subStatusEl.html("Strain " + String(sel_name) + " has no" +
+						" available files to run.");
 
-		        	if(pipelines_applied.hasOwnProperty(strain_id_to_name[strain_id])){
+					count_finished += 1;
 
-		        	    let pipeline_to_use = pipeline_ids.shift();
-		        		let steps = [];
-		        		let workflow_ids = [];
-		        		let total_workflows = pipelines_applied[strain_id_to_name[strain_id]].length;
-		        		let counter_global = 0;
-		        		let counter_steps = 0;
-		        		let to_add = false;
-		        		let task_failed = false;
+					if (count_finished === total_index_length) {
+						return callback(true);
+					}
+					else {
+						save_single_pipeline();
+					}
+				}
+				else {
 
-		        		pipelines_applied[strain_id_to_name[strain_id]].map( (d, x) => {
+                    create_pipeline(sel_name, (strain_id, pipeline_id) => {
+                        strainID_pipeline[strain_id] = pipeline_id;
+                        pipeline_ids.push(pipeline_id);
 
-		        		    let workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
-			                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
-			                let button_n = d.split("id")[1].split('"')[1];
-			                
-			                if(buttons_to_tasks[button_n] === undefined){
-			                	buttons_to_tasks[button_n] = "buttonworkflow_" + pipeline_id + "_" + String(x+1);
-			                	workflow_ids.push(pipelinesByName[workflowName]);
-			                	counter_steps += 1;
-			                	steps.push(counter_steps);
-			        		}
-			        		else counter_steps += 1;
+                        if (pipelines_applied.hasOwnProperty(strain_id_to_name[strain_id])) {
 
-			        		counter_global += 1;
+                            let pipeline_to_use = pipeline_ids.shift();
+                            let steps = [];
+                            let workflow_ids = [];
+                            let total_workflows = pipelines_applied[strain_id_to_name[strain_id]].length;
+                            let counter_global = 0;
+                            let counter_steps = 0;
+                            let to_add = false;
+                            let task_failed = false;
 
-			                if (total_workflows === counter_global){
-			                	if(workflow_ids.length === 0){
-			                		return callback(false);
-			                	}
-			                	//In case of all workflows are new in the pipeline, update the pipeline to remove the parent
-			                	if(counter_steps === pipelines_applied[strain_id_to_name[strain_id]].length){
-			                		pg_requests.change_pipeline_from_project(strain_id, 'remove_parent', pipeline_to_use, (response, strain_id, pipeline_to_use) => {
-			                			//Say that this process belongs to this project
-			                			if(strain_to_real_pip.hasOwnProperty(strain_id)){
-			                				strain_to_real_pip[strain_id].map( (d) => {
-				                				d[0] = CURRENT_PROJECT_ID;
-				                			});
-			                			}
-			                			if(pipelines_type_by_strain[strain_id_to_name[strain_id]][3] !== undefined) {
-			                			    pipelines_type_by_strain[strain_id_to_name[strain_id]][3] = undefined;
-                                        }
-			                			
-			                			ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
-						                	if(response.status === 200){
-						                	}
-						                	else console.log(response.statusText);
+                            pipelines_applied[strain_id_to_name[strain_id]].map((d, x) => {
 
-						                	count_finished += 1;
+                                let workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
+                                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
+                                let button_n = d.split("id")[1].split('"')[1];
 
-						                	if(count_finished === total_index_length){
-								        		return callback(true);
-								        	}
-								        	else {
-												save_single_pipeline();
-								        	}
-						                });
-			                		});
-			                	}
-			                	else{
-			                		ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
-					                	if(response.status === 200){
-					                	}
-					                	else console.log(response.statusText);
+                                if (buttons_to_tasks[button_n] === undefined) {
+                                    buttons_to_tasks[button_n] = "buttonworkflow_" + pipeline_id + "_" + String(x + 1);
+                                    workflow_ids.push(pipelinesByName[workflowName]);
+                                    counter_steps += 1;
+                                    steps.push(counter_steps);
+                                }
+                                else counter_steps += 1;
 
-					                	count_finished += 1;
+                                counter_global += 1;
 
-					                	if(count_finished === total_index_length){
-							        		return callback(true);
-							        	}
-							        	else{
-							        		save_single_pipeline();
-							        	}
-					                });
-			                	}
-			                }
-		            	});
-		        	}
+                                if (total_workflows === counter_global) {
+                                    if (workflow_ids.length === 0) {
+                                        return callback(false);
+                                    }
+                                    //In case of all workflows are new in the pipeline, update the pipeline to remove the parent
+                                    if (counter_steps === pipelines_applied[strain_id_to_name[strain_id]].length) {
+                                        pg_requests.change_pipeline_from_project(strain_id, 'remove_parent', pipeline_to_use, (response, strain_id, pipeline_to_use) => {
+                                            //Say that this process belongs to this project
+                                            if (strain_to_real_pip.hasOwnProperty(strain_id)) {
+                                                strain_to_real_pip[strain_id].map((d) => {
+                                                    d[0] = CURRENT_PROJECT_ID;
+                                                });
+                                            }
+                                            if (pipelines_type_by_strain[strain_id_to_name[strain_id]][3] !== undefined) {
+                                                pipelines_type_by_strain[strain_id_to_name[strain_id]][3] = undefined;
+                                            }
 
-		        	else {
-                        console.log("No pipeline for strain");
-                        count_finished += 1;
+                                            ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
+                                                if (response.status === 200) {
+                                                }
+                                                else console.log(response.statusText);
 
-                        if(count_finished === total_index_length){
-                            return callback(true);
+                                                count_finished += 1;
+
+                                                if (count_finished === total_index_length) {
+                                                    return callback(true);
+                                                }
+                                                else {
+                                                    save_single_pipeline();
+                                                }
+                                            });
+                                        });
+                                    }
+                                    else {
+                                        ngs_onto_requests.ngs_onto_request_save_pipeline(pipeline_to_use, workflow_ids, steps, (response) => {
+                                            if (response.status === 200) {
+                                            }
+                                            else console.log(response.statusText);
+
+                                            count_finished += 1;
+
+                                            if (count_finished === total_index_length) {
+                                                return callback(true);
+                                            }
+                                            else {
+                                                save_single_pipeline();
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                         }
-                        else{
-                            save_single_pipeline();
-                        }
-                    }
-		        });
 
-		    }
+                        else {
+                            console.log("No pipeline for strain");
+                            count_finished += 1;
+
+                            if (count_finished === total_index_length) {
+                                return callback(true);
+                            }
+                            else {
+                                save_single_pipeline();
+                            }
+                        }
+                    });
+                }
+
+		    };
 
 		    save_single_pipeline();
 
@@ -1649,6 +1698,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        return item['FilesLocation'];
 		    });
 
+		    /**
+			 * Check if strain has files to run
+             */
+		    const strain_has_files = $.map(table.rows('.selected').data(), (item) => {
+		        return item['has_files'];
+		    });
+
 		    let countWorkflows = 0;
 		    let countFinished = 0;
 		    let dict_strain_names = {};
@@ -1659,6 +1715,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    let strain_names_clone = strain_names.slice(0);
 		    let count_total_strains = strain_names_clone.length;
 		    let no_pip_strains = [];
+		    let no_files_strains = [];
 
 
 
@@ -1666,18 +1723,33 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    const run_single_strain = () => {
 
 		    	if (count_strains_added_run === count_total_strains){
-                    let message = "";
+                    let message = "<p>Jobs for some of the strains were not submitted:</p>";
 
                     //Verification case there are no workflows applied to the strains
                     if (no_pip_strains.length > 0) {
-                        message = "<p>Jobs for some of the strains were not submitted:</p>";
                         message += "<ul>";
 
-                        for (x in no_pip_strains){
-                            message += "<li>Please add workflows first for <b>" + no_pip_strains[x] + "</b></li>";
+                        for (const x in no_pip_strains){
+                            message += "<li>Please add workflows first for <b>"
+								+ no_pip_strains[x] + "</b></li>";
                         }
 
                         message += "</ul>";
+                    }
+
+                    if (no_files_strains.length > 0) {
+
+                    	message += "<ul>";
+
+                        for (const x in no_files_strains){
+                            message += "<li>Please resubmit the associated" +
+								" files for the strain " +
+								" <b>" + no_files_strains[x] + "</b> or ask" +
+								" the owner to reupload them.</li>";
+                        }
+
+                        message += "</ul>";
+
                     }
                     else {
                         message = "<p>Jobs for all the selected strains have been submitted.</p>";
@@ -1692,9 +1764,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 }
 
 				let strain_in_use = strain_names.shift();
+		    	let strain_in_has_files = strain_has_files.shift();
 
 				//put_i.push(i);
-		        if(pipelines_applied[strain_in_use] !== undefined){
+		        if(pipelines_applied[strain_in_use] !== undefined && strain_in_has_files !== "false"){
 		        	dict_strain_names[strain_in_use] = [pipelines_applied[strain_in_use].length, [], 0, 0];
 
 		        	let pip_id_of_parents = [];
@@ -1910,9 +1983,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        }
 
 		        else {
-                    no_pip_strains.push(strain_in_use);
-                    count_strains_added_run += 1;
-                    run_single_strain();
+		        	if (strain_in_has_files === "false"){
+		        		no_files_strains.push(strain_in_use);
+						count_strains_added_run += 1;
+						run_single_strain();
+                    }
+                    else{
+		        		no_pip_strains.push(strain_in_use);
+						count_strains_added_run += 1;
+						run_single_strain();
+                    }
 
                 }
 		    };
@@ -2465,6 +2545,57 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         },
 
 		/*
+		Show reports from single project table
+		 */
+		deleteFastq: (dt, scope, callback) => {
+
+            let selectedRows = $.map(dt.rows(".selected").data(), (d) => {
+                return d.strainID;
+            });
+
+		    if(selectedRows.length === 0){
+		        modalAlert("Please select one or more entries from the" +
+                    " Project first.", "Select Strains", () => {});
+
+		        callback(false);
+            }
+            else {
+                //Send to reports Page
+                //loadReport(selectedRows, CURRENT_PROJECT_ID, scope);
+                console.log("DELETE FASTQ");
+                modalAlert("This option will delete the fastq files" +
+                    " associated with the selected strains. Do you wish to" +
+                    " continue?", "Delete Fastq", () => {
+
+                    pg_requests.delete_fastq(selectedRows, (response, status) => {
+
+                        if (status) {
+                            modalAlert("The Fastq files for the selected" +
+                                " strains have been removed. To run analyses" +
+                                " again on those strains, reupload the files" +
+                                " with the same name as the ones provided on" +
+                                " upload time.", "Fastq" +
+                                " files" +
+                                " deleted", () => {
+                            });
+                        }
+                        else {
+                            modalAlert("An error as occurried when deleting the" +
+                                " fastq files for the selected strains.", "Error",
+                                () => {
+                                });
+                        }
+
+                        callback(true);
+
+                    });
+
+                });
+
+            }
+        },
+
+		/*
 	    Load strains from a file. Parses the file and trigger the add_new_strain function
 	    */
 		load_strains_from_file: (input_element, separator, callback) => {
@@ -2481,7 +2612,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 			const used_headers = {
 				"Primary-Identifier": [true, "Required", "Primary strain identifier is required."],
-				"Food-Bug": [true, "Required", "Additional species identifier is required."],
+				"Case-ID": [true, "Optional"],
 				"Source": [true, "Required", "Source is required. Choose between: Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water;"],
 				"Sampling-Date": [true, "Optional"],
 				"Sample-Received-Date": [true, "Optional"],
@@ -2499,7 +2630,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 	      	reader.onload = (f) => {
 
-	      	    let lines = this.result.split('\n');
+	      		console.log(f.target);
+	      	    let lines = f.target.result.split('\n');
 		      	let firstLine = true;
 		      	let strains_object = {};
 		      	let count_lines = 0;
@@ -2547,7 +2679,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      		}
 		      	}
 
-		      	console.log(strains_object);
 
 		      	let lines_clone = strains_object['body'].slice(0);
 
@@ -2624,16 +2755,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
 		      						}
 
-		      						const food_bug_index = hline_to_use.indexOf("Food-Bug");
+		      						//const food_bug_index =
+									// hline_to_use.indexOf("Food-Bug");
 
-				      				identifier_s = String(bline_to_use[x] + "-" + bline_to_use[food_bug_index]).replace(/ /g, "-");
+				      				identifier_s = String(bline_to_use[x]);// + "-" + bline_to_use[food_bug_index]).replace(/ /g, "-");
 				      				
 				      				if(!strains_with_problems.hasOwnProperty(identifier_s)){
 				      					strains_with_problems[identifier_s] = [];
 				      				}
 		      					}
 
-		      					if(headers_array[header_to_check] === "Food-Bug") {
+		      					if(headers_array[header_to_check] === "Case-ID") {
 		      						if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] === ""){
 		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
 		      						}
@@ -2641,8 +2773,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		      					if(headers_array[header_to_check] === "Source") {
 
-		      						$('#'+hline_to_use[x] + " option").filter( (e) => {
-									    if($(e).text().trim() === bline_to_use[x].trim()){
+		      						$('#'+hline_to_use[x] + " option").filter( (e, i) => {
+
+										console.log(e, i);
+		      							console.log($(i).text().trim());
+		      							console.log(bline_to_use[x]);
+									    if($(i).text().trim() === bline_to_use[x].trim()){
 									    	has_valid_source = true;
 									    	return bline_to_use[x];
 									    }
@@ -2668,8 +2804,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 				      				//check for files in user area
 				      				has_files += 1;
 
-				      				$('#'+hline_to_use[x] + " option").filter( (e) => {
-									    if($(e).text().trim() === bline_to_use[x].trim()){
+				      				$('#'+hline_to_use[x] + " option").filter( (e, i) => {
+									    if($(i).text().trim() === bline_to_use[x].trim()){
 									    	files_in_user_folder += 1;
 									    	return bline_to_use[x];
 									    }
@@ -2680,7 +2816,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      						}
 
 								}
-								else $('#'+hline_to_use[x]).val(bline_to_use[x] === "" ? "NA":bline_to_use[x]);
+								else {
+				      			    let sel_element;
+
+				      				if (hline_to_use === "Case-ID") {
+				      					sel_element = "Food-Bug";
+									}
+									else{
+				      					sel_element = hline_to_use[x];
+									}
+				      				$('#'+sel_element).val(bline_to_use[x] === "" ? "NA":bline_to_use[x]);
+                                }
 
 
 		      				}
@@ -2701,6 +2847,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			      			else {
 			      				showDoneImportModal();
 			      				hline_to_use.map( (a) => { $("#"+a).val("")});
+			      				$('#Submitter').val(CURRENT_USER_NAME);
 			      			}
 		      			}
 		      			else if(required_headers_missed.length > 0){

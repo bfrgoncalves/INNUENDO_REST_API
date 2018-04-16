@@ -15,8 +15,9 @@
 		      <label class="control-label col-sm-2"
                      for="recipients">Recipients:</label>
 		      <div class="col-sm-10">
-		        <input type="text" class="form-control" id="recipients"
-                       name="recipients" placeholder="Recipients (Separated by Comma)">
+		        <select type="text" class="selectpicker" id="recipients"
+                       name="recipients" placeholder="Recipients (Separated
+                       by Comma)" multiple>
 		      </div>
               <label class="control-label col-sm-2"
                      for="email-title">Title:</label>
@@ -38,6 +39,9 @@
 		      <div class="col-sm-offset-2 col-sm-10">
 		        <button type="submit" class="btn btn-primary">Send
                     Email</button>
+		      </div>
+              <div class="col-sm-offset-2 col-sm-10">
+		        <label id="email_res_text"></label>
 		      </div>
 		    </div>
 		</form>

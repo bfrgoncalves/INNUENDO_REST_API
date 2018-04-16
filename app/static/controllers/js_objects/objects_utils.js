@@ -68,14 +68,31 @@ const Objects_Utils = (single_project, $sc) => {
 
         if(table_id === "strains_table"){
             additionalButtons = {
-                text: "Show Reports",
-                action: ( e, dt, node, config ) => {
+                extend: "collection",
+                text: "Selection",
+                autoClose: true,
+                buttons: [{
+                    text: "Show Reports",
+                    action: (e, dt, node, config) => {
 
-                    single_project.showReports(dt, $sc, () => {
+                        single_project.showReports(dt, $sc, () => {
 
-                    });
+                        });
 
-                }
+                    },
+                },
+                    {
+                    text: "Delete Fastq",
+                    action: ( e, dt, node, config ) => {
+
+                        single_project.deleteFastq(dt, $sc, (status) => {
+                            if (status){
+                                dt.rows(".selected").nodes().to$()
+                                    .addClass("no_files_row");
+                            }
+                        });
+                    },
+                }]
             }
         }
 
@@ -110,6 +127,13 @@ const Objects_Utils = (single_project, $sc) => {
             columns: columnDefinitions,
             "data": data,
             "stateSave":true,
+            "createdRow": ( row, data, dataIndex) => {
+                $(row).removeClass("odd");
+                $(row).removeClass("even");
+                if( data.has_files === "false"){
+                    $(row).addClass("no_files_row");
+                }
+            },
             "initComplete": () => {
 
                 let already_added = [];
@@ -128,7 +152,6 @@ const Objects_Utils = (single_project, $sc) => {
                     tableBodyEl.find("tr.selected td button.analysis-control").trigger("click");
                     tableBodyEl.find("tr td button.button_table_to_trigger").trigger("click");
                     $('.child_row').css({"background-color":"#eeffff"});
-
                 }, 50);
             }
         });
@@ -451,12 +474,6 @@ const Objects_Utils = (single_project, $sc) => {
                             protocols_applied_by_pipeline[strain_name][pipelinesByID[workflow_id]] = [];
                         }
 
-
-                        /*pipelines_type_by_strain[strain_name][1].push(buttonselectedPipeline.replace("&&&", ""));
-                        console.log(pipelines_type_by_strain[strain_name][1].length);
-                        console.log(pipelines_type_by_strain[strain_name][1]);
-                        pipelines_type_by_strain[strain_name][2].push(protocol_buttons.replace("&&&", ""));
-                        */
 
                         if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0){
                             pipelines_applied[strain_name].push(buttonselectedPipeline);

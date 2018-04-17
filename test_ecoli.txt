@@ -1,2 +1,0 @@
-Primary-Identifier	Food-Bug	Source	Sampling-Date	Sample-Received-Date	Owner	Submitter	Location	Additional-Information	File_1	File_2
-1_ecoli		Food	01/01/12	22/02/12	msilva	msilva	Portugal	test	101429_S1_L001_R1_001.fastq.gz	101429_S1_L001_R2_001.fastq.gz

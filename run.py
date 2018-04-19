@@ -5,4 +5,4 @@ Starting point of the application. Runs in multithread to prevent app from freez
 '''
 
 #app.run(debug=True, threaded=True)
-app.run(threaded=True)
+app.run(threaded=True, host="0.0.0.0")

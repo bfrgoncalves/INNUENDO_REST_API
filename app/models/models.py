@@ -114,7 +114,7 @@ class User(db.Model, UserMixin):
         try:
             conn.simple_bind_s("cn="+email+",ou=users,"+baseDN, password)
         except Exception as e:
-            print e
+            print "AQUI", e
             return False
 
         #conn.unbind()
@@ -122,7 +122,7 @@ class User(db.Model, UserMixin):
         try:
             conn.simple_bind_s("cn=" + LDAP_ADMIN_NAME + "," + baseDN, LDAP_ADMIN_PASS)
         except Exception as e:
-            print e
+            print "AQUI1", e
             return False
 
         search_filter = "uid="+email

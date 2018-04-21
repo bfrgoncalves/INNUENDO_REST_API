@@ -119,7 +119,8 @@ class User(db.Model, UserMixin):
         conn.unbind()
         try:
             conn.simple_bind_s("cn=" + LDAP_ADMIN_NAME + "," + baseDN, LDAP_ADMIN_PASS)
-        except:
+        except as e:
+            print e
             return False
 
         search_filter = "uid="+email

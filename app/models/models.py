@@ -119,7 +119,7 @@ class User(db.Model, UserMixin):
         conn.unbind()
         try:
             conn.simple_bind_s("cn=" + LDAP_ADMIN_NAME + "," + baseDN, LDAP_ADMIN_PASS)
-        except as e:
+        except Exception as e:
             print e
             return False
 

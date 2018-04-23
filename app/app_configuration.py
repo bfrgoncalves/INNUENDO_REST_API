@@ -12,7 +12,8 @@ from flask_security.changeable import change_user_password
 
 from flask_security.utils import do_flash, get_message, get_url
 from flask_security.signals import password_changed
-from config import obo,localNSpace,dcterms, SFTP_HOST
+from config import obo,localNSpace,dcterms, SFTP_HOST, LOGIN_METHOD, \
+    LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, LOGIN_PASSWORD, LOGIN_EMAIL
 from franz.openrdf.vocabulary.rdf import RDF
 
 '''
@@ -128,7 +129,6 @@ def load_user_from_request(request):
 
         try:
             result = User.try_login(username, password)
-            print result
             if result == False:
                 do_flash(*get_message('INVALID_PASSWORD'))
                 return None
@@ -137,15 +137,28 @@ def load_user_from_request(request):
             do_flash(*get_message('INVALID_PASSWORD'))
             return None
 
-        user = User.query.filter_by(username=result['uid'][0]).first()
-        
-        if not user:
-            encrypted_password = utils.encrypt_password(password)
-            if not user_datastore.get_user(result['mail'][0]):
-                user = user_datastore.create_user(email=result['mail'][0], password=encrypted_password, username=result['uid'][0], name=result['cn'][0], gid=result['gidNumber'][0], homedir=result['homeDirectory'][0])
-                db.session.commit()
-        
-        user = User.query.filter_by(username=result['uid'][0]).first()
+        if LOGIN_METHOD != "None":
+
+            user = User.query.filter_by(username=result['uid'][0]).first()
+
+            if not user:
+                encrypted_password = utils.encrypt_password(password)
+                if not user_datastore.get_user(result['mail'][0]):
+                    user = user_datastore.create_user(email=result['mail'][0], password=encrypted_password, username=result['uid'][0], name=result['cn'][0], gid=result['gidNumber'][0], homedir=result['homeDirectory'][0])
+                    db.session.commit()
+
+            user = User.query.filter_by(username=result['uid'][0]).first()
+
+        else:
+            user = User.query.filter_by(username=LOGIN_USERNAME).first()
+            if not user:
+                encrypted_password = utils.encrypt_password(LOGIN_PASSWORD)
+                if not user_datastore.get_user(result['mail'][0]):
+                    user = user_datastore.create_user(email=LOGIN_EMAIL, password=encrypted_password, username=LOGIN_USERNAME, name=LOGIN_USERNAME, gid=LOGIN_GID, homedir=LOGIN_HOMEDIR)
+                    db.session.commit()
+
+                user = User.query.filter_by(username=LOGIN_USERNAME).first()
+
         login_user(user)
         return user
 

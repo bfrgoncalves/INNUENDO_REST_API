@@ -114,26 +114,22 @@ class User(db.Model, UserMixin):
         try:
             conn.simple_bind_s("cn="+email+",ou=users,"+baseDN, password)
         except Exception as e:
-            print "AQUI", e
             return False
 
         #conn.unbind()
 
-        try:
+        '''try:
             conn.simple_bind_s("cn=" + LDAP_ADMIN_NAME + "," + baseDN, LDAP_ADMIN_PASS)
         except Exception as e:
-            print "AQUI1", e
-            return False
+            print e
+            return False'''
 
         search_filter = "uid="+email
         entry = ""
         result = conn.search_s(baseDN, ldap.SCOPE_SUBTREE, search_filter)
-
         for dn, ent in result:
             entry = ent
             break
-
-        print entry
 
         conn.unbind()
         if entry != "":

@@ -153,10 +153,9 @@ def load_user_from_request(request):
 
             if not user:
                 encrypted_password_config = utils.encrypt_password(LOGIN_PASSWORD)
-                encrypted_password = utils.encrypt_password(password)
+                #encrypted_password = utils.encrypt_password(password)
 
-                if username != LOGIN_USERNAME or encrypted_password_config !=\
-                        encrypted_password:
+                if username != LOGIN_USERNAME or LOGIN_PASSWORD != password:
                     #do_flash(*get_message('INVALID_PASSWORD'))
                     return None
 

@@ -127,17 +127,16 @@ def load_user_from_request(request):
         username = request.form.get('email')
         password = request.form.get('password')
 
-        try:
-            result = User.try_login(username, password)
-            if result == False:
+        if LOGIN_METHOD != "None":
+            try:
+                result = User.try_login(username, password)
+                if result == False:
+                    do_flash(*get_message('INVALID_PASSWORD'))
+                    return None
+            except ldap.INVALID_CREDENTIALS, e:
+                print e
                 do_flash(*get_message('INVALID_PASSWORD'))
                 return None
-        except ldap.INVALID_CREDENTIALS, e:
-            print e
-            do_flash(*get_message('INVALID_PASSWORD'))
-            return None
-
-        if LOGIN_METHOD != "None":
 
             user = User.query.filter_by(username=result['uid'][0]).first()
 
@@ -151,10 +150,18 @@ def load_user_from_request(request):
 
         else:
             user = User.query.filter_by(username=LOGIN_USERNAME).first()
+
             if not user:
-                encrypted_password = utils.encrypt_password(LOGIN_PASSWORD)
-                if not user_datastore.get_user(result['mail'][0]):
-                    user = user_datastore.create_user(email=LOGIN_EMAIL, password=encrypted_password, username=LOGIN_USERNAME, name=LOGIN_USERNAME, gid=LOGIN_GID, homedir=LOGIN_HOMEDIR)
+                encrypted_password_config = utils.encrypt_password(LOGIN_PASSWORD)
+                encrypted_password = utils.encrypt_password(password)
+
+                if username != LOGIN_USERNAME or encrypted_password_config !=\
+                        encrypted_password:
+                    do_flash(*get_message('INVALID_PASSWORD'))
+                    return None
+
+                if not user_datastore.get_user(LOGIN_EMAIL):
+                    user = user_datastore.create_user(email=LOGIN_EMAIL, password=encrypted_password_config, username=LOGIN_USERNAME, name=LOGIN_USERNAME, gid=LOGIN_GID, homedir=LOGIN_HOMEDIR)
                     db.session.commit()
 
                 user = User.query.filter_by(username=LOGIN_USERNAME).first()

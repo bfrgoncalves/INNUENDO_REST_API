@@ -157,14 +157,14 @@ def load_user_from_request(request):
 
                 if username != LOGIN_USERNAME or encrypted_password_config !=\
                         encrypted_password:
-                    do_flash(*get_message('INVALID_PASSWORD'))
+                    #do_flash(*get_message('INVALID_PASSWORD'))
                     return None
 
                 if not user_datastore.get_user(LOGIN_EMAIL):
                     user = user_datastore.create_user(email=LOGIN_EMAIL, password=encrypted_password_config, username=LOGIN_USERNAME, name=LOGIN_USERNAME, gid=LOGIN_GID, homedir=LOGIN_HOMEDIR)
                     db.session.commit()
 
-                user = User.query.filter_by(username=LOGIN_USERNAME).first()
+            user = User.query.filter_by(username=LOGIN_USERNAME).first()
 
         login_user(user)
         return user

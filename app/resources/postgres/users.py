@@ -7,6 +7,8 @@ import os
 import ldap
 import subprocess
 import glob
+from config import LOGIN_METHOD, LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, \
+                                LOGIN_PASSWORD, LOGIN_EMAIL
 
 user_fields = {
     'id': fields.Integer,
@@ -132,15 +134,22 @@ class UserExternalLogin(Resource):
         username = args.username
         password = args.password
 
-        try:
-            result = User.try_login(username, password)
-            if not result:
+        if LOGIN_METHOD != "None":
+            try:
+                result = User.try_login(username, password)
+                if not result:
+                    return None
+            except ldap.INVALID_CREDENTIALS, e:
+                print e
                 return None
-        except ldap.INVALID_CREDENTIALS, e:
-            print e
-            return None
 
-        user = User.query.filter_by(username=result['uid'][0]).first()
+            user = User.query.filter_by(username=result['uid'][0]).first()
+
+        else:
+            user = User.query.filter_by(username=LOGIN_USERNAME).first()
+
+            if username != LOGIN_USERNAME or LOGIN_PASSWORD != password:
+                return None
 
         return {"access": True, "user_id": user.id}
 

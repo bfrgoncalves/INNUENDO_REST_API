@@ -162,8 +162,8 @@ def load_user_from_request(request):
                     user = user_datastore.create_user(email=LOGIN_EMAIL, password=encrypted_password_config, username=LOGIN_USERNAME, name=LOGIN_USERNAME, gid=LOGIN_GID, homedir=LOGIN_HOMEDIR)
                     db.session.commit()
 
-                if not os.path.exists(os.path.join(LOGIN_HOMEDIR, "jobs")):
-                    os.makedirs(os.path.join(LOGIN_HOMEDIR, "jobs"))
+            if not os.path.exists(os.path.join(LOGIN_HOMEDIR, "jobs")):
+                os.makedirs(os.path.join(LOGIN_HOMEDIR, "jobs"))
 
             user = User.query.filter_by(username=LOGIN_USERNAME).first()
 

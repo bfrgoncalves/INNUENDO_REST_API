@@ -33,20 +33,20 @@ footer {
 
   .row-offcanvas-left
   #sidebarLeft {
-    left: -100%;
+    left: -50%;
   }
 
   .row-offcanvas-left.active {
-    left: 100%;
+    left: 50%;
   }
  
   .row-offcanvas-right 
   #sidebarRight {
-    right: -100%;
+    right: -50%;
   }
 
   .row-offcanvas-right.active {
-    right: 100%;
+    right: 50%;
   }
 
   .sidebar-offcanvas {

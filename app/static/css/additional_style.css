@@ -343,3 +343,131 @@ table.table td {
 	background: #57a825;
 	text-decoration: none;
 }
+
+/* ===================================
+7. Section: Content
+==================================== */
+
+#content {
+	position:relative;
+	background:#fff;
+	border-top:1px solid #ddd;
+	padding:50px 0 0 0;
+}
+
+/*-- background --*/
+#content {
+	background-image: url(../img/pattern/pat-1.png);
+	background-repeat: repeat;
+}
+
+
+
+#content img {
+	max-width:100%;
+	height:auto;
+}
+
+#content h4 {
+	font-weight:700;
+}
+
+/* --- Call to action --- */
+.cta-box{
+	background:#eceae6;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+     -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.cta-text {
+	padding:20px;
+	margin-top:10px;
+}
+
+.cta-text h2 {
+	font-weight:900;
+	line-height:1.1em;
+}
+
+.cta-btn {
+	float:right;
+	padding:20px;
+	margin-top:10px;
+}
+
+.cta-box .cta-btn a.btn {
+	padding: 15px 20px;
+	font-size:28px;
+	font-weight:900;
+	letter-spacing:-1px;
+	color:#fff;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+}
+
+.cta-box .cta-btn a.btn i {
+	color:#fff;
+	margin-left:20px;
+}
+.cta-box .cta-btn a.btn:hover {
+	color:#fff;
+}
+
+.cta-text h3 {
+	font-size:32px;
+	letter-spacing:-2px;
+}
+
+/* --- box --- */
+.box {
+	width:100%;
+}
+
+.box:hover .text h4 {
+
+}
+
+.box .icon {
+	margin-bottom:20px;
+}
+
+.box a {
+	text-decoration:none;
+	font-weight:700;
+}
+.box a i {
+	color:#4b5056;
+}
+
+
+/* ---- features ---- */
+
+.features {
+	width:100%;
+	overflow:hidden;
+	margin:20px 0 0 0;
+
+}
+
+.features .feat {
+	width:50%;
+	float:left;
+	display:inline-block;
+	margin-bottom:20px;
+
+}
+
+.features i {
+	float:left;
+	margin-right:20px;
+}
+
+
+.features h5 {
+	font-weight:600;
+}

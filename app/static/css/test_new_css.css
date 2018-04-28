@@ -94,9 +94,9 @@ html { height: 100%;}
 }
 .sidebar-nav li:first-child a {
     color: #fff;
-    background-color: #1a1a1a;
+    background-color: #79aefe;
 }
-/*
+
 .sidebar-nav li:nth-child(2):before {
     background-color: #79aefe;
 }
@@ -121,7 +121,8 @@ html { height: 100%;}
 .sidebar-nav li:nth-child(9):before {
     background-color: #79aefe;
 }
-*/
+
+/*
 .sidebar-nav li:hover:before,
 .sidebar-nav li.open:hover:before {
     width: 100%;
@@ -131,7 +132,7 @@ html { height: 100%;}
             transition: width .2s ease-in;
 
 }
-
+*/
 .sidebar-nav li a {
     display: block;
     color: #ddd;

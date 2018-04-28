@@ -33,26 +33,26 @@ footer {
 
   .row-offcanvas-left
   #sidebarLeft {
-    left: -70%;
+    left: -50%;
   }
 
   .row-offcanvas-left.active {
-    left: 70%;
+    left: 50%;
   }
  
   .row-offcanvas-right 
   #sidebarRight {
-    right: -70%;
+    right: -50%;
   }
 
   .row-offcanvas-right.active {
-    right: 70%;
+    right: 50%;
   }
 
   .sidebar-offcanvas {
     position: absolute;
     top: 0;
-    width: 70%;
+    width: 50%;
   }
   #offcanvasleft,#offcanvasright{margin-top:10px; margin-left:10px; background-color:white;}
   #navbarlogbutton {margin-top:10px; float:right; margin-right:10px; background-color:white;}

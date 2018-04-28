@@ -26,10 +26,10 @@ html { height: 100%;}
 
 #sidebar-wrapper {
     z-index: 1000;
-    left: 250px;
+    left: 220px;
     width: 0;
     height: 100%;
-    margin-left: -250px;
+    margin-left: -220px;
     overflow-y: auto;
     overflow-x: hidden;
     background: #1a1a1a;
@@ -64,7 +64,7 @@ html { height: 100%;}
 .sidebar-nav {
     position: absolute;
     top: 0;
-    width: 250px;
+    width: 30%;
     margin: 0;
     padding: 0;
     list-style: none;

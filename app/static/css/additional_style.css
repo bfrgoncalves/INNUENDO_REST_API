@@ -266,3 +266,80 @@ table.table td {
 .no_files_row {
     color: red;
 }
+
+/*===========================
+6. Intro
+=========================== */
+
+#intro {
+  width: 100%;
+  height: 60vh;
+  position: relative;
+	background: url(../img/intro-background.jpg) top center;
+  background-size: cover;
+}
+
+@media (min-width: 1024px) {
+	#intro {
+		background-attachment: fixed;
+	}
+}
+
+.intro-content {
+	background: rgba(0, 0, 0, 0.65);
+  position: absolute;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+	padding: 0 15px;
+}
+
+.intro-content  h2 {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.intro-content  h3 {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 26px;
+  font-weight: 500;
+}
+
+@media (max-width: 767px) {
+	#intro {
+		height: 100vh;
+	}
+	.intro-content  h2 {
+		font-size: 34px;
+	}
+}
+
+.btn-get-started {
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 10px 32px;
+  border-radius: 2px;
+  transition: 0.5s;
+  margin: 10px;
+  color: #fff;
+	background: #84c75b;
+}
+
+.btn-get-started:hover {
+	color: #fff;
+	background: #57a825;
+	text-decoration: none;
+}

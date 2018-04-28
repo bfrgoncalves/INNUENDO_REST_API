@@ -1,6 +1,6 @@
 {% extends "base.html" %} <!--extends the base html-->
 {% block stylesheets %} <!--modifies the stylesheets block-->
-
+	<link href="{{ url_for('static', filename='css/dashboard.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block content %} <!--modifies the content block-->

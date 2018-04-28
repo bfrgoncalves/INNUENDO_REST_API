@@ -15,19 +15,29 @@
                   </a>
                 </li>
                 {% if show_protocols %}
-                <li id="protocols_button_li" class="nav-item" data-toggle="tooltip"
-                    data-placement="right" title="Protocols">
-                  <a class="nav-link" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;"">
-                    <i class="fa fa-fw fa-area-chart"></i>
-                    <span class="nav-link-text">Protocols</span>
+                <li class="nav-item" data-toggle="tooltip" data-placement="right"
+                    title="Tools">
+                  <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiAdmin">
+                    <i class="fa fa-fw fa-sitemap"></i>
+                    <span class="nav-link-text">Admin Tools</span>
                   </a>
-                </li>
-                <li id="workflows_button_li" class="nav-item" data-toggle="tooltip"
-                    data-placement="right" title="Tables">
-                  <a class="nav-link" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">
-                    <i class="fa fa-fw fa-table"></i>
-                    <span class="nav-link-text">Workflows</span>
-                  </a>
+                  <ul class="sidenav-second-level collapse"
+                      id="collapseMultiAdmin">
+                    <li id="protocols_button_li" class="nav-item" data-toggle="tooltip"
+                        data-placement="right" title="Protocols">
+                      <a class="nav-link" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;"">
+                        <i class="fa fa-fw fa-area-chart"></i>
+                        <span class="nav-link-text">Protocols</span>
+                      </a>
+                    </li>
+                    <li id="workflows_button_li" class="nav-item" data-toggle="tooltip"
+                        data-placement="right" title="Tables">
+                      <a class="nav-link" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">
+                        <i class="fa fa-fw fa-table"></i>
+                        <span class="nav-link-text">Workflows</span>
+                      </a>
+                    </li>
+                  </ul>
                 </li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
@@ -57,9 +67,9 @@
 
                 <li class="nav-item" data-toggle="tooltip" data-placement="right"
                     title="Tools">
-                  <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
+                  <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti">
                     <i class="fa fa-fw fa-sitemap"></i>
-                    <span class="nav-link-text">Tools</span>
+                    <span class="nav-link-text">User Tools</span>
                   </a>
                   <ul class="sidenav-second-level collapse" id="collapseMulti">
                     <li id="modify_strains_button_li">

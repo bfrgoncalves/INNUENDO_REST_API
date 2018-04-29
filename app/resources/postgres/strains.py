@@ -510,3 +510,53 @@ class DeleteReadsFromStrain(Resource):
                 print file2_path
 
         return 204
+
+
+class SpeciesStatistics(Resource):
+    """
+    Class of resource to get global statistics regarding a defining species.
+    Get info on number of strains, number of projects and number of profiles.
+    """
+
+    def get(self):
+
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+
+
+        # Get strain count
+        strains_1_count = db.session.query(Strain).filter(
+            Strain.species_id == "1").count()
+        strains_2_count = db.session.query(Strain).filter(
+            Strain.species_id == "2").count()
+        strains_3_count = db.session.query(Strain).filter(
+            Strain.species_id == "3").count()
+        strains_4_count = db.session.query(Strain).filter(
+            Strain.species_id == "4").count()
+
+        # Get project count
+        projects_1_count = db.session.query(Project).filter(
+            Project.species_id == "1").count()
+        projects_2_count = db.session.query(Project).filter(
+            Project.species_id == "2").count()
+        projects_3_count = db.session.query(Project).filter(
+            Project.species_id == "3").count()
+        projects_4_count = db.session.query(Project).filter(
+            Project.species_id == "4").count()
+
+        # Get profile count
+        profile_1_count = db.session.query(Campylobacter).count()
+        profile_2_count = db.session.query(Yersinia).count()
+        profile_3_count = db.session.query(Ecoli).count()
+        profile_4_count = db.session.query(Salmonella).count()
+
+        # Build object
+        species_object = {
+            "E.coli": [strains_3_count, projects_3_count, profile_3_count],
+            "Campylobacter": [strains_1_count, projects_1_count,
+                              profile_1_count],
+            "Yersinia": [strains_2_count, projects_2_count, profile_2_count],
+            "Salmonella": [strains_4_count, projects_4_count, profile_4_count]
+        }
+
+        return species_object

@@ -161,7 +161,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     $scope.species = [];
     $scope.currentSpecieID = CURRENT_SPECIES_ID;
-    $scope.species_in_use = CURRENT_SPECIES_NAME;
+    $scope.species_in_use = SPECIES_CORRESPONDENCE[CURRENT_SPECIES_NAME];
 
     $("#current_species_nav").text(CURRENT_SPECIES_NAME);
 

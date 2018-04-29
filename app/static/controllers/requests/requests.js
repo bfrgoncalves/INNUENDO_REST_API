@@ -31,6 +31,19 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		get_statistics: (callback) => {
+			const req = {
+		        url:'api/v1.0/strains/statistics/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
 		check_download_accession_status: (file_name, accession_numbers, callback) => {
 
 			const req = {

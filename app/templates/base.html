@@ -10,6 +10,10 @@
 	<title>Welcome to INNUENDO Platform</title>
 	{% endif %}
 
+    <!-- Theme skin -->
+    <link id="t-colors" href="{{ url_for('static', filename='css/default.css') }}" rel="stylesheet" />
+
+
     <link href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap-select/dist/css/bootstrap-select.css') }}">
     <link href="{{ url_for('static', filename='bower_components/bootstrap-fileinput/css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
@@ -21,12 +25,17 @@
     <link href="{{ url_for('static', filename='bower_components/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.css') }}" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/datatables.net-buttons-bs/css/buttons.bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+    <link href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/screen_style.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/additional_style.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/test_new_css.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/navbar_style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/components-font-awesome/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+    <link href="{{ url_for('static', filename='css/main_style.css') }}"
+          rel="stylesheet">
     {% block stylesheets %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
 </head>
@@ -70,6 +79,10 @@
 
     <script src="{{ url_for('static', filename='bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
     <script src="{{ url_for('static', filename='controllers/main_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/utils.js') }}"></script>

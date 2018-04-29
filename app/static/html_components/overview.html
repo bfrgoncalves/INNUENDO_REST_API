@@ -1,22 +1,56 @@
 <div ng-controller="overviewCtrl" ng-init="showSpeciesDrop()" >
 
+    <div id="wrapper">
+
     <!-- section intro -->
     <section id="intro">
       <div class="intro-content">
         <h2>INNUENDO Platform</h2>
-        <h3>A novel cross-sectorial platform for the integration of genomics in surveillance of foodborne pathogens</h3>
-        <hr class="rule1">
-        <div>
-          <a href="#content" class="btn-get-started scrollto">Get Started</a>
+        <h3>
+            <u>A novel cross-sectorial platform for the integration of
+                genomics
+            in surveillance of foodborne pathogens</u>
+        </h3>
+
+        <div id="getstartedbutton">
+          <a href="#getstarted" class="btn-get-started scrollto">Get Started</a>
         </div>
       </div>
     </section>
     <!-- /section intro -->
 
+    <section id="why">
+      <div class="container">
+        <div class="row">
+            <h2>Why?</h2>
+
+            <div class="row">
+
+              <div class="span12">
+                <h4>
+                  Multinational outbreaks of foodborne pathogens cause
+                    considerable threats to European public health.
+                    Implementing whole genome sequencing (WGS) in routine
+                    surveillance and outbreak investigations  is becoming a
+                    strategic goal for many public health  authorities all
+                    over the world. With this in mind we developed the
+                    initiative INNUENDO, which aims to deliver a
+                    cross-sectorial framework for the integration of bacterial WGS in
+                    routine surveillance and epidemiologic investigations.</h4>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <section id="content">
       <div class="container">
-
-
+        <div class="row">
+            <h2>How?</h2>
+        </div>
         <div class="row">
           <div class="span12">
             <div class="row">
@@ -24,12 +58,12 @@
                 <div class="box aligncenter">
                   <div class="icon">
                     <span class="badge badge-info badge-circled">1</span>
-                    <i class="ico icon-dropbox icon-5x"></i>
+                    <i class="ico icon-check icon-5x"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>Out of the box</strong></h4>
+                    <h4><strong>Choose a Species</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am anumat lib persum sea facilisis.
+                      Choose between one of the available species to work on.
                     </p>
                     <a href="#">Learn More</a>
                   </div>
@@ -40,12 +74,13 @@
                 <div class="box aligncenter">
                   <div class="icon">
                     <span class="badge badge-success badge-circled">2</span>
-                    <i class="ico icon-bitbucket icon-5x"></i>
+                    <i class="ico icon-table icon-5x"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>New taste</strong></h4>
+                    <h4><strong>Build a Project</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am sea facilisis.
+                      Build a Project to aggregate strains from a specific
+                        event.
                     </p>
                     <a href="#">Learn More</a>
                   </div>
@@ -55,12 +90,13 @@
                 <div class="box aligncenter">
                   <div class="icon">
                     <span class="badge badge-warning badge-circled">3</span>
-                    <i class="ico icon-rocket icon-5x"></i>
+                    <i class="ico icon-double-angle-right icon-5x"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>Faster load</strong></h4>
+                    <h4><strong>Run Procedures</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am sea facilisis.
+                      Choose from the strain specific procedures available
+                        and apply them to your strains.
                     </p>
                     <a href="#">Learn More</a>
                   </div>
@@ -70,12 +106,13 @@
                 <div class="box aligncenter">
                   <div class="icon">
                     <span class="badge badge-important badge-circled">4</span>
-                    <i class="ico icon-cut icon-5x"></i>
+                    <i class="ico icon-desktop icon-5x"></i>
                   </div>
                   <div class="text">
-                    <h4><strong>Cut your times</strong></h4>
+                    <h4><strong>Visualize Results</strong></h4>
                     <p>
-                      Lorem ipsum dolor sit amet, has ei ipsum scaevola deseruisse am sea facilisis.
+                      Visualize the results in an interactive reports
+                        application.
                     </p>
                     <a href="#">Learn More</a>
                   </div>
@@ -85,42 +122,121 @@
           </div>
         </div>
 
-
-        <div class="row">
-          <div class="span12">
-            <div class="cta-box">
-              <div class="row">
-                <div class="span8">
-                  <div class="cta-text">
-                    <h2>Special price in very <span>limited</span> times</h2>
-                  </div>
-                </div>
-                <div class="span4">
-                  <div class="cta-btn">
-                    <a href="#" class="btn btn-color">Call Action <i class="icon-caret-right"></i></a>
-                  </div>
-                </div>
-
-              </div>
-
-
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
 
-    <section id="offer">
+    <section id="getstarted">
       <div class="container">
         <div class="row">
           <div class="span12">
             <div class="row">
               <div class="span12">
                 <div class="aligncenter">
-                  <h3>Our features and pricing</h3>
+                  <h2>Get Started</h2>
+                  <h4>Select a Species</h4>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="span3">
+                <div id="box1" class="pricing-box-plain">
+                  <div class="heading">
+                    <h4>{{ species_correspondence["E.coli"] }}</h4>
+                  </div>
+                  <div class="desc">
+                    <ul>
+                      <li>{{ global_statistics["E.coli"][0] }} strains</li>
+                      <li>{{ global_statistics["E.coli"][1] }} projects</li>
+                      <li>{{ global_statistics["E.coli"][2] }} wgMLST profiles</li>
+                    </ul>
+                  </div>
+                  <div class="action">
+                    <a href="#" class="btn btn-lg btn-default"
+                       ng-click="load_species($event)" sname="E.coli"
+                       sid="3">View Projects</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="span3">
+                <div id="box2" class="pricing-box-plain">
+                  <div class="heading">
+                    <h4>{{ species_correspondence["Yersinia"] }}</h4>
+                  </div>
+                  <div class="desc">
+                    <ul>
+                      <li>{{ global_statistics["Yersinia"][0] }} strains</li>
+                      <li>{{ global_statistics["Yersinia"][1] }} projects</li>
+                      <li>{{ global_statistics["Yersinia"][2] }} wgMLST profiles</li>
+                    </ul>
+                  </div>
+                  <div class="action">
+                    <a href="#" class="btn btn-lg btn-default"
+                       ng-click="load_species($event)" sname="Yersinia"
+                       sid="2">View Projects</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="span3">
+                <div id="box3" class="pricing-box-plain">
+                  <div class="heading">
+                    <h4>{{ species_correspondence["Salmonella"] }}</h4>
+                  </div>
+                  <div class="desc">
+                    <ul>
+                      <li>{{ global_statistics["Salmonella"][0] }} strains</li>
+                      <li>{{ global_statistics["Salmonella"][1] }} projects</li>
+                      <li>{{ global_statistics["Salmonella"][2] }} wgMLST profiles</li>
+                    </ul>
+                  </div>
+                  <div class="action">
+                        <a href="#" class="btn btn-lg btn-default"
+                           ng-click="load_species($event)" sname="Salmonella"
+                           sid="4">View Projects</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="span3">
+                <div id="box4" class="pricing-box-plain">
+                  <div class="heading">
+                    <h4>{{ species_correspondence["Campylobacter"] }}</h4>
+                  </div>
+                  <div class="desc">
+                    <ul>
+                      <li>{{ global_statistics["Campylobacter"][0] }} strains</li>
+                      <li>{{ global_statistics["Campylobacter"][1] }} projects</li>
+                      <li>{{ global_statistics["Campylobacter"][2] }} wgMLST profiles</li>
+                    </ul>
+                  </div>
+                  <div class="action">
+                    <a href="#" class="btn btn-lg btn-default"
+                       ng-click="load_species($event)" sname="Compylobacter"
+                       sid="1">View Projects</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="disclaimer">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div class="row">
+              <div class="span12">
+                <div class="aligncenter">
+                  <h3>Disclaimer</h3>
                   <blockquote>
-                    Lorem ipsum dolor sit amet, labores dolorum scriptorem eum an, te quodsi sanctus neglegentur eam, et lorem persecuti conclusionemque mei.
+                    The conclusions, findings, and opinions expressed in this website reflect only the view of the INNUENDO consortium members and not the official position of the European Food Safety Authority nor of the Government of the Basque Country that are not responsible for any use that may be made of the information they contain.
                   </blockquote>
                 </div>
               </div>
@@ -128,71 +244,14 @@
 
             <div class="row">
 
-              <div class="span3">
-                <h5>Choose package and start grow</h5>
-                <p>
-                  Per an putent audiam adolescens, mel ceteros fierent democritum te. No ubique malorum euismod usu.
-                </p>
-                <p>
-                  Movet facilis democritum ea quo. Est ei illum consulatu accommodare, nam dicta expetenda suavitate ad.
-                </p>
-              </div>
-
-              <div class="span3">
-                <div class="pricing-box-plain">
-                  <div class="heading">
-                    <h4>Standard</h4>
-                    <span>$9 / Month</span>
-                  </div>
-                  <div class="desc">
-                    <ul>
-                      <li>For 1 Application</li>
-                      <li>Free one year support</li>
-                      <li>Unlimited disk spaces</li>
-                    </ul>
-                  </div>
-                  <div class="action">
-                    <a href="#" class="btn btn-inverse">Sign Up</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="span3">
-                <div class="pricing-box-plain">
-                  <div class="heading">
-                    <h4>Medium</h4>
-                    <span>$29 / Month</span>
-                  </div>
-                  <div class="desc">
-                    <ul>
-                      <li>For 10 Applications</li>
-                      <li>Free life time support</li>
-                      <li>Unlimited disk spaces</li>
-                    </ul>
-                  </div>
-                  <div class="action">
-                    <a href="#" class="btn btn-inverse">Sign Up</a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="span3">
-                <div class="pricing-box-plain">
-                  <div class="heading">
-                    <h4>Elite</h4>
-                    <span>$59 / Month</span>
-                  </div>
-                  <div class="desc">
-                    <ul>
-                      <li>For unlimited appliacations</li>
-                      <li>Free life time support</li>
-                      <li>Unlimited disk spaces</li>
-                    </ul>
-                  </div>
-                  <div class="action">
-                    <a href="#" class="btn btn-color">Sign Up</a>
-                  </div>
-                </div>
+              <div class="span12" style="text-align:center;">
+                <h5>
+                  The research from INNUENDO project has received funding
+                    from <b>European Food Safety Authority (EFSA)</b>, grant
+                    agreement GP/EFSA/AFSCO/2015/01/CT2 (New approaches in
+                    identifying and characterizing microbial and chemical
+                    hazards) and from the <b>Government of the Basque Country</b>.
+                </h5>
               </div>
             </div>
 
@@ -202,37 +261,10 @@
       </div>
     </section>
 
-    <div class="row">
-      <div>
-          <div class="container">
-              <div class="row" style="text-align: center;">
-                    <img  id="main_image" src="static/img/customLogo.jpeg">
-                </div>
-                <div class="row" style="text-align:center;">
-                    <h3>A novel cross-sectorial platform for the integration of genomics in surveillance of foodborne pathogens</h3>
-                </div>
-                <hr class="rule1">
-          </div>
-      </div>
-    </div>
-
-
     <div class="sub_container">
-    	<div class="row" id="load_species_row">
-    		<div style="margin-left:30%;margin-right:30%;margin-top:5%;text-align:center;">
-    			<h4>Please select a Species</h4>
-    			<select name="species_select_drop" data-width="100%" class="selectpicker" data-live-search="true" id="species_select_drop"></select>
-    			<button ng-click="load_species()" class="btn btn-md btn-primary" style="margin-top:10px;">Load Projects</button>
-    		</div>
-    	</div>
-        <div class="row" id="disclaimer_div" style="margin-left:10%;margin-right:10%;margin-top:5%;text-align:center;">
-            <label for="disclaimer_text">Disclaimer</label>
-            <p id="disclaimer_text">
-                The conclusions, findings, and opinions expressed in this website reflect only the view of the INNUENDO consortium members and not the official position of the European Food Safety Authority nor of the Government of the Basque Country that are not responsible for any use that may be made of the information they contain.
-            </p>
-        </div>
         <div class="row" id="colaborators_div" style="margin-left:20%;margin-right:20%;margin-top:5%;text-align:center;">
             <img src="static/img/colaborators.png" style="display: block; margin: 0 auto;" >
         </div>
+    </div>
     </div>
 </div>

@@ -63,9 +63,10 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $("#reports_button_li").css({"display":"block"});
     $("#uploads_button_li").css({"display":"block"});
     $("#tools_button_li").css({"display":"block"});
+    $("#user_tools").css({"display":"block"});
     $("#species_drop_button_li").css({"display":"block"});
-    $("#protocols_button_li").css({"display":"none"});
-    $("#workflows_button_li").css({"display":"none"});
+    //$("#protocols_button_li").css({"display":"none"});
+    //$("#workflows_button_li").css({"display":"none"});
     $("#overview_li").css({"display":"none"});
 
     //Reset application to overview page. Allows to select a diferent species

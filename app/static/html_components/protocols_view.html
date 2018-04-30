@@ -2,7 +2,7 @@
   <div ng-include src="'static/html_components/modals/new_protocol_modal.html'"></div>
   <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
   
-  <div class="row">
+  <div class="row nomargin">
 	  <div class="jumbotron jumbotron-fluid">
 	      <div class="container">
 	          <h1 class="home-header">Protocols</h1>
@@ -20,16 +20,23 @@
 		<select class="selectpicker form-control" data-live-search="true" id="protocol_type_selector" width="100%">
 			<!--<option ng-repeat="type in protocol_types">{{type}}</option>-->
 		</select>
-		<div style="padding: 20px 20px 20px 20px;">
+
 	    	<form id="new_protocol_form" style="display:none;">
-	    		<div ng-repeat="(key,type) in protocol_type" class="form-group row">
-	    			<label class="col-sm-3 col-form-label">{{key}}</label>
-	    			<div class="col-sm-9">
-		    			<select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control to_empty" data-live-search="true" style="width:50%;">
-		    				<!--<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>-->
-		    			</select>
-		    			<button name="protocol_{{key}}" class="btn btn-md btn-primary" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
-		    			<button name="protocol_{{key}}" class="btn btn-md btn-danger" ng-if="type[0] == 'button'" ng-click="removeSelectedParameter()">Remove Parameter</button>
+	    		<div ng-repeat="(key,type) in protocol_type"
+                     class="form-group" style="margin-top: 5px;">
+	    			<label>{{key}}</label>
+                        <select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control" data-live-search="true" style="width:50%;">
+                            <!--<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>-->
+                        </select>
+                        <div style="width:100%; text-align: center;margin-top: 5px;">
+                            <button name="protocol_{{key}}" class="btn btn-sm
+                            btn-primary" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
+
+                            <button name="protocol_{{key}}" class="btn btn-sm
+                            btn-danger" ng-if="type[0] == 'button'" ng-click="removeSelectedParameter()">Remove Parameter</button>
+                        </div>
+
+
 		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'text'">
 		    			<input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'required'">
 		    			<textarea name="protocol_{{key}}" class="form-control to_empty" ng-if="type[0] == 'textarea'"></textarea>
@@ -44,14 +51,13 @@
 					<div class="col-sm-9" ng-if="key == 'used Software'">
 						<input name="protocol_{{key}}version" type="text" class="form-control to_empty" style="width:100%;" ng-if="key == 'used Software'">
 					</div>
-	    		</div>
 	    		<div class="form-group">
 	    			<div style="text-align:center;display:none;" id="create_protocol_button">
 				        <button type="submit" ng-click="addProtocol()" class="btn btn-default">Create protocol</button>
 				    </div>
 				</div>
 	    	</form>
-	    </div>
+
 	  	</div>
    	</div>
   </div>

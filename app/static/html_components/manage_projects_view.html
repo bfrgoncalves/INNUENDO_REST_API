@@ -1,7 +1,7 @@
 
 <div ng-controller="projectCtrl" ng-init="showProject()" style="display:none;" id="single_project_controller_div">
 
-  <div class="row">
+  <div class="row nomargin">
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="home-header">{{ project.name }}</h1>
@@ -102,7 +102,7 @@
           <!--<div id="jumbotron-strains">-->
           <h3 class="sub-header">Strains<button id="button_run_strain" type="button" class="btn btn-sm btn-primary" ng-click="runPipelines()" value="" style="float:right;"><i class="fa fa-sign-in" data-toggle="tooltip" data-placement="top" title="Run jobs"></i></button><button id="button_remove_strain" type="button" class="btn btn-sm btn-danger" ng-click="removeStrainsFromProject()" value="" style="float:right;"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Delete strain from project"></i></button><button id="button_add_strain" class="btn btn-sm btn-default" style="float:right;" data-toggle="modal" data-target="#newStrainModal"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add strain to project"></i></button>
           <button id="button_refresh_status" class="btn btn-sm btn-success" style="float:right;" ng-click="refreshStatus()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-          <button id="button_remove_all_workflows" class="btn btn-sm btn-danger" style="float:right;display:none;" ng-click="removeAllWorkflows()"><i class="fa" aria-hidden="true">Remove all Workflows</i></button>
+          <button id="button_remove_all_workflows" class="btn btn-sm btn-warning" style="float:right;display:none;" ng-click="removeAllWorkflows()"><i class="fa fa-times" aria-hidden="true"></i></button>
           </h3>
             <label>*Strains without available Fastq files are marked in <label
                     style="color:red;">Red</label></label>

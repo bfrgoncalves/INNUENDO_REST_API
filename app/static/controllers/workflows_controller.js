@@ -36,6 +36,16 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
         });
     });
 
+    $("#projects_button_li").css({"display":"none"});
+    $("#reports_button_li").css({"display":"none"});
+    $("#uploads_button_li").css({"display":"none"});
+    $("#tools_button_li").css({"display":"none"});
+    $("#user_tools").css({"display":"none"});
+    $("#workflows_button_li").css({"display":"block"});
+    $("#protocols_button_li").css({"display":"block"});
+    $("#species_drop_button_li").css({"display":"none"});
+    $("#overview_li").css({"display":"block"});
+
     //RESET ROW SELECTION
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
@@ -249,6 +259,8 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             }
             else $scope.added_protocols = results.added_protocols;
 
+            $("#prot_default").css({display: "none"});
+
             setTimeout( () => {
                 $(".current_workflow_close").on("click", (e) => {
                     $scope.removeFromPipeline($(e.target).closest("li").attr("protocol_name"))
@@ -263,6 +275,10 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             $scope.$apply( () => {
                 $scope.added_protocols = results.added_protocols;
             });
+            
+            if (Object.keys(results.added_protocols).length === 0) {
+                $("#prot_default").css({display: "block"});
+            }
             modalAlert("The protocol was removed from the workflow.", "Protocol Removed", () => {
             });
         });

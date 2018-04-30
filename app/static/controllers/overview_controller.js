@@ -63,6 +63,7 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
         $("#reports_button_li").css({"display":"none"});
         $("#uploads_button_li").css({"display":"none"});
         $("#tools_button_li").css({"display":"none"});
+        $("#user_tools").css({"display":"none"});
         $("#workflows_button_li").css({"display":"block"});
         $("#protocols_button_li").css({"display":"block"});
         $("#species_drop_button_li").css({"display":"none"});

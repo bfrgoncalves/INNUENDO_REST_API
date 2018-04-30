@@ -57,7 +57,6 @@ security = Security(app, user_datastore)
 # initialize mailer
 mail = Mail(app)
 
-
 # setup agraph
 server = AllegroGraphServer(AG_HOST, AG_PORT, AG_USER, AG_PASSWORD)
 catalog = server.openCatalog()

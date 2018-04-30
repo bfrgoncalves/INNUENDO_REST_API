@@ -15,7 +15,7 @@
                   </a>
                 </li>
                 {% if show_protocols %}
-                <li class="nav-item drop" data-toggle="tooltip"
+                <li id="admin_tools" class="nav-item drop" data-toggle="tooltip"
                     data-placement="right"
                     title="Tools">
                   <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiAdmin">
@@ -54,19 +54,12 @@
                     data-placement="right" title="Reports">
                   <a  id="reports_button" class="nav-link" href=""
                       ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">
-                    <i class="fa fa-fw fa-table"></i>
+                    <i class="fa fa-fw fa-chart"></i>
                     <span class="nav-link-text">Reports</span>
                   </a>
                 </li>
-                <li id="species_drop_button_li" class="nav-item" data-toggle="tooltip"
-                    data-placement="right" title="Reports">
-                  <a  id="reset_strain" class="nav-link" href="#">
-                    <i class="fa fa-fw fa-table"></i>
-                    <span class="nav-link-text">Change Species</span>
-                  </a>
-                </li>
 
-                <li class="nav-item drop" data-toggle="tooltip"
+                <li id="user_tools" class="nav-item drop" data-toggle="tooltip"
                     data-placement="right"
                     title="Tools">
                   <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti">
@@ -80,7 +73,26 @@
                     </li>
                   </ul>
                 </li>
+
+                <li id="species_drop_button_li" class="nav-item" data-toggle="tooltip"
+                    data-placement="right" title="Reports">
+                  <a  id="reset_strain" class="nav-link" href="#">
+                    <i class="fa fa-fw fa-table"></i>
+                    <span class="nav-link-text">Change Species</span>
+                  </a>
+                </li>
                 {% endif %}
+                <li id="messages_button_li" class="nav-item"
+                    data-toggle="tooltip"
+                    data-placement="right" title="Messages">
+                  <a  id="messages_button" class="nav-link" href=""
+                      ng-click="selectedTemplate.path = &#39;{{ url_for
+                      ('static', filename='html_components/messages_view.html')
+                              }}&#39;">
+                    <i class="fa fa-fw fa-comments"></i>
+                    <span class="nav-link-text">Messages</span>
+                  </a>
+                </li>
             </ul>
 
         </nav>

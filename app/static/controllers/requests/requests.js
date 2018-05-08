@@ -44,6 +44,98 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		get_messages: (numberofmessages, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'GET',
+				params: {
+		        	numberofmessages: numberofmessages
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		send_messages: (data, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'POST',
+				data: data
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		delete_messages: (messageid, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'DELETE',
+				params: {
+		        	messageid: messageid
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		mark_as_read: (messageid, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'PUT',
+				params: {
+		        	messageid: messageid,
+					status: "read"
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		get_templates: (callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/templates/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		get_users: (callback) => {
+
+			const req = {
+		        url:'api/v1.0/users/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+
+		},
+
+
 		check_download_accession_status: (file_name, accession_numbers, callback) => {
 
 			const req = {

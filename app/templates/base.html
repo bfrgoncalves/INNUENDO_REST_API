@@ -36,6 +36,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
     <link href="{{ url_for('static', filename='css/main_style.css') }}"
           rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-notifications.css') }}"
+          rel="stylesheet">
     {% block stylesheets %}{% endblock %} <!--Block that can be placed at this position and reused-->
 
 </head>
@@ -105,6 +107,7 @@
     <script src="{{ url_for('static', filename='controllers/protocols_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/workflows_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/reports_controller.js') }}"></script>
+    <script src="{{ url_for('static', filename='controllers/messages_controller.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/menu.js') }}"></script>
     <script src="{{ url_for('static', filename='controllers/iframe_functions.js') }}"></script>
     <script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>

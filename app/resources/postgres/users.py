@@ -13,6 +13,7 @@ from config import LOGIN_METHOD, LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, \
 user_fields = {
     'id': fields.Integer,
     'email': fields.String,
+    'username': fields.String,
     'projects': fields.Url('user_projects', absolute=True),
     'analysis_parameters_object': fields.String
 }

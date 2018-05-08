@@ -98,8 +98,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             protocolSelEl.append(options);
             protocolSelLoadEl.append(options);
 
-            //$(".selectpicker").selectpicker({});
-
             protocolSelEl.on("change", () => {
                 $scope.loadProtocolCreator($("#protocol_type_selector option:selected").text());
             });
@@ -123,9 +121,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
         $("#new_protocol_form").css({"display":"none"});
 
-        //const selectSoftEl = $('#select_software');
-        //const nextflowTagEl = $('#nextflow_tag');
-
         protocols_list.load_protocol_form(selectedType, (results) => {
             $(".to_empty").val("");
             $('.to_empty option').remove();
@@ -144,8 +139,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     for(const y in nextflow_tags){
                         options_nextflow += "<option>"+nextflow_tags[y]+"</option>";
                     }
-
-                    console.log(options, options_nextflow);
 
                     const selectPickerEl = $(".selectpicker");
 

@@ -16,6 +16,7 @@ Postgres pipeline resources:
 pipeline_post_parser = reqparse.RequestParser()
 pipeline_post_parser.add_argument('strain_id', dest='strain_id', type=str,
                                   required=True, help="Strain id")
+
 pipeline_post_parser.add_argument('parent_pipeline_id',
                                   dest='parent_pipeline_id', type=str,
                                   required=False, help="Parent Pipeline id")
@@ -118,6 +119,7 @@ class PipelineListResource(Resource):
         """
 
         args = pipeline_get_parser.parse_args()
+
         if args.strain_id_all:
             pipelines = db.session.query(Pipeline)\
                 .filter(Pipeline.strain_id == args.strain_id_all).all()

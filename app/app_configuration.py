@@ -1,24 +1,24 @@
+
+import os
+import ldap
+
 from flask_security import Security, SQLAlchemyUserDatastore, login_required,\
     current_user, utils, roles_required, user_registered, login_user, utils
-from flask_security.views import _security, _ctx, _render_json, _commit
-from app import app, db, user_datastore, security, dbconAg, dedicateddbconAg, security
+from app import app, db, user_datastore, dbconAg,\
+    security
 from app.models.models import Specie, User
-import os
-import requests
-import ldap
 from flask import request, after_this_request, redirect, current_app
-from werkzeug.datastructures import MultiDict
-from flask_security.changeable import change_user_password
-
 from flask_security.utils import do_flash, get_message, get_url
 from flask_security.signals import password_changed
 from config import obo,localNSpace,dcterms, SFTP_HOST, LOGIN_METHOD, \
-    LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, LOGIN_PASSWORD, LOGIN_EMAIL
+    LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, LOGIN_PASSWORD, LOGIN_EMAIL, \
+    ALL_SPECIES
 from franz.openrdf.vocabulary.rdf import RDF
 
 '''
 App configuration:
-    - Set of functions to be applied before the first app request and an handle override for the flask-login post function
+    - Set of functions to be applied before the first app request and an 
+    handle  override for the flask-login post function
 '''
 
 
@@ -30,43 +30,41 @@ def before_first_request():
     db.create_all()
 
     # Create the Roles "admin" and "end-user" -- unless they already exist
-    user_datastore.find_or_create_role(name='admin', description='Administrator')
+    user_datastore.find_or_create_role(name='admin',
+                                       description='Administrator')
     user_datastore.find_or_create_role(name='end-user', description='End user')
 
     # Create two Users for testing purposes -- unless they already exists.
     # In each case, use Flask-Security utility function to encrypt the password.
     encrypted_password = utils.encrypt_password(app.config['ADMIN_PASS'])
     if not user_datastore.get_user(app.config['ADMIN_EMAIL']):
-        user_datastore.create_user(email=app.config['ADMIN_EMAIL'], password=encrypted_password, username=app.config['ADMIN_USERNAME'], name=app.config['ADMIN_NAME'])
+        user_datastore.create_user(email=app.config['ADMIN_EMAIL'],
+                                   password=encrypted_password,
+                                   username=app.config['ADMIN_USERNAME'],
+                                   name=app.config['ADMIN_NAME'])
 
-    # Commit any database changes; the User and Roles must exist before we can add a Role to the User
-    specie1 = Specie(name="Campylobacter")
-    specie2 = Specie(name="Yersinia")
-    specie3 = Specie(name="E.coli")
-    specie4 = Specie(name="Salmonella")
+    for specie in ALL_SPECIES:
+        # Commit any database changes; the User and Roles must exist before
+        # we can add a Role to the User
+        specie_to_add = Specie(name=specie)
 
-    if not db.session.query(Specie).filter(Specie.name == specie1.name).count() > 0:
-        db.session.add(specie1)
-    if not db.session.query(Specie).filter(Specie.name == specie2.name).count() > 0:
-        db.session.add(specie2)
-    if not db.session.query(Specie).filter(Specie.name == specie3.name).count() > 0:
-        db.session.add(specie3)
-    if not db.session.query(Specie).filter(Specie.name == specie4.name).count() > 0:
-        db.session.add(specie4)
+        if not db.session.query(Specie)\
+                .filter(Specie.name == specie_to_add.name).count() > 0:
+            db.session.add(specie_to_add)
 
     db.session.commit()
 
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-  return response
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers',
+                       'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods',
+                       'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 
-'''
-Function that overwrites the default password change from flask_security
-'''
+# Overwrites default password change of flask
 @security.change_password_context_processor
 def change_password():
     """View function which handles a change password request."""
@@ -74,9 +72,9 @@ def change_password():
     if request.form.get('password'):
         print request.form.get('password')
         try:
-            result = User.try_login(current_user.username, request.form.get('password'))
+            result = User.try_login(current_user.username,
+                                    request.form.get('password'))
 
-            print result
             if not result:
                 do_flash(*get_message('INVALID_PASSWORD'))
                 return {"status": False}
@@ -130,7 +128,7 @@ def load_user_from_request(request):
         if LOGIN_METHOD != "None":
             try:
                 result = User.try_login(username, password)
-                if result == False:
+                if not result:
                     do_flash(*get_message('INVALID_PASSWORD'))
                     return None
             except ldap.INVALID_CREDENTIALS, e:
@@ -142,8 +140,16 @@ def load_user_from_request(request):
 
             if not user:
                 encrypted_password = utils.encrypt_password(password)
+
                 if not user_datastore.get_user(result['mail'][0]):
-                    user = user_datastore.create_user(email=result['mail'][0], password=encrypted_password, username=result['uid'][0], name=result['cn'][0], gid=result['gidNumber'][0], homedir=result['homeDirectory'][0])
+                    user = user_datastore.create_user(
+                        email=result['mail'][0],
+                        password=encrypted_password,
+                        username=result['uid'][0],
+                        name=result['cn'][0],
+                        gid=result['gidNumber'][0],
+                        homedir=result['homeDirectory'][0])
+
                     db.session.commit()
 
             user = User.query.filter_by(username=result['uid'][0]).first()
@@ -159,7 +165,14 @@ def load_user_from_request(request):
                 encrypted_password_config = utils.encrypt_password(LOGIN_PASSWORD)
 
                 if not user_datastore.get_user(LOGIN_EMAIL):
-                    user = user_datastore.create_user(email=LOGIN_EMAIL, password=encrypted_password_config, username=LOGIN_USERNAME, name=LOGIN_USERNAME, gid=LOGIN_GID, homedir=LOGIN_HOMEDIR)
+                    user = user_datastore.create_user(
+                        email=LOGIN_EMAIL,
+                        password=encrypted_password_config,
+                        username=LOGIN_USERNAME,
+                        name=LOGIN_USERNAME,
+                        gid=LOGIN_GID,
+                        homedir=LOGIN_HOMEDIR)
+
                     db.session.commit()
 
             if not os.path.exists(os.path.join(LOGIN_HOMEDIR, "jobs")):
@@ -171,11 +184,19 @@ def load_user_from_request(request):
         return user
 
 
-@user_registered.connect_via(app) #overrides the handler function to add a default role to a registered user
+# overrides the handler function to add a default role to a registered user
+@user_registered.connect_via(app)
 def user_registered_handler(app, user, confirm_token):
 
-    if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'], str(user.email) + '_' + str(user.id))):
-        os.makedirs(os.path.join(app.config['UPLOAD_FOLDER'], str(user.email) + '_' + str(user.id)))
+    if not os.path.exists(os.path.join(app.config['UPLOAD_FOLDER'],
+                                       str(user.email) + '_' + str(user.id))):
+
+        os.makedirs(
+            os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                str(user.email) + '_' + str(user.id)
+            )
+        )
     
     default_role = user_datastore.find_role('end-user')
     user_datastore.add_role_to_user(user, default_role)
@@ -185,7 +206,8 @@ def user_registered_handler(app, user, confirm_token):
 
     ############# Add user to NGS_onto ########################
 
-    UserURI = dbconAg.createURI(namespace=localNSpace, localname="users/"+str(id))
+    UserURI = dbconAg.createURI(namespace=localNSpace,
+                                localname="users/"+str(id))
     userType = dbconAg.createURI(namespace=dcterms, localname="Agent")
     dbconAg.add(UserURI, RDF.TYPE, userType)
 

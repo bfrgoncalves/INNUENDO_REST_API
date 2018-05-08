@@ -432,7 +432,9 @@ class Message(db.Model):
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
     timestamp = db.Column(db.DateTime)
-    name = db.Column(db.String(255))
+    title = db.Column(db.String(255))
+    messageFrom = db.Column(db.String(255))
+    messageTo = db.Column(db.String(255))
     message = db.Column(db.Text())
     status = db.Column(db.String(255))
 

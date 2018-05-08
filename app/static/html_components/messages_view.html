@@ -1,0 +1,141 @@
+<div ng-controller="messagesCtrl" ng-init="loadMessages()">
+
+<div ng-include src="'static/html_components/modals/modal_alert.html'"></div>
+
+<div class="row nomargin">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="home-header">Messages</h1>
+            <p class="lead">Internal messaging system between users.</p>
+            <hr class="rule1">
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" style="padding-right: 20px;">
+            <div class="panel panel-default widget">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-comment"></span>
+                    <h3 class="panel-title">
+                        Recent Messages</h3>
+                    <span class="label label-info">
+                        {{ messagescount }}</span>
+                </div>
+                <div class="panel-body" style="height:50%;overflow-y: auto;">
+                    <ul class="list-group">
+                        <li ng-repeat="message in messages"
+                            class="list-group-item {{ mstatus[message.status] }}">
+                            <div class="row">
+                                <div class="col-xs-10 col-md-11" style="margin:10px;">
+                                    <div>
+                                        <a>{{ message.title }}</a>
+                                        <div class="mic-info">
+                                            By: <a href="#">{{ message.messageFrom }}</a>
+                                             on {{ message.timestamp }}
+                                        </div>
+                                    </div>
+                                    <div class="comment-text">
+                                        {{ message.message }}
+                                    </div>
+                                    <div class="action">
+                                        <button messageid="{{ message.id }}"
+                                                type="button"
+                                                class="btn btn-primary
+                                                btn-xs" title="Edit"
+                                                ng-click="answerMessage($event)">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                        <button messageid="{{ message.id }}"
+                                                type="button"
+                                                class="btn btn-success btn-xs"
+                                                title="Approved"
+                                                ng-click="markAsRead($event)">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button messageid="{{ message.id }}"
+                                                type="button"
+                                                class="btn btn-danger btn-xs"
+                                                title="Delete"
+                                                ng-click="deleteMessage($event)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-primary btn-sm btn-block"
+                       role="button" ng-click="loadMoreMessages()">
+                        <span class="glyphicon glyphicon-refresh"></span>
+                        More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <form id="contact-form" ng-submit="sendMessage()">
+
+                <div class="messages"></div>
+
+                <div class="controls">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="form_name">Recipient *</label>
+                                <select class="selectpicker form-control"
+                                        id="username_dropdown"
+                                        data-live-search="true"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="form_name">Templates</label>
+                                <select class="selectpicker form-control"
+                                        id="template_dropdown"
+                                        data-live-search="true"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="form_lastname">Title *</label>
+                                <input id="form_lastname" type="text"
+                                       name="surname" class="form-control"
+                                       placeholder="Please enter a message title *"
+                                       required="required" data-error="Title is required.">
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="form_message">Message *</label>
+                                <textarea id="form_message" name="message"
+                                          class="form-control"
+                                          placeholder="Message for *" rows="4"
+                                          required="required"
+                                          data-error="Please,leave us a message."></textarea>
+                                <div class="help-block with-errors"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" class="btn btn-success btn-send" value="Send message">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="text-muted"><strong>*</strong> These fields are required.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</div>

@@ -11,30 +11,45 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
         {% if current_user.is_authenticated %}
-        <li class="nav-item dropdown" style="text-align: center;">
-          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown dropdown-notifications"
+            style="text-align: center;">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#notifications-panel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-fw fa-envelope"></i>
             <span class="d-lg-none">Messages
-              <span class="badge badge-pill badge-primary">0 New</span>
+              <span class="badge badge-pill badge-primary"
+                    id="newMessagesSpan">0 New</span>
             </span>
             <span class="indicator text-primary d-none d-lg-block">
               <i class="fa fa-fw fa-circle"></i>
             </span>
           </a>
-          <!--<div class="dropdown-menu" aria-labelledby="messagesDropdown">
-            <h6 class="dropdown-header">New Messages:</h6>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">
-              <strong>Test User</strong>
-              <span class="small float-right text-muted">11:21 AM</span>
-              <div class="dropdown-message small">Test message! Checkout this!</div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item small" href="#">View all messages</a>
-          </div>-->
+
+            <div class="dropdown-container">
+
+              <div class="dropdown-toolbar">
+                <div class="dropdown-toolbar-actions">
+                  <!--<a href="#">Mark all as read</a>-->
+                </div>
+                <h3 class="dropdown-toolbar-title" id="nMessages">Messages (0)
+                </h3>
+              </div><!-- /dropdown-toolbar -->
+
+              <ul id="message_noti_panel" class="dropdown-menu notifications">
+
+              </ul>
+
+              <div class="dropdown-footer text-center">
+                <a href="#" id="viewAllMessages">View All</a>
+              </div><!-- /dropdown-footer -->
+
+            </div><!-- /dropdown-container -->
+
+
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown dropdown-notifications">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown"
+             href="#notifications-panel-alert" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-fw fa-bell"></i>
             <span class="d-lg-none">Alerts
               <span class="badge badge-pill badge-warning">0 New</span>
@@ -43,6 +58,24 @@
               <i class="fa fa-fw fa-circle"></i>
             </span>
           </a>
+            <div class="dropdown-container dropdown-position-bottomright">
+
+              <div class="dropdown-toolbar">
+                <div class="dropdown-toolbar-actions">
+                  <a href="#">Mark all as read</a>
+                </div>
+                <h3 class="dropdown-toolbar-title">Notifications (2)</h3>
+              </div><!-- /dropdown-toolbar -->
+
+              <ul class="dropdown-menu">
+                  ...
+              </ul>
+
+              <div class="dropdown-footer text-center">
+                <a href="#">View All</a>
+              </div><!-- /dropdown-footer -->
+
+            </div><!-- /dropdown-container -->
           <!--<div class="dropdown-menu" aria-labelledby="alertsDropdown">
             <h6 class="dropdown-header">New Alerts:</h6>
             <div class="dropdown-divider"></div>

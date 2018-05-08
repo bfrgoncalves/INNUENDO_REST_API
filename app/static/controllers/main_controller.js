@@ -101,17 +101,46 @@ const sendMail = () => {
         });
 };
 
+const getNavbarMessages = () => {
+    let pg_requests = Requests("", "", http);
+
+    pg_requests.get_messages(3, (response) => {
+
+        $("#newMessagesSpan").html(response.data[1] + " New");
+        let lis = "";
+
+        for(const message of response.data[0]) {
+
+            lis += '<li class="notification"><div class="media">' +
+                '<div class="media-left"></div><div class="media-body">' +
+                '<strong class="notification-title"><a href="#">' +
+                message.messageFrom + '</a> sent a message! </strong>' +
+                '<p class="notification-desc">' + message.message +
+                '</p>' +
+                '<div class="notification-meta"><small class="timestamp">' +
+                message.timestamp + '</small></div></div></div></li>';
+
+        }
+
+        $("#message_noti_panel").empty().append(lis);
+
+        $("#nMessages").html("Messages (" + response.data[2] + ")");
+
+    });
+};
+
 /**
  * Function to trigger some events on main controller start
  */
 setTimeout( () => {
     $('#overviewLink').trigger('click');
 
+
     $("#send_mail").off("click").on("click", () => {
 
-        let pg_requests = Requests("", "", http);
-
         pg_requests.get_user_mails((response) => {
+
+            let pg_requests = Requests("", "", http);
 
             if (response.data.length > 0){
                 let options = "";
@@ -128,6 +157,20 @@ setTimeout( () => {
 
         $("#newMailModal").modal("show");
 
+
+    });
+
+    //getNavbarMessages();
+
+    setInterval(() => {
+
+        getNavbarMessages();
+
+    }, 10000);
+
+    $("#viewAllMessages").off("click").on("click", () => {
+        $("#messages_button").trigger("click");
+        $("#button_ham_navbar").trigger("click");
 
     });
 

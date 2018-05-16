@@ -482,6 +482,9 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                         $scope.getAppliedPipelines(null, (strains_results) => {
                             objects_utils.destroyTable('strains_table');
 
+                            console.log(global_strains);
+                            $scope.strains_in_use = global_strains.length;
+
                             if(strains_results.strains === "no_pipelines"){
                                 let headers_defs = set_headers_single_project('strains_table', global_strains);
 
@@ -631,7 +634,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                 });
             });
 
-            $scope.specie_name = CURRENT_SPECIES_NAME;
+            $scope.specie_name = SPECIES_CORRESPONDENCE[CURRENT_SPECIES_NAME];
             $scope.species_id = CURRENT_SPECIES_ID;
 
         }, 100);
@@ -688,55 +691,65 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     Run all the applied workflows that are able to run for each strain
     */
     $scope.runPipelines = () => {
-        $('#button_run_strain').fadeTo("slow", 0.5).css('pointer-events','none');
 
-        $("#overlayProjects").css({"display":"block"});
-        $("#overlayWorking").css({"display":"block"});
-        $("#single_project_controller_div").css({"display":"none"});
-        $("#submission_status").empty();
+        const alert_message = "By choosing this option, all selected" +
+            " pipelines will be saved and unsubmitted jobs will be sent" +
+            " to the server. Do you want to proceed?";
 
-        //Check if there are jobs pending or already running. If so, the jobs can't be run again
-        single_project.check_if_pending( (haspending) => {
+        modalAlert(alert_message, "Run Pipelines", () => {
 
-            const buttonRunStrainEl = $('#button_run_strain');
-            const overlayProjects = $("#overlayProjects");
-            const overlayWorking = $("#overlayWorking");
-            const singleProjEl = $("#single_project_controller_div");
+            $('#button_run_strain').fadeTo("slow", 0.5).css('pointer-events','none');
 
-            if(haspending === true){
-                modalAlert('One or more of the selected strains have jobs' +
-                    ' already submitted. Please wait until they finish' +
-                    ' before submit new jobs for those strains.', "Jobs" +
-                    " Still Running", () => {});
-                buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                overlayProjects.css({"display":"none"});
-                overlayWorking.css({"display":"none"});
-                singleProjEl.css({"display":"block"});
-            }
-            else if(haspending === "no_selected"){
-                modalAlert('Please select at least one strain to run' +
-                    ' analysis.', "Select Strains", () => {});
-                buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                overlayProjects.css({"display":"none"});
-                overlayWorking.css({"display":"none"});
-                singleProjEl.css({"display":"block"});
-            }
-            else{
-                //Save the pipelines on the database if required
-                single_project.save_pipelines((run) => {
-                    //Run the pipelines
-                    if(run === true) single_project.run_pipelines();
-                    else if(run !== "no_select") {
-                        modalAlert('All processes for the selected strains' +
-                            ' have been run.', "All Processes Submitted", () => {});
-                        buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                        overlayProjects.css({"display":"none"});
-                        overlayWorking.css({"display":"none"});
-                        singleProjEl.css({"display":"block"});
-                    }
-                });
-            }
+            $("#overlayProjects").css({"display":"block"});
+            $("#overlayWorking").css({"display":"block"});
+            $("#single_project_controller_div").css({"display":"none"});
+            $("#submission_status").empty();
+
+            //Check if there are jobs pending or already running. If so, the jobs can't be run again
+            single_project.check_if_pending( (haspending) => {
+
+                const buttonRunStrainEl = $('#button_run_strain');
+                const overlayProjects = $("#overlayProjects");
+                const overlayWorking = $("#overlayWorking");
+                const singleProjEl = $("#single_project_controller_div");
+
+                if(haspending === true){
+                    modalAlert('One or more of the selected strains have jobs' +
+                        ' already submitted. Please wait until they finish' +
+                        ' before submit new jobs for those strains.', "Jobs" +
+                        " Still Running", () => {});
+                    buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                    overlayProjects.css({"display":"none"});
+                    overlayWorking.css({"display":"none"});
+                    singleProjEl.css({"display":"block"});
+                }
+                else if(haspending === "no_selected"){
+                    modalAlert('Please select at least one strain to run' +
+                        ' analysis.', "Select Strains", () => {});
+                    buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                    overlayProjects.css({"display":"none"});
+                    overlayWorking.css({"display":"none"});
+                    singleProjEl.css({"display":"block"});
+                }
+                else{
+                    //Save the pipelines on the database if required
+                    single_project.save_pipelines((run) => {
+                        //Run the pipelines
+                        if(run === true) single_project.run_pipelines();
+                        else if(run !== "no_select") {
+                            modalAlert('All processes for the selected strains' +
+                                ' have been run.', "All Processes Submitted", () => {});
+                            buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                            overlayProjects.css({"display":"none"});
+                            overlayWorking.css({"display":"none"});
+                            singleProjEl.css({"display":"block"});
+                        }
+                    });
+                }
+            })
+
         })
+
     };
 
     $scope.myReplace = (string) => {

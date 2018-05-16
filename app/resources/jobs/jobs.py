@@ -688,18 +688,18 @@ class NextflowLogs(Resource):
             if not user_of_project:
                 content = "file not found"
             else:
-                username = user_of_project.username
+                username_homedir = user_of_project.homedir
 
-                for x in USER_STORAGES:
-                    file_location = os.path.join(
-                        til_storage, x, username, "jobs",
-                        args.project_id+"-"+args.pipeline_id, args.filename)
+                #for x in USER_STORAGES:
+                file_location = os.path.join(
+                    username_homedir, "jobs",
+                    args.project_id+"-"+args.pipeline_id, args.filename)
 
-                    try:
-                        with open(file_location, "r") as file_r:
-                            content = file_r.read()
-                        break
-                    except IOError:
-                        content = "file not found"
+                try:
+                    with open(file_location, "r") as file_r:
+                        content = file_r.read()
+
+                except IOError:
+                    content = "file not found"
 
         return {"content": content}, 200

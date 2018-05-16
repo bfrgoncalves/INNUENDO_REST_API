@@ -14,6 +14,12 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     current_scope_template = $scope.selectedTemplate.path;
 
+    console.log(GLOBAL_STATISTICS);
+
+    $scope.strains_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][0];
+    $scope.projects_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][1];
+    $scope.profiles_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][2];
+
     const backButtonEl = $("#backbutton");
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});

@@ -3,7 +3,8 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #
 from flask import jsonify, request
 import json
 
-from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, Campylobacter
+from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, \
+    Campylobacter, Report
 from flask_security import current_user, login_required, roles_required
 import datetime
 import os
@@ -444,7 +445,9 @@ class StrainProjectListResource(Resource):
         """Remove strain from project
 
         This method allows removing a strain from a project. Requires the
-        strain name and the project id
+        strain name and the project id.
+
+        It also removes the reports associated with that strain on that project.
 
         Parameters
         ----------
@@ -468,6 +471,16 @@ class StrainProjectListResource(Resource):
             abort(404, message="No strain available")
 
         project.remove_Strain(strain)
+
+        # Remove associated reports if exist
+        reports = db.session.query(Report).\
+            filter(Report.project_id == id, Report.sample_name ==
+                   args.strainID).all()
+
+        if reports:
+            for report in reports:
+                db.session.delete(report)
+
         db.session.commit()
 
         return strain, 200

@@ -36,6 +36,8 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
         });
     });
 
+    $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
+
     $("#projects_button_li").css({"display":"none"});
     $("#reports_button_li").css({"display":"none"});
     $("#uploads_button_li").css({"display":"none"});
@@ -193,6 +195,9 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             protocolTypeSelEl.trigger("change");
 
             workflows.set_protocol_types_object(results.protocolTypeObject);
+
+            $('#waiting_spinner').css({display:'none'});
+            $('#workflow_controller_div').css({display:'block'});
         });
 
     };

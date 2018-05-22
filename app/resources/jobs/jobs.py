@@ -156,6 +156,8 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
 
     print results.keys()
 
+    print procedure
+
     # Classify the profiles case the procedure is chewbbaca
     if "chewbbaca" in procedure:
         new_job_id = project_id + pipeline_id + process_position

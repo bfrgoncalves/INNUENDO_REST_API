@@ -226,10 +226,15 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         query_profle_path, core_index_correspondece[database_name],
         classification_levels[database_name][0])
 
-    # First level classification
+    # Second level classification
     closest_profiles_2 = fast_mlst_functions.get_closest_profiles(
         query_profle_path, core_index_correspondece[database_name],
         classification_levels[database_name][1])
+
+    # Third level classification
+    closest_profiles_3 = fast_mlst_functions.get_closest_profiles(
+        query_profle_path, core_index_correspondece[database_name],
+        classification_levels[database_name][2])
 
     # Total closest ids on first level
     closest_ids = []
@@ -240,6 +245,11 @@ def classify_profile(allcall_results, database_name, sample, job_id):
     closest_ids_2 = []
     for i, x in enumerate(closest_profiles_2):
         closest_ids_2.append(closest_profiles_2[i].split("\t")[0])
+
+    # Total closest ids on third level
+    closest_ids_3 = []
+    for i, x in enumerate(closest_profiles_3):
+        closest_ids_3.append(closest_profiles_3[i].split("\t")[0])
 
     # Closest on first level
     if len(closest_profiles) == 0:
@@ -255,11 +265,19 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         # ID\tDIFFERENCES
         first_closest_2 = closest_profiles_2[0].split("\t")
 
+    # Closest on third level
+    if len(closest_profiles_3) == 0:
+        first_closest_3 = [None]
+    else:
+        # ID\tDIFFERENCES
+        first_closest_3 = closest_profiles_3[0].split("\t")
+
     print "Closest first level:" + str(first_closest[0])
     print "Closest second level:" + str(first_closest_2[0])
+    print "Closest third level:" + str(first_closest_3[0])
 
     if sample.replace(" ", "_") in closest_ids or sample.replace(" ", "_") in\
-            closest_ids_2:
+            closest_ids_2 or sample.replace(" ", "_") in closest_ids_3:
         print "ALREADY ON DB AND INDEX"
         return True
     else:
@@ -273,6 +291,12 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         database_entry_2 = db.session.query(
             database_correspondece[database_name]).filter(
             database_correspondece[database_name].name == first_closest_2[0]
+        ).first()
+
+        # Get Id of closest at third level
+        database_entry_3 = db.session.query(
+            database_correspondece[database_name]).filter(
+            database_correspondece[database_name].name == first_closest_3[0]
         ).first()
 
         # Get classification of closets at first level or get the last
@@ -328,11 +352,40 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 
         print classification_2
 
+        # Get classification of closets at third level or get the last
+        # classifier
+        if database_entry_3:
+            classification_3 = database_entry_3.classifier_l3
+        else:
+            highest_classifier_3 = db.session.query(
+                database_correspondece[database_name]).filter(
+                database_correspondece[
+                    database_name].classifier_l3 != "undefined") \
+                .order_by(
+                cast(database_correspondece[database_name].classifier_l3,
+                     Integer)
+                    .desc()
+            ).first()
+
+            if highest_classifier_3:
+                classification_3 = highest_classifier_3.classifier_l3
+
+                if "New_" in classification_3:
+                    classification_2 = classification_3.split("_")[1]
+
+                classification_3 = str(int(classification_3) + 1)
+
+            else:
+                classification_3 = "P_" + job_id.split("_")[0]
+
+        print classification_3
+
         try:
             new_database_entry = database_correspondece[database_name](
                 name=sample.replace(" ", "_"),
                 classifier_l1=classification,
                 classifier_l2=classification_2,
+                classifier_l3=classification_3,
                 allelic_profile=strain_allele_profile,
                 strain_metadata={},
                 platform_tag="FP",

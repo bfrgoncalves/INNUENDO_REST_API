@@ -269,6 +269,7 @@ table.table td {
   width: 95%;
 }
 
+
 #overlayProjects{
   z-index: 9998;
   background-color: #eee;
@@ -320,7 +321,7 @@ table.table td {
     color: red;
 }
 
-.no_files_row {
+.accession_row {
     color: #2a6cff;
 }
 

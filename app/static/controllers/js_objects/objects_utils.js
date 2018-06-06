@@ -135,7 +135,8 @@ const Objects_Utils = (single_project, $sc) => {
                 if( data.has_files === "false"){
                     $(row).addClass("no_files_row");
                 }
-                if( data.Accession !== "NA" && data.has_files === "false"){
+
+                if( data.Accession !== "NA" && data.Accession !== "" && data.has_files === "false"){
                     $(row).addClass("accession_row");
                 }
             },

@@ -794,7 +794,11 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		},
 		add_new_strain: (callback) => {
 
-			console.log($('#new_strain_form').find("select, input, textarea").serialize());
+			/*if ($("#Accession").val() !== ""){
+				$("#File_1").selectpicker('val', 'None');
+            	$("#File_2").selectpicker('val', 'None');
+			}*/
+
 		    const req = {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -1065,6 +1069,43 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		        	filename: filename,
 		        	pipeline_id:pipeline_id,
 		        	project_id:project_id
+		        }
+		    };
+
+		    $http(req).then( (response) => {
+				    callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
+		trigger_inspect: (pipeline_id, project_id, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/jobs/inspect/',
+		        method:'GET',
+		        params: {
+		        	pipeline_id:pipeline_id,
+		        	project_id:project_id
+		        }
+		    };
+
+		    $http(req).then( (response) => {
+				    callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
+		kill_inspect: (pid, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/jobs/inspect/',
+		        method:'PUT',
+		        params: {
+		        	pid:pid
 		        }
 		    };
 

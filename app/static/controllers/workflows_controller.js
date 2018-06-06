@@ -138,11 +138,18 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             $scope.workflows_names = [];
             let options = "";
 
-            options +="<option>None</option>";
+            options += "<optgroup label='Start Input'>" +
+                "<option>Fastq</option>+" +
+                "<option>Accession</option>" +
+                "</optgroup>";
+
+            options += "<optgroup label='Procedures'>";
 
             for (const x in results.data){
                 options +="<option>"+results.data[x].name+"</option>";
             }
+
+            options += "</optgroup>";
 
             const selectDependencyEl = $("#select_dependency");
 

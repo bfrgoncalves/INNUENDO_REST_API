@@ -176,6 +176,7 @@ class UserQuotaResource(Resource):
         project_id = args.project_id
 
         instStorage = "/".join(current_user.homedir.split("/")[0:-2]) + "/"
+        print instStorage
         project_dir = os.path.join(current_user.homedir, "jobs",
                                    project_id+"-*")
 
@@ -203,6 +204,11 @@ class UserQuotaResource(Resource):
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out4, err = proc.communicate()
+
+        print out1
+        print out2
+        print out3
+        print out4
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
                 "p_space": str(out3)}

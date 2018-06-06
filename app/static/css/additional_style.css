@@ -266,9 +266,8 @@ table.table td {
   font-size: 2em !important;}
 
 #modalNextflowLogs .modal-dialog {
-  width: 80%;
+  width: 95%;
 }
-
 
 #overlayProjects{
   z-index: 9998;
@@ -319,6 +318,10 @@ table.table td {
 
 .no_files_row {
     color: red;
+}
+
+.no_files_row {
+    color: #2a6cff;
 }
 
 .table_button {

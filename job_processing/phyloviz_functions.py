@@ -15,7 +15,12 @@ from config import wg_index_correspondece, core_index_correspondece, \
     core_headers_correspondece, wg_headers_correspondece, \
     allele_classes_to_ignore, phyloviz_root
 
-database_correspondece = {"E.coli":Ecoli, "Yersinia":Yersinia}
+database_correspondece = {
+    "E.coli": Ecoli,
+    "Yersinia": Yersinia,
+    "Salmonella": Salmonella,
+    "Campylobacter": Campylobacter
+}
 
 '''
 PHYLOViZ Online (https://github.com/bfrgoncalves/Online-PhyloViZ) functions:
@@ -27,6 +32,12 @@ PHYLOViZ Online (https://github.com/bfrgoncalves/Online-PhyloViZ) functions:
     creates a set. The result is sent to PHYLOViZ Online with the corresponding
     metadata.
 '''
+
+
+def xstr(s):
+    if s is None:
+        return 'NA'
+    return str(s)
 
 
 def send_to_phyloviz(job_ids, dataset_name, dataset_description,
@@ -221,6 +232,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                 headers_metadata.append("Cluster L1")
                 headers_metadata.append("Cluster L2")
                 headers_metadata.append("Cluster L3")
+                headers_metadata.append("Cluster All")
 
                 print headers_metadata
 
@@ -255,7 +267,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
 
                     if not is_added:
                         if x != "Platform tag" and x != "Cluster L1" and x !=\
-                                "Cluster L2" and x != "Cluster L3":
+                                "Cluster L2" and x != "Cluster L3" and x != \
+                                "Cluster All":
                             straind.append("NA")
                     continue
 
@@ -265,8 +278,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                 .filter(database_correspondece[database_to_include].name == report.sample_name).first()
 
             if strain_at_db_but_clicked:
-                straind.append(strain_at_db_but_clicked.classifier_l1)
-                straind.append(strain_at_db_but_clicked.classifier_l2)
+                straind.append(xstr(strain_at_db_but_clicked.classifier_l1))
+                straind.append(xstr(strain_at_db_but_clicked.classifier_l2))
+                straind.append(xstr(strain_at_db_but_clicked.classifier_l3))
+                straind.append("{}:{}:{}".format(strain_at_db_but_clicked.classifier_l1,strain_at_db_but_clicked.classifier_l2,strain_at_db_but_clicked.classifier_l3))
             else:
                 straind.append("NA")
 
@@ -287,7 +302,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
 
             string_profile = "\t".join(string_profile)
 
-            for k,v in to_replace.iteritems():
+            for k, v in to_replace.iteritems():
                 string_profile = string_profile.replace(k,v)
 
             for k,v in to_replace_0EM.iteritems():
@@ -325,6 +340,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
             else:
                 strain_metadata = strain_from_db.strain_metadata
 
+            print headers_metadata
+
             for x in headers_metadata:
                 try:
                     if x == "ID":
@@ -332,11 +349,14 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                     elif x == "Platform tag":
                         string_metadata.append(strain_from_db.platform_tag)
                     elif x == "Cluster L1":
-                        string_metadata.append(strain_from_db.classifier_l1)
+                        string_metadata.append(xstr(strain_from_db.classifier_l1))
                     elif x == "Cluster L2":
-                        string_metadata.append(strain_from_db.classifier_l2)
+                        string_metadata.append(xstr(strain_from_db.classifier_l2))
                     elif x == "Cluster L3":
-                        string_metadata.append(strain_from_db.classifier_l3)
+                        string_metadata.append(xstr(strain_from_db.classifier_l3))
+                    elif x == "Cluster All":
+                        string_metadata.append("{}:{}:{}"
+                                               .format(strain_from_db.classifier_l1, strain_from_db.classifier_l2, strain_from_db.classifier_l3))
                     elif x != "Project Name":
                         string_metadata\
                             .append(strain_metadata[x].replace(" ", "-"))
@@ -346,6 +366,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                                                .replace("\r", ""))
                 except Exception as e:
                     string_metadata.append("NA")
+
+            print string_metadata
 
             all_metadata.append('\t'.join(string_metadata))
 

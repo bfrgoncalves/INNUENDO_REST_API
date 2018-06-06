@@ -119,7 +119,8 @@ const set_headers_single_project = (table_id, global_strains) => {
                     "defaultContent": '<div><button class="details-control' +
                     ' btn-default"><i class="fa fa-lg fa-info"' +
                     ' data-toggle="tooltip" data-placement="top" title="More' +
-                    ' information"></i></button><button' +
+                    ' information"></i></button>' +
+                    '<button' +
                     ' class="analysis-control btn-warning"><i class="fa' +
                     ' fa-lg fa-tasks" data-toggle="tooltip"' +
                     ' data-placement="top" title="Analytical' +
@@ -162,11 +163,18 @@ const set_headers_single_project = (table_id, global_strains) => {
         if (table_id !== 'public_strains_table'){
 
             let info_button = "";
+
             if(SHOW_INFO_BUTTON) {
                 info_button = '<button class="info-control btn-default"><i' +
                     ' class="fa fa-lg fa-info" data-toggle="tooltip"' +
                     ' data-placement="top" title="More information"></i></button>';
             }
+
+            /*const inspect_button = '<button class="inspect-control' +
+                ' btn-default"><i' +
+                    ' class="fa fa-lg fa-bug" data-toggle="tooltip"' +
+                    ' data-placement="top" title="Inspect"></i></button>';*/
+
 
             const analysis_cell = {
                 "className":      'details-control',
@@ -198,6 +206,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     const backButtonEl = $("#backbutton");
 
+    console.log(CURRENT_SPECIES_ID);
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
     else backButtonEl.css({"display":"none"});
@@ -411,30 +420,35 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         });
     };
 
+    $scope.checkFiles = () => {
+
+        //Get the files available on the user folder on the server side
+        single_project.get_user_files( (response) => {
+            let t_use_f1 = "<option>None</option>";
+            let t_use_f2 = "<option>None</option>";
+
+            for(const r in response.data.files){
+                if(response.data.files[r].includes("_R1_") || response.data.files[r].includes("_1.fastq.gz")){
+                    t_use_f1 += '<option value="'+response.data.files[r]+'">' + response.data.files[r] + '</option>';
+                }
+                else if(response.data.files[r].includes("_R2_") || response.data.files[r].includes("_2.fastq.gz")){
+                    t_use_f2 += '<option value="'+response.data.files[r]+'">' + response.data.files[r] + '</option>';
+                }
+            }
+
+            $('#File_1').empty().append(t_use_f1);
+            $('#File_2').empty().append(t_use_f2);
+
+            $(".selectpicker").selectpicker("refresh");
+
+        });
+    };
+
     /*
     Loads a complete project. Gets the workflows, the strains and the applied pipelines for those strains
     */
     $scope.showProject = () => {
         $timeout( () => {
-
-            //Get the files available on the user folder on the server side
-            single_project.get_user_files( (response) => {
-                //var t_use = "";
-                let t_use_f1 = "";
-                let t_use_f2 = "";
-
-                for(const r in response.data.files){
-                    if(response.data.files[r].includes("_R1_") || response.data.files[r].includes("_1.fastq.gz")){
-                        t_use_f1 += '<option>' + response.data.files[r] + '</option>';
-                    }
-                    else if(response.data.files[r].includes("_R2_") || response.data.files[r].includes("_2.fastq.gz")){
-                        t_use_f2 += '<option>' + response.data.files[r] + '</option>';
-                    }
-                }
-
-                $('#File_1').append(t_use_f1);
-                $('#File_2').append(t_use_f2);
-            });
 
             //Only show run and delete strain button if the project is from the current user
 
@@ -544,6 +558,21 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             $("#submission_status").empty();
                             single_project.load_strains_from_file(input_element, '\t', (results) => {
                             });
+                        });
+
+                        $('#file_selector').on("change", (e) => {
+                            const currentValue = $(e.target).val();
+                            console.log($(e.target).val());
+                            if (currentValue === "reads"){
+                                $("#div_file1").css({"display":"block"});
+                                $("#div_file2").css({"display":"block"});
+                                $("#div_accession").css({"display":"none"});
+                            }
+                            else if(currentValue === "accession"){
+                                $("#div_file1").css({"display":"none"});
+                                $("#div_file2").css({"display":"none"});
+                                $("#div_accession").css({"display":"block"});
+                            }
                         });
 
                         $('#fromfile_file').on("change", (e) => {

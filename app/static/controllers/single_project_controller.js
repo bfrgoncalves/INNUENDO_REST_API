@@ -82,6 +82,7 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
                 { "data": "Location" },
+                { "data": "Accession" },
                 { "data": "timestamp" }
 
             ];
@@ -111,6 +112,7 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
                 { "data": "Location" },
+                { "data": "Accession" },
                  { "data": "timestamp" },
                 {
                     "className":      'details-control',
@@ -1007,7 +1009,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             global_public_strains = strains_results.public_strains;
 
             let headers_defs = set_headers_single_project('public_strains_table', global_public_strains);
-
+            console.log(headers_defs);
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
                 callback();
@@ -1024,7 +1026,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         single_project.get_project_strains( (strains_results) => {
             global_strains = strains_results.strains;
             let headers_defs = set_headers_single_project('strains_table', global_strains);
-
+            console.log(headers_defs);
             objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
                 callback();

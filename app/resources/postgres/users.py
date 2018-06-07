@@ -177,9 +177,14 @@ class UserQuotaResource(Resource):
 
         instStorage = "/".join(current_user.homedir.split("/")[0:-2]) + "/"
         print instStorage
+        '''if instStorage == "/":
+            instStorage = "/".join(current_user.homedir.split("/")[0:-1]) + "/"
+        '''
+
         project_dir = os.path.join(current_user.homedir, "jobs",
                                    project_id+"-*")
 
+        print instStorage
 
         # Get size of homedir
         proc = subprocess.Popen(["du", "-sh", "-B1", current_user.homedir],
@@ -205,10 +210,10 @@ class UserQuotaResource(Resource):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out4, err = proc.communicate()
 
-        print out1
-        print out2
-        print out3
-        print out4
+        #print out1
+        #print out2
+        #print out3
+        #print out4
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
                 "p_space": str(out3)}

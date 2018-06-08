@@ -604,8 +604,8 @@ class SpeciesStatistics(Resource):
         # Get profile count
         profile_1_count = db.session.query(Ecoli).count()
         profile_2_count = db.session.query(Yersinia).count()
-        profile_3_count = db.session.query(Salmonella).count()
-        profile_4_count = db.session.query(Campylobacter).count()
+        profile_3_count = db.session.query(Campylobacter).count()
+        profile_4_count = db.session.query(Salmonella).count()
 
         # Build object
         species_object = {

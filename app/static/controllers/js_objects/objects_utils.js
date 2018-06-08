@@ -24,6 +24,31 @@ let pid_to_pipeline = {};
 
 const Objects_Utils = (single_project, $sc) => {
 
+    const modalAlert = (text, header, callback) => {
+
+        const modalBodyEl = $('#modalAlert .modal-body');
+        const buttonSub = $('#buttonSub');
+
+        $('#buttonCancelAlert').off("click");
+
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
+
+        modalBodyEl.empty();
+        modalBodyEl.append("<p>"+text+"</p>");
+
+        buttonSub.off("click").on("click", () => {
+            $('#modalAlert').modal("hide");
+
+            setTimeout( () => {
+                return callback();
+            }, 400);
+        });
+
+        $('#modalAlert').modal("show");
+
+    };
+
 
     const format_analysis = ( d, table_id ) => {
         // `d` is the original data object for the row
@@ -261,12 +286,14 @@ const Objects_Utils = (single_project, $sc) => {
             nextflowLogEl.off("click").on("click", (e) => {
                 const href = $(e.target).attr("href");
 
-                console.log($(e.target).attr("name"));
+                $("#repeat_button").css({"display":"none"});
+
+                $("#repeat_submitted_text").text("");
+
                 if($(e.target).attr("name") === "nextflow_inspect"){
                     let pip_id = "";
-                    let work_dir = CURRENT_PROJECT_ID + "-" + pip_id
+                    let work_dir = CURRENT_PROJECT_ID + "-" + pip_id;
 
-                    console.log(url_for_pipeline[work_dir], "AQUI");
                     if(url_for_pipeline[work_dir] == undefined) {
 
                         single_project.triggerInspect($(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
@@ -289,12 +316,43 @@ const Objects_Utils = (single_project, $sc) => {
                     }
                 }
                 else{
+
+                   let e_target = $(e.target).attr("name");
+                   let e_target_pip = $(e.target).parent().attr("pip");
                    single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
                         $(href).html("<pre>"+response.data.content+"</pre>");
+
+                        if(e_target.indexOf("nextflow_log") > -1) {
+                            if (response.data.content.indexOf("Success     : false") > -1) {
+
+                                $("#repeat_button").off("click").on("click", (e) => {
+
+                                    single_project.retryPipeline(e_target_pip, CURRENT_PROJECT_ID, (response) => {
+                                        console.log(response);
+
+                                        if(response.data === true){
+                                            $("#repeat_submitted_text").text("Pipeline successfully resubmitted. Refresh the Nextflow Run tab to see the progress.");
+                                        }
+                                        else {
+                                            $("#repeat_submitted_text").text("An error as occurred when resubmitting the pipeline.");
+                                        }
+
+
+                                    });
+
+                                });
+
+
+                                $("#repeat_button").css({"display":"block"});
+
+                            }
+                        }
                     });
                 }
 
             });
+
+
 
             $('#modalNextflowLogs').off('hide.bs.modal').on('hide.bs.modal', () => {
 

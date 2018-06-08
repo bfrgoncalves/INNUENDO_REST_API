@@ -777,3 +777,30 @@ class FlowcraftInspect(Resource):
         out = request.json()
 
         return out
+
+    @login_required
+    def post(self):
+        """Trigger inspect
+
+        This method trigger the flowcraft inspect by going to the pipeline
+        folder and running the inspect command
+
+        Returns
+        -------
+        str: inspect url
+        """
+
+        args = inspect_get_parser.parse_args()
+
+        request = requests.post(os.path.join(JOBS_ROOT, "inspect"),
+                               data={
+                                   'homedir': current_user.homedir,
+                                   'pipeline_id': args.pipeline_id,
+                                   'project_id': args.project_id,
+                               }
+                               )
+
+        out = request.json()
+
+        return out
+

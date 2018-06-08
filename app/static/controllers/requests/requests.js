@@ -1117,6 +1117,25 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		retry_pipeline: (pipeline_id, project_id, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/jobs/inspect/',
+		        method:'POST',
+		        data: {
+		        	pipeline_id:pipeline_id,
+		        	project_id:project_id
+		        }
+		    };
+
+		    $http(req).then( (response) => {
+				    callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
 		send_to_phyloviz: (job_ids, global_additional_data, species_id, callback) => {
 			
 

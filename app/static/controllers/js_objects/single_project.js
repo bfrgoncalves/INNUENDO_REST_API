@@ -1163,6 +1163,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		},
 
 		/*
+		Retry pipeline
+		 */
+		retryPipeline: (pipeline_id, project_id, callback) => {
+			pg_requests.retry_pipeline(pipeline_id, project_id, (response) => {
+				callback(response);
+			});
+		},
+
+		/*
 		Trigger remove inspect
 		 */
 		killInspect: (pid, callback) => {

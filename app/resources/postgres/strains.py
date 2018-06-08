@@ -610,10 +610,11 @@ class SpeciesStatistics(Resource):
         # Build object
         species_object = {
             "E.coli": [strains_1_count, projects_1_count, profile_1_count],
-            "Campylobacter": [strains_4_count, projects_4_count,
+            "Salmonella": [strains_4_count, projects_4_count,
                               profile_4_count],
             "Yersinia": [strains_2_count, projects_2_count, profile_2_count],
-            "Salmonella": [strains_3_count, projects_3_count, profile_3_count]
+            "Campylobacter": [strains_3_count, projects_3_count,
+                              profile_3_count]
         }
 
         return species_object

@@ -19,7 +19,9 @@ Database Functions:
     by using the closest strain classifier from the profiles db 
 '''
 
-database_correspondece = {"E.coli": Ecoli, "Yersinia": Yersinia}
+database_correspondece = {"E.coli": Ecoli, "Yersinia": Yersinia,
+                          "Campylobacter": Campylobacter,
+                          "Salmonella": Salmonella}
 
 
 def tab_profile_from_db(strain_id, database, headers_file_path,

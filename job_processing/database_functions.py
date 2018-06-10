@@ -308,7 +308,8 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         else:
             highest_classifier = db.session.query(
                 database_correspondece[database_name]).filter(
-                database_correspondece[database_name].classifier_l1 != "undefined")\
+                database_correspondece[database_name].classifier_l1 != "undefined",
+                database_correspondece[database_name].classifier_l1 != 'null')\
                 .order_by(cast(database_correspondece[database_name].classifier_l1, Integer)
                 .desc()
             ).first()
@@ -334,7 +335,8 @@ def classify_profile(allcall_results, database_name, sample, job_id):
             highest_classifier_2 = db.session.query(
                 database_correspondece[database_name]).filter(
                 database_correspondece[
-                    database_name].classifier_l2 != "undefined") \
+                    database_name].classifier_l2 != "undefined",
+                    database_correspondece[database_name].classifier_l2 != 'null') \
                 .order_by(
                 cast(database_correspondece[database_name].classifier_l2,
                      Integer)
@@ -362,7 +364,8 @@ def classify_profile(allcall_results, database_name, sample, job_id):
             highest_classifier_3 = db.session.query(
                 database_correspondece[database_name]).filter(
                 database_correspondece[
-                    database_name].classifier_l3 != "undefined") \
+                    database_name].classifier_l3 != "undefined",
+                    database_correspondece[database_name].classifier_l3 != 'null') \
                 .order_by(
                 cast(database_correspondece[database_name].classifier_l3,
                      Integer)

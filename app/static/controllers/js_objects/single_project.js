@@ -571,6 +571,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             pg_requests.get_quota( (quota_obj) => {
 
             	console.log(quota_obj.data);
+            	console.log(quota_obj.data.f_space.split(/\s/g));
+            	console.log(quota_obj.data.p_space.split(/\s/g));
+            	console.log(quota_obj.data.u_quota.split(/\s/g));
+            	console.log(quota_obj.data.i_quota.split(/\s/g));
 
                 let quota_dict = {
                     "t_quota": quota_obj.data.f_space.split(/\s/g)[29],

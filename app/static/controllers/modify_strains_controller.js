@@ -213,15 +213,17 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
             objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, () => {
                 objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
 
+
                 global_public_strains.map( (d) => {
                     strain_name_to_id[d.strainID] = d.id;
                 });
 
                 $('#waiting_spinner').css({display:'none'});
                 $('#modify_strains_controller_div').css({display:'block'});
+                $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 
                 setTimeout( () => {
-                    $("#modify_strains_table").DataTable().draw();
+                    //$("#modify_strains_table").DataTable().draw();
 
                     $('.datetimepicker').datetimepicker({
                         format: 'DD/MM/YYYY'
@@ -273,6 +275,10 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
                 objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, () => {
                     objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
+
+                    // Remove selection from table
+                    $("#modify_strains_table").DataTable().rows().deselect();
+
                     modalAlert("Strain metadata was modified.", "Success!", () => {
                     });
                 });

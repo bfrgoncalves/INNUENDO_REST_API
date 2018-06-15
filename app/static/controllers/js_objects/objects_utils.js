@@ -303,7 +303,12 @@ const Objects_Utils = (single_project, $sc) => {
                             let pid = response.data.pid.trim();
 
                             let inspect_url_parts = inspect_url.split(":")
-                            inspect_url = "http://localhost:" + inspect_url_parts[2]
+
+                            if (inspect_url_parts.length > 2){
+                                inspect_url = "http://localhost:" + inspect_url_parts[2]
+                            }
+                            //inspect_url = "http://localhost:" +
+                            // inspect_url_parts[2]
 
                             url_for_pipeline[work_dir] = inspect_url;
                             pid_to_pipeline[work_dir] = pid.split(":")[1]

@@ -45,6 +45,7 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         pg_requests.get_messages(5, (response) =>{
             console.log(response);
             $scope.messages = response.data[0];
+            retrievedMessages = response.data[0].length;
             $scope.messagescount = response.data[1];
         });
 
@@ -89,7 +90,7 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
     });
 
     $scope.sendMessage = () => {
-        console.log("SEND");
+
         let tosend = {
             messageTo: $("#username_dropdown").val(),
             title: $("#form_lastname").val(),
@@ -97,9 +98,8 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         };
 
         pg_requests.send_messages(tosend, (response) => {
-            console.log(response);
+
             if (response.status === 201) {
-                console.log("sent");
                 modalAlert("Message sent!", "Messages", () => {});
             }
             else {
@@ -121,24 +121,25 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
             // Get messages stored for the current user
             pg_requests.get_messages(retrievedMessages, (response) =>{
                 $scope.messages = response.data[0];
+                retrievedMessages = response.data[0].length;
                 $scope.messagescount = response.data[1];
             });
         }
     };
 
     $scope.deleteMessage = ($event) => {
-        console.log($event.currentTarget);
+
         let messageid = $($event.currentTarget).attr("messageid");
+
         pg_requests.delete_messages(messageid, (response) => {
-           console.log(response);
            if (response.status === 204) {
-               console.log("Message deleted");
                modalAlert("Message deleted!", "Messages", () => {});
            }
 
            // Get messages stored for the current user
            pg_requests.get_messages(retrievedMessages, (response) =>{
                $scope.messages = response.data[0];
+               retrievedMessages = response.data[0].length;
                $scope.messagescount = response.data[1];
            });
         });

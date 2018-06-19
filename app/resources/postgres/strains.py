@@ -3,7 +3,8 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #
 from flask import jsonify, request
 import json
 
-from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, Campylobacter
+from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, \
+    Campylobacter, Report, Specie
 from flask_security import current_user, login_required, roles_required
 import datetime
 import os
@@ -57,7 +58,8 @@ strain_fields = {
     'timestamp': fields.String,
     'classifier': fields.String,
     'fq_location': fields.String,
-    'has_files': fields.String
+    'has_files': fields.String,
+    'Accession': fields.String
 }
 
 strain_fields_project = {
@@ -77,6 +79,14 @@ strain_fields_project = {
 # Defining metadata fields
 
 nottoStore = ["fileselector"]
+
+# Database correspondences
+database_correspondece = {
+    "E.coli": Ecoli,
+    "Yersinia": Yersinia,
+    "Salmonella": Salmonella,
+    "Campylobacter": Campylobacter
+}
 
 
 class StrainResource(Resource):
@@ -130,8 +140,6 @@ class StrainResource(Resource):
         else:
             strain.classifier = e_results.classifier
 
-        print "AQUI3"
-
         if not strain:
             abort(404, message="No strain available")
         return strain, 200
@@ -174,6 +182,12 @@ class StrainListResource(Resource):
         for strain in strains:
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
             strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
+
+            try:
+                strain.Accession = json.loads(strain.strain_metadata)["Accession"]
+            except Exception as e:
+                print e
+                strain.Accession = "NA"
 
             fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
 
@@ -328,6 +342,23 @@ class StrainsByNameResource(Resource):
         strains = db.session.query(Strain)\
             .filter(Strain.name.in_(strains_to_search)).all()
 
+        for strain in strains:
+            database_entry = db.session.query(Specie)\
+                .filter(Specie.id == strain.species_id).first()
+
+            if database_entry:
+                print "AQUI"
+                print database_entry.name
+                classifiers = db.session\
+                    .query(database_correspondece[database_entry.name])\
+                    .filter(database_correspondece[database_entry.name].name
+                            == strain.name).first()
+
+                if classifiers:
+                    strain.classifier = "{}:{}:{}".format(
+                        classifiers.classifier_l1, classifiers.classifier_l2,
+                        classifiers.classifier_l3)
+
         for i, strain in enumerate(strains):
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
             strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
@@ -374,6 +405,12 @@ class StrainProjectListResource(Resource):
         for strain in strains:
             file_1 = json.loads(strain.strain_metadata)["File_1"]
             file_2 = json.loads(strain.strain_metadata)["File_2"]
+
+            try:
+                strain.Accession = json.loads(strain.strain_metadata)["Accession"]
+            except Exception as e:
+                print e
+                strain.Accession = "NA"
 
             fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
 
@@ -426,6 +463,12 @@ class StrainProjectListResource(Resource):
         strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
         strain.file_2 = json.loads(strain.strain_metadata)["File_2"]
 
+        try:
+            strain.Accession = json.loads(strain.strain_metadata)["Accession"]
+        except Exception as e:
+            print e
+            strain.Accession = "NA"
+
         fastq_files_dir = os.path.join(strain.fq_location, "ftp", "files")
 
         file1_path = os.path.join(fastq_files_dir, strain.file_1)
@@ -444,7 +487,9 @@ class StrainProjectListResource(Resource):
         """Remove strain from project
 
         This method allows removing a strain from a project. Requires the
-        strain name and the project id
+        strain name and the project id.
+
+        It also removes the reports associated with that strain on that project.
 
         Parameters
         ----------
@@ -468,6 +513,18 @@ class StrainProjectListResource(Resource):
             abort(404, message="No strain available")
 
         project.remove_Strain(strain)
+
+        p_id = str(id)
+
+        # Remove associated reports if exist
+        reports = db.session.query(Report).\
+            filter(Report.project_id == p_id, Report.sample_name ==
+                   args.strainID).all()
+
+        if reports:
+            for report in reports:
+                db.session.delete(report)
+
         db.session.commit()
 
         return strain, 200
@@ -510,3 +567,54 @@ class DeleteReadsFromStrain(Resource):
                 print file2_path
 
         return 204
+
+
+class SpeciesStatistics(Resource):
+    """
+    Class of resource to get global statistics regarding a defining species.
+    Get info on number of strains, number of projects and number of profiles.
+    """
+
+    def get(self):
+
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+
+
+        # Get strain count
+        strains_1_count = db.session.query(Strain).filter(
+            Strain.species_id == "1").count()
+        strains_2_count = db.session.query(Strain).filter(
+            Strain.species_id == "2").count()
+        strains_3_count = db.session.query(Strain).filter(
+            Strain.species_id == "3").count()
+        strains_4_count = db.session.query(Strain).filter(
+            Strain.species_id == "4").count()
+
+        # Get project count
+        projects_1_count = db.session.query(Project).filter(
+            Project.species_id == "1").count()
+        projects_2_count = db.session.query(Project).filter(
+            Project.species_id == "2").count()
+        projects_3_count = db.session.query(Project).filter(
+            Project.species_id == "3").count()
+        projects_4_count = db.session.query(Project).filter(
+            Project.species_id == "4").count()
+
+        # Get profile count
+        profile_1_count = db.session.query(Ecoli).count()
+        profile_2_count = db.session.query(Yersinia).count()
+        profile_3_count = db.session.query(Campylobacter).count()
+        profile_4_count = db.session.query(Salmonella).count()
+
+        # Build object
+        species_object = {
+            "E.coli": [strains_1_count, projects_1_count, profile_1_count],
+            "Salmonella": [strains_4_count, projects_4_count,
+                              profile_4_count],
+            "Yersinia": [strains_2_count, projects_2_count, profile_2_count],
+            "Campylobacter": [strains_3_count, projects_3_count,
+                              profile_3_count]
+        }
+
+        return species_object

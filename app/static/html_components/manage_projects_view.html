@@ -1,16 +1,29 @@
 
 <div ng-controller="projectCtrl" ng-init="showProject()" style="display:none;" id="single_project_controller_div">
 
-  <div class="row">
-    <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-            <h1 class="home-header">{{ project.name }}</h1>
-            <p class="lead">{{ specie_name }}</p>
-            <hr class="rule1">
-        </div>
-    </div>
-  </div>
+    <div class="row nomargin">
+      <div class="jumbotron jumbotron-fluid global_stats_banner">
 
+          <div class="container">
+              <div class="col-md-4 rule3" style="text-align: center;">
+                <p style="font-weight: bold;">{{ specie_name
+                        }}</p>
+              </div>
+              <div class="col-md-4 rule3" style="text-align: center;">
+                <p style="font-weight: bold;">{{ project.name }}</p>
+              </div>
+              <div class="col-md-4 rule3" style="text-align: center;">
+                <p style="font-weight: bold;"><span
+                        class="label label-success">{{ strains_in_use
+                        }}</span> Strains</p>
+              </div>
+              <!--<div class="col-md-12">
+                <div class="rule2"></div>
+              </div>-->
+
+          </div>
+      </div>
+    </div>
 
   <ul class="nav nav-tabs">
     <li class="active" id="project_tab"><a href="#">Project</a></li>
@@ -39,8 +52,8 @@
                        padding-right: 1%;">
                       <p style="margin:1%;"><b>Total Institution Quota: </b>{{ t_quota }}</p>
                       <p style="margin:1%;"><b>Free Quota Space: </b>{{
-                              f_quota }}</p>
-                      <p style="margin:1%;"><b>Used Quota Space: </b>{{ u_quota
+                              u_quota }}</p>
+                      <p style="margin:1%;"><b>Used Quota Space: </b>{{ f_quota
                               }}</p>
                   </div>
               </div>
@@ -100,13 +113,28 @@
 
         <div style="margin-top: 4%;">
           <!--<div id="jumbotron-strains">-->
-          <h3 class="sub-header">Strains<button id="button_run_strain" type="button" class="btn btn-sm btn-primary" ng-click="runPipelines()" value="" style="float:right;"><i class="fa fa-sign-in" data-toggle="tooltip" data-placement="top" title="Run jobs"></i></button><button id="button_remove_strain" type="button" class="btn btn-sm btn-danger" ng-click="removeStrainsFromProject()" value="" style="float:right;"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Delete strain from project"></i></button><button id="button_add_strain" class="btn btn-sm btn-default" style="float:right;" data-toggle="modal" data-target="#newStrainModal"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add strain to project"></i></button>
-          <button id="button_refresh_status" class="btn btn-sm btn-success" style="float:right;" ng-click="refreshStatus()"><i class="fa fa-refresh" aria-hidden="true"></i></button>
-          <button id="button_remove_all_workflows" class="btn btn-sm btn-danger" style="float:right;display:none;" ng-click="removeAllWorkflows()"><i class="fa" aria-hidden="true">Remove all Workflows</i></button>
-          </h3>
-            <label>*Strains without available Fastq files are marked in <label
-                    style="color:red;">Red</label></label>
-            <!--<div class="scroll_div">-->
+          <div class="col-md-12">
+              <div class="col-md-6 banner-title">
+                  <p class="table_header">Strains</p>
+              </div>
+              <div class="col-md-6 banner-title" style="float: right;">
+                <button id="button_run_strain" type="button" class="btn btn-md btn-primary table_button" ng-click="runPipelines()" value="" style="float:right;"><i class="fa fa-sign-in" data-toggle="tooltip" data-placement="top" title="Run jobs"></i></button>
+                <button id="button_remove_strain" type="button" class="btn btn-md btn-danger table_button" ng-click="removeStrainsFromProject()" value="" style="float:right;"><i class="fa fa-trash-o" data-toggle="tooltip" data-placement="top" title="Delete strain from project"></i></button>
+                <button id="button_add_strain" class="btn btn-md btn-default table_button" style="float:right;" data-toggle="modal" data-target="#newStrainModal" ng-click="checkFiles()"><i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add strain to project"></i></button>
+                <button id="button_refresh_status" class="btn btn-md btn-success table_button" style="float:right;" ng-click="refreshStatus()"><i class="fa fa-refresh" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Refresh job status"></i></button>
+                <button id="button_remove_all_workflows" class="btn btn-md btn-warning table_button" style="float:right;display:none;" ng-click="removeAllWorkflows()"><i class="fa fa-times" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Remove workflows"></i></button>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div class="banner-title rule1"></div>
+          </div>
+          <div class="col-md-12" >
+              <label>*Strains without associated and Fastq files and
+                  accession number are marked in <label style="color:red;">Red</label></label>
+              <br>
+              <label>*Strains only with accession number are marked in <label
+                      style="color:#2a6cff;">Blue</label></label>
+                <!--<div class="scroll_div">-->
               <table class="table table-striped table-bordered" id="strains_table" width='100%'>
                 <thead>
                 </thead>
@@ -120,6 +148,7 @@
                 <tfoot>
                 </tfoot>
               </table>
+          </div>
         </div>
       </div>
     </div>

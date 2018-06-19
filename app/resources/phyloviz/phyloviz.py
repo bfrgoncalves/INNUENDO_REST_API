@@ -15,7 +15,13 @@ from config import core_increment_profile_file_correspondece, \
     wg_increment_profile_file_correspondece
 
 from job_processing.queue_processor import Queue_Processor
-from job_processing.database_functions import get_profiles
+
+try:
+    from job_processing.database_functions import get_profiles
+except ImportError as e:
+    # Worker creates a circular dependency with the database functions
+    print e
+    print "From worker"
 
 '''
 PHYLOViZ Online routes:

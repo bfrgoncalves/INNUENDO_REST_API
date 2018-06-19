@@ -7,10 +7,13 @@ import os
 import ldap
 import subprocess
 import glob
+from config import LOGIN_METHOD, LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, \
+                                LOGIN_PASSWORD, LOGIN_EMAIL
 
 user_fields = {
     'id': fields.Integer,
     'email': fields.String,
+    'username': fields.String,
     'projects': fields.Url('user_projects', absolute=True),
     'analysis_parameters_object': fields.String
 }
@@ -132,15 +135,22 @@ class UserExternalLogin(Resource):
         username = args.username
         password = args.password
 
-        try:
-            result = User.try_login(username, password)
-            if not result:
+        if LOGIN_METHOD != "None":
+            try:
+                result = User.try_login(username, password)
+                if not result:
+                    return None
+            except ldap.INVALID_CREDENTIALS, e:
+                print e
                 return None
-        except ldap.INVALID_CREDENTIALS, e:
-            print e
-            return None
 
-        user = User.query.filter_by(username=result['uid'][0]).first()
+            user = User.query.filter_by(username=result['uid'][0]).first()
+
+        else:
+            user = User.query.filter_by(username=LOGIN_USERNAME).first()
+
+            if username != LOGIN_USERNAME or LOGIN_PASSWORD != password:
+                return None
 
         return {"access": True, "user_id": user.id}
 
@@ -166,9 +176,15 @@ class UserQuotaResource(Resource):
         project_id = args.project_id
 
         instStorage = "/".join(current_user.homedir.split("/")[0:-2]) + "/"
+        print instStorage
+        '''if instStorage == "/":
+            instStorage = "/".join(current_user.homedir.split("/")[0:-1]) + "/"
+        '''
+
         project_dir = os.path.join(current_user.homedir, "jobs",
                                    project_id+"-*")
 
+        print instStorage
 
         # Get size of homedir
         proc = subprocess.Popen(["du", "-sh", "-B1", current_user.homedir],
@@ -193,6 +209,11 @@ class UserQuotaResource(Resource):
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out4, err = proc.communicate()
+
+        #print out1
+        #print out2
+        #print out3
+        #print out4
 
         return {"u_quota": out1, "i_quota": out2, "f_space": out4,
                 "p_space": str(out3)}

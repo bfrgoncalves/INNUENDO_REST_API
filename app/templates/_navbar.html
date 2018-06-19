@@ -3,13 +3,81 @@
     <div class="container-fluid">
       <div class="navbar-header">
         <p class="pull-left visible-xs">
-            <button id="offcanvasleft" class="navbar-toggle" type="button" data-toggle="offcanvasleft"><i class="fa fa-bars"> INNUENDO</i></button>
+            <button id="offcanvasleft" class="navbar-toggle" type="button" data-toggle="offcanvasleft"><i class="fa fa-bars">INNUENDO</i></button>
         </p>
         <button id="navbarlogbutton" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i class="fa fa-bars"> Log Menu</i></button>
         <!--<a class="navbar-brand" href="{{ url_for('index') }}">INNUENDO Platform</a>-->
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
+        {% if current_user.is_authenticated %}
+        <li class="nav-item dropdown dropdown-notifications"
+            style="text-align: center;">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#notifications-panel" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="d-lg-none">Messages
+              <span class="badge badge-pill badge-primary"
+                    id="newMessagesSpan">0 New</span>
+            </span>
+            <span class="indicator text-primary d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+
+            <div class="dropdown-container dropdown-position-bottomright">
+
+              <div class="dropdown-toolbar">
+                <div class="dropdown-toolbar-actions">
+                  <!--<a href="#">Mark all as read</a>-->
+                </div>
+                <h3 class="dropdown-toolbar-title" id="nMessages">Messages (0)
+                </h3>
+              </div><!-- /dropdown-toolbar -->
+
+              <ul id="message_noti_panel" class="dropdown-menu notifications">
+
+              </ul>
+
+              <div class="dropdown-footer text-center">
+                <a href="#" id="viewAllMessages">View All</a>
+              </div><!-- /dropdown-footer -->
+
+            </div><!-- /dropdown-container -->
+
+
+        </li>
+        <!--<li class="nav-item dropdown dropdown-notifications">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown"
+             href="#notifications-panel-alert" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-bell"></i>
+            <span class="d-lg-none">Alerts
+              <span class="badge badge-pill badge-warning">0 New</span>
+            </span>
+            <span class="indicator text-warning d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+            <div class="dropdown-container dropdown-position-bottomright">
+
+              <div class="dropdown-toolbar">
+                <div class="dropdown-toolbar-actions">
+                  <a href="#">Mark all as read</a>
+                </div>
+                <h3 class="dropdown-toolbar-title">Notifications (2)</h3>
+              </div>
+
+              <ul class="dropdown-menu">
+                  ...
+              </ul>
+
+              <div class="dropdown-footer text-center">
+                <a href="#">View All</a>
+              </div>
+
+            </div>
+        </li>-->
+        {% endif %}
           <li class="dropdown">
             <a id="backbutton"><i class="fa fa-arrow-left"></i></a>
           </li>

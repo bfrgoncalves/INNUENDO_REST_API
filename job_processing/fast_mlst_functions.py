@@ -1,6 +1,8 @@
 import random
 import string
 import subprocess
+from config import FAST_MLST_PATH
+import os
 
 '''
 Fast-MLST (https://github.com/aplf/fast-mlst) functions:
@@ -14,7 +16,7 @@ def get_closest_profiles(profile_query_file_path, index_path, max_closest):
     file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
     myinput = open(profile_query_file_path)
 
-    command = './dependencies/fast-mlst/src/main -i '+index_path+' -q '+str(max_closest)
+    command = os.path.join(FAST_MLST_PATH, 'src/main') + ' -i '+index_path+' -q '+str(max_closest)
     command = command.split(' ')
     print command
 
@@ -32,8 +34,7 @@ def update_index(profile_query_file_path, index_path):
     file_name = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
     myinput = open(profile_query_file_path)
 
-
-    command = './dependencies/fast-mlst/src/main -i '+index_path+' -b'
+    command = os.path.join(FAST_MLST_PATH, 'src/main') + ' -i '+index_path+' -b'
     command = command.split(' ')
     print command
 

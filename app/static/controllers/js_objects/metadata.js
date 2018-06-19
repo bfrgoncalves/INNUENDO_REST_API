@@ -49,6 +49,7 @@ const Metadata = () => {
         "Sample": "Sample",
         "Project Name":"project_name",
         "Classifier":"classifier",
+        "Accession": "Accession",
         "Timestamp":"timestamp"
     };
 
@@ -74,12 +75,19 @@ const Metadata = () => {
         "Sample": "Sample",
         "project_name": "Project Name",
         "classifier": "Classifier",
+        "Accession": "Accession",
         "timestamp": "Timestamp"
     };
 
     //The minimum headers to be seen on a table
-    const minimal_headers = ["Strain Name", "Received Date", "Source", "Additional Info", "File 1", "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2", "Location", "Timestamp"];
-    const default_headers = ["Strain Name", "Received Date", "Source", "Sampling Date", "Location", "Sample", "Run Identifier", "Project Name", "Classifier", "Timestamp"];
+    const minimal_headers = [
+        "Strain Name", "Received Date", "Source", "Additional Info", "File 1",
+        "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2",
+        "Location", "Accession", "Timestamp"];
+
+    const default_headers = [
+        "Strain Name", "Received Date", "Source", "Sampling Date", "Location",
+        "Sample", "Run Identifier", "Project Name", "Classifier", "Accession", "Timestamp"];
 
     return {
 

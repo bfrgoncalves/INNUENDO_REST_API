@@ -112,6 +112,19 @@ nextflow_logs_get_parser.add_argument('project_id', dest='project_id',
 nextflow_logs_get_parser.add_argument('filename', dest='filename', type=str,
                                       required=True, help="filename")
 
+inspect_get_parser = reqparse.RequestParser()
+inspect_get_parser.add_argument('pipeline_id', dest='pipeline_id',
+                                      type=str, required=True,
+                                      help="pipeline_id")
+inspect_get_parser.add_argument('project_id', dest='project_id',
+                                      type=str, required=True,
+                                      help="project_id")
+
+inspect_put_parser = reqparse.RequestParser()
+inspect_put_parser.add_argument('pid', dest='pid',
+                                      type=str, required=True,
+                                      help="pid")
+
 database_processor = Queue_Processor()
 
 
@@ -155,6 +168,8 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
         Report.procedure == procedure).first()
 
     print results.keys()
+
+    print procedure
 
     # Classify the profiles case the procedure is chewbbaca
     if "chewbbaca" in procedure:
@@ -345,6 +360,7 @@ class Job_queue(Resource):
             metadata = json.loads(strain.strain_metadata)
 
             files = {}
+            accession = {}
 
             if processes_wrkdir[counter] != "false" \
                     and processes_to_run[counter] == "true":
@@ -381,6 +397,8 @@ class Job_queue(Resource):
             for x in fields['metadata_fields']:
                 if 'File_' in x:
                     files[x] = metadata[x]
+                if 'Accession' in x:
+                    accession = metadata[x]
 
             if 'used Parameter' in steps:
                 data.append({
@@ -388,6 +406,7 @@ class Job_queue(Resource):
                     'username': str(current_user.username),
                     'strain_submitter': args.strain_submitter,
                     'files': json.dumps(files),
+                    'accession': json.dumps(accession),
                     'project_id': args.project_id,
                     'pipeline_id': args.pipeline_id,
                     'process_id': process_ids[counter],
@@ -688,18 +707,100 @@ class NextflowLogs(Resource):
             if not user_of_project:
                 content = "file not found"
             else:
-                username = user_of_project.username
+                username_homedir = user_of_project.homedir
 
-                for x in USER_STORAGES:
-                    file_location = os.path.join(
-                        til_storage, x, username, "jobs",
-                        args.project_id+"-"+args.pipeline_id, args.filename)
+                #for x in USER_STORAGES:
+                file_location = os.path.join(
+                    username_homedir, "jobs",
+                    args.project_id+"-"+args.pipeline_id, args.filename)
 
-                    try:
-                        with open(file_location, "r") as file_r:
-                            content = file_r.read()
-                        break
-                    except IOError:
-                        content = "file not found"
+                try:
+                    with open(file_location, "r") as file_r:
+                        content = file_r.read()
+
+                except IOError:
+                    content = "file not found"
 
         return {"content": content}, 200
+
+
+class FlowcraftInspect(Resource):
+    """
+    Class to trigger flowcraft inspect
+    """
+
+    @login_required
+    def get(self):
+        """Trigger inspect
+
+        This method trigger the flowcraft inspect by going to the pipeline
+        folder and running the inspect command
+
+        Returns
+        -------
+        str: inspect url
+        """
+
+        args = inspect_get_parser.parse_args()
+
+        request = requests.get(os.path.join(JOBS_ROOT, "inspect"),
+                                params={
+                                    'homedir': current_user.homedir,
+                                    'pipeline_id': args.pipeline_id,
+                                    'project_id': args.project_id,
+                                }
+                                )
+
+        out = request.json()
+
+        return out
+
+    @login_required
+    def put(self):
+        """Trigger inspect close
+
+        This method triggers the end of the inspect for a given strain.
+
+        Returns
+        -------
+        str: status
+        """
+
+        args = inspect_put_parser.parse_args()
+
+        request = requests.put(os.path.join(JOBS_ROOT, "inspect"),
+                               params={
+                                   'pid': args.pid
+                               }
+                               )
+
+        out = request.json()
+
+        return out
+
+    @login_required
+    def post(self):
+        """Trigger inspect
+
+        This method trigger the flowcraft inspect by going to the pipeline
+        folder and running the inspect command
+
+        Returns
+        -------
+        str: inspect url
+        """
+
+        args = inspect_get_parser.parse_args()
+
+        request = requests.post(os.path.join(JOBS_ROOT, "inspect"),
+                               data={
+                                   'homedir': current_user.homedir,
+                                   'pipeline_id': args.pipeline_id,
+                                   'project_id': args.project_id,
+                               }
+                               )
+
+        out = request.json()
+
+        return out
+

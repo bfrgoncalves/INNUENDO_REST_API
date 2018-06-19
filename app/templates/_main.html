@@ -5,29 +5,98 @@
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
             <ul class="nav sidebar-nav">
-                <li><a href="#"><h3>INNUENDO</h3></a></li>
-                <li class="active" id="overview_li"><a href="" class="nav-a" id="overviewLink" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">Overview</a></li>
+                <li style="text-align: center;" class="nav-item" id="logo_li">
+                    <a href="#" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;"><img width="40%" height="auto"
+                                    src="static/img/innuendo_logo.png"></a>
+                </li>
+                <li id="overview_li" class="nav-item active" data-toggle="tooltip"
+                    data-placement="right"
+                    title="Overview">
+                  <a  id="overviewLink" class="nav-link" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/overview.html') }}&#39;">
+                    <i class="fa fa-fw fa-dashboard"></i>
+                    <span class="nav-link-text">Overview</span>
+                  </a>
+                </li>
                 {% if show_protocols %}
-                  <li id="protocols_button_li" ><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">Protocols</a></li>
-                  <li id="workflows_button_li"><a href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">Workflows</a></li>
+                <li id="admin_tools" class="nav-item drop" data-toggle="tooltip"
+                    data-placement="right"
+                    title="Tools">
+                  <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMultiAdmin">
+                    <i class="fa fa-fw fa-sitemap"></i>
+                    <span class="nav-link-text">Admin Tools</span>
+                  </a>
+                  <ul class="sidenav-second-level collapse"
+                      id="collapseMultiAdmin">
+                    <li id="protocols_button_li" class="nav-item" data-toggle="tooltip"
+                        data-placement="right" title="Protocols">
+                      <a  href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;"">
+                        <i class="fa fa-fw"></i>
+                        <span class="nav-link-text">Protocols</span>
+                      </a>
+                    </li>
+                    <li id="workflows_button_li" class="nav-item" data-toggle="tooltip"
+                        data-placement="right" title="Tables">
+                      <a  href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/workflows_view.html') }}&#39;">
+                        <i class="fa fa-fw"></i>
+                        <span class="nav-link-text">Workflows</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
-                <li id="projects_button_li"><a id="projects_button" href="" class="nav-a" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">Projects</a></li>
-                <li id="reports_button_li"><a  id="reports_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">Reports</a></li>
-            
-                <li id="species_drop_button_li">
-                  <a href="#" id="reset_strain">Change Species</a>
+                <li id="projects_button_li" class="nav-item" data-toggle="tooltip"
+                    data-placement="right" title="Projects">
+                  <a  id="projects_button" class="nav-link" href=""
+                      ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/projects_view.html') }}&#39;">
+                    <i class="fa fa-fw fa-book"></i>
+                    <span class="nav-link-text">Projects</span>
+                  </a>
                 </li>
-                <li class="drop" id="tools_button_li">
-                  <a href="#" data-toggle="collapse" data-target="#toggleDemo" class="collapsed">Tools</a>
-                  <div class="collapse dropdiv" id="toggleDemo" style="height: 0px;">
-                    <ul class="nav nav-list" style="font-size: 12px;">
-                      <!--<li id="uploads_button_li"><a  id="uploads_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/downloads_view.html') }}&#39;">Downloads</a></li>-->
-                      <li id="modify_strains_button_li"><a  id="modify_strains_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/modify_strains_view.html') }}&#39;">Modify Strain Metadata</a></li>
-                      <!--<li id="modify_strains_button_li"><a  id="modify_strains_button" class="nav-a" href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/configure_analysis_parameters_view.html') }}&#39;">Configure Analysis Metadata</a></li>-->
-                    </ul>
-                  </div>
+                <li id="reports_button_li" class="nav-item" data-toggle="tooltip"
+                    data-placement="right" title="Reports">
+                  <a  id="reports_button" class="nav-link" href=""
+                      ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/reports_view.html') }}&#39;">
+                    <i class="fa fa-fw fa-area-chart"></i>
+                    <span class="nav-link-text">Reports</span>
+                  </a>
                 </li>
+
+                <li id="user_tools" class="nav-item drop" data-toggle="tooltip"
+                    data-placement="right"
+                    title="Tools">
+                  <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti">
+                    <i class="fa fa-fw fa-cogs"></i>
+                    <span class="nav-link-text">User Tools</span>
+                  </a>
+                  <ul class="sidenav-second-level collapse" id="collapseMulti">
+                    <li id="modify_strains_button_li">
+                      <a id="modify_strains_button" href=""
+                         ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/modify_strains_view.html') }}&#39;">Modify Metadata</a>
+                    </li>
+                  </ul>
+                </li>
+
+                <li id="species_drop_button_li" class="nav-item" data-toggle="tooltip"
+                    data-placement="right" title="Reports">
+                  <a  id="reset_strain" class="nav-link" href="#">
+                    <i class="fa fa-fw fa-reply"></i>
+                    <span class="nav-link-text">Change Species</span>
+                  </a>
+                </li>
+
+                <li id="messages_button_li" class="nav-item"
+                    data-toggle="tooltip"
+                    data-placement="right" title="Messages">
+                  <a  id="messages_button" class="nav-link" href=""
+                      ng-click="selectedTemplate.path = &#39;{{ url_for
+                      ('static', filename='html_components/messages_view.html')
+                              }}&#39;">
+                    <i class="fa fa-fw fa-comments"></i>
+                    <span class="nav-link-text">Messages</span>
+                  </a>
+                </li>
+
                 {% endif %}
             </ul>
 
@@ -45,7 +114,7 @@
               <div ng-include src="'static/html_components/modals/new_mail_modal.html'"></div>
               <img src='static/img/spinner.gif' style="display:none; height:10%; width:auto" id="waiting_spinner" />
               {% include "security/_messages.html" %}
-              <div data-ng-include="selectedTemplate.path" id="main_container"></div>    
+              <div data-ng-include="selectedTemplate.path" id="main_container"></div>
             </div>
         </div>
         <!-- /#page-content-wrapper -->

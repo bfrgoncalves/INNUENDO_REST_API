@@ -3,7 +3,7 @@ import ldap.modlist as modlist
 from app import db
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
-from config import LDAP_PROVIDER_URL, baseDN
+from config import LDAP_PROVIDER_URL, baseDN, LDAP_ADMIN_NAME, LDAP_ADMIN_PASS
 from passlib.hash import ldap_md5
 
 '''
@@ -115,6 +115,15 @@ class User(db.Model, UserMixin):
             conn.simple_bind_s("cn="+email+",ou=users,"+baseDN, password)
         except Exception as e:
             return False
+
+        #conn.unbind()
+
+        '''try:
+            conn.simple_bind_s("cn=" + LDAP_ADMIN_NAME + "," + baseDN, LDAP_ADMIN_PASS)
+        except Exception as e:
+            print e
+            return False'''
+
         search_filter = "uid="+email
         entry = ""
         result = conn.search_s(baseDN, ldap.SCOPE_SUBTREE, search_filter)
@@ -423,7 +432,9 @@ class Message(db.Model):
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
     timestamp = db.Column(db.DateTime)
-    name = db.Column(db.String(255))
+    title = db.Column(db.String(255))
+    messageFrom = db.Column(db.String(255))
+    messageTo = db.Column(db.String(255))
     message = db.Column(db.Text())
     status = db.Column(db.String(255))
 
@@ -461,6 +472,7 @@ class Ecoli(db.Model):
     name = db.Column(db.String(255), unique=True)
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
+    classifier_l3 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform
@@ -480,6 +492,7 @@ class Yersinia(db.Model):
     name = db.Column(db.String(255), unique=True)
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
+    classifier_l3 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform
@@ -499,6 +512,7 @@ class Campylobacter(db.Model):
     name = db.Column(db.String(255), unique=True)
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
+    classifier_l3 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform
@@ -518,6 +532,7 @@ class Salmonella(db.Model):
     name = db.Column(db.String(255), unique=True)
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
+    classifier_l3 = db.Column(db.String(255))
     allelic_profile = db.Column(JSON)
     strain_metadata = db.Column(JSON)
     # Tell if it is legacy or from the platform

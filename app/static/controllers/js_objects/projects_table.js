@@ -60,6 +60,15 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         },
 
         /*
+        Get statistics
+         */
+        get_statistics: (callback) => {
+            pg_requests.get_statistics ( (response) => {
+                callback(response);
+            });
+        },
+
+        /*
         Get all projects available from the current species.
         Can be from other users or only for the current user
         */

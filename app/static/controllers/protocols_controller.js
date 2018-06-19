@@ -37,6 +37,18 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         })
     });
 
+    $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
+
+    $("#projects_button_li").css({"display":"none"});
+    $("#reports_button_li").css({"display":"none"});
+    $("#uploads_button_li").css({"display":"none"});
+    $("#tools_button_li").css({"display":"none"});
+    $("#user_tools").css({"display":"none"});
+    $("#workflows_button_li").css({"display":"block"});
+    $("#protocols_button_li").css({"display":"block"});
+    $("#species_drop_button_li").css({"display":"none"});
+    $("#overview_li").css({"display":"block"});
+
     for (const interval in intervals_running){
         if(intervals_running.hasOwnProperty(interval)){
             clearInterval(intervals_running[interval]);
@@ -56,14 +68,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
     $scope.protocolTypeParameters = {};
 
     const protocols_list = Protocol_List($http);
-
-    /*
-    Lists of used softwares and nextflow tags. This should pass to the
-     config file of the platform in the future.
-     */
-    const usedSoftware = ["INNUca", "chewBBACA", "PathoTyping", "integrity_coverage", "fastqc", "trimmomatic", "integrity_coverage_2", "fastqc2", "true_coverage", "spades", "process_spades", "assembly_mapping", "process_assembly_mapping", "pilon", "mlst", "prokka", "abricate", "seq_typing", "patho_typing"];
-    const nextflow_tags = ["integrity_coverage", "check_coverage", "fastqc", "trimmomatic", "fastqc_trimmomatic", "true_coverage", "spades", "process_spades", "assembly_mapping", "pilon", "mlst", "abricate", "prokka", "chewbbaca", "seq_typing", "patho_typing"];
-
 
     $scope.loadProtocols = () => {
         $scope.getProtocolTypes();
@@ -88,8 +92,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             protocolSelEl.append(options);
             protocolSelLoadEl.append(options);
 
-            //$(".selectpicker").selectpicker({});
-
             protocolSelEl.on("change", () => {
                 $scope.loadProtocolCreator($("#protocol_type_selector option:selected").text());
             });
@@ -99,6 +101,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
             protocolSelEl.trigger("change");
             protocolSelLoadEl.trigger("change");
+
         });
     };
 
@@ -112,9 +115,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
     $scope.loadProtocolCreator = (selectedType) => {
 
         $("#new_protocol_form").css({"display":"none"});
-
-        //const selectSoftEl = $('#select_software');
-        //const nextflowTagEl = $('#nextflow_tag');
 
         protocols_list.load_protocol_form(selectedType, (results) => {
             $(".to_empty").val("");
@@ -135,8 +135,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                         options_nextflow += "<option>"+nextflow_tags[y]+"</option>";
                     }
 
-                    console.log(options, options_nextflow);
-
                     const selectPickerEl = $(".selectpicker");
 
                     $('#select_software').empty().append(options);
@@ -146,6 +144,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     selectPickerEl.selectpicker("refresh");
 
                     $("#new_protocol_form").css({"display":"block"});
+
+                    $('#waiting_spinner').css({display:'none'});
+                    $('#protocol_controller_div').css({display:'block'});
                 }
             }, 800);
         });
@@ -176,6 +177,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                         $scope.selected_protocol = results.protocol;
                     })
                     $("#div_protocol_show").css({display:"block"});
+
                 });
             });
 

@@ -19,8 +19,35 @@ Launch a object_utils instance
 */
 
 let protocols_on_table = {};
+let url_for_pipeline = {}
+let pid_to_pipeline = {};
 
 const Objects_Utils = (single_project, $sc) => {
+
+    const modalAlert = (text, header, callback) => {
+
+        const modalBodyEl = $('#modalAlert .modal-body');
+        const buttonSub = $('#buttonSub');
+
+        $('#buttonCancelAlert').off("click");
+
+        $('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
+
+        modalBodyEl.empty();
+        modalBodyEl.append("<p>"+text+"</p>");
+
+        buttonSub.off("click").on("click", () => {
+            $('#modalAlert').modal("hide");
+
+            setTimeout( () => {
+                return callback();
+            }, 400);
+        });
+
+        $('#modalAlert').modal("show");
+
+    };
 
 
     const format_analysis = ( d, table_id ) => {
@@ -132,6 +159,10 @@ const Objects_Utils = (single_project, $sc) => {
                 $(row).removeClass("even");
                 if( data.has_files === "false"){
                     $(row).addClass("no_files_row");
+                }
+
+                if( data.Accession !== "NA" && data.Accession !== "" && data.has_files === "false"){
+                    $(row).addClass("accession_row");
                 }
             },
             "initComplete": () => {
@@ -255,9 +286,87 @@ const Objects_Utils = (single_project, $sc) => {
             nextflowLogEl.off("click").on("click", (e) => {
                 const href = $(e.target).attr("href");
 
-                single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
-                    $(href).html("<pre>"+response.data.content+"</pre>");
-                });
+                $("#repeat_button").css({"display":"none"});
+
+                $("#repeat_submitted_text").text("");
+
+                if($(e.target).attr("name") === "nextflow_inspect"){
+                    let pip_id = "";
+                    let work_dir = CURRENT_PROJECT_ID + "-" + pip_id;
+
+                    if(url_for_pipeline[work_dir] == undefined) {
+
+                        single_project.triggerInspect($(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
+
+                            let inspect_url = response.data.link.trim();
+                            let pid = response.data.pid.trim();
+
+                            let inspect_url_parts = inspect_url.split(":")
+
+                            if (inspect_url_parts.length > 2){
+                                inspect_url = "http://localhost:" + inspect_url_parts[2]
+                            }
+
+                            url_for_pipeline[work_dir] = inspect_url;
+                            pid_to_pipeline[work_dir] = pid.split(":")[1]
+
+                            $("#nextflow_inspect_div").html(
+                                "<iframe style='width:100%;height:100%;' src='" + inspect_url + "'><iframe>"
+                            );
+
+                        });
+                    }
+                }
+                else{
+
+                   let e_target = $(e.target).attr("name");
+                   let e_target_pip = $(e.target).parent().attr("pip");
+                   single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
+                        $(href).html("<pre>"+response.data.content+"</pre>");
+
+                        if(e_target.indexOf("nextflow_log") > -1) {
+                            if (response.data.content.indexOf("Success     : false") > -1) {
+
+                                $("#repeat_button").off("click").on("click", (e) => {
+
+                                    single_project.retryPipeline(e_target_pip, CURRENT_PROJECT_ID, (response) => {
+                                        console.log(response);
+
+                                        if(response.data === true){
+                                            $("#repeat_submitted_text").text("Pipeline successfully resubmitted. Refresh the Nextflow Run tab to see the progress.");
+                                        }
+                                        else {
+                                            $("#repeat_submitted_text").text("An error as occurred when resubmitting the pipeline.");
+                                        }
+
+
+                                    });
+
+                                });
+
+
+                                $("#repeat_button").css({"display":"block"});
+
+                            }
+                        }
+                    });
+                }
+
+            });
+
+
+
+            $('#modalNextflowLogs').off('hide.bs.modal').on('hide.bs.modal', () => {
+
+                pid_keys = Object.keys(pid_to_pipeline);
+
+                for(const x in pid_keys){
+
+                    single_project.killInspect(pid_to_pipeline[pid_keys[x]], (response) => {
+                        delete pid_to_pipeline[pid_keys[x]]
+                        delete url_for_pipeline[pid_keys[x]]
+                    });
+                }
             });
 
             $("#nextflow_log_li").trigger("click");
@@ -403,7 +512,7 @@ const Objects_Utils = (single_project, $sc) => {
 
     return {
 
-        apply_pipeline_to_strain: (strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, callback) => {
+        apply_pipeline_to_strain: (strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, pipelinesAndDependency, applied_dependencies, callback) => {
 
             const table = $('#' + strain_table_id).DataTable();
 
@@ -459,9 +568,11 @@ const Objects_Utils = (single_project, $sc) => {
 
                         if(!strainNames_to_pipelinesNames.hasOwnProperty(s_name)){
                             strainNames_to_pipelinesNames[s_name] = [];
+                            applied_dependencies[s_name] = [];
                         }
 
                         strainNames_to_pipelinesNames[s_name].push(pipelinesByID[workflow_id]);
+                        applied_dependencies[s_name].push(pipelinesAndDependency[pipelinesByID[workflow_id]]);
 
 
                         if(!pipelines_applied.hasOwnProperty(strain_name)){

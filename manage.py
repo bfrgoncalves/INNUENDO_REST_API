@@ -5,7 +5,8 @@ from flask.ext.migrate import Migrate, MigrateCommand
 from app import app, db
 
 '''
-Loads the Flask db Manager to deal with database migrations and upgrades. Version control
+Loads the Flask db Manager to deal with database migrations and upgrades. 
+Version control
 
 ./manage db init --multidb
 ./manage db migrate
@@ -19,4 +20,4 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 if __name__ == '__main__':
-	manager.run()
+    manager.run()

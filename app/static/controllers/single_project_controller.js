@@ -82,6 +82,7 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
                 { "data": "Location" },
+                { "data": "Accession" },
                 { "data": "timestamp" }
 
             ];
@@ -111,6 +112,7 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
                 { "data": "Location" },
+                { "data": "Accession" },
                  { "data": "timestamp" },
                 {
                     "className":      'details-control',
@@ -119,7 +121,8 @@ const set_headers_single_project = (table_id, global_strains) => {
                     "defaultContent": '<div><button class="details-control' +
                     ' btn-default"><i class="fa fa-lg fa-info"' +
                     ' data-toggle="tooltip" data-placement="top" title="More' +
-                    ' information"></i></button><button' +
+                    ' information"></i></button>' +
+                    '<button' +
                     ' class="analysis-control btn-warning"><i class="fa' +
                     ' fa-lg fa-tasks" data-toggle="tooltip"' +
                     ' data-placement="top" title="Analytical' +
@@ -162,11 +165,18 @@ const set_headers_single_project = (table_id, global_strains) => {
         if (table_id !== 'public_strains_table'){
 
             let info_button = "";
+
             if(SHOW_INFO_BUTTON) {
                 info_button = '<button class="info-control btn-default"><i' +
                     ' class="fa fa-lg fa-info" data-toggle="tooltip"' +
                     ' data-placement="top" title="More information"></i></button>';
             }
+
+            /*const inspect_button = '<button class="inspect-control' +
+                ' btn-default"><i' +
+                    ' class="fa fa-lg fa-bug" data-toggle="tooltip"' +
+                    ' data-placement="top" title="Inspect"></i></button>';*/
+
 
             const analysis_cell = {
                 "className":      'details-control',
@@ -198,6 +208,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     const backButtonEl = $("#backbutton");
 
+    console.log(CURRENT_SPECIES_ID);
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
     else backButtonEl.css({"display":"none"});
@@ -362,8 +373,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             loadGoogleChart(t_quota);
             $scope.t_quota = humanFileSize(t_quota.t_quota, true);
             $scope.f_quota = humanFileSize(t_quota.f_quota, true);
-            $scope.p_space = humanFileSize(t_quota.p_space, true);
-            $scope.u_space = humanFileSize(t_quota.u_space +  t_quota.i_quota, true);
+            $scope.p_space = humanFileSize(t_quota.u_space, true);
+            $scope.u_space = humanFileSize(t_quota.i_quota - t_quota.u_space, true);
             $scope.u_quota = humanFileSize(t_quota.t_quota - t_quota.f_quota, true);
 
             $("#overlayProjects").css({"display":"none"});
@@ -411,30 +422,35 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         });
     };
 
+    $scope.checkFiles = () => {
+
+        //Get the files available on the user folder on the server side
+        single_project.get_user_files( (response) => {
+            let t_use_f1 = "<option>None</option>";
+            let t_use_f2 = "<option>None</option>";
+
+            for(const r in response.data.files){
+                if(response.data.files[r].includes("_R1_") || response.data.files[r].includes("_1.fastq.gz")){
+                    t_use_f1 += '<option value="'+response.data.files[r]+'">' + response.data.files[r] + '</option>';
+                }
+                else if(response.data.files[r].includes("_R2_") || response.data.files[r].includes("_2.fastq.gz")){
+                    t_use_f2 += '<option value="'+response.data.files[r]+'">' + response.data.files[r] + '</option>';
+                }
+            }
+
+            $('#File_1').empty().append(t_use_f1);
+            $('#File_2').empty().append(t_use_f2);
+
+            $(".selectpicker").selectpicker("refresh");
+
+        });
+    };
+
     /*
     Loads a complete project. Gets the workflows, the strains and the applied pipelines for those strains
     */
     $scope.showProject = () => {
         $timeout( () => {
-
-            //Get the files available on the user folder on the server side
-            single_project.get_user_files( (response) => {
-                //var t_use = "";
-                let t_use_f1 = "";
-                let t_use_f2 = "";
-
-                for(const r in response.data.files){
-                    if(response.data.files[r].includes("_R1_") || response.data.files[r].includes("_1.fastq.gz")){
-                        t_use_f1 += '<option>' + response.data.files[r] + '</option>';
-                    }
-                    else if(response.data.files[r].includes("_R2_") || response.data.files[r].includes("_2.fastq.gz")){
-                        t_use_f2 += '<option>' + response.data.files[r] + '</option>';
-                    }
-                }
-
-                $('#File_1').append(t_use_f1);
-                $('#File_2').append(t_use_f2);
-            });
 
             //Only show run and delete strain button if the project is from the current user
 
@@ -481,6 +497,9 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                         //Get the pipelines applied to those strains
                         $scope.getAppliedPipelines(null, (strains_results) => {
                             objects_utils.destroyTable('strains_table');
+
+                            console.log(global_strains);
+                            $scope.strains_in_use = global_strains.length;
 
                             if(strains_results.strains === "no_pipelines"){
                                 let headers_defs = set_headers_single_project('strains_table', global_strains);
@@ -541,6 +560,21 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             $("#submission_status").empty();
                             single_project.load_strains_from_file(input_element, '\t', (results) => {
                             });
+                        });
+
+                        $('#file_selector').on("change", (e) => {
+                            const currentValue = $(e.target).val();
+                            console.log($(e.target).val());
+                            if (currentValue === "reads"){
+                                $("#div_file1").css({"display":"block"});
+                                $("#div_file2").css({"display":"block"});
+                                $("#div_accession").css({"display":"none"});
+                            }
+                            else if(currentValue === "accession"){
+                                $("#div_file1").css({"display":"none"});
+                                $("#div_file2").css({"display":"none"});
+                                $("#div_accession").css({"display":"block"});
+                            }
                         });
 
                         $('#fromfile_file').on("change", (e) => {
@@ -631,7 +665,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                 });
             });
 
-            $scope.specie_name = CURRENT_SPECIES_NAME;
+            $scope.specie_name = SPECIES_CORRESPONDENCE[CURRENT_SPECIES_NAME];
             $scope.species_id = CURRENT_SPECIES_ID;
 
         }, 100);
@@ -688,55 +722,65 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     Run all the applied workflows that are able to run for each strain
     */
     $scope.runPipelines = () => {
-        $('#button_run_strain').fadeTo("slow", 0.5).css('pointer-events','none');
 
-        $("#overlayProjects").css({"display":"block"});
-        $("#overlayWorking").css({"display":"block"});
-        $("#single_project_controller_div").css({"display":"none"});
-        $("#submission_status").empty();
+        const alert_message = "By choosing this option, all selected" +
+            " pipelines will be saved and unsubmitted jobs will be sent" +
+            " to the server. Do you want to proceed?";
 
-        //Check if there are jobs pending or already running. If so, the jobs can't be run again
-        single_project.check_if_pending( (haspending) => {
+        modalAlert(alert_message, "Run Pipelines", () => {
 
-            const buttonRunStrainEl = $('#button_run_strain');
-            const overlayProjects = $("#overlayProjects");
-            const overlayWorking = $("#overlayWorking");
-            const singleProjEl = $("#single_project_controller_div");
+            $('#button_run_strain').fadeTo("slow", 0.5).css('pointer-events','none');
 
-            if(haspending === true){
-                modalAlert('One or more of the selected strains have jobs' +
-                    ' already submitted. Please wait until they finish' +
-                    ' before submit new jobs for those strains.', "Jobs" +
-                    " Still Running", () => {});
-                buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                overlayProjects.css({"display":"none"});
-                overlayWorking.css({"display":"none"});
-                singleProjEl.css({"display":"block"});
-            }
-            else if(haspending === "no_selected"){
-                modalAlert('Please select at least one strain to run' +
-                    ' analysis.', "Select Strains", () => {});
-                buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                overlayProjects.css({"display":"none"});
-                overlayWorking.css({"display":"none"});
-                singleProjEl.css({"display":"block"});
-            }
-            else{
-                //Save the pipelines on the database if required
-                single_project.save_pipelines((run) => {
-                    //Run the pipelines
-                    if(run === true) single_project.run_pipelines();
-                    else if(run !== "no_select") {
-                        modalAlert('All processes for the selected strains' +
-                            ' have been run.', "All Processes Submitted", () => {});
-                        buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                        overlayProjects.css({"display":"none"});
-                        overlayWorking.css({"display":"none"});
-                        singleProjEl.css({"display":"block"});
-                    }
-                });
-            }
+            $("#overlayProjects").css({"display":"block"});
+            $("#overlayWorking").css({"display":"block"});
+            $("#single_project_controller_div").css({"display":"none"});
+            $("#submission_status").empty();
+
+            //Check if there are jobs pending or already running. If so, the jobs can't be run again
+            single_project.check_if_pending( (haspending) => {
+
+                const buttonRunStrainEl = $('#button_run_strain');
+                const overlayProjects = $("#overlayProjects");
+                const overlayWorking = $("#overlayWorking");
+                const singleProjEl = $("#single_project_controller_div");
+
+                if(haspending === true){
+                    modalAlert('One or more of the selected strains have jobs' +
+                        ' already submitted. Please wait until they finish' +
+                        ' before submit new jobs for those strains.', "Jobs" +
+                        " Still Running", () => {});
+                    buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                    overlayProjects.css({"display":"none"});
+                    overlayWorking.css({"display":"none"});
+                    singleProjEl.css({"display":"block"});
+                }
+                else if(haspending === "no_selected"){
+                    modalAlert('Please select at least one strain to run' +
+                        ' analysis.', "Select Strains", () => {});
+                    buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                    overlayProjects.css({"display":"none"});
+                    overlayWorking.css({"display":"none"});
+                    singleProjEl.css({"display":"block"});
+                }
+                else{
+                    //Save the pipelines on the database if required
+                    single_project.save_pipelines((run) => {
+                        //Run the pipelines
+                        if(run === true) single_project.run_pipelines();
+                        else if(run !== "no_select") {
+                            modalAlert('All processes for the selected strains' +
+                                ' have been run.', "All Processes Submitted", () => {});
+                            buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                            overlayProjects.css({"display":"none"});
+                            overlayWorking.css({"display":"none"});
+                            singleProjEl.css({"display":"block"});
+                        }
+                    });
+                }
+            })
+
         })
+
     };
 
     $scope.myReplace = (string) => {
@@ -965,7 +1009,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             global_public_strains = strains_results.public_strains;
 
             let headers_defs = set_headers_single_project('public_strains_table', global_public_strains);
-
+            console.log(headers_defs);
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
                 callback();
@@ -982,7 +1026,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         single_project.get_project_strains( (strains_results) => {
             global_strains = strains_results.strains;
             let headers_defs = set_headers_single_project('strains_table', global_strains);
-
+            console.log(headers_defs);
             objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
                 callback();

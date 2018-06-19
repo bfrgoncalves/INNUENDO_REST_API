@@ -63,6 +63,7 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
         $("#reports_button_li").css({"display":"none"});
         $("#uploads_button_li").css({"display":"none"});
         $("#tools_button_li").css({"display":"none"});
+        $("#user_tools").css({"display":"none"});
         $("#workflows_button_li").css({"display":"block"});
         $("#protocols_button_li").css({"display":"block"});
         $("#species_drop_button_li").css({"display":"none"});
@@ -73,6 +74,8 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
 
         if(CURRENT_USER_NAME === ""){
             $("#load_species_row").css({"display":"none"});
+            $("#getstarted").css({"display":"none"});
+            $("#getstartedbutton").css({"display":"none"});
         }
         else{
             //Get available species and add then to the dropdown menu
@@ -80,6 +83,8 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
                 $scope.species = results.species;
                 CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
                 CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
+
+                $scope.species_correspondence = SPECIES_CORRESPONDENCE;
 
                 let t_use = "";
 
@@ -90,13 +95,21 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
                     }
                 }
 
-                $('#species_select_drop').append(t_use);
+                // Get global statistics to fill species badges
+                projects_table.get_statistics( (results) => {
 
-                $('.selectpicker').selectpicker({});
+                    GLOBAL_STATISTICS = results.data;
 
-                setTimeout( () => {
-                    $("#innuendofooter").css({"display":"block"});
-                }, 300);
+                    $scope.global_statistics = GLOBAL_STATISTICS;
+
+                    $('#species_select_drop').append(t_use);
+
+                    $('.selectpicker').selectpicker({});
+
+                    setTimeout( () => {
+                        $("#innuendofooter").css({"display":"block"});
+                    }, 300);
+                });
 
             });
         }
@@ -109,12 +122,11 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
 
     };
 
-    $scope.load_species = function(){
+    $scope.load_species = function($event){
         //Get species name and ID. Launch the Projects view for that species
-
-        const optionSelectedEl = $('#species_select_drop option:selected');
-        CURRENT_SPECIES_NAME = optionSelectedEl.text();
-        CURRENT_SPECIES_ID = optionSelectedEl.attr("species_id");
+        const optionSelectedEl = $($event.currentTarget);
+        CURRENT_SPECIES_NAME = optionSelectedEl.attr("sname");
+        CURRENT_SPECIES_ID = optionSelectedEl.attr("sid");
         PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID, CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID, CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT, CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID, PROJECT_STATUS]);
         $scope.selectedTemplate.path = 'static/html_components/projects_view.html';
     }

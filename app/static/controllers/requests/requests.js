@@ -31,6 +31,111 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		get_statistics: (callback) => {
+			const req = {
+		        url:'api/v1.0/strains/statistics/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		get_messages: (numberofmessages, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'GET',
+				params: {
+		        	numberofmessages: numberofmessages
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		send_messages: (data, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'POST',
+				data: data
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		delete_messages: (messageid, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'DELETE',
+				params: {
+		        	messageid: messageid
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		mark_as_read: (messageid, callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/',
+		        method:'PUT',
+				params: {
+		        	messageid: messageid,
+					status: "read"
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		get_templates: (callback) => {
+			const req = {
+		        url:'api/v1.0/user/messages/templates/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		get_users: (callback) => {
+
+			const req = {
+		        url:'api/v1.0/users/',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+
+		},
+
+
 		check_download_accession_status: (file_name, accession_numbers, callback) => {
 
 			const req = {
@@ -689,7 +794,11 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		},
 		add_new_strain: (callback) => {
 
-			console.log($('#new_strain_form').find("select, input, textarea").serialize());
+			/*if ($("#Accession").val() !== ""){
+				$("#File_1").selectpicker('val', 'None');
+            	$("#File_2").selectpicker('val', 'None');
+			}*/
+
 		    const req = {
 		        url: 'api/v1.0/strains/',
 		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -958,6 +1067,62 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		        method:'GET',
 		        params: {
 		        	filename: filename,
+		        	pipeline_id:pipeline_id,
+		        	project_id:project_id
+		        }
+		    };
+
+		    $http(req).then( (response) => {
+				    callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
+		trigger_inspect: (pipeline_id, project_id, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/jobs/inspect/',
+		        method:'GET',
+		        params: {
+		        	pipeline_id:pipeline_id,
+		        	project_id:project_id
+		        }
+		    };
+
+		    $http(req).then( (response) => {
+				    callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
+		kill_inspect: (pid, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/jobs/inspect/',
+		        method:'PUT',
+		        params: {
+		        	pid:pid
+		        }
+		    };
+
+		    $http(req).then( (response) => {
+				    callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
+		retry_pipeline: (pipeline_id, project_id, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/jobs/inspect/',
+		        method:'POST',
+		        data: {
 		        	pipeline_id:pipeline_id,
 		        	project_id:project_id
 		        }

@@ -14,6 +14,12 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     current_scope_template = $scope.selectedTemplate.path;
 
+    console.log(GLOBAL_STATISTICS);
+
+    $scope.strains_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][0];
+    $scope.projects_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][1];
+    $scope.profiles_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][2];
+
     const backButtonEl = $("#backbutton");
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
@@ -63,9 +69,10 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $("#reports_button_li").css({"display":"block"});
     $("#uploads_button_li").css({"display":"block"});
     $("#tools_button_li").css({"display":"block"});
+    $("#user_tools").css({"display":"block"});
     $("#species_drop_button_li").css({"display":"block"});
-    $("#protocols_button_li").css({"display":"none"});
-    $("#workflows_button_li").css({"display":"none"});
+    //$("#protocols_button_li").css({"display":"none"});
+    //$("#workflows_button_li").css({"display":"none"});
     $("#overview_li").css({"display":"none"});
 
     //Reset application to overview page. Allows to select a diferent species
@@ -161,7 +168,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     $scope.species = [];
     $scope.currentSpecieID = CURRENT_SPECIES_ID;
-    $scope.species_in_use = CURRENT_SPECIES_NAME;
+    $scope.species_in_use = SPECIES_CORRESPONDENCE[CURRENT_SPECIES_NAME];
 
     $("#current_species_nav").text(CURRENT_SPECIES_NAME);
 

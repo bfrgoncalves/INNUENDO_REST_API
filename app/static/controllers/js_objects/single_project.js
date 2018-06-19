@@ -77,6 +77,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     let strains_new_without_pip = {};
     let workflowname_to_protocols = {};
     let strainNames_to_pipelinesNames = {};
+    let applied_dependencies = {};
     let pipelinesAndDependency = {};
     let pg_requests = Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
     let ngs_onto_requests = ngs_onto_client(CURRENT_PROJECT_ID, $http);
@@ -161,8 +162,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 	            let message = "";
 	            let message_to_add = "";
 
-	            console.log(response);
-
 	            for(const s in strains){
 	            	let md = JSON.parse(response.data.strain_metadata);
 	            	if(md.File_1 === strains[s].File_1){
@@ -220,6 +219,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                sd["strainID"] = data.strainID;
 		                sd["FilesLocation"] = data.fq_location;
 		                sd["has_files"] = data.has_files;
+		                sd["Accession"] = data.Accession;
 
 		                if(!strains_dict.hasOwnProperty($.trim(data.strainID))){
 		                    strains_dict[$.trim(data.strainID)] = data.id;
@@ -328,7 +328,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 	            global_counter_pipelines += 1;
 
 	            //Create the buttons of the workflows and show them on the graphic interface
-	            objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, (results) => {
+	            objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, pipelinesAndDependency, applied_dependencies, (results) => {
 	            	strains[results.strain_index] = results.strains[results.strain_index];
 	            	for(x in results.workflow_ids){
 	            		workflow_id_to_name[results.workflow_ids[x]] = results.workflow_names[x];
@@ -570,12 +570,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             //Request to get quota
             pg_requests.get_quota( (quota_obj) => {
 
-				console.log(quota_obj);
+            	console.log(quota_obj.data);
+            	console.log(quota_obj.data.f_space.split(/\s/g));
+            	console.log(quota_obj.data.p_space.split(/\s/g));
+            	console.log(quota_obj.data.u_quota.split(/\s/g));
+            	console.log(quota_obj.data.i_quota.split(/\s/g));
 
                 let quota_dict = {
-                    "t_quota": quota_obj.data.f_space.split(/\s/g)[41],
-                    "f_quota": quota_obj.data.f_space.split(/\s/g)[43],
-                    "user_quota": quota_obj.data.f_space.split(/\s/g)[43],
+                    "t_quota": quota_obj.data.f_space.split(/\s/g)[30],
+                    "f_quota": quota_obj.data.f_space.split(/\s/g)[31],
+                    "user_quota": quota_obj.data.f_space.split(/\s/g)[31],
                     "p_space": quota_obj.data.p_space.split(/\s/g)[0],
                     "u_space": quota_obj.data.u_quota.split(/\s/g)[0],
                     "i_quota": quota_obj.data.i_quota.split(/\s/g)[0]
@@ -587,6 +591,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 quota_dict.u_space = quota_dict.u_space === "" ? 0 : parseInt(quota_dict.u_space);
                 quota_dict.user_quota = quota_dict.user_quota === "" ? 0 : parseInt(quota_dict.user_quota);
                 quota_dict.i_quota = quota_dict.i_quota === "" ? 0 : parseInt(quota_dict.i_quota);
+
+                console.log(quota_dict);
 
                 callback(quota_dict);
             });
@@ -608,6 +614,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            let new_strains = [];
 
 		            let public_strains_headers = [];
+		            console.log(response);
 
 		            if (data.length !== 0){
 
@@ -652,6 +659,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    sd["id"] = data[i].id;
 		                    sd["FilesLocation"] = data[i].fq_location;
 		                    sd["has_files"] = data[i].has_files;
+		                    sd["Accession"] = data[i].Accession;
 		                    new_strains.push(sd);
 		                }
 		                public_strains = new_strains;
@@ -697,6 +705,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                strains_headers.push('FilesLocation');
 		                strains_headers.push("timestamp");
 		                strains_headers.push("has_files");
+		                strains_headers.push("Accession");
 		                
 		                for (const i in data){
 
@@ -706,6 +715,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		                    strain_data['FilesLocation'] = data[i].fq_location;
 		                    strain_data['timestamp'] = data[i].timestamp;
 		                    strain_data['has_files'] = data[i].has_files;
+		                    strain_data['Accession'] = data[i].Accession;
 
 		                    let sd = {};
 		                    for (const j in strains_headers){
@@ -1152,6 +1162,33 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		},
 
 		/*
+		Trigger Flowcraft Inspect on the server
+		 */
+		triggerInspect: (pipeline_id, project_id, callback) => {
+			pg_requests.trigger_inspect(pipeline_id, project_id, (response) => {
+				callback(response);
+			});
+		},
+
+		/*
+		Retry pipeline
+		 */
+		retryPipeline: (pipeline_id, project_id, callback) => {
+			pg_requests.retry_pipeline(pipeline_id, project_id, (response) => {
+				callback(response);
+			});
+		},
+
+		/*
+		Trigger remove inspect
+		 */
+		killInspect: (pid, callback) => {
+			pg_requests.kill_inspect(pid, (response) => {
+				callback(response);
+			});
+		},
+
+		/*
 	    Get strains without pipeline applied
 	    */
 		get_no_pip_strains: (callback) => {
@@ -1182,6 +1219,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    strain_names.map( (d) => {
 		    	delete pipelines_applied[d]; 
 		    	delete strainNames_to_pipelinesNames[d];
+		    	delete applied_dependencies[d];
 				delete protocols_applied[d];
 		    });
 
@@ -1296,36 +1334,55 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		        if(!strainNames_to_pipelinesNames.hasOwnProperty(strain_data[counter]['strainID'])){
 		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']] = [];
+		        	applied_dependencies[strain_data[counter]['strainID']] = [];
 		        }
 
 		        if( pipelinesAndDependency[proc_value] !== "None" && pipelinesAndDependency[proc_value] !== null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])){
 		        	needs_dependency = true;
 
-		        	dependencies_check.push([proc_value, pipelinesAndDependency[proc_value]]);
-		        	
-		        	if(counter === strain_data.length-1){
-		        	    let message;
+		        	// Check if input type is Accession
+					if(pipelinesAndDependency[proc_value] === "Accession" && strain_data[counter]["Accession"] !== "NA") {
+						needs_dependency = false;
+						strainNames_to_pipelinesNames[strain_data[counter]['strainID']].push(proc_value);
+		        		applied_dependencies[strain_data[counter]['strainID']].push(pipelinesAndDependency[proc_value]);
+					}
+					// Check if input type is Fastq or if it has some
+					// process to grab accessions
+					else if(pipelinesAndDependency[proc_value] === "Fastq" && (strain_data[counter]["File_1"] !== "None" && strain_data[counter]["File_2"] !== "None") || applied_dependencies[strain_data[counter]['strainID']].includes("Accession")){
+						needs_dependency = false;
+						strainNames_to_pipelinesNames[strain_data[counter]['strainID']].push(proc_value);
+		        		applied_dependencies[strain_data[counter]['strainID']].push(pipelinesAndDependency[proc_value]);
+					}
+					// In case not having the required dependencies
+					else {
+						dependencies_check.push([proc_value, pipelinesAndDependency[proc_value]]);
 
-			        	if(needs_dependency) {
-			        		message = 'Some of the applied procedures' +
-                                ' lack' +
-                                ' some dependencies:<br/>';
+						if(counter === strain_data.length-1){
+							let message;
 
-			        		for (const dep in dependencies_check){
-			        			message += '<b>'+dependencies_check[dep][0] + "</b> requires <b>" + dependencies_check[dep][1] + "</b><br/>"
-			        		}
-			        	}
-			        	else {
-			        	    message = 'Procedures applied.';
-                        }
-			    		modalAlert(message, "Info", () => {});
-			        	callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
-			        	return;
-			        }
-		        	else continue;
+							if(needs_dependency) {
+								message = 'Some of the applied procedures' +
+									' lack' +
+									' some dependencies:<br/>';
+
+								for (const dep in dependencies_check){
+									message += '<b>'+dependencies_check[dep][0] + "</b> requires <b>" + dependencies_check[dep][1] + "</b><br/>"
+								}
+							}
+							else {
+								message = 'Procedures applied.';
+							}
+							modalAlert(message, "Info", () => {});
+							callback({strains: strain_data, indexes:selected_indexes, workflow_names:workflow_names, workflow_ids: workflowids});
+							return;
+						}
+						else continue;
+					}
+
 		        }
 		        else{
 		        	strainNames_to_pipelinesNames[strain_data[counter]['strainID']].push(proc_value);
+		        	applied_dependencies[strain_data[counter]['strainID']].push(pipelinesAndDependency[proc_value]);
 		        }
 
 		        if(mode === 'new'){
@@ -1541,6 +1598,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        return item['has_files'];
 		    });
 
+		    /**
+			 * Check if strain has accession
+             */
+		    const strain_has_accession = $.map(table.rows('.selected').data(), (item) => {
+		        return item['Accession'];
+		    });
+
 		    //CASE THERE ARE NO STRAINS SELECTED
 		    if(strain_names.length === 0){
 		    	modalAlert('Please select at least one strain before running' +
@@ -1558,12 +1622,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		    	let sel_name = strain_names.shift();
 		    	let sel_has_file = strain_has_files.shift();
+		    	let sel_has_accession = strain_has_accession.shift();
 		    	const subStatusEl = $("#submission_status");
 
 		    	subStatusEl.empty();
 		        subStatusEl.html("Saving pipeline " + String(count_finished+1) + " out of " + String(sel_index_clone.length) + "...");
 
-		        if (sel_has_file === "false") {
+		        console.log(sel_has_accession, sel_has_file);
+
+		        if (sel_has_file === "false" && sel_has_accession === "NA") {
 		        	subStatusEl.empty();
 		        	subStatusEl.html("Strain " + String(sel_name) + " has no" +
 						" available files to run.");
@@ -1705,6 +1772,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        return item['has_files'];
 		    });
 
+		    /**
+			 * Check if strain has accession
+             */
+		    const strain_has_accession = $.map(table.rows('.selected').data(), (item) => {
+		        return item['Accession'];
+		    });
+
 		    let countWorkflows = 0;
 		    let countFinished = 0;
 		    let dict_strain_names = {};
@@ -1716,8 +1790,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    let count_total_strains = strain_names_clone.length;
 		    let no_pip_strains = [];
 		    let no_files_strains = [];
-
-
+			let no_accession_strains = [];
 
 
 		    const run_single_strain = () => {
@@ -1737,7 +1810,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         message += "</ul>";
                     }
 
-                    if (no_files_strains.length > 0) {
+                    if (no_files_strains.length > 0 || no_accession_strains.length > 0) {
 
                     	message += "<ul>";
 
@@ -1746,6 +1819,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 								" files for the strain " +
 								" <b>" + no_files_strains[x] + "</b> or ask" +
 								" the owner to reupload them.</li>";
+                        }
+
+                        for (const x in no_accession_strains){
+                            message += "<li>Please associate" +
+								" fastq files or an accession number to the" +
+								" strain <b>" + no_accession_strains[x] + "</b></li>";
                         }
 
                         message += "</ul>";
@@ -1765,9 +1844,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 				let strain_in_use = strain_names.shift();
 		    	let strain_in_has_files = strain_has_files.shift();
+		    	let strain_in_accession = strain_has_accession.shift();
+
+		    	console.log(strain_in_accession);
 
 				//put_i.push(i);
-		        if(pipelines_applied[strain_in_use] !== undefined && strain_in_has_files !== "false"){
+		        if(pipelines_applied[strain_in_use] !== undefined && (strain_in_has_files !== "false" || strain_in_accession !== "NA")){
 		        	dict_strain_names[strain_in_use] = [pipelines_applied[strain_in_use].length, [], 0, 0];
 
 		        	let pip_id_of_parents = [];
@@ -1813,6 +1895,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		        	workflow_indexes[strain_in_use] = {};
 		        	workflow_order[strain_in_use] = [];
+
+		        	console.log(strainID_pipeline, strains_dict, strain_in_use);
 
 
 		        	//Add processes to ngs_onto
@@ -1983,11 +2067,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		        }
 
 		        else {
-		        	if (strain_in_has_files === "false"){
-		        		no_files_strains.push(strain_in_use);
+		        	if (strain_in_has_files === "false" && strain_in_accession === "NA"){
+		        		no_accession_strains.push(strain_in_use);
 						count_strains_added_run += 1;
 						run_single_strain();
                     }
+                    else if(strain_in_has_files === "false"){
+		        		no_files_strains.push(strain_in_use);
+						count_strains_added_run += 1;
+						run_single_strain();
+					}
                     else{
 		        		no_pip_strains.push(strain_in_use);
 						count_strains_added_run += 1;
@@ -2481,6 +2570,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 						delete protocols_applied_by_pipeline[strain_names[index]][removed_pip_name];
 
 						strainNames_to_pipelinesNames[strain_names[index]].pop();
+						applied_dependencies[strain_names[index]].pop();
 						protocols_applied[strain_names[index]].pop();
 						//console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
 					}
@@ -2611,17 +2701,26 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			let trigger_from_file_load = true;
 
 			const used_headers = {
-				"Primary-Identifier": [true, "Required", "Primary strain identifier is required."],
+				"Primary-Identifier": [true, "Required", " Primary strain" +
+				" identifier is required."],
 				"Case-ID": [true, "Optional"],
-				"Source": [true, "Required", "Source is required. Choose between: Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water;"],
+				"Source": [true, "Required", " Source is required. Choose" +
+				" between: Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water;"],
 				"Sampling-Date": [true, "Optional"],
 				"Sample-Received-Date": [true, "Optional"],
 				"Owner": [true, "Optional"],
-				"Submitter": [true, "Required", "Strain submitter is required. Must be the same as the user which is logged in."],
+				"Submitter": [true, "Required", " Strain submitter is" +
+				" required. Must be the same as the user which is logged in."],
 				"Location": [true, "Optional"],
 				"Additional-Information": [true, "Optional"],
-				"File_1": [true, "Required", "Fastq file 1 is required. Must be available on your sftp files folder."],
-				"File_2": [true, "Required", "Fastq file 2 is required. Must be available on your sftp files folder."]
+				"File_1": [true, "Required", " Fastq file 1 is required if" +
+				" no accession number is provided." +
+				" Must be available on your sftp files folder."],
+				"File_2": [true, "Required", " Fastq file 2 is required if" +
+				" no accession number is provided." +
+				" Must be available on your sftp files folder."],
+				"Accession": [true, "Required", " Accession number is" +
+				" required if no Fastq files are specified."]
 			};
 
 			let total_headers = Object.keys(used_headers).length;
@@ -2630,7 +2729,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 	      	reader.onload = (f) => {
 
-	      		console.log(f.target);
 	      	    let lines = f.target.result.split('\n');
 		      	let firstLine = true;
 		      	let strains_object = {};
@@ -2692,6 +2790,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      		let no_identifier = true;
 		      		let no_case_id = true;
 		      		let bad_submitter = false;
+		      		let has_accession = false;
 		      		count_lines += 1;
 
 		      		let required_headers_missed = [];
@@ -2755,10 +2854,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
 		      						}
 
-		      						//const food_bug_index =
-									// hline_to_use.indexOf("Food-Bug");
-
-				      				identifier_s = String(bline_to_use[x]);// + "-" + bline_to_use[food_bug_index]).replace(/ /g, "-");
+				      				identifier_s = String(bline_to_use[x]);
 				      				
 				      				if(!strains_with_problems.hasOwnProperty(identifier_s)){
 				      					strains_with_problems[identifier_s] = [];
@@ -2774,10 +2870,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      					if(headers_array[header_to_check] === "Source") {
 
 		      						$('#'+hline_to_use[x] + " option").filter( (e, i) => {
-
-										console.log(e, i);
-		      							console.log($(i).text().trim());
-		      							console.log(bline_to_use[x]);
 									    if($(i).text().trim() === bline_to_use[x].trim()){
 									    	has_valid_source = true;
 									    	return bline_to_use[x];
@@ -2800,6 +2892,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 				      			}
 
+				      			if (headers_array[header_to_check] === "Accession"){
+									if (bline_to_use[x] !== ""){
+										has_accession = true;
+									}
+
+									if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] === ""){
+										required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
+									}
+								}
+
 				      			if(headers_array[header_to_check] === "File_1" || headers_array[header_to_check] === "File_2"){
 				      				//check for files in user area
 				      				has_files += 1;
@@ -2807,9 +2909,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 				      				$('#'+hline_to_use[x] + " option").filter( (e, i) => {
 									    if($(i).text().trim() === bline_to_use[x].trim()){
 									    	files_in_user_folder += 1;
-									    	return bline_to_use[x];
+									    	return true;
 									    }
 									}).prop('selected', true);
+
+				      				//$('#'+hline_to_use[x]).trigger("change");
 
 									if (used_headers[headers_array[header_to_check]][1] === "Required" && bline_to_use[x] === ""){
 		      							required_headers_missed.push([headers_array[header_to_check], used_headers[headers_array[header_to_check]][2] ]);
@@ -2835,8 +2939,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      		}
 		      		
 		      		setTimeout( () => {
-
-		      			if(files_in_user_folder === 2 && no_identifier !== true && bad_submitter !== true && required_headers_missed.length === 0 && has_valid_source === true){
+						// Case uses fastq as input
+		      			if(files_in_user_folder === 2 && no_identifier !== true && bad_submitter !== true && has_valid_source === true && has_accession === false && required_headers_missed.length < 2){
 		      				$('#change_type_to_file').trigger("click");
 			      			if (has_files === 2) {
 			      			    $('#newstrainbuttonsubmit').trigger("submit");
@@ -2850,6 +2954,21 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 			      				$('#Submitter').val(CURRENT_USER_NAME);
 			      			}
 		      			}
+		      			// Case has accession number
+		      			else if((files_in_user_folder === 0 &&  required_headers_missed.length === 2 || files_in_user_folder === 2 && required_headers_missed.length === 0) && no_identifier !== true && bad_submitter !== true && has_valid_source === true && has_accession === true){
+
+		      				$('#change_type_to_file').trigger("click");
+							$('#newstrainbuttonsubmit').trigger("submit");
+
+			      			if(strains_object['body'].length !== 0) {
+			      			    add_to_database();
+                            }
+			      			else {
+			      				showDoneImportModal();
+			      				hline_to_use.map( (a) => { $("#"+a).val("")});
+			      				$('#Submitter').val(CURRENT_USER_NAME);
+			      			}
+						}
 		      			else if(required_headers_missed.length > 0){
 
 		      				let to_problems = "<li>Some required headers were" +
@@ -2949,7 +3068,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		      		}
 
 		      		if (toModal === "") {
-		      			toModal += "All strains were successfully processed";
+		      			toModal += "All strains were successfully processed!";
 		      		}
 
 		      		$("#overlayProjects").css({"display":"none"});

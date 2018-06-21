@@ -321,6 +321,7 @@ const Objects_Utils = (single_project, $sc) => {
 
                    let e_target = $(e.target).attr("name");
                    let e_target_pip = $(e.target).parent().attr("pip");
+
                    single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
                         $(href).html("<pre>"+response.data.content+"</pre>");
 

@@ -49,10 +49,35 @@ let pipeline_status = {};
 let jobs_to_parameters = {};
 let http = "";
 
+const modalAlert = (text, header, callback) => {
+
+    	const buttonSub = $('#buttonSub');
+    	const modalBodyEl = $('#modalAlert .modal-body');
+
+    	$('#buttonCancelAlert').off("click");
+
+    	$('#modalAlert .modal-title').empty();
+    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
+
+    	modalBodyEl.empty();
+    	modalBodyEl.append("<p>"+text+"</p>");
+
+    	buttonSub.off("click").on("click", () => {
+    		$('#modalAlert').modal("hide");
+
+    		setTimeout( () => {
+    			return callback();
+			}, 400);
+    	});
+
+    	$('#modalAlert').modal("show");
+
+    };
+
 /*
 DEFINE ANALYSIS PARAMETERS FOR METADATA
 */
-let ANALYSYS_PARAMETERS = {"INNUca": {"#samples":false, "MLST_ST": true,
+/*let ANALYSYS_PARAMETERS = {"INNUca": {"#samples":false, "MLST_ST": true,
     "MLST_scheme": true, "Pilon_changes": false, "Pilon_contigs_changed": false,
     "SPAdes_filtered_bp": false, "SPAdes_filtered_contigs": false,
     "SPAdes_number_bp": false, "assembly_coverage_filtered": true,
@@ -69,7 +94,7 @@ let ANALYSYS_PARAMETERS = {"INNUca": {"#samples":false, "MLST_ST": true,
 };
 
 const INFO_OR_RESULTS = {"chewBBACA": 0, "PathoTyping": 1, "INNUca": 1}
-
+*/
 
 let PREVIOUS_PAGE_ARRAY = [];
 let current_scope_template = "";
@@ -92,7 +117,7 @@ const sendMail = () => {
         $("#email-body").val(),
         (response) => {
             if (response.data === true){
-                $("#email_res_text").text("Email sucessfully sent.")
+                $("#email_res_text").text("Email successfully sent.")
             }
             else {
                 $("#email_res_text").text("There was an error when sending" +
@@ -129,6 +154,65 @@ const getNavbarMessages = () => {
     });
 };
 
+const performChecks = () => {
+
+    let pg_requests = Requests("", "", http);
+
+    pg_requests.check_ldap((response) => {
+
+        if (response.data !== true) {
+            modalAlert("Could not connect to the authentication server." +
+                " Check your connection settings. If the error persists," +
+                " please contact the system administrator.", "Warning", () =>{});
+
+            return;
+        }
+
+        pg_requests.check_db_general((response) => {
+            if (response.data !== true) {
+                modalAlert("Could not connect to the general database server." +
+                    " Check your connection settings. If the error persists," +
+                    " please contact the system administrator.", "Warning", () =>{});
+
+                return;
+            }
+
+            pg_requests.check_db_mlst((response) => {
+                if (response.data !== true) {
+                    modalAlert("Could not connect to the wgMLST database server." +
+                        " Check your connection settings. If the error persists," +
+                        " please contact the system administrator.", "Warning", () =>{});
+
+                    return;
+                }
+
+                pg_requests.check_controller((response) => {
+
+                    if (response.data !== true) {
+                        modalAlert("Could not connect to the jobs controller server." +
+                            " Check your connection settings. If the error persists," +
+                            " please contact the system administrator.", "Warning", () =>{});
+
+                        return;
+                    }
+
+                    pg_requests.check_phyloviz((response) => {
+                        if (response.status !== 200) {
+                            modalAlert("Could not connect to the PHYLOViZ Online" +
+                                " server." +
+                                " Check your connection settings. If the error persists," +
+                                " please contact the system administrator.", "Warning", () =>{});
+
+                            return;
+                        }
+                    });
+                });
+            });
+        });
+    });
+
+};
+
 /**
  * Function to trigger some events on main controller start
  */
@@ -160,13 +244,15 @@ setTimeout( () => {
 
     });
 
-    //getNavbarMessages();
 
     setInterval(() => {
-
         getNavbarMessages();
 
-    }, 10000);
+    }, 5000);
+
+    setTimeout(() => {
+        performChecks();
+    }, 2000);
 
     $("#viewAllMessages").off("click").on("click", () => {
         $("#messages_button").trigger("click");

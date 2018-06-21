@@ -156,6 +156,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 
 		pg_requests.add_strain_to_project(strain_name, (response) => {
+
 			if(response.status === 200){
 
 	            let has_same_files = false;
@@ -329,10 +330,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 	            //Create the buttons of the workflows and show them on the graphic interface
 	            objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, pipelinesAndDependency, applied_dependencies, (results) => {
-	            	strains[results.strain_index] = results.strains[results.strain_index];
-	            	for(x in results.workflow_ids){
-	            		workflow_id_to_name[results.workflow_ids[x]] = results.workflow_names[x];
-	            	}
+	            	// Case workflows in pipeline
+	            	if (results.strains[results.strain_index] !== undefined){
+	            		strains[results.strain_index] = results.strains[results.strain_index];
+
+						for(x in results.workflow_ids){
+							workflow_id_to_name[results.workflow_ids[x]] = results.workflow_names[x];
+						}
+					}
+
 	            	if (total_pipelines === global_counter_pipelines) callback({strains:strains});
 	            });
         	}
@@ -607,6 +613,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		get_strains: (from_user, callback) => {
 
 			pg_requests.get_strains(CURRENT_SPECIES_ID, from_user, (response) => {
+
 				if(response.status === 200){
 					let max_headers = 0;
 		            let data = response.data;
@@ -614,7 +621,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		            let new_strains = [];
 
 		            let public_strains_headers = [];
-		            console.log(response);
 
 		            if (data.length !== 0){
 
@@ -2459,8 +2465,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 					count_pipeline_ids_last_parent = 0;
 
 					let stored_added_pipeline = {};
+					let real_sp_name = sp_name.split("_");
+					real_sp_name = real_sp_name.slice(0, real_sp_name.length-3);
+					real_sp_name = real_sp_name.join("_");
 
-					if(sp_name.indexOf(strain_names[index].replace(/ /g, "_")) > -1){
+					if(real_sp_name === strain_names[index].replace(/ /g, "_")){
+
 						let count_added_to_new = 0;
 						
 						for (const pipeline in pipelines_applied[strain_names[index]]){

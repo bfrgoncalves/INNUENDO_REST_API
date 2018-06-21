@@ -44,6 +44,10 @@ from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, \
     TreeUserResource, PHYLOViZJobResource, getProfilesResource, \
     getAllProfilesResource
 from resources.file_resources.file_resources import TemplateResource
+from resources.jobs.checks import CheckControllerResource, \
+    CheckDbGeneralResource, CheckDbMLSTResource, \
+    CheckLDAPResource, CheckPHYLOViZResource
+
 
 '''
 API:
@@ -170,6 +174,14 @@ api.add_resource(SavedReportsResource, '/api/v1.0/reports/saved/')
 
 api.add_resource(GetFilesResource, '/api/v1.0/files/')
 api.add_resource(DownloadFilesResource, '/api/v1.0/downloads/')
+
+################################# Resources Checks ############################
+
+api.add_resource(CheckControllerResource, '/api/v1.0/checks/controller')
+api.add_resource(CheckPHYLOViZResource, '/api/v1.0/checks/phyloviz')
+api.add_resource(CheckDbGeneralResource, '/api/v1.0/checks/db/general')
+api.add_resource(CheckDbMLSTResource, '/api/v1.0/checks/db/mlst')
+api.add_resource(CheckLDAPResource, '/api/v1.0/checks/ldap')
 
 ################################# Defining NGSOnto routes #####################
 

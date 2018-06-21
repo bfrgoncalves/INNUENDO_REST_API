@@ -7,6 +7,7 @@ let sh;
 let pcol;
 let global_strains, project_col_defs;
 let single_p;
+let scope;
 /*
 *
 */
@@ -208,7 +209,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     const backButtonEl = $("#backbutton");
 
-    console.log(CURRENT_SPECIES_ID);
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
     else backButtonEl.css({"display":"none"});
@@ -268,6 +268,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     const single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
 
     single_p = single_project;
+    scope = $scope;
 
     $scope.getAppliedPipelines = single_project.get_applied_pipelines;
     $scope.createPipeline = single_project.create_pipeline;
@@ -498,7 +499,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                         $scope.getAppliedPipelines(null, (strains_results) => {
                             objects_utils.destroyTable('strains_table');
 
-                            console.log(global_strains);
                             $scope.strains_in_use = global_strains.length;
 
                             if(strains_results.strains === "no_pipelines"){
@@ -796,8 +796,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $scope.available_strain_pipelines = applied_workflows;
             $scope.available_pipelines_ids = pipelines_ids;
 
-            console.log(applied_workflows, strain_ids, pipelines_ids, strains_dict);
-
             $('#choosePipelineModal').modal('show');
 
             setTimeout( () => {
@@ -1009,7 +1007,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             global_public_strains = strains_results.public_strains;
 
             let headers_defs = set_headers_single_project('public_strains_table', global_public_strains);
-            console.log(headers_defs);
+
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
                 callback();
@@ -1026,7 +1024,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         single_project.get_project_strains( (strains_results) => {
             global_strains = strains_results.strains;
             let headers_defs = set_headers_single_project('strains_table', global_strains);
-            console.log(headers_defs);
+
             objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
                 callback();
@@ -1114,7 +1112,7 @@ const getProcessesLog = (li) => {
 Remove a workflow from a pipeline
 */
 const removeAnalysis = (li) => {
-    const  objects_utils = Objects_Utils();
+    const  objects_utils = Objects_Utils(single_p, scope);
 
     single_p.remove_analysis(li, (strain_results) => {
         for(const i in strain_results.selected_indexes){

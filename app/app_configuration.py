@@ -70,7 +70,6 @@ def change_password():
     """View function which handles a change password request."""
 
     if request.form.get('password'):
-        print request.form.get('password')
         try:
             result = User.try_login(current_user.username,
                                     request.form.get('password'))
@@ -80,7 +79,6 @@ def change_password():
                 return {"status": False}
 
         except ldap.INVALID_CREDENTIALS, e:
-            print e
             do_flash(*get_message('INVALID_PASSWORD'))
             return {"status": False}
 
@@ -119,8 +117,6 @@ def change_password():
 @app.login_manager.request_loader
 def load_user_from_request(request):
 
-    print request.method
-    
     if request.method == 'POST' and "/outputs/" not in request.base_url:
         username = request.form.get('email')
         password = request.form.get('password')
@@ -128,11 +124,12 @@ def load_user_from_request(request):
         if LOGIN_METHOD != "None":
             try:
                 result = User.try_login(username, password)
+
                 if not result:
                     do_flash(*get_message('INVALID_PASSWORD'))
                     return None
+
             except ldap.INVALID_CREDENTIALS, e:
-                print e
                 do_flash(*get_message('INVALID_PASSWORD'))
                 return None
 

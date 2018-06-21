@@ -406,6 +406,9 @@ class StrainProjectListResource(Resource):
             file_1 = json.loads(strain.strain_metadata)["File_1"]
             file_2 = json.loads(strain.strain_metadata)["File_2"]
 
+            strain.file_1 = file_1
+            strain.file_2 = file_2
+
             try:
                 strain.Accession = json.loads(strain.strain_metadata)["Accession"]
             except Exception as e:

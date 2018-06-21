@@ -428,7 +428,7 @@ class Job_queue(Resource):
                                 )
 
         to_send.append(request.json()['jobID'])
-        return to_send, 200
+        return to_send, request.json()['code']
 
     def get(self):
         """Get job status

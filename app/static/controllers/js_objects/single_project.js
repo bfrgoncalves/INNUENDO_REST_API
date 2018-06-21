@@ -519,6 +519,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
     const returned_functions = {
 
+        /**
+		 * Check if controller is available
+         * @param callback
+         */
+		check_controller: (callback) => {
+			pg_requests.check_controller((response) => {
+				callback(response);
+			});
+		},
+
     	/*
 	    Get the workflows available for that species
 	    */
@@ -1634,8 +1644,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    	subStatusEl.empty();
 		        subStatusEl.html("Saving pipeline " + String(count_finished+1) + " out of " + String(sel_index_clone.length) + "...");
 
-		        console.log(sel_has_accession, sel_has_file);
-
 		        if (sel_has_file === "false" && sel_has_accession === "NA") {
 		        	subStatusEl.empty();
 		        	subStatusEl.html("Strain " + String(sel_name) + " has no" +
@@ -1797,6 +1805,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    let no_pip_strains = [];
 		    let no_files_strains = [];
 			let no_accession_strains = [];
+			let has_error = [];
 
 
 		    const run_single_strain = () => {
@@ -1816,7 +1825,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         message += "</ul>";
                     }
 
-                    if (no_files_strains.length > 0 || no_accession_strains.length > 0) {
+                    if (no_files_strains.length > 0 || no_accession_strains.length > 0 || has_error.length > 0) {
 
                     	message += "<ul>";
 
@@ -1832,6 +1841,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 								" fastq files or an accession number to the" +
 								" strain <b>" + no_accession_strains[x] + "</b></li>";
                         }
+
+                        for (const er in has_error){
+                    		message += "<li>There were errors when" +
+								" submitting jobs for the strain <b>" + has_error[er] + "</b></li>";
+						}
 
                         message += "</ul>";
 
@@ -1852,7 +1866,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 		    	let strain_in_has_files = strain_has_files.shift();
 		    	let strain_in_accession = strain_has_accession.shift();
 
-		    	console.log(strain_in_accession);
 
 				//put_i.push(i);
 		        if(pipelines_applied[strain_in_use] !== undefined && (strain_in_has_files !== "false" || strain_in_accession !== "NA")){
@@ -1901,9 +1914,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 		        	workflow_indexes[strain_in_use] = {};
 		        	workflow_order[strain_in_use] = [];
-
-		        	console.log(strainID_pipeline, strains_dict, strain_in_use);
-
 
 		        	//Add processes to ngs_onto
 		        	ngs_onto_requests.ngs_onto_request_add_processes(strainID_pipeline[strains_dict[strain_in_use]], strains_dict[strain_in_use], strain_in_use, pip_id_of_parents, pipelines_type_by_strain[strain_in_use], (response, strain_name) => {
@@ -2012,57 +2022,69 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
 					        				dict_strain_names[strain_name][3] += 1;
 
-					        				let countTasks = 0;
-					        				for(const l in response.data){
+					        				console.log(response);
 
-					        					if(response.data[l] === 'null'){
-					        						countTasks++;
-					        						let button_name = dict_strain_names[strain_name][5].shift();
+					        				// Case error in job submission
+					        				if (response.status === 200){
 
-						        					tasks_to_buttons[response.data[l] + '_' + countTasks] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
-						        					buttons_to_tasks[button_name] = response.data[l] + '_' + countTasks;
-						        					buttons_to_strain_names[button_name] = strain_name;
+					        					let countTasks = 0;
+												for(const l in response.data){
 
-						        					task_ids_to_map.push(response.data[l] + '_' + countTasks);
-					        					}
-					        					else{
-					        						task_ids = response.data[l].task_ids;
-					        						//pipelinesToNextflowLogs[pipeline_id] = {"gen_stdout":response.data[l].gen_stdout, "path_nextflow_log": response.data[l].path_nextflow_log, "subproc_id": response.data[l].subproc_id}
+													if(response.data[l] === 'null'){
+														countTasks++;
+														let button_name = dict_strain_names[strain_name][5].shift();
 
-					        						for(const s in task_ids){
-					        							countTasks++;
-					        							var button_name = dict_strain_names[strain_name][5].shift();
-						        						tasks_to_buttons[task_ids[s]] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
-						        						buttons_to_tasks[button_name] = task_ids[s];
-						        						buttons_to_strain_names[button_name] = strain_name;
-					        							task_ids_to_map.push(task_ids[s]);
-					        						}
-					        						processes_to_map = task_ids_to_map.map(function(x){
-					        							return dict_strain_names[strain_name][4].shift();
-							        				});
-					        					}
-					        				}
+														tasks_to_buttons[response.data[l] + '_' + countTasks] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
+														buttons_to_tasks[button_name] = response.data[l] + '_' + countTasks;
+														buttons_to_strain_names[button_name] = strain_name;
+
+														task_ids_to_map.push(response.data[l] + '_' + countTasks);
+													}
+													else{
+														task_ids = response.data[l].task_ids;
+														//pipelinesToNextflowLogs[pipeline_id] = {"gen_stdout":response.data[l].gen_stdout, "path_nextflow_log": response.data[l].path_nextflow_log, "subproc_id": response.data[l].subproc_id}
+
+														for(const s in task_ids){
+															countTasks++;
+															var button_name = dict_strain_names[strain_name][5].shift();
+															tasks_to_buttons[task_ids[s]] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
+															buttons_to_tasks[button_name] = task_ids[s];
+															buttons_to_strain_names[button_name] = strain_name;
+															task_ids_to_map.push(task_ids[s]);
+														}
+														processes_to_map = task_ids_to_map.map(function(x){
+															return dict_strain_names[strain_name][4].shift();
+														});
+													}
+												}
 
 
-					        				//Add job id to the process on ngsonto and start checking the job status
-					        				ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_name]], processes_to_map, task_ids_to_map, strain_name, (response, strain_name, process_ids) => {
-		        								count_strains_added_run += 1;
+												//Add job id to the process on ngsonto and start checking the job status
+												ngs_onto_requests.ngs_onto_request_add_jobid_to_process(strainID_pipeline[strains_dict[strain_name]], processes_to_map, task_ids_to_map, strain_name, (response, strain_name, process_ids) => {
+													count_strains_added_run += 1;
 
-		        								const subStatus = $("#submission_status");
+													const subStatus = $("#submission_status");
 
-		        								subStatus.empty();
-		        								subStatus.html("Submitted " + String(count_strains_added_run) + " out of " + String(strain_names_clone.length) + " jobs...");
+													subStatus.empty();
+													subStatus.html("Submitted " + String(count_strains_added_run) + " out of " + String(strain_names_clone.length) + " jobs...");
 
-		        								for(const tk in response.data.tasks){
-		        									dict_of_tasks_status[response.data.tasks[tk]] = '';
-		        								}
-		        								strainName_to_tids[strain_name] = response.data.tasks.join();
+													for(const tk in response.data.tasks){
+														dict_of_tasks_status[response.data.tasks[tk]] = '';
+													}
+													strainName_to_tids[strain_name] = response.data.tasks.join();
 
-                                                periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_name, process_ids, strainID_pipeline[strains_dict[strain_name]], CURRENT_PROJECT_ID);
+													periodic_check_job_status(response.data.tasks, dict_of_tasks_status, strain_name, process_ids, strainID_pipeline[strains_dict[strain_name]], CURRENT_PROJECT_ID);
 
-		        								run_single_strain();
+													run_single_strain();
 
-		        							})
+												})
+											}
+											else {
+					        					has_error.push(strain_in_use);
+					        					count_strains_added_run += 1;
+					        					run_single_strain();
+											}
+
 					        			})
 			        				}
 			        				

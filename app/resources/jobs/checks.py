@@ -57,6 +57,6 @@ class CheckLDAPResource(Resource):
 class CheckPHYLOViZResource(Resource):
 
     def get(self):
-        request = requests.get(os.path.join(phyloviz_root, "api/db/postgres/find/datasets/name"))
+        request = requests.get(os.path.join(phyloviz_root, "api/db/postgres/find/datasets/name"), verify=False)
 
         return request.json()

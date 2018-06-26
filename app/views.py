@@ -18,12 +18,14 @@ def getID(current_user):
     else:
         return 0
 
+
 @app.route('/')
 @app.route('/index')
 def index():
     current_user_id = getID(current_user)
     username = ""
     homedir = ""
+
     if current_user.is_authenticated:
         username = current_user.username
         homedir = current_user.homedir

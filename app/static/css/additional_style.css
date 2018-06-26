@@ -187,6 +187,8 @@ table.table td {
   height:auto;
 }
 
+.modal { overflow: auto !important; }
+
 #newStrainModal .modal-dialog, #choosePipelineModal .modal-dialog, #modifyStrainModal .modal-dialog{
   width: 80%;
   height:auto;

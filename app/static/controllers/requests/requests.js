@@ -1268,6 +1268,42 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		        (response) => {
 		            callback(response, redis_job_id);
 		    });
+		},
+
+		check_protocol_parameters: (selected_param, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/protocols/params',
+		        method:'GET',
+		        params: {
+		        	selected_param: selected_param
+		    	}
+		    };
+
+		    $http(req).then( (response) => {
+		            callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
+		test_workflow: (list_protocols, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/workflows/test',
+		        method:'POST',
+		        data: {
+		        	protocols: list_protocols
+		    	}
+		    };
+
+		    $http(req).then( (response) => {
+		            callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
 		}
 	}
 };

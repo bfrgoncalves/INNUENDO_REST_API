@@ -36,7 +36,7 @@ const Protocol_List = ($http) => {
 		if(property === 'used Software'){
 			return ["select", "text"];
 		}
-		if(property === 'name' || property === 'CPUs'){
+		if(property === 'name' || property === 'CPUs' || property === 'Memory'){
 			return ["input", "required"];
 		}
 		return ["input", "text"];
@@ -151,8 +151,8 @@ const Protocol_List = ($http) => {
 				let protocol_parameters = [];
 
 		    	for(const i in response.data){
-		    		let protocolProperty = response.data[i].plabel.split('"')[1]
-		    		let protocolUri = response.data[i].rangeClass
+		    		let protocolProperty = response.data[i].plabel.split('"')[1];
+		    		let protocolUri = response.data[i].rangeClass;
 
 					protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
 
@@ -161,6 +161,7 @@ const Protocol_List = ($http) => {
 		    		}
 		    	}
 		    	protocol_type["CPUs"] = ["input", "required"];
+				protocol_type["Memory"] = ["input", "required"];
 		    	callback({protocol_type:protocol_type, protocol_parameters:protocol_parameters});
 			});
 		},
@@ -231,6 +232,15 @@ const Protocol_List = ($http) => {
 		*/
 		get_current_protocol_type: (callback) => {
 			callback({currentProtocolType: currentProtocolType});
+		},
+
+		/*
+		Get protocols parameters provided by FlowCraft
+		 */
+		check_protocol_parameters: (selected_tag, callback) => {
+			pg_requests.check_protocol_parameters(selected_tag, (response) => {
+				callback(response);
+			});
 		}
 
 

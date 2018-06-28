@@ -49,6 +49,21 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
     $("#species_drop_button_li").css({"display":"none"});
     $("#overview_li").css({"display":"block"});
 
+
+    $("#new_protocol_tab").on("click", () => {
+        $("#new_protocol_tab").addClass("active");
+        $("#available_protocols_tab").removeClass("active");
+        $("#div_available_protocols").css({"display":"none"});
+        $("#div_new_protocol").css({"display":"block"});
+    });
+
+    $("#available_protocols_tab").on("click", () => {
+        $("#available_protocols_tab").addClass("active");
+        $("#new_protocol_tab").removeClass("active");
+        $("#div_available_protocols").css({"display":"block"});
+        $("#div_new_protocol").css({"display":"none"});
+    });
+
     for (const interval in intervals_running){
         if(intervals_running.hasOwnProperty(interval)){
             clearInterval(intervals_running[interval]);
@@ -139,6 +154,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
                     $('#select_software').empty().append(options);
                     $('#nextflow_tag').empty().append(options_nextflow);
+                    $('#selectpickerparams').empty().append(options_nextflow);
 
                     selectPickerEl.selectpicker({});
                     selectPickerEl.selectpicker("refresh");
@@ -170,13 +186,15 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             $(".selectpicker").selectpicker("refresh");
 
 
-            protocolSelLoadEl.off("change").on("change", () => {
+            protocolSelLoadEl.on("change", () => {
                 protocols_list.load_protocol($("#protocol_selector_load" +
                     " option:selected").text(), (results) => {
                     $scope.$apply( () => {
                         $scope.selected_protocol = results.protocol;
                     })
                     $("#div_protocol_show").css({display:"block"});
+
+                    $(".selectpicker").selectpicker("refresh");
 
                 });
             });
@@ -205,6 +223,16 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         protocols_list.get_protocol_fields(uri, (results) => {
             $scope.property_fields = results.property_fields.reverse();
         });
+    };
+
+    $scope.checkProtocolParameters = () => {
+        const selected_text = $("#selectpickerparams option:selected").text();
+        protocols_list.check_protocol_parameters(selected_text, (results) => {
+
+            $("#parametersContent").html("<pre>"+String(results.data.content)+"</pre>");
+            console.log(results);
+        });
+        console.log(selected_text);
     };
 
     $scope.removeSelectedParameter = () => {

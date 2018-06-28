@@ -10,9 +10,10 @@ from resources.postgres.messages import MailResource, MessageResource, \
     MessageTemplatesResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, \
-    WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
+    WorkflowListResource, WorkflowAllResource, \
+    WorkflowSetAvailabilityResource, WorkflowTestResource
 from resources.postgres.protocols import ProtocolResource, \
-    ProtocolListResource, ProtocolByIDResource
+    ProtocolListResource, ProtocolByIDResource, ProtocolParamsResource
 from resources.postgres.processes import ProcessResource, ProcessListResource
 from resources.postgres.strains import StrainResource, StrainListResource, \
     StrainProjectListResource, StrainsByNameResource, DeleteReadsFromStrain, \
@@ -99,6 +100,9 @@ api.add_resource(WorkflowSetAvailabilityResource,
 api.add_resource(WorkflowResource, '/api/v1.0/workflows/<int:id>',
                  endpoint='workflow')
 
+api.add_resource(WorkflowTestResource, '/api/v1.0/workflows/test',
+                 endpoint='workflow_test')
+
 api.add_resource(SpecieListResource, '/api/v1.0/species/', endpoint='species')
 
 api.add_resource(ProtocolListResource, '/api/v1.0/protocols/',
@@ -107,6 +111,9 @@ api.add_resource(ProtocolResource, '/api/v1.0/protocols/<int:id>',
                  endpoint='protocol')
 api.add_resource(ProtocolByIDResource, '/api/v1.0/protocols/ids',
                  endpoint='protocol_ids')
+
+api.add_resource(ProtocolParamsResource, '/api/v1.0/protocols/params',
+                 endpoint='protocol_params')
 
 api.add_resource(StrainListResource, '/api/v1.0/strains/', endpoint='strains')
 api.add_resource(SpeciesStatistics, '/api/v1.0/strains/statistics/',

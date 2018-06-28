@@ -1,8 +1,12 @@
 from app import db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from app.models.models import Workflow
+from app.models.models import Workflow, Protocol
 from flask_security import current_user, login_required, roles_required
 import datetime
+import requests
+import json
+
+from config import JOBS_ROOT
 
 # Defining post arguments parser
 workflow_post_parser = reqparse.RequestParser()
@@ -32,6 +36,12 @@ workflow_set_availability_put_parser.add_argument('identifier',
 workflow_set_availability_put_parser.add_argument('to_change', dest='to_change',
                                                   type=str, required=True,
                                                   help="Workflow state")
+
+workflow_test_post_parser = reqparse.RequestParser()
+workflow_test_post_parser.add_argument('protocols',
+                                                  dest='protocols', type=str,
+                                                  required=True,
+                                                  help="protocols")
 
 # Defining response fields
 
@@ -208,3 +218,36 @@ class WorkflowListResource(Resource):
         db.session.commit()
 
         return workflow, 201
+
+
+class WorkflowTestResource(Resource):
+
+    @login_required
+    def post(self):
+        args = workflow_test_post_parser.parse_args()
+
+        list_protocols = args.protocols.split(",")
+        list_tags = []
+
+        for protocol_id in list_protocols:
+
+            protocol = db.session.query(Protocol).filter(Protocol.id == protocol_id).first()
+
+            if protocol:
+                try:
+                    list_tags.append(json.loads(protocol.steps)["Nextflow Tag"])
+                except Exception:
+                    
+                    return {"content": "Protocol with errors. Please create "
+                                       "another protocol to use when building this workflow."}
+
+
+        response = requests.post(JOBS_ROOT + 'workflow/test/',
+                                data={
+                                    'protocols': ",".join(list_tags)
+                                })
+
+        to_return = response.json()["stdout"]
+
+        return {"content": to_return}
+

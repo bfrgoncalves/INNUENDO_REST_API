@@ -36,6 +36,20 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
         });
     });
 
+    $("#new_workflow_tab").on("click", () => {
+        $("#new_workflow_tab").addClass("active");
+        $("#available_workflows_tab").removeClass("active");
+        $("#div_available_workflows").css({"display":"none"});
+        $("#div_new_workflow").css({"display":"block"});
+    });
+
+    $("#available_workflows_tab").on("click", () => {
+        $("#available_workflows_tab").addClass("active");
+        $("#new_workflow_tab").removeClass("active");
+        $("#div_available_workflows").css({"display":"block"});
+        $("#div_new_workflow").css({"display":"none"});
+    });
+
     $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
     $("#projects_button_li").css({"display":"none"});
@@ -272,6 +286,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             else $scope.added_protocols = results.added_protocols;
 
             $("#prot_default").css({display: "none"});
+            $("#div_workflow_test").css({display: "block"});
 
             setTimeout( () => {
                 $(".current_workflow_close").on("click", (e) => {
@@ -280,6 +295,33 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             }, 800);
         });
     };
+
+    $scope.testWorkflow = () => {
+
+        const values = $('#sortable_list li').map( (i, el) => {
+            return el.value;
+        });
+
+        let list_values = values.get().join(',');
+
+        workflows.test_workflow(list_values, (results) => {
+            let message = "";
+
+            if (results.data.content.indexOf("DONE!") > -1) {
+                message += "<div class='alert" +
+                    " alert-success'><strong>Success!</strong> Workflow" +
+                    " was build without errors.</div>";
+            }
+            else {
+                message += "<div class='alert" +
+                    " alert-danger'><strong>Error!</strong> There was some" +
+                    " problems when building the workflow.</div>";
+            }
+            modalAlert("<pre>"+results.data.content+"</pre>" + message, "Result", () => {});
+            console.log(results);
+        });
+
+    }
 
     $scope.removeFromPipeline = (protocol_name) => {
 
@@ -290,6 +332,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             
             if (Object.keys(results.added_protocols).length === 0) {
                 $("#prot_default").css({display: "block"});
+                $("#div_workflow_test").css({display: "none"});
             }
             modalAlert("The protocol was removed from the workflow.", "Protocol Removed", () => {
             });

@@ -204,6 +204,12 @@ table.table td {
   height:80%;
 }
 
+#newProtocolModal .modal-dialog{
+  width: 80%;
+  height:80%;
+  overflow-x:auto;
+}
+
 #LabProtocolTableModal .modal-body{
   overflow-x:auto;
 }

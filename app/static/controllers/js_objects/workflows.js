@@ -135,6 +135,15 @@ const Workflows = ($http) => {
 					callback(false)
 				}
 			})
+		},
+
+		/*
+		Test a workflow before saving
+		 */
+		test_workflow: (list_protocols, callback) => {
+			pg_requests.test_workflow(list_protocols, (response) => {
+				callback(response);
+			})
 		}
 	};
 

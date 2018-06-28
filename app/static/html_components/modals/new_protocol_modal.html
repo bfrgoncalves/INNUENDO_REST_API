@@ -17,11 +17,19 @@
 		      </div>
 		    </div>
 		    <div class="form-group">
-		      <div class="col-sm-offset-2 col-sm-10">
-		        <button type="submit" class="btn btn-default">Add</button>
+		      <div style="text-align:center;">
+		        <button type="submit" class="btn btn-md btn-primary">Add</button>
 		      </div>
 		    </div>
 		</form>
+
+        <div style="text-align:center;">
+            <select id="selectpickerparams" class="selectpicker">
+            </select>
+            <button ng-click="checkProtocolParameters()" class="btn btn-default">Check Available Parameters</button>
+        </div>
+        <div style="margin-top: 10px;" id="parametersContent">
+        </div>
 	  </div>
 	  <div class="modal-footer">
 	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

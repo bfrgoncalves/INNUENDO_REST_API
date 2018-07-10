@@ -580,10 +580,6 @@ class SpeciesStatistics(Resource):
 
     def get(self):
 
-        if not current_user.is_authenticated:
-            abort(403, message="No permissions")
-
-
         # Get strain count
         strains_1_count = db.session.query(Strain).filter(
             Strain.species_id == "1").count()

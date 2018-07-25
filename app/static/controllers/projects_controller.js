@@ -14,8 +14,6 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     current_scope_template = $scope.selectedTemplate.path;
 
-    console.log(GLOBAL_STATISTICS);
-
     $scope.strains_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][0];
     $scope.projects_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][1];
     $scope.profiles_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][2];

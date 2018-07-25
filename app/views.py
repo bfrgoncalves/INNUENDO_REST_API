@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_security import login_required, current_user, utils, roles_required
 import json
 from app import app
-from config import FILES_ENTRY_POINT, ADMIN_GID, REPORTS_URL, USEDSOFTWARE, \
+from config import FILES_ENTRY_POINT, ADMIN_GID, REPORTS_URL, \
     NEXTFLOW_TAGS
 
 
@@ -45,8 +45,7 @@ def index():
                            show_protocols=show_protocols,
                            show_info_button=json.dumps(show_protocols),
                            homedir=json.dumps(homedir),
-                           nextflow_tags=json.dumps(NEXTFLOW_TAGS),
-                           used_software=json.dumps(USEDSOFTWARE)
+                           nextflow_tags=json.dumps(NEXTFLOW_TAGS)
                            )
 
 

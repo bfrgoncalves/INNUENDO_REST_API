@@ -154,14 +154,20 @@ const Protocol_List = ($http) => {
 		    		let protocolProperty = response.data[i].plabel.split('"')[1];
 		    		let protocolUri = response.data[i].rangeClass;
 
-					protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
-
 		    		if (protocolProperty === "used Software"){
 		    			protocol_type["Nextflow Tag"] = ["select", "nextflow"];
+		    			protocol_type["Version"] = ["input", "required"];
 		    		}
+		    		else {
+		    			protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
+					}
+
 		    	}
-		    	protocol_type["CPUs"] = ["input", "required"];
-				protocol_type["Memory"] = ["input", "required"];
+
+		    	// CPU and Memory are now specified as a parameter. If not,
+				// they use the default.
+		    	//protocol_type["CPUs"] = ["input", "required"];
+				//protocol_type["Memory"] = ["input", "required"];
 		    	callback({protocol_type:protocol_type, protocol_parameters:protocol_parameters});
 			});
 		},

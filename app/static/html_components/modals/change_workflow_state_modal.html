@@ -1,0 +1,27 @@
+<!-- Modal Template-->
+<div id="modalChangeState" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">Change Workflow State</h4>
+	  </div>
+      <div class="modal-body">
+          <label>Select one of the following states</label>
+          <select id="stateOption" class="selectpicker">
+              <option value="true">Available</option>
+              <option value="false">Not Available</option>
+              <option value="admin">Admin</option>
+          </select>
+          <p id="messageState"></p>
+	  </div>
+	  <div class="modal-footer">
+	  	<button id="buttonSubState" class="btn btn-md btn-primary">Ok</button>
+	  	<button id="buttonCancelAlert" type="button" data-dismiss="modal" class="btn btn-md btn-default">Cancel</button>
+	  </div>
+	</div>
+
+  </div>
+</div>

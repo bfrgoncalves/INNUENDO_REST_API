@@ -143,9 +143,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                 if($.inArray("used Software", results.protocol_parameters)){
                     let options = "";
                     let options_nextflow = "";
-                    for(const x in usedSoftware){
+                    /*for(const x in usedSoftware){
                         options += "<option>"+usedSoftware[x]+"</option>";
-                    }
+                    }*/
                     for(const y in nextflow_tags){
                         options_nextflow += "<option>"+nextflow_tags[y]+"</option>";
                     }

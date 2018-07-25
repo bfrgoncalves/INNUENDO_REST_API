@@ -1,6 +1,4 @@
 <div ng-controller="workflowsCtrl" ng-init="launch_sortable()" style="display:none;" id="workflow_controller_div">
-  <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
-
 
   <div class="row nomargin">
       <div class="jumbotron jumbotron-fluid global_stats_banner">
@@ -88,6 +86,7 @@
   </div>
 
   <div id="div_available_workflows" style="display:none;">
+      <div ng-include="'static/html_components/modals/change_workflow_state_modal.html'"></div>
       <div class="col-md-12">
           <div class="banner_strains">
             <h3 class="sub-header">Available Workflows

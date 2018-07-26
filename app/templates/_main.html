@@ -27,9 +27,20 @@
                   </a>
                   <ul class="sidenav-second-level collapse"
                       id="collapseMultiAdmin">
+                    <li id="dashboard_button_li" class="nav-item"
+                       data-toggle="tooltip"
+                        data-placement="right" title="Dashboard">
+                      <a  href="" ng-click="selectedTemplate.path = &#39;{{
+                              url_for('static',
+                              filename='html_components/dashboard_view.html')
+                              }}&#39;">
+                        <i class="fa fa-fw"></i>
+                        <span class="nav-link-text">Dashboard</span>
+                      </a>
+                    </li>
                     <li id="protocols_button_li" class="nav-item" data-toggle="tooltip"
                         data-placement="right" title="Protocols">
-                      <a  href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;"">
+                      <a  href="" ng-click="selectedTemplate.path = &#39;{{ url_for('static', filename='html_components/protocols_view.html') }}&#39;">
                         <i class="fa fa-fw"></i>
                         <span class="nav-link-text">Protocols</span>
                       </a>

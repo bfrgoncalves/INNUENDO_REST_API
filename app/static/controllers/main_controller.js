@@ -154,6 +154,33 @@ const getNavbarMessages = () => {
     });
 };
 
+let intervalState;
+
+const checkPlatformState = () => {
+
+    let pg_requests = Requests("", "", http);
+
+    pg_requests.check_state((response) => {
+
+        if (response.data === "anonymous") {
+            clearInterval(intervalState);
+            return
+        }
+        else if(response.data === "false" && !SHOW_INFO_BUTTON){
+            clearInterval(intervalState);
+            modalAlert("The INNUENDO Platform is locked for maintenance. You" +
+                " will" +
+                " be disconnected from the" +
+                " servers in 10 seconds.", "Alert", () => {});
+            setTimeout(() => {
+                const href = $("#logout_user").attr('href');
+                window.location.href = href;
+            }, 10000);
+        }
+    });
+
+};
+
 const performChecks = () => {
 
     let pg_requests = Requests("", "", http);
@@ -247,8 +274,9 @@ setTimeout( () => {
 
     setInterval(() => {
         getNavbarMessages();
-
     }, 5000);
+
+    intervalState = setInterval(() => {checkPlatformState()}, 5000);
 
     setTimeout(() => {
         performChecks();

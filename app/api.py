@@ -47,7 +47,7 @@ from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, \
 from resources.file_resources.file_resources import TemplateResource
 from resources.jobs.checks import CheckControllerResource, \
     CheckDbGeneralResource, CheckDbMLSTResource, \
-    CheckLDAPResource, CheckPHYLOViZResource
+    CheckLDAPResource, CheckPHYLOViZResource, PlatformStateResource
 
 
 '''
@@ -189,6 +189,7 @@ api.add_resource(CheckPHYLOViZResource, '/api/v1.0/checks/phyloviz')
 api.add_resource(CheckDbGeneralResource, '/api/v1.0/checks/db/general')
 api.add_resource(CheckDbMLSTResource, '/api/v1.0/checks/db/mlst')
 api.add_resource(CheckLDAPResource, '/api/v1.0/checks/ldap')
+api.add_resource(PlatformStateResource, '/api/v1.0/checks/state')
 
 ################################# Defining NGSOnto routes #####################
 

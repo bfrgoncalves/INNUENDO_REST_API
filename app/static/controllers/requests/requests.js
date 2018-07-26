@@ -69,6 +69,32 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		check_state: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/state',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		change_state: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/state',
+		        method:'PUT'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
 		//////////////// Protocols Requests /////////////////////////////////////////
 		download_accession: (username, accession_numbers, callback) => {
 

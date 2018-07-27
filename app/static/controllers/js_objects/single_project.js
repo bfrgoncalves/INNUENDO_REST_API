@@ -93,7 +93,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         'FAILED': '#f75454',
         'WARNING': '#f9fb30',
         'NEUTRAL': '#ffffff'
-    }
+    };
 
     const modalAlert = (text, header, callback) => {
 
@@ -2420,13 +2420,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         */
         get_processes_outputs: (button_class, callback) => {
             let button_id = button_class.split('&&')[1];
-            let process_id = String(parseInt(buttons_to_tasks[button_id].split('_')[1]) + 1);
             let button_position = parseInt(button_id.split('_').slice(-2)[0]);
-            let pipeline_id = String(strainID_pipeline[strains_dict[buttons_to_strain_names[button_id]]]);
             let real_p_data;
 
             if (Object.keys(strain_to_real_pip).length === 0) {
-                let button_nout = button_class.split('&&')[1].split("_")
+                let button_nout = button_class.split('&&')[1].split("_");
                 real_p_data = [CURRENT_PROJECT_ID, button_class_to_pipeline[button_class], button_nout[button_nout.length - 2]]
             }
             else {

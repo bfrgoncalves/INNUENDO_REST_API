@@ -1197,7 +1197,7 @@ const checkPipelineFromFile = (element) => {
 };
 
 /*
-Add a new pipeline if a strain loaded trhough a file already exists
+Add a new pipeline if a strain loaded through a file already exists
 */
 const newPipelineFromFile = (element) => {
     const objects_utils = Objects_Utils();

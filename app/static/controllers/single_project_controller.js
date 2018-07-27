@@ -954,8 +954,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     $scope.refreshStatus = () => {
 
-        const keys = Object.keys(intervals_running);
-
         const overlayProjects = $("#overlayProjects");
         const overlayWorking = $("#overlayWorking");
         const singleProjContEl = $("#single_project_controller_div");
@@ -968,12 +966,33 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
         let count_strains = 0;
 
+        let pipelineDict = {};
+
+        // Parse ids by strain to get the ststua by strain and not by job
+        // submission.
+        for(const id in intervals_running){
+            let idPip = id.split("process")[0];
+
+            if (!pipelineDict.hasOwnProperty(idPip)) {
+                pipelineDict[idPip] = [id];
+
+            }
+            else {
+                pipelineDict[idPip].push(id);
+            }
+        }
+
+        const keys = Object.keys(pipelineDict);
+
         const update_s = () => {
 
             let key_to_use = keys.shift();
 
             try{
-                intervals_running[key_to_use]();
+                // Get all status for the jobs associated with a single strain
+                for (const intervalId of pipelineDict[key_to_use]){
+                    intervals_running[intervalId]();
+                }
             }
             catch(e){
                 console.log("Error loading status for key " + String(key_to_use));
@@ -981,7 +1000,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             count_strains += 1;
             subStatusEl.empty();
-            subStatusEl.html("Updating " + String(count_strains) + " out of " + Object.keys(intervals_running).length + " strain submission status ...");
+            subStatusEl.html("Updating " + String(count_strains) + " out of " +
+                Object.keys(pipelineDict).length + " strain submission status ...");
 
             if(keys.length > 0) {
                 setTimeout( () => {

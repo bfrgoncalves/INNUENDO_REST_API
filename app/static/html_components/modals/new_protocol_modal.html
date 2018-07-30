@@ -1,40 +1,55 @@
 <!-- Modal Template-->
 <div id="newProtocolModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4 class="modal-title">Add Parameter</h4>
-	  </div>
-      <div class="modal-body">
-		<form class="form-horizontal" role="form" id="new_data_form" ng-submit="AddParameters()">
-		    <div class="form-group row" ng-repeat="property_field in property_fields">
-		      <label class="col-sm-3 col-form-label" for="field_{{property_field}}">{{property_field}}</label>
-		      <div class="col-sm-9">
-		        <input type="text" class="form-control entered_params" name="field_{{property_field}}" placeholder="Enter {{property_field}}">
-		      </div>
-		    </div>
-		    <div class="form-group">
-		      <div style="text-align:center;">
-		        <button type="submit" class="btn btn-md btn-primary">Add</button>
-		      </div>
-		    </div>
-		</form>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+                <h4 class="modal-title">Edit Parameters</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="new_data_form"
+                      ng-submit="EditParameters()">
+                    <div class="form-group row"
+                         ng-repeat="(key, params) in protocolParameters"
+                         style="text-align:center;">
+                        <h4 style="margin-bottom: 2%;">
+                            FlowCraft {{ key }} parameters
+                        </h4>
+                        <div class="col-md-12" ng-repeat="param in params">
+                            <label class="col-sm-3 col-form-label"
+                                   for="{{ param.param }}">{{ param.param }}</label>
+                            <div class="col-sm-3">
+                                <input type="text"
+                                       class="form-control entered_params"
+                                       name="{{ param.param }}"
+                                       placeholder="Enter {{ param.param }}"
+                                       value="{{ param.default }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <p>{{ param.description }}</p>
+                            </div>
+                        </div>
 
-        <div style="text-align:center;">
-            <select id="selectpickerparams" class="selectpicker">
-            </select>
-            <button ng-click="checkProtocolParameters()" class="btn btn-default">Check Available Parameters</button>
+                    </div>
+                    <div class="form-group">
+                        <div style="text-align:center;">
+                            <button type="submit"
+                                    class="btn btn-md btn-primary">Edit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">Close
+                </button>
+            </div>
         </div>
-        <div style="margin-top: 10px;" id="parametersContent">
-        </div>
-	  </div>
-	  <div class="modal-footer">
-	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	  </div>
-	</div>
 
-  </div>
+    </div>
 </div>

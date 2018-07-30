@@ -1,105 +1,148 @@
-<div ng-controller="protocolsCtrl" ng-init="loadProtocols()" style="display:none;" id="protocol_controller_div">
-  <div ng-include src="'static/html_components/modals/new_protocol_modal.html'"></div>
-  <div ng-include src="'static/html_components/modals/modal_alert.html'"></div>
-  <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
+<div ng-controller="protocolsCtrl" ng-init="loadProtocols()"
+     style="display:none;" id="protocol_controller_div">
+    <div ng-include
+         src="'static/html_components/modals/new_protocol_modal.html'"></div>
+    <div ng-include
+         src="'static/html_components/modals/modal_alert.html'"></div>
+    <!--<div ng-include="'/static/html_components/modals/new_project_modal.html'"></div>-->
 
 
-  <div class="row nomargin">
-      <div class="jumbotron jumbotron-fluid global_stats_banner">
+    <div class="row nomargin">
+        <div class="jumbotron jumbotron-fluid global_stats_banner">
 
-          <div class="container">
-              <div class="col-md-12 rule3" style="text-align: center;">
-                <p style="font-weight: bold;">Create new Protocols to construct your Workflows!</p>
-              </div>
-              <!--<div class="col-md-12">
-                <div class="rule2"></div>
-              </div>-->
+            <div class="container">
+                <div class="col-md-12 rule3" style="text-align: center;">
+                    <p style="font-weight: bold;">Create new Protocols to
+                        construct your Workflows!</p>
+                </div>
+                <!--<div class="col-md-12">
+                  <div class="rule2"></div>
+                </div>-->
 
-          </div>
-      </div>
-  </div>
+            </div>
+        </div>
+    </div>
 
-  <ul class="nav nav-tabs">
-    <li class="active" id="new_protocol_tab"><a href="#">Build Protocols</a></li>
-    <li id="available_protocols_tab"><a href="#">Available Protocols</a></li>
-  </ul>
+    <ul class="nav nav-tabs">
+        <li class="active" id="new_protocol_tab"><a href="#">Build Protocols</a>
+        </li>
+        <li id="available_protocols_tab"><a href="#">Available Protocols</a>
+        </li>
+    </ul>
 
-  <div id="div_new_protocol" style="display:block;">
-      <div class="col-md-12">
-        <div class="sub_container">
-            <div class="banner_strains">
-                <h3 class="sub-header">New Protocol</h3>
-                <label for ="protocol_type_selector">Protocol type</label>
-                <select class="selectpicker form-control" data-live-search="true" id="protocol_type_selector" width="100%">
-                    <!--<option ng-repeat="type in protocol_types">{{type}}</option>-->
-                </select>
+    <div id="div_new_protocol" style="display:block;">
+        <div class="col-md-12">
+            <div class="sub_container">
+                <div class="banner_strains">
+                    <h3 class="sub-header">New Protocol</h3>
+                    <label for="protocol_type_selector">Protocol type</label>
+                    <select class="selectpicker form-control"
+                            data-live-search="true" id="protocol_type_selector"
+                            width="100%">
+                        <!--<option ng-repeat="type in protocol_types">{{type}}</option>-->
+                    </select>
 
-                <form id="new_protocol_form" style="display:none;width:100%;
+                    <form id="new_protocol_form" style="display:none;width:100%;
                 height:50%;margin-top: 20px;" ng-submit="addProtocol()">
-                    <div ng-repeat="(key,type) in protocol_type"
-                         class="form-group col-md-4" style="margin-top: 5px;">
-                        <label>{{key}}</label>
-                            <select id="parameter_select" ng-if="key == 'used Parameter'" class="selectpicker form-control" data-live-search="true" style="width:50%;">
-                                <!--<option ng-repeat="parameter in protocol_parameters">{{parameter[0].value}}:{{parameter[1].value}}</option>-->
+                        <div ng-repeat="(key,type) in protocol_type"
+                             class="form-group col-md-4"
+                             style="margin-top: 5px;">
+                            <label>{{ key }}</label>
+                            <select id="parameter_select"
+                                    ng-if="key == 'used Parameter'"
+                                    class="selectpicker form-control"
+                                    data-live-search="true" style="width:50%;">
                             </select>
                             <div style="width:100%; text-align: center;margin-top: 5px;">
-                                <button type=button name="protocol_{{key}}" class="btn btn-sm
-                                btn-primary" ng-if="type[0] == 'button'" ng-click="getProtocolFields(type[2])">Add Parameter</button>
+                                <button type=button name="protocol_{{ key }}"
+                                        class="btn btn-sm
+                                btn-primary" ng-if="type[0] == 'button'"
+                                        ng-click="checkProtocolParameters()">
+                                    Edit Parameters
+                                </button>
 
-                                <button type=button name="protocol_{{key}}" class="btn btn-sm
-                                btn-danger" ng-if="type[0] == 'button'" ng-click="removeSelectedParameter()">Remove Parameter</button>
+                                <!--<button type=button name="protocol_{{key}}"
+                                         class="btn btn-sm
+                                btn-danger" ng-if="type[0] == 'button'"
+                                ng-click="removeSelectedParameter()">Remove
+                                Parameter</button>-->
                             </div>
 
 
-                            <input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'text'">
-                            <input style="width:100%;" name="protocol_{{key}}" type="text" class="form-control to_empty" ng-if="type[0] == 'input' && type[1] == 'required'" required>
-                            <textarea name="protocol_{{key}}" class="form-control to_empty" ng-if="type[0] == 'textarea'"></textarea>
-                            <select id="select_software" name="protocol_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'text'">
-                                <!--<option ng-repeat="option in type[1]">{{option}}</option>-->
+                            <input style="width:100%;" name="protocol_{{ key }}"
+                                   type="text" class="form-control to_empty"
+                                   ng-if="type[0] == 'input' && type[1] == 'text'">
+                            <input style="width:100%;" name="protocol_{{ key }}"
+                                   type="text" class="form-control to_empty"
+                                   ng-if="type[0] == 'input' && type[1] == 'required'"
+                                   required>
+                            <textarea name="protocol_{{ key }}"
+                                      class="form-control to_empty"
+                                      ng-if="type[0] == 'textarea'"></textarea>
+                            <select id="select_software"
+                                    name="protocol_{{ key }}"
+                                    class="selectpicker form-control"
+                                    data-live-search="true" style="width:100%;"
+                                    ng-if="type[0] == 'select' && type[1] == 'text'">
                             </select>
-                            <select id="nextflow_tag" name="nextflow_{{key}}" class="selectpicker form-control" data-live-search="true" style="width:100%;" ng-if="type[0] == 'select' && type[1] == 'nextflow'">
-                                <!--<option ng-repeat="option in type[1]">{{option}}</option>-->
+                            <select id="nextflow_tag" name="nextflow_{{ key }}"
+                                    class="selectpicker form-control"
+                                    data-live-search="true" style="width:100%;"
+                                    ng-if="type[0] == 'select' && type[1] == 'nextflow'">
                             </select>
                         </div>
-                        <label ng-if="key == 'used Software'">{{key}} version</label>
+                        <label ng-if="key == 'used Software'">{{ key }}
+                            version</label>
                         <div ng-if="key == 'used Software'">
-                            <input name="protocol_{{key}}version" type="text" class="form-control to_empty" style="width:100%;" ng-if="key == 'used Software'">
+                            <input name="protocol_{{ key }}version" type="text"
+                                   class="form-control to_empty"
+                                   style="width:100%;"
+                                   ng-if="key == 'used Software'">
                         </div>
-                    <div class="form-group col-md-12">
-                        <div style="text-align:center;display:none;" id="create_protocol_button">
-                            <button type="submit" class="btn btn-lg btn-primary">Create protocol</button>
+                        <div class="form-group col-md-12">
+                            <div style="text-align:center;display:none;"
+                                 id="create_protocol_button">
+                                <button type="submit"
+                                        class="btn btn-lg btn-primary">Create
+                                    protocol
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
 
-            </div>
-        </div>
-      </div>
-  </div>
-
-
-  <div id="div_available_protocols" style="display:none;">
-      <div class="col-md-12">
-        <div class="sub_container">
-            <div class="banner_strains">
-                <h3 class="sub-header">Check Available Protocols</h3>
-                <label for ="protocol_type_selector_load">Protocol type</label>
-                <select class="selectpicker form-control" id="protocol_type_selector_load" data-live-search="true">
-                    <!--<option ng-repeat="type in protocol_types">{{type}}</option>-->
-                </select>
-                <label for ="protocol_selector_load">Protocol</label>
-                <select class="selectpicker form-control" id="protocol_selector_load">
-                    <!--<option ng-repeat="protocol in protocols_of_type">{{protocol}}</option>-->
-                </select>
-                <br>
-                <div id="div_protocol_show" style="display:none; padding: 20px 20px 20px 20px;">
-                    <ul class="list-group">
-                        <li class="list-group-item" ng-repeat="(key,val) in selected_protocol"><b>{{key}}: </b>{{val}}</li>
-                    </ul>
                 </div>
             </div>
         </div>
-      </div>
-  </div>
-  <div class="col-md-12" id="protocols_message_div"></div>
+    </div>
+
+
+    <div id="div_available_protocols" style="display:none;">
+        <div class="col-md-12">
+            <div class="sub_container">
+                <div class="banner_strains">
+                    <h3 class="sub-header">Check Available Protocols</h3>
+                    <label for="protocol_type_selector_load">Protocol
+                        type</label>
+                    <select class="selectpicker form-control"
+                            id="protocol_type_selector_load"
+                            data-live-search="true">
+                    </select>
+                    <label for="protocol_selector_load">Protocol</label>
+                    <select class="selectpicker form-control"
+                            id="protocol_selector_load">
+                    </select>
+                    <br>
+                    <div id="div_protocol_show"
+                         style="display:none; padding: 20px 20px 20px 20px;">
+                        <ul class="list-group">
+                            <li class="list-group-item"
+                                ng-repeat="(key,val) in selected_protocol">
+                                <b>{{ key }}: </b>{{ val }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" id="protocols_message_div"></div>
 </div>

@@ -15,6 +15,11 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
     $("#innuendofooter").css({"display": "none"});
 
+
+    /*
+        Function to allow store state of previous pages
+        Allows return to previous page by pop element from array
+     */
     backButtonEl.off("click").on("click", () => {
         $scope.$apply(() => {
             session_array = PREVIOUS_PAGE_ARRAY.pop();
@@ -37,6 +42,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         })
     });
 
+    /*
+        Set position of loading spinner
+     */
     $('#waiting_spinner').css({
         display: 'block',
         position: 'fixed',
@@ -44,6 +52,10 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         left: '50%'
     });
 
+    /*
+        Define which options are available in the sidebar. They depend on
+         the current page and the user permissions.
+     */
     $("#projects_button_li").css({"display": "none"});
     $("#reports_button_li").css({"display": "none"});
     $("#uploads_button_li").css({"display": "none"});
@@ -55,6 +67,10 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
     $("#overview_li").css({"display": "block"});
 
 
+    /*
+        Trigger protocols tabs. The new protocol tab and the available
+         protocols tab.
+     */
     $("#new_protocol_tab").on("click", () => {
         $("#new_protocol_tab").addClass("active");
         $("#available_protocols_tab").removeClass("active");
@@ -69,17 +85,21 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         $("#div_new_protocol").css({"display": "none"});
     });
 
+    /*
+        Clear get status interval when in the protocols page. The interval
+         is only triggered when the user is on the sungle project page.
+     */
     for (const interval in intervals_running) {
         if (intervals_running.hasOwnProperty(interval)) {
             clearInterval(intervals_running[interval]);
         }
     }
 
-    //RESET ROW SELECTION
+    // RESET ROW SELECTION
     CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
     CURRENT_TABLE_ROWS_SELECTED = {};
 
-    //RESET REPORT SELECTOR
+    // RESET REPORT SELECTOR
     TO_LOAD_STRAINS = "";
     TO_LOAD_PROJECTS = "";
 
@@ -90,48 +110,69 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
     $scope.protocols_of_type = [];
     $scope.protocolTypeParameters = {};
 
+    // Load protocol object with all the available functions
     const protocols_list = Protocol_List($http);
 
+    // First function that is triggered when the user enters in the scope of
+    // the Protocol page.
     $scope.loadProtocols = () => {
         $scope.getProtocolTypes();
     };
 
 
+    /*
+        Function to get the available parameters for a given nextflow tag
+         and set the default protocol parameters.
+         Triggers a request to the REST API, which asks FlowCraft for the
+          parameters.
+     */
     const getParameters = (selected_text) => {
-
-        console.log(selected_text);
 
         // Get parameters for firsts elected Nextflow tag
         protocols_list.check_protocol_parameters(selected_text, (results) => {
 
-            try {
-                // Modifies string so that it can be parsed to JSON object
-                const newString = results.data.content.replace(/'/g, '"');
-                paramsObject = JSON.parse(newString);
+            if (results.data === "False") {
+                console.log("Error loading parameters");
+            }
+            else {
+                try {
+                    // Modifies string so that it can be parsed to JSON object
+                    const newString = results.data.content.replace(/'/g, '"');
+                    paramsObject = JSON.parse(results.data.content);
 
-                const parameterEl = $('#parameter_select');
+                    const parameterEl = $('#parameter_select');
 
-                let option = "";
+                    let option = "";
 
-                for (const x in paramsObject[selected_text]) {
-                    const valueToUse = paramsObject[selected_text][x].value !== undefined ? paramsObject[selected_text][x].value : paramsObject[selected_text][x].default;
-                    option += "<option>" + paramsObject[selected_text][x].param + ":" + valueToUse + "</option>";
+                    // Set default values of a protocol
+                    for (const x in paramsObject[selected_text]) {
+                        const valueToUse = paramsObject[selected_text][x].value !== undefined ?
+                            paramsObject[selected_text][x].value :
+                            paramsObject[selected_text][x].default;
+
+                        option += "<option>" + x + ":" + valueToUse + "</option>";
+                    }
+
+                    parameterEl.empty();
+                    parameterEl.append(option);
+
+                    $(".selectpicker").selectpicker("refresh");
+
                 }
-
-                parameterEl.empty();
-                parameterEl.append(option);
-
-                $(".selectpicker").selectpicker("refresh");
-
+                catch (e) {
+                    console.log(e);
+                    console.log("Error loading protocol parameters");
+                    return;
+                }
             }
-            catch (e) {
-                console.log(e);
-                console.log("Error loading protocol parameters");
-                return;
-            }
+
         });
     };
 
+    /*
+        Function to get the NGSOnto protocol types. used to classify then.
+         Each type as a different set of input parameters.
+     */
     $scope.getProtocolTypes = () => {
 
         protocols_list.get_protocol_types((results) => {
@@ -139,6 +180,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             $scope.protocol_types = results.protocol_types;
             let options = "";
 
+            // Set the protocol type options
             for (const x in results.protocol_types) {
                 options += "<option>" + results.protocol_types[x] + "</option>";
             }
@@ -151,11 +193,16 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             protocolSelEl.append(options);
             protocolSelLoadEl.append(options);
 
+            // Trigger event on change on the dropdowns. Change the inputs
             protocolSelEl.on("change", () => {
-                $scope.loadProtocolCreator($("#protocol_type_selector option:selected").text());
+                $scope.loadProtocolCreator(
+                    $("#protocol_type_selector option:selected").text()
+                );
             });
             protocolSelLoadEl.on("change", () => {
-                $scope.loadProtocolType($("#protocol_type_selector_load option:selected").text());
+                $scope.loadProtocolType(
+                    $("#protocol_type_selector_load option:selected").text()
+                );
             });
 
             protocolSelEl.trigger("change");
@@ -164,13 +211,19 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         });
     };
 
+    /*
+        Function to add a protocol to the database
+     */
     $scope.addProtocol = () => {
-
         protocols_list.add_protocol((results) => {
         });
 
     };
 
+    /*
+        Function to load protocol inputs depending on a type. Loads a form
+         with the options for nextflow tags if available for that type.
+     */
     $scope.loadProtocolCreator = (selectedType) => {
 
         $("#new_protocol_form").css({"display": "none"});
@@ -188,6 +241,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     let options = "";
                     let options_nextflow = "";
 
+                    // Add nextflow tag options
                     for (const y in nextflow_tags) {
                         options_nextflow += "<option>" + nextflow_tags[y] + "</option>";
                     }
@@ -220,6 +274,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         });
     };
 
+    /*
+        Load protocols available of a given type.
+     */
     $scope.loadProtocolType = (selectedType) => {
 
         protocols_list.get_protocols_of_type(selectedType, (results) => {
@@ -227,6 +284,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             $scope.property_fields = results.property_fields;
 
             let options = "";
+
             for (const x in results.protocols_of_type) {
                 options += "<option>" + results.protocols_of_type[x] + "</option>";
             }
@@ -237,7 +295,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             protocolSelLoadEl.append(options);
             $(".selectpicker").selectpicker("refresh");
 
-
+            // On change, loads the information regarding that protocol
             protocolSelLoadEl.on("change", () => {
                 protocols_list.load_protocol($("#protocol_selector_load" +
                     " option:selected").text(), (results) => {
@@ -258,6 +316,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         });
     };
 
+    /*
+        Function to load information regarding a given protocol.
+     */
     $scope.loadProtocol = (selectedProtocol) => {
 
         const protocolEl = $("#div_protocol_show");
@@ -277,11 +338,18 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         });
     };
 
+    /*
+        Function to load the modal with the available parameters for a given
+         protocol.
+     */
     $scope.checkProtocolParameters = () => {
         $scope.protocolParameters = paramsObject;
         $('#newProtocolModal').modal('show');
     };
 
+    /*
+        Function to allow editing parameters of a given protocol
+     */
     $scope.EditParameters = () => {
 
         const parameterEl = $('#parameter_select');
@@ -292,10 +360,11 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
             console.log(parameterObject);
 
+            // Modify parameters object depending on the new parameter values
             for (const param of parameterObject) {
                 console.log(paramsObject, selected_tag, param.name);
                 for (const i in paramsObject[selected_tag]) {
-                    if (paramsObject[selected_tag][i].param === param.name) {
+                    if (i === param.name) {
                         paramsObject[selected_tag][i].value = param.value;
                     }
                 }
@@ -303,8 +372,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
             let option = "";
 
-            for (const param of paramsObject[selected_tag]) {
-                option += "<option>" + param.param + ":" + param.value + "</option>";
+            // Chnage the parameter values in the dropdown input.
+            for (const param in paramsObject[selected_tag]) {
+                option += "<option>" + param + ":" + paramsObject[selected_tag][param].value + "</option>";
             }
 
             parameterEl.empty();
@@ -314,7 +384,8 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
             $('#newProtocolModal').modal('hide');
 
-            modalAlert("Protocol parameters updated!", "Information", () => {});
+            modalAlert("Protocol parameters updated!", "Information", () => {
+            });
 
         });
 

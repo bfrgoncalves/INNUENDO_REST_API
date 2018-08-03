@@ -4,8 +4,8 @@ import datetime
 import sys
 import argparse
 
-from config import allele_classes_to_ignore, metadata_to_use, base_metadata, \
-    metadata_to_use_yersinia
+from config import allele_classes_to_ignore, base_metadata, \
+    metadata_to_use_all
 
 
 def main():
@@ -359,7 +359,7 @@ def read_metadata_file_to_JSON(file_path, table_id):
 
     results_metadata = {}
 
-    real_metadata_to_use = metadata_to_use_yersinia
+    real_metadata_to_use = metadata_to_use_all
 
     # Open metadata file
     with open(file_path, 'rtU') as reader:
@@ -482,14 +482,12 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
                     classification_to_use = ["undefined", "undefined",
                                              "undefined"]
                     count_no_class += 1
-                    print count_no_class
                 try:
                     metadata_to_use = metadata_json[strain_id]
                 except KeyError as e:
                     print "No metadata for " + strain_id + ". Adding empty..."
                     m.write(strain_id + "\n")
                     count_no_meta += 1
-                    print count_no_meta
                     metadata_to_use = base_metadata
 
                 populate_dbs[table_id](strain_id, classification_to_use[0],
@@ -499,6 +497,8 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
                                        platform_tag)
 
     print "DONE IMPORTING TO DB AND CREATING PROFILE HEADERS FILE"
+    print "Non classified: " + str(count_no_class)
+    print "No metadata: " + str(count_no_meta)
 
 
 if __name__ == "__main__":

@@ -104,7 +104,8 @@ const Protocol_List = ($http) => {
 
                 $.map(options, (option) => {
                     let parts = option.value.split(':');
-                    values[parts[0]] = parts[1];
+                    let key = parts.shift();
+                    values[key] = parts.join(":");
                 });
 
                 protocol_object['used Parameter'] = values;

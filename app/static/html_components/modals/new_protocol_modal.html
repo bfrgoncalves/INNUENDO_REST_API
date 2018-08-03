@@ -19,18 +19,18 @@
                         <h4 style="margin-bottom: 2%;">
                             FlowCraft {{ key }} parameters
                         </h4>
-                        <div class="col-md-12" ng-repeat="param in params">
+                        <div class="col-md-12" ng-repeat="(paramKey, paramValues) in params">
                             <label class="col-sm-3 col-form-label"
-                                   for="{{ param.param }}">{{ param.param }}</label>
+                                   for="{{ paramKey }}">{{ paramKey }}</label>
                             <div class="col-sm-3">
                                 <input type="text"
                                        class="form-control entered_params"
-                                       name="{{ param.param }}"
-                                       placeholder="Enter {{ param.param }}"
-                                       value="{{ param.default }}">
+                                       name="{{ paramKey }}"
+                                       placeholder="Enter {{ paramKey }}"
+                                       value="{{ paramValues.default }}">
                             </div>
                             <div class="col-sm-6">
-                                <p>{{ param.description }}</p>
+                                <p>{{ paramValues.description }}</p>
                             </div>
                         </div>
 

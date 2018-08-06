@@ -1,9 +1,10 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_security import login_required, current_user, utils, roles_required
 import json
-from app import app
-from config import FILES_ENTRY_POINT, ADMIN_GID, REPORTS_URL, USEDSOFTWARE, \
+from app import app, db
+from config import FILES_ENTRY_POINT, ADMIN_GID, REPORTS_URL, \
     NEXTFLOW_TAGS
+from app.models.models import Platform
 
 
 '''
@@ -18,12 +19,14 @@ def getID(current_user):
     else:
         return 0
 
+
 @app.route('/')
 @app.route('/index')
 def index():
     current_user_id = getID(current_user)
     username = ""
     homedir = ""
+
     if current_user.is_authenticated:
         username = current_user.username
         homedir = current_user.homedir
@@ -43,8 +46,7 @@ def index():
                            show_protocols=show_protocols,
                            show_info_button=json.dumps(show_protocols),
                            homedir=json.dumps(homedir),
-                           nextflow_tags=json.dumps(NEXTFLOW_TAGS),
-                           used_software=json.dumps(USEDSOFTWARE)
+                           nextflow_tags=json.dumps(NEXTFLOW_TAGS)
                            )
 
 

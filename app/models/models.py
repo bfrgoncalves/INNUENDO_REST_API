@@ -71,6 +71,19 @@ def get_ldap_connection():
     return conn
 
 
+class Platform(db.Model):
+    """
+    Definition of the Platform model. Used to define the current platform
+    state. Can be useful for lock of the platform by the administrator and
+    other options
+    """
+
+    __tablename__ = "platform"
+    __bind_key__ = 'innuendo_database'
+    id = db.Column(db.Integer, primary_key=True)
+    status = db.Column(db.String(255))
+
+
 class User(db.Model, UserMixin):
     """
     Definition of the User model for the database

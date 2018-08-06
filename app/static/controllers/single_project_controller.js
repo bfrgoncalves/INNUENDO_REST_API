@@ -7,6 +7,7 @@ let sh;
 let pcol;
 let global_strains, project_col_defs;
 let single_p;
+let scope;
 /*
 *
 */
@@ -208,7 +209,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     const backButtonEl = $("#backbutton");
 
-    console.log(CURRENT_SPECIES_ID);
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
     else backButtonEl.css({"display":"none"});
@@ -268,6 +268,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     const single_project = Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
 
     single_p = single_project;
+    scope = $scope;
 
     $scope.getAppliedPipelines = single_project.get_applied_pipelines;
     $scope.createPipeline = single_project.create_pipeline;
@@ -498,7 +499,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                         $scope.getAppliedPipelines(null, (strains_results) => {
                             objects_utils.destroyTable('strains_table');
 
-                            console.log(global_strains);
                             $scope.strains_in_use = global_strains.length;
 
                             if(strains_results.strains === "no_pipelines"){
@@ -736,48 +736,71 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             $("#single_project_controller_div").css({"display":"none"});
             $("#submission_status").empty();
 
-            //Check if there are jobs pending or already running. If so, the jobs can't be run again
-            single_project.check_if_pending( (haspending) => {
+            // Check if controller is available before submitting jobs
+            single_project.check_controller( (response) => {
 
-                const buttonRunStrainEl = $('#button_run_strain');
-                const overlayProjects = $("#overlayProjects");
-                const overlayWorking = $("#overlayWorking");
-                const singleProjEl = $("#single_project_controller_div");
+                console.log(response);
 
-                if(haspending === true){
-                    modalAlert('One or more of the selected strains have jobs' +
-                        ' already submitted. Please wait until they finish' +
-                        ' before submit new jobs for those strains.', "Jobs" +
-                        " Still Running", () => {});
-                    buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                    overlayProjects.css({"display":"none"});
-                    overlayWorking.css({"display":"none"});
-                    singleProjEl.css({"display":"block"});
-                }
-                else if(haspending === "no_selected"){
-                    modalAlert('Please select at least one strain to run' +
-                        ' analysis.', "Select Strains", () => {});
-                    buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
-                    overlayProjects.css({"display":"none"});
-                    overlayWorking.css({"display":"none"});
-                    singleProjEl.css({"display":"block"});
-                }
-                else{
-                    //Save the pipelines on the database if required
-                    single_project.save_pipelines((run) => {
-                        //Run the pipelines
-                        if(run === true) single_project.run_pipelines();
-                        else if(run !== "no_select") {
-                            modalAlert('All processes for the selected strains' +
-                                ' have been run.', "All Processes Submitted", () => {});
+                const subStatusEl = $("#submission_status");
+		        subStatusEl.html("Connecting to job controller ...");
+
+		        if (response.status === 200 && response.data === true) {
+		            //Check if there are jobs pending or already running. If so, the jobs can't be run again
+                    single_project.check_if_pending( (haspending) => {
+
+                        const buttonRunStrainEl = $('#button_run_strain');
+                        const overlayProjects = $("#overlayProjects");
+                        const overlayWorking = $("#overlayWorking");
+                        const singleProjEl = $("#single_project_controller_div");
+
+                        if(haspending === true){
+                            modalAlert('One or more of the selected strains have jobs' +
+                                ' already submitted. Please wait until they finish' +
+                                ' before submit new jobs for those strains.', "Jobs" +
+                                " Still Running", () => {});
                             buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
                             overlayProjects.css({"display":"none"});
                             overlayWorking.css({"display":"none"});
                             singleProjEl.css({"display":"block"});
                         }
-                    });
+                        else if(haspending === "no_selected"){
+                            modalAlert('Please select at least one strain to run' +
+                                ' analysis.', "Select Strains", () => {});
+                            buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                            overlayProjects.css({"display":"none"});
+                            overlayWorking.css({"display":"none"});
+                            singleProjEl.css({"display":"block"});
+                        }
+                        else{
+                            //Save the pipelines on the database if required
+                            single_project.save_pipelines((run) => {
+                                //Run the pipelines
+                                if(run === true) single_project.run_pipelines();
+                                else if(run !== "no_select") {
+                                    modalAlert('All processes for the selected strains' +
+                                        ' have been run.', "All Processes Submitted", () => {});
+                                    buttonRunStrainEl.fadeTo("slow", 1).css('pointer-events','auto');
+                                    overlayProjects.css({"display":"none"});
+                                    overlayWorking.css({"display":"none"});
+                                    singleProjEl.css({"display":"block"});
+                                }
+                            });
+                        }
+                    })
                 }
-            })
+                else {
+		            modalAlert('Could not connect to the Job controller' +
+                        ' application. Check your internet connection. If' +
+                        ' the error persists, please contact the system' +
+                        ' administrator.', "Warning", () => {});
+
+		            $('#button_run_strain').fadeTo("slow", 1).css('pointer-events','auto');
+                    $("#overlayProjects").css({"display":"none"});
+                    $("#overlayWorking").css({"display":"none"});
+                    $("#single_project_controller_div").css({"display":"block"});
+                }
+
+            });
 
         })
 
@@ -795,8 +818,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             $scope.available_strain_pipelines = applied_workflows;
             $scope.available_pipelines_ids = pipelines_ids;
-
-            console.log(applied_workflows, strain_ids, pipelines_ids, strains_dict);
 
             $('#choosePipelineModal').modal('show');
 
@@ -933,8 +954,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
     $scope.refreshStatus = () => {
 
-        const keys = Object.keys(intervals_running);
-
         const overlayProjects = $("#overlayProjects");
         const overlayWorking = $("#overlayWorking");
         const singleProjContEl = $("#single_project_controller_div");
@@ -947,20 +966,47 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
         let count_strains = 0;
 
+        let pipelineDict = {};
+
+        // Parse ids by strain to get the ststua by strain and not by job
+        // submission.
+        for(const id in intervals_running){
+            let idPip = id.split("process")[0];
+
+            if (!pipelineDict.hasOwnProperty(idPip)) {
+                pipelineDict[idPip] = [id];
+
+            }
+            else {
+                pipelineDict[idPip].push(id);
+            }
+        }
+
+        const keys = Object.keys(pipelineDict);
+
         const update_s = () => {
 
             let key_to_use = keys.shift();
 
             try{
-                intervals_running[key_to_use]();
+                // Get all status for the jobs associated with a single strain
+                for (const intervalId of pipelineDict[key_to_use]){
+                    try {
+                        intervals_running[intervalId]();
+                    }
+                    catch(e){
+                        console.log("Error loading status for key " + String(intervalId));
+                    }
+                }
             }
             catch(e){
-                console.log("Error loading status for key " + String(key_to_use));
+                console.log("Error loading status for strain " + String(key_to_use));
             }
 
             count_strains += 1;
             subStatusEl.empty();
-            subStatusEl.html("Updating " + String(count_strains) + " out of " + Object.keys(intervals_running).length + " strain submission status ...");
+            subStatusEl.html("Updating " + String(count_strains) + " out of " +
+                Object.keys(pipelineDict).length + " strain submission status ...");
 
             if(keys.length > 0) {
                 setTimeout( () => {
@@ -1009,7 +1055,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             global_public_strains = strains_results.public_strains;
 
             let headers_defs = set_headers_single_project('public_strains_table', global_public_strains);
-            console.log(headers_defs);
+
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
                 callback();
@@ -1026,7 +1072,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         single_project.get_project_strains( (strains_results) => {
             global_strains = strains_results.strains;
             let headers_defs = set_headers_single_project('strains_table', global_strains);
-            console.log(headers_defs);
+
             objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
                 callback();
@@ -1114,7 +1160,7 @@ const getProcessesLog = (li) => {
 Remove a workflow from a pipeline
 */
 const removeAnalysis = (li) => {
-    const  objects_utils = Objects_Utils();
+    const  objects_utils = Objects_Utils(single_p, scope);
 
     single_p.remove_analysis(li, (strain_results) => {
         for(const i in strain_results.selected_indexes){
@@ -1151,7 +1197,7 @@ const checkPipelineFromFile = (element) => {
 };
 
 /*
-Add a new pipeline if a strain loaded trhough a file already exists
+Add a new pipeline if a strain loaded through a file already exists
 */
 const newPipelineFromFile = (element) => {
     const objects_utils = Objects_Utils();

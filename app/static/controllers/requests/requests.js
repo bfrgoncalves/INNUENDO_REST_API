@@ -2,6 +2,99 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 	return {
 
+		//////////// Perform checks ///////////////////////////////////////////
+
+		check_ldap: (callback) => {
+        	const req = {
+		        url:'api/v1.0/checks/ldap',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		check_db_general: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/db/general',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		check_db_mlst: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/db/mlst',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		check_controller: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/controller',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		check_phyloviz: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/phyloviz',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		check_state: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/state',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		change_state: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/state',
+		        method:'PUT'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
 		//////////////// Protocols Requests /////////////////////////////////////////
 		download_accession: (username, accession_numbers, callback) => {
 
@@ -1200,6 +1293,42 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		        },
 		        (response) => {
 		            callback(response, redis_job_id);
+		    });
+		},
+
+		check_protocol_parameters: (selected_param, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/protocols/params',
+		        method:'GET',
+		        params: {
+		        	selected_param: selected_param
+		    	}
+		    };
+
+		    $http(req).then( (response) => {
+		            callback(response);
+		        },
+		        (response) => {
+		            callback(response);
+		    });
+		},
+
+		test_workflow: (list_protocols, callback) => {
+
+			const req = {
+		        url: 'api/v1.0/workflows/test',
+		        method:'POST',
+		        data: {
+		        	protocols: list_protocols
+		    	}
+		    };
+
+		    $http(req).then( (response) => {
+		            callback(response);
+		        },
+		        (response) => {
+		            callback(response);
 		    });
 		}
 	}

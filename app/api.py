@@ -10,9 +10,10 @@ from resources.postgres.messages import MailResource, MessageResource, \
     MessageTemplatesResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
 from resources.postgres.workflows import WorkflowResource, \
-    WorkflowListResource, WorkflowAllResource, WorkflowSetAvailabilityResource
+    WorkflowListResource, WorkflowAllResource, \
+    WorkflowSetAvailabilityResource, WorkflowTestResource
 from resources.postgres.protocols import ProtocolResource, \
-    ProtocolListResource, ProtocolByIDResource
+    ProtocolListResource, ProtocolByIDResource, ProtocolParamsResource
 from resources.postgres.processes import ProcessResource, ProcessListResource
 from resources.postgres.strains import StrainResource, StrainListResource, \
     StrainProjectListResource, StrainsByNameResource, DeleteReadsFromStrain, \
@@ -44,6 +45,10 @@ from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, \
     TreeUserResource, PHYLOViZJobResource, getProfilesResource, \
     getAllProfilesResource
 from resources.file_resources.file_resources import TemplateResource
+from resources.jobs.checks import CheckControllerResource, \
+    CheckDbGeneralResource, CheckDbMLSTResource, \
+    CheckLDAPResource, CheckPHYLOViZResource, PlatformStateResource
+
 
 '''
 API:
@@ -95,6 +100,9 @@ api.add_resource(WorkflowSetAvailabilityResource,
 api.add_resource(WorkflowResource, '/api/v1.0/workflows/<int:id>',
                  endpoint='workflow')
 
+api.add_resource(WorkflowTestResource, '/api/v1.0/workflows/test',
+                 endpoint='workflow_test')
+
 api.add_resource(SpecieListResource, '/api/v1.0/species/', endpoint='species')
 
 api.add_resource(ProtocolListResource, '/api/v1.0/protocols/',
@@ -103,6 +111,9 @@ api.add_resource(ProtocolResource, '/api/v1.0/protocols/<int:id>',
                  endpoint='protocol')
 api.add_resource(ProtocolByIDResource, '/api/v1.0/protocols/ids',
                  endpoint='protocol_ids')
+
+api.add_resource(ProtocolParamsResource, '/api/v1.0/protocols/params',
+                 endpoint='protocol_params')
 
 api.add_resource(StrainListResource, '/api/v1.0/strains/', endpoint='strains')
 api.add_resource(SpeciesStatistics, '/api/v1.0/strains/statistics/',
@@ -170,6 +181,15 @@ api.add_resource(SavedReportsResource, '/api/v1.0/reports/saved/')
 
 api.add_resource(GetFilesResource, '/api/v1.0/files/')
 api.add_resource(DownloadFilesResource, '/api/v1.0/downloads/')
+
+################################# Resources Checks ############################
+
+api.add_resource(CheckControllerResource, '/api/v1.0/checks/controller')
+api.add_resource(CheckPHYLOViZResource, '/api/v1.0/checks/phyloviz')
+api.add_resource(CheckDbGeneralResource, '/api/v1.0/checks/db/general')
+api.add_resource(CheckDbMLSTResource, '/api/v1.0/checks/db/mlst')
+api.add_resource(CheckLDAPResource, '/api/v1.0/checks/ldap')
+api.add_resource(PlatformStateResource, '/api/v1.0/checks/state')
 
 ################################# Defining NGSOnto routes #####################
 

@@ -1,10 +1,14 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
+from flask_restful import Api, Resource, reqparse, abort, fields, \
+    marshal_with  # filters data according to some fields
 
 import json
 from app.models.models import Protocol
 from flask_security import current_user, login_required, roles_required
 import datetime
+import requests
+
+from config import JOBS_ROOT
 
 # Defining post arguments parser
 protocol_post_parser = reqparse.RequestParser()
@@ -27,6 +31,12 @@ protocol_get_ids_parser = reqparse.RequestParser()
 protocol_get_ids_parser.add_argument('protocol_ids', dest='protocol_ids',
                                      type=str, required=False,
                                      help="Protocol IDs")
+
+# Defining get arguments parser
+protocol_params_get_parser = reqparse.RequestParser()
+protocol_params_get_parser.add_argument('selected_param', dest='selected_param',
+                                        type=str, required=True,
+                                        help="selected_param")
 
 # Defining response fields
 
@@ -94,7 +104,7 @@ class ProtocolByIDResource(Resource):
         to_send = []
 
         for protocol_id in protocol_ids:
-            protocol = db.session.query(Protocol)\
+            protocol = db.session.query(Protocol) \
                 .filter(Protocol.id == protocol_id).first()
 
             protocol.steps = protocol.steps.replace("'", '"')
@@ -163,7 +173,7 @@ class ProtocolListResource(Resource):
 
         jsonToLoad = json.loads('"' + args.steps.replace("{u'", "{'")
                                 .replace(" u'", "'").replace(" u\"", "")
-                                .replace("\"", "")+'"')
+                                .replace("\"", "") + '"')
 
         protocol = Protocol(name=args.name, steps=jsonToLoad,
                             timestamp=datetime.datetime.utcnow())
@@ -175,3 +185,16 @@ class ProtocolListResource(Resource):
         db.session.commit()
 
         return protocol, 201
+
+
+class ProtocolParamsResource(Resource):
+    @login_required
+    def get(self):
+        args = protocol_params_get_parser.parse_args()
+
+        response = requests.get(JOBS_ROOT + 'protocols/params/',
+                                params={
+                                    'selected_param': args.selected_param
+                                })
+
+        return {"content": response.json()["stdout"]}

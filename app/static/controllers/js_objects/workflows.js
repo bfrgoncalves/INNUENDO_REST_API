@@ -78,20 +78,26 @@ const Workflows = ($http) => {
 
 		change_workflow_state: (callback) => {
 
-			const selected_data = $.map($("#workflows_table").DataTable().rows('.selected').data(), (data) => {
 
-				let availability;
+			$("#modalChangeState").modal("show");
 
-				if (String(data.availability) === "true"){
-					availability = "false";
-				}
-				else availability = "true";
-		        return [data.id, availability];
-		    });
+			$(".selectpicker").selectpicker();
 
-		    pg_requests.change_workflow_state(selected_data, (response) => {
-		    	callback(response);
-		    });
+			$("#buttonSubState").off("click").on("click", () => {
+				const selected_data = $.map($("#workflows_table").DataTable().rows('.selected').data(), (data) => {
+
+					let availability = $("#stateOption").val();
+
+					return [data.id, availability];
+				});
+
+				pg_requests.change_workflow_state(selected_data, (response) => {
+					callback(response);
+					$("#messageState").text("Workflow state changed");
+
+				});
+			});
+
 		},
 
 		/*
@@ -134,6 +140,15 @@ const Workflows = ($http) => {
 				else{
 					callback(false)
 				}
+			})
+		},
+
+		/*
+		Test a workflow before saving
+		 */
+		test_workflow: (list_protocols, callback) => {
+			pg_requests.test_workflow(list_protocols, (response) => {
+				callback(response);
 			})
 		}
 	};

@@ -14,8 +14,6 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     current_scope_template = $scope.selectedTemplate.path;
 
-    console.log(GLOBAL_STATISTICS);
-
     $scope.strains_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][0];
     $scope.projects_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][1];
     $scope.profiles_in_use = GLOBAL_STATISTICS[CURRENT_SPECIES_NAME][2];
@@ -194,11 +192,11 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
                 //Sets the CURRENT_PROJECT_ID to be loaded later
                 $('#projects_table').off("click").on('click', 'tr', (e) => {
-                    CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( e.target ).data().id;
+                    CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( e.target.parent ).data().id;
                 });
 
                 $('#other_projects_table').off("click").on('click', 'tr', (e) => {
-                    CURRENT_PROJECT_ID = $('#other_projects_table').DataTable().row( e.target ).data().id;
+                    CURRENT_PROJECT_ID = $('#other_projects_table').DataTable().row( e.target.parent ).data().id;
                 });
 
             });

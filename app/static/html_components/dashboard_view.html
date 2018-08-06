@@ -1,0 +1,188 @@
+<div ng-controller="dashboardCtrl" ng-init="loadDashboard()">
+
+    <section id="adminstats">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="row">
+                        <div class="span12">
+                            <div class="aligncenter">
+                                <h1>Dashboard</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="span4">
+                            <div id="box1" class="pricing-box-plain">
+                                <div class="heading" style="padding-bottom: 5px;">
+                                    <h4>3 Users</h4>
+                                </div>
+                                <div class="desc">
+                                    <ul style="float:left; text-align: left;">
+                                        <li> View details</li>
+                                    </ul>
+                                </div>
+                                <div style="float: right;">
+                                    <a href="#"
+                                       ng-click="load_users()"><i
+                                            class="fa fa-arrow-right"
+                                            style="color: white;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div id="box2" class="pricing-box-plain">
+                                <div class="heading" style="padding-bottom: 5px;">
+                                    <h4>3 Projects</h4>
+                                </div>
+                                <div class="desc">
+                                    <ul style="float:left; text-align: left;">
+                                        <li> View details</li>
+                                    </ul>
+                                </div>
+                                <div style="float: right;">
+                                    <a href="#"
+                                       ng-click="load_projects()"><i
+                                            class="fa fa-arrow-right"
+                                            style="color: white;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="span4">
+                            <div id="box3" class="pricing-box-plain">
+                                <div class="heading" style="padding-bottom: 5px;">
+                                    <h4>3 Reports</h4>
+                                </div>
+                                <div class="desc">
+                                    <ul style="float:left; text-align: left;">
+                                        <li> View details</li>
+                                    </ul>
+                                </div>
+                                <div style="float: right;">
+                                    <a href="#"
+                                       ng-click="load_reports()"><i
+                                            class="fa fa-arrow-right"
+                                            style="color: white;"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="adminstats" style="background-color: rgba(0, 0, 0, 0.2);">
+        <div class="container">
+            <div class="row" style="margin-top: 3%;">
+                <div class="span12">
+                    <div class="row">
+                        <div class="span12">
+                            <div class="aligncenter">
+                                <h2>Services</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="span4">
+                            <h4>
+                                <i class="fa fa-circle"
+                                   style="float: left; margin-right: 2%;"
+                                   id="ldap_status"
+                            ></i>
+                                LDAP
+                            </h4>
+                        </div>
+                        <div class="span4">
+                            <h4>
+                                <i class="fa fa-circle"
+                                   style="float: left; margin-right: 2%;"
+                                   id="phyloviz_status"
+                                ></i>
+                                PHYLOViZ Online</h4>
+                        </div>
+                        <div class="span4">
+                            <h4>
+                                <i class="fa fa-circle"
+                                   style="float: left; margin-right: 2%;"
+                                   id="pg_general_status"
+                            ></i>
+                                PostgreSQL General
+                            </h4>
+                        </div>
+                        <div class="span4">
+                            <h4>
+                                <i class="fa fa-circle"
+                                   style="float: left; margin-right: 2%;"
+                                   id="pg_mlst_status"
+                            ></i>
+                                PostgreSQL wgMLST
+                            </h4>
+                        </div>
+                        <div class="span4">
+                            <h4>
+                                <i class="fa fa-circle"
+                                   style="float: left; margin-right: 2%;"
+                                   id="controller_status"
+                            ></i>
+                                Controller
+                            </h4>
+                        </div>
+                        <div class="span4">
+                            <h4>
+                                <i class="fa fa-circle"
+                                   style="float: left; margin-right: 2%;"
+                                   id="allegro_status"
+                            ></i>
+                                AllegroGraph
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <div class="span12">
+                            <button ng-click="performChecks()"
+                                    class="btn btn-md btn-default">Check
+                                status</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="adminOptions">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="row">
+                        <div class="span12">
+                            <div class="aligncenter">
+                                <h2>Actions</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span12">
+                            <ul>
+                                <li><a ng-click="changeState()"><h3
+                                        id="lockText">Lock
+                                    Platform</h3></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>

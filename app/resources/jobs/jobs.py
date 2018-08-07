@@ -290,24 +290,15 @@ class Job_Reports(Resource):
             print e
             return 500
 
-        json_data = parameters_json["report_json"]
-        username = parameters_json["current_user_name"]
-        user_id = parameters_json["current_user_id"]
-        task = parameters_json["task"]
-        workdir = parameters_json["workdir"]
-        versions = parameters_json["versions"]
-        trace = parameters_json["trace"]
+        json_data = parameters_json
+        username = parameters_json["username"]
+        user_id = parameters_json["userId"]
         overwrite = parameters_json["overwrite"]
 
-        json_data["trace"] = [trace]
-        json_data["versions"] = versions
-        json_data["task"] = task
-        json_data["workdir"] = workdir
-
         is_added = add_data_to_db(json_data, parameters_json["sample_name"],
-                                  parameters_json["project_id"],
-                                  parameters_json["pipeline_id"],
-                                  parameters_json["process_id"],  username,
+                                  parameters_json["projectid"],
+                                  parameters_json["pipelineId"],
+                                  parameters_json["processId"],  username,
                                   user_id, json_data["task"],
                                   parameters_json["species"], overwrite)
 

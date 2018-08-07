@@ -7,6 +7,12 @@ import requests
 import os
 from flask_security import current_user
 
+# Imports for allegrograph check
+from config import AG_HOST, AG_PORT, AG_REPOSITORY, AG_USER, AG_PASSWORD
+from franz.openrdf.sail.allegrographserver import AllegroGraphServer
+from franz.openrdf.repository.repository import Repository
+from franz.openrdf.rio.rdfformat import RDFFormat
+
 
 class CheckControllerResource(Resource):
 
@@ -61,6 +67,26 @@ class CheckPHYLOViZResource(Resource):
         request = requests.get(os.path.join(phyloviz_root, "api/db/postgres/find/datasets/name"), verify=False)
 
         return request.json()
+
+
+class CheckAllegroResource(Resource):
+
+    def get(self):
+
+        available = False
+
+        try:
+            server = AllegroGraphServer(AG_HOST, AG_PORT,
+                                        AG_USER, AG_PASSWORD)
+            catalog = server.openCatalog('')
+
+            if len(catalog.listRepositories()):
+                available = True
+
+        except Exception:
+            available = False
+
+        return available
 
 
 class PlatformStateResource(Resource):

@@ -43,6 +43,19 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		check_allegro: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/allegro',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
 		check_controller: (callback) => {
 			const req = {
 		        url:'api/v1.0/checks/controller',

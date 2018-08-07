@@ -213,25 +213,35 @@ const performChecks = () => {
                     return;
                 }
 
-                pg_requests.check_controller((response) => {
-
+                pg_requests.check_allegro((response) => {
                     if (response.data !== true) {
-                        modalAlert("Could not connect to the jobs controller server." +
-                            " Check your connection settings. If the error persists," +
-                            " please contact the system administrator.", "Warning", () =>{});
+                        modalAlert("Could not connect to the AllegroGraph server." +
+                        " Check your connection settings. If the error persists," +
+                        " please contact the system administrator.", "Warning", () =>{});
 
                         return;
                     }
 
-                    pg_requests.check_phyloviz((response) => {
-                        if (response.status !== 200) {
-                            modalAlert("Could not connect to the PHYLOViZ Online" +
-                                " server." +
+                    pg_requests.check_controller((response) => {
+
+                        if (response.data !== true) {
+                            modalAlert("Could not connect to the jobs controller server." +
                                 " Check your connection settings. If the error persists," +
                                 " please contact the system administrator.", "Warning", () =>{});
 
                             return;
                         }
+
+                        pg_requests.check_phyloviz((response) => {
+                            if (response.status !== 200) {
+                                modalAlert("Could not connect to the PHYLOViZ Online" +
+                                    " server." +
+                                    " Check your connection settings. If the error persists," +
+                                    " please contact the system administrator.", "Warning", () =>{});
+
+                                return;
+                            }
+                        });
                     });
                 });
             });

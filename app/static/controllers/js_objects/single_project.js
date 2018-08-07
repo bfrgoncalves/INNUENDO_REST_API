@@ -2542,9 +2542,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                     count_added_to_new += 1;
                                     if (count_added_to_new === pipelines_applied[strain_names[index]].length - 1) {
                                         //ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
-                                        let last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new - 1].split('<li class="')[1].split("&&")[0]
+                                        let last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new - 1].split('<li class="')[1].split("&&")[0];
                                         let class_of_button_remove_to_replace = last_proc_name + '&&' + strain_names[index].replace(/ /g, '_') + "_workflow_" + String(count_added_to_new) + '_' + CURRENT_PROJECT_ID + '&&&';
-                                        class_of_button_remove_to_replace = 'class="' + class_of_button_remove_to_replace + '" onclick="removeAnalysis(this)'
+                                        class_of_button_remove_to_replace = 'class="' + class_of_button_remove_to_replace + '" onclick="removeAnalysis(this)';
                                         pipelines_type_by_strain[strain_names[index]][1][y] = pipelines_type_by_strain[strain_names[index]][1][y].replace('style="display:none;" ' + class_of_button_remove_to_replace, 'style="display:block;" ' + class_of_button_remove_to_replace)
                                     }
 
@@ -2579,8 +2579,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                     //UPDATE WORKFLOWS
                     for (const j in pipelines_type_by_strain[strain_names[index]]) {
-                        if (j === String(0)) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j];
-                        else if (j === String(1)) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j];
+                        if (j === String(0)) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j].join("");
+                        else if (j === String(1)) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j].join("");
                     }
                     strain_data[index]['Analysis'] = toAdd_analysis;
 

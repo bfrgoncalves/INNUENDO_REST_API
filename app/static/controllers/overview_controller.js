@@ -114,11 +114,13 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
             });
         }
         //Get metadata parameters available on reports defined by the user for each program
-        pg_requests.get_user_parameters(function(response){
-            if(response.data.analysis_parameters_object !== undefined) {
-                ANALYSYS_PARAMETERS = JSON.parse(response.data.analysis_parameters_object);
-            }
-        });
+        if (CURRENT_USER_ID !== 0) {
+            pg_requests.get_user_parameters(function(response){
+                if(response.data.analysis_parameters_object !== undefined) {
+                    ANALYSYS_PARAMETERS = JSON.parse(response.data.analysis_parameters_object);
+                }
+            });
+        }
 
     };
 

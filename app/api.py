@@ -48,7 +48,7 @@ from resources.file_resources.file_resources import TemplateResource
 from resources.jobs.checks import CheckControllerResource, \
     CheckDbGeneralResource, CheckDbMLSTResource, \
     CheckLDAPResource, CheckPHYLOViZResource, PlatformStateResource, \
-    CheckAllegroResource
+    CheckAllegroResource, CheckUserAuthentication
 
 
 '''
@@ -192,6 +192,7 @@ api.add_resource(CheckDbMLSTResource, '/api/v1.0/checks/db/mlst')
 api.add_resource(CheckLDAPResource, '/api/v1.0/checks/ldap')
 api.add_resource(CheckAllegroResource, '/api/v1.0/checks/allegro')
 api.add_resource(PlatformStateResource, '/api/v1.0/checks/state')
+api.add_resource(CheckUserAuthentication, '/api/v1.0/checks/authentication')
 
 ################################# Defining NGSOnto routes #####################
 

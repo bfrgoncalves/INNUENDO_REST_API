@@ -51,28 +51,28 @@ let http = "";
 
 const modalAlert = (text, header, callback) => {
 
-    	const buttonSub = $('#buttonSub');
-    	const modalBodyEl = $('#modalAlert .modal-body');
+    const buttonSub = $('#buttonSub');
+    const modalBodyEl = $('#modalAlert .modal-body');
 
-    	$('#buttonCancelAlert').off("click");
+    $('#buttonCancelAlert').off("click");
 
-    	$('#modalAlert .modal-title').empty();
-    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
+    $('#modalAlert .modal-title').empty();
+    $('#modalAlert .modal-title').append("<p>" + header + "</p>");
 
-    	modalBodyEl.empty();
-    	modalBodyEl.append("<p>"+text+"</p>");
+    modalBodyEl.empty();
+    modalBodyEl.append("<p>" + text + "</p>");
 
-    	buttonSub.off("click").on("click", () => {
-    		$('#modalAlert').modal("hide");
+    buttonSub.off("click").on("click", () => {
+        $('#modalAlert').modal("hide");
 
-    		setTimeout( () => {
-    			return callback();
-			}, 400);
-    	});
+        setTimeout(() => {
+            return callback();
+        }, 400);
+    });
 
-    	$('#modalAlert').modal("show");
+    $('#modalAlert').modal("show");
 
-    };
+};
 
 /*
 DEFINE ANALYSIS PARAMETERS FOR METADATA
@@ -99,7 +99,7 @@ const INFO_OR_RESULTS = {"chewBBACA": 0, "PathoTyping": 1, "INNUca": 1}
 let PREVIOUS_PAGE_ARRAY = [];
 let current_scope_template = "";
 
-$('a').click( (e) => {
+$('a').click((e) => {
     $(e.target).parent().addClass("active").siblings().removeClass("active");
 });
 
@@ -116,7 +116,7 @@ const sendMail = () => {
         $("#email-title").val(),
         $("#email-body").val(),
         (response) => {
-            if (response.data === true){
+            if (response.data === true) {
                 $("#email_res_text").text("Email successfully sent.")
             }
             else {
@@ -127,6 +127,10 @@ const sendMail = () => {
 };
 
 const getNavbarMessages = () => {
+
+    if (CURRENT_USER_ID === 0)
+        return;
+
     let pg_requests = Requests("", "", http);
 
     pg_requests.get_messages(3, (response) => {
@@ -134,7 +138,7 @@ const getNavbarMessages = () => {
         $("#newMessagesSpan").html(response.data[1] + " New");
         let lis = "";
 
-        for(const message of response.data[0]) {
+        for (const message of response.data[0]) {
 
             lis += '<li class="notification"><div class="media">' +
                 '<div class="media-left"></div><div class="media-body">' +
@@ -166,12 +170,13 @@ const checkPlatformState = () => {
             clearInterval(intervalState);
             return
         }
-        else if(response.data === "false" && !SHOW_INFO_BUTTON){
+        else if (response.data === "false" && !SHOW_INFO_BUTTON) {
             clearInterval(intervalState);
             modalAlert("The INNUENDO Platform is locked for maintenance. You" +
                 " will" +
                 " be disconnected from the" +
-                " servers in 10 seconds.", "Alert", () => {});
+                " servers in 10 seconds.", "Alert", () => {
+            });
             setTimeout(() => {
                 const href = $("#logout_user").attr('href');
                 window.location.href = href;
@@ -185,62 +190,82 @@ const performChecks = () => {
 
     let pg_requests = Requests("", "", http);
 
-    pg_requests.check_ldap((response) => {
-
-        if (response.data !== true) {
-            modalAlert("Could not connect to the authentication server." +
-                " Check your connection settings. If the error persists," +
-                " please contact the system administrator.", "Warning", () =>{});
-
-            return;
+    pg_requests.check_authentication((response) => {
+        if (response.data !== true && response.data != "anonymous") {
+            modalAlert("You have logged in with a different account on this" +
+                " computer. You will be disconnected from the server for" +
+                " security reasons in 10 seconds.", "Alert", () => {
+            });
+            setTimeout(() => {
+                const href = $("#logout_user").attr('href');
+                window.location.href = href;
+            }, 10000);
+            return
         }
 
-        pg_requests.check_db_general((response) => {
+        pg_requests.check_ldap((response) => {
+
             if (response.data !== true) {
-                modalAlert("Could not connect to the general database server." +
+                modalAlert("Could not connect to the authentication server." +
                     " Check your connection settings. If the error persists," +
-                    " please contact the system administrator.", "Warning", () =>{});
+                    " please contact the system administrator.", "Warning", () => {
+                });
 
                 return;
             }
 
-            pg_requests.check_db_mlst((response) => {
+            pg_requests.check_db_general((response) => {
                 if (response.data !== true) {
-                    modalAlert("Could not connect to the wgMLST database server." +
+                    modalAlert("Could not connect to the general database server." +
                         " Check your connection settings. If the error persists," +
-                        " please contact the system administrator.", "Warning", () =>{});
+                        " please contact the system administrator.", "Warning", () => {
+                    });
 
                     return;
                 }
 
-                pg_requests.check_allegro((response) => {
+                pg_requests.check_db_mlst((response) => {
                     if (response.data !== true) {
-                        modalAlert("Could not connect to the AllegroGraph server." +
-                        " Check your connection settings. If the error persists," +
-                        " please contact the system administrator.", "Warning", () =>{});
+                        modalAlert("Could not connect to the wgMLST database server." +
+                            " Check your connection settings. If the error persists," +
+                            " please contact the system administrator.", "Warning", () => {
+                        });
 
                         return;
                     }
 
-                    pg_requests.check_controller((response) => {
-
+                    pg_requests.check_allegro((response) => {
                         if (response.data !== true) {
-                            modalAlert("Could not connect to the jobs controller server." +
+                            modalAlert("Could not connect to the AllegroGraph server." +
                                 " Check your connection settings. If the error persists," +
-                                " please contact the system administrator.", "Warning", () =>{});
+                                " please contact the system administrator.", "Warning", () => {
+                            });
 
                             return;
                         }
 
-                        pg_requests.check_phyloviz((response) => {
-                            if (response.status !== 200) {
-                                modalAlert("Could not connect to the PHYLOViZ Online" +
-                                    " server." +
+                        pg_requests.check_controller((response) => {
+
+                            if (response.data !== true) {
+                                modalAlert("Could not connect to the jobs controller server." +
                                     " Check your connection settings. If the error persists," +
-                                    " please contact the system administrator.", "Warning", () =>{});
+                                    " please contact the system administrator.", "Warning", () => {
+                                });
 
                                 return;
                             }
+
+                            pg_requests.check_phyloviz((response) => {
+                                if (response.status !== 200) {
+                                    modalAlert("Could not connect to the PHYLOViZ Online" +
+                                        " server." +
+                                        " Check your connection settings. If the error persists," +
+                                        " please contact the system administrator.", "Warning", () => {
+                                    });
+
+                                    return;
+                                }
+                            });
                         });
                     });
                 });
@@ -251,9 +276,31 @@ const performChecks = () => {
 };
 
 /**
+ * Function to check if the current user matches with the logged user. This
+ * may happen when there are multiple logins in the same computer
+ */
+const checkAuthentication = () => {
+    let pg_requests = Requests("", "", http);
+
+    pg_requests.check_authentication((response) => {
+        if (response.data !== true && response.data != "anonymous") {
+            modalAlert("You have logged in with a different account on this" +
+                " computer. You will be disconnected from the server for" +
+                " security reasons in 10 seconds.", "Alert", () => {
+            });
+            setTimeout(() => {
+                const href = $("#logout_user").attr('href');
+                window.location.href = href;
+            }, 10000);
+            return;
+        }
+    });
+};
+
+/**
  * Function to trigger some events on main controller start
  */
-setTimeout( () => {
+setTimeout(() => {
     $('#overviewLink').trigger('click');
 
 
@@ -263,9 +310,9 @@ setTimeout( () => {
 
             let pg_requests = Requests("", "", http);
 
-            if (response.data.length > 0){
+            if (response.data.length > 0) {
                 let options = "";
-                for(const x of response.data){
+                for (const x of response.data) {
                     options += "<option>" + x.username + ": " + x.email +
                         "</option>";
                 }
@@ -286,7 +333,13 @@ setTimeout( () => {
         getNavbarMessages();
     }, 5000);
 
-    intervalState = setInterval(() => {checkPlatformState()}, 5000);
+    setInterval(() => {
+        checkAuthentication();
+    }, 15000);
+
+    intervalState = setInterval(() => {
+        checkPlatformState()
+    }, 5000);
 
     setTimeout(() => {
         performChecks();
@@ -298,15 +351,15 @@ setTimeout( () => {
 
     });
 
-    $('#offcanvasleft').click(function() {
+    $('#offcanvasleft').click(function () {
         $('.row-offcanvas-left').toggleClass('active');
     });
 
-    $('.nav-a').click(function() {
+    $('.nav-a').click(function () {
         $('.row-offcanvas-left').toggleClass('active');
     });
 
-    $(".dropdiv ul li").on("click", function(){
+    $(".dropdiv ul li").on("click", function () {
         PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
             CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
             CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,
@@ -317,7 +370,7 @@ setTimeout( () => {
     })
 
     $("#sidebar-wrapper ul li").not('.navbar ul .drop, .dropdiv ul li')
-        .on("click", function(){
+        .on("click", function () {
             PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
                 CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
                 CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,
@@ -325,8 +378,8 @@ setTimeout( () => {
                 CURRENT_TABLE_ROWS_SELECTED, CURRENT_TABLE_ROW_ANALYSIS_SELECTED,
                 PROJECT_STATUS]);
             tclick();
-    });
-    $(".nav-list li").not('.dropdiv ul li').on("click", function(){
+        });
+    $(".nav-list li").not('.dropdiv ul li').on("click", function () {
         PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
             CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
             CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,

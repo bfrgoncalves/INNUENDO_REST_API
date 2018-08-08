@@ -56,6 +56,22 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		check_authentication: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/authentication',
+		        method:'GET',
+				params: {
+		        	userId: CURRENT_USER_ID
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
 		check_controller: (callback) => {
 			const req = {
 		        url:'api/v1.0/checks/controller',

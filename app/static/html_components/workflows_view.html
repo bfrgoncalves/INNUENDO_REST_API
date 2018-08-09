@@ -48,7 +48,12 @@
                     from the protocols list.</h5>
 
                 <ul id="sortable_list" class='list-group sortable pipeline-list'>
-                  <li class="list-group-item" ng-repeat="(key,protocol) in added_protocols" value="{{protocol.id}}" protocol_name={{protocol.name}}>{{protocol.name}}<i class="fa fa-close current_workflow_close" style="float:right;" data-toggle="tooltip" data-placement="top" title="Remove protocol from workflow"></i></li>
+                  <li class="list-group-item" ng-repeat="(key,protocol) in
+                  added_protocols" value="{{protocol.id}}"
+                      protocol_name={{protocol.id}}>{{protocol.name}}
+                      <i class="fa fa-close current_workflow_close" style="float:right;" data-toggle="tooltip" data-placement="top" title="Remove protocol from workflow"></i>
+                      <span class="label label-info" style="margin-left: 1%;">{{ protocol.Version }}</span>
+                  </li>
                 </ul>
 
                 <div id="div_workflow_test" class="form-group" style="width:100%;text-align:center;padding-top: 20px;display:none">
@@ -59,6 +64,10 @@
                   <form role="form" id="new_workflow_form" ng-submit="add_New_Workflow()">
                     <label for="worflow_name">Workflow name:</label>
                     <input type="text" id="worflow_name" name="name"
+                           class="form-control" required>
+                    <br>
+                    <label for="worflow_version">Version:</label>
+                    <input type="text" id="worflow_version" name="version"
                            class="form-control" required>
                     <br>
                     <label for="workflow_dependency">Workflow Dependency:</label>

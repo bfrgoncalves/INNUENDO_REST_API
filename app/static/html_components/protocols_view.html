@@ -61,11 +61,6 @@
                                     Edit Parameters
                                 </button>
 
-                                <!--<button type=button name="protocol_{{key}}"
-                                         class="btn btn-sm
-                                btn-danger" ng-if="type[0] == 'button'"
-                                ng-click="removeSelectedParameter()">Remove
-                                Parameter</button>-->
                             </div>
 
 
@@ -90,14 +85,6 @@
                                     data-live-search="true" style="width:100%;"
                                     ng-if="type[0] == 'select' && type[1] == 'nextflow'">
                             </select>
-                        </div>
-                        <label ng-if="key == 'used Software'">{{ key }}
-                            version</label>
-                        <div ng-if="key == 'used Software'">
-                            <input name="protocol_{{ key }}version" type="text"
-                                   class="form-control to_empty"
-                                   style="width:100%;"
-                                   ng-if="key == 'used Software'">
                         </div>
                         <div class="form-group col-md-12">
                             <div style="text-align:center;display:none;"

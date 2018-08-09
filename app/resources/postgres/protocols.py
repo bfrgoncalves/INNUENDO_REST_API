@@ -16,6 +16,8 @@ protocol_post_parser.add_argument('name', dest='name', type=str, required=True,
                                   help="Workflow name")
 protocol_post_parser.add_argument('steps', dest='steps', type=str,
                                   required=True, help="Protocol steps")
+protocol_post_parser.add_argument('version', dest='version', type=str,
+                                  required=True, help="Protocol version")
 
 """
 STEPS -> Parameters which define the protocol
@@ -44,7 +46,8 @@ protocol_fields = {
     'id': fields.Integer,
     'name': fields.String,
     'timestamp': fields.DateTime,
-    'steps': fields.String
+    'steps': fields.String,
+    'version': fields.String
 }
 
 
@@ -168,6 +171,7 @@ class ProtocolListResource(Resource):
         """
 
         args = protocol_post_parser.parse_args()
+
         if not current_user.is_authenticated:
             abort(403, message="No permissions to POST")
 
@@ -175,16 +179,27 @@ class ProtocolListResource(Resource):
                                 .replace(" u'", "'").replace(" u\"", "")
                                 .replace("\"", "") + '"')
 
-        protocol = Protocol(name=args.name, steps=jsonToLoad,
-                            timestamp=datetime.datetime.utcnow())
+        protocol_a = db.session.query(Protocol).filter(
+            Protocol.name == args.name,
+            Protocol.version == args.version
+        ).first()
 
-        if not protocol:
+        if not protocol_a:
+            protocol = Protocol(name=args.name, steps=jsonToLoad,
+                                timestamp=datetime.datetime.utcnow(),
+                                version=args.version)
+
+            if not protocol:
+                abort(404, message="An error as occurried")
+
+            db.session.add(protocol)
+            db.session.commit()
+
+            return protocol, 201
+
+        else:
+            print protocol_a.name, protocol_a.version
             abort(404, message="An error as occurried")
-
-        db.session.add(protocol)
-        db.session.commit()
-
-        return protocol, 201
 
 
 class ProtocolParamsResource(Resource):

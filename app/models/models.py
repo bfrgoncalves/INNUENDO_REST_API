@@ -96,7 +96,7 @@ class User(db.Model, UserMixin):
     name = db.Column(db.String(255))
     gid = db.Column(db.String(255))
     homedir = db.Column(db.String(255))
-    password = db.Column('password' , db.String(255))
+    password = db.Column('password', db.String(255))
     active = db.Column(db.Boolean())
     email = db.Column(db.String(120), index=True, unique=True)
     roles = db.relationship('Role', secondary=roles_users,
@@ -319,11 +319,12 @@ class Workflow(db.Model):
     __tablename__ = "workflows"
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(255), unique=True)
+    name = db.Column(db.String(255))
     classifier = db.Column(db.String(255))
     species = db.Column(db.String(255))
     dependency = db.Column(db.String(255))
     availability = db.Column(db.String(255))
+    version = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime)
 
 
@@ -352,8 +353,9 @@ class Protocol(db.Model):
     __bind_key__ = 'innuendo_database'
     id = db.Column(db.Integer(), primary_key=True)
     timestamp = db.Column(db.DateTime)
-    name = db.Column(db.String(255), unique=True)
+    name = db.Column(db.String(255))
     steps = db.Column(JSON)
+    version = db.Column(db.String(255))
 
 
 class Specie(db.Model):

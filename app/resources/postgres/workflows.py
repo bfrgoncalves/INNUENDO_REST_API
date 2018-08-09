@@ -20,6 +20,9 @@ workflow_post_parser.add_argument('dependency', dest='dependency', type=str,
                                   required=True,
                                   help="Workflow dependency from other "
                                        "workflow")
+workflow_post_parser.add_argument('version', dest='version', type=str,
+                                  required=True,
+                                  help="Workflow version")
 
 workflow_list_get_parser = reqparse.RequestParser()
 workflow_list_get_parser.add_argument('classifier', dest='classifier',
@@ -52,7 +55,8 @@ workflow_fields = {
     'classifier': fields.String,
     'species': fields.String,
     'dependency': fields.String,
-    'availability': fields.String
+    'availability': fields.String,
+    'version': fields.String
 }
 
 workflow_all_fields = {
@@ -62,7 +66,8 @@ workflow_all_fields = {
     'classifier': fields.String,
     'species': fields.String,
     'dependency': fields.String,
-    'availability': fields.String
+    'availability': fields.String,
+    'version': fields.String
 
 }
 
@@ -207,17 +212,28 @@ class WorkflowListResource(Resource):
         if not current_user.is_authenticated:
             abort(403, message="No permissions to POST")
 
-        workflow = Workflow(classifier=args.classifier, name=args.name,
-                            timestamp=datetime.datetime.utcnow(),
-                            species=args.species, dependency=args.dependency)
+        workflow_a = db.session.query(Workflow).filter(
+            Workflow.name == args.name,
+            Workflow.version == args.version,
+            Workflow.species == args.species
+        ).first()
 
-        if not workflow:
-            abort(404, message="An error as occurried")
+        if not workflow_a:
+            workflow = Workflow(classifier=args.classifier, name=args.name,
+                                timestamp=datetime.datetime.utcnow(),
+                                species=args.species, dependency=args.dependency,
+                                version=args.version)
+            if not workflow:
+                abort(404, message="An error as occurried")
 
-        db.session.add(workflow)
-        db.session.commit()
+            db.session.add(workflow)
+            db.session.commit()
 
-        return workflow, 201
+            return workflow, 201
+
+        else:
+            abort(404, message="Workflow already exists.")
+
 
 
 class WorkflowTestResource(Resource):

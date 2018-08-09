@@ -274,11 +274,16 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		},
 		create_protocol: (protocol_object, callback) => {
 
+			console.log(protocol_object);
 			const req = {
 		        url:'api/v1.0/protocols/',
 		        method:'POST',
 		        headers: {'Content-Type': 'application/json'},
-		        data: { steps: protocol_object, name: protocol_object.name}
+		        data: {
+		        	steps: protocol_object,
+					name: protocol_object.name,
+					version: protocol_object.Version
+		        }
 		    };
 
 		    $http(req).then( (response) => {

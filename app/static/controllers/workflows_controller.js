@@ -105,6 +105,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
         },
         { "data": "id" },
         { "data": "name" },
+        { "data": "version" },
         { "data": "classifier" },
         { "data": "species" },
         { "data": "availability" },
@@ -112,7 +113,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
         { "data": "timestamp" }
     ];
 
-    $scope.workflows_headers = ['ID', 'Name', 'Type', 'Species', 'Available', "Dependency", "Timestamp"];
+    $scope.workflows_headers = ['ID', 'Name', 'Version','Type', 'Species', 'Available', "Dependency", "Timestamp"];
 
     const modalAlert = (text, header, callback) => {
 
@@ -254,7 +255,11 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             let options = "";
 
             for(const x in results.protocols_of_type){
-                options +="<option>"+results.protocols_of_type[x]+"</option>";
+                let data_content = results.protocols_of_type[x]+'<span class="label label-info" style="margin-left: 1%;">' + results.protocol_version[x] + '</span>';
+
+                options += "<option style='width:100%;' p_id='"+results.protocol_ids[x]+"' data-content='"+data_content+"'>"+results.protocols_of_type[x]+"</option>";
+
+                //options +="<option>"+results.protocols_of_type[x]+"</option>";
             }
 
             const protocolSelEl = $("#protocol_selector_load");
@@ -275,7 +280,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
     $scope.addToPipeline = () => {
 
         workflows.add_protocol_to_workflow($("#protocol_selector_load" +
-            " option:selected").text(), (results) => {
+            " option:selected").attr("p_id"), (results) => {
             if(results.more_than_one === true){
                 modalAlert("At the moment, only one protocol can be applied" +
                     " to the workflow. We will improve this option in the" +
@@ -284,6 +289,8 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
                 });
             }
             else $scope.added_protocols = results.added_protocols;
+
+            console.log(results.added_protocols);
 
             $("#prot_default").css({display: "none"});
             $("#div_workflow_test").css({display: "block"});
@@ -318,7 +325,6 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
                     " problems when building the workflow.</div>";
             }
             modalAlert("<pre>"+results.data.content+"</pre>" + message, "Result", () => {});
-            console.log(results);
         });
 
     }
@@ -342,7 +348,7 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
 
     $scope.add_New_Workflow = () => {
 
-        workflows.save_workflow( (status) => {
+        workflows.save_workflow( (status, response) => {
 
             updateWorkflows();
 
@@ -351,7 +357,8 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
                 });
             }
             else{
-                modalAlert("An error as occurried when saving the workflow.", "Error", () => {
+                modalAlert("An error as occurried when saving the" +
+                    " workflow.\n" + response.data.message, "Error", () => {
                 });
             }
         });

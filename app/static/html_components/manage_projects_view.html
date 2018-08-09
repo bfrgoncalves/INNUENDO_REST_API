@@ -100,7 +100,11 @@
               <div class="input-group">
                 <span class="input-group-addon">Workflows</span>           
                 <select class="selectpicker form-control" id="pipeline_selector" data-live-search="true">
-                  <option ng-repeat="pipeline in pipelines" name="analysis_{{ pipeline.name }}">{{ pipeline.name }}</option>
+                  <option style="width:100%;" ng-repeat="pipeline in
+                  pipelines" name="analysis_{{ pipeline.name }}" pname="{{
+                          pipeline.name }}" workflow_id="{{ pipeline.id }}"
+                          version="{{ pipeline.version }}"
+                                  data-content="{{ pipeline.name }}<span class='label label-info' style='float:right;'>{{ pipeline.version }}</span>">{{ pipeline.name }}</option>
                 </select>
                 <span class="input-group-addon btn btn-primary" ng-click="applyWorkflow('analysis_protocol')">
                   <i class="fa fa-arrow-circle-down" data-toggle="tooltip" data-placement="top" title="Apply workflow to strain"></i>

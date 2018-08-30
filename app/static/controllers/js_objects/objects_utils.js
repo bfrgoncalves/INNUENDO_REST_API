@@ -220,13 +220,17 @@ const Objects_Utils = (single_project, $sc) => {
 
         tableBodyTrEl.on('click', 'td:first:not(.child_row)', (el) => {
 
-            if(CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
+            if(CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) {
+                CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
+            }
 
-            if(!$(el.target).parent().hasClass("selected") && $.inArray(table.row( el.target ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
-                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( el.target ).index());
+            const row = table.row( el.target ).index() === undefined ? $(el.target).parent() : el.target;
+
+            if(!row.hasClass("selected") && $.inArray(table.row( row ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
+                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( row ).index());
             }
             else{
-                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( el.target ).index());
+                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( row ).index());
                 CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
             }
         } );

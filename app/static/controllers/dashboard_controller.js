@@ -14,10 +14,10 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
         pg_requests.change_state((response) => {
 
             if (response.data == "true") {
-                $("#lockText").text("Lock Platform")
+                $("#lockButton").html('<i class="fa fa-lock" aria-hidden="true" > Lock Platform</i>')
             }
             else {
-                $("#lockText").text("Unlock Platform")
+                $("#lockButton").html('<i class="fa fa-unlock" aria-hidden="true" > Unlock Platform</i>')
             }
         });
     };

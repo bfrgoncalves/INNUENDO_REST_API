@@ -167,15 +167,19 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
         Report.project_id == project_id, Report.pipeline_id == pipeline_id,
         Report.procedure == procedure).first()
 
-    print results.keys()
 
-    print procedure
+    # Set runName on flowcraft metadata to pipelineId
+    if "nfMetadata" in procedure:
+        results = results["nfMetadata"]
+        results["nfMetadata"]["runName"] = pipeline_id
 
     # Classify the profiles case the procedure is chewbbaca
     if "chewbbaca" in procedure:
         new_job_id = project_id + pipeline_id + process_position
+        status = results["reportJson"]["status"][0]["status"]
 
-        if results["status"] != "fail":
+
+        if status != "fail":
             jobID = database_processor.classify_profile(results, species,
                                                         sample, new_job_id)
             strain = db.session.query(Strain).filter(Strain.name == sample)\
@@ -186,7 +190,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
             else:
                 try:
                     metadata = json.loads(strain.strain_metadata)
-                    chewstatus = results["status"]
+                    chewstatus = status
                     metadata["chewBBACAStatus"] = chewstatus
                     strain.strain_metadata = json.dumps(metadata)
                     db.session.commit()
@@ -285,10 +289,14 @@ class Job_Reports(Resource):
 
         parameters = request.json
         try:
-            parameters_json = json.loads(parameters.replace("'", '"'))
+            parameters_json = json.loads(
+                parameters.replace("'", '"').replace("%20", " ")
+            )
         except Exception as e:
             print e
             return 500
+
+        print parameters_json
 
         json_data = parameters_json
         username = parameters_json["username"]
@@ -371,6 +379,18 @@ class Job_queue(Resource):
                         shutil.rmtree(workdirPath)
                     except OSError:
                         print "No such directory", workdirPath
+
+                # Remove flowcraft metadata report nfMetadata
+                nfMetadata = db.session.query(Report).filter(
+                    Report.project_id == args.project_id,
+                    Report.pipeline_id == args.pipeline_id,
+                    Report.procedure == "nfMetadata").all()
+
+                if nfMetadata:
+                    for nf in nfMetadata:
+                        print "has nfMetadata"
+                        db.session.delete(nf)
+                    db.session.commit()
 
                 # Remove reports from process id
                 reports = db.session.query(Report).filter(

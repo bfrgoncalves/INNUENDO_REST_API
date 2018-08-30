@@ -5,7 +5,7 @@ from resources.postgres.projects import ProjectUserResource, \
     ProjectListUserResource, ProjectListUserSpecieResource, \
     ProjectListAllResource
 from resources.postgres.users import UserResource, UserListResource, \
-    UserExternalLogin, UserQuotaResource, UserEmails
+    UserExternalLogin, UserQuotaResource, UserEmails, CheckUserResource
 from resources.postgres.messages import MailResource, MessageResource, \
     MessageTemplatesResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
@@ -64,6 +64,7 @@ api = Api(app)
 
 api.add_resource(UserListResource, '/api/v1.0/users/', endpoint='all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint='single_user')
+api.add_resource(CheckUserResource, '/api/v1.0/user/check/', endpoint='single_user_check')
 api.add_resource(UserEmails, '/api/v1.0/users/email/', endpoint='users_mails')
 api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/',
                  endpoint='user_quota')

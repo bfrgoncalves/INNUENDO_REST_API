@@ -235,7 +235,6 @@ class WorkflowListResource(Resource):
             abort(404, message="Workflow already exists.")
 
 
-
 class WorkflowTestResource(Resource):
 
     @login_required
@@ -251,12 +250,11 @@ class WorkflowTestResource(Resource):
 
             if protocol:
                 try:
-                    list_tags.append(json.loads(protocol.steps)["Nextflow Tag"])
-                except Exception:
-                    
+                    loaded_steps = json.loads(protocol.steps.replace("'", '"'))
+                    list_tags.append(loaded_steps["Nextflow Tag"])
+                except Exception as e:
                     return {"content": "Protocol with errors. Please create "
                                        "another protocol to use when building this workflow."}
-
 
         response = requests.post(JOBS_ROOT + 'workflow/test/',
                                 data={

@@ -45,7 +45,11 @@ innuendoApp.controller("reportsCtrl", ($scope, $rootScope, $http) => {
 	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
 	CURRENT_TABLE_ROWS_SELECTED = {};
 
-	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'}); 
+	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
+
+	$scope.sendMessage = () => {
+		sendMessage();
+	};
 
 
 	$scope.showReports = () => {

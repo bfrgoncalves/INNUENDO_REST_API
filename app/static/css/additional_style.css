@@ -1,4 +1,10 @@
 
+@media (max-width: 979px) {
+    .navbar-fixed-top, .navbar-fixed-bottom {
+        position: absolute!important;
+    }
+}
+
 .all_tables{
 	margin-top:20px;
 }
@@ -358,6 +364,11 @@ table.table td {
 
 .global_stats_banner {
     background-color: rgba(0, 0, 0, 0.65);
+}
+
+#messagesCtrl {
+    height: 96%;
+    overflow-x: auto;
 }
 
 

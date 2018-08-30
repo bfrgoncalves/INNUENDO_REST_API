@@ -157,6 +157,7 @@ const Protocol_List = ($http) => {
 
                     if (protocolProperty === "used Software") {
                         protocol_type["Nextflow Tag"] = ["select", "nextflow"];
+                        protocol_type["Image"] = ["input", "text"];
                         protocol_type["Version"] = ["input", "required"];
                     }
                     else {

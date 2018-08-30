@@ -97,6 +97,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                 './chewbbaca_database_profiles/query_files/' + \
                 file_name_profile+'_profile.tab'
 
+            print report.sample_name
+
             profile_query_file_path, number_of_loci = database_functions\
                 .tab_profile_from_db(
                     report.sample_name.replace(" ", "_"),
@@ -186,7 +188,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
             continue
         else:
 
-            for arr in report.report_data["cagao"]:
+            for arr in report.report_data["reportJson"]["cagao"]:
                 if len(arr["header"]) > 20:
                     if first_time == True:
                         headers = headers_profile + arr["header"]
@@ -393,8 +395,8 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
     print file_path_profile
     print file_path_metadata
 
-    if missing_data == "true":
-        if makePublic == "true":
+    if missing_data == "True":
+        if makePublic == "True":
             make_public = "true"
             command = 'python ./app/resources/phyloviz/remoteUpload.py -u '+\
                       phyloviz_user+' -p '+phyloviz_pass+' -cd '+phyloviz_root+\
@@ -413,7 +415,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                       file_path_metadata
 
     else:
-        if makePublic == "true":
+        if makePublic == "True":
             make_public = "true"
             command = 'python ./app/resources/phyloviz/remoteUpload.py -u ' + \
                       phyloviz_user+' -p '+phyloviz_pass+' -cd '+phyloviz_root+\

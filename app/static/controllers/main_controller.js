@@ -107,7 +107,6 @@ const tclick = () => {
     $("#button_ham_navbar")[0].click();
 };
 
-
 const sendMail = () => {
     let pg_requests = Requests("", "", http);
 
@@ -298,11 +297,37 @@ const checkAuthentication = () => {
 };
 
 /**
- * Function to trigger some events on main controller start
+ * Function to trigger some events on main controller start.
+ * App starting function
  */
-setTimeout(() => {
-    $('#overviewLink').trigger('click');
 
+const startApp = () => {
+
+    const initIntervals = () => {
+
+        setInterval(() => {
+            getNavbarMessages();
+        }, 5000);
+
+        setInterval(() => {
+            checkAuthentication();
+        }, 15000);
+
+        intervalState = setInterval(() => {
+            checkPlatformState()
+        }, 5000);
+
+        setTimeout(() => {
+            performChecks();
+        }, 2000);
+
+        // This event only runs once at the beginning
+        document.removeEventListener("onOverview", initIntervals);
+    };
+
+    document.addEventListener("onOverview", initIntervals);
+
+    $('#overviewLink').trigger('click');
 
     $("#send_mail").off("click").on("click", () => {
 
@@ -327,23 +352,6 @@ setTimeout(() => {
 
 
     });
-
-
-    setInterval(() => {
-        getNavbarMessages();
-    }, 5000);
-
-    setInterval(() => {
-        checkAuthentication();
-    }, 15000);
-
-    intervalState = setInterval(() => {
-        checkPlatformState()
-    }, 5000);
-
-    setTimeout(() => {
-        performChecks();
-    }, 2000);
 
     $("#viewAllMessages").off("click").on("click", () => {
         $("#messages_button").trigger("click");
@@ -388,4 +396,4 @@ setTimeout(() => {
         tclick();
     })
 
-}, 800);
+};

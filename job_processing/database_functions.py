@@ -172,9 +172,9 @@ def classify_profile(allcall_results, database_name, sample, job_id):
     to_replace = allele_classes_to_ignore
 
     profile_hey = ""
-    profile_data = allcall_results["cagao"][0]
+    profile_data = allcall_results["reportJson"]["cagao"][0]
 
-    for key in allcall_results["cagao"][0]:
+    for key in allcall_results["reportJson"]["cagao"][0]:
         if key != "header":
             profile_hey = key
             break

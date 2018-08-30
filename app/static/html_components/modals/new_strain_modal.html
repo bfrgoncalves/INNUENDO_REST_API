@@ -215,7 +215,7 @@
 				  	  	 <div class="list-group-item">
 				  	  	 	<label>Pipeline {{
                                     available_pipelines_ids[key][$index][0] }} from Project {{ available_pipelines_ids[key][$index][1] }}: </label>
-						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow }}</button>
+						  	<button class="btn btn-sm btn-default" ng-repeat="workflow in pipeline track by $index">{{ workflow.split("--")[0] }}</button>
 						  	<button class="btn btn-sm btn-primary
 						  	pipeline_strain_button" style="float:right;"
                             pipeline="{{ available_pipelines_ids[key][$index][0] }}"

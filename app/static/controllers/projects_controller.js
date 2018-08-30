@@ -192,11 +192,13 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
                 //Sets the CURRENT_PROJECT_ID to be loaded later
                 $('#projects_table').off("click").on('click', 'tr', (e) => {
-                    CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( e.target.parent ).data().id;
+                    const target = e.target.parent === undefined ? $(e.target).parent() : e.target.parent;
+                    CURRENT_PROJECT_ID = $('#projects_table').DataTable().row( target ).data().id;
                 });
 
                 $('#other_projects_table').off("click").on('click', 'tr', (e) => {
-                    CURRENT_PROJECT_ID = $('#other_projects_table').DataTable().row( e.target.parent ).data().id;
+                    const target = e.target.parent === undefined ? $(e.target).parent() : e.target.parent;
+                    CURRENT_PROJECT_ID = $('#other_projects_table').DataTable().row( target ).data().id;
                 });
 
             });
@@ -235,6 +237,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     Sets the CURRENT_PROJECT_ID selected
     */
     $scope.highlightProject = ($event, project_id) => {
+        console.log("AQUI", project_id);
         CURRENT_PROJECT_ID = project_id;
     };
 
@@ -248,6 +251,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
         else {
             CURRENT_JOB_MINE = true;
         }
+        console.log(CURRENT_PROJECT_ID);
         projects_table.load_project(table_id, CURRENT_PROJECT_ID, false, (results) => {
             CURRENT_PROJECT = results.project;
             PROJECT_STATUS = results.project.is_removed;

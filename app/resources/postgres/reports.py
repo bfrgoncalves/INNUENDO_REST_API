@@ -8,6 +8,7 @@ import datetime
 import zipfile
 import string
 import random
+import json
 
 ############################################ NOT BEING USED ####################
 
@@ -255,8 +256,8 @@ class ReportInfoResource(Resource):
             for x in reports:
                 if x.sample_name not in inArray:
                     reports_to_send.append(
-                        {"sample_name":x.sample_name,
-                         "timestamp":x.timestamp.strftime("%Y-%m-%d"),
+                        {"sample_name": x.sample_name,
+                         "timestamp": x.timestamp.strftime("%Y-%m-%d"),
                          "project_id": x.project_id
                          }
                     )
@@ -282,9 +283,10 @@ class ReportFilterResource(Resource):
         list: list of reports
         """
 
-
         args = report_get_filter_project_parser.parse_args()
+
         reports_to_send = []
+
         reports = db.session.query(Report)\
             .filter(Report.project_id.in_(args.selectedProjects.split(",")),
                     Report.sample_name.in_(args.selectedStrains.split(",")))\
@@ -442,7 +444,7 @@ class CombinedReportsResource(Resource):
                      'username': saved_report.username,
                      'user_id': saved_report.user_id,
                      'run_identifiers': saved_report.run_identifiers,
-                     'strain_names':saved_report.strain_names
+                     'strain_names': saved_report.strain_names
                      }
                 )
 
@@ -473,6 +475,7 @@ class CombinedReportsResource(Resource):
 
         return 204
 
+
 class SavedReportsResource(Resource):
     """
     Class to load, save and delete saved reports
@@ -496,15 +499,18 @@ class SavedReportsResource(Resource):
                     (Combined_Reports.is_public == "true")).all()
 
         for x in all_saved_reports:
+            print x.filters
+
             reports_to_send.append({
+                "report_id": x.id,
                 "user_id": x.user_id,
                 "username": x.username,
                 "name": x.name,
                 "description": x.description,
                 "strain_names": x.strain_names,
                 "projects_id": x.projects_id,
-                "filters": x.filters,
-                "highlights": x.highlights,
+                "filters": x.filters.encode('utf8'),
+                "highlights": x.highlights.encode('utf8'),
                 "is_public": x.is_public,
                 "timestamp": x.timestamp.strftime("%d-%m-%Y %H:%M:%S")
             })
@@ -558,7 +564,7 @@ class SavedReportsResource(Resource):
         return reports_to_send, 201
 
     def delete(self):
-        """Deletes a seved report
+        """Deletes a saved report
 
         This method allows deleting a saved report based on its id and on the
         user_id.

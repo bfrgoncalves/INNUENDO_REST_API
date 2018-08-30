@@ -11,6 +11,9 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
 
     http = $http;
 
+    const event = new Event('onOverview');
+    document.dispatchEvent(event);
+
     const backButtonEl = $("#backbutton");
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
@@ -60,7 +63,7 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
     $scope.showSpeciesDrop = () => {
 
         $("#projects_button_li").css({"display":"none"});
-        $("#reports_button_li").css({"display":"none"});
+        //$("#reports_button_li").css({"display":"none"});
         $("#uploads_button_li").css({"display":"none"});
         $("#tools_button_li").css({"display":"none"});
         $("#user_tools").css({"display":"none"});

@@ -1054,7 +1054,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 
 		},
-		get_job_status: (job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, callback) => {
+		get_job_status: (job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, job_location, callback) => {
 
 		    const req = {
 		        url: 'api/v1.0/jobs/',
@@ -1071,6 +1071,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		        	current_user_name: CURRENT_USER_NAME,
 		        	current_user_id: CURRENT_USER_ID,
 		        	from_process_controller: "false",
+					job_location: job_location,
 		        	homedir: HOME_DIR
 		    	}
 		    };

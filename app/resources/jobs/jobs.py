@@ -72,6 +72,9 @@ job_get_parser.add_argument('process_id', dest='process_id', type=str,
                             required=True, help="process id")
 job_get_parser.add_argument('homedir', dest='homedir', type=str, required=True,
                             help="home dir")
+job_get_parser.add_argument('job_location', dest='job_location', type=str,
+                            required=True,
+                            help="job_location")
 job_get_parser.add_argument('database_to_include', dest='database_to_include',
                             type=str, required=True,
                             help="Database to use if required")
@@ -463,6 +466,19 @@ class Job_queue(Resource):
         all_std_out = []
         all_paths = []
         all_wrkdirs = []
+        pipeline_with_errors = False
+
+
+        # Check if nextflow pipeline has error on nextflow submission
+        pipeline_location = os.path.join(args.job_location, "jobs", "{}-{}".format(args.project_id, args.pipeline_id))
+        try:
+            with open(os.path.join(pipeline_location, ".nextflow.log")) as file:
+                for i, l in enumerate(file):
+                    if "[main] ERROR" in l:
+                        pipeline_with_errors = True
+
+        except Exception as e:
+            print e
 
         for k in range(0, len(job_ids)):
 
@@ -500,7 +516,9 @@ class Job_queue(Resource):
 
                 result.close()
 
-                if "pass" in jsonResult[0]["statusStr"]:
+                if pipeline_with_errors:
+                    final_status = "FAILED"
+                elif "pass" in jsonResult[0]["statusStr"]:
                     final_status = "COMPLETED"
                 elif "None" in jsonResult[0]["statusStr"]:
                     final_status = "PD"

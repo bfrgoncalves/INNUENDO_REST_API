@@ -370,8 +370,22 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     */
     const periodic_check_job_status = (job_ids, dict_of_tasks_status, strain_id, process_ids, pipeline_id, project_to_search) => {
 
+        const strainTableEl = $('#strains_table');
+
+        const strain_data = $.map(strainTableEl.DataTable().rows().data(), (item) => {
+            return item;
+        });
+
+        let job_location = "";
+
+        for (const row of strain_data) {
+            if (strain_id === row.strainID) {
+                job_location = row.FilesLocation;
+            }
+        }
+
         //Get the status and assign new colors to the buttons if required
-        const get_status = (job_ids, strain_id, process_ids, pipeline_id) => {
+        const get_status = (job_ids, strain_id, process_ids, pipeline_id, job_location) => {
 
             //Put check to see if analysis tab is visible
             let process_positions = [];
@@ -387,7 +401,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 procedure_names.push(procedure_name);
             }
 
-            pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, (response, this_job_id, pip_id) => {
+            pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, job_location, (response, this_job_id, pip_id) => {
 
                 this_job_id = this_job_id.join();
                 let has_failed = false;
@@ -521,10 +535,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         job_ids = job_ids.join();
         process_ids = process_ids.join();
 
-        get_status(job_ids, strain_id, process_ids, pipeline_id);
+        get_status(job_ids, strain_id, process_ids, pipeline_id, job_location);
 
         const periodic_check = () => {
-            get_status(job_ids, strain_id, process_ids, pipeline_id);
+            get_status(job_ids, strain_id, process_ids, pipeline_id, job_location);
         };
 
 

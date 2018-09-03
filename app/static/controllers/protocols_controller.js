@@ -295,6 +295,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
             protocolSelLoadEl.empty();
             protocolSelLoadEl.append(options);
+            console.log(options);
 
             // On change, loads the information regarding that protocol
             protocolSelLoadEl.on("change", () => {
@@ -313,7 +314,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             setTimeout(() => {
                 $(".selectpicker").selectpicker("refresh");
                 protocolSelLoadEl.trigger("change");
-            }, 600);
+            }, 2000);
 
         });
     };

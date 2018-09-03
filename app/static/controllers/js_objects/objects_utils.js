@@ -409,7 +409,10 @@ const Objects_Utils = (single_project, $sc) => {
                     if(is_open === true) is_open = false;
                     else is_open = true;
 
-                    $("#"+strainID+"_"+workflow_name).toggle();
+                    let idTocheck = "#"+strainID+"_"+workflow_name;
+                    idTocheck = idTocheck.replace(/ /g, "");
+
+                    $(idTocheck).toggle();
                     e.stopPropagation();
                     e.preventDefault();
 
@@ -552,7 +555,7 @@ const Objects_Utils = (single_project, $sc) => {
                         let buttonselectedPipeline = '<div class="dropdown"' +
                             ' style="float:left;">'+
                             '<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="'+strain_name+'" name="'+pipelineIdentifier+'" id="'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'"><i class="fa fa-arrow-down"></i>&emsp;'+ pipelineN + '</button>'+
-                            '<ul class="dropdown-menu" id="'+strain_name+'_'+pipelineIdentifier+'" style="position:relative;float:right;">'+
+                            '<ul class="dropdown-menu" id="'+strain_name+'_'+pipelineIdentifier.replace(/ /, "")+'" style="position:relative;float:right;">'+
                             '<li class="'+pipelineIdentifier+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>'+
                             '<li class="'+pipelineIdentifier+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)" style="display:none;"><a>Get Run Log</a></li>';
 

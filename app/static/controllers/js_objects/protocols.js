@@ -159,6 +159,10 @@ const Protocol_List = ($http) => {
                         protocol_type["Nextflow Tag"] = ["select", "nextflow"];
                         protocol_type["Image"] = ["input", "text"];
                         protocol_type["Version"] = ["input", "required"];
+                        // CPU and Memory are now specified as a parameter. If not,
+                        // they use the default.
+                        protocol_type["CPUs"] = ["number", "required"];
+                        protocol_type["Memory"] = ["number", "required"];
                     }
                     else {
                         protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
@@ -166,10 +170,6 @@ const Protocol_List = ($http) => {
 
                 }
 
-                // CPU and Memory are now specified as a parameter. If not,
-                // they use the default.
-                protocol_type["CPUs"] = ["input", "required"];
-                protocol_type["Memory"] = ["input", "required"];
                 callback({
                     protocol_type: protocol_type,
                     protocol_parameters: protocol_parameters

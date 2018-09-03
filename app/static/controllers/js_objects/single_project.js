@@ -1465,7 +1465,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     let buttonselectedPipeline = '<div class="dropdown"' +
                         ' style="float:left;">' +
                         '<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="' + strain_data[counter]['strainID'] + '" name="' + proc_value + '" id="' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_workflow_" + String(pip_start_id + 1) + '_' + CURRENT_PROJECT_ID + '"><i class="fa fa-arrow-down"></i>&emsp;' + workflowN + '</button>' +
-                        '<ul class="dropdown-menu" id="' + strain_data[counter]['strainID'] + '_' + proc_value + '" style="position:relative;float:right;">' +
+                        '<ul class="dropdown-menu" id="' + strain_data[counter]['strainID'] + '_' + proc_value.replace(/ /, "") + '" style="position:relative;float:right;">' +
                         '<li class="' + proc_value + '&&' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_" + String(pip_start_id + 1) + '_workflow_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>' +
                         '<li class="' + proc_value + '&&' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_" + String(pip_start_id + 1) + '_workflow_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesLog(this)" style="display:none;"><a>Get Run Log</a></li>' +
                         '<li style="display:block;" class="' + proc_value + '&&' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_workflow_" + String(pip_start_id + 1) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';

@@ -47,7 +47,8 @@
                         <div ng-repeat="(key,type) in protocol_type"
                              class="form-group col-md-4"
                              style="margin-top: 5px;">
-                            <label>{{ key }}</label>
+                            <label ng-if="type[0] != 'number'" >{{ key }}</label>
+                            <label ng-if="type[0] == 'number'" >{{ key }} (GB)</label>
                             <select id="parameter_select"
                                     ng-if="key == 'used Parameter'"
                                     class="selectpicker form-control"
@@ -62,8 +63,6 @@
                                 </button>
 
                             </div>
-
-
                             <input style="width:100%;" name="protocol_{{ key }}"
                                    type="text" class="form-control to_empty"
                                    ng-if="type[0] == 'input' && type[1] == 'text'">
@@ -71,6 +70,10 @@
                                    type="text" class="form-control to_empty"
                                    ng-if="type[0] == 'input' && type[1] == 'required'"
                                    required>
+                            <input type="number" class="form-control to_empty"
+                                   style="width:100%;" name="protocol_{{ key }}"
+                                   ng-if="type[0] == 'number' && type[1] == 'required'"
+                                   min="1" required />
                             <textarea name="protocol_{{ key }}"
                                       class="form-control to_empty"
                                       ng-if="type[0] == 'textarea'"></textarea>

@@ -270,7 +270,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     $('#protocol_controller_div').css({display: 'block'});
 
                 }
-            }, 800);
+            }, 2000);
         });
     };
 

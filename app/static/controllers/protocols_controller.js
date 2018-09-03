@@ -260,7 +260,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     $('#selectpickerparams').empty().append(options_nextflow);
 
                     selectPickerEl.selectpicker({});
-                    selectPickerEl.selectpicker("refresh");
+                    //selectPickerEl.selectpicker("refresh");
 
                     getParameters(nextflow_tags[0]);
 
@@ -270,7 +270,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     $('#protocol_controller_div').css({display: 'block'});
 
                 }
-            }, 2000);
+            }, 800);
         });
     };
 
@@ -312,9 +312,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             });
 
             setTimeout(() => {
-                $(".selectpicker").selectpicker("refresh");
+                //$(".selectpicker").selectpicker("refresh");
                 protocolSelLoadEl.trigger("change");
-            }, 2000);
+            }, 800);
 
         });
     };

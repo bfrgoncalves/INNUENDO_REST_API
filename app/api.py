@@ -5,7 +5,7 @@ from resources.postgres.projects import ProjectUserResource, \
     ProjectListUserResource, ProjectListUserSpecieResource, \
     ProjectListAllResource
 from resources.postgres.users import UserResource, UserListResource, \
-    UserExternalLogin, UserQuotaResource, UserEmails
+    UserExternalLogin, UserQuotaResource, UserEmails, CheckUserResource
 from resources.postgres.messages import MailResource, MessageResource, \
     MessageTemplatesResource
 from resources.postgres.pipelines import PipelineResource, PipelineListResource
@@ -47,7 +47,8 @@ from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, \
 from resources.file_resources.file_resources import TemplateResource
 from resources.jobs.checks import CheckControllerResource, \
     CheckDbGeneralResource, CheckDbMLSTResource, \
-    CheckLDAPResource, CheckPHYLOViZResource, PlatformStateResource
+    CheckLDAPResource, CheckPHYLOViZResource, PlatformStateResource, \
+    CheckAllegroResource, CheckUserAuthentication
 
 
 '''
@@ -63,6 +64,7 @@ api = Api(app)
 
 api.add_resource(UserListResource, '/api/v1.0/users/', endpoint='all_users')
 api.add_resource(UserResource, '/api/v1.0/user/', endpoint='single_user')
+api.add_resource(CheckUserResource, '/api/v1.0/user/check/', endpoint='single_user_check')
 api.add_resource(UserEmails, '/api/v1.0/users/email/', endpoint='users_mails')
 api.add_resource(UserQuotaResource, '/api/v1.0/user/quota/',
                  endpoint='user_quota')
@@ -189,7 +191,9 @@ api.add_resource(CheckPHYLOViZResource, '/api/v1.0/checks/phyloviz')
 api.add_resource(CheckDbGeneralResource, '/api/v1.0/checks/db/general')
 api.add_resource(CheckDbMLSTResource, '/api/v1.0/checks/db/mlst')
 api.add_resource(CheckLDAPResource, '/api/v1.0/checks/ldap')
+api.add_resource(CheckAllegroResource, '/api/v1.0/checks/allegro')
 api.add_resource(PlatformStateResource, '/api/v1.0/checks/state')
+api.add_resource(CheckUserAuthentication, '/api/v1.0/checks/authentication')
 
 ################################# Defining NGSOnto routes #####################
 

@@ -155,6 +155,15 @@ class UserExternalLogin(Resource):
         return {"access": True, "user_id": user.id}
 
 
+class CheckUserResource(Resource):
+
+    def get(self):
+        if current_user.is_authenticated:
+            return {"id": current_user.id, "username": current_user.username}
+        else:
+            return False
+
+
 class UserQuotaResource(Resource):
     """
     Class to get the quota available for each user
@@ -176,7 +185,6 @@ class UserQuotaResource(Resource):
         project_id = args.project_id
 
         instStorage = "/".join(current_user.homedir.split("/")[0:-2]) + "/"
-        print instStorage
         '''if instStorage == "/":
             instStorage = "/".join(current_user.homedir.split("/")[0:-1]) + "/"
         '''

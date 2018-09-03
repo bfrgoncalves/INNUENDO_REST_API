@@ -286,19 +286,22 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             let options = "";
 
             for (const x in results.protocols_of_type) {
-                options += "<option>" + results.protocols_of_type[x] + "</option>";
+                let data_content = results.protocols_of_type[x]+'<span class="label label-info" style="margin-left: 1%;">' + results.protocol_version[x] + '</span>';
+
+                options += "<option style='width:100%;' p_id='"+results.protocol_ids[x]+"' data-content='"+data_content+"'>"+results.protocols_of_type[x]+"</option>";
             }
 
             const protocolSelLoadEl = $("#protocol_selector_load");
 
             protocolSelLoadEl.empty();
             protocolSelLoadEl.append(options);
+
             $(".selectpicker").selectpicker("refresh");
 
             // On change, loads the information regarding that protocol
             protocolSelLoadEl.on("change", () => {
                 protocols_list.load_protocol($("#protocol_selector_load" +
-                    " option:selected").text(), (results) => {
+                    " option:selected").attr("p_id"), (results) => {
                     $scope.$apply(() => {
                         $scope.selected_protocol = results.protocol;
                     })

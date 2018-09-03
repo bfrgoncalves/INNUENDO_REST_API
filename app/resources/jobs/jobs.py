@@ -72,6 +72,9 @@ job_get_parser.add_argument('process_id', dest='process_id', type=str,
                             required=True, help="process id")
 job_get_parser.add_argument('homedir', dest='homedir', type=str, required=True,
                             help="home dir")
+job_get_parser.add_argument('job_location', dest='job_location', type=str,
+                            required=True,
+                            help="job_location")
 job_get_parser.add_argument('database_to_include', dest='database_to_include',
                             type=str, required=True,
                             help="Database to use if required")
@@ -167,15 +170,19 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
         Report.project_id == project_id, Report.pipeline_id == pipeline_id,
         Report.procedure == procedure).first()
 
-    print results.keys()
 
-    print procedure
+    # Set runName on flowcraft metadata to pipelineId
+    if "nfMetadata" in procedure:
+        results = results["nfMetadata"]
+        results["nfMetadata"]["runName"] = pipeline_id
 
     # Classify the profiles case the procedure is chewbbaca
     if "chewbbaca" in procedure:
         new_job_id = project_id + pipeline_id + process_position
+        status = results["reportJson"]["status"][0]["status"]
 
-        if results["status"] != "fail":
+
+        if status != "fail":
             jobID = database_processor.classify_profile(results, species,
                                                         sample, new_job_id)
             strain = db.session.query(Strain).filter(Strain.name == sample)\
@@ -186,7 +193,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
             else:
                 try:
                     metadata = json.loads(strain.strain_metadata)
-                    chewstatus = results["status"]
+                    chewstatus = status
                     metadata["chewBBACAStatus"] = chewstatus
                     strain.strain_metadata = json.dumps(metadata)
                     db.session.commit()
@@ -285,29 +292,24 @@ class Job_Reports(Resource):
 
         parameters = request.json
         try:
-            parameters_json = json.loads(parameters.replace("'", '"'))
+            parameters_json = json.loads(
+                parameters.replace("'", '"').replace("%20", " ")
+            )
         except Exception as e:
             print e
             return 500
 
-        json_data = parameters_json["report_json"]
-        username = parameters_json["current_user_name"]
-        user_id = parameters_json["current_user_id"]
-        task = parameters_json["task"]
-        workdir = parameters_json["workdir"]
-        versions = parameters_json["versions"]
-        trace = parameters_json["trace"]
+        print parameters_json
+
+        json_data = parameters_json
+        username = parameters_json["username"]
+        user_id = parameters_json["userId"]
         overwrite = parameters_json["overwrite"]
 
-        json_data["trace"] = [trace]
-        json_data["versions"] = versions
-        json_data["task"] = task
-        json_data["workdir"] = workdir
-
         is_added = add_data_to_db(json_data, parameters_json["sample_name"],
-                                  parameters_json["project_id"],
-                                  parameters_json["pipeline_id"],
-                                  parameters_json["process_id"],  username,
+                                  parameters_json["projectid"],
+                                  parameters_json["pipelineId"],
+                                  parameters_json["processId"],  username,
                                   user_id, json_data["task"],
                                   parameters_json["species"], overwrite)
 
@@ -381,6 +383,18 @@ class Job_queue(Resource):
                     except OSError:
                         print "No such directory", workdirPath
 
+                # Remove flowcraft metadata report nfMetadata
+                nfMetadata = db.session.query(Report).filter(
+                    Report.project_id == args.project_id,
+                    Report.pipeline_id == args.pipeline_id,
+                    Report.procedure == "nfMetadata").all()
+
+                if nfMetadata:
+                    for nf in nfMetadata:
+                        print "has nfMetadata"
+                        db.session.delete(nf)
+                    db.session.commit()
+
                 # Remove reports from process id
                 reports = db.session.query(Report).filter(
                     Report.project_id == args.project_id,
@@ -452,6 +466,19 @@ class Job_queue(Resource):
         all_std_out = []
         all_paths = []
         all_wrkdirs = []
+        pipeline_with_errors = False
+
+
+        # Check if nextflow pipeline has error on nextflow submission
+        pipeline_location = os.path.join(args.job_location, "jobs", "{}-{}".format(args.project_id, args.pipeline_id))
+        try:
+            with open(os.path.join(pipeline_location, ".nextflow.log")) as file:
+                for i, l in enumerate(file):
+                    if "[main] ERROR" in l:
+                        pipeline_with_errors = True
+
+        except Exception as e:
+            print e
 
         for k in range(0, len(job_ids)):
 
@@ -489,7 +516,9 @@ class Job_queue(Resource):
 
                 result.close()
 
-                if "pass" in jsonResult[0]["statusStr"]:
+                if pipeline_with_errors:
+                    final_status = "FAILED"
+                elif "pass" in jsonResult[0]["statusStr"]:
                     final_status = "COMPLETED"
                 elif "None" in jsonResult[0]["statusStr"]:
                     final_status = "PD"

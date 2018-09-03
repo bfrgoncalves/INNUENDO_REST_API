@@ -1,5 +1,5 @@
 from app import db, mail
-from app.models.models import Message
+from app.models.models import Message, User
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_security import current_user, login_required, roles_required
 from sqlalchemy import desc
@@ -95,10 +95,19 @@ class MessageResource(Resource):
         """
         args = messaging_post_parser.parse_args()
 
-        message = Message(title=args.title, message=args.body,
-                          messageFrom=current_user.username,
-                          messageTo=args.messageTo, status="unread",
-                          timestamp=datetime.datetime.utcnow())
+        if args.messageTo == "All":
+            users = db.session.query(User).all()
+
+            for user in users:
+                message = Message(title=args.title, message=args.body,
+                                  messageFrom=current_user.username,
+                                  messageTo=user.username, status="unread",
+                                  timestamp=datetime.datetime.utcnow())
+        else:
+            message = Message(title=args.title, message=args.body,
+                              messageFrom=current_user.username,
+                              messageTo=args.messageTo, status="unread",
+                              timestamp=datetime.datetime.utcnow())
 
         if not message:
             abort(404, message="An error as occurried")

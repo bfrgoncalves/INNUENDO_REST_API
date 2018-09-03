@@ -39,44 +39,39 @@
                        padding-right: 1%;">
           <div class="row" style="text-align: center;width:100%;padding-left:
            1%;">
-              <div class="banner_strains">
-                  <p>{{ project.description }}</p>
-              </div>
+              <p><b>{{!!project.description ? project.description : "No Project description provided!"}}</b></p>
           </div>
           <div class="row" style="text-align: center;margin-top: 20px;
           padding-left:1%;
           padding-right:1%;">
-              <div style="width:100%;">
-                  <div class="col-md-6 banner_strains_no_width"
-                       style="text-align: left; padding-left: 1%;
-                       padding-right: 1%;">
-                      <p style="margin:1%;"><b>Total Institution Quota: </b>{{ t_quota }}</p>
-                      <p style="margin:1%;"><b>Free Quota Space: </b>{{
-                              u_quota }}</p>
-                      <p style="margin:1%;"><b>Used Quota Space: </b>{{ f_quota
-                              }}</p>
+              <div class="col-md-6">
+                  <div style="width:100%;">
+                          <p style="margin:1%;"><b>Total Institution Quota: </b>{{ t_quota }}</p>
+                          <p style="margin:1%;"><b>Free Quota Space: </b>{{
+                                  u_quota }}</p>
+                          <p style="margin:1%;"><b>Used Quota Space: </b>{{ f_quota
+                                  }}</p>
                   </div>
               </div>
-              <div style="width:100%; padding-left: 1%;padding-right: 1%;">
-                  <div class="col-md-6 banner_strains_no_width"
-                       style="text-align: left;">
-                      <p style="margin:1%;"><b>Total Space: </b>{{ t_quota
-                              }}</p>
-                      <p style="margin:1%;"><b>Other Projects Space: </b>{{
-                              u_space }}</p>
-                      <p style="margin:1%;"><b>Project Space: </b>{{ p_space }}</p>
+              <div class="col-md-6">
+                  <div style="width:100%; padding-left: 1%;padding-right: 1%;">
+                          <p style="margin:1%;"><b>Total Space: </b>{{ t_quota
+                                  }}</p>
+                          <p style="margin:1%;"><b>Other Projects Space: </b>{{
+                                  u_space }}</p>
+                          <p style="margin:1%;"><b>Project Space: </b>{{ p_space }}</p>
                   </div>
               </div>
           </div>
           <div class="row" style="text-align: center; padding-left:1%;
           padding-right:1%;padding-bottom: 2%;">
               <div style="width:100%;">
-                  <div class="col-md-6 banner_strains_no_width">
+                  <div class="col-md-6">
                       <div style="padding: 1%;" id="piechart_quota"></div>
                   </div>
               </div>
               <div style="width:100%; padding-left: 1%;padding-right: 1%;">
-                  <div class="col-md-6 banner_strains_no_width">
+                  <div class="col-md-6">
                       <div style="padding: 1%;" id="piechart_user"></div>
                   </div>
               </div>
@@ -100,7 +95,11 @@
               <div class="input-group">
                 <span class="input-group-addon">Workflows</span>           
                 <select class="selectpicker form-control" id="pipeline_selector" data-live-search="true">
-                  <option ng-repeat="pipeline in pipelines" name="analysis_{{ pipeline.name }}">{{ pipeline.name }}</option>
+                  <option style="width:100%;" ng-repeat="pipeline in
+                  pipelines" name="analysis_{{ pipeline.name }}" pname="{{
+                          pipeline.name }}" workflow_id="{{ pipeline.id }}"
+                          version="{{ pipeline.version }}"
+                          data-content="{{ pipeline.name }}<span class='label label-info' style='float:right;margin-right: 5%'>{{ pipeline.version }}</span>">{{ pipeline.name }}</option>
                 </select>
                 <span class="input-group-addon btn btn-primary" ng-click="applyWorkflow('analysis_protocol')">
                   <i class="fa fa-arrow-circle-down" data-toggle="tooltip" data-placement="top" title="Apply workflow to strain"></i>

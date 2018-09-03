@@ -43,6 +43,35 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 		},
 
+		check_allegro: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/allegro',
+		        method:'GET'
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
+		check_authentication: (callback) => {
+			const req = {
+		        url:'api/v1.0/checks/authentication',
+		        method:'GET',
+				params: {
+		        	userId: CURRENT_USER_ID
+				}
+		    };
+
+		    $http(req).then( (response) => {
+		    	callback(response);
+		    }, (response) => {
+		    	callback(response);
+		    });
+		},
+
 		check_controller: (callback) => {
 			const req = {
 		        url:'api/v1.0/checks/controller',
@@ -245,11 +274,16 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		},
 		create_protocol: (protocol_object, callback) => {
 
+			console.log(protocol_object);
 			const req = {
 		        url:'api/v1.0/protocols/',
 		        method:'POST',
 		        headers: {'Content-Type': 'application/json'},
-		        data: { steps: protocol_object, name: protocol_object.name}
+		        data: {
+		        	steps: protocol_object,
+					name: protocol_object.name,
+					version: protocol_object.Version
+		        }
 		    };
 
 		    $http(req).then( (response) => {
@@ -1020,7 +1054,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		    });
 
 		},
-		get_job_status: (job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, callback) => {
+		get_job_status: (job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, job_location, callback) => {
 
 		    const req = {
 		        url: 'api/v1.0/jobs/',
@@ -1037,6 +1071,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		        	current_user_name: CURRENT_USER_NAME,
 		        	current_user_id: CURRENT_USER_ID,
 		        	from_process_controller: "false",
+					job_location: job_location,
 		        	homedir: HOME_DIR
 		    	}
 		    };

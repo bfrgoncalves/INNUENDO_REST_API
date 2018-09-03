@@ -1,6 +1,6 @@
-<div ng-controller="dashboardCtrl" ng-init="loadDashboard()">
+<div ng-controller="dashboardCtrl" ng-init="loadDashboard()" id="messagesCtrl">
 
-    <section id="adminstats">
+    <!--<section id="adminstats">
         <div class="container">
             <div class="row">
                 <div class="span12">
@@ -77,7 +77,7 @@
             </div>
 
         </div>
-    </section>
+    </section>-->
 
     <section id="adminstats" style="background-color: rgba(0, 0, 0, 0.2);">
         <div class="container">
@@ -171,12 +171,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="span12">
-                            <ul>
-                                <li><a ng-click="changeState()"><h3
-                                        id="lockText">Lock
-                                    Platform</h3></a></li>
-                            </ul>
+                        <div class="span12" style="text-align: center;">
+                            <button class="btn btn-lg btn-primary"
+                                    ng-click="changeState()" id="lockButton">
+                                <i class="fa fa-lock" aria-hidden="true" > Lock Platform</i>
+                            </button>
                         </div>
                     </div>
                 </div>

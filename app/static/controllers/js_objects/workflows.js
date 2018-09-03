@@ -134,11 +134,11 @@ const Workflows = ($http) => {
 			pg_requests.add_workflow( (response) => {
 				if(response.status === 201){
 					ngs_onto_requests.ngs_onto_request_add_workflow(response.data.id, list_values, (response) => {
-						callback(true)
+						callback(true, response);
 					});
 				}
 				else{
-					callback(false)
+					callback(false, response);
 				}
 			})
 		},

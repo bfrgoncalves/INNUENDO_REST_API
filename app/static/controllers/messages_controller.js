@@ -52,6 +52,9 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         // Get all the usernames
         pg_requests.get_users((response) =>{
             let options = "";
+
+            options += "<option>All</option>";
+
             for (const r of response.data){
                 options += "<option>" + r.username + "</option>";
             }

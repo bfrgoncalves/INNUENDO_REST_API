@@ -51,6 +51,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
     let project = {}, pipelinesByName = {}, strain_id_to_name = {},
         pipelines_applied = {};
+    let pipelinesByVersion = {};
     let protocols_applied = {};
     let protocols_applied_by_pipeline = {};
     let tasks_to_buttons = {}, buttons_to_tasks = {};
@@ -87,11 +88,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
     //Colors for the Running, Pending, Completed, Failed, and Warning of the workflows buttons
     let status_dict = {
-        'R': '#42c2f4',
-        'PD': '#f49542',
-        'COMPLETED': '#42f442',
-        'FAILED': '#f75454',
-        'WARNING': '#f9fb30',
+        'R': '#bae1ff',
+        'PD': '#ffdfba',
+        'COMPLETED': '#baffc9',
+        'FAILED': '#ffb3ba',
+        'WARNING': '#ffdfba',
         'NEUTRAL': '#ffffff'
     };
 
@@ -326,7 +327,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     strainid_processes_buttons[strain_id][0][counter] = pipelinesByID[workflow_id];
                     let parts = response.data[w].execStep.split('<')[1].split('>')[0].split('/');
 
-
                     for (const protocol in workflowname_to_protocols[workflow_id_to_name[workflow_id]]) {
                         protocol_counter += 1;
                         let wf_url_parts = [];
@@ -346,7 +346,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 global_counter_pipelines += 1;
 
                 //Create the buttons of the workflows and show them on the graphic interface
-                objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, pipelinesAndDependency, applied_dependencies, (results) => {
+                objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, pipelinesAndDependency, applied_dependencies, pipelinesByVersion, (results) => {
                     // Case workflows in pipeline
                     if (results.strains[results.strain_index] !== undefined) {
                         strains[results.strain_index] = results.strains[results.strain_index];
@@ -370,8 +370,22 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
     */
     const periodic_check_job_status = (job_ids, dict_of_tasks_status, strain_id, process_ids, pipeline_id, project_to_search) => {
 
+        const strainTableEl = $('#strains_table');
+
+        const strain_data = $.map(strainTableEl.DataTable().rows().data(), (item) => {
+            return item;
+        });
+
+        let job_location = "";
+
+        for (const row of strain_data) {
+            if (strain_id === row.strainID) {
+                job_location = row.FilesLocation;
+            }
+        }
+
         //Get the status and assign new colors to the buttons if required
-        const get_status = (job_ids, strain_id, process_ids, pipeline_id) => {
+        const get_status = (job_ids, strain_id, process_ids, pipeline_id, job_location) => {
 
             //Put check to see if analysis tab is visible
             let process_positions = [];
@@ -387,7 +401,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 procedure_names.push(procedure_name);
             }
 
-            pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, (response, this_job_id, pip_id) => {
+            pg_requests.get_job_status(job_ids, procedure_names, strain_id, pipeline_id, process_positions, project_to_search, process_ids, job_location, (response, this_job_id, pip_id) => {
 
                 this_job_id = this_job_id.join();
                 let has_failed = false;
@@ -521,10 +535,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         job_ids = job_ids.join();
         process_ids = process_ids.join();
 
-        get_status(job_ids, strain_id, process_ids, pipeline_id);
+        get_status(job_ids, strain_id, process_ids, pipeline_id, job_location);
 
         const periodic_check = () => {
-            get_status(job_ids, strain_id, process_ids, pipeline_id);
+            get_status(job_ids, strain_id, process_ids, pipeline_id, job_location);
         };
 
 
@@ -558,30 +572,31 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                     if (typeof response.data !== 'string') {
                         for (const i in response.data) {
-                            pipelinesByName[response.data[i].name] = response.data[i].id;
-                            pipelinesByID[response.data[i].id] = response.data[i].name;
-                            pipelinesAndDependency[response.data[i].name] = response.data[i].dependency;
+                            pipelinesByName[response.data[i].name+"--"+response.data[i].id] = response.data[i].id;
+                            pipelinesByID[response.data[i].id] = response.data[i].name+"--"+response.data[i].id;
+                            pipelinesAndDependency[response.data[i].name+"--"+response.data[i].id] = response.data[i].dependency;
+                            pipelinesByVersion[response.data[i].id] = response.data[i].version;
 
                             if (response.data[i].availability === null || response.data[i].availability === "true" || response.data[i].availability === "admin" && SHOW_INFO_BUTTON === true) {
                                 to_send.push(response.data[i]);
                             }
 
-                            workflowname_to_protocols[response.data[i].name] = [];
-                            workflow_id_to_name[response.data[i].id] = response.data[i].name;
+                            workflowname_to_protocols[response.data[i].name+"--"+response.data[i].id] = [];
+                            workflow_id_to_name[response.data[i].id] = response.data[i].name+"--"+response.data[i].id;
 
-                            ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, (response, nn, workflow_name) => {
+                            ngs_onto_requests.ngs_onto_request_get_workflow(response.data[i].id, "", response.data[i].name, (response, nn, workflow_name, workflow_id) => {
                                 let protocol_data = response.data.reverse();
 
                                 for (const x in protocol_data) {
-                                    let index = protocol_data[x].index.split("^^")[0].split('"')[1]
-                                    let protoc = protocol_data[x].protocol.split("protocols/")[1].split('>')[0]
-                                    workflowname_to_protocols[workflow_name].push([index, protoc]);
+                                    let index = protocol_data[x].index.split("^^")[0].split('"')[1];
+                                    let protoc = protocol_data[x].protocol.split("protocols/")[1].split('>')[0];
+                                    workflowname_to_protocols[workflow_name+"--"+workflow_id].push([index, protoc]);
                                 }
 
-                                workflowname_to_protocols[workflow_name].sort(sortFunction);
+                                workflowname_to_protocols[workflow_name+"--"+workflow_id].sort(sortFunction);
 
-                                for (const y in workflowname_to_protocols[workflow_name]) {
-                                    pg_requests.get_protocols_by_ids(workflowname_to_protocols[workflow_name][y][1], workflowname_to_protocols[workflow_name][y], (response, workflow_entry) => {
+                                for (const y in workflowname_to_protocols[workflow_name+"--"+workflow_id]) {
+                                    pg_requests.get_protocols_by_ids(workflowname_to_protocols[workflow_name+"--"+workflow_id][y][1], workflowname_to_protocols[workflow_name+"--"+workflow_id][y], (response, workflow_entry) => {
                                         workflow_entry.push(response.data[0].name);
                                     });
                                 }
@@ -604,12 +619,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             //Request to get quota
             pg_requests.get_quota((quota_obj) => {
 
-                console.log(quota_obj.data);
-                console.log(quota_obj.data.f_space.split(/\s/g));
-                console.log(quota_obj.data.p_space.split(/\s/g));
-                console.log(quota_obj.data.u_quota.split(/\s/g));
-                console.log(quota_obj.data.i_quota.split(/\s/g));
-
                 let quota_dict = {
                     "t_quota": quota_obj.data.f_space.split(/\s/g)[30],
                     "f_quota": quota_obj.data.f_space.split(/\s/g)[31],
@@ -625,8 +634,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 quota_dict.u_space = quota_dict.u_space === "" ? 0 : parseInt(quota_dict.u_space);
                 quota_dict.user_quota = quota_dict.user_quota === "" ? 0 : parseInt(quota_dict.user_quota);
                 quota_dict.i_quota = quota_dict.i_quota === "" ? 0 : parseInt(quota_dict.i_quota);
-
-                console.log(quota_dict);
 
                 callback(quota_dict);
             });
@@ -1349,13 +1356,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
             let proc_value = "";
             let workflow_already_applied = false;
+            let workflowN = "";
 
 
             if (type_proc === 'lab_protocol') {
-                proc_value = $("#classifier_selector option:selected").val();
+                proc_value = $("#classifier_selector option:selected").attr("pname") +"--"+ $("#classifier_selector option:selected").attr("workflow_id");
+                workflowN = $("#pipeline_selector option:selected").attr("pname") + "&emsp;<span class='label label-info'>"+$("#pipeline_selector option:selected").attr("version")+"</span>";
             }
             else if (type_proc === 'analysis_protocol') {
-                proc_value = $("#pipeline_selector option:selected").val();
+                proc_value = $("#pipeline_selector option:selected").attr("pname") +"--"+ $("#pipeline_selector option:selected").attr("workflow_id");
+                workflowN = $("#pipeline_selector option:selected").attr("pname") + "&emsp;<span class='label label-info'>"+$("#pipeline_selector option:selected").attr("version")+"</span>";
+
             }
 
             let needs_dependency = false;
@@ -1444,7 +1455,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                     //ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
                     let class_of_button_remove_to_replace = last_proc_name + '&&' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_workflow_" + String(pip_start_id) + '_' + CURRENT_PROJECT_ID + '&&&';
-                    class_of_button_remove_to_replace = 'class="' + class_of_button_remove_to_replace + '" onclick="removeAnalysis(this)'
+                    class_of_button_remove_to_replace = 'class="' + class_of_button_remove_to_replace + '" onclick="removeAnalysis(this)';
 
                     if (pip_start_id > 0) {
                         //console.log('style="display:block;" ' + class_of_button_remove_to_replace, pipelines_type_by_strain[strain_data[counter]['strainID']][1][pip_start_id-1]);
@@ -1453,8 +1464,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                     let buttonselectedPipeline = '<div class="dropdown"' +
                         ' style="float:left;">' +
-                        '<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="' + strain_data[counter]['strainID'] + '" name="' + proc_value + '" id="' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_workflow_" + String(pip_start_id + 1) + '_' + CURRENT_PROJECT_ID + '"><i class="fa fa-arrow-down"></i>' + proc_value + '</button>' +
-                        '<ul class="dropdown-menu" id="' + strain_data[counter]['strainID'] + '_' + proc_value + '" style="position:relative;float:right;">' +
+                        '<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="' + strain_data[counter]['strainID'] + '" name="' + proc_value + '" id="' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_workflow_" + String(pip_start_id + 1) + '_' + CURRENT_PROJECT_ID + '"><i class="fa fa-arrow-down"></i>&emsp;' + workflowN + '</button>' +
+                        '<ul class="dropdown-menu" id="' + strain_data[counter]['strainID'] + '_' + proc_value.replace(/ /, "") + '" style="position:relative;float:right;">' +
                         '<li class="' + proc_value + '&&' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_" + String(pip_start_id + 1) + '_workflow_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>' +
                         '<li class="' + proc_value + '&&' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_" + String(pip_start_id + 1) + '_workflow_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesLog(this)" style="display:none;"><a>Get Run Log</a></li>' +
                         '<li style="display:block;" class="' + proc_value + '&&' + strain_data[counter]['strainID'].replace(/ /g, '_') + "_workflow_" + String(pip_start_id + 1) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
@@ -1723,8 +1734,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                             pipelines_applied[strain_id_to_name[strain_id]].map((d, x) => {
 
-                                let workflowName = d.split('button')[1].split('</i>')[1].split('</')[0];
-                                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id
+                                let workflowName = d.split('button')[1].split('name="')[1].split('"')[0];
+                                button_class_to_pipeline[d.split('<li class="')[1].split('"')[0]] = pipeline_id;
                                 let button_n = d.split("id")[1].split('"')[1];
 
                                 if (buttons_to_tasks[button_n] === undefined) {
@@ -1938,7 +1949,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                         for (const x in pipelines_applied[strain_in_use]) {
 
-                            for (const p in workflowname_to_protocols[pipelines_applied[strain_in_use][x].split("</i>")[1].split("</button>")[0]]) {
+                            for (const p in workflowname_to_protocols[pipelines_applied[strain_in_use][x].split('button')[1].split('name="')[1].split('"')[0]]) {
                                 count_processes += 1;
                             }
 
@@ -1986,16 +1997,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         for (const p in pipelines_applied[strain_name]) {
                             let pi_name = pipelines_applied[strain_name][p].split("id")[1].split('"')[1];
 
-                            let real_pi_name = pipelines_applied[strain_name][p].split('</i>')[1].split('</')[0];
-
-                            //console.log(dict_of_tasks_status[buttons_to_tasks[pi_name]], pi_name, buttons_to_tasks, dict_of_tasks_status, pipelines_applied);
+                            let real_pi_name = pipelines_applied[strain_name][p].split('button')[1].split('name="')[1].split('"')[0];
 
                             if (buttons_to_tasks[pi_name].indexOf("workflow") > -1) {
 
-                                dict_strain_names[strain_name][1].push(pipelines_applied[strain_name][p].split('button')[1].split('</i>')[1].split('<')[0]);
-
-                                //console.log(protocols_applied_by_pipeline, protocols_applied_by_pipeline[strain_names[strain_name]][real_pi_name][0].split('<div class="dropdown"'));
-
+                                dict_strain_names[strain_name][1].push(pipelines_applied[strain_name][p].split('button')[1].split('name="')[1].split('"')[0]);
                                 let protocols_in_pip = protocols_applied_by_pipeline[strain_name][real_pi_name][0].split('<div class="dropdown"');
 
                                 protocols_in_pip.shift();
@@ -2265,6 +2271,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     //	console.log(strain_processes);
                     ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_final_p][1], single_strain_processes, strain_processes[s_final_p][0], strains[i].strainID, countStrain, strain_processes, t_ids, proc_ids, processed_proc, (response, pr_ids, strain_id, count_process, pip_id, proj_id, strain_processes_from_request, t_ids, proc_ids, processed_proc) => {
 
+                        console.log(response);
                         //When error occurs when loading the job_id
                         if (response.data === 404) {
                             for (const x in strain_processes_from_request) {
@@ -2334,7 +2341,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                                 for (const j in pipelines_applied[s_name]) {
                                     let pipeline_id = pipelines_applied[s_name][j].split('id="')[1].split('"')[0];
-                                    let pipeline_name = pipelines_applied[s_name][j].split('button')[1].split('</i>')[1].split('</')[0];
+                                    let pipeline_name = pipelines_applied[s_name][j].split('button')[1].split('name="')[1].split('"')[0];//.split('</i>')[1].split('</')[0];
 
                                     //console.log(pipeline_name, pipelines_applied[s_name][j]);
                                     if (buttons_to_tasks[pipeline_id] !== undefined && buttons_to_tasks[pipeline_id].indexOf("null") > -1) {
@@ -2542,9 +2549,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                     count_added_to_new += 1;
                                     if (count_added_to_new === pipelines_applied[strain_names[index]].length - 1) {
                                         //ALLOW ONLY THE LAST WORKFLOW TO BE REMOVED
-                                        let last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new - 1].split('<li class="')[1].split("&&")[0]
+                                        let last_proc_name = pipelines_type_by_strain[strain_names[index]][1][count_added_to_new - 1].split('<li class="')[1].split("&&")[0];
                                         let class_of_button_remove_to_replace = last_proc_name + '&&' + strain_names[index].replace(/ /g, '_') + "_workflow_" + String(count_added_to_new) + '_' + CURRENT_PROJECT_ID + '&&&';
-                                        class_of_button_remove_to_replace = 'class="' + class_of_button_remove_to_replace + '" onclick="removeAnalysis(this)'
+                                        class_of_button_remove_to_replace = 'class="' + class_of_button_remove_to_replace + '" onclick="removeAnalysis(this)';
                                         pipelines_type_by_strain[strain_names[index]][1][y] = pipelines_type_by_strain[strain_names[index]][1][y].replace('style="display:none;" ' + class_of_button_remove_to_replace, 'style="display:block;" ' + class_of_button_remove_to_replace)
                                     }
 
@@ -2565,7 +2572,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             }
                         }
                         else {
-                            removed_pip_name = pipelines_applied[strain_names[index]][pipeline].split("</i>")[1].split('<')[0];
+                            removed_pip_name = pipelines_applied[strain_names[index]][pipeline].split('button')[1].split('name="')[1].split('"')[0]; //.split("</i>")[1].split('<')[0];
                         }
                     }
 
@@ -2579,8 +2586,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                     //UPDATE WORKFLOWS
                     for (const j in pipelines_type_by_strain[strain_names[index]]) {
-                        if (j === String(0)) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j];
-                        else if (j === String(1)) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j];
+                        if (j === String(0)) toAdd_lab_protocols += pipelines_type_by_strain[strain_names[index]][j].join("");
+                        else if (j === String(1)) toAdd_analysis += pipelines_type_by_strain[strain_names[index]][j].join("");
                     }
                     strain_data[index]['Analysis'] = toAdd_analysis;
 

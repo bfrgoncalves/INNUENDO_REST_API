@@ -7,6 +7,15 @@ import requests
 import os
 from flask_security import current_user
 
+# Imports for allegrograph check
+from config import AG_HOST, AG_PORT, AG_REPOSITORY, AG_USER, AG_PASSWORD
+from franz.openrdf.sail.allegrographserver import AllegroGraphServer
+
+
+check_user_get_parser = reqparse.RequestParser()
+check_user_get_parser.add_argument('userId', dest='userId', type=str,
+                                 required=True, help="userId")
+
 
 class CheckControllerResource(Resource):
 
@@ -63,6 +72,26 @@ class CheckPHYLOViZResource(Resource):
         return request.json()
 
 
+class CheckAllegroResource(Resource):
+
+    def get(self):
+
+        available = False
+
+        try:
+            server = AllegroGraphServer(AG_HOST, AG_PORT,
+                                        AG_USER, AG_PASSWORD)
+            catalog = server.openCatalog('')
+
+            if len(catalog.listRepositories()):
+                available = True
+
+        except Exception:
+            available = False
+
+        return available
+
+
 class PlatformStateResource(Resource):
 
     def get(self):
@@ -96,3 +125,22 @@ class PlatformStateResource(Resource):
             db.session.commit()
 
         return platform_instance.status
+
+
+class CheckUserAuthentication(Resource):
+
+    def get(self):
+
+        args = check_user_get_parser.parse_args()
+
+        if current_user.is_authenticated:
+            print args.userId, current_user.id
+            if args.userId != str(current_user.id):
+                return False
+            else:
+                return True
+        else:
+            return "anonymous"
+
+
+

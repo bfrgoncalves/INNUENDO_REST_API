@@ -95,9 +95,9 @@ const ngs_onto_client = (CURRENT_PROJECT_ID, $http) => {
             };
 
             $http(req).then( (response) => {
-                callback(response, strain_name, workflow_name);
+                callback(response, strain_name, workflow_name, workflow_id);
             }, (response) => {
-                callback(response, strain_name, workflow_name);
+                callback(response, strain_name, workflow_name, workflow_id);
             });
         },
         //////////////// Projects Table Requests /////////////////////////////////////////

@@ -11,6 +11,9 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
 
     http = $http;
 
+    const event = new Event('onOverview');
+    document.dispatchEvent(event);
+
     const backButtonEl = $("#backbutton");
 
     if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
@@ -60,7 +63,7 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
     $scope.showSpeciesDrop = () => {
 
         $("#projects_button_li").css({"display":"none"});
-        $("#reports_button_li").css({"display":"none"});
+        //$("#reports_button_li").css({"display":"none"});
         $("#uploads_button_li").css({"display":"none"});
         $("#tools_button_li").css({"display":"none"});
         $("#user_tools").css({"display":"none"});
@@ -114,11 +117,13 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
             });
         }
         //Get metadata parameters available on reports defined by the user for each program
-        pg_requests.get_user_parameters(function(response){
-            if(response.data.analysis_parameters_object !== undefined) {
-                ANALYSYS_PARAMETERS = JSON.parse(response.data.analysis_parameters_object);
-            }
-        });
+        if (CURRENT_USER_ID !== 0) {
+            pg_requests.get_user_parameters(function(response){
+                if(response.data.analysis_parameters_object !== undefined) {
+                    ANALYSYS_PARAMETERS = JSON.parse(response.data.analysis_parameters_object);
+                }
+            });
+        }
 
     };
 

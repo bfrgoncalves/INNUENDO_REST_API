@@ -359,6 +359,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#div_project").css({"display":"none"});
         $("#description_tab").addClass("active");
         $("#project_tab").removeClass("active");
+        $("#submission_status").empty();
+        $("#submission_status").html("Working...");
 
         $("#overlayProjects").css({"display":"block"});
         $("#overlayWorking").css({"display":"block"});
@@ -485,16 +487,17 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             //Get all the available workflows (ex: INNUca, chewBBACA, PathoTyping)
 
-            $("#submission_status").html("Getting available workflows...");
+            $("#submission_status").html("Getting Available Workflows...");
 
             $scope.getWorkflows( () => {
                 //Get all the public strains that can be added to a project
-                $("#submission_status").html("Getting Database strains...");
+                $("#submission_status").html("Getting Database Strains...");
                 $scope.getStrains( () => {
-                    $("#submission_status").html("Getting Project strains...");
+                    $("#submission_status").html("Getting Project Strains...");
                     //Get the strains already added to the project
                     $scope.getProjectStrains( () => {
-                        $("#submission_status").html("Getting applied pipelines...");
+                        $("#submission_status").html("Getting Applied" +
+                            " Pipelines...");
                         //Get the pipelines applied to those strains
                         $scope.getAppliedPipelines(null, (strains_results) => {
                             objects_utils.destroyTable('strains_table');
@@ -532,7 +535,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                 objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                                     objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
 
-                                    $("#submission_status").html("Getting procedures status...");
+                                    $("#submission_status").html("Getting" +
+                                        " Procedures Status...");
 
                                     $scope.getIdsFromProjects( (strains_results) => {
                                         objects_utils.destroyTable('strains_table');

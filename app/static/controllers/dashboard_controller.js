@@ -14,10 +14,10 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
         pg_requests.change_state((response) => {
 
             if (response.data == "true") {
-                $("#lockText").text("Lock Platform")
+                $("#lockButton").html('<i class="fa fa-lock" aria-hidden="true" > Lock Platform</i>')
             }
             else {
-                $("#lockText").text("Unlock Platform")
+                $("#lockButton").html('<i class="fa fa-unlock" aria-hidden="true" > Unlock Platform</i>')
             }
         });
     };
@@ -50,31 +50,41 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
                         $("#pg_mlst_status").css({color: "green"});
                     }
 
-                    pg_requests.check_controller((response) => {
+                    pg_requests.check_allegro((response) => {
 
                         if (response.data !== true) {
-                            $("#controller_status").css({color: "red"});
+                            $("#allegro_status").css({color: "red"});
                         }
                         else {
-                            $("#controller_status").css({color: "green"});
+                            $("#allegro_status").css({color: "green"});
                         }
 
-                        pg_requests.check_phyloviz((response) => {
-                            if (response.status !== 200) {
-                                $("#phyloviz_status").css({color: "red"});
+                        pg_requests.check_controller((response) => {
+
+                            if (response.data !== true) {
+                                $("#controller_status").css({color: "red"});
                             }
                             else {
-                                $("#phyloviz_status").css({color: "green"});
+                                $("#controller_status").css({color: "green"});
                             }
 
-                            pg_requests.check_state((response) => {
-                                if (response.data == "true") {
-                                    $("#lockText").text("Lock Platform")
+                            pg_requests.check_phyloviz((response) => {
+                                if (response.status !== 200) {
+                                    $("#phyloviz_status").css({color: "red"});
                                 }
                                 else {
-                                    $("#lockText").text("Unlock Platform")
+                                    $("#phyloviz_status").css({color: "green"});
                                 }
-                            })
+
+                                pg_requests.check_state((response) => {
+                                    if (response.data == "true") {
+                                        $("#lockText").text("Lock Platform")
+                                    }
+                                    else {
+                                        $("#lockText").text("Unlock Platform")
+                                    }
+                                })
+                            });
                         });
                     });
                 });

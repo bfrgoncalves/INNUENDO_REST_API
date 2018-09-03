@@ -14,7 +14,7 @@ Launch a protocol_list instance
 */
 const Protocol_List = ($http) => {
 
-    let protocolTypeObject = {}, protocols = {};
+    let protocolTypeObject = {}, protocols = {}, protocol_version = [];
     let selectedNewProtocolType = '',
         currentProtocolType = '';
 
@@ -118,6 +118,7 @@ const Protocol_List = ($http) => {
 
             //Send the protocol to the database
             pg_requests.create_protocol(protocol_object, (response) => {
+                console.log(response);
                 if (response.status === 201) {
 
                     let new_protocol_id = response.data.id;
@@ -156,7 +157,12 @@ const Protocol_List = ($http) => {
 
                     if (protocolProperty === "used Software") {
                         protocol_type["Nextflow Tag"] = ["select", "nextflow"];
+                        protocol_type["Image"] = ["input", "text"];
                         protocol_type["Version"] = ["input", "required"];
+                        // CPU and Memory are now specified as a parameter. If not,
+                        // they use the default.
+                        protocol_type["CPUs"] = ["number", "required"];
+                        protocol_type["Memory"] = ["number", "required"];
                     }
                     else {
                         protocol_type[protocolProperty] = processProtocolForm(protocolProperty, protocolUri);
@@ -164,10 +170,6 @@ const Protocol_List = ($http) => {
 
                 }
 
-                // CPU and Memory are now specified as a parameter. If not,
-                // they use the default.
-                //protocol_type["CPUs"] = ["input", "required"];
-                //protocol_type["Memory"] = ["input", "required"];
                 callback({
                     protocol_type: protocol_type,
                     protocol_parameters: protocol_parameters
@@ -184,32 +186,46 @@ const Protocol_List = ($http) => {
                 if (response.status === 200) {
                     let property_fields = [];
                     protocols_of_type = [];
+                    protocol_version = [];
+                    let protocol_ids = [];
 
                     for (const i in response.data) {
                         protocols_of_type.push(response.data[i].name);
-                        if (!protocols.hasOwnProperty(response.data[i].name)) {
-                            protocols[response.data[i].name] = {};
+                        protocol_ids.push(response.data[i].id);
+
+                        if (!protocols.hasOwnProperty(response.data[i].id)) {
+                            protocols[response.data[i].id] = {};
                         }
+
                         let ps = $.parseJSON(response.data[i].steps.replace(/'/g, '"'));
+                        protocol_version.push(ps.Version);
+
                         for (const j in ps) {
-                            protocols[response.data[i].name][j] = ps[j];
+                            protocols[response.data[i].id][j] = ps[j];
                         }
-                        protocols[response.data[i].name].id = response.data[i].id;
+
+                        protocols[response.data[i].id].id = response.data[i].id;
 
                     }
                     callback({
                         property_fields: property_fields,
                         protocols_of_type: protocols_of_type,
-                        protocols: protocols
+                        protocols: protocols,
+                        protocol_version: protocol_version,
+                        protocol_ids: protocol_ids
                     });
                 }
                 else {
                     protocols_of_type = [];
                     let property_fields = [];
+                    let protocol_version = [];
+                    let protocol_ids = [];
                     callback({
                         protocols_of_type: protocols_of_type,
                         property_fields: property_fields,
-                        protocols: protocols
+                        protocols: protocols,
+                        protocol_version: protocol_version,
+                        protocol_ids: protocol_ids
                     });
                 }
             })

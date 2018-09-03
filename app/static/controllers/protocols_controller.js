@@ -295,7 +295,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
             protocolSelLoadEl.empty();
             protocolSelLoadEl.append(options);
-            console.log(options);
 
             // On change, loads the information regarding that protocol
             protocolSelLoadEl.on("change", () => {

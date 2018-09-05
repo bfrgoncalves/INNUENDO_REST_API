@@ -347,8 +347,6 @@ class StrainsByNameResource(Resource):
                 .filter(Specie.id == strain.species_id).first()
 
             if database_entry:
-                print "AQUI"
-                print database_entry.name
                 classifiers = db.session\
                     .query(database_correspondece[database_entry.name])\
                     .filter(database_correspondece[database_entry.name].name

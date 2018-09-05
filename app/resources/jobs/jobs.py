@@ -175,7 +175,7 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
     if "nfMetadata" in procedure:
         results = results["nfMetadata"]
         results["nfMetadata"]["runName"] = project_id
-    results["nfMetadata"]["scriptId"] = pipeline_id
+        results["nfMetadata"]["scriptId"] = pipeline_id
 
     # Classify the profiles case the procedure is chewbbaca
     if "chewbbaca" in procedure:

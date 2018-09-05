@@ -3016,21 +3016,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     }
 
                     setTimeout(() => {
+
                         // Case uses fastq as input
                         if (files_in_user_folder === 2 && no_identifier !== true && bad_submitter !== true && has_valid_source === true && has_accession === false && required_headers_missed.length < 2) {
                             $('#change_type_to_file').trigger("click");
                             if (has_files === 2) {
                                 $('#newstrainbuttonsubmit').trigger("submit");
-                            }
-                            if (strains_object['body'].length !== 0) {
-                                add_to_database();
-                            }
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
                             }
                         }
                         // Case has accession number
@@ -3039,108 +3030,82 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             $('#change_type_to_file').trigger("click");
                             $('#newstrainbuttonsubmit').trigger("submit");
 
-                            if (strains_object['body'].length !== 0) {
-                                add_to_database();
-                            }
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
-                            }
-                        }
-                        else if (required_headers_missed.length > 0) {
-
-                            let to_problems = "<li>Some required headers were" +
-                                " not specified: <ul>";
-
-                            for (const r in required_headers_missed) {
-                                to_problems += "<li>" + required_headers_missed[r][0] + "-" + required_headers_missed[r][1] + "</li>";
-                            }
-
-                            to_problems += "</ul>";
-
-                            strains_with_problems[identifier_s].push(to_problems);
-
-                            if (strains_object['body'].length !== 0) add_to_database();
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
-                            }
-
-                        }
-                        else if (has_valid_source === false) {
-
-                            strains_with_problems[identifier_s].push("<li>Select a valid Source (Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water).</li>");
-
-                            if (strains_object['body'].length !== 0) add_to_database();
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
-                            }
-                        }
-                        else if (bad_submitter === true) {
-
-                            strains_with_problems[identifier_s].push("<li>The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").</li>");
-
-                            if (strains_object['body'].length !== 0) {
-                                add_to_database();
-                            }
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
-                            }
-
-                        }
-                        else if (no_identifier === true) {
-
-                            strains_with_problems[identifier_s].push("<li>One of the entries does not have a valid identifier.</li>");
-
-                            if (strains_object['body'].length !== 0) add_to_database();
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
-                            }
-                        }
-                        else if (files_in_user_folder < 2) {
-
-                            strains_with_problems[identifier_s].push("<li>One or more files for strain " + identifier_s + " are not available on the user folder.</li>");
-
-                            if (strains_object['body'].length !== 0) add_to_database();
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
-                            }
                         }
                         else {
 
-                            strains_with_problems[identifier_s].push("<li>An unexpected error as occuried when adding the strain " + identifier_s + ".</li>");
+                            let problems = 0;
 
-                            if (strains_object['body'].length !== 0) add_to_database();
-                            else {
-                                showDoneImportModal();
-                                hline_to_use.map((a) => {
-                                    $("#" + a).val("")
-                                });
-                                $('#Submitter').val(CURRENT_USER_NAME);
+
+                            if (has_valid_source === false) {
+
+                                problems += 1;
+
+                                strains_with_problems[identifier_s].push("<li>Select a valid Source (Human; Food; Animal, cattle; Animal, poultry; Animal, swine; Animal, other; Environment; Water).</li>");
+
                             }
+                            if (bad_submitter === true) {
+
+                                problems += 1;
+
+                                strains_with_problems[identifier_s].push("<li>The submitter on the batch file must be the user you are logged in (" + CURRENT_USER_NAME + ").</li>");
+
+
+                            }
+                            if (no_identifier === true) {
+
+                                problems += 1;
+
+                                strains_with_problems[identifier_s].push("<li>One of the entries does not have a valid identifier.</li>");
+
+                            }
+                            if (required_headers_missed.length > 0) {
+
+                                problems += 1;
+
+                                let to_problems = "<li>Some required headers were" +
+                                    " not specified: <ul>";
+
+                                for (const r in required_headers_missed) {
+                                    to_problems += "<li>" + required_headers_missed[r][0] + "-" + required_headers_missed[r][1] + "</li>";
+                                }
+
+                                to_problems += "</ul>";
+
+                                strains_with_problems[identifier_s].push(to_problems);
+
+                            }
+
+                            if (files_in_user_folder < 2 && required_headers_missed.length === 0 && has_accession === true) {
+                                problems += 1;
+
+                                strains_with_problems[identifier_s].push("<li>One or more files for strain " + identifier_s + " are not available on the user folder.</li>");
+                            }
+
+                            if (files_in_user_folder < 2 && has_accession === false) {
+
+                                problems += 1;
+
+                                strains_with_problems[identifier_s].push("<li>One or more files for strain " + identifier_s + " are not available on the user folder.</li>");
+
+                            }
+                            if(problems == 0) {
+
+                                strains_with_problems[identifier_s].push("<li>An unexpected error as occuried when adding the strain " + identifier_s + ".</li>");
+
+                            }
+
                         }
+
+                        if (strains_object['body'].length !== 0) add_to_database();
+                        else {
+                            showDoneImportModal();
+                            hline_to_use.map((a) => {
+                                $("#" + a).val("")
+                            });
+                            $('#Submitter').val(CURRENT_USER_NAME);
+                        }
+
+
 
                     }, 500);
 

@@ -3,7 +3,7 @@ from flask_security import login_required, current_user, utils, roles_required
 import json
 from app import app, db
 from config import FILES_ENTRY_POINT, ADMIN_GID, REPORTS_URL, \
-    NEXTFLOW_TAGS
+    NEXTFLOW_TAGS, INSPECT_ROUTE
 from app.models.models import Platform
 
 
@@ -45,6 +45,7 @@ def index():
                            jobs_root=json.dumps(FILES_ENTRY_POINT),
                            show_protocols=show_protocols,
                            show_info_button=json.dumps(show_protocols),
+                           inspect_route=json.dumps(INSPECT_ROUTE),
                            homedir=json.dumps(homedir),
                            nextflow_tags=json.dumps(NEXTFLOW_TAGS)
                            )

@@ -305,11 +305,12 @@ const Objects_Utils = (single_project, $sc) => {
                             let inspect_url = response.data.link.trim();
                             let pid = response.data.pid.trim();
 
-                            let inspect_url_parts = inspect_url.split(":")
+                            let inspect_url_parts = inspect_url.split("/");
 
-                            if (inspect_url_parts.length > 2){
-                                inspect_url = "http://localhost:" + inspect_url_parts[2]
-                            }
+                            let subdomains = inspect_url_parts.splice(3, inspect_url_parts.length);
+                            subdomains = subdomains.join("/");
+
+                            inspect_url = INSPECT_ROUTE + subdomains;
 
                             url_for_pipeline[work_dir] = inspect_url;
                             pid_to_pipeline[work_dir] = pid.split(":")[1]

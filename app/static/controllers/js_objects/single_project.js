@@ -630,8 +630,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                 console.log(testdict);
 
-                let t_quota = quota_obj.data.f_space.split(/\s/g)[44] === undefined ?
-                    quota_obj.data.f_space.split(/\s/g)[30] : quota_obj.data.f_space.split(/\s/g)[44];
+                let t_quota = quota_obj.data.f_space.split(/\s/g)[43] === undefined ?
+                    quota_obj.data.f_space.split(/\s/g)[29] : quota_obj.data.f_space.split(/\s/g)[43];
                 let f_quota = quota_obj.data.f_space.split(/\s/g)[45] === undefined ?
                     quota_obj.data.f_space.split(/\s/g)[31] : quota_obj.data.f_space.split(/\s/g)[45];
                 let user_quota = quota_obj.data.f_space.split(/\s/g)[45] === undefined ?

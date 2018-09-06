@@ -619,6 +619,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             //Request to get quota
             pg_requests.get_quota((quota_obj) => {
 
+                let testdict = {
+                    "t_quota": quota_obj.data.f_space.split(/\s/g),
+                    "f_quota": quota_obj.data.f_space.split(/\s/g),
+                    "user_quota": quota_obj.data.f_space.split(/\s/g),
+                    "p_space": quota_obj.data.p_space.split(/\s/g),
+                    "u_space": quota_obj.data.u_quota.split(/\s/g),
+                    "i_quota": quota_obj.data.i_quota.split(/\s/g)
+                };
+
+                console.log(testdict);
+
                 let quota_dict = {
                     "t_quota": quota_obj.data.f_space.split(/\s/g)[30],
                     "f_quota": quota_obj.data.f_space.split(/\s/g)[31],
@@ -2809,6 +2820,21 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 let strains_object = {};
                 let count_lines = 0;
 
+                if (lines.length < 2) {
+
+                    $("#overlayProjects").css({"display": "none"});
+                    $("#overlayWorking").css({"display": "none"});
+                    $("#single_project_controller_div").css({"display": "block"});
+                    $("#submission_status").empty();
+
+                    modalAlert("Uploaded file has less than two lines" +
+                        " (headers and at least one strain).", "Warning", () => {
+
+                    });
+                    return;
+
+                }
+
                 let insufficient_headers = false;
 
                 strains_object['body'] = [];
@@ -3006,7 +3032,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                     else {
                                         sel_element = hline_to_use[x];
                                     }
-                                    $('#' + sel_element).val(bline_to_use[x] === "" ? "NA" : bline_to_use[x]);
+                                    try {
+                                        $('#' + sel_element).val(bline_to_use[x] === "" ? "NA" : bline_to_use[x]);
+                                    }
+                                    catch(e){
+                                        console.log("error");
+                                    }
+
                                 }
 
 

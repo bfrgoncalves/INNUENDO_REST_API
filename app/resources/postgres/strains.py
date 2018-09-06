@@ -334,6 +334,8 @@ class StrainsByNameResource(Resource):
         strains_to_search = args.selectedStrains.split(",")
         projects_to_search = args.selectedProjects.split(",")
 
+        print strains_to_search
+
         nameToProject = {}
 
         for i, y in enumerate(strains_to_search):
@@ -343,6 +345,7 @@ class StrainsByNameResource(Resource):
             .filter(Strain.name.in_(strains_to_search)).all()
 
         for strain in strains:
+            print strain.name
             database_entry = db.session.query(Specie)\
                 .filter(Specie.id == strain.species_id).first()
 

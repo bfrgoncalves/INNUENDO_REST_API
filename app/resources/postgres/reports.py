@@ -390,7 +390,16 @@ class CombinedReportsResource(Resource):
 
         args = save_reports_parser.parse_args()
         reports_to_send = []
-        combined_report = Combined_Reports(species_id=args.species_id,
+
+        availableReports = db.session.query(Combined_Reports).filter(
+            Combined_Reports.name == args.report_name)
+
+        if availableReports:
+            reports_to_send.append({
+                "message": "The provided Report name already exists."
+            })
+        else:
+            combined_report = Combined_Reports(species_id=args.species_id,
                                            strain_names=args.strain_ids,
                                            user_id=current_user.id,
                                            username=current_user.username,
@@ -398,23 +407,23 @@ class CombinedReportsResource(Resource):
                                            timestamp=datetime.datetime.utcnow(),
                                            name=args.report_name,
                                            description=args.report_description)
-        if not combined_report:
-            abort(404,
-                  message="An error as occurried when uploading the data"
-                  .format(id))
+            if not combined_report:
+                abort(404,
+                      message="An error as occurried when uploading the data"
+                      .format(id))
 
-        reports_to_send.append(
-            {'name': combined_report.name,
-             'description': combined_report.description,
-             'username': combined_report.username,
-             'user_id': combined_report.user_id,
-             'run_identifiers': combined_report.run_identifiers,
-             'strain_names': combined_report.strain_names
-             }
-        )
+            reports_to_send.append(
+                {'name': combined_report.name,
+                 'description': combined_report.description,
+                 'username': combined_report.username,
+                 'user_id': combined_report.user_id,
+                 'run_identifiers': combined_report.run_identifiers,
+                 'strain_names': combined_report.strain_names
+                 }
+            )
 
-        db.session.add(combined_report)
-        db.session.commit()
+            db.session.add(combined_report)
+            db.session.commit()
         return reports_to_send, 201
 
     @login_required
@@ -530,36 +539,45 @@ class SavedReportsResource(Resource):
 
         args = saved_report_post_parser.parse_args()
         reports_to_send = []
-        combined_report = Combined_Reports(user_id=args.user_id,
-                                           username=args.username,
-                                           name=args.name,
-                                           description=args.description,
-                                           strain_names=args.strain_names,
-                                           projects_id=args.projects_id,
-                                           filters=args.filters,
-                                           highlights=args.highlights,
-                                           is_public=args.is_public,
-                                           timestamp=datetime.datetime.utcnow())
 
-        if not combined_report:
-            return 404
+        availableReports = db.session.query(Combined_Reports).filter(
+            Combined_Reports.name == args.name).first()
 
-        reports_to_send.append(
-            {
-                "user_id": combined_report.user_id,
-                "username": combined_report.username,
-                "name": combined_report.name,
-                "description": combined_report.description,
-                "strain_names": combined_report.strain_names,
-                "projects_id": combined_report.projects_id,
-                "filters": combined_report.filters,
-                "highlights": combined_report.highlights,
-                "is_public": args.is_public,
-                "timestamp": combined_report.timestamp.strftime("%d-%m-%Y %H:%M:%S")
+        if availableReports:
+            reports_to_send.append({
+                "message": "The provided Report name already exists."
             })
+        else:
+            combined_report = Combined_Reports(user_id=args.user_id,
+                                               username=args.username,
+                                               name=args.name,
+                                               description=args.description,
+                                               strain_names=args.strain_names,
+                                               projects_id=args.projects_id,
+                                               filters=args.filters,
+                                               highlights=args.highlights,
+                                               is_public=args.is_public,
+                                               timestamp=datetime.datetime.utcnow())
 
-        db.session.add(combined_report)
-        db.session.commit()
+            if not combined_report:
+                return 404
+
+            reports_to_send.append(
+                {
+                    "user_id": combined_report.user_id,
+                    "username": combined_report.username,
+                    "name": combined_report.name,
+                    "description": combined_report.description,
+                    "strain_names": combined_report.strain_names,
+                    "projects_id": combined_report.projects_id,
+                    "filters": combined_report.filters,
+                    "highlights": combined_report.highlights,
+                    "is_public": args.is_public,
+                    "timestamp": combined_report.timestamp.strftime("%d-%m-%Y %H:%M:%S")
+                })
+
+            db.session.add(combined_report)
+            db.session.commit()
 
         return reports_to_send, 201
 

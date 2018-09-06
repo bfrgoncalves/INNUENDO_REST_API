@@ -193,6 +193,8 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             protocolSelEl.append(options);
             protocolSelLoadEl.append(options);
 
+            $(".selectpicker").selectpicker("refresh");
+
             // Trigger event on change on the dropdowns. Change the inputs
             protocolSelEl.on("change", () => {
                 $scope.loadProtocolCreator(
@@ -270,7 +272,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     $('#protocol_controller_div').css({display: 'block'});
 
                 }
-            }, 800);
+            }, 2000);
         });
     };
 
@@ -313,7 +315,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             setTimeout(() => {
                 //$(".selectpicker").selectpicker("refresh");
                 protocolSelLoadEl.trigger("change");
-            }, 800);
+            }, 2000);
 
         });
     };

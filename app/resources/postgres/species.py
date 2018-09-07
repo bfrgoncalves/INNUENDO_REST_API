@@ -1,7 +1,7 @@
 from app import db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 
-from app.models.models import Specie
+from app.models.models import Specie, Campylobacter, Ecoli, Salmonella, Yersinia
 from flask_security import current_user, login_required, roles_required
 
 # Defining post arguments parser
@@ -60,3 +60,27 @@ class SpecieListResource(Resource):
         db.session.add(specie)
         db.session.commit()
         return specie, 201
+
+
+class SpeciesSchemaVersions(Resource):
+
+    def get(self):
+        """Get species
+
+        Get the available schema versions for all species
+
+        Returns
+        -------
+        list of versions
+        """
+        species_name = ["Salmonella", "Yersinia", "Campylobacter", "E.coli"]
+        species_list = [Salmonella, Yersinia, Campylobacter, Ecoli]
+        versionsdict = {}
+
+        for i, x in enumerate(species_list):
+            versions = []
+            for value in db.session.query(x).distinct(x.version):
+                versions.append(value.version)
+            versionsdict[species_name[i]] = versions
+
+        return versionsdict, 200

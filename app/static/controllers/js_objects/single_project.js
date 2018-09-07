@@ -349,8 +349,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 objects_utils.apply_pipeline_to_strain('strains_table', strain_id_to_name[strain_id], appliedPipelines, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, pipelinesAndDependency, applied_dependencies, pipelinesByVersion, (results) => {
                     // Case workflows in pipeline
                     if (results.strains[results.strain_index] !== undefined) {
-                        strains[results.strain_index] = results.strains[results.strain_index];
-
+                        for (let strain of strains) {
+                            if (strain.strainID === results.strains[results.strain_index].strainID){
+                                strain = results.strains[results.strain_index];
+                                break;
+                            }
+                        }
                         for (x in results.workflow_ids) {
                             workflow_id_to_name[results.workflow_ids[x]] = results.workflow_names[x];
                         }
@@ -619,7 +623,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             //Request to get quota
             pg_requests.get_quota((quota_obj) => {
 
-                let testdict = {
+                /*let testdict = {
                     "t_quota": quota_obj.data.f_space.split(/\s/g),
                     "f_quota": quota_obj.data.f_space.split(/\s/g),
                     "user_quota": quota_obj.data.f_space.split(/\s/g),
@@ -628,7 +632,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     "i_quota": quota_obj.data.i_quota.split(/\s/g)
                 };
 
-                console.log(testdict);
+                console.log(testdict);*/
 
                 let t_quota = quota_obj.data.f_space.split(/\s/g)[43] === undefined ?
                     quota_obj.data.f_space.split(/\s/g)[29] : quota_obj.data.f_space.split(/\s/g)[43];
@@ -774,6 +778,8 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         strains_headers.push("has_files");
                         strains_headers.push("Accession");
 
+                        console.log(data);
+
                         for (const i in data) {
 
                             let strain_data = JSON.parse(data[i].strain_metadata);
@@ -808,11 +814,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             if (!strains_dict.hasOwnProperty($.trim(data[i].strainID))) {
                                 strains_dict[$.trim(data[i].strainID)] = data[i].id;
                             }
-
                             add_strains.push(sd);
                         }
                         strains = add_strains;
-
                     }
 
                     callback({
@@ -2294,7 +2298,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     //	console.log(strain_processes);
                     ngs_onto_requests.ngs_onto_request_get_jobid_from_process(strain_processes[s_final_p][1], single_strain_processes, strain_processes[s_final_p][0], strains[i].strainID, countStrain, strain_processes, t_ids, proc_ids, processed_proc, (response, pr_ids, strain_id, count_process, pip_id, proj_id, strain_processes_from_request, t_ids, proc_ids, processed_proc) => {
 
-                        console.log(response);
                         //When error occurs when loading the job_id
                         if (response.data === 404) {
                             for (const x in strain_processes_from_request) {

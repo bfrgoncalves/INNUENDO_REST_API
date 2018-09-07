@@ -500,6 +500,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             " Pipelines...");
                         //Get the pipelines applied to those strains
                         $scope.getAppliedPipelines(null, (strains_results) => {
+
+                            console.log(strains_results);
                             objects_utils.destroyTable('strains_table');
 
                             $scope.strains_in_use = global_strains.length;

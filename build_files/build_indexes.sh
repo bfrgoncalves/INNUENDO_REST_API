@@ -17,16 +17,19 @@ echo "fastmlst path: ${2}"
 echo "allegro client: ${3}"
 export PYTHONPATH="${3}/src"
 
+# Import version
+echo "Import version: ${4}"
+
 # Prepare Yersinia enterocolitica data
 echo "---> Checking Yersinia enterocolitica data  ..."
 
 
 # Create folders on defined outdir
-mkdir -p ${1}/legacy_profiles
-mkdir -p ${1}/indexes
-mkdir -p ${1}/classifications
-mkdir -p ${1}/legacy_metadata
-mkdir -p ${1}/core_lists
+mkdir -p ${1}/${4}/legacy_profiles
+mkdir -p ${1}/${4}/indexes
+mkdir -p ${1}/${4}/classifications
+mkdir -p ${1}/${4}/legacy_metadata
+mkdir -p ${1}/${4}/core_lists
 
 if [ ! -f "${1}/legacy_profiles/profiles_Yersinia.tsv" ]; then
 

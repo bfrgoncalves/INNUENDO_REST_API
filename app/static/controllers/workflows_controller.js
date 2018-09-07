@@ -281,6 +281,9 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
 
         workflows.add_protocol_to_workflow($("#protocol_selector_load" +
             " option:selected").attr("p_id"), (results) => {
+
+            console.log(results.added_protocols);
+
             if(results.more_than_one === true){
                 modalAlert("At the moment, only one protocol can be applied" +
                     " to the workflow. We will improve this option in the" +

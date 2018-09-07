@@ -190,7 +190,8 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
         if userObject:
             user_homedir = userObject.homedir
             print user_homedir
-            pipeline_location = os.path.join(user_homedir, "{}-{}".format(project_id, pipeline_id))
+            pipeline_location = os.path.join(user_homedir, "jobs",
+                                             "{}-{}".format(project_id, pipeline_id))
             print pipeline_location
             platform_config = os.path.join(pipeline_location, "platform.config")
             print platform_config

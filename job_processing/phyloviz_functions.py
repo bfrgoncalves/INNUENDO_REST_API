@@ -149,7 +149,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                 .query(database_correspondece[database_to_include])\
                 .filter(
                     database_correspondece[database_to_include].name == strain_id,
-                    database_correspondece[database_to_include].name == database_version
+                    database_correspondece[database_to_include].version == database_version
                 ).first()
 
             if strains_from_db:

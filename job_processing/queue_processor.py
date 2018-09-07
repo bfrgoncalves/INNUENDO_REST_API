@@ -40,11 +40,11 @@ class Queue_Processor:
         return job.get_id()
 
     # Function to send the classification of a profile steps to the redis queue
-    def classify_profile(self, results, database_to_include, sample, new_job_id):
+    def classify_profile(self, results, database_to_include, sample, new_job_id, schemaVersion):
         job = q.enqueue_call(
 
             func=database_functions.classify_profile, args=(
-                results, database_to_include, sample, new_job_id,),
+                results, database_to_include, sample, new_job_id, schemaVersion,),
             result_ttl=5000, timeout=600
             )
         return job.get_id()

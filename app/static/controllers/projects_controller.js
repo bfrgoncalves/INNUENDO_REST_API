@@ -237,7 +237,6 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     Sets the CURRENT_PROJECT_ID selected
     */
     $scope.highlightProject = ($event, project_id) => {
-        console.log("AQUI", project_id);
         CURRENT_PROJECT_ID = project_id;
     };
 
@@ -267,6 +266,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
                 objects_utils.destroyTable('projects_table');
                 projects = results;
                 objects_utils.loadDataTables('projects_table', projects, project_col_defs);
+                modalAlert("Project Locked!");
             });
         });
     }

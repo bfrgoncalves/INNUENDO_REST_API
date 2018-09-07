@@ -131,6 +131,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         // Get parameters for firsts elected Nextflow tag
         protocols_list.check_protocol_parameters(selected_text, (results) => {
 
+
             if (results.data === "False") {
                 console.log("Error loading parameters");
             }
@@ -151,6 +152,16 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                             paramsObject[selected_text][x].default;
 
                         option += "<option>" + x + ":" + valueToUse + "</option>";
+                    }
+
+                    if (selected_text === "chewbbaca") {
+                        option += "<option>schemaVersion:null</option>";
+                        paramsObject["chewbbaca"]["schemaVersion"] = {
+                            "description": "chewBBACA schema version defined" +
+                            " in the INNUENDO Platform.",
+                            "default": "null"
+                        }
+                        console.log(paramsObject);
                     }
 
                     parameterEl.empty();

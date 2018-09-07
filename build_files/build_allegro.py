@@ -2,8 +2,11 @@ from config import AG_HOST, AG_PORT, AG_REPOSITORY, AG_USER, AG_PASSWORD
 from franz.openrdf.sail.allegrographserver import AllegroGraphServer
 from franz.openrdf.repository.repository import Repository
 from franz.openrdf.rio.rdfformat import RDFFormat
+from franz.openrdf.rio.rdfxmlwriter import RDFXMLWriter
 import sys
 
+print "mode: " + sys.argv[1]
+print "file path:" + sys.argv[2]
 
 ################ CONNECTING TO ALLEGROGRAPH ############################
 
@@ -36,14 +39,24 @@ mode = Repository.ACCESS
 my_repository = catalog.getRepository('innuendo', mode)
 my_repository.initialize()
 
-################ FILLING REPOSITORY ####################################
-
 conn = my_repository.getConnection()
 
-if conn.size() == 0:
-    if len(sys.argv[0]) > 0:
-        path1 = sys.argv[0]
-        conn.addFile(path1, None, format=RDFFormat.RDFXML)
+if sys.argv[1] == "backup":
+    outputFile2 = sys.argv[2]
+    # outputFile2 = None
+    if outputFile2 == "":
+        print "Please specify a valid output file"
+    else:
+        rdfxmlfWriter = RDFXMLWriter(outputFile2)
+        conn.export(rdfxmlfWriter, 'null')
+
+################ FILLING REPOSITORY ####################################
+
+if sys.argv[1] == "build":
+    if conn.size() == 0:
+        if len(sys.argv[2]) > 0:
+            path1 = sys.argv[2]
+            conn.addFile(path1, None, format=RDFFormat.RDFXML)
 
 print('Database triples: {count}'.format(count=conn.size()))
 

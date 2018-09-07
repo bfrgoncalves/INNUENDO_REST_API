@@ -190,7 +190,7 @@ def classify_profile(allcall_results, database_name, sample, job_id, schemaVersi
     for i, header in enumerate(headers):
         strain_allele_profile[header] = profile[i]
 
-    with open(core_headers_correspondece[database_name], 'r') as reader:
+    with open(core_headers_correspondece[database_name][schemaVersion], 'r') as reader:
         for i, line in enumerate(reader):
             count_core+=1
             if line.rstrip() == "FILE":
@@ -200,7 +200,7 @@ def classify_profile(allcall_results, database_name, sample, job_id, schemaVersi
                 if include_index > -1:
                     core_profile.append(profile[include_index])
 
-    with open(wg_headers_correspondece[database_name], 'r') as reader:
+    with open(wg_headers_correspondece[database_name][schemaVersion], 'r') as reader:
         for i, line in enumerate(reader):
             if line.rstrip() == "FILE":
                 wg_profile.append(sample.replace(" ", "_"))

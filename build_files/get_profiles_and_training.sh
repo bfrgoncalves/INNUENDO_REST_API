@@ -103,7 +103,7 @@ mkdir -p ${1}/prodigal_training_files
 count_p=$(ls ${1}/prodigal_training_files | wc -l)
 
 # Get Prodigal training files
-if [ $count_p -eq 1 ]; then
+if [ $count_p -eq 0 ]; then
 
     echo "---> Downloading prodigal training file  ..."
     cd ${1}/prodigal_training_files
@@ -117,7 +117,7 @@ mkdir -p ${1}/serotyping_files
 count_s=$(ls ${1}/serotyping_files | wc -l)
 
 # Get Serotyping files
-if [ $count_s -eq 1 ]; then
+if [ $count_s -eq 0 ]; then
 
     echo "---> Downloading serotyping files  ..."
     cd ${1}/serotyping_files

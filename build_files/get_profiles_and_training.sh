@@ -97,30 +97,30 @@ if [ ! -d "${1}/${2}/schemas/schema_seed_campy_roary_V5" ]; then
 fi
 
 # Create prodigal_training_files dir if dont exist
-mkdir -p ${1}/${2}/prodigal_training_files
+mkdir -p ${1}/prodigal_training_files
 
 
-count_p=$(ls ${1}/${2}/prodigal_training_files | wc -l)
+count_p=$(ls ${1}/prodigal_training_files | wc -l)
 
 # Get Prodigal training files
 if [ $count_p -eq 1 ]; then
 
     echo "---> Downloading prodigal training file  ..."
-    cd ${1}/${2}/prodigal_training_files
+    cd ${1}/prodigal_training_files
     git clone https://github.com/mickaelsilva/prodigal_training_files.git
 
 fi
 
 # Create serotyping dir if dont exist
-mkdir -p ${1}/${2}/serotyping_files
+mkdir -p ${1}/serotyping_files
 
-count_s=$(ls ${1}/${2}/serotyping_files | wc -l)
+count_s=$(ls ${1}/serotyping_files | wc -l)
 
 # Get Serotyping files
 if [ $count_s -eq 1 ]; then
 
     echo "---> Downloading serotyping files  ..."
-    cd ${1}/${2}/serotyping_files
+    cd ${1}/serotyping_files
     mkdir escherichia_coli
     cd escherichia_coli
     wget https://raw.githubusercontent.com/B-UMMI/seq_typing/master/serotyping_reference_sequences/escherichia_coli/1_O_type.fasta

@@ -161,7 +161,10 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
             options += "<optgroup label='Procedures'>";
 
             for (const x in results.data){
-                options +="<option>"+results.data[x].name+"</option>";
+                let data_content = '<b>' + results.data[x].name+'</b> ('+results.data[x].species+')<span' +
+                    ' class="label' +
+                    ' label-info" style="margin-left: 1%;">' + results.data[x].version + '</span>';
+                options +="<option data-content='"+data_content+"'>"+results.data[x].name+"</option>";
             }
 
             options += "</optgroup>";
@@ -186,6 +189,33 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
 
     const updateWorkflows = () => {
         workflows.get_all_workflows( (results) => {
+
+            let options = "";
+
+            options += "<optgroup label='Start Input'>" +
+                "<option>Fastq</option>+" +
+                "<option>Accession</option>" +
+                "</optgroup>";
+
+            options += "<optgroup label='Procedures'>";
+
+            for (const x in results.data){
+                let data_content = '<b>' + results.data[x].name+'</b> ('+results.data[x].species+')<span' +
+                    ' class="label' +
+                    ' label-info" style="margin-left: 1%;">' + results.data[x].version + '</span>';
+                options +="<option data-content='"+data_content+"'>"+results.data[x].name+"</option>";
+            }
+
+            options += "</optgroup>";
+
+            const selectDependencyEl = $("#select_dependency");
+
+            selectDependencyEl.empty();
+            selectDependencyEl.append(options);
+
+            const selectPickerEl = $(".selectpicker");
+            selectPickerEl.selectpicker("refresh");
+
             objects_utils.destroyTable('workflows_table');
             objects_utils.loadDataTables('workflows_table', results.data, workflows_col_defs);
         });
@@ -282,8 +312,6 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
         workflows.add_protocol_to_workflow($("#protocol_selector_load" +
             " option:selected").attr("p_id"), (results) => {
 
-            console.log(results.added_protocols);
-
             if(results.more_than_one === true){
                 modalAlert("At the moment, only one protocol can be applied" +
                     " to the workflow. We will improve this option in the" +
@@ -292,8 +320,6 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
                 });
             }
             else $scope.added_protocols = results.added_protocols;
-
-            console.log(results.added_protocols);
 
             $("#prot_default").css({display: "none"});
             $("#div_workflow_test").css({display: "block"});

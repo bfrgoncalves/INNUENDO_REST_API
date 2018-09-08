@@ -31,10 +31,10 @@ mkdir -p ${1}/${4}/classifications
 mkdir -p ${1}/${4}/legacy_metadata
 mkdir -p ${1}/${4}/core_lists
 
-if [ ! -f "${1}/legacy_profiles/profiles_Yersinia.tsv" ]; then
+if [ ! -f "${1}/${4}/legacy_profiles/profiles_Yersinia.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
-    cd ${1}/legacy_profiles
+    cd ${1}/${4}/legacy_profiles
     #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_Yersinia.tsv
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Yenterocolitica_wgMLST_alleleProfiles.tsv
     mv Yenterocolitica_wgMLST_alleleProfiles.tsv profiles_Yersinia.tsv
@@ -54,41 +54,41 @@ if [ ! -f "${1}/legacy_profiles/profiles_Yersinia.tsv" ]; then
     cd ${innuendo_dir}
 
     echo "---> Parsing mlst profiles file  ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Yersinia.tsv -g ${1}/legacy_profiles/cgMLST_list_Yersinia.txt -o ${1}/legacy_profiles/results_alleles_yersinia_wg --inverse --onlyreplace
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Yersinia.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_Yersinia.txt -o ${1}/${4}/legacy_profiles/results_alleles_yersinia_wg --inverse --onlyreplace
 
     echo "---> Extracting mlst profiles ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Yersinia.tsv -g ${1}/legacy_profiles/cgMLST_list_Yersinia.txt -o ${1}/legacy_profiles/results_alleles_yersinia_core --inverse
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Yersinia.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_Yersinia.txt -o ${1}/${4}/legacy_profiles/results_alleles_yersinia_core --inverse
 
     echo "---> Copying profiles headers files ..."
-    cp ${1}/legacy_profiles/results_alleles_yersinia_core_headers.txt ${1}/core_lists/yersinia_headers_core.txt
-    cp ${1}/legacy_profiles/results_alleles_yersinia_wg_headers.txt ${1}/core_lists/yersinia_headers_wg.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_yersinia_core_headers.txt ${1}/${4}/core_lists/yersinia_headers_core.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_yersinia_wg_headers.txt ${1}/${4}/core_lists/yersinia_headers_wg.txt
 
     echo "---> Copying initial profile files for index build ..."
-    rm ${1}/indexes/yersinia_wg_profiles.tab
-    rm ${1}/indexes/yersinia_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_yersinia_core.tsv ${1}/indexes/yersinia_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_yersinia_wg.tsv ${1}/indexes/yersinia_wg_profiles.tab
+    rm ${1}/${4}/indexes/yersinia_wg_profiles.tab
+    rm ${1}/${4}/indexes/yersinia_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_yersinia_core.tsv ${1}/${4}/indexes/yersinia_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_yersinia_wg.tsv ${1}/${4}/indexes/yersinia_wg_profiles.tab
 
     echo "---> Building profile file index ..."
-    rm ${1}/indexes/yersinia_core.idx
-    rm ${1}/indexes/yersinia_wg.idx
-    rm ${1}/indexes/yersinia_core.ids
-    rm ${1}/indexes/yersinia_wg.ids
-    cat ${1}/indexes/yersinia_core_profiles.tab | ${2}/src/main -i ${1}/indexes/yersinia_core -b
-    cat ${1}/indexes/yersinia_wg_profiles.tab | ${2}/src/main -i ${1}/indexes/yersinia_wg -b
+    rm ${1}/${4}/indexes/yersinia_core.idx
+    rm ${1}/${4}/indexes/yersinia_wg.idx
+    rm ${1}/${4}/indexes/yersinia_core.ids
+    rm ${1}/${4}/indexes/yersinia_wg.ids
+    cat ${1}/${4}/indexes/yersinia_core_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/yersinia_core -b
+    cat ${1}/${4}/indexes/yersinia_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/yersinia_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/legacy_profiles/profiles_Yersinia.tsv -c ${1}/classifications/goeBURST_cgMLST_9_133_1189_yersinia.txt -m ${1}/legacy_metadata/Yersinia_enterocolitica_metadata.txt -d yersinia -p NFP
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Yersinia.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_9_133_1189_yersinia.txt -m ${1}/${4}/legacy_metadata/Yersinia_enterocolitica_metadata.txt -d yersinia -p NFP -v ${4}
 
 fi
 
 # Prepare Salmonella data
 echo "---> Checking Salmonella enterica data  ..."
 
-if [ ! -f "${1}/legacy_profiles/profiles_Salmonella.tsv" ]; then
+if [ ! -f "${1}/${4}/legacy_profiles/profiles_Salmonella.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
-    cd ${1}/legacy_profiles
+    cd ${1}/${4}/legacy_profiles
     #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_Salmonella.tsv
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Senterica_wgMLST_alleleProfiles.tsv
     mv Senterica_wgMLST_alleleProfiles.tsv profiles_Salmonella.tsv
@@ -107,41 +107,41 @@ if [ ! -f "${1}/legacy_profiles/profiles_Salmonella.tsv" ]; then
     cd ${innuendo_dir}
 
     echo "---> Parsing mlst profiles file  ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Salmonella.tsv -g ${1}/legacy_profiles/cgMLST_list_Salmonella.txt -o ${1}/legacy_profiles/results_alleles_salmonella_wg --inverse --onlyreplace
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Salmonella.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_Salmonella.txt -o ${1}/${4}/legacy_profiles/results_alleles_salmonella_wg --inverse --onlyreplace
 
     echo "---> Extracting mlst profiles ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Salmonella.tsv -g ${1}/legacy_profiles/cgMLST_list_Salmonella.txt -o ${1}/legacy_profiles/results_alleles_salmonella_core --inverse
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Salmonella.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_Salmonella.txt -o ${1}/${4}/legacy_profiles/results_alleles_salmonella_core --inverse
 
     echo "---> Copying profiles headers files ..."
-    cp ${1}/legacy_profiles/results_alleles_salmonella_core_headers.txt ${1}/core_lists/salmonella_headers_core.txt
-    cp ${1}/legacy_profiles/results_alleles_salmonella_wg_headers.txt ${1}/core_lists/salmonella_headers_wg.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_salmonella_core_headers.txt ${1}/${4}/core_lists/salmonella_headers_core.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_salmonella_wg_headers.txt ${1}/${4}/core_lists/salmonella_headers_wg.txt
 
     echo "---> Copying initial profile files for index build ..."
-    rm ${1}/indexes/salmonella_wg_profiles.tab
-    rm ${1}/indexes/salmonella_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_salmonella_core.tsv ${1}/indexes/salmonella_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_salmonella_wg.tsv ${1}/indexes/salmonella_wg_profiles.tab
+    rm ${1}/${4}/indexes/salmonella_wg_profiles.tab
+    rm ${1}/${4}/indexes/salmonella_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_salmonella_core.tsv ${1}/${4}/indexes/salmonella_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_salmonella_wg.tsv ${1}/${4}/indexes/salmonella_wg_profiles.tab
 
     echo "---> Building profile file index ..."
-    rm ${1}/indexes/salmonella_core.idx
-    rm ${1}/indexes/salmonella_wg.idx
-    rm ${1}/indexes/salmonella_core.ids
-    rm ${1}/indexes/salmonella_wg.ids
-    cat ${1}/indexes/salmonella_core_profiles.tab | ${2}/src/main -i ${1}/indexes/salmonella_core -b
-    cat ${1}/indexes/salmonella_wg_profiles.tab | ${2}/src/main -i ${1}/indexes/salmonella_wg -b
+    rm ${1}/${4}/indexes/salmonella_core.idx
+    rm ${1}/${4}/indexes/salmonella_wg.idx
+    rm ${1}/${4}/indexes/salmonella_core.ids
+    rm ${1}/${4}/indexes/salmonella_wg.ids
+    cat ${1}/${4}/indexes/salmonella_core_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/salmonella_core -b
+    cat ${1}/${4}/indexes/salmonella_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/salmonella_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/legacy_profiles/profiles_Salmonella.tsv -c ${1}/classifications/goeBURST_cgMLST_7_338_997_salmonella.txt -m ${1}/legacy_metadata/Salmonella_enterica_metadata.txt -d salmonella -p NFP
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Salmonella.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_7_338_997_salmonella.txt -m ${1}/${4}/legacy_metadata/Salmonella_enterica_metadata.txt -d salmonella -p NFP -v ${4}
 
 fi
 
 # Prepare Escherichia coli data
 echo "---> Checking Escherichia coli data  ..."
 
-if [ ! -f "/INNUENDO/inputs/legacy_profiles/profiles_Ecoli.tsv" ]; then
+if [ ! -f "${1}/${4}/legacy_profiles/profiles_Ecoli.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
-    cd ${1}/legacy_profiles
+    cd ${1}/${4}/legacy_profiles
     #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_Ecoli.tsv
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Ecoli_wgMLST_alleleProfiles.tsv
     mv Ecoli_wgMLST_alleleProfiles.tsv profiles_Ecoli.tsv
@@ -160,41 +160,41 @@ if [ ! -f "/INNUENDO/inputs/legacy_profiles/profiles_Ecoli.tsv" ]; then
     cd ${innuendo_dir}
 
     echo "---> Parsing mlst profiles file  ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Ecoli.tsv -g ${1}/legacy_profiles/cgMLST_list_Ecoli.txt -o ${1}/legacy_profiles/results_alleles_ecoli_wg --inverse --onlyreplace
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Ecoli.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_Ecoli.txt -o ${1}/${4}/legacy_profiles/results_alleles_ecoli_wg --inverse --onlyreplace
 
     echo "---> Extracting mlst profiles ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Ecoli.tsv -g ${1}/legacy_profiles/cgMLST_list_Ecoli.txt -o ${1}/legacy_profiles/results_alleles_ecoli_core --inverse
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Ecoli.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_Ecoli.txt -o ${1}/${4}/legacy_profiles/results_alleles_ecoli_core --inverse
 
     echo "---> Copying profiles headers files ..."
-    cp ${1}/legacy_profiles/results_alleles_ecoli_core_headers.txt ${1}/core_lists/ecoli_headers_core.txt
-    cp ${1}/legacy_profiles/results_alleles_ecoli_wg_headers.txt ${1}/core_lists/ecoli_headers_wg.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_ecoli_core_headers.txt ${1}/${4}/core_lists/ecoli_headers_core.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_ecoli_wg_headers.txt ${1}/${4}/core_lists/ecoli_headers_wg.txt
 
     echo "---> Copying initial profile files for index build ..."
-    rm ${1}/indexes/ecoli_wg_profiles.tab
-    rm ${1}/indexes/ecoli_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_ecoli_core.tsv ${1}/indexes/ecoli_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_ecoli_wg.tsv ${1}/indexes/ecoli_wg_profiles.tab
+    rm ${1}/${4}/indexes/ecoli_wg_profiles.tab
+    rm ${1}/${4}/indexes/ecoli_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_ecoli_core.tsv ${1}/${4}/indexes/ecoli_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_ecoli_wg.tsv ${1}/${4}/indexes/ecoli_wg_profiles.tab
 
     echo "---> Building profile file index ..."
-    rm ${1}/indexes/ecoli_core.idx
-    rm ${1}/indexes/ecoli_wg.idx
-    rm ${1}/indexes/ecoli_core.ids
-    rm ${1}/indexes/ecoli_wg.ids
-    cat ${1}/indexes/ecoli_core_profiles.tab | ${2}/src/main -i ${1}/indexes/ecoli_core -b
-    cat ${1}/indexes/ecoli_wg_profiles.tab | ${2}/src/main -i ${1}/indexes/ecoli_wg -b
+    rm ${1}/${4}/indexes/ecoli_core.idx
+    rm ${1}/${4}/indexes/ecoli_wg.idx
+    rm ${1}/${4}/indexes/ecoli_core.ids
+    rm ${1}/${4}/indexes/ecoli_wg.ids
+    cat ${1}/${4}/indexes/ecoli_core_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/ecoli_core -b
+    cat ${1}/${4}/indexes/ecoli_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/ecoli_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/legacy_profiles/profiles_Ecoli.tsv -c ${1}/classifications/goeBURST_FULL_8_112_793_ecoli.txt -m ${1}/legacy_metadata/Escherichia_coli_metadata.txt -d ecoli -p NFP
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Ecoli.tsv -c ${1}/${4}/classifications/goeBURST_FULL_8_112_793_ecoli.txt -m ${1}/${4}/legacy_metadata/Escherichia_coli_metadata.txt -d ecoli -p NFP -v ${4}
 
 fi
 
 # Prepare Campylobacter jejuni/coli data
 echo "---> Checking Campylobacter jejuni data  ..."
 
-if [ ! -f "/INNUENDO/inputs/legacy_profiles/profiles_Cjejuni.tsv" ]; then
+if [ ! -f "${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
-    cd ${1}/legacy_profiles
+    cd ${1}/${4}/legacy_profiles
     #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_CcoliCjejuni.tsv
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Cjejuni_wgMLST_alleleProfiles.tsv
     mv Cjejuni_wgMLST_alleleProfiles.tsv profiles_Cjejuni.tsv
@@ -213,30 +213,30 @@ if [ ! -f "/INNUENDO/inputs/legacy_profiles/profiles_Cjejuni.tsv" ]; then
     cd ${innuendo_dir}
 
     echo "---> Parsing mlst profiles file  ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Cjejuni.tsv -g ${1}/legacy_profiles/cgMLST_list_cjejuni.tsv -o ${1}/legacy_profiles/results_alleles_campy_wg --inverse --onlyreplace
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_cjejuni.tsv -o ${1}/${4}/legacy_profiles/results_alleles_campy_wg --inverse --onlyreplace
 
     echo "---> Extracting mlst profiles ..."
-    python extract_core_from_wg.py -i ${1}/legacy_profiles/profiles_Cjejuni.tsv -g ${1}/legacy_profiles/cgMLST_list_cjejuni.tsv -o ${1}/legacy_profiles/results_alleles_campy_core --inverse
+    python extract_core_from_wg.py -i ${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv -g ${1}/${4}/legacy_profiles/cgMLST_list_cjejuni.tsv -o ${1}/${4}/legacy_profiles/results_alleles_campy_core --inverse
 
     echo "---> Copying profiles headers files ..."
-    cp ${1}/legacy_profiles/results_alleles_campy_core_headers.txt ${1}/core_lists/campy_headers_core.txt
-    cp ${1}/legacy_profiles/results_alleles_campy_wg_headers.txt ${1}/core_lists/campy_headers_wg.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_campy_core_headers.txt ${1}/${4}/core_lists/campy_headers_core.txt
+    cp ${1}/${4}/legacy_profiles/results_alleles_campy_wg_headers.txt ${1}/${4}/core_lists/campy_headers_wg.txt
 
     echo "---> Copying initial profile files for index build ..."
-    rm ${1}/indexes/campy_wg_profiles.tab
-    rm ${1}/indexes/campy_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_campy_core.tsv ${1}/indexes/campy_core_profiles.tab
-    cp ${1}/legacy_profiles/results_alleles_campy_wg.tsv ${1}/indexes/campy_wg_profiles.tab
+    rm ${1}/${4}/indexes/campy_wg_profiles.tab
+    rm ${1}/${4}/indexes/campy_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_campy_core.tsv ${1}/${4}/indexes/campy_core_profiles.tab
+    cp ${1}/${4}/legacy_profiles/results_alleles_campy_wg.tsv ${1}/${4}/indexes/campy_wg_profiles.tab
 
     echo "---> Building profile file index ..."
-    rm ${1}/indexes/campy_core.idx
-    rm ${1}/indexes/campy_wg.idx
-    rm ${1}/indexes/campy_core.ids
-    rm ${1}/indexes/campy_wg.ids
-    cat ${1}/indexes/campy_core_profiles.tab | ${2}/src/main -i ${1}/indexes/campy_core -b
-    cat ${1}/indexes/campy_wg_profiles.tab | ${2}/src/main -i ${1}/indexes/campy_wg -b
+    rm ${1}/${4}/indexes/campy_core.idx
+    rm ${1}/${4}/indexes/campy_wg.idx
+    rm ${1}/${4}/indexes/campy_core.ids
+    rm ${1}/${4}/indexes/campy_wg.ids
+    cat ${1}/${4}/indexes/campy_core_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/campy_core -b
+    cat ${1}/${4}/indexes/campy_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/campy_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/legacy_profiles/profiles_Cjejuni.tsv -c ${1}/classifications/goeBURST_cgMLST_4_59_292_campy.txt -m ${1}/legacy_metadata/Campylobacter_jejuni_metadata.txt -d campylobacter -p NFP
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_4_59_292_campy.txt -m ${1}/${4}/legacy_metadata/Campylobacter_jejuni_metadata.txt -d campylobacter -p NFP -v ${4}
 
 fi

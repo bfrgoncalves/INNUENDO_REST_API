@@ -1427,7 +1427,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 console.log(strainNames_to_pipelinesNames[strain_data[counter]['strainID']])
                 console.log(pipelinesAndDependency[proc_value]);
 
-                if (pipelinesAndDependency[proc_value] !== "None" && pipelinesAndDependency[proc_value] !== null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])) {
+                let notInDependencies = false;
+
+                for (const workflow of strainNames_to_pipelinesNames[strain_data[counter]['strainID']]) {
+                    if (workflow.split("--")[0] === pipelinesAndDependency[proc_value]) {
+                        notInDependencies = true;
+                        break;
+
+                    }
+                }
+
+                if (pipelinesAndDependency[proc_value] !== "None" && pipelinesAndDependency[proc_value] !== null && !notInDependencies) {
                     needs_dependency = true;
 
                     // Check if input type is Accession

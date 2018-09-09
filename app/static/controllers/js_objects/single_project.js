@@ -1430,6 +1430,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 let inDependencies = false;
 
                 for (const workflow of strainNames_to_pipelinesNames[strain_data[counter]['strainID']]) {
+                    console.log(workflow, pipelinesAndDependency[proc_value]);
                     if (workflow.split("--")[0] === pipelinesAndDependency[proc_value]) {
                         inDependencies = true;
                         break;

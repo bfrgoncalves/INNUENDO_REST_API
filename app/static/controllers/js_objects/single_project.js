@@ -1424,6 +1424,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     applied_dependencies[strain_data[counter]['strainID']] = [];
                 }
 
+                console.log(strainNames_to_pipelinesNames[strain_data[counter]['strainID']])
+                console.log(pipelinesAndDependency[proc_value]);
+
                 if (pipelinesAndDependency[proc_value] !== "None" && pipelinesAndDependency[proc_value] !== null && !strainNames_to_pipelinesNames[strain_data[counter]['strainID']].includes(pipelinesAndDependency[proc_value])) {
                     needs_dependency = true;
 
@@ -1442,7 +1445,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     }
                     // In case not having the required dependencies
                     else {
-                        dependencies_check.push([proc_value, pipelinesAndDependency[proc_value]]);
+                        dependencies_check.push([proc_value.split("--")[0], pipelinesAndDependency[proc_value]]);
 
                         if (counter === strain_data.length - 1) {
                             let message;

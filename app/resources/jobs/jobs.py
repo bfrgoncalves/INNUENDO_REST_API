@@ -611,29 +611,6 @@ class Job_results(Resource):
         return report.report_data
 
 
-# Load job results and classify it
-class Job_classify_chewbbaca(Resource):
-    """
-    Class to classify chewbbaca
-    """
-
-    def get(self):
-        """Classify profile
-
-        Classify a profile by giving its job_id
-
-        (DEPRECATED)
-
-        Returns
-        -------
-
-        """
-
-        args = job_classify_chewbbaca_post_parser.parse_args()
-        database_processor.classify_profile(args.job_id,
-                                            args.database_to_include)
-
-
 # Load job results to display on graphical interface
 class Job_Result_Download(Resource):
 

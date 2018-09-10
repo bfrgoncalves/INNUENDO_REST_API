@@ -39,7 +39,7 @@ from resources.ngs_onto.ngs_onto_processes import \
     NGSOnto_ProcessListPipelineResource, NGSOnto_ProcessResource, \
     NGSOnto_ProcessJobID, NGSOnto_ProcessOutputResource
 from resources.jobs.jobs import Job_queue, Job_results, Job_Result_Download, \
-    Job_classify_chewbbaca, Job_Result_Download_click, Job_Reports, \
+    Job_Result_Download_click, Job_Reports, \
     NextflowLogs, Job_Report_Download_click, FlowcraftInspect
 from resources.phyloviz.phyloviz import PHYLOViZResource, TreeResource, \
     TreeUserResource, PHYLOViZJobResource, getProfilesResource, \
@@ -150,8 +150,6 @@ api.add_resource(Job_Result_Download_click,
 api.add_resource(Job_Report_Download_click, '/api/v1.0/jobs/reports/download/')
 api.add_resource(NextflowLogs, '/api/v1.0/jobs/logs/nextflow/')
 api.add_resource(FlowcraftInspect, '/api/v1.0/jobs/inspect/')
-
-api.add_resource(Job_classify_chewbbaca, '/api/v1.0/jobs/classify/')
 
 ################################# PHYLOVIZ REQUESTS ###########################
 

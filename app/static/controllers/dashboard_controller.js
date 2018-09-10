@@ -2,27 +2,6 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
 
     let pg_requests = Requests("", "", http);
 
-    $scope.loadDashboard = () => {
-        performChecks();
-    };
-
-    $scope.performChecks = () => {
-        performChecks();
-    };
-
-    $scope.changeState = () => {
-        pg_requests.change_state((response) => {
-
-            if (response.data == "true") {
-                $("#lockButton").html('<i class="fa fa-lock" aria-hidden="true" > Lock Platform</i>')
-            }
-            else {
-                $("#lockButton").html('<i class="fa fa-unlock" aria-hidden="true" > Unlock Platform</i>')
-            }
-        });
-    };
-
-
     const performChecks = () => {
 
         pg_requests.check_ldap((response) => {
@@ -93,4 +72,23 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
 
     };
 
+    $scope.loadDashboard = () => {
+        performChecks();
+    };
+
+    $scope.performChecks = () => {
+        performChecks();
+    };
+
+    $scope.changeState = () => {
+        pg_requests.change_state((response) => {
+
+            if (response.data == "true") {
+                $("#lockButton").html('<i class="fa fa-lock" aria-hidden="true" > Lock Platform</i>')
+            }
+            else {
+                $("#lockButton").html('<i class="fa fa-unlock" aria-hidden="true" > Unlock Platform</i>')
+            }
+        });
+    };
 });

@@ -249,13 +249,13 @@ class ProjectListUserResource(Resource):
                           name=args.name,
                           timestamp=datetime.datetime.utcnow())
         if not project:
-            abort(404, message="An error as occurried when uploading the data"
-                  .format(id))
+            abort(404, message="An error as occurried when uploading the data")
 
         try:
             db.session.add(project)
             db.session.commit()
         except Exception as e:
+            print e
             abort(409, message="Project name already exists.")
         return project, 201
 

@@ -408,9 +408,7 @@ class CombinedReportsResource(Resource):
                                            name=args.report_name,
                                            description=args.report_description)
             if not combined_report:
-                abort(404,
-                      message="An error as occurried when uploading the data"
-                      .format(id))
+                abort(404, message="An error as occurried when uploading the data")
 
             reports_to_send.append(
                 {'name': combined_report.name,

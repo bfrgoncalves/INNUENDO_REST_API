@@ -1,7 +1,7 @@
 from app import dbconAg,dedicateddbconAg
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from flask_security import current_user, login_required
-from config import obo,localNSpace,dcterms
+from flask_security import login_required
+from config import localNSpace,dcterms
 from franz.openrdf.vocabulary.rdf import RDF
 from app.utils.queryParse2Json import parseAgraphStatementsRes
 

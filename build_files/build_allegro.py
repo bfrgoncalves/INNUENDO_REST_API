@@ -1,4 +1,4 @@
-from config import AG_HOST, AG_PORT, AG_REPOSITORY, AG_USER, AG_PASSWORD
+from config import AG_HOST, AG_PORT, AG_USER, AG_PASSWORD
 from franz.openrdf.sail.allegrographserver import AllegroGraphServer
 from franz.openrdf.repository.repository import Repository
 from franz.openrdf.rio.rdfformat import RDFFormat

@@ -1,6 +1,6 @@
 from app import db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #filters data according to some fields
-from flask import jsonify, request
+from flask import request
 import json
 
 from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, \

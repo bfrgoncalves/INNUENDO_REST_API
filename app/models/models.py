@@ -3,13 +3,11 @@ import ldap.modlist as modlist
 from app import db
 from flask_security import UserMixin, RoleMixin
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
-from config import LDAP_PROVIDER_URL, baseDN, LDAP_ADMIN_NAME, LDAP_ADMIN_PASS
+from config import LDAP_PROVIDER_URL, baseDN, LDAP_ADMIN_PASS
 from passlib.hash import ldap_md5
 
-'''
-Models:
-    - Defines every model to be used on the postgres database
-'''
+'''Models:
+    - Defines every model to be used on the postgres database'''
 
 # Secondary role table
 roles_users = db.Table('roles_users',
@@ -128,14 +126,6 @@ class User(db.Model, UserMixin):
             conn.simple_bind_s("cn="+email+",ou=users,"+baseDN, password)
         except Exception as e:
             return False
-
-        #conn.unbind()
-
-        '''try:
-            conn.simple_bind_s("cn=" + LDAP_ADMIN_NAME + "," + baseDN, LDAP_ADMIN_PASS)
-        except Exception as e:
-            print e
-            return False'''
 
         search_filter = "uid="+email
         entry = ""

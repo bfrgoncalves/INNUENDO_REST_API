@@ -1,16 +1,13 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_security import login_required, current_user, utils, roles_required
 import json
-from app import app, db
+from app import app
 from config import FILES_ENTRY_POINT, ADMIN_GID, REPORTS_URL, \
     NEXTFLOW_TAGS, INSPECT_ROUTE
-from app.models.models import Platform
 
 
-'''
-Views:
-    - Define the index route of the application
-'''
+'''Views:
+    - Define the index route of the application'''
 
 
 def getID(current_user):

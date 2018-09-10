@@ -4,6 +4,10 @@
  */
 $(document).ready( () => {
 
+    let trigger = $(".hamburger"),
+        overlay = $(".overlay"),
+        isClosed = false;
+
     const hamburger_cross = () => {
 
         if (isClosed === true) {
@@ -18,10 +22,6 @@ $(document).ready( () => {
             isClosed = true;
         }
     };
-
-    var trigger = $(".hamburger"),
-        overlay = $(".overlay"),
-        isClosed = false;
 
     trigger.click( () => {
         hamburger_cross();

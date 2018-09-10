@@ -1,5 +1,5 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, \
+from flask_restful import Resource, reqparse, abort, fields, \
     marshal_with  # filters data according to some fields
 
 import json
@@ -19,9 +19,7 @@ protocol_post_parser.add_argument('steps', dest='steps', type=str,
 protocol_post_parser.add_argument('version', dest='version', type=str,
                                   required=True, help="Protocol version")
 
-"""
-STEPS -> Parameters which define the protocol
-"""
+"""STEPS -> Parameters which define the protocol"""
 
 # Defining get arguments parser
 protocol_get_parser = reqparse.RequestParser()

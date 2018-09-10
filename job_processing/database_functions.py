@@ -1,8 +1,7 @@
 from app import db
 import random
 import string
-from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, \
-    Core_Schemas, Report
+from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
 import fast_mlst_functions
 import datetime
 import subprocess
@@ -63,7 +62,6 @@ def get_profiles(strain_ids, database_name, get_json):
     wg_profle_path = "./chewbbaca_database_profiles/query_files/" + \
                        file_name + "_wg.tab"
 
-    to_replace = allele_classes_to_ignore
     firstTime = True
     strain_ids = strain_ids.split(",")
     profiles = [[], []]
@@ -185,7 +183,6 @@ def classify_profile(allcall_results, database_name, sample, job_id, schemaVersi
     core_profile = []
     wg_profile = []
     count_core = 0
-    count_entrou = 0
 
     for i, header in enumerate(headers):
         strain_allele_profile[header] = profile[i]
@@ -408,6 +405,7 @@ def classify_profile(allcall_results, database_name, sample, job_id, schemaVersi
             db.session.commit()
 
         except Exception as e:
+            print e
             print "ERRO"
 
         print "ADDED TO DB..."

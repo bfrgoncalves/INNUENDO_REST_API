@@ -1,8 +1,8 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Resource, reqparse, abort, fields, marshal_with
 
 from app.models.models import Specie, Campylobacter, Ecoli, Salmonella, Yersinia
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required
 
 # Defining post arguments parser
 specie_post_parser = reqparse.RequestParser()

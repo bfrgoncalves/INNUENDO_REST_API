@@ -6,12 +6,9 @@ import datetime
 
 ############################################ NOT BEING USED ####################
 
-"""
-Processes are being defined in the ngsonto resources
+"""Processes are being defined in the ngsonto resources
 
-DEPRECATED
-
-"""
+DEPRECATED"""
 
 # Defining post arguments parser
 process_post_parser = reqparse.RequestParser()

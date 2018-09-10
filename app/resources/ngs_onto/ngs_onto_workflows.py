@@ -1,5 +1,5 @@
 from app import dbconAg
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Resource, reqparse, abort, fields, marshal_with
 from app.utils.queryParse2Json import parseAgraphStatementsRes,parseAgraphQueryRes
 from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
 from franz.openrdf.vocabulary.rdf import RDF

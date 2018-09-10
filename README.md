@@ -1,4 +1,7 @@
 # INNUENDO
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fffb6e32a564841a1dfb9230616d5f6)](https://app.codacy.com/app/bfrgoncalves/INNUENDO_REST_API?utm_source=github.com&utm_medium=referral&utm_content=bfrgoncalves/INNUENDO_REST_API&utm_campaign=Badge_Grade_Dashboard)
+
 #### A novel cross-sectorial platform for the integration of genomics in surveillance of foodborne pathogens
 
 In this repository you will find all the necessary information regarding platform architecture, installation and source code.

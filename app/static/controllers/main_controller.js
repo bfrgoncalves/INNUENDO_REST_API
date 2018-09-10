@@ -51,26 +51,26 @@ let http = "";
 
 const modalAlert = (text, header, callback) => {
 
-    const buttonSub = $('#buttonSub');
-    const modalBodyEl = $('#modalAlert .modal-body');
+    const buttonSub = $("#buttonSub");
+    const modalBodyEl = $("#modalAlert .modal-body");
 
-    $('#buttonCancelAlert').off("click");
+    $("#buttonCancelAlert").off("click");
 
-    $('#modalAlert .modal-title').empty();
-    $('#modalAlert .modal-title').append("<p>" + header + "</p>");
+    $("#modalAlert .modal-title").empty();
+    $("#modalAlert .modal-title").append("<p>" + header + "</p>");
 
     modalBodyEl.empty();
     modalBodyEl.append("<p>" + text + "</p>");
 
     buttonSub.off("click").on("click", () => {
-        $('#modalAlert').modal("hide");
+        $("#modalAlert").modal("hide");
 
         setTimeout(() => {
             return callback();
         }, 400);
     });
 
-    $('#modalAlert').modal("show");
+    $("#modalAlert").modal("show");
 
 };
 
@@ -146,7 +146,7 @@ const getNavbarMessages = () => {
                 '<p class="notification-desc">' + message.message +
                 '</p>' +
                 '<div class="notification-meta"><small class="timestamp">' +
-                message.timestamp + '</small></div></div></div></li>';
+                message.timestamp + "</small></div></div></div></li>";
 
         }
 

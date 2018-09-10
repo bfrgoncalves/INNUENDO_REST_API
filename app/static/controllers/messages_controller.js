@@ -156,8 +156,8 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
 
             if (parseInt(messageid) === message.id) {
                 $("#form_lastname").val("RE: " + message.title);
-                $('#username_dropdown').selectpicker('val', message.messageFrom);
-                $('.selectpicker').selectpicker('render');
+                $("#username_dropdown").selectpicker("val", message.messageFrom);
+                $(".selectpicker").selectpicker("render");
             }
         }
     };

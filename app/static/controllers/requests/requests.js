@@ -6,8 +6,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_ldap: (callback) => {
         	const req = {
-		        url:'api/v1.0/checks/ldap',
-		        method:'GET'
+		        url: "api/v1.0/checks/ldap",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -19,8 +19,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_db_general: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/db/general',
-		        method:'GET'
+		        url:"api/v1.0/checks/db/general",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -32,8 +32,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_db_mlst: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/db/mlst',
-		        method:'GET'
+		        url:"api/v1.0/checks/db/mlst",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -45,8 +45,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_allegro: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/allegro',
-		        method:'GET'
+		        url:"api/v1.0/checks/allegro",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -58,8 +58,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_authentication: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/authentication',
-		        method:'GET',
+		        url:"api/v1.0/checks/authentication",
+		        method:"GET",
 				params: {
 		        	userId: CURRENT_USER_ID
 				}
@@ -74,8 +74,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_controller: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/controller',
-		        method:'GET'
+		        url:"api/v1.0/checks/controller",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -87,8 +87,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_phyloviz: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/phyloviz',
-		        method:'GET'
+		        url:"api/v1.0/checks/phyloviz",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -100,8 +100,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		check_state: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/state',
-		        method:'GET'
+		        url:"api/v1.0/checks/state",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -113,8 +113,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		change_state: (callback) => {
 			const req = {
-		        url:'api/v1.0/checks/state',
-		        method:'PUT'
+		        url:"api/v1.0/checks/state",
+		        method:"PUT"
 		    };
 
 		    $http(req).then( (response) => {
@@ -128,8 +128,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		download_accession: (username, accession_numbers, callback) => {
 
 			const req = {
-		        url:'api/v1.0/downloads/',
-		        method:'POST',
+		        url:"api/v1.0/downloads/",
+		        method:"POST",
 		        data: { accession_numbers: accession_numbers }
 		    };
 
@@ -142,8 +142,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		get_user_mails: (callback) => {
 			const req = {
-		        url:'api/v1.0/users/email/',
-		        method:'GET'
+		        url:"api/v1.0/users/email/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -155,8 +155,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		get_statistics: (callback) => {
 			const req = {
-		        url:'api/v1.0/strains/statistics/',
-		        method:'GET'
+		        url:"api/v1.0/strains/statistics/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -168,8 +168,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		get_messages: (numberofmessages, callback) => {
 			const req = {
-		        url:'api/v1.0/user/messages/',
-		        method:'GET',
+		        url:"api/v1.0/user/messages/",
+		        method:"GET",
 				params: {
 		        	numberofmessages: numberofmessages
 				}
@@ -184,8 +184,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		send_messages: (data, callback) => {
 			const req = {
-		        url:'api/v1.0/user/messages/',
-		        method:'POST',
+		        url:"api/v1.0/user/messages/",
+		        method:"POST",
 				data: data
 		    };
 
@@ -198,8 +198,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		delete_messages: (messageid, callback) => {
 			const req = {
-		        url:'api/v1.0/user/messages/',
-		        method:'DELETE',
+		        url:"api/v1.0/user/messages/",
+		        method:"DELETE",
 				params: {
 		        	messageid: messageid
 				}
@@ -214,8 +214,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		mark_as_read: (messageid, callback) => {
 			const req = {
-		        url:'api/v1.0/user/messages/',
-		        method:'PUT',
+		        url:"api/v1.0/user/messages/",
+		        method:"PUT",
 				params: {
 		        	messageid: messageid,
 					status: "read"
@@ -231,8 +231,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		get_templates: (callback) => {
 			const req = {
-		        url:'api/v1.0/user/messages/templates/',
-		        method:'GET'
+		        url:"api/v1.0/user/messages/templates/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -245,8 +245,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_users: (callback) => {
 
 			const req = {
-		        url:'api/v1.0/users/',
-		        method:'GET'
+		        url:"api/v1.0/users/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -261,8 +261,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		check_download_accession_status: (file_name, accession_numbers, callback) => {
 
 			const req = {
-		        url:'api/v1.0/downloads/',
-		        method:'GET',
+		        url:"api/v1.0/downloads/",
+		        method:"GET",
 		        params: { accession_numbers: file_name }
 		    };
 
@@ -276,9 +276,9 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 			console.log(protocol_object);
 			const req = {
-		        url:'api/v1.0/protocols/',
-		        method:'POST',
-		        headers: {'Content-Type': 'application/json'},
+		        url:"api/v1.0/protocols/",
+		        method:"POST",
+		        headers: {"Content-Type": "application/json"},
 		        data: {
 		        	steps: protocol_object,
 					name: protocol_object.name,
@@ -295,8 +295,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_protocols_of_type: (selectedType, callback) => {
 
 			const req = {
-		        url:'api/v1.0/protocols/',
-		        method:'GET',
+		        url:"api/v1.0/protocols/",
+		        method:"GET",
 		        params: { type: selectedType }
 		    };
 
@@ -309,8 +309,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_protocols_by_ids: (ids, workflow_entry, callback) => {
 
 			const req = {
-		        url:'api/v1.0/protocols/ids',
-		        method:'GET',
+		        url:"api/v1.0/protocols/ids",
+		        method:"GET",
 		        params: { protocol_ids: ids }
 		    };
 
@@ -330,10 +330,10 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 			const selectDependency = $( "#select_dependency option:selected" );
 
 			const req = {
-		        url:'api/v1.0/workflows/',
-		        method:'POST',
-		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        data: $('#new_workflow_form').serialize() + "&classifier=" + selClassEl.text() + "&species=" + workflowSpecieEl.text() + "&dependency=" + selectDependency.text()
+		        url:"api/v1.0/workflows/",
+		        method:"POST",
+		        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+		        data: $("#new_workflow_form").serialize() + "&classifier=" + selClassEl.text() + "&species=" + workflowSpecieEl.text() + "&dependency=" + selectDependency.text()
 		    };
 
 		    $http(req).then( (response) => {
@@ -347,8 +347,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_species_names: (callback) => {
 
 			const req = {
-	            url:'api/v1.0/species/',
-	            method:'GET'
+	            url:"api/v1.0/species/",
+	            method:"GET"
 	        };
 
 	        $http(req).then((response) => {
@@ -361,8 +361,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_all_workflows: (callback) => {
 
 			const req = {
-	            url:'api/v1.0/workflows/all/',
-	            method:'GET'
+	            url:"api/v1.0/workflows/all/",
+	            method:"GET"
 	        };
 
 	        $http(req).then( (response) => {
@@ -375,8 +375,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		change_workflow_state: (selected_data, callback) => {
 
 			const req = {
-	            url:'api/v1.0/workflows/availability/',
-	            method:'PUT',
+	            url:"api/v1.0/workflows/availability/",
+	            method:"PUT",
 	            params:
 		        {
 		        	identifier: String(selected_data[0]),
@@ -398,15 +398,15 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 			if(is_others){
 				req = {
-	                url:'api/v1.0/projects/species/' + species_id,
-	                method:'GET',
+	                url:"api/v1.0/projects/species/" + species_id,
+	                method:"GET",
 	                params: { get_others: true }
 	            }
 			}
 			else{
 				req = {
-	                url:'api/v1.0/projects/species/' + species_id,
-	                method:'GET'
+	                url:"api/v1.0/projects/species/" + species_id,
+	                method:"GET"
 	            }
 			}
 
@@ -419,9 +419,9 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		add_project_to_database: (callback) => {
 
 			const req = {
-		        url:'api/v1.0/projects/',
-		        method:'POST',
-		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		        url:"api/v1.0/projects/",
+		        method:"POST",
+		        headers: {"Content-Type": "application/x-www-form-urlencoded"},
 		        data: $('#new_project_form').serialize()
 		    };
 
@@ -434,8 +434,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		delete_project_from_database: (project_id, callback) => {
 
 			const req = {
-	            url:'api/v1.0/projects/' + project_id,
-	            method:'DELETE'
+	            url:"api/v1.0/projects/" + project_id,
+	            method:"DELETE"
 	        };
 
 	        $http(req).then( (response) => {
@@ -447,8 +447,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		load_project: (project_id, callback) => {
 
 			const req = {
-	            url:'api/v1.0/projects/' + project_id,
-	            method:'GET'
+	            url:"api/v1.0/projects/" + project_id,
+	            method: "GET"
 	        };
 
 	        $http(req).then( (response) => {
@@ -463,8 +463,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_user_reports: (callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/reports/', //Defined at utils.js
-		        method:'GET'
+		        url: "api/v1.0/reports/", //Defined at utils.js
+		        method: "GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -477,9 +477,9 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_project_reports: (project_id, pipelines_to_check, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/reports/project', //Defined at utils.js
-		        method:'GET',
-		        params:{'project_id': project_id, 'pipelines_to_check':pipelines_to_check}
+		        url: "api/v1.0/reports/project", //Defined at utils.js
+		        method: "GET",
+		        params:{"project_id": project_id, "pipelines_to_check":pipelines_to_check}
 		    };
 
 		    $http(req).then( (response) => {
@@ -492,9 +492,9 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_reports_by_strain: (strain_id_to_search, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/reports/strain', //Defined at utils.js
-		        method:'GET',
-		        params:{'strain_id': strain_id_to_search}
+		        url: "api/v1.0/reports/strain", //Defined at utils.js
+		        method:"GET",
+		        params:{"strain_id": strain_id_to_search}
 		    };
 
 		    $http(req).then( (response) => {
@@ -507,8 +507,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_multiple_user_reports: (job_ids, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/reports/', //Defined at utils.js
-		        method:'GET',
+		        url: "api/v1.0/reports/", //Defined at utils.js
+		        method:"GET",
 		        params: {
 		        	job_ids:job_ids.toString()
 		        }
@@ -524,10 +524,10 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		save_reports: (job_ids, strain_names, CURRENT_SPECIES_ID, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/reports/combined', //Defined at utils.js
-		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        method:'POST',
-		        data: $('#save_report_form').serialize() + '&job_ids=' + job_ids + '&strain_ids=' + strain_names +'&species_id='+ CURRENT_SPECIES_ID
+		        url: "api/v1.0/reports/combined", //Defined at utils.js
+		        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+		        method:"POST",
+		        data: $("#save_report_form").serialize() + "&job_ids=" + job_ids + "&strain_ids=" + strain_names +"&species_id="+ CURRENT_SPECIES_ID
 		    };
 
 		    $http(req).then( (response) => {
@@ -540,16 +540,14 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_saved_user_reports: (CURRENT_SPECIES_ID, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/reports/combined', //Defined at utils.js
-		        method:'GET',
+		        url: "api/v1.0/reports/combined", //Defined at utils.js
+		        method:"GET",
 		        params:{"species_id": CURRENT_SPECIES_ID}
 		    };
 
 		    $http(req).then( (response) => {
-		    	//console.log(response);
 		    	callback(response);
 	        }, (response) => {
-	        	//console.log(response);
 	            callback(response);
 		    });
 
@@ -557,8 +555,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_user_trees: (CURRENT_SPECIES_ID, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/phyloviz/trees', //Defined at utils.js
-		        method:'GET',
+		        url: "api/v1.0/phyloviz/trees", //Defined at utils.js
+		        method:"GET",
 		        params:{"species_id": CURRENT_SPECIES_ID}
 		    };
 
@@ -572,8 +570,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		delete_combined_report: (report_name, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/reports/combined', //Defined at utils.js
-		        method:'DELETE',
+		        url: "api/v1.0/reports/combined", //Defined at utils.js
+		        method:"DELETE",
 		        params: {
 		        	"report_name": report_name
 		        }
@@ -590,8 +588,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_saved_report: (callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/reports/combined/show', //Defined at utils.js
-		        method:'GET',
+		        url: "api/v1.0/reports/combined/show", //Defined at utils.js
+		        method:"GET",
 		    };
 
 
@@ -607,8 +605,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_workflows: (classifier, species, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/workflows/', //Defined at utils.js
-		        method:'GET',
+		        url: "api/v1.0/workflows/", //Defined at utils.js
+		        method:"GET",
 		        params:{"classifier": classifier, "species":species}
 		    };
 
@@ -623,9 +621,9 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		    const req = {
 		        url: CURRENT_PROJECT.pipelines,
-		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        method:'POST',
-		        data:$('#' + pipelineformID).serialize()
+		        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+		        method:"POST",
+		        data:$("#" + pipelineformID).serialize()
 		    };
 
 		    $http(req).then( (response) => {
@@ -639,8 +637,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_strains: (CURRENT_SPECIES_ID, from_user, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/strains/',
-		        method:'GET',
+		        url: "api/v1.0/strains/",
+		        method:"GET",
 		        params:
 		        {
 		        	speciesID: CURRENT_SPECIES_ID,
@@ -659,8 +657,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		update_strain: (strain_id, key, value, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/strains/',
-		        method:'PUT',
+		        url: "api/v1.0/strains/",
+		        method:"PUT",
 		        params:
 		        {
 		        	strain_id: strain_id,
@@ -680,8 +678,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_strain_by_name: (strain_name, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/strains/' + strain_name,
-		        method:'GET'
+		        url: "api/v1.0/strains/" + strain_name,
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -698,14 +696,14 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 			if (strain_id === null){
 				req = {
-			        url: 'api/v1.0/projects/'+project_id+'/pipelines/',
-			        method:'GET'
+			        url: "api/v1.0/projects/"+project_id+"/pipelines/",
+			        method:"GET"
 			    }
 			}
 			else{
 				req = {
-			        url: 'api/v1.0/projects/'+project_id+'/pipelines/',
-			        method:'GET',
+			        url: "api/v1.0/projects/"+project_id+"/pipelines/",
+			        method:"GET",
 			        params:{ strain_id_all:strain_id}
 			    }
 			}
@@ -720,8 +718,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_public_strains_applied_pipelines: (callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
-		        method:'GET',
+		        url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/pipelines/",
+		        method:"GET",
 		        params:{all:true}
 		    };
 
@@ -735,8 +733,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		remove_pipeline_from_project: (strain_id, tag_remove, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
-		        method:'DELETE',
+		        url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/pipelines/",
+		        method:"DELETE",
 		        params: {
 		        	"strain_id": strain_id,
 		        	tag_remove: tag_remove
@@ -753,8 +751,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		change_pipeline_from_project: (strain_id, tag_remove, pipeline_to_use, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
-		        method:'PUT',
+		        url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/pipelines/",
+		        method:"PUT",
 		        params: {
 		        	"strain_id": strain_id,
 		        	tag_remove: tag_remove
@@ -771,8 +769,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_quota: (callback) => {
 
 			const req = {
-	            url: 'api/v1.0/user/quota/',
-	            method:'GET',
+	            url: "api/v1.0/user/quota/",
+	            method:"GET",
 				params: {
 	                project_id: CURRENT_PROJECT_ID
 	            }
@@ -789,8 +787,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		lock_project: (project_id, callback) => {
 
 			const req = {
-	            url: 'api/v1.0/projects/' + project_id,
-	            method:'PUT',
+	            url: "api/v1.0/projects/" + project_id,
+	            method:"PUT",
 				params: {
 	                lock: "lock",
 					project_id: project_id
@@ -807,8 +805,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		},
 		delete_fastq: (selectedNames, callback) => {
 			const req = {
-	            url: 'api/v1.0/strains/fastq/',
-	            method:'DELETE',
+	            url: "api/v1.0/strains/fastq/",
+	            method:"DELETE",
 				params: {
 	                strain_names: selectedNames.join(","),
 					speciesID: CURRENT_SPECIES_ID
@@ -824,8 +822,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		},
         sendCustomMail: (recipients, title, body, callback) => {
 		    const req = {
-	            url: 'api/v1.0/mail/',
-	            method:'POST',
+	            url: "api/v1.0/mail/",
+	            method:"POST",
 	            data: {
 	                recipients: recipients.join(","),
 	                title:title,
@@ -842,8 +840,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         },
         sendMail: (recipients, template, info) => {
 		    const req = {
-	            url: 'api/v1.0/mail/',
-	            method:'POST',
+	            url: "api/v1.0/mail/",
+	            method:"POST",
 	            data: {
 	                recipients: recipients,
 	                template: template,
@@ -852,19 +850,17 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 	        };
 
 	        $http(req).then( (response) => {
-	            console.log(response);
 	               callback(response);
 	            },
 	            (response) => {
-	                console.log(response);
 	               callback(response);
 	        });
         },
 		get_uploaded_files: (callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/uploads/',
-		        method:'GET'
+		        url: "api/v1.0/uploads/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -877,8 +873,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_project_strains: (callback) => {
 
 			const req = {
-		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
-		        method:'GET'
+		        url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/strains/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -891,8 +887,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_project_strains_2: (strain_id, is_there, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
-		        method:'GET'
+		        url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/strains/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -905,8 +901,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		add_strain_to_project: (strain_name, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
-		        method:'PUT',
+		        url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/strains/",
+		        method:"PUT",
 		        data: {
 		            "strainID": strain_name.trim()
 		        }
@@ -922,17 +918,17 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		add_new_strain: (callback) => {
 
 			if ($("#Accession").val() !== "" && ($("#File_1").val() === "" || $("#File_1").val() === null)){
-				$("#File_1").selectpicker('val', 'None');
+				$("#File_1").selectpicker("val", "None");
 			}
 			if($("#Accession").val() !== "" && ($("#File_2").val() === "" || $("#File_2").val() === null)) {
-				$("#File_2").selectpicker('val', 'None');
+				$("#File_2").selectpicker("val", "None");
 			}
 
 		    const req = {
-		        url: 'api/v1.0/strains/',
-		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        method:'POST',
-		        data: $('#new_strain_form').find("select, input, textarea").serialize()
+		        url: "api/v1.0/strains/",
+		        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+		        method:"POST",
+		        data: $("#new_strain_form").find("select, input, textarea").serialize()
 		    };
 
 		    $http(req).then((response) => {
@@ -947,10 +943,10 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		update_metadata: (strain_id, callback) => {
 		    
 		    const req = {
-		        url: 'api/v1.0/strains/',
-		        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-		        method:'PUT',
-		        data: $('#modify_strain_form').find("select, input, textarea").serialize() + "&strain_id=" + strain_id
+		        url: "api/v1.0/strains/",
+		        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+		        method:"PUT",
+		        data: $("#modify_strain_form").find("select, input, textarea").serialize() + "&strain_id=" + strain_id
 		    };
 
 		    $http(req).then((response) => {
@@ -965,8 +961,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		remove_strain_from_project: (strain_name, callback) => {
 
 			const req = {
-	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/strains/',
-	            method:'DELETE',
+	            url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/strains/",
+	            method:"DELETE",
 	            params: {
 	                "strainID": strain_name
 	            }
@@ -982,15 +978,13 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		check_if_pipeline_exists: (strain_id, strainID, callback) => {
 
 		    const req = {
-	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
-	            method:'GET',
+	            url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/pipelines/",
+	            method:"GET",
 	            params: {
 	                strain_id_all: strain_id,
 	                parent_project_id: CURRENT_PROJECT_ID
 	            }
 	        };
-
-		    console.log(req);
 
 	        $http(req).then( (response) => {
 	               callback(response, strain_id, strainID);
@@ -1002,8 +996,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		add_pipeline: (strain_id, parent_pipeline_id, parent_project_id, callback) => {
 
 	        const req = {
-	            url: 'api/v1.0/projects/'+CURRENT_PROJECT_ID+'/pipelines/',
-	            method:'POST',
+	            url: "api/v1.0/projects/"+CURRENT_PROJECT_ID+"/pipelines/",
+	            method:"POST",
 	            data: {
 	                strain_id: strain_id,
 	                parent_pipeline_id:parent_pipeline_id,
@@ -1032,8 +1026,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 			}
 
 		    const req = {
-		        url: 'api/v1.0/jobs/',
-		        method:'POST',
+		        url: "api/v1.0/jobs/",
+		        method:"POST",
 		        data: {
 		        	strain_id: strain_id,
 		        	protocol_ids: protocol_ids,
@@ -1059,8 +1053,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_job_status: (job_ids, procedure_names, sample_name, pipeline_id, process_positions, project_id, process_ids, job_location, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/jobs/',
-		        method:'GET',
+		        url: "api/v1.0/jobs/",
+		        method:"GET",
 		        params: {
 		        	job_id: job_ids.join(),
 		        	procedure_name:procedure_names.join(),
@@ -1091,8 +1085,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_user_files: (callback) => {
 
 			const req = {
-		        url: 'api/v1.0/files/',
-		        method:'GET'
+		        url: "api/v1.0/files/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -1106,8 +1100,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_user_files: (callback) => {
 
 			const req = {
-		        url: 'api/v1.0/files/',
-		        method:'GET'
+		        url: "api/v1.0/files/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -1121,8 +1115,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		set_user_parameters: (parameters_object_string, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/user/',
-		        method:'PUT',
+		        url: "api/v1.0/user/",
+		        method:"PUT",
 		        params: {
 		        	parameters_object: parameters_object_string
 		        }
@@ -1139,8 +1133,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_user_parameters: (callback) => {
 
 			const req = {
-		        url: 'api/v1.0/user/',
-		        method:'GET'
+		        url: "api/v1.0/user/",
+		        method:"GET"
 		    };
 
 		    $http(req).then( (response) => {
@@ -1154,9 +1148,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		download_file: (path, callback) => {
 
 			const req = {
-		        //url: CURRENT_JOBS_ROOT + '/api/v1.0/jobs/results/download/',
-		        url: 'api/v1.0/jobs/results/download/',
-		        method:'GET',
+		        url: "api/v1.0/jobs/results/download/",
+		        method:"GET",
 		        params: {
 		        	file_path: encodeURI(path)
 		        }
@@ -1164,7 +1157,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		    $http(req).then( (response) => {
 
-		            const url = 'api/v1.0/jobs/results/download/click/?file_path=' + encodeURI(response.data);
+		            const url = "api/v1.0/jobs/results/download/click/?file_path=" + encodeURI(response.data);
 
 					let link = document.createElement("a");
 				    link.download = path.split('/').slice(-1)[0];
@@ -1180,7 +1173,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
 		download_template_strain_file: (callback) => {
 
-			const url = 'api/v1.0/templates/batch_submission/';
+			const url = "api/v1.0/templates/batch_submission/";
 
 			let link = document.createElement("a");
 		    link.href = url;
@@ -1193,8 +1186,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		get_nextflow_log: (filename, pipeline_id, project_id, callback) => {
 
 		    const req = {
-		        url: 'api/v1.0/jobs/logs/nextflow/',
-		        method:'GET',
+		        url: "api/v1.0/jobs/logs/nextflow/",
+		        method:"GET",
 		        params: {
 		        	filename: filename,
 		        	pipeline_id:pipeline_id,
@@ -1213,8 +1206,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		trigger_inspect: (pipeline_id, project_id, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/jobs/inspect/',
-		        method:'GET',
+		        url: "api/v1.0/jobs/inspect/",
+		        method:"GET",
 		        params: {
 		        	pipeline_id:pipeline_id,
 		        	project_id:project_id
@@ -1232,8 +1225,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		kill_inspect: (pid, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/jobs/inspect/',
-		        method:'PUT',
+		        url: "api/v1.0/jobs/inspect/",
+		        method:"PUT",
 		        params: {
 		        	pid:pid
 		        }
@@ -1250,8 +1243,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		retry_pipeline: (pipeline_id, project_id, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/jobs/inspect/',
-		        method:'POST',
+		        url: "api/v1.0/jobs/inspect/",
+		        method:"POST",
 		        data: {
 		        	pipeline_id:pipeline_id,
 		        	project_id:project_id
@@ -1270,8 +1263,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 			
 
 			const req = {
-		        url: 'api/v1.0/phyloviz/',
-		        method:'POST',
+		        url: "api/v1.0/phyloviz/",
+		        method:"POST",
 		        data: {
 		        	job_ids: job_ids.join(","),
 		        	dataset_name: $('#modal_phyloviz_dataset_name').val(),
@@ -1300,8 +1293,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		delete_tree: (tree_name, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/phyloviz/trees/',
-		        method:'DELETE',
+		        url: "api/v1.0/phyloviz/trees/",
+		        method:"DELETE",
 		        params: {
 		        	tree_name: tree_name
 		    	}
@@ -1318,8 +1311,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		fetch_job: (redis_job_id, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/phyloviz/',
-		        method:'GET',
+		        url: "api/v1.0/phyloviz/",
+		        method:"GET",
 		        params: {
 		        	job_id: redis_job_id
 		    	}
@@ -1336,8 +1329,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		check_protocol_parameters: (selected_param, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/protocols/params',
-		        method:'GET',
+		        url: "api/v1.0/protocols/params",
+		        method:"GET",
 		        params: {
 		        	selected_param: selected_param
 		    	}
@@ -1354,8 +1347,8 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		test_workflow: (list_protocols, callback) => {
 
 			const req = {
-		        url: 'api/v1.0/workflows/test',
-		        method:'POST',
+		        url: "api/v1.0/workflows/test",
+		        method:"POST",
 		        data: {
 		        	protocols: list_protocols
 		    	}

@@ -23,7 +23,7 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
 
     backButtonEl.on("click", () => {
         $scope.$apply( () => {
-            session_array = PREVIOUS_PAGE_ARRAY.pop();
+            let session_array = PREVIOUS_PAGE_ARRAY.pop();
 
             CURRENT_PROJECT_ID = session_array[1];
             CURRENT_JOB_MINE = session_array[2];

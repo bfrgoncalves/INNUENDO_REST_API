@@ -37,48 +37,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 	var pg_requests = new Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
 	var single_project = new Single_Project(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope);
 
-	var jobs_to_reports = {};
-	var strain_name_to_id = {};
-
 	var current_p = "";
-
-
-	/*function modalAlert(text, callback){
-
-    	$('#modalAlert #buttonSub').off("click");
-    	$('#modalAlert .modal-body').empty();
-    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
-
-    	$('#modalAlert #buttonSub').on("click", function(){
-    		$("#buttonCancelAlert").click();
-    		setTimeout(function(){callback()}, 400);
-    	})
-
-    	$('#modalAlert').modal("show");
-
-    }*/
-
-    function modalAlert(text, header, callback){
-
-    	$('#buttonSub').off("click");
-    	$('#buttonCancelAlert').off("click");
-
-    	$('#modalAlert .modal-title').empty();
-    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
-
-    	$('#modalAlert .modal-body').empty();
-    	$('#modalAlert .modal-body').append("<p>"+text+"</p>");
-
-    	$('#buttonSub').one("click", function(){
-    		$('#modalAlert').modal("hide");
-    		console.log("Alert");
-
-    		setTimeout(function(){return callback()}, 400);
-    	})
-
-    	$('#modalAlert').modal("show");
-
-    }
 
     $("#reset_strain").on("click", function(){
 		$scope.$apply(function(){

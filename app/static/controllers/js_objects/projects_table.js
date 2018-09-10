@@ -55,7 +55,6 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 if(response.status === 200){
                     callback({species:response.data, CURRENT_SPECIES_NAME:response.data[0].name, CURRENT_SPECIES_ID:response.data[0].id});
                 }
-                else console.log(response.statusText);
             })
         },
 

@@ -4,6 +4,9 @@
 
 #### A novel cross-sectorial platform for the integration of genomics in surveillance of foodborne pathogens
 
+[![Documentation Status](https://readthedocs.org/projects/innuendo/badge/?version=latest)](https://innuendo.readthedocs.io/en/latest/?badge=latest)
+
+
 In this repository you will find all the necessary information regarding platform architecture, installation and source code.
 
 > **Architecture**
@@ -15,7 +18,7 @@ frontend server** and its associated RESTful API.
   
 > **Installation**
 
-Information about the platform instalation can be found at the [**wiki**](https://github.com/B-UMMI/INNUENDO/wiki)
+Information about the platform instalation can be found at the documentation.
 
 > **Source code**
 

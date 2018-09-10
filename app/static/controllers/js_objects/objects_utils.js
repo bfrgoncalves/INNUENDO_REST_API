@@ -26,13 +26,13 @@ const Objects_Utils = (single_project, $sc) => {
 
     const modalAlert = (text, header, callback) => {
 
-        const modalBodyEl = $('#modalAlert .modal-body');
-        const buttonSub = $('#buttonSub');
+        const modalBodyEl = $("#modalAlert .modal-body");
+        const buttonSub = $("#buttonSub");
 
-        $('#buttonCancelAlert').off("click");
+        $("#buttonCancelAlert").off("click");
 
-        $('#modalAlert .modal-title').empty();
-    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
+        $("#modalAlert .modal-title").empty();
+    	$("#modalAlert .modal-title").append("<p>"+header+"</p>");
 
         modalBodyEl.empty();
         modalBodyEl.append("<p>"+text+"</p>");
@@ -45,7 +45,7 @@ const Objects_Utils = (single_project, $sc) => {
             }, 400);
         });
 
-        $('#modalAlert').modal("show");
+        $("#modalAlert").modal("show");
 
     };
 
@@ -53,9 +53,9 @@ const Objects_Utils = (single_project, $sc) => {
     const format_analysis = ( d, table_id ) => {
         // `d` is the original data object for the row
 
-        $("#"+d.strainID+'_table').remove();
+        $("#"+d.strainID+"_table").remove();
 
-        let tr_string = '';
+        let tr_string = "";
 
         tr_string += '<tr class="child_row">'+
             '<td colspan="6"><p class="cell_paragraph"><b>Analytical' +
@@ -81,8 +81,8 @@ const Objects_Utils = (single_project, $sc) => {
         let selection_style;
         let additionalButtons;
 
-        $('#' + table_id + ' tfoot th').each( (i, e) => {
-            const title = $('#' + table_id + ' thead th').eq( $(e).index() ).text();
+        $("#" + table_id + " tfoot th").each( (i, e) => {
+            const title = $("#" + table_id + " thead th").eq( $(e).index() ).text();
             $(e).html( '<input type="text" placeholder="Search '+title+'" />' );
         } );
 
@@ -128,8 +128,8 @@ const Objects_Utils = (single_project, $sc) => {
         }
         else selection_style = "multi";
 
-        let table = $('#' + table_id).DataTable({
-            dom: 'Blfrtip',
+        let table = $("#" + table_id).DataTable({
+            dom: "Blfrtip",
             "scrollCollapse": true,
             "scrollX": true,
             paging:true,
@@ -139,15 +139,15 @@ const Objects_Utils = (single_project, $sc) => {
             "pageLength": page_length,
             select: {
                 style:    selection_style,
-                selector: 'td:first-child'
+                selector: "td:first-child"
             },
             buttons: [
-                'selectAll',
-                'selectNone',
-                'csv',
+                "selectAll",
+                "selectNone",
+                "csv",
                 {
-                    extend: 'colvis',
-                    collectionLayout: 'fixed two-column'
+                    extend: "colvis",
+                    collectionLayout: "fixed two-column"
                 },
                 additionalButtons
             ],
@@ -170,19 +170,19 @@ const Objects_Utils = (single_project, $sc) => {
                 let already_added = [];
                 for(const r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
                     already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
-                    $('#'+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+                    $("#"+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
                 }
                 for(const j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){
                     if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added) === -1){
-                        $('#'+table_id+' tbody').find("tr:eq("+String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j])+") td button.analysis-control").addClass("button_table_to_trigger");
+                        $("#"+table_id+" tbody").find("tr:eq("+String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j])+") td button.analysis-control").addClass("button_table_to_trigger");
                     }
                 }
 
                 setTimeout( () => {
-                    const tableBodyEl = $('#'+table_id+' tbody');
+                    const tableBodyEl = $("#"+table_id+" tbody");
                     tableBodyEl.find("tr.selected td button.analysis-control").trigger("click");
                     tableBodyEl.find("tr td button.button_table_to_trigger").trigger("click");
-                    $('.child_row').css({"background-color":"#eeffff"});
+                    $(".child_row").css({"background-color":"#eeffff"});
                 }, 50);
             }
         });
@@ -192,9 +192,9 @@ const Objects_Utils = (single_project, $sc) => {
             //const that = this;
             const table_to_search = table;
 
-            $( 'input', this.footer() ).on( 'keyup change', (e) => {
+            $( "input", this.footer() ).on( "keyup change", (e) => {
                 table_to_search
-                    .column( $(e.target).parent().index()+':visible' )
+                    .column( $(e.target).parent().index()+":visible" )
                     .search( el.target.value )
                     .draw();
             });
@@ -203,22 +203,22 @@ const Objects_Utils = (single_project, $sc) => {
 
         table.columns.adjust().draw();
 
-        const tableBodyEl = $('#'+table_id+' tbody');
-        const tableBodyTrEl = $('#'+table_id+' tbody tr');
+        const tableBodyEl = $("#"+table_id+" tbody");
+        const tableBodyTrEl = $("#"+table_id+" tbody tr");
 
-        tableBodyEl.off('click', 'button.details-control');
-        tableBodyEl.off('click', 'button.analysis-control');
-        tableBodyEl.off('click', 'button.workflows_child');
-        tableBodyEl.off('click', 'button.info-control');
-        tableBodyEl.off('mouseenter', 'button.workflows_child');
-        tableBodyEl.off('mouseenter', 'button.workflows_child');
-        tableBodyEl.off('mouseleave', 'button.workflows_child');
-        tableBodyEl.off('keyup', 'button.workflows_child');
-        tableBodyEl.off('click', 'button.button_table_to_trigger');
-        tableBodyEl.off('click', 'button.lab-protocols-control');
-        tableBodyTrEl.off('click', 'td:first');
+        tableBodyEl.off("click", "button.details-control");
+        tableBodyEl.off("click", "button.analysis-control");
+        tableBodyEl.off("click", "button.workflows_child");
+        tableBodyEl.off("click", "button.info-control");
+        tableBodyEl.off("mouseenter", "button.workflows_child");
+        tableBodyEl.off("mouseenter", "button.workflows_child");
+        tableBodyEl.off("mouseleave", "button.workflows_child");
+        tableBodyEl.off("keyup", "button.workflows_child");
+        tableBodyEl.off("click", "button.button_table_to_trigger");
+        tableBodyEl.off("click", "button.lab-protocols-control");
+        tableBodyTrEl.off("click", "td:first");
 
-        tableBodyTrEl.on('click', 'td:first:not(.child_row)', (el) => {
+        tableBodyTrEl.on("click", "td:first:not(.child_row)", (el) => {
 
             if(CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) {
                 CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
@@ -240,27 +240,27 @@ const Objects_Utils = (single_project, $sc) => {
         clickedTimes["analysis"] = 0;
         clickedTimes["protocols"] = 0;
 
-        tableBodyEl.on('click', 'button.analysis-control', (e) => {
-            if(table_id.indexOf('strains_table') > - 1){
+        tableBodyEl.on("click", "button.analysis-control", (e) => {
+            if(table_id.indexOf("strains_table") > - 1){
 
-                const tableIdEl = $('#'+table_id);
+                const tableIdEl = $("#"+table_id);
 
-                const tr = $(e.target).closest('tr');
+                const tr = $(e.target).closest("tr");
                 const row = tableIdEl.DataTable().row( tr );
                 let index_r = tableIdEl.DataTable().row( tr ).index();
 
                 if(row.child.isShown()){
                     row.child.hide();
-                    $(e.target).removeClass('shown');
-                    tr.removeClass('shown');
+                    $(e.target).removeClass("shown");
+                    tr.removeClass("shown");
                     index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
                     CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
                 }
                 else {
                     // Open this row
-                    row.child( format_analysis(row.data(), table_id), 'child_row').show();
-                    $(e.target).addClass('shown');
-                    tr.addClass('shown');
+                    row.child( format_analysis(row.data(), table_id), "child_row").show();
+                    $(e.target).addClass("shown");
+                    tr.addClass("shown");
 
                     if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] === undefined){
                         CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];
@@ -270,15 +270,15 @@ const Objects_Utils = (single_project, $sc) => {
                     }
 
                     for(const x in current_job_status_color){
-                        $('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
+                        $("#" + x.replace(/ /g, "_")).css({"background-color": current_job_status_color[x]});
                     }
-                    $('.child_row').css({"background-color":"#eeffff"});
+                    $(".child_row").css({"background-color":"#eeffff"});
 
                 }
             }
         } );
 
-        tableBodyEl.on('click', 'button.info-control', (e) => {
+        tableBodyEl.on("click", "button.info-control", (e) => {
 
             const closest_strain = $(e.target).closest("tr").find(".strain_cell");
             const nextflowLogEl = $(".nextflow_logs");
@@ -362,15 +362,15 @@ const Objects_Utils = (single_project, $sc) => {
 
 
 
-            $('#modalNextflowLogs').off('hide.bs.modal').on('hide.bs.modal', () => {
+            $('#modalNextflowLogs').off("hide.bs.modal").on("hide.bs.modal", () => {
 
-                pid_keys = Object.keys(pid_to_pipeline);
+                let pid_keys = Object.keys(pid_to_pipeline);
 
                 for(const x in pid_keys){
 
                     single_project.killInspect(pid_to_pipeline[pid_keys[x]], (response) => {
-                        delete pid_to_pipeline[pid_keys[x]]
-                        delete url_for_pipeline[pid_keys[x]]
+                        delete pid_to_pipeline[pid_keys[x]];
+                        delete url_for_pipeline[pid_keys[x]];
                     });
                 }
             });
@@ -384,11 +384,11 @@ const Objects_Utils = (single_project, $sc) => {
 
         let is_open = false;
 
-        tableBodyEl.on('click', 'button.workflows_child', (e) => {
-            if(table_id.indexOf('strains_table') > - 1){
+        tableBodyEl.on("click", "button.workflows_child", (e) => {
+            if(table_id.indexOf("strains_table") > - 1){
 
-                const workflow_name = $(e.target).attr('name');
-                const strainID = $(e.target).attr('strainID');
+                const workflow_name = $(e.target).attr("name");
+                const strainID = $(e.target).attr("strainID");
                 const shown = $(e.target).attr("shown_child");
 
 
@@ -421,7 +421,7 @@ const Objects_Utils = (single_project, $sc) => {
 
                 }
                 else{
-                    if(shown === 'false'){
+                    if(shown === "false"){
                         const strainProtocolEl = $("#"+strainID+"_protocols");
                         strainProtocolEl.empty();
                         strainProtocolEl.html('<p' +
@@ -431,7 +431,7 @@ const Objects_Utils = (single_project, $sc) => {
                         $(e.target).attr("shown_child", "true");
 
                         for(const x in current_job_status_color){
-                            $('#' + x.replace(/ /g, "_")).css({'background-color': current_job_status_color[x]});
+                            $("#" + x.replace(/ /g, "_")).css({"background-color": current_job_status_color[x]});
                         }
 
                     }
@@ -455,8 +455,8 @@ const Objects_Utils = (single_project, $sc) => {
             page_length = 50;
         }
 
-        const table = $('#' + table_id).DataTable({
-            dom: 'Blfrtip',
+        const table = $("#" + table_id).DataTable({
+            dom: "Blfrtip",
             "scrollCollapse": true,
             paging:false,
             colReorder: {
@@ -464,14 +464,14 @@ const Objects_Utils = (single_project, $sc) => {
             },
             "pageLength": page_length,
             select: {
-                style:    'os',
-                selector: 'td:first-child'
+                style:    "os",
+                selector: "td:first-child"
             },
             buttons: [
-                'csv',
+                "csv",
                 {
-                    extend: 'colvis',
-                    collectionLayout: 'fixed two-column'
+                    extend: "colvis",
+                    collectionLayout: "fixed two-column"
                 }
             ],
             columns: columnDefinitions,
@@ -486,14 +486,14 @@ const Objects_Utils = (single_project, $sc) => {
 
     const tableFromData = (table_id, table_headers, table_data) => {
 
-        const table = $('#' + table_id).DataTable({
-            dom: 'Bfrtip',
+        const table = $("#" + table_id).DataTable({
+            dom: "Bfrtip",
             "scrollY": "200px",
             "scrollCollapse": true,
             "scrollX": true,
             paging:false,
             buttons: [
-                'csv'
+                "csv"
             ],
             columns: table_headers,
             "data": table_data
@@ -523,7 +523,7 @@ const Objects_Utils = (single_project, $sc) => {
 
         apply_pipeline_to_strain: (strain_table_id, strain_name, workflow_ids, pipelinesByID, pipelines_applied, pipelines_type_by_strain, workflowname_to_protocols, protocols_applied, protocols_applied_by_pipeline, strainNames_to_pipelinesNames, pipelinesAndDependency, applied_dependencies, pipelinesByVersion, callback) => {
 
-            const table = $('#' + strain_table_id).DataTable();
+            const table = $("#" + strain_table_id).DataTable();
 
             const selected_indexes = $.map(table.rows().indexes(), (index) => {
                 return index;
@@ -546,9 +546,9 @@ const Objects_Utils = (single_project, $sc) => {
                 const workflow_id = workflow_ids[w];
 
                 for(const i in selected_indexes){
-                    let toAdd = '';
+                    let toAdd = "";
                     let to_add_protocols = "";
-                    let s_name = strain_data[i]['strainID'];
+                    let s_name = strain_data[i]["strainID"];
                     let pipelineIdentifier = pipelinesByID[workflow_id];
                     let pipelineN = pipelinesByID[workflow_id].split("--")[0] + "&emsp;<span class='label label-info'>"+ pipelinesByVersion[workflow_id]+"</span>";
 
@@ -611,8 +611,8 @@ const Objects_Utils = (single_project, $sc) => {
                             to_add_protocols += protocols_applied[strain_name][j];
                         }
 
-                        strain_data[i]['Analysis'] = toAdd;
-                        strain_data[i]['protocols'] = to_add_protocols;
+                        strain_data[i]["Analysis"] = toAdd;
+                        strain_data[i]["protocols"] = to_add_protocols;
 
                         strain_index = i;
                         workflow_names.push(pipelineIdentifier);
@@ -627,7 +627,7 @@ const Objects_Utils = (single_project, $sc) => {
 
         show_message: (element, type, message) => {
 
-            $('.alert').remove();
+            $(".alert").remove();
 
             const El = $('#' + element);
             El.empty();
@@ -639,13 +639,13 @@ const Objects_Utils = (single_project, $sc) => {
 
         },
         destroyTable: (table_id) => {
-            if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
-                $('#' + table_id).DataTable().destroy();
-                if(table_id === 'merged_results_table') $('#' + table_id).empty();
+            if ( $.fn.DataTable.isDataTable( "#" + table_id ) ) {
+                $("#" + table_id).DataTable().destroy();
+                if(table_id === "merged_results_table") $("#" + table_id).empty();
             }
         },
         updateTable: (table_id, data) => {
-            table = $('#' + table_id).DataTable();
+            table = $("#" + table_id).DataTable();
             table.clear();
             table.rows.add(data);
             table.draw();
@@ -653,10 +653,10 @@ const Objects_Utils = (single_project, $sc) => {
 
         loadDataTables: (table_id, table_values, columnDefinitions, visible_headers) => {
 
-            if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
+            if ( $.fn.DataTable.isDataTable( "#" + table_id ) ) {
                 return false;
             }
-            if (table_id.indexOf('reports') > -1 || table_id.indexOf('strains_table') > -1) {
+            if (table_id.indexOf("reports") > -1 || table_id.indexOf("strains_table") > -1) {
                 searchableTable(table_id, columnDefinitions, table_values, visible_headers);
             }
             else {
@@ -667,7 +667,7 @@ const Objects_Utils = (single_project, $sc) => {
 
         loadTableFromArrayData: (table_id, table_headers, table_data) => {
 
-            if ( $.fn.DataTable.isDataTable( '#' + table_id ) ) {
+            if ( $.fn.DataTable.isDataTable( "#" + table_id ) ) {
                 return false;
             }
 
@@ -677,16 +677,16 @@ const Objects_Utils = (single_project, $sc) => {
 
         restore_table_headers: (table_id, table_headers, has_analysis, callback) => {
 
-            $('#'+table_id+' thead > tr').remove();
-            $('#'+table_id+' tbody > tr').remove();
+            $("#"+table_id+" thead > tr").remove();
+            $("#"+table_id+" tbody > tr").remove();
 
             if (table_id === "public_strains_table") {
                 has_analysis = false;
             }
 
-            $('#'+table_id+' thead').append(create_table_headers(table_headers, has_analysis, table_id));
-            $('#'+table_id+' tfoot > tr').remove();
-            $('#'+table_id+' tfoot').append(create_table_headers(table_headers, has_analysis, table_id));
+            $("#"+table_id+" thead").append(create_table_headers(table_headers, has_analysis, table_id));
+            $("#"+table_id+" tfoot > tr").remove();
+            $("#"+table_id+" tfoot").append(create_table_headers(table_headers, has_analysis, table_id));
 
 
             callback();

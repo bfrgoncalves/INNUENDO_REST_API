@@ -9,13 +9,16 @@ innuendoApp.controller("reportsCtrl", ($scope, $rootScope, $http) => {
 	const backButtonEl = $("#backbutton");
 
 	current_scope_template = $scope.selectedTemplate.path;
-	if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
+
+	if(PREVIOUS_PAGE_ARRAY.length > 0) {
+		backButtonEl.css({"display":"block"});
+    }
 	else backButtonEl.css({"display":"none"});
 
 	backButtonEl.off("click");
 	backButtonEl.on("click", () => {
 		$scope.$apply( () => {
-			session_array = PREVIOUS_PAGE_ARRAY.pop();
+			let session_array = PREVIOUS_PAGE_ARRAY.pop();
 
 			CURRENT_PROJECT_ID = session_array[1];
 			CURRENT_JOB_MINE = session_array[2];

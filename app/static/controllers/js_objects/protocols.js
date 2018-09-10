@@ -42,26 +42,26 @@ const Protocol_List = ($http) => {
 
     const modalAlert = (text, header, callback) => {
 
-        const modalBodyEl = $('#modalAlert .modal-body');
-        const buttonSub = $('#buttonSub');
+        const modalBodyEl = $("#modalAlert .modal-body");
+        const buttonSub = $("#buttonSub");
 
-        $('#buttonCancelAlert').off("click");
+        $("#buttonCancelAlert").off("click");
 
-        $('#modalAlert .modal-title').empty();
-        $('#modalAlert .modal-title').append("<p>" + header + "</p>");
+        $("#modalAlert .modal-title").empty();
+        $("#modalAlert .modal-title").append("<p>" + header + "</p>");
 
         modalBodyEl.empty();
         modalBodyEl.append("<p>" + text + "</p>");
 
         buttonSub.off("click").on("click", () => {
-            $('#modalAlert').modal("hide");
+            $("#modalAlert").modal("hide");
 
             setTimeout(() => {
                 return callback();
             }, 400);
         });
 
-        $('#modalAlert').modal("show");
+        $("#modalAlert").modal("show");
 
     };
 

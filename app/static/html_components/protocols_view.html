@@ -48,7 +48,12 @@
                              class="form-group col-md-4"
                              style="margin-top: 5px;">
                             <label ng-if="type[0] != 'number'" >{{ key }}</label>
-                            <label ng-if="type[0] == 'number'" >{{ key }} (GB)</label>
+                            <label ng-if="type[0] == 'number' && key == 'Memory'">
+                                {{ key }} (GB)
+                            </label>
+                            <label ng-if="type[0] == 'number' && key != 'Memory'">{{
+                                    key }} (n)
+                            </label>
                             <select id="parameter_select"
                                     ng-if="key == 'used Parameter'"
                                     class="selectpicker form-control"

@@ -360,7 +360,6 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#description_tab").addClass("active");
         $("#project_tab").removeClass("active");
         $("#submission_status").empty();
-        $("#submission_status").html("Working...");
 
         $("#overlayProjects").css({"display":"block"});
         $("#overlayWorking").css({"display":"block"});
@@ -392,6 +391,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#div_project").css({"display":"block"});
         $("#project_tab").addClass("active");
         $("#description_tab").removeClass("active");
+        $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
     });
 
     $("#an_proc").on("click", () => {
@@ -500,6 +500,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             " Pipelines...");
                         //Get the pipelines applied to those strains
                         $scope.getAppliedPipelines(null, (strains_results) => {
+
+                            console.log(strains_results);
                             objects_utils.destroyTable('strains_table');
 
                             $scope.strains_in_use = global_strains.length;

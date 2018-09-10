@@ -921,10 +921,12 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 		},
 		add_new_strain: (callback) => {
 
-			/*if ($("#Accession").val() !== ""){
+			if ($("#Accession").val() !== "" && ($("#File_1").val() === "" || $("#File_1").val() === null)){
 				$("#File_1").selectpicker('val', 'None');
-            	$("#File_2").selectpicker('val', 'None');
-			}*/
+			}
+			if($("#Accession").val() !== "" && ($("#File_2").val() === "" || $("#File_2").val() === null)) {
+				$("#File_2").selectpicker('val', 'None');
+			}
 
 		    const req = {
 		        url: 'api/v1.0/strains/',

@@ -32,15 +32,17 @@ def main():
                         help='database to populate(str)', required=True)
     parser.add_argument('-p', nargs='?', type=str, help='platform tag',
                         required=True)
+    parser.add_argument('-v', nargs='?', type=str, help='import version',
+                        required=True)
 
     args = parser.parse_args()
 
-    mlst_profiles_to_db(args.i, args.c, args.m, args.d, args.p)
+    mlst_profiles_to_db(args.i, args.c, args.m, args.d, args.p, args.v)
 
 
 def populate_db_ecoli(name, classifierl1, classifierl2,
                       classifierl3, allelic_profile,
-                      strain_metadata, from_platform_tag):
+                      strain_metadata, from_platform_tag, importVersion):
     """Adds a new Escherichia coli profile to the database
 
     Parameters
@@ -65,6 +67,7 @@ def populate_db_ecoli(name, classifierl1, classifierl2,
                       allelic_profile=allelic_profile,
                       strain_metadata=strain_metadata,
                       platform_tag=from_platform_tag,
+                      version=importVersion,
                       timestamp=datetime.datetime.utcnow())
 
         db.session.add(ecoli)
@@ -85,6 +88,7 @@ def populate_db_ecoli(name, classifierl1, classifierl2,
             entry.allelic_profile = allelic_profile
             entry.strain_metadata = strain_metadata
             entry.platform_tag = from_platform_tag
+            entry.version = importVersion
 
             db.session.commit()
 
@@ -97,7 +101,7 @@ def populate_db_ecoli(name, classifierl1, classifierl2,
 
 def populate_db_yersinia(name, classifierl1, classifierl2,
                          classifierl3, allelic_profile,
-                         strain_metadata, from_platform_tag):
+                         strain_metadata, from_platform_tag, importVersion):
     """Adds a new Yersinia enterocolitica profile to the database
 
     Parameters
@@ -122,6 +126,7 @@ def populate_db_yersinia(name, classifierl1, classifierl2,
                          allelic_profile=allelic_profile,
                          strain_metadata=strain_metadata,
                          platform_tag=from_platform_tag,
+                         version=importVersion,
                          timestamp=datetime.datetime.utcnow())
 
         db.session.add(ecoli)
@@ -142,6 +147,7 @@ def populate_db_yersinia(name, classifierl1, classifierl2,
             entry.allelic_profile = allelic_profile
             entry.strain_metadata = strain_metadata
             entry.platform_tag = from_platform_tag
+            entry.version = importVersion
 
             db.session.commit()
 
@@ -154,7 +160,8 @@ def populate_db_yersinia(name, classifierl1, classifierl2,
 
 def populate_db_campylobacter(name, classifierl1, classifierl2,
                               classifierl3, allelic_profile,
-                              strain_metadata, from_platform_tag):
+                              strain_metadata, from_platform_tag,
+                              importVersion):
     """Adds a new Campylobacter jejuni/coli profile to the database
 
     Parameters
@@ -179,6 +186,7 @@ def populate_db_campylobacter(name, classifierl1, classifierl2,
                               allelic_profile=allelic_profile,
                               strain_metadata=strain_metadata,
                               platform_tag=from_platform_tag,
+                              version=importVersion,
                               timestamp=datetime.datetime.utcnow())
 
         db.session.add(ecoli)
@@ -199,6 +207,7 @@ def populate_db_campylobacter(name, classifierl1, classifierl2,
             entry.allelic_profile = allelic_profile
             entry.strain_metadata = strain_metadata
             entry.platform_tag = from_platform_tag
+            entry.version = importVersion
 
             db.session.commit()
 
@@ -211,7 +220,7 @@ def populate_db_campylobacter(name, classifierl1, classifierl2,
 
 def populate_db_salmonella(name, classifierl1, classifierl2,
                            classifierl3, allelic_profile,
-                           strain_metadata, from_platform_tag):
+                           strain_metadata, from_platform_tag, importVersion):
     """Adds a new Salmonella enterica profile to the database
 
     Parameters
@@ -236,6 +245,7 @@ def populate_db_salmonella(name, classifierl1, classifierl2,
                            allelic_profile=allelic_profile,
                            strain_metadata=strain_metadata,
                            platform_tag=from_platform_tag,
+                           version=importVersion,
                            timestamp=datetime.datetime.utcnow())
 
         db.session.add(ecoli)
@@ -256,6 +266,7 @@ def populate_db_salmonella(name, classifierl1, classifierl2,
             entry.allelic_profile = allelic_profile
             entry.strain_metadata = strain_metadata
             entry.platform_tag = from_platform_tag
+            entry.version = importVersion
 
             db.session.commit()
 
@@ -433,7 +444,8 @@ def read_classification_file_to_JSON(file_path):
 
 
 def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
-                        metadata_file_path, table_id, platform_tag):
+                        metadata_file_path, table_id, platform_tag,
+                        importVersion):
 
     """Main function to parse and add profiles to db
 
@@ -494,7 +506,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
                                        classification_to_use[1],
                                        classification_to_use[2],
                                        allelic_profile, metadata_to_use,
-                                       platform_tag)
+                                       platform_tag, importVersion)
 
     print "DONE IMPORTING TO DB AND CREATING PROFILE HEADERS FILE"
     print "Non classified: " + str(count_no_class)

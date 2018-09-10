@@ -18,7 +18,7 @@ from resources.postgres.processes import ProcessResource, ProcessListResource
 from resources.postgres.strains import StrainResource, StrainListResource, \
     StrainProjectListResource, StrainsByNameResource, DeleteReadsFromStrain, \
     SpeciesStatistics
-from resources.postgres.species import SpecieListResource
+from resources.postgres.species import SpecieListResource, SpeciesSchemaVersions
 from resources.postgres.reports import ReportsResource, \
     CombinedReportsResource, ReportsStrainResource, ReportsByProjectResource, \
     ReportInfoResource, ReportFilterResource, \
@@ -106,6 +106,7 @@ api.add_resource(WorkflowTestResource, '/api/v1.0/workflows/test',
                  endpoint='workflow_test')
 
 api.add_resource(SpecieListResource, '/api/v1.0/species/', endpoint='species')
+api.add_resource(SpeciesSchemaVersions, '/api/v1.0/species/chewbbaca/versions/', endpoint='chew_versions')
 
 api.add_resource(ProtocolListResource, '/api/v1.0/protocols/',
                  endpoint='protocols')

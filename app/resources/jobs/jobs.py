@@ -174,33 +174,54 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
     # Set runName on flowcraft metadata to pipelineId
     if "nfMetadata" in procedure:
         results = results["nfMetadata"]
-        results["nfMetadata"]["runName"] = pipeline_id
+        results["nfMetadata"]["runName"] = project_id
+        results["nfMetadata"]["scriptId"] = pipeline_id
 
     # Classify the profiles case the procedure is chewbbaca
     if "chewbbaca" in procedure:
         new_job_id = project_id + pipeline_id + process_position
         status = results["reportJson"]["status"][0]["status"]
 
+        # Get user homedir
+        userObject = db.session.query(User).filter(User.id == user_id).first()
 
-        if status != "fail":
-            jobID = database_processor.classify_profile(results, species,
-                                                        sample, new_job_id)
-            strain = db.session.query(Strain).filter(Strain.name == sample)\
-                .first()
+        print user_id, userObject.id
 
-            if not strain:
-                print "No strain with name " + sample
+        if userObject:
+            user_homedir = userObject.homedir
+            pipeline_location = os.path.join(user_homedir, "jobs",
+                                             "{}-{}".format(project_id, pipeline_id))
+            platform_config = os.path.join(pipeline_location, "platform.config")
+
+            schemaVersion = ""
+
+            with open(platform_config) as nfile:
+                for line in nfile:
+                    if "{}_{}".format("schemaVersion", process_position) in line:
+                        print line
+                        schemaVersion = line.split('=')[1].split('"')[1]
+
+            if status != "fail":
+                jobID = database_processor.classify_profile(results, species,sample, new_job_id, schemaVersion)
+                strain = db.session.query(Strain).filter(Strain.name == sample)\
+                    .first()
+
+                if not strain:
+                    print "No strain with name " + sample
+                else:
+                    try:
+                        metadata = json.loads(strain.strain_metadata)
+                        chewstatus = status
+                        metadata["chewBBACAStatus"] = chewstatus
+                        strain.strain_metadata = json.dumps(metadata)
+                        db.session.commit()
+                    except Exception:
+                        print "No chewbbaca status"
             else:
-                try:
-                    metadata = json.loads(strain.strain_metadata)
-                    chewstatus = status
-                    metadata["chewBBACAStatus"] = chewstatus
-                    strain.strain_metadata = json.dumps(metadata)
-                    db.session.commit()
-                except Exception:
-                    print "No chewbbaca status"
+                print "chewBBACA failed"
+
         else:
-            print "chewBBACA failed"
+            print "no user associated in the platform"
 
     # Add the serotype to the metadata case the procedure is seq_typing
     if "seq_typing" in procedure:

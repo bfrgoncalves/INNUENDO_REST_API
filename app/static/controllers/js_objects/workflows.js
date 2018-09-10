@@ -12,7 +12,7 @@ Launch a workflow instance
 */
 const Workflows = ($http) => {
 
-	let protocolTypeObject = {}, protocols = {}, added_protocols = {};
+	let protocolTypeObject = {}, protocols = {}, added_protocols = [];
 	intervals_running = {};
 	pipeline_status = {};
 	jobs_to_parameters = {};
@@ -61,10 +61,20 @@ const Workflows = ($http) => {
 			if(Object.keys(added_protocols).length > 0) return callback({more_than_one:true, added_protocols:added_protocols});
 
 			*/
-			if(!added_protocols.hasOwnProperty(protocol_name)){
-				added_protocols[protocol_name] = protocols[protocol_name];
+			let hasProtocol = false;
+
+			for (const protocol of added_protocols) {
+				if (String(protocol.id) === protocol_name) {
+					hasProtocol = true;
+					break;
+				}
 			}
-			if(Object.keys(added_protocols).length > 0){
+
+			if (!hasProtocol) {
+				added_protocols.push(protocols[protocol_name]);
+			}
+
+			if(added_protocols.length > 0){
 				$('#workflow_form_block').css({display:'block'});
 			}
 			else $('#workflow_form_block').css({display:'none'});
@@ -105,9 +115,17 @@ const Workflows = ($http) => {
 		*/
 		remove_protocol_from_workflow: (protocol_name, callback) => {
 
-			if(added_protocols.hasOwnProperty(protocol_name)){
-				delete added_protocols[protocol_name];
+			let hasProtocol = false;
+			let new_protocols = [];
+
+			for (const protocol of added_protocols) {
+				if (String(protocol.id) !== protocol_name) {
+					new_protocols.push(protocol);
+				}
 			}
+
+			added_protocols = new_protocols;
+
 			if(Object.keys(added_protocols).length > 0){
 				$('#workflow_form_block').css({display:'block'});
 			}
@@ -117,7 +135,7 @@ const Workflows = ($http) => {
 				sortable('.sortable');
 			}, 100);
 
-			callback({added_protocols:added_protocols});
+			callback({added_protocols: added_protocols});
 		},
 
 		/*

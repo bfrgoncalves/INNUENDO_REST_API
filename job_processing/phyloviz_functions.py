@@ -41,7 +41,8 @@ def xstr(s):
 
 
 def send_to_phyloviz(job_ids, dataset_name, dataset_description,
-                     additional_data, database_to_include, max_closest,
+                     additional_data, database_to_include,
+                     database_version, max_closest,
                      user_id, species_id, missing_data, missing_char,
                      phyloviz_user, phyloviz_pass, makePublic):
 
@@ -103,7 +104,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                 .tab_profile_from_db(
                     report.sample_name.replace(" ", "_"),
                     database_correspondece[database_to_include],
-                    wg_headers_correspondece[database_to_include],
+                    wg_headers_correspondece[database_version][database_to_include],
                     profile_tab_file_path_profile)
 
             array_to_process.append([profile_query_file_path, number_of_loci])
@@ -120,7 +121,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
             list_to_query = fast_mlst_functions\
                 .get_closest_profiles(
                     strain_selected[0],
-                    wg_index_correspondece[database_to_include],
+                    wg_index_correspondece[database_version][database_to_include],
                     strain_selected[1]/2)
 
             print list_to_query[:int(50)]
@@ -146,7 +147,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
             strain_id = x.split("\t")[0]
             strains_from_db = db.session\
                 .query(database_correspondece[database_to_include])\
-                .filter(database_correspondece[database_to_include].name == strain_id).first()
+                .filter(
+                    database_correspondece[database_to_include].name == strain_id,
+                    database_correspondece[database_to_include].version == database_version
+                ).first()
 
             if strains_from_db:
                 array_of_strains_from_db.append(strains_from_db)
@@ -159,7 +163,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
     headers = []
 
     strains_selected_from_plat = []
-
 
     total_j_ids = job_ids.split(",")
 
@@ -176,7 +179,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
 
     for job_id in total_j_ids:
         # Get profiles from the chewBBACA report
-        print job_id
         split_job_ids = job_id.split(":")
         report = db.session.query(Report)\
             .filter(Report.project_id == split_job_ids[0],
@@ -277,7 +279,10 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
             straind.append("FP")
             strain_at_db_but_clicked = db.session\
                 .query(database_correspondece[database_to_include])\
-                .filter(database_correspondece[database_to_include].name == report.sample_name).first()
+                .filter(
+                    database_correspondece[database_to_include].name == report.sample_name,
+                    database_correspondece[database_to_include].version == database_version
+                ).first()
 
             if strain_at_db_but_clicked:
                 straind.append(xstr(strain_at_db_but_clicked.classifier_l1))

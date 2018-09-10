@@ -131,6 +131,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
         // Get parameters for firsts elected Nextflow tag
         protocols_list.check_protocol_parameters(selected_text, (results) => {
 
+
             if (results.data === "False") {
                 console.log("Error loading parameters");
             }
@@ -151,6 +152,16 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                             paramsObject[selected_text][x].default;
 
                         option += "<option>" + x + ":" + valueToUse + "</option>";
+                    }
+
+                    if (selected_text === "chewbbaca") {
+                        option += "<option>schemaVersion:null</option>";
+                        paramsObject["chewbbaca"]["schemaVersion"] = {
+                            "description": "chewBBACA schema version defined" +
+                            " in the INNUENDO Platform.",
+                            "default": "null"
+                        }
+                        console.log(paramsObject);
                     }
 
                     parameterEl.empty();
@@ -192,6 +203,8 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             protocolSelLoadEl.empty();
             protocolSelEl.append(options);
             protocolSelLoadEl.append(options);
+
+            $(".selectpicker").selectpicker("refresh");
 
             // Trigger event on change on the dropdowns. Change the inputs
             protocolSelEl.on("change", () => {
@@ -260,7 +273,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     $('#selectpickerparams').empty().append(options_nextflow);
 
                     selectPickerEl.selectpicker({});
-                    selectPickerEl.selectpicker("refresh");
+                    //selectPickerEl.selectpicker("refresh");
 
                     getParameters(nextflow_tags[0]);
 
@@ -270,7 +283,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     $('#protocol_controller_div').css({display: 'block'});
 
                 }
-            }, 800);
+            }, 2000);
         });
     };
 
@@ -296,8 +309,6 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             protocolSelLoadEl.empty();
             protocolSelLoadEl.append(options);
 
-            $(".selectpicker").selectpicker("refresh");
-
             // On change, loads the information regarding that protocol
             protocolSelLoadEl.on("change", () => {
                 protocols_list.load_protocol($("#protocol_selector_load" +
@@ -313,8 +324,9 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             });
 
             setTimeout(() => {
+                //$(".selectpicker").selectpicker("refresh");
                 protocolSelLoadEl.trigger("change");
-            }, 300);
+            }, 2000);
 
         });
     };

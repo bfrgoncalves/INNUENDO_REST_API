@@ -485,6 +485,7 @@ class Ecoli(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
+    version = db.Column(db.String(255))
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
     classifier_l3 = db.Column(db.String(255))
@@ -505,6 +506,7 @@ class Yersinia(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
+    version = db.Column(db.String(255))
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
     classifier_l3 = db.Column(db.String(255))
@@ -525,6 +527,7 @@ class Campylobacter(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
+    version = db.Column(db.String(255))
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
     classifier_l3 = db.Column(db.String(255))
@@ -545,6 +548,7 @@ class Salmonella(db.Model):
     __bind_key__ = 'mlst_database'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
+    version = db.Column(db.String(255))
     classifier_l1 = db.Column(db.String(255))
     classifier_l2 = db.Column(db.String(255))
     classifier_l3 = db.Column(db.String(255))

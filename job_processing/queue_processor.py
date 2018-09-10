@@ -24,15 +24,17 @@ class Queue_Processor:
 
     # Function to send phyloviz processing steps to the redis queue
     def send_to_phyloviz(self, job_ids, dataset_name, dataset_description,
-                         additional_data, database_to_include, max_closest,
+                         additional_data, database_to_include,
+                         database_version, max_closest,
                          user_id, species_id, missing_data, missing_char,
                          phyloviz_user, phyloviz_pass, makePublic):
 
         job = q.enqueue_call(
             func=phyloviz_functions.send_to_phyloviz, args=(
                 job_ids, dataset_name, dataset_description, additional_data,
-                database_to_include, max_closest, user_id, species_id,
-                missing_data, missing_char, phyloviz_user, phyloviz_pass,
+                database_to_include, database_version, max_closest, user_id,
+                species_id, missing_data, missing_char, phyloviz_user,
+                phyloviz_pass,
                 makePublic,),
             result_ttl=5000, timeout=600
         )
@@ -40,11 +42,11 @@ class Queue_Processor:
         return job.get_id()
 
     # Function to send the classification of a profile steps to the redis queue
-    def classify_profile(self, results, database_to_include, sample, new_job_id):
+    def classify_profile(self, results, database_to_include, sample, new_job_id, schemaVersion):
         job = q.enqueue_call(
 
             func=database_functions.classify_profile, args=(
-                results, database_to_include, sample, new_job_id,),
+                results, database_to_include, sample, new_job_id, schemaVersion,),
             result_ttl=5000, timeout=600
             )
         return job.get_id()

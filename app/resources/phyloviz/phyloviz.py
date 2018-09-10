@@ -50,6 +50,10 @@ phyloviz_post_parser.add_argument('database_to_include',
                                   required=False, default="None",
                                   help="Database to include on the analysis if "
                                        "required")
+phyloviz_post_parser.add_argument('database_version',
+                                  dest='database_version', type=str,
+                                  required=False, default="None",
+                                  help="chewbbaca database schema version")
 phyloviz_post_parser.add_argument('max_closest', dest='max_closest', type=str,
                                   required=False, default="None",
                                   help="Maximum number of database strains to "
@@ -138,7 +142,8 @@ class PHYLOViZResource(Resource):
 
         jobID = phyloviz_processor.send_to_phyloviz(
             args.job_ids, args.dataset_name, args.dataset_description,
-            args.additional_data, args.database_to_include, args.max_closest,
+            args.additional_data, args.database_to_include,
+            args.database_version, args.max_closest,
             id_to_use, args.species_id, args.missing_data, args.missing_char,
             args.phyloviz_user, args.phyloviz_pass, args.makePublic)
 

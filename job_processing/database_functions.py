@@ -153,7 +153,7 @@ def get_profiles(strain_ids, database_name, get_json):
             "json": json_data}
 
 
-def classify_profile(allcall_results, database_name, sample, job_id):
+def classify_profile(allcall_results, database_name, sample, job_id, schemaVersion):
 
     file_name = ''.join(random.choice(string.ascii_uppercase + string.digits)
                         for _ in range(8))
@@ -190,7 +190,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
     for i, header in enumerate(headers):
         strain_allele_profile[header] = profile[i]
 
-    with open(core_headers_correspondece[database_name], 'r') as reader:
+    with open(core_headers_correspondece[schemaVersion][database_name], 'r') as reader:
         for i, line in enumerate(reader):
             count_core+=1
             if line.rstrip() == "FILE":
@@ -200,7 +200,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
                 if include_index > -1:
                     core_profile.append(profile[include_index])
 
-    with open(wg_headers_correspondece[database_name], 'r') as reader:
+    with open(wg_headers_correspondece[schemaVersion][database_name], 'r') as reader:
         for i, line in enumerate(reader):
             if line.rstrip() == "FILE":
                 wg_profile.append(sample.replace(" ", "_"))
@@ -225,17 +225,17 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 
     # First level classification
     closest_profiles = fast_mlst_functions.get_closest_profiles(
-        query_profle_path, core_index_correspondece[database_name],
+        query_profle_path, core_index_correspondece[schemaVersion][database_name],
         classification_levels[database_name][0])
 
     # Second level classification
     closest_profiles_2 = fast_mlst_functions.get_closest_profiles(
-        query_profle_path, core_index_correspondece[database_name],
+        query_profle_path, core_index_correspondece[schemaVersion][database_name],
         classification_levels[database_name][1])
 
     # Third level classification
     closest_profiles_3 = fast_mlst_functions.get_closest_profiles(
-        query_profle_path, core_index_correspondece[database_name],
+        query_profle_path, core_index_correspondece[schemaVersion][database_name],
         classification_levels[database_name][2])
 
     # Total closest ids on first level
@@ -286,19 +286,22 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         # Get Id of closest at first level
         database_entry = db.session.query(
             database_correspondece[database_name]).filter(
-                database_correspondece[database_name].name == first_closest[0]
+                database_correspondece[database_name].name == first_closest[0],
+                database_correspondece[database_name].version == schemaVersion
             ).first()
 
         # Get Id of closest at second level
         database_entry_2 = db.session.query(
             database_correspondece[database_name]).filter(
-            database_correspondece[database_name].name == first_closest_2[0]
+            database_correspondece[database_name].name == first_closest_2[0],
+            database_correspondece[database_name].version == schemaVersion
         ).first()
 
         # Get Id of closest at third level
         database_entry_3 = db.session.query(
             database_correspondece[database_name]).filter(
-            database_correspondece[database_name].name == first_closest_3[0]
+            database_correspondece[database_name].name == first_closest_3[0],
+            database_correspondece[database_name].version == schemaVersion
         ).first()
 
         # Get classification of closets at first level or get the last
@@ -309,7 +312,8 @@ def classify_profile(allcall_results, database_name, sample, job_id):
             highest_classifier = db.session.query(
                 database_correspondece[database_name]).filter(
                 database_correspondece[database_name].classifier_l1 != "undefined",
-                database_correspondece[database_name].classifier_l1 != 'null')\
+                database_correspondece[database_name].classifier_l1 != 'null',
+                database_correspondece[database_name].version == schemaVersion)\
                 .order_by(cast(database_correspondece[database_name].classifier_l1, Integer)
                 .desc()
             ).first()
@@ -336,7 +340,8 @@ def classify_profile(allcall_results, database_name, sample, job_id):
                 database_correspondece[database_name]).filter(
                 database_correspondece[
                     database_name].classifier_l2 != "undefined",
-                    database_correspondece[database_name].classifier_l2 != 'null') \
+                    database_correspondece[database_name].classifier_l2 != 'null',
+                    database_correspondece[database_name].version == schemaVersion) \
                 .order_by(
                 cast(database_correspondece[database_name].classifier_l2,
                      Integer)
@@ -365,7 +370,8 @@ def classify_profile(allcall_results, database_name, sample, job_id):
                 database_correspondece[database_name]).filter(
                 database_correspondece[
                     database_name].classifier_l3 != "undefined",
-                    database_correspondece[database_name].classifier_l3 != 'null') \
+                    database_correspondece[database_name].classifier_l3 != 'null',
+                    database_correspondece[database_name].version == schemaVersion) \
                 .order_by(
                 cast(database_correspondece[database_name].classifier_l3,
                      Integer)
@@ -391,6 +397,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
                 classifier_l1=classification,
                 classifier_l2=classification_2,
                 classifier_l3=classification_3,
+                version=schemaVersion,
                 allelic_profile=strain_allele_profile,
                 strain_metadata={},
                 platform_tag="FP",
@@ -408,11 +415,11 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         # FOR CORE GENOME INDEX
         print "UPGRADING CG INDEX"
 
-        myoutput = open(core_increment_profile_file_correspondece[database_name]
+        myoutput = open(core_increment_profile_file_correspondece[schemaVersion][database_name]
                         + ".out", 'w')
 
         command = 'cat '+\
-                  core_increment_profile_file_correspondece[database_name] + \
+                  core_increment_profile_file_correspondece[schemaVersion][database_name] + \
                   ' '+query_profle_path
 
         command = command.split(' ')
@@ -425,9 +432,9 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         stdout, stderr = proc.communicate()
 
         command = 'mv ' + \
-                  core_increment_profile_file_correspondece[database_name]\
+                  core_increment_profile_file_correspondece[schemaVersion][database_name]\
                   + ".out " + \
-                  core_increment_profile_file_correspondece[database_name]
+                  core_increment_profile_file_correspondece[schemaVersion][database_name]
 
         command = command.split(' ')
 
@@ -438,17 +445,17 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         stdout, stderr = proc2.communicate()
 
         status = fast_mlst_functions\
-            .update_index(core_increment_profile_file_correspondece[database_name],
-                          core_index_correspondece[database_name])
+            .update_index(core_increment_profile_file_correspondece[schemaVersion][database_name],
+                          core_index_correspondece[schemaVersion][database_name])
 
         # FOR WG INDEX
         print "UPGRADING WG INDEX"
 
         myoutput_wg = open(
-            wg_increment_profile_file_correspondece[database_name] + ".out",
+            wg_increment_profile_file_correspondece[schemaVersion][database_name] + ".out",
             'w')
 
-        command = 'cat '+wg_increment_profile_file_correspondece[database_name]\
+        command = 'cat '+wg_increment_profile_file_correspondece[schemaVersion][database_name]\
                   + ' ' + query_profle_path_wg
 
         command = command.split(' ')
@@ -460,9 +467,9 @@ def classify_profile(allcall_results, database_name, sample, job_id):
 
         stdout, stderr = proc3.communicate()
 
-        command = 'mv '+wg_increment_profile_file_correspondece[database_name]\
+        command = 'mv '+wg_increment_profile_file_correspondece[schemaVersion][database_name]\
                   + ".out "+\
-                  wg_increment_profile_file_correspondece[database_name]
+                  wg_increment_profile_file_correspondece[schemaVersion][database_name]
 
         command = command.split(' ')
 
@@ -473,7 +480,7 @@ def classify_profile(allcall_results, database_name, sample, job_id):
         stdout, stderr = proc4.communicate()
 
         status = fast_mlst_functions\
-            .update_index(wg_increment_profile_file_correspondece[database_name],
-                          wg_index_correspondece[database_name])
+            .update_index(wg_increment_profile_file_correspondece[schemaVersion][database_name],
+                          wg_index_correspondece[schemaVersion][database_name])
 
         print "INDEX UPDATED"

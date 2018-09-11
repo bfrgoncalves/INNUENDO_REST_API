@@ -5,7 +5,7 @@ from app.utils.queryParse2Json import parseAgraphQueryRes
 from flask_security import current_user, login_required, roles_required, auth_token_required
 import datetime
 from config import CURRENT_ROOT, JOBS_ROOT, OUTPUT_URL, USER_STORAGES
-from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
+from config import obo,localNSpace
 from franz.openrdf.query.query import QueryLanguage
 from app.models.models import Protocol
 from app.models.models import Strain
@@ -609,29 +609,6 @@ class Job_results(Resource):
             Report.job_id == args.job_id).first()
 
         return report.report_data
-
-
-# Load job results and classify it
-class Job_classify_chewbbaca(Resource):
-    """
-    Class to classify chewbbaca
-    """
-
-    def get(self):
-        """Classify profile
-
-        Classify a profile by giving its job_id
-
-        (DEPRECATED)
-
-        Returns
-        -------
-
-        """
-
-        args = job_classify_chewbbaca_post_parser.parse_args()
-        database_processor.classify_profile(args.job_id,
-                                            args.database_to_include)
 
 
 # Load job results to display on graphical interface

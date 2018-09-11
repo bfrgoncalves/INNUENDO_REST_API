@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask import jsonify, request, send_file
 
 from app.models.models import Report, Combined_Reports
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required
 import datetime
 import zipfile
 import string
@@ -408,9 +408,7 @@ class CombinedReportsResource(Resource):
                                            name=args.report_name,
                                            description=args.report_description)
             if not combined_report:
-                abort(404,
-                      message="An error as occurried when uploading the data"
-                      .format(id))
+                abort(404, message="An error as occurried when uploading the data")
 
             reports_to_send.append(
                 {'name': combined_report.name,

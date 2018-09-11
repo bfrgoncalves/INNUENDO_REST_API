@@ -1,7 +1,7 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Resource, reqparse, abort, fields, marshal_with
 from app.models.models import Workflow, Protocol
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required
 import datetime
 import requests
 import json
@@ -100,7 +100,7 @@ class WorkflowResource(Resource):
         workflows = db.session.query(Workflow).filter(Workflow.id == id).first()
 
         if not workflows:
-            abort(404, message="No workflows are available".format(id))
+            abort(404, message="No workflows are available")
         return workflows, 200
 
 

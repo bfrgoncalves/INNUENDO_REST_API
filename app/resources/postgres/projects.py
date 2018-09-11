@@ -1,10 +1,10 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, \
-    marshal_with #filters data according to some fields
+# filters data according to some fields
+from flask_restful import Resource, reqparse, abort, fields, \
+    marshal_with
 
 from app.models.models import Project, User
-from flask_security import current_user, login_required, roles_required, \
-    auth_token_required
+from flask_security import current_user, login_required, roles_required
 import datetime
 import random
 import string
@@ -249,13 +249,13 @@ class ProjectListUserResource(Resource):
                           name=args.name,
                           timestamp=datetime.datetime.utcnow())
         if not project:
-            abort(404, message="An error as occurried when uploading the data"
-                  .format(id))
+            abort(404, message="An error as occurried when uploading the data")
 
         try:
             db.session.add(project)
             db.session.commit()
         except Exception as e:
+            print e
             abort(409, message="Project name already exists.")
         return project, 201
 

@@ -10,16 +10,14 @@ from app.models.models import Specie, User
 from flask import request, after_this_request, redirect, current_app
 from flask_security.utils import do_flash, get_message, get_url
 from flask_security.signals import password_changed
-from config import obo,localNSpace,dcterms, SFTP_HOST, LOGIN_METHOD, \
+from config import localNSpace,dcterms, SFTP_HOST, LOGIN_METHOD, \
     LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, LOGIN_PASSWORD, LOGIN_EMAIL, \
     ALL_SPECIES
 from franz.openrdf.vocabulary.rdf import RDF
 
-'''
-App configuration:
+'''App configuration:
     - Set of functions to be applied before the first app request and an 
-    handle  override for the flask-login post function
-'''
+    handle  override for the flask-login post function'''
 
 
 # Executes before the first request is processed.

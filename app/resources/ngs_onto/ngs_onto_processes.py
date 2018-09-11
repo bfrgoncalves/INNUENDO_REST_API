@@ -299,11 +299,6 @@ class NGSOnto_ProcessListPipelineResource(Resource):
             pprocid = args.parent_process_id
             rpipid = args.real_pipeline_id
 
-            parentProcessURI = dbconAg.createURI(
-                namespace=localNSpace+"projects/",
-                localname=str(ppropid)+"/pipelines/" +
-                          str(ppipid)+"/processes/"+str(pprocid))
-
         if ppipid == rpipid:
             for proc_json in procJsonResult:
                 if int(proc_json["StrIndex"].replace('"', '')) > int(pprocid):

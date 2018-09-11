@@ -2,7 +2,7 @@ from app import db
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_security import current_user, login_required, roles_required, \
     auth_token_required
-from config import CURRENT_ROOT, JOBS_ROOT, phyloviz_root
+from config import JOBS_ROOT, phyloviz_root
 from app.models.models import Tree
 import requests
 import os

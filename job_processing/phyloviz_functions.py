@@ -4,16 +4,15 @@ import os
 import string
 import json
 from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella, \
-    Core_Schemas, Report, Strain, Tree, Project, projects_strains
+    Report, Strain, Tree, Project, projects_strains
 
 import subprocess
 import datetime
 import fast_mlst_functions
 import database_functions
 
-from config import wg_index_correspondece, core_index_correspondece, \
-    core_headers_correspondece, wg_headers_correspondece, \
-    allele_classes_to_ignore, phyloviz_root
+from config import wg_index_correspondece, core_headers_correspondece,  \
+    wg_headers_correspondece, allele_classes_to_ignore, phyloviz_root
 
 database_correspondece = {
     "E.coli": Ecoli,
@@ -456,8 +455,7 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                           timestamp=datetime.datetime.utcnow(),
                           species_id=species_id, phyloviz_user=phyloviz_user)
         if not tree_entry:
-            abort(404, message="An error as occurried when uploading the data"
-                  .format(id))
+            abort(404, message="An error as occurried when uploading the data.")
 
         db.session.add(tree_entry)
         db.session.commit()

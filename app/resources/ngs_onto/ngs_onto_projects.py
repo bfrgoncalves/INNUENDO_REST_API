@@ -2,7 +2,7 @@ from app import dbconAg
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from app.utils.queryParse2Json import parseAgraphStatementsRes
 from flask_security import current_user, login_required, roles_required
-from config import obo,localNSpace,protocolsTypes,processTypes,processMessages
+from config import obo,localNSpace, processTypes,processMessages
 from franz.openrdf.vocabulary.rdf import RDF
 
 

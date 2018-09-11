@@ -1,5 +1,5 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Api, Resource, reqparse, abort, marshal_with
 from config import JOBS_ROOT, LDAP_PROVIDER_URL, phyloviz_root
 import ldap
 from app.models.models import Ecoli, Project, Platform
@@ -8,7 +8,7 @@ import os
 from flask_security import current_user
 
 # Imports for allegrograph check
-from config import AG_HOST, AG_PORT, AG_REPOSITORY, AG_USER, AG_PASSWORD
+from config import AG_HOST, AG_PORT, AG_USER, AG_PASSWORD
 from franz.openrdf.sail.allegrographserver import AllegroGraphServer
 
 
@@ -31,8 +31,9 @@ class CheckDbGeneralResource(Resource):
 
         try:
             project = db.session.query(Project).first()
-
+            print project
         except Exception as e:
+            print e
             return False
 
         return True
@@ -44,8 +45,9 @@ class CheckDbMLSTResource(Resource):
 
         try:
             project = db.session.query(Ecoli).first()
-
+            print project
         except Exception as e:
+            print e
             return False
 
         return True

@@ -1,7 +1,7 @@
 from app import db, mail
 from app.models.models import Message, User
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required
 from sqlalchemy import desc
 import datetime
 
@@ -245,6 +245,7 @@ class MailResource(Resource):
             mail.send(msg)
 
         except Exception as e:
+            print e
             return False
 
         return True

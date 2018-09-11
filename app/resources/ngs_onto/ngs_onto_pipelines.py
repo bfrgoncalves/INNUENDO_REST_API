@@ -1,6 +1,6 @@
 from app import dbconAg
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from flask_security import current_user, login_required
+from flask_security import login_required
 from app.utils.queryParse2Json import parseAgraphStatementsRes
 
 from config import obo,localNSpace,protocolsTypes,processTypes,processMessages

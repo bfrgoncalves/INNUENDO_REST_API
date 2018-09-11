@@ -329,56 +329,49 @@ const startApp = () => {
 
     document.addEventListener("onOverview", initIntervals);
 
-    $("#send_mail").off("click").on("click", () => {
+    setTimeout(() => {
 
-        pg_requests.get_user_mails((response) => {
+        $('#overviewLink').trigger('click');
 
-            let pg_requests = Requests("", "", http);
+        $("#send_mail").off("click").on("click", () => {
 
-            if (response.data.length > 0) {
-                let options = "";
-                for (const x of response.data) {
-                    options += "<option>" + x.username + ": " + x.email +
-                        "</option>";
+            pg_requests.get_user_mails((response) => {
+
+                let pg_requests = Requests("", "", http);
+
+                if (response.data.length > 0) {
+                    let options = "";
+                    for (const x of response.data) {
+                        options += "<option>" + x.username + ": " + x.email +
+                            "</option>";
+                    }
+                    $("#recipients").empty().append(options);
                 }
-                $("#recipients").empty().append(options);
-            }
 
-            $('.selectpicker').selectpicker('refresh');
+                $('.selectpicker').selectpicker('refresh');
+
+            });
+
+            $("#newMailModal").modal("show");
+
 
         });
 
-        $("#newMailModal").modal("show");
+        $("#viewAllMessages").off("click").on("click", () => {
+            $("#messages_button").trigger("click");
+            $("#button_ham_navbar").trigger("click");
 
+        });
 
-    });
+        $('#offcanvasleft').click(function () {
+            $('.row-offcanvas-left').toggleClass('active');
+        });
 
-    $("#viewAllMessages").off("click").on("click", () => {
-        $("#messages_button").trigger("click");
-        $("#button_ham_navbar").trigger("click");
+        $('.nav-a').click(function () {
+            $('.row-offcanvas-left').toggleClass('active');
+        });
 
-    });
-
-    $('#offcanvasleft').click(function () {
-        $('.row-offcanvas-left').toggleClass('active');
-    });
-
-    $('.nav-a').click(function () {
-        $('.row-offcanvas-left').toggleClass('active');
-    });
-
-    $(".dropdiv ul li").on("click", function () {
-        PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
-            CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
-            CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,
-            CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID,
-            CURRENT_TABLE_ROWS_SELECTED, CURRENT_TABLE_ROW_ANALYSIS_SELECTED,
-            PROJECT_STATUS]);
-        tclick();
-    });
-
-    $("#sidebar-wrapper ul li").not('.navbar ul .drop, .dropdiv ul li')
-        .on("click", function () {
+        $(".dropdiv ul li").on("click", function () {
             PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
                 CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
                 CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,
@@ -387,16 +380,26 @@ const startApp = () => {
                 PROJECT_STATUS]);
             tclick();
         });
-    $(".nav-list li").not('.dropdiv ul li').on("click", function () {
-        PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
-            CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
-            CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,
-            CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID, CURRENT_TABLE_ROWS_SELECTED,
-            CURRENT_TABLE_ROW_ANALYSIS_SELECTED, PROJECT_STATUS]);
-        tclick();
-    });
 
-    $('#overviewLink').trigger('click');
-    $('#overviewLink').trigger('click');
+        $("#sidebar-wrapper ul li").not('.navbar ul .drop, .dropdiv ul li')
+            .on("click", function () {
+                PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
+                    CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
+                    CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,
+                    CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID,
+                    CURRENT_TABLE_ROWS_SELECTED, CURRENT_TABLE_ROW_ANALYSIS_SELECTED,
+                    PROJECT_STATUS]);
+                tclick();
+            });
+        $(".nav-list li").not('.dropdiv ul li').on("click", function () {
+            PREVIOUS_PAGE_ARRAY.push([current_scope_template, CURRENT_PROJECT_ID,
+                CURRENT_JOB_MINE, CURRENT_PROJECT, CURRENT_SPECIES_ID,
+                CURRENT_SPECIES_NAME, CURRENT_USER_NAME, CURRENT_JOBS_ROOT,
+                CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID, CURRENT_TABLE_ROWS_SELECTED,
+                CURRENT_TABLE_ROW_ANALYSIS_SELECTED, PROJECT_STATUS]);
+            tclick();
+        });
+
+    }, 500);
 
 };

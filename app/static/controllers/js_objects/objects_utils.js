@@ -32,15 +32,15 @@ const Objects_Utils = (single_project, $sc) => {
         $("#buttonCancelAlert").off("click");
 
         $("#modalAlert .modal-title").empty();
-    	$("#modalAlert .modal-title").append("<p>"+header+"</p>");
+        $("#modalAlert .modal-title").append("<p>" + header + "</p>");
 
         modalBodyEl.empty();
-        modalBodyEl.append("<p>"+text+"</p>");
+        modalBodyEl.append("<p>" + text + "</p>");
 
         buttonSub.off("click").on("click", () => {
             $('#modalAlert').modal("hide");
 
-            setTimeout( () => {
+            setTimeout(() => {
                 return callback();
             }, 400);
         });
@@ -50,27 +50,27 @@ const Objects_Utils = (single_project, $sc) => {
     };
 
 
-    const format_analysis = ( d, table_id ) => {
+    const format_analysis = (d, table_id) => {
         // `d` is the original data object for the row
 
-        $("#"+d.strainID+"_table").remove();
+        $("#" + d.strainID + "_table").remove();
 
         let tr_string = "";
 
-        tr_string += '<tr class="child_row">'+
+        tr_string += '<tr class="child_row">' +
             '<td colspan="6"><p class="cell_paragraph"><b>Analytical' +
-            ' Procedures:</b> </p>'+d.Analysis+'</td>'+
+            ' Procedures:</b> </p>' + d.Analysis + '</td>' +
             '</tr>';
 
-        tr_string += '<tr class="child_row protocols_child" id="'+d.strainID+'_workflows" style="display:none;">'+
-            '<td colspan="6" id="'+d.strainID+'_protocols"><p' +
-            ' class="cell_paragraph"> </td>'+
+        tr_string += '<tr class="child_row protocols_child" id="' + d.strainID + '_workflows" style="display:none;">' +
+            '<td colspan="6" id="' + d.strainID + '_protocols"><p' +
+            ' class="cell_paragraph"> </td>' +
             '</tr>';
 
         protocols_on_table[d.strainID] = d.protocols;
 
-        return '<table border="0" id="'+d.strainID+'_table"' +
-            ' style="width:100%;">'+tr_string+'</table>';
+        return '<table border="0" id="' + d.strainID + '_table"' +
+            ' style="width:100%;">' + tr_string + '</table>';
     };
 
     const searchableTable = (table_id, columnDefinitions, data, visible_headers) => {
@@ -81,19 +81,19 @@ const Objects_Utils = (single_project, $sc) => {
         let selection_style;
         let additionalButtons;
 
-        $("#" + table_id + " tfoot th").each( (i, e) => {
-            const title = $("#" + table_id + " thead th").eq( $(e).index() ).text();
-            $(e).html( '<input type="text" placeholder="Search '+title+'" />' );
-        } );
+        $("#" + table_id + " tfoot th").each((i, e) => {
+            const title = $("#" + table_id + " thead th").eq($(e).index()).text();
+            $(e).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
 
-        if(table_id === "public_strains_table") {
+        if (table_id === "public_strains_table") {
             page_length = 10;
         }
         else {
             page_length = 50;
         }
 
-        if(table_id === "strains_table"){
+        if (table_id === "strains_table") {
             additionalButtons = {
                 extend: "collection",
                 text: "Selection",
@@ -109,21 +109,21 @@ const Objects_Utils = (single_project, $sc) => {
                     },
                 },
                     {
-                    text: "Delete Fastq",
-                    action: ( e, dt, node, config ) => {
+                        text: "Delete Fastq",
+                        action: (e, dt, node, config) => {
 
-                        single_project.deleteFastq(dt, $sc, (status) => {
-                            if (status){
-                                dt.rows(".selected").nodes().to$()
-                                    .addClass("no_files_row");
-                            }
-                        });
-                    },
-                }]
+                            single_project.deleteFastq(dt, $sc, (status) => {
+                                if (status) {
+                                    dt.rows(".selected").nodes().to$()
+                                        .addClass("no_files_row");
+                                }
+                            });
+                        },
+                    }]
             };
         }
 
-        if(table_id === "modify_strains_table" || table_id === "reports_trees_table") {
+        if (table_id === "modify_strains_table" || table_id === "reports_trees_table") {
             selection_style = "single";
         }
         else selection_style = "multi";
@@ -132,13 +132,13 @@ const Objects_Utils = (single_project, $sc) => {
             dom: "Blfrtip",
             "scrollCollapse": true,
             "scrollX": true,
-            paging:true,
+            paging: true,
             colReorder: {
                 fixedColumnsLeft: 1
             },
             "pageLength": page_length,
             select: {
-                style:    selection_style,
+                style: selection_style,
                 selector: "td:first-child"
             },
             buttons: [
@@ -153,58 +153,58 @@ const Objects_Utils = (single_project, $sc) => {
             ],
             columns: columnDefinitions,
             "data": data,
-            "stateSave":true,
-            "createdRow": ( row, data, dataIndex) => {
+            "stateSave": true,
+            "createdRow": (row, data, dataIndex) => {
                 $(row).removeClass("odd");
                 $(row).removeClass("even");
-                if( data.has_files === "false"){
+                if (data.has_files === "false") {
                     $(row).addClass("no_files_row");
                 }
 
-                if( data.Accession !== "NA" && data.Accession !== "" && data.has_files === "false"){
+                if (data.Accession !== "NA" && data.Accession !== "" && data.has_files === "false") {
                     $(row).addClass("accession_row");
                 }
             },
             "initComplete": () => {
 
                 let already_added = [];
-                for(const r in CURRENT_TABLE_ROWS_SELECTED[table_id]){
+                for (const r in CURRENT_TABLE_ROWS_SELECTED[table_id]) {
                     already_added.push(CURRENT_TABLE_ROWS_SELECTED[table_id][r]);
-                    $("#"+table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
+                    $("#" + table_id).DataTable().rows(CURRENT_TABLE_ROWS_SELECTED[table_id][r]).select();
                 }
-                for(const j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]){
-                    if($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added) === -1){
-                        $("#"+table_id+" tbody").find("tr:eq("+String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j])+") td button.analysis-control").addClass("button_table_to_trigger");
+                for (const j in CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) {
+                    if ($.inArray(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j], already_added) === -1) {
+                        $("#" + table_id + " tbody").find("tr:eq(" + String(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id][j]) + ") td button.analysis-control").addClass("button_table_to_trigger");
                     }
                 }
 
-                setTimeout( () => {
-                    const tableBodyEl = $("#"+table_id+" tbody");
+                setTimeout(() => {
+                    const tableBodyEl = $("#" + table_id + " tbody");
                     tableBodyEl.find("tr.selected td button.analysis-control").trigger("click");
                     tableBodyEl.find("tr td button.button_table_to_trigger").trigger("click");
-                    $(".child_row").css({"background-color":"#eeffff"});
+                    $(".child_row").css({"background-color": "#eeffff"});
                 }, 50);
             }
         });
 
         // Apply the search
-        table.columns().every( function () {
+        table.columns().every(function () {
             //const that = this;
             const table_to_search = table;
 
-            $( "input", this.footer() ).on( "keyup change", (e) => {
+            $("input", this.footer()).on("keyup change", (e) => {
                 table_to_search
-                    .column( $(e.target).parent().index()+":visible" )
-                    .search( el.target.value )
+                    .column($(e.target).parent().index() + ":visible")
+                    .search(el.target.value)
                     .draw();
             });
-        } );
+        });
 
 
         table.columns.adjust().draw();
 
-        const tableBodyEl = $("#"+table_id+" tbody");
-        const tableBodyTrEl = $("#"+table_id+" tbody tr");
+        const tableBodyEl = $("#" + table_id + " tbody");
+        const tableBodyTrEl = $("#" + table_id + " tbody tr");
 
         tableBodyEl.off("click", "button.details-control");
         tableBodyEl.off("click", "button.analysis-control");
@@ -220,20 +220,20 @@ const Objects_Utils = (single_project, $sc) => {
 
         tableBodyTrEl.on("click", "td:first:not(.child_row)", (el) => {
 
-            if(CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) {
+            if (CURRENT_TABLE_ROWS_SELECTED[table_id] === undefined) {
                 CURRENT_TABLE_ROWS_SELECTED[table_id] = [];
             }
 
-            const row = table.row( el.target ).index() === undefined ? $(el.target).parent() : el.target;
+            const row = table.row(el.target).index() === undefined ? $(el.target).parent() : el.target;
 
-            if(!row.hasClass("selected") && $.inArray(table.row( row ).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0){
-                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row( row ).index());
+            if (!row.hasClass("selected") && $.inArray(table.row(row).index(), CURRENT_TABLE_ROWS_SELECTED[table_id]) < 0) {
+                CURRENT_TABLE_ROWS_SELECTED[table_id].push(table.row(row).index());
             }
-            else{
-                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row( row ).index());
+            else {
+                const index_to_remove = CURRENT_TABLE_ROWS_SELECTED[table_id].indexOf(table.row(row).index());
                 CURRENT_TABLE_ROWS_SELECTED[table_id].splice(index_to_remove, 1);
             }
-        } );
+        });
 
         const clickedTimes = {};
         clickedTimes["details"] = 0;
@@ -241,42 +241,42 @@ const Objects_Utils = (single_project, $sc) => {
         clickedTimes["protocols"] = 0;
 
         tableBodyEl.on("click", "button.analysis-control", (e) => {
-            if(table_id.indexOf("strains_table") > - 1){
+            if (table_id.indexOf("strains_table") > -1) {
 
-                const tableIdEl = $("#"+table_id);
+                const tableIdEl = $("#" + table_id);
 
                 const tr = $(e.target).closest("tr");
-                const row = tableIdEl.DataTable().row( tr );
-                let index_r = tableIdEl.DataTable().row( tr ).index();
+                const row = tableIdEl.DataTable().row(tr);
+                let index_r = tableIdEl.DataTable().row(tr).index();
 
-                if(row.child.isShown()){
+                if (row.child.isShown()) {
                     row.child.hide();
                     $(e.target).removeClass("shown");
                     tr.removeClass("shown");
-                    index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row( tr ).index());
+                    index_r = CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].indexOf(table.row(tr).index());
                     CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].splice(index_r, 1);
                 }
                 else {
                     // Open this row
-                    row.child( format_analysis(row.data(), table_id), "child_row").show();
+                    row.child(format_analysis(row.data(), table_id), "child_row").show();
                     $(e.target).addClass("shown");
                     tr.addClass("shown");
 
-                    if(CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] === undefined){
+                    if (CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] === undefined) {
                         CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id] = [];
                     }
-                    if($.inArray(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) === -1){
+                    if ($.inArray(index_r, CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id]) === -1) {
                         CURRENT_TABLE_ROW_ANALYSIS_SELECTED[table_id].push(index_r);
                     }
 
-                    for(const x in current_job_status_color){
+                    for (const x in current_job_status_color) {
                         $("#" + x.replace(/ /g, "_")).css({"background-color": current_job_status_color[x]});
                     }
-                    $(".child_row").css({"background-color":"#eeffff"});
+                    $(".child_row").css({"background-color": "#eeffff"});
 
                 }
             }
-        } );
+        });
 
         tableBodyEl.on("click", "button.info-control", (e) => {
 
@@ -290,15 +290,15 @@ const Objects_Utils = (single_project, $sc) => {
             nextflowLogEl.off("click").on("click", (e) => {
                 const href = $(e.target).attr("href");
 
-                $("#repeat_button").css({"display":"none"});
+                $("#repeat_button").css({"display": "none"});
 
                 $("#repeat_submitted_text").text("");
 
-                if($(e.target).attr("name") === "nextflow_inspect"){
+                if ($(e.target).attr("name") === "nextflow_inspect") {
                     let pip_id = "";
                     let work_dir = CURRENT_PROJECT_ID + "-" + pip_id;
 
-                    if(url_for_pipeline[work_dir] == undefined) {
+                    if (url_for_pipeline[work_dir] == undefined) {
 
                         single_project.triggerInspect($(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
 
@@ -322,15 +322,15 @@ const Objects_Utils = (single_project, $sc) => {
                         });
                     }
                 }
-                else{
+                else {
 
-                   let e_target = $(e.target).attr("name");
-                   let e_target_pip = $(e.target).parent().attr("pip");
+                    let e_target = $(e.target).attr("name");
+                    let e_target_pip = $(e.target).parent().attr("pip");
 
-                   single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
-                        $(href).html("<pre>"+response.data.content+"</pre>");
+                    single_project.getNextflowLog($(e.target).attr("name"), $(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
+                        $(href).html("<pre>" + response.data.content + "</pre>");
 
-                        if(e_target.indexOf("nextflow_log") > -1) {
+                        if (e_target.indexOf("nextflow_log") > -1) {
                             if (response.data.content.indexOf("Success     : false") > -1) {
 
                                 $("#repeat_button").off("click").on("click", (e) => {
@@ -338,7 +338,7 @@ const Objects_Utils = (single_project, $sc) => {
                                     single_project.retryPipeline(e_target_pip, CURRENT_PROJECT_ID, (response) => {
                                         console.log(response);
 
-                                        if(response.data === true){
+                                        if (response.data === true) {
                                             $("#repeat_submitted_text").text("Pipeline successfully resubmitted. Refresh the Nextflow Run tab to see the progress.");
                                         }
                                         else {
@@ -351,7 +351,7 @@ const Objects_Utils = (single_project, $sc) => {
                                 });
 
 
-                                $("#repeat_button").css({"display":"block"});
+                                $("#repeat_button").css({"display": "block"});
 
                             }
                         }
@@ -361,12 +361,11 @@ const Objects_Utils = (single_project, $sc) => {
             });
 
 
-
             $('#modalNextflowLogs').off("hide.bs.modal").on("hide.bs.modal", () => {
 
                 let pid_keys = Object.keys(pid_to_pipeline);
 
-                for(const x in pid_keys){
+                for (const x in pid_keys) {
 
                     single_project.killInspect(pid_to_pipeline[pid_keys[x]], (response) => {
                         delete pid_to_pipeline[pid_keys[x]];
@@ -377,23 +376,23 @@ const Objects_Utils = (single_project, $sc) => {
 
             $("#nextflow_log_li").trigger("click");
 
-        } );
+        });
 
-        let prevWorkflow = [null,null, null];
-        let prevWorkflow_toggle = [null,null,null];
+        let prevWorkflow = [null, null, null];
+        let prevWorkflow_toggle = [null, null, null];
 
         let is_open = false;
 
         tableBodyEl.on("click", "button.workflows_child", (e) => {
-            if(table_id.indexOf("strains_table") > - 1){
+            if (table_id.indexOf("strains_table") > -1) {
 
                 const workflow_name = $(e.target).attr("name");
                 const strainID = $(e.target).attr("strainID");
                 const shown = $(e.target).attr("shown_child");
 
 
-                if (prevWorkflow[0] !== null && workflow_name !== prevWorkflow[1]){
-                    $("#"+prevWorkflow[0]+"_workflows").css({"display":"none"});
+                if (prevWorkflow[0] !== null && workflow_name !== prevWorkflow[1]) {
+                    $("#" + prevWorkflow[0] + "_workflows").css({"display": "none"});
                     $(prevWorkflow[2]).attr("shown_child", "false");
                 }
 
@@ -401,16 +400,16 @@ const Objects_Utils = (single_project, $sc) => {
 
                 let isShift = !!event.shiftKey;
 
-                if(isShift){
+                if (isShift) {
 
-                    if(prevWorkflow_toggle[0] === true && prevWorkflow_toggle[2] !== workflow_name){
-                        $("#"+prevWorkflow_toggle[1]+"_"+prevWorkflow_toggle[2]).toggle();
+                    if (prevWorkflow_toggle[0] === true && prevWorkflow_toggle[2] !== workflow_name) {
+                        $("#" + prevWorkflow_toggle[1] + "_" + prevWorkflow_toggle[2]).toggle();
                         is_open = false;
                     }
-                    if(is_open === true) is_open = false;
+                    if (is_open === true) is_open = false;
                     else is_open = true;
 
-                    let idTocheck = "#"+strainID+"_"+workflow_name;
+                    let idTocheck = "#" + strainID + "_" + workflow_name;
                     idTocheck = idTocheck.replace(/ /g, "");
 
                     $(idTocheck).toggle();
@@ -420,35 +419,35 @@ const Objects_Utils = (single_project, $sc) => {
                     prevWorkflow_toggle = [is_open, strainID, workflow_name];
 
                 }
-                else{
-                    if(shown === "false"){
-                        const strainProtocolEl = $("#"+strainID+"_protocols");
+                else {
+                    if (shown === "false") {
+                        const strainProtocolEl = $("#" + strainID + "_protocols");
                         strainProtocolEl.empty();
                         strainProtocolEl.html('<p' +
-                            ' class="cell_paragraph"><b>Protocols:</b></p>'+protocols_on_table[strainID][workflow_name]);
+                            ' class="cell_paragraph"><b>Protocols:</b></p>' + protocols_on_table[strainID][workflow_name]);
 
-                        $("#"+strainID+"_workflows").css({"display":"block"});
+                        $("#" + strainID + "_workflows").css({"display": "block"});
                         $(e.target).attr("shown_child", "true");
 
-                        for(const x in current_job_status_color){
+                        for (const x in current_job_status_color) {
                             $("#" + x.replace(/ /g, "_")).css({"background-color": current_job_status_color[x]});
                         }
 
                     }
-                    else{
-                        $("#"+strainID+"_workflows").css({"display":"none"});
+                    else {
+                        $("#" + strainID + "_workflows").css({"display": "none"});
                         $(e.target).attr("shown_child", "false");
                     }
                     prevWorkflow = [strainID, workflow_name, e.target];
                 }
             }
-        } );
+        });
 
     };
 
     const nestedTable = (table_id, columnDefinitions, data, visible_headers) => {
 
-        if(table_id === "public_strains_table") {
+        if (table_id === "public_strains_table") {
             page_length = 10;
         }
         else {
@@ -458,13 +457,13 @@ const Objects_Utils = (single_project, $sc) => {
         const table = $("#" + table_id).DataTable({
             dom: "Blfrtip",
             "scrollCollapse": true,
-            paging:false,
+            paging: false,
             colReorder: {
                 fixedColumnsLeft: 1
             },
             "pageLength": page_length,
             select: {
-                style:    "os",
+                style: "os",
                 selector: "td:first-child"
             },
             buttons: [
@@ -476,7 +475,7 @@ const Objects_Utils = (single_project, $sc) => {
             ],
             columns: columnDefinitions,
             "data": data,
-            "stateSave":true
+            "stateSave": true
         });
 
         table.columns.adjust().draw();
@@ -491,7 +490,7 @@ const Objects_Utils = (single_project, $sc) => {
             "scrollY": "200px",
             "scrollCollapse": true,
             "scrollX": true,
-            paging:false,
+            paging: false,
             buttons: [
                 "csv"
             ],
@@ -505,11 +504,11 @@ const Objects_Utils = (single_project, $sc) => {
     const create_table_headers = (array_of_headers, has_analysis, table_id) => {
         let headers_html = "<tr><th></th>";
 
-        for(const x in array_of_headers){
+        for (const x in array_of_headers) {
             headers_html += "<th>" + array_of_headers[x] + "</th>";
         }
 
-        if(has_analysis === true) headers_html += "<th>Analysis <button" +
+        if (has_analysis === true) headers_html += "<th>Analysis <button" +
             " onclick=show_all_analysis()><i class='fa fa-eye'" +
             " aria-hidden='true'></i></button><button" +
             " onclick=hide_all_analysis()><i class='fa fa-eye-slash'" +
@@ -541,43 +540,43 @@ const Objects_Utils = (single_project, $sc) => {
             const numberOfWorkflows = workflow_ids.length;
             let new_proc_count = 0;
 
-            for(const w in workflow_ids){
-                count+=1;
+            for (const w in workflow_ids) {
+                count += 1;
                 const workflow_id = workflow_ids[w];
 
-                for(const i in selected_indexes){
+                for (const i in selected_indexes) {
                     let toAdd = "";
                     let to_add_protocols = "";
                     let s_name = strain_data[i]["strainID"];
                     let pipelineIdentifier = pipelinesByID[workflow_id];
-                    let pipelineN = pipelinesByID[workflow_id].split("--")[0] + "&emsp;<span class='label label-info'>"+ pipelinesByVersion[workflow_id]+"</span>";
+                    let pipelineN = pipelinesByID[workflow_id].split("--")[0] + "&emsp;<span class='label label-info'>" + pipelinesByVersion[workflow_id] + "</span>";
 
-                    if(s_name === strain_name){
+                    if (s_name === strain_name) {
                         let buttonselectedPipeline = '<div class="dropdown"' +
-                            ' style="float:left;">'+
-                            '<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="'+strain_name+'" name="'+pipelineIdentifier+'" id="'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'"><i class="fa fa-arrow-down"></i>&emsp;'+ pipelineN + '</button>'+
-                            '<ul class="dropdown-menu" id="'+strain_name+'_'+pipelineIdentifier.replace(/ /, "")+'" style="position:relative;float:right;">'+
-                            '<li class="'+pipelineIdentifier+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>'+
-                            '<li class="'+pipelineIdentifier+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)" style="display:none;"><a>Get Run Log</a></li>';
+                            ' style="float:left;">' +
+                            '<button class="btn btn-sm btn-default dropdown-toggle workflows_child" shown_child="false" strainID="' + strain_name + '" name="' + pipelineIdentifier + '" id="' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '"><i class="fa fa-arrow-down"></i>&emsp;' + pipelineN + '</button>' +
+                            '<ul class="dropdown-menu" id="' + strain_name + '_' + pipelineIdentifier.replace(/ /, "") + '" style="position:relative;float:right;">' +
+                            '<li class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>' +
+                            '<li class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesLog(this)" style="display:none;"><a>Get Run Log</a></li>';
 
-                        if(count === numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="'+pipelineIdentifier+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
-                        else buttonselectedPipeline += '<li style="display:none;" class="'+pipelineIdentifier+'&&'+strain_name.replace(/ /g, '_')+"_workflow_"+String(count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
+                        if (count === numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
+                        else buttonselectedPipeline += '<li style="display:none;" class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
 
                         let just_button = '<button class="btn btn-sm' +
-                            ' btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID+'">'+ pipelineIdentifier + '</button>';
+                            ' btn-default dropdown-toggle" data-toggle="dropdown" id="' + strain_name.replace(/ /g, '_') + "_" + String(count) + '_' + CURRENT_PROJECT_ID + '">' + pipelineIdentifier + '</button>';
 
                         let protocol_buttons = "";
 
-                        for(const pt in workflowname_to_protocols[pipelineIdentifier]){
+                        for (const pt in workflowname_to_protocols[pipelineIdentifier]) {
                             new_proc_count += 1;
-                            protocol_buttons += '<div class="dropdown" style="float:left;">'+
-                                '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'">'+ workflowname_to_protocols[pipelineIdentifier][pt][2] + '</button>'+
-                                '<ul class="dropdown-menu" id="'+strain_name+'_'+workflowname_to_protocols[pipelineIdentifier][pt][2]+'" style="position:relative;float:right;">'+
-                                '<li class="'+workflowname_to_protocols[pipelineIdentifier][pt][2]+'&&'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>'+
-                                '<li class="'+workflowname_to_protocols[pipelineIdentifier][pt][2]+'&&'+strain_name.replace(/ /g, '_')+"_protocol_"+String(new_proc_count)+ '_' + CURRENT_PROJECT_ID+'&&&" onclick="getProcessesLog(this)"><a>Get Run Log</a></li></ul></div>';
+                            protocol_buttons += '<div class="dropdown" style="float:left;">' +
+                                '<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="' + strain_name.replace(/ /g, '_') + "_protocol_" + String(new_proc_count) + '_' + CURRENT_PROJECT_ID + '">' + workflowname_to_protocols[pipelineIdentifier][pt][2] + '</button>' +
+                                '<ul class="dropdown-menu" id="' + strain_name + '_' + workflowname_to_protocols[pipelineIdentifier][pt][2] + '" style="position:relative;float:right;">' +
+                                '<li class="' + workflowname_to_protocols[pipelineIdentifier][pt][2] + '&&' + strain_name.replace(/ /g, '_') + "_protocol_" + String(new_proc_count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>' +
+                                '<li class="' + workflowname_to_protocols[pipelineIdentifier][pt][2] + '&&' + strain_name.replace(/ /g, '_') + "_protocol_" + String(new_proc_count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesLog(this)"><a>Get Run Log</a></li></ul></div>';
                         }
 
-                        if(!strainNames_to_pipelinesNames.hasOwnProperty(s_name)){
+                        if (!strainNames_to_pipelinesNames.hasOwnProperty(s_name)) {
                             strainNames_to_pipelinesNames[s_name] = [];
                             applied_dependencies[s_name] = [];
                         }
@@ -586,27 +585,27 @@ const Objects_Utils = (single_project, $sc) => {
                         applied_dependencies[s_name].push(pipelinesAndDependency[pipelineIdentifier]);
 
 
-                        if(!pipelines_applied.hasOwnProperty(strain_name)){
-                            pipelines_type_by_strain[strain_name] = [[],[],[]];
+                        if (!pipelines_applied.hasOwnProperty(strain_name)) {
+                            pipelines_type_by_strain[strain_name] = [[], [], []];
                             pipelines_applied[strain_name] = [];
                             protocols_applied[strain_name] = [];
-                            if(!protocols_applied_by_pipeline.hasOwnProperty(strain_name)){
+                            if (!protocols_applied_by_pipeline.hasOwnProperty(strain_name)) {
                                 protocols_applied_by_pipeline[strain_name] = {};
                             }
                             protocols_applied_by_pipeline[strain_name][pipelineIdentifier] = [];
                         }
 
 
-                        if(pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0){
+                        if (pipelines_applied[strain_name].indexOf(buttonselectedPipeline) < 0) {
                             pipelines_applied[strain_name].push(buttonselectedPipeline);
                             protocols_applied[strain_name].push(protocol_buttons);
-                            if(!protocols_applied_by_pipeline[strain_name].hasOwnProperty(pipelineIdentifier)){
+                            if (!protocols_applied_by_pipeline[strain_name].hasOwnProperty(pipelineIdentifier)) {
                                 protocols_applied_by_pipeline[strain_name][pipelineIdentifier] = [];
                             }
                             protocols_applied_by_pipeline[strain_name][pipelineIdentifier].push(protocol_buttons);
                         }
 
-                        for(const j in pipelines_applied[strain_name]){
+                        for (const j in pipelines_applied[strain_name]) {
                             toAdd += pipelines_applied[strain_name][j];
                             to_add_protocols += protocols_applied[strain_name][j];
                         }
@@ -616,13 +615,23 @@ const Objects_Utils = (single_project, $sc) => {
 
                         strain_index = i;
                         workflow_names.push(pipelineIdentifier);
-                        workflowids.push(strain_name.replace(/ /g, '_')+"_"+String(count)+ '_' + CURRENT_PROJECT_ID);
+                        workflowids.push(strain_name.replace(/ /g, '_') + "_" + String(count) + '_' + CURRENT_PROJECT_ID);
                         break;
                     }
                 }
-                if(count === workflow_ids.length) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
+                if (count === workflow_ids.length) callback({
+                    strains: strain_data,
+                    strain_index: strain_index,
+                    workflow_names: workflow_names,
+                    workflow_ids: workflowids
+                });
             }
-            if(workflow_ids.length === 0) callback({strains:strain_data, strain_index:strain_index, workflow_names:workflow_names, workflow_ids: workflowids});
+            if (workflow_ids.length === 0) callback({
+                strains: strain_data,
+                strain_index: strain_index,
+                workflow_names: workflow_names,
+                workflow_ids: workflowids
+            });
         },
 
         show_message: (element, type, message) => {
@@ -631,7 +640,7 @@ const Objects_Utils = (single_project, $sc) => {
 
             const El = $('#' + element);
             El.empty();
-            El.append('<div class="alert alert-'+type+'"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>'+type+'!</strong> '+message+'</div>')
+            El.append('<div class="alert alert-' + type + '"><a class="close" data-dismiss="alert" aria-label="close">&times;</a><strong>' + type + '!</strong> ' + message + '</div>')
 
             setTimeout(() => {
                 $('.alert').remove();
@@ -639,9 +648,9 @@ const Objects_Utils = (single_project, $sc) => {
 
         },
         destroyTable: (table_id) => {
-            if ( $.fn.DataTable.isDataTable( "#" + table_id ) ) {
+            if ($.fn.DataTable.isDataTable("#" + table_id)) {
                 $("#" + table_id).DataTable().destroy();
-                if(table_id === "merged_results_table") $("#" + table_id).empty();
+                if (table_id === "merged_results_table") $("#" + table_id).empty();
             }
         },
         updateTable: (table_id, data) => {
@@ -653,7 +662,7 @@ const Objects_Utils = (single_project, $sc) => {
 
         loadDataTables: (table_id, table_values, columnDefinitions, visible_headers) => {
 
-            if ( $.fn.DataTable.isDataTable( "#" + table_id ) ) {
+            if ($.fn.DataTable.isDataTable("#" + table_id)) {
                 return false;
             }
             if (table_id.indexOf("reports") > -1 || table_id.indexOf("strains_table") > -1) {
@@ -667,7 +676,7 @@ const Objects_Utils = (single_project, $sc) => {
 
         loadTableFromArrayData: (table_id, table_headers, table_data) => {
 
-            if ( $.fn.DataTable.isDataTable( "#" + table_id ) ) {
+            if ($.fn.DataTable.isDataTable("#" + table_id)) {
                 return false;
             }
 
@@ -677,16 +686,16 @@ const Objects_Utils = (single_project, $sc) => {
 
         restore_table_headers: (table_id, table_headers, has_analysis, callback) => {
 
-            $("#"+table_id+" thead > tr").remove();
-            $("#"+table_id+" tbody > tr").remove();
+            $("#" + table_id + " thead > tr").remove();
+            $("#" + table_id + " tbody > tr").remove();
 
             if (table_id === "public_strains_table") {
                 has_analysis = false;
             }
 
-            $("#"+table_id+" thead").append(create_table_headers(table_headers, has_analysis, table_id));
-            $("#"+table_id+" tfoot > tr").remove();
-            $("#"+table_id+" tfoot").append(create_table_headers(table_headers, has_analysis, table_id));
+            $("#" + table_id + " thead").append(create_table_headers(table_headers, has_analysis, table_id));
+            $("#" + table_id + " tfoot > tr").remove();
+            $("#" + table_id + " tfoot").append(create_table_headers(table_headers, has_analysis, table_id));
 
 
             callback();

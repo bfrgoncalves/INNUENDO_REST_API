@@ -28,15 +28,15 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         $('#buttonCancelAlert').off("click");
 
         $('#modalAlert .modal-title').empty();
-    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
+        $('#modalAlert .modal-title').append("<p>" + header + "</p>");
 
         modalBodyEl.empty();
-        modalBodyEl.append("<p>"+text+"</p>");
+        modalBodyEl.append("<p>" + text + "</p>");
 
         buttonSub.off("click").on("click", () => {
             $('#modalAlert').modal("hide");
 
-            setTimeout( () => {
+            setTimeout(() => {
                 return callback();
             }, 400);
         });
@@ -51,9 +51,13 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         Get all the available species names
         */
         get_species_names: (callback) => {
-            pg_requests.get_species_names( (response) => {
-                if(response.status === 200){
-                    callback({species:response.data, CURRENT_SPECIES_NAME:response.data[0].name, CURRENT_SPECIES_ID:response.data[0].id});
+            pg_requests.get_species_names((response) => {
+                if (response.status === 200) {
+                    callback({
+                        species: response.data,
+                        CURRENT_SPECIES_NAME: response.data[0].name,
+                        CURRENT_SPECIES_ID: response.data[0].id
+                    });
                 }
             });
         },
@@ -62,7 +66,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         Get statistics
          */
         get_statistics: (callback) => {
-            pg_requests.get_statistics ( (response) => {
+            pg_requests.get_statistics((response) => {
                 callback(response);
             });
         },
@@ -75,22 +79,22 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
             pg_requests.get_species_projects(species_id, is_others, (response) => {
 
-                if(response.status === 200){
-                    if(is_others){
+                if (response.status === 200) {
+                    if (is_others) {
                         other_projects = [];
-                        response.data.map( (d) => {
-                            if(d.is_removed !== "true") {
+                        response.data.map((d) => {
+                            if (d.is_removed !== "true") {
 
                                 let lockStatus = "";
 
-                                if(d.is_removed === 'lock'){
+                                if (d.is_removed === 'lock') {
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
                                         ' center;"><i' +
                                         ' class="fa' +
                                         ' fa-lock"></i></div>';
                                 }
-                                else{
+                                else {
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
                                         ' center;"><i' +
@@ -98,28 +102,35 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                         ' fa-unlock"></i></div>';
                                 }
 
-                                other_projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});
+                                other_projects.push({
+                                    name: d.name,
+                                    description: d.description,
+                                    date: d.timestamp.split(" ").slice(0, 4).join(' '),
+                                    id: d.id,
+                                    username: d.username,
+                                    lockStatus: lockStatus
+                                });
                             }
                         });
                         callback(other_projects);
                         objects_utils.loadDataTables('projects_table', projects);
                     }
-                    else{
+                    else {
                         projects = [];
-                        response.data.map( (d) => {
+                        response.data.map((d) => {
 
-                            if(d.is_removed !== "true") {
+                            if (d.is_removed !== "true") {
 
                                 let lockStatus = "";
 
-                                if(d.is_removed === 'lock'){
+                                if (d.is_removed === 'lock') {
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
                                         ' center;"><i' +
                                         ' class="fa' +
                                         ' fa-lock"></i></div>';
                                 }
-                                else{
+                                else {
                                     lockStatus = '<div' +
                                         ' style="width:100%;text-align:' +
                                         ' center;"><i' +
@@ -127,7 +138,14 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                         ' fa-unlock"></i></div>';
                                 }
 
-                                projects.push({name: d.name, description: d.description, date: d.timestamp.split(" ").slice(0, 4).join(' '), id: d.id, username: d.username, lockStatus:lockStatus});
+                                projects.push({
+                                    name: d.name,
+                                    description: d.description,
+                                    date: d.timestamp.split(" ").slice(0, 4).join(' '),
+                                    id: d.id,
+                                    username: d.username,
+                                    lockStatus: lockStatus
+                                });
                             }
                         });
                         callback(projects);
@@ -136,7 +154,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     }
                 }
                 else {
-                    if(!is_others) projects = [];
+                    if (!is_others) projects = [];
                     else other_projects = [];
                     callback([]);
                 }
@@ -148,8 +166,8 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         It adds to the postgresql and to the ngsonto
         */
         add_project: (callback) => {
-            pg_requests.add_project_to_database( (response) => {
-                if (response.status === 201){
+            pg_requests.add_project_to_database((response) => {
+                if (response.status === 201) {
                     ngs_onto_requests.ngs_onto_request_add_project_to_database(response.data.id, (response) => {
                         //Do something if needed
                     });
@@ -158,18 +176,28 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                         ' style="width:100%;text-align:center;"><i class="fa' +
                         ' fa-unlock"></i></div>';
 
-                    projects.push({name: response.data.name, description: response.data.description, date: response.data.timestamp.split(" ").slice(0, 4).join(' '), id: response.data.id, username: response.data.username, lockStatus:lockStatus});
+                    projects.push({
+                        name: response.data.name,
+                        description: response.data.description,
+                        date: response.data.timestamp.split(" ").slice(0, 4).join(' '),
+                        id: response.data.id,
+                        username: response.data.username,
+                        lockStatus: lockStatus
+                    });
 
                     $('#newProjectModal').modal('hide');
-                    modalAlert('Project created.', "Project", () => {});
+                    modalAlert('Project created.', "Project", () => {
+                    });
                     callback({projects: projects});
                 }
-                else if(response.status === 409){
+                else if (response.status === 409) {
                     modalAlert('An error as occuried when creating the new' +
-                        ' project.' + response.data.message, "Error", () => {});
+                        ' project.' + response.data.message, "Error", () => {
+                    });
                 }
                 else modalAlert('An error as occuried when creating the new' +
-                        ' project.', "Error", () => {});
+                        ' project.', "Error", () => {
+                    });
             })
         },
 
@@ -186,25 +214,25 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
             let count_to_delete = 0;
             let total_to_delete = project_indexes.length;
 
-            if(project_indexes.length > 0){
+            if (project_indexes.length > 0) {
 
                 modalAlert("By accepting this option you are removing the" +
                     " project/projects from the application. Do you really" +
                     " want proceed?", "Warning", () => {
 
-                    for(const i in project_indexes){
+                    for (const i in project_indexes) {
                         const project_id = projects[project_indexes[i]].id;
 
                         pg_requests.delete_project_from_database(project_id, (response) => {
-                            count_to_delete+=1;
-                            if(response.status === 204){
+                            count_to_delete += 1;
+                            if (response.status === 204) {
                                 const new_projects = [];
-                                projects.map( (d) => {
+                                projects.map((d) => {
                                     if (d.id !== project_id) new_projects.push(d);
                                 });
                                 projects = new_projects;
                             }
-                            if(count_to_delete === total_to_delete) callback({projects: projects});
+                            if (count_to_delete === total_to_delete) callback({projects: projects});
                         });
                     }
                 });
@@ -219,7 +247,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
             let selected_indexes = [];
 
-            if(table_id !== ""){
+            if (table_id !== "") {
                 const table = $('#' + table_id).DataTable();
 
                 selected_indexes = $.map(table.rows('.selected').indexes(), (index) => {
@@ -227,14 +255,18 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 });
             }
 
-            if (selected_indexes.length === 0 && pass !== true){
+            if (selected_indexes.length === 0 && pass !== true) {
                 modalAlert('Please select a project first.', "Select" +
-                    " Projects", () => {});
+                    " Projects", () => {
+                });
             }
-            else{
+            else {
                 pg_requests.load_project(CURRENT_PROJECT_ID, (response) => {
-                    if(response.status === 200){
-                        callback({project: response.data, template: 'static/html_components/manage_projects_view.html'});
+                    if (response.status === 200) {
+                        callback({
+                            project: response.data,
+                            template: 'static/html_components/manage_projects_view.html'
+                        });
                     }
                     else console.log(response.statusText);
                 })
@@ -249,20 +281,18 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 return index;
             });
 
-            if(selectedData.length > 0){
+            if (selectedData.length > 0) {
                 modalAlert('By choosing this option, you are Locking the' +
                     ' selected Project. This means that all the analysis' +
                     ' results for this Project will still be visible in the' +
                     ' reports and in the Project page. However, you will not be' +
                     ' able to run more analysis on this Project. This option is' +
                     ' useful to release space from the Storage. Do you really' +
-                    ' want to proceed?', "Project Lock", (
-
-                ) => {
+                    ' want to proceed?', "Project Lock", () => {
                     pg_requests.lock_project(project_id, (response) => {
                         const new_projects = [];
 
-                        projects.map( (d) => {
+                        projects.map((d) => {
                             if (d.id === project_id) new_projects.push(response.data);
                             else new_projects.push(d);
                         });
@@ -273,11 +303,9 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     });
                 });
             }
-            else{
+            else {
                 modalAlert('Please select a Project first.', "Select" +
-                    " a Project", (
-
-                ) => {
+                    " a Project", () => {
                     callback();
                 });
             }

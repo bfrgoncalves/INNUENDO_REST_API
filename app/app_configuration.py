@@ -77,6 +77,7 @@ def change_password():
                 return {"status": False}
 
         except ldap.INVALID_CREDENTIALS, e:
+            print e
             do_flash(*get_message('INVALID_PASSWORD'))
             return {"status": False}
 

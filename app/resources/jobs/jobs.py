@@ -334,6 +334,8 @@ class Job_Reports(Resource):
                                   user_id, json_data["task"],
                                   parameters_json["species"], overwrite)
 
+        print is_added
+
         return True
 
 
@@ -559,6 +561,7 @@ class Job_queue(Resource):
                         file2Path.append(
                             '/'.join(r["file_4"].split("/")[-3:-1]))
                 except Exception as p:
+                    print p
                     file2Path = []
 
             except Exception as e:
@@ -718,9 +721,6 @@ class NextflowLogs(Resource):
         """
 
         args = nextflow_logs_get_parser.parse_args()
-
-        til_storage = "/".join(current_user.homedir.split("/")[0:-3])
-        content = ""
 
         project = db.session.query(Project).filter(
             Project.id == args.project_id).first()

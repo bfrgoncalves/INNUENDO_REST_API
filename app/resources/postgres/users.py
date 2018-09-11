@@ -189,8 +189,6 @@ class UserQuotaResource(Resource):
         project_dir = os.path.join(current_user.homedir, "jobs",
                                    project_id+"-*")
 
-        print instStorage
-
         # Get size of homedir
         proc = subprocess.Popen(["du", "-sh", "-B1", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -209,6 +207,7 @@ class UserQuotaResource(Resource):
                     try:
                         out3 += os.path.getsize(fp)
                     except Exception as e:
+                        print e
                         print "error loading " + fp
 
         proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],

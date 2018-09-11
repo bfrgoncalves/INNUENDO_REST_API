@@ -130,8 +130,8 @@ function Report($http) {
         Get the strain data according to its name
         */
         get_strain_by_name: function (current_names, project_name, callback) {
-            count = 0;
-            responses = [];
+            let count = 0;
+            let responses = [];
 
             var table = $('#reports_table').DataTable();
 
@@ -153,7 +153,7 @@ function Report($http) {
                     to_send.project_name = project_name;
                     to_send.classifier = response.data.classifier;
                     responses.push(to_send);
-                    if (count == current_names.length) callback(responses, project_name);
+                    if (count === current_names.length) callback(responses, project_name);
 
                 });
             }

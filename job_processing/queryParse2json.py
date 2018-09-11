@@ -11,8 +11,8 @@ def parseAgraphQueryRes(result,listValuesToGet):
 
                 try:
                     auxDict[elem] = str(bindingSet.getValue(elem))
-                except:
-                    pass
+                except Exception as e:
+                    print e
             resultList.append(auxDict)
     jsonObj = json.loads(json.dumps(resultList))
     return jsonObj

@@ -60,7 +60,8 @@ class NGSOnto_UserListResource(Resource):
             dedicateddbconAg.commit()
             dedicateddbconAg.close()
             return 201
-        except:
+        except Exception as e:
+            print e
             dedicateddbconAg.rollback()
             dedicateddbconAg.close()
             return 404

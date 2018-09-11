@@ -253,6 +253,7 @@ class WorkflowTestResource(Resource):
                     loaded_steps = json.loads(protocol.steps.replace("'", '"'))
                     list_tags.append(loaded_steps["Nextflow Tag"])
                 except Exception as e:
+                    print e
                     return {"content": "Protocol with errors. Please create "
                                        "another protocol to use when building this workflow."}
 

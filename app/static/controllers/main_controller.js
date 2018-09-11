@@ -303,6 +303,8 @@ const checkAuthentication = () => {
 
 const startApp = () => {
 
+    console.log("Starting app");
+
     const initIntervals = () => {
 
         setInterval(() => {

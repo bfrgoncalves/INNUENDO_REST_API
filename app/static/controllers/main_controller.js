@@ -329,10 +329,6 @@ const startApp = () => {
 
     document.addEventListener("onOverview", initIntervals);
 
-    console.log($('#overviewLink'));
-
-    $('#overviewLink').trigger('click');
-
     $("#send_mail").off("click").on("click", () => {
 
         pg_requests.get_user_mails((response) => {
@@ -379,7 +375,7 @@ const startApp = () => {
             CURRENT_TABLE_ROWS_SELECTED, CURRENT_TABLE_ROW_ANALYSIS_SELECTED,
             PROJECT_STATUS]);
         tclick();
-    })
+    });
 
     $("#sidebar-wrapper ul li").not('.navbar ul .drop, .dropdiv ul li')
         .on("click", function () {
@@ -398,6 +394,8 @@ const startApp = () => {
             CURRENT_JOB_ID, CURRENT_PROJECT_NAME_ID, CURRENT_TABLE_ROWS_SELECTED,
             CURRENT_TABLE_ROW_ANALYSIS_SELECTED, PROJECT_STATUS]);
         tclick();
-    })
+    });
+
+    $('#overviewLink').trigger('click');
 
 };

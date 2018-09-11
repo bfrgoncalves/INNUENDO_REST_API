@@ -126,7 +126,9 @@ const Objects_Utils = (single_project, $sc) => {
         if (table_id === "modify_strains_table" || table_id === "reports_trees_table") {
             selection_style = "single";
         }
-        else selection_style = "multi";
+        else {
+            selection_style = "multi";
+        }
 
         let table = $("#" + table_id).DataTable({
             dom: "Blfrtip",
@@ -406,8 +408,12 @@ const Objects_Utils = (single_project, $sc) => {
                         $("#" + prevWorkflow_toggle[1] + "_" + prevWorkflow_toggle[2]).toggle();
                         is_open = false;
                     }
-                    if (is_open === true) is_open = false;
-                    else is_open = true;
+                    if (is_open === true) {
+                        is_open = false;
+                    }
+                    else {
+                        is_open = true;
+                    }
 
                     let idTocheck = "#" + strainID + "_" + workflow_name;
                     idTocheck = idTocheck.replace(/ /g, "");

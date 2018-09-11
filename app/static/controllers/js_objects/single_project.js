@@ -194,7 +194,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         if (response.status === 200) {
 
                         }
-                        else console.log(response.statusText);
+                        else {
+                            console.log(response.statusText);
+                        }
                     });
 
                     const data = response.data;
@@ -244,10 +246,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         });
 
                     }
-                    else callback({
-                        strains_headers: strains_headers,
-                        strains: strains
-                    });
+                    else {
+                        callback({
+                            strains_headers: strains_headers,
+                            strains: strains
+                        });
+                    }
 
                 };
 
@@ -360,7 +364,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         }
                     }
 
-                    if (total_pipelines === global_counter_pipelines) callback({strains: strains});
+                    if (total_pipelines === global_counter_pipelines) {
+                        callback({strains: strains});
+                    }
                 });
             }
             else {
@@ -444,11 +450,21 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         let prevtaskid = task_id;
 
                         //Case the job as finished in any way, clear the interval
-                        if (status === 'COMPLETED' || status === 'WARNING' || status === 'FAILED') all_status_done += 1;
-                        if (status === 'FAILED') has_failed = true;
-                        if (status === "R") is_running = true;
-                        if (status === "PD") pending_jobs += 1;
-                        if (status === "WARNING") has_warning = true;
+                        if (status === 'COMPLETED' || status === 'WARNING' || status === 'FAILED') {
+                            all_status_done += 1;
+                        }
+                        if (status === 'FAILED') {
+                            has_failed = true;
+                        }
+                        if (status === "R") {
+                            is_running = true;
+                        }
+                        if (status === "PD") {
+                            pending_jobs += 1;
+                        }
+                        if (status === "WARNING") {
+                            has_warning = true;
+                        }
 
                         if (prev_process_status === 'FAILED' && status === "PD") {
                             dict_of_tasks_status[task_id] = 'NEUTRAL';

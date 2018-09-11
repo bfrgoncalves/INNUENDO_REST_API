@@ -154,8 +154,12 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     }
                 }
                 else {
-                    if (!is_others) projects = [];
-                    else other_projects = [];
+                    if (!is_others) {
+                        projects = [];
+                    }
+                    else {
+                        other_projects = [];
+                    }
                     callback([]);
                 }
             });
@@ -195,9 +199,11 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                         ' project.' + response.data.message, "Error", () => {
                     });
                 }
-                else modalAlert('An error as occuried when creating the new' +
+                else {
+                    modalAlert('An error as occuried when creating the new' +
                         ' project.', "Error", () => {
                     });
+                }
             });
         },
 
@@ -228,11 +234,15 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                             if (response.status === 204) {
                                 const new_projects = [];
                                 projects.map((d) => {
-                                    if (d.id !== project_id) new_projects.push(d);
+                                    if (d.id !== project_id) {
+                                        new_projects.push(d);
+                                    }
                                 });
                                 projects = new_projects;
                             }
-                            if (count_to_delete === total_to_delete) callback({projects: projects});
+                            if (count_to_delete === total_to_delete) {
+                                callback({projects: projects});
+                            }
                         });
                     }
                 });
@@ -268,7 +278,9 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                             template: 'static/html_components/manage_projects_view.html'
                         });
                     }
-                    else console.log(response.statusText);
+                    else {
+                        console.log(response.statusText);
+                    }
                 })
             }
         },
@@ -293,8 +305,12 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                         const new_projects = [];
 
                         projects.map((d) => {
-                            if (d.id === project_id) new_projects.push(response.data);
-                            else new_projects.push(d);
+                            if (d.id === project_id) {
+                                new_projects.push(response.data);
+                            }
+                            else {
+                                new_projects.push(d);
+                            }
                         });
 
                         projects = new_projects;

@@ -77,7 +77,9 @@ const Workflows = ($http) => {
             if (added_protocols.length > 0) {
                 $('#workflow_form_block').css({display: 'block'});
             }
-            else $('#workflow_form_block').css({display: 'none'});
+            else {
+                $('#workflow_form_block').css({display: 'none'});
+            }
 
             setTimeout(() => {
                 sortable('.sortable');

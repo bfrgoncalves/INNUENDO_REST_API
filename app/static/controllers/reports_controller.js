@@ -13,7 +13,9 @@ innuendoApp.controller("reportsCtrl", ($scope, $rootScope, $http) => {
     if (PREVIOUS_PAGE_ARRAY.length > 0) {
         backButtonEl.css({"display": "block"});
     }
-    else backButtonEl.css({"display": "none"});
+    else {
+        backButtonEl.css({"display": "none"});
+    }
 
     backButtonEl.off("click");
     backButtonEl.on("click", () => {

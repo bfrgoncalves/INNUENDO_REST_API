@@ -247,7 +247,9 @@ const Protocol_List = ($http) => {
                 let property_fields = [];
 
                 for (const i in response.data) {
-                    if (property_fields.indexOf(response.data[i].plabel.split('"')[1]) < 0) property_fields.push(response.data[i].plabel.split('"')[1])
+                    if (property_fields.indexOf(response.data[i].plabel.split('"')[1]) < 0) {
+                        property_fields.push(response.data[i].plabel.split('"')[1])
+                    }
                 }
 
                 property_fields = property_fields.reverse();

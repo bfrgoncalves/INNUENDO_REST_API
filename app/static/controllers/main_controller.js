@@ -127,8 +127,9 @@ const sendMail = () => {
 
 const getNavbarMessages = () => {
 
-    if (CURRENT_USER_ID === 0)
+    if (CURRENT_USER_ID === 0) {
         return;
+    }
 
     let pg_requests = Requests("", "", http);
 

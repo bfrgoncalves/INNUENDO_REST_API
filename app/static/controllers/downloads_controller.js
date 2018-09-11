@@ -4,8 +4,12 @@ innuendoApp.controller("downloadsCtrl", ($scope, $http) => {
 
     const backButtonEl = $("#backbutton");
 
-    if (PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display": "block"});
-    else backButtonEl.css({"display": "none"});
+    if (PREVIOUS_PAGE_ARRAY.length > 0) {
+        backButtonEl.css({"display": "block"});
+    }
+    else {
+        backButtonEl.css({"display": "none"});
+    }
 
     backButtonEl.off("click").on("click", () => {
         $scope.$apply(() => {
@@ -111,7 +115,9 @@ innuendoApp.controller("downloadsCtrl", ($scope, $http) => {
             $('#download_results_status').append("<p>1 accession to download:</p>");
             down_loop([$('#input_accession').val()]);
         }
-        else return null;
+        else {
+            return null;
+        }
 
     };
 

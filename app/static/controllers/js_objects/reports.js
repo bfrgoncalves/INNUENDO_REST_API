@@ -92,7 +92,9 @@ function Report($http) {
                 selected_job_ids = ids;
             }
 
-            if (selected_job_ids.length === 0) return callback(null);
+            if (selected_job_ids.length === 0) {
+                return callback(null);
+            }
 
             pg_requests.get_multiple_user_reports(selected_job_ids, function (response) {
                 callback(response);
@@ -139,21 +141,27 @@ function Report($http) {
 
                 var current_names = [];
                 $.map(table.rows('.selected').data(), function (data) {
-                    if ($.inArray(data.sample_name, current_names) === -1) current_names.push(data.sample_name);
+                    if ($.inArray(data.sample_name, current_names) === -1) {
+                        current_names.push(data.sample_name);
+                    }
                 });
 
             }
 
             for (x in current_names) {
                 pg_requests.get_strain_by_name(current_names[x], function (response) {
-                    if (!response.data.hasOwnProperty("strain_metadata")) callback([]);
+                    if (!response.data.hasOwnProperty("strain_metadata")) {
+                        callback([]);
+                    }
                     count += 1;
                     var to_send = JSON.parse(response.data.strain_metadata);
                     to_send.Sample = response.data.strainID;
                     to_send.project_name = project_name;
                     to_send.classifier = response.data.classifier;
                     responses.push(to_send);
-                    if (count === current_names.length) callback(responses, project_name);
+                    if (count === current_names.length) {
+                        callback(responses, project_name);
+                    }
 
                 });
             }

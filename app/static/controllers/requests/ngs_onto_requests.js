@@ -221,8 +221,12 @@ const ngs_onto_client = (CURRENT_PROJECT_ID, $http) => {
             if(pip_ids_to_parents.length !== 0){
                 strain_id = 'null';
             }
-            if(pip_ids_to_parents[0] === undefined) pip_ids_to_parents.push("null");
-            if(pip_ids_to_parents[1] === undefined) pip_ids_to_parents.push("null");
+            if(pip_ids_to_parents[0] === undefined) {
+                pip_ids_to_parents.push("null");
+            }
+            if(pip_ids_to_parents[1] === undefined) {
+                pip_ids_to_parents.push("null");
+            }
 
             let ppi = "";
 
@@ -233,9 +237,13 @@ const ngs_onto_client = (CURRENT_PROJECT_ID, $http) => {
                 ppi = "null";
             }
 
-            if(pip_ids_to_parents[2] !== undefined) ppi = pip_ids_to_parents[2];
+            if(pip_ids_to_parents[2] !== undefined) {
+                ppi = pip_ids_to_parents[2];
+            }
 
-            if(ppi === undefined) ppi = "null";
+            if(ppi === undefined) {
+                ppi = "null";
+            }
 
             const req = {
                 url: 'api/v1.0/ngsonto/projects/'+CURRENT_PROJECT_ID+'/pipelines/'+pipeline_id+'/processes/',

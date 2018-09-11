@@ -152,7 +152,9 @@ const set_headers_single_project = (table_id, global_strains) => {
                             if(x === "strainID") {
                                 p_col_defs.push({"data":x, "className": 'strain_cell'});
                             }
-                            else p_col_defs.push({"data":x});
+                            else {
+                                p_col_defs.push({"data":x});
+                            }
                         }
                         else{
                             p_col_defs.push({"data":x, "visible":false});
@@ -210,8 +212,12 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     const backButtonEl = $("#backbutton");
 
 
-    if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
-    else backButtonEl.css({"display":"none"});
+    if(PREVIOUS_PAGE_ARRAY.length > 0) {
+        backButtonEl.css({"display":"block"});
+    }
+    else {
+        backButtonEl.css({"display":"none"});
+    }
 
     $("#innuendofooter").css({"display":"none"});
 

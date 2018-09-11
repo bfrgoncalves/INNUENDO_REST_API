@@ -10,8 +10,12 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
 
     current_scope_template = $scope.selectedTemplate.path;
 
-    if (PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display": "block"});
-    else backButtonEl.css({"display": "none"});
+    if (PREVIOUS_PAGE_ARRAY.length > 0) {
+        backButtonEl.css({"display": "block"});
+    }
+    else {
+        backButtonEl.css({"display": "none"});
+    }
 
     $("#innuendofooter").css({"display": "none"});
 

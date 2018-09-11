@@ -329,6 +329,8 @@ const startApp = () => {
 
     document.addEventListener("onOverview", initIntervals);
 
+    console.log($('#overviewLink'));
+
     $('#overviewLink').trigger('click');
 
     $("#send_mail").off("click").on("click", () => {

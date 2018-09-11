@@ -1,7 +1,7 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Resource, reqparse, abort, fields, marshal_with
 from app.models.models import Workflow, Protocol
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required
 import datetime
 import requests
 import json

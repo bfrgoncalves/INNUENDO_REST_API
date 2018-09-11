@@ -1,13 +1,11 @@
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from flask import jsonify, send_file
+from flask_restful import Resource, reqparse
+from flask import send_file
 
-from flask_security import current_user, login_required, roles_required, auth_token_required
+from flask_security import login_required
 import os
 
-'''
-File resources:
-    - Get template for strain batch submission
-'''
+'''File resources:
+    - Get template for strain batch submission'''
 
 
 class TemplateResource(Resource):

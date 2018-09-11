@@ -12,11 +12,9 @@ from config import wg_index_correspondece, core_index_correspondece, \
     allele_classes_to_ignore, core_increment_profile_file_correspondece, \
     wg_increment_profile_file_correspondece, classification_levels
 
-'''
-Database Functions:
+'''Database Functions:
     - Classify a profile based on Fast-MLST (https://github.com/aplf/fast-mlst) 
-    by using the closest strain classifier from the profiles db 
-'''
+    by using the closest strain classifier from the profiles db'''
 
 database_correspondece = {"E.coli": Ecoli, "Yersinia": Yersinia,
                           "Campylobacter": Campylobacter,

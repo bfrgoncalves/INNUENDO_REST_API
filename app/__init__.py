@@ -29,7 +29,6 @@ App route:
         - app_configuration (before first request and override login post of the flask-login package to deal with ldap)
 '''
 
-
 # Setup app
 app = Flask(__name__)
 # Reads the config file located at ../
@@ -48,7 +47,6 @@ db = SQLAlchemy(app)
 # SET THE REDIS QUEUE
 q = Queue(connection=conn)
 
-
 from app.models.models import User, Role
 
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
@@ -60,7 +58,7 @@ mail = Mail(app)
 # setup agraph
 server = AllegroGraphServer(AG_HOST, AG_PORT, AG_USER, AG_PASSWORD)
 catalog = server.openCatalog()
-   
+
 myRepository = catalog.getRepository(AG_REPOSITORY, Repository.OPEN)
 myRepository.initialize()
 dbconAg = myRepository.getConnection()

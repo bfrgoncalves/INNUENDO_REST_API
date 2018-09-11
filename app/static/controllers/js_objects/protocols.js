@@ -118,7 +118,6 @@ const Protocol_List = ($http) => {
 
             //Send the protocol to the database
             pg_requests.create_protocol(protocol_object, (response) => {
-                console.log(response);
                 if (response.status === 201) {
 
                     let new_protocol_id = response.data.id;

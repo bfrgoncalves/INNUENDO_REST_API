@@ -1,10 +1,10 @@
 from app import db
-from flask_restful import Api, Resource, reqparse, abort, fields, \
-    marshal_with #filters data according to some fields
+# filters data according to some fields
+from flask_restful import Resource, reqparse, abort, fields, \
+    marshal_with
 
 from app.models.models import Project, User
-from flask_security import current_user, login_required, roles_required, \
-    auth_token_required
+from flask_security import current_user, login_required, roles_required
 import datetime
 import random
 import string

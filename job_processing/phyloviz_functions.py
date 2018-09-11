@@ -11,9 +11,8 @@ import datetime
 import fast_mlst_functions
 import database_functions
 
-from config import wg_index_correspondece, core_index_correspondece, \
-    core_headers_correspondece, wg_headers_correspondece, \
-    allele_classes_to_ignore, phyloviz_root
+from config import wg_index_correspondece, core_headers_correspondece,  \
+    wg_headers_correspondece, allele_classes_to_ignore, phyloviz_root
 
 database_correspondece = {
     "E.coli": Ecoli,

@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask import jsonify, request, send_file
 
 from app.models.models import Report, Combined_Reports
-from flask_security import current_user, login_required, roles_required
+from flask_security import current_user, login_required
 import datetime
 import zipfile
 import string

@@ -8,7 +8,7 @@ import ldap
 import subprocess
 import glob
 from config import LOGIN_METHOD, LOGIN_USERNAME, LOGIN_GID, LOGIN_HOMEDIR, \
-                                LOGIN_PASSWORD
+    LOGIN_PASSWORD
 
 user_fields = {
     'id': fields.Integer,

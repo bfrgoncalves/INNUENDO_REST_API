@@ -227,7 +227,7 @@ const Protocol_List = ($http) => {
                         protocol_ids: protocol_ids
                     });
                 }
-            })
+            });
         },
 
         /*

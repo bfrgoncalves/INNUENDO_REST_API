@@ -56,7 +56,7 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
                                 }
 
                                 pg_requests.check_state((response) => {
-                                    if (response.data == "true") {
+                                    if (response.data === "true") {
                                         $("#lockText").text("Lock Platform");
                                     }
                                     else {

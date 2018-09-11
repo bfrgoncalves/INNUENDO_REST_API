@@ -81,7 +81,7 @@ function Report($http) {
         */
         get_multiple_user_reports: function (ids, callback) {
 
-            if (ids == null) {
+            if (ids === null) {
                 var table = $('#reports_table').DataTable();
 
                 var selected_job_ids = $.map(table.rows('.selected').data(), function (data) {
@@ -92,7 +92,7 @@ function Report($http) {
                 selected_job_ids = ids;
             }
 
-            if (selected_job_ids.length == 0) return callback(null);
+            if (selected_job_ids.length === 0) return callback(null);
 
             pg_requests.get_multiple_user_reports(selected_job_ids, function (response) {
                 callback(response);
@@ -209,7 +209,7 @@ function Report($http) {
 
                             });
                         }
-                    })
+                    });
                 }
 
                 callback(response);

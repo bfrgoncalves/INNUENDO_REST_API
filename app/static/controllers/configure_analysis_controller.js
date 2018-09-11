@@ -42,7 +42,7 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
     $("#reset_strain").on("click", function(){
 		$scope.$apply(function(){
 			$scope.selectedTemplate.path = 'static/html_components/overview.html';
-		})
+		});
 	});
 
 	$scope.showWorkflows = function(){

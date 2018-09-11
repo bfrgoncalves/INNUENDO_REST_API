@@ -77,7 +77,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $("#reset_strain").on("click", () => {
         $scope.$apply(function(){
             $scope.selectedTemplate.path = 'static/html_components/overview.html';
-        })
+        });
     });
 
     const resetHomeOpts = () => {

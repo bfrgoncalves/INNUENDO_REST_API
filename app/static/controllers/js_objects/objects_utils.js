@@ -700,7 +700,7 @@ const Objects_Utils = (single_project, $sc) => {
 
             callback();
         }
-    }
+    };
 };
 
 const show_all_analysis = () => {

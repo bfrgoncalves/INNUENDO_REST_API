@@ -3,7 +3,7 @@ import os
 import ldap
 
 from flask_security import Security, SQLAlchemyUserDatastore, login_required,\
-    current_user, utils, roles_required, user_registered, login_user, utils
+    current_user, utils, roles_required, user_registered, login_user
 from app import app, db, user_datastore, dbconAg,\
     security
 from app.models.models import Specie, User

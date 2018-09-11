@@ -315,7 +315,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
                     " option:selected").attr("p_id"), (results) => {
                     $scope.$apply(() => {
                         $scope.selected_protocol = results.protocol;
-                    })
+                    });
                     $("#div_protocol_show").css({display: "block"});
 
                     $(".selectpicker").selectpicker("refresh");

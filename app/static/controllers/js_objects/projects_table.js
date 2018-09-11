@@ -198,7 +198,7 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 else modalAlert('An error as occuried when creating the new' +
                         ' project.', "Error", () => {
                     });
-            })
+            });
         },
 
         /*

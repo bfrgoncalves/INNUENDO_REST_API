@@ -133,5 +133,5 @@ const Metadata = () => {
         get_default_headers: () => {
             return default_headers;
         }
-    }
+    };
 };

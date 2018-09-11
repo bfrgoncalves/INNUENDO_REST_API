@@ -183,7 +183,9 @@ function Report($http) {
             for (i in selected_job_name) {
                 count++;
                 pg_requests.delete_combined_report(selected_job_name[i], function (response) {
-                    if (count == selected_job_name.length) callback(response);
+                    if (count === selected_job_name.length) {
+                        callback(response);
+                    }
                 });
             }
 

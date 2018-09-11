@@ -127,7 +127,7 @@ class WorkflowAllResource(Resource):
         workflows = db.session.query(Workflow).all()
 
         if not workflows:
-            abort(404, message="No workflows are available".format(id))
+            abort(404, message="No workflows are available")
         return workflows, 200
 
 

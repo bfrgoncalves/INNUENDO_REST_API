@@ -514,11 +514,13 @@ const Objects_Utils = (single_project, $sc) => {
             headers_html += "<th>" + array_of_headers[x] + "</th>";
         }
 
-        if (has_analysis === true) headers_html += "<th>Analysis <button" +
-            " onclick=show_all_analysis()><i class='fa fa-eye'" +
-            " aria-hidden='true'></i></button><button" +
-            " onclick=hide_all_analysis()><i class='fa fa-eye-slash'" +
-            " aria-hidden='true'></i></button></th>";
+        if (has_analysis === true) {
+            headers_html += "<th>Analysis <button" +
+                " onclick=show_all_analysis()><i class='fa fa-eye'" +
+                " aria-hidden='true'></i></button><button" +
+                " onclick=hide_all_analysis()><i class='fa fa-eye-slash'" +
+                " aria-hidden='true'></i></button></th>";
+        }
 
         headers_html += "</tr>";
         return headers_html;
@@ -565,8 +567,13 @@ const Objects_Utils = (single_project, $sc) => {
                             '<li class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesOutputs(this)" style="display:none;"><a>Get Results</a></li>' +
                             '<li class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="getProcessesLog(this)" style="display:none;"><a>Get Run Log</a></li>';
 
-                        if (count === numberOfWorkflows) buttonselectedPipeline += '<li style="display:block;" class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
-                        else buttonselectedPipeline += '<li style="display:none;" class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
+                        if (count === numberOfWorkflows) {
+                            buttonselectedPipeline += '<li style="display:block;" class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
+                        }
+                        else {
+                            buttonselectedPipeline += '<li' +
+                                ' style="display:none;" class="' + pipelineIdentifier + '&&' + strain_name.replace(/ /g, '_') + "_workflow_" + String(count) + '_' + CURRENT_PROJECT_ID + '&&&" onclick="removeAnalysis(this)"><a>Remove</a></li></ul></div>';
+                        }
 
                         let just_button = '<button class="btn btn-sm' +
                             ' btn-default dropdown-toggle" data-toggle="dropdown" id="' + strain_name.replace(/ /g, '_') + "_" + String(count) + '_' + CURRENT_PROJECT_ID + '">' + pipelineIdentifier + '</button>';
@@ -625,19 +632,23 @@ const Objects_Utils = (single_project, $sc) => {
                         break;
                     }
                 }
-                if (count === workflow_ids.length) callback({
+                if (count === workflow_ids.length) {
+                    callback({
+                        strains: strain_data,
+                        strain_index: strain_index,
+                        workflow_names: workflow_names,
+                        workflow_ids: workflowids
+                    });
+                }
+            }
+            if (workflow_ids.length === 0) {
+                callback({
                     strains: strain_data,
                     strain_index: strain_index,
                     workflow_names: workflow_names,
                     workflow_ids: workflowids
                 });
             }
-            if (workflow_ids.length === 0) callback({
-                strains: strain_data,
-                strain_index: strain_index,
-                workflow_names: workflow_names,
-                workflow_ids: workflowids
-            });
         },
 
         show_message: (element, type, message) => {
@@ -656,7 +667,9 @@ const Objects_Utils = (single_project, $sc) => {
         destroyTable: (table_id) => {
             if ($.fn.DataTable.isDataTable("#" + table_id)) {
                 $("#" + table_id).DataTable().destroy();
-                if (table_id === "merged_results_table") $("#" + table_id).empty();
+                if (table_id === "merged_results_table") {
+                    $("#" + table_id).empty();
+                }
             }
         },
         updateTable: (table_id, data) => {

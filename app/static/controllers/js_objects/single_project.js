@@ -282,7 +282,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         callback(strain_id, new_pipeline_id);
                     });
                 }
-                else console.log(response.statusText);
+                else {
+                    console.log(response.statusText);
+                }
             });
         };
 
@@ -840,7 +842,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         strains_headers: strains_headers
                     });
                 }
-                else callback({strains: [], strains_headers: []});
+                else {
+                    callback({strains: [], strains_headers: []});
+                }
             });
         },
 
@@ -849,7 +853,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         */
         get_applied_pipelines: (strainid, callback) => {
 
-            if (strainid !== null) strainid = strains_dict[strainid];
+            if (strainid !== null) {
+                strainid = strains_dict[strainid];
+            }
             //Get the pipeline ids for that strain
             pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, (response, strainid) => {
                 let total_pipelines = response.data.length;
@@ -962,7 +968,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                             total_wf[strain_id_to_name[strain_id]].push(final_pips);
                                         }
                                     }
-                                    if (total_strains === processed_strains) callback(total_wf, strainids, total_pips, strains_dict);
+                                    if (total_strains === processed_strains) {
+                                        callback(total_wf, strainids, total_pips, strains_dict);
+                                    }
                                 }
                             }
                             else {

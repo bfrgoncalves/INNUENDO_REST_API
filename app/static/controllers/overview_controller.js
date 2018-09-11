@@ -45,8 +45,12 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
 
             $scope.selectedTemplate.path = session_array[0];
 
-            if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
-            else backButtonEl.css({"display":"none"});
+            if(PREVIOUS_PAGE_ARRAY.length > 0) {
+                backButtonEl.css({"display":"block"});
+            }
+            else {
+                backButtonEl.css({"display":"none"});
+            }
         });
     });
 

@@ -38,8 +38,10 @@ function Report($http){
     		$('#modalAlert').modal("hide");
     		console.log("Alert");
 
-    		setTimeout(function(){return callback()}, 400);
-    	})
+    		setTimeout(function(){
+    			return callback();
+			}, 400);
+    	});
 
     	$('#modalAlert').modal("show");
 

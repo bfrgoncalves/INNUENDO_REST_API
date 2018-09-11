@@ -116,11 +116,11 @@ const sendMail = () => {
         $("#email-body").val(),
         (response) => {
             if (response.data === true) {
-                $("#email_res_text").text("Email successfully sent.")
+                $("#email_res_text").text("Email successfully sent.");
             }
             else {
                 $("#email_res_text").text("There was an error when sending" +
-                    " the email.")
+                    " the email.");
             }
         });
 };
@@ -167,7 +167,7 @@ const checkPlatformState = () => {
 
         if (response.data === "anonymous") {
             clearInterval(intervalState);
-            return
+            return;
         }
         else if (response.data === "false" && !SHOW_INFO_BUTTON) {
             clearInterval(intervalState);
@@ -316,7 +316,7 @@ const startApp = () => {
         }, 15000);
 
         intervalState = setInterval(() => {
-            checkPlatformState()
+            checkPlatformState();
         }, 5000);
 
         setTimeout(() => {

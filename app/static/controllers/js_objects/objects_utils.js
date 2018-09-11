@@ -120,7 +120,7 @@ const Objects_Utils = (single_project, $sc) => {
                         });
                     },
                 }]
-            }
+            };
         }
 
         if(table_id === "modify_strains_table" || table_id === "reports_trees_table") {

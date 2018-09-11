@@ -3,7 +3,7 @@
   // Configure tooltips for collapsed side navigation
   $('.navbar-sidenav [data-toggle="tooltip"]').tooltip({
     template: '<div class="tooltip navbar-sidenav-tooltip" role="tooltip" style="pointer-events: none;"><div class="arrow"></div><div class="tooltip-inner"></div></div>'
-  })
+  });
   // Toggle the side navigation
   $("#sidenavToggler").click(function(e) {
     e.preventDefault();
@@ -33,7 +33,7 @@
     }
   });
   // Configure tooltips globally
-  $('[data-toggle="tooltip"]').tooltip()
+  $('[data-toggle="tooltip"]').tooltip();
   // Smooth scrolling using jQuery easing
   $(document).on('click', 'a.scroll-to-top', function(event) {
     var $anchor = $(this);

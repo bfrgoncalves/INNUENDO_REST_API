@@ -26,7 +26,7 @@ const set_headers_metadata = (global_strains) => {
 
         ];
 
-        strains_headers = ["Sample","Run Identifier"]
+        strains_headers = ["Sample","Run Identifier"];
     }
     else{
 
@@ -47,7 +47,7 @@ const set_headers_metadata = (global_strains) => {
         }
     }
 
-    return [p_col_defs, strains_headers]
+    return [p_col_defs, strains_headers];
 };
 
 

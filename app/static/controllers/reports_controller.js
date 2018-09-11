@@ -35,7 +35,7 @@ innuendoApp.controller("reportsCtrl", ($scope, $rootScope, $http) => {
 			PROJECT_STATUS = session_array[12];
 
 			$scope.selectedTemplate.path = session_array[0];
-		})
+		});
 	});
 
 	for (const interval in intervals_running){

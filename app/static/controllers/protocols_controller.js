@@ -39,7 +39,7 @@ innuendoApp.controller("protocolsCtrl", ($scope, $http) => {
             PROJECT_STATUS = session_array[12];
 
             $scope.selectedTemplate.path = session_array[0];
-        })
+        });
     });
 
     /*

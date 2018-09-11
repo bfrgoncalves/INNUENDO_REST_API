@@ -401,7 +401,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     url: "api/v1.0/projects/species/" + species_id,
                     method: "GET",
                     params: {get_others: true}
-                }
+                };
             }
             else {
                 req = {

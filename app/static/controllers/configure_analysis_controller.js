@@ -25,12 +25,12 @@ innuendoApp.controller("configureAnalysisCtrl", function($scope, $rootScope, $ht
 			PROJECT_STATUS = session_array[12];
 
 			$scope.selectedTemplate.path = session_array[0];
-		})
+		});
 	});
 
 	//RESET ROW SELECTION
-	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {}
-	CURRENT_TABLE_ROWS_SELECTED = {}
+	CURRENT_TABLE_ROW_ANALYSIS_SELECTED = {};
+	CURRENT_TABLE_ROWS_SELECTED = {};
 
 	$('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 

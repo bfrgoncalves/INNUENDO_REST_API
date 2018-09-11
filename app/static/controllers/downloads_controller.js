@@ -10,7 +10,7 @@ innuendoApp.controller("downloadsCtrl", ($scope, $http) => {
     backButtonEl.off("click").on("click", () => {
         $scope.$apply( () => {
             $scope.selectedTemplate.path = PREVIOUS_PAGE_ARRAY.pop();
-        })
+        });
     });
 
     const pg_requests = Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);

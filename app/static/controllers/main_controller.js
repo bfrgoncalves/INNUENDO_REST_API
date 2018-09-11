@@ -397,5 +397,6 @@ const startApp = () => {
     });
 
     $('#overviewLink').trigger('click');
+    $('#overviewLink').trigger('click');
 
 };

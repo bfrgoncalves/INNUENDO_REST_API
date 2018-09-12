@@ -94,20 +94,36 @@ const Objects_Utils = (single_project, $sc) => {
         }
 
         if (table_id === "strains_table") {
-            additionalButtons = {
-                extend: "collection",
-                text: "Selection",
-                autoClose: true,
-                buttons: [{
-                    text: "Show Reports",
-                    action: (e, dt, node, config) => {
 
-                        single_project.showReports(dt, $sc, () => {
+            let actionButtons;
 
-                        });
+            // Dont show delete fastq option is project not from the user.
+            if (CURRENT_JOB_MINE === false) {
+                actionButtons = [
+                    {
+                        text: "Show Reports",
+                        action: (e, dt, node, config) => {
 
+                            single_project.showReports(dt, $sc, () => {
+
+                            });
+
+                        },
+                    }
+                ];
+            }
+            else {
+                actionButtons = [
+                    {
+                        text: "Show Reports",
+                        action: (e, dt, node, config) => {
+
+                            single_project.showReports(dt, $sc, () => {
+
+                            });
+
+                        },
                     },
-                },
                     {
                         text: "Delete Fastq",
                         action: (e, dt, node, config) => {
@@ -119,7 +135,15 @@ const Objects_Utils = (single_project, $sc) => {
                                 }
                             });
                         },
-                    }]
+                    }
+                ];
+            }
+
+            additionalButtons = {
+                extend: "collection",
+                text: "Selection",
+                autoClose: true,
+                buttons: actionButtons
             };
         }
 
@@ -304,22 +328,29 @@ const Objects_Utils = (single_project, $sc) => {
 
                         single_project.triggerInspect($(e.target).parent().attr("pip"), CURRENT_PROJECT_ID, (response) => {
 
-                            let inspect_url = response.data.link.trim();
-                            let pid = response.data.pid.trim();
+                            if (response.data.hasOwnProperty("message")) {
+                                $("#nextflow_inspect_div").html(response.data.message);
+                            }
+                            else {
 
-                            let inspect_url_parts = inspect_url.split("/");
+                                let inspect_url = response.data.link.trim();
+                                let pid = response.data.pid.trim();
 
-                            let subdomains = inspect_url_parts.splice(3, inspect_url_parts.length);
-                            subdomains = subdomains.join("/");
+                                let inspect_url_parts = inspect_url.split("/");
 
-                            inspect_url = INSPECT_ROUTE + subdomains;
+                                let subdomains = inspect_url_parts.splice(3, inspect_url_parts.length);
+                                subdomains = subdomains.join("/");
 
-                            url_for_pipeline[work_dir] = inspect_url;
-                            pid_to_pipeline[work_dir] = pid.split(":")[1]
+                                inspect_url = INSPECT_ROUTE + subdomains;
 
-                            $("#nextflow_inspect_div").html(
-                                "<iframe style='width:100%;height:100%;' src='" + inspect_url + "'><iframe>"
-                            );
+                                url_for_pipeline[work_dir] = inspect_url;
+                                pid_to_pipeline[work_dir] = pid.split(":")[1]
+
+                                $("#nextflow_inspect_div").html(
+                                    "<iframe style='width:100%;height:100%;' src='" + inspect_url + "'><iframe>"
+                                );
+
+                            }
 
                         });
                     }

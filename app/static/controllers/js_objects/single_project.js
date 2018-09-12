@@ -92,7 +92,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         'PD': '#ffdfba',
         'COMPLETED': '#baffc9',
         'FAILED': '#ffb3ba',
-        'WARNING': '#ffdfba',
+        'WARNING': '#fdff2f',
         'NEUTRAL': '#ffffff'
     };
 
@@ -2136,6 +2136,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                                             dict_strain_names[strain_name][3] += 1;
 
+                                            if (!strain_to_real_pip.hasOwnProperty(strains_dict[strain_name])) {
+                                                strain_to_real_pip[strains_dict[strain_name]] = [];
+                                            }
+
                                             console.log(response);
 
                                             // Case error in job submission
@@ -2160,6 +2164,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                                                         for (const s in task_ids) {
                                                             countTasks++;
+                                                            let projectId = task_ids[s].split("project")[1].split("pipeline")[0];
+                                                            let pipelineId = task_ids[s].split("pipeline")[1].split("process")[0];
+                                                            let processId = task_ids[s].split("process")[1];
+
+                                                            strain_to_real_pip[strains_dict[strain_name]].push([projectId, pipelineId, processId]);
+
                                                             var button_name = dict_strain_names[strain_name][5].shift();
                                                             tasks_to_buttons[task_ids[s]] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
                                                             buttons_to_tasks[button_name] = task_ids[s];
@@ -2520,7 +2530,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 });
             }
 
-            let f_path = response.data[0].file_3.split('^^')[0].replace(/"/g, "")
+            let f_path = response.data[0].file_3.split('^^')[0].replace(/"/g, "");
 
             pg_requests.download_file(f_path, (response) => {
                 callback();
@@ -2536,7 +2546,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 });
             }
 
-            let f_path = response.data[0].file_4.split('^^')[0].replace(/"/g, "")
+            let f_path = response.data[0].file_4.split('^^')[0].replace(/"/g, "");
 
             pg_requests.download_file(f_path, (response) => {
                 callback();
@@ -2695,10 +2705,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     delete buttons_to_tasks[sp_name];
                     delete protocols_applied_by_pipeline[strain_names[index]][removed_pip_name];
 
+                    strain_to_real_pip[strains_dict[strain_names[index]]].pop();
                     strainNames_to_pipelinesNames[strain_names[index]].pop();
                     applied_dependencies[strain_names[index]].pop();
                     protocols_applied[strain_names[index]].pop();
-                    //console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
                 }
             }
             modalAlert("Procedure removed. This action will only be applied" +
@@ -2729,6 +2739,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             protocols_applied_by_pipeline = {};
             intervals_running = {};
             pipelines_applied = {};
+            strain_to_real_pip = {};
 
             for (const index in strain_indexes) {
                 strain_data[index]['Analysis'] = "";

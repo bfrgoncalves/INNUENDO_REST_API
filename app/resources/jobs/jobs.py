@@ -770,15 +770,23 @@ class FlowcraftInspect(Resource):
 
         args = inspect_get_parser.parse_args()
 
-        request = requests.get(os.path.join(JOBS_ROOT, "inspect"),
-                                params={
-                                    'homedir': current_user.homedir,
-                                    'pipeline_id': args.pipeline_id,
-                                    'project_id': args.project_id,
-                                }
-                                )
+        out = {"message": "Inspect feature for this strain."}
 
-        out = request.json()
+        projectObject = db.session.query(Project).filter(args.project_id == Project.id).first()
+
+        if projectObject:
+            userObject = db.session.query(User).filter(User.id == projectObject.user_id).first()
+
+            if userObject:
+                request = requests.get(os.path.join(JOBS_ROOT, "inspect"),
+                                        params={
+                                            'homedir': userObject.homedir,
+                                            'pipeline_id': args.pipeline_id,
+                                            'project_id': args.project_id,
+                                        }
+                                        )
+
+                out = request.json()
 
         return out
 

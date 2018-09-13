@@ -22,11 +22,10 @@ var sendMessage = () => {
             $("#overlayProjects").css({"display": "none"});
             $("#overlayWorking").css({"display": "none"});
             $("#submission_status").empty();
-        }, 1000);
+        }, 5000);
     }
 
 };
-
 
 /**
  * Function for iframe comunication with the platform.

@@ -334,13 +334,13 @@ class ReportByIdResource(Resource):
         for job in job_ids:
             j = job.split("-")
 
-            reports = db.session.query(Report)\
+            report = db.session.query(Report)\
                 .filter(Report.project_id == j[0],
                         Report.pipeline_id == j[1],
                         Report.process_position == j[2]).first()
 
-        for x in reports:
-            reports_to_send.append(x.report_data)
+            if report:
+                reports_to_send.append(report.report_data)
 
         return reports_to_send, 200
 

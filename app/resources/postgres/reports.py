@@ -294,6 +294,7 @@ class ReportFilterResource(Resource):
 
         for x in reports:
             if hasattr(x.report_data, "reportJson") and hasattr(x.report_data["reportJson"], "cagao"):
+                print "Has profiles"
                 del x.report_data["reportJson"]["cagao"]
 
             reports_to_send.append(x.report_data)

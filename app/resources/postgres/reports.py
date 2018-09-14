@@ -293,6 +293,7 @@ class ReportFilterResource(Resource):
             .all()
 
         for x in reports:
+            print x.report_data.keys()
             if hasattr(x.report_data, "reportJson") and hasattr(x.report_data["reportJson"], "cagao"):
                 print "Has profiles"
                 del x.report_data["reportJson"]["cagao"]

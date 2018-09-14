@@ -56,13 +56,13 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
                                 }
 
                                 pg_requests.check_state((response) => {
-                                    if (response.data == "true") {
-                                        $("#lockText").text("Lock Platform")
+                                    if (response.data === "true") {
+                                        $("#lockText").text("Lock Platform");
                                     }
                                     else {
-                                        $("#lockText").text("Unlock Platform")
+                                        $("#lockText").text("Unlock Platform");
                                     }
-                                })
+                                });
                             });
                         });
                     });
@@ -83,11 +83,11 @@ innuendoApp.controller("dashboardCtrl", ($scope, $rootScope, $http) => {
     $scope.changeState = () => {
         pg_requests.change_state((response) => {
 
-            if (response.data == "true") {
-                $("#lockButton").html('<i class="fa fa-lock" aria-hidden="true" > Lock Platform</i>')
+            if (response.data === "true") {
+                $("#lockButton").html('<i class="fa fa-lock" aria-hidden="true" > Lock Platform</i>');
             }
             else {
-                $("#lockButton").html('<i class="fa fa-unlock" aria-hidden="true" > Unlock Platform</i>')
+                $("#lockButton").html('<i class="fa fa-unlock" aria-hidden="true" > Unlock Platform</i>');
             }
         });
     };

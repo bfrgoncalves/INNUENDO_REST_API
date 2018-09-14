@@ -76,7 +76,7 @@ const Protocol_List = ($http) => {
 
                 protocol_types = response.data.map((d) => {
 
-                    let pname = d.protocTypeLabel.split('"')[1].replace(/'/g, "")
+                    let pname = d.protocTypeLabel.split('"')[1].replace(/'/g, "");
                     let puri = d.protocType;
                     protocolTypeObject[pname] = puri;
                     return pname;
@@ -127,7 +127,7 @@ const Protocol_List = ($http) => {
                         callback({message: "protocol added to ngs onto"});
                         modalAlert('Protocol saved!', "Info", () => {
                         });
-                    })
+                    });
                 }
                 else {
                     modalAlert('An error as occurried when saving the protocol.', "Error", () => {
@@ -227,7 +227,7 @@ const Protocol_List = ($http) => {
                         protocol_ids: protocol_ids
                     });
                 }
-            })
+            });
         },
 
         /*
@@ -247,7 +247,9 @@ const Protocol_List = ($http) => {
                 let property_fields = [];
 
                 for (const i in response.data) {
-                    if (property_fields.indexOf(response.data[i].plabel.split('"')[1]) < 0) property_fields.push(response.data[i].plabel.split('"')[1])
+                    if (property_fields.indexOf(response.data[i].plabel.split('"')[1]) < 0) {
+                        property_fields.push(response.data[i].plabel.split('"')[1])
+                    }
                 }
 
                 property_fields = property_fields.reverse();

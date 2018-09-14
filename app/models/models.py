@@ -125,6 +125,7 @@ class User(db.Model, UserMixin):
         try:
             conn.simple_bind_s("cn="+email+",ou=users,"+baseDN, password)
         except Exception as e:
+            print e
             return False
 
         search_filter = "uid="+email

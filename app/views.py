@@ -33,6 +33,7 @@ def index():
         else:
             show_protocols = False
     except Exception, e:
+        print e
         show_protocols = False
 
     return render_template('index.html', title='Home',

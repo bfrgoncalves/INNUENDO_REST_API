@@ -160,19 +160,14 @@ def classify_profile(allcall_results, database_name, sample, job_id, schemaVersi
     query_profle_path_wg = "./chewbbaca_database_profiles/query_files/" +\
                            file_name + "_wg.tab"
 
-    headers_profile = []
-    headers = []
-
     strain_allele_profile = {}
 
     to_replace = allele_classes_to_ignore
 
-    profile_hey = ""
     profile_data = allcall_results["reportJson"]["cagao"][0]
 
     for key in allcall_results["reportJson"]["cagao"][0]:
         if key != "header":
-            profile_hey = key
             break
 
     headers = profile_data["header"]

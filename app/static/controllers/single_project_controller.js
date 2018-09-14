@@ -152,7 +152,9 @@ const set_headers_single_project = (table_id, global_strains) => {
                             if(x === "strainID") {
                                 p_col_defs.push({"data":x, "className": 'strain_cell'});
                             }
-                            else p_col_defs.push({"data":x});
+                            else {
+                                p_col_defs.push({"data":x});
+                            }
                         }
                         else{
                             p_col_defs.push({"data":x, "visible":false});
@@ -210,8 +212,12 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     const backButtonEl = $("#backbutton");
 
 
-    if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
-    else backButtonEl.css({"display":"none"});
+    if(PREVIOUS_PAGE_ARRAY.length > 0) {
+        backButtonEl.css({"display":"block"});
+    }
+    else {
+        backButtonEl.css({"display":"none"});
+    }
 
     $("#innuendofooter").css({"display":"none"});
 
@@ -620,8 +626,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                     });
                                 }
                             }
-                            else modalAlert("All (chosen) strains have a" +
-                                " pipeline attached (to them).", "Information", () => {});
+                            else {
+                                modalAlert("All (chosen) strains have a" +
+                                    " pipeline attached (to them).", "Information", () => {});
+                            }
                         });
 
                         $('#add_new_pip_from_fileSubmit').on("click", () => {
@@ -662,9 +670,11 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                     });
                                 }
                             }
-                            else modalAlert("There are no strains available" +
-                                " to add pipelines.", "No Strains" +
-                                " Available", () => {});
+                            else {
+                                modalAlert("There are no strains available" +
+                                    " to add pipelines.", "No Strains" +
+                                    " Available", () => {});
+                            }
                         })
 
                     });
@@ -781,7 +791,9 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             //Save the pipelines on the database if required
                             single_project.save_pipelines((run) => {
                                 //Run the pipelines
-                                if(run === true) single_project.run_pipelines();
+                                if(run === true) {
+                                    single_project.run_pipelines();
+                                }
                                 else if(run !== "no_select") {
                                     modalAlert('All processes for the selected strains' +
                                         ' have been run.', "All Processes Submitted", () => {});
@@ -928,10 +940,14 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
         single_project.add_new_strain(trigger_from_file_load, (strains_results, is_from_file) => {
 
-            if(strains_results.already_there) return;
+            if(strains_results.already_there) {
+                return;
+            }
 
-            if(is_from_file !== true) modalAlert('Strain added to the' +
-                ' project.', "Strains Added", () => {});
+            if(is_from_file !== true) {
+                modalAlert('Strain added to the' +
+                    ' project.', "Strains Added", () => {});
+            }
 
             objects_utils.destroyTable('strains_table');
             global_strains = strains_results.strains;
@@ -1113,8 +1129,10 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $scope.removeStrainsFromProject = () => {
 
         single_project.remove_strains_from_project(global_strains, (strains_results) => {
-            if (strains_results === "no_select") modalAlert("Please select a" +
-                " strain to remove.", "Select Strains", () => {});
+            if (strains_results === "no_select") {
+                modalAlert("Please select a" +
+                    " strain to remove.", "Select Strains", () => {});
+            }
             else{
                 objects_utils.destroyTable('strains_table');
                 global_strains = strains_results.strains;

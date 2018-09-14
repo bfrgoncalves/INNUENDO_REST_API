@@ -1,5 +1,3 @@
-
-
 innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
 
     const pg_requests = Requests(CURRENT_PROJECT_ID, CURRENT_PROJECT, $http);
@@ -16,33 +14,33 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
 
     const modalAlert = (text, header, callback) => {
 
-    	const buttonSub = $('#buttonSub');
-    	const modalBodyEl = $('#modalAlert .modal-body');
+        const buttonSub = $('#buttonSub');
+        const modalBodyEl = $('#modalAlert .modal-body');
 
-    	$('#buttonCancelAlert').off("click");
+        $('#buttonCancelAlert').off("click");
 
-    	$('#modalAlert .modal-title').empty();
-    	$('#modalAlert .modal-title').append("<p>"+header+"</p>");
+        $('#modalAlert .modal-title').empty();
+        $('#modalAlert .modal-title').append("<p>" + header + "</p>");
 
-    	modalBodyEl.empty();
-    	modalBodyEl.append("<p>"+text+"</p>");
+        modalBodyEl.empty();
+        modalBodyEl.append("<p>" + text + "</p>");
 
-    	buttonSub.off("click").on("click", () => {
-    		$('#modalAlert').modal("hide");
+        buttonSub.off("click").on("click", () => {
+            $('#modalAlert').modal("hide");
 
-    		setTimeout( () => {
-    			return callback();
-			}, 400);
-    	});
+            setTimeout(() => {
+                return callback();
+            }, 400);
+        });
 
-    	$('#modalAlert').modal("show");
+        $('#modalAlert').modal("show");
 
     };
 
     $scope.loadMessages = () => {
 
         // Get messages stored for the current user
-        pg_requests.get_messages(5, (response) =>{
+        pg_requests.get_messages(5, (response) => {
             console.log(response);
             $scope.messages = response.data[0];
             retrievedMessages = response.data[0].length;
@@ -50,12 +48,12 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         });
 
         // Get all the usernames
-        pg_requests.get_users((response) =>{
+        pg_requests.get_users((response) => {
             let options = "";
 
             options += "<option>All</option>";
 
-            for (const r of response.data){
+            for (const r of response.data) {
                 options += "<option>" + r.username + "</option>";
             }
 
@@ -64,14 +62,14 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         });
 
         // Get the available message templates
-        pg_requests.get_templates((response) =>{
+        pg_requests.get_templates((response) => {
             templates = response.data;
 
             let template_keys = Object.keys(templates);
             let options = "<option>None</option>";
 
             for (const r in template_keys) {
-                options += "<option>"+template_keys[r]+"</option>";
+                options += "<option>" + template_keys[r] + "</option>";
             }
 
             $("#template_dropdown").empty().append(options);
@@ -82,7 +80,7 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
     $("#template_dropdown").off("changed.bs.select").on("changed.bs.select", (e) => {
 
         if (e.target.value === "None") {
-            t_use = ["",""];
+            t_use = ["", ""];
         }
         else {
             t_use = templates[e.target.value];
@@ -103,13 +101,14 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         pg_requests.send_messages(tosend, (response) => {
 
             if (response.status === 201) {
-                modalAlert("Message sent!", "Messages", () => {});
+                modalAlert("Message sent!", "Messages", () => {
+                });
             }
             else {
                 modalAlert("There was an error when sending the message.",
-                    "Error", () => {});
+                    "Error", () => {
+                    });
             }
-
 
 
         });
@@ -122,7 +121,7 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
 
             retrievedMessages += messageIncrement;
             // Get messages stored for the current user
-            pg_requests.get_messages(retrievedMessages, (response) =>{
+            pg_requests.get_messages(retrievedMessages, (response) => {
                 $scope.messages = response.data[0];
                 retrievedMessages = response.data[0].length;
                 $scope.messagescount = response.data[1];
@@ -135,16 +134,17 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         let messageid = $($event.currentTarget).attr("messageid");
 
         pg_requests.delete_messages(messageid, (response) => {
-           if (response.status === 204) {
-               modalAlert("Message deleted!", "Messages", () => {});
-           }
+            if (response.status === 204) {
+                modalAlert("Message deleted!", "Messages", () => {
+                });
+            }
 
-           // Get messages stored for the current user
-           pg_requests.get_messages(retrievedMessages, (response) =>{
-               $scope.messages = response.data[0];
-               retrievedMessages = response.data[0].length;
-               $scope.messagescount = response.data[1];
-           });
+            // Get messages stored for the current user
+            pg_requests.get_messages(retrievedMessages, (response) => {
+                $scope.messages = response.data[0];
+                retrievedMessages = response.data[0].length;
+                $scope.messagescount = response.data[1];
+            });
         });
     };
 
@@ -167,16 +167,16 @@ innuendoApp.controller("messagesCtrl", ($scope, $rootScope, $http) => {
         let messageid = $($event.currentTarget).attr("messageid");
 
         pg_requests.mark_as_read(messageid, (response) => {
-           console.log(response);
-           if (response.status === 200) {
-               console.log("status changed");
-           }
+            console.log(response);
+            if (response.status === 200) {
+                console.log("status changed");
+            }
 
-           // Get messages stored for the current user
-           pg_requests.get_messages(retrievedMessages, (response) =>{
-               $scope.messages = response.data[0];
-               $scope.messagescount = response.data[1];
-           });
+            // Get messages stored for the current user
+            pg_requests.get_messages(retrievedMessages, (response) => {
+                $scope.messages = response.data[0];
+                $scope.messagescount = response.data[1];
+            });
         });
     };
 

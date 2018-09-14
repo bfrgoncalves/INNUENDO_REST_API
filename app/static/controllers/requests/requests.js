@@ -274,7 +274,6 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
         },
         create_protocol: (protocol_object, callback) => {
 
-            console.log(protocol_object);
             const req = {
                 url: "api/v1.0/protocols/",
                 method: "POST",
@@ -401,13 +400,13 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     url: "api/v1.0/projects/species/" + species_id,
                     method: "GET",
                     params: {get_others: true}
-                }
+                };
             }
             else {
                 req = {
                     url: "api/v1.0/projects/species/" + species_id,
                     method: "GET"
-                }
+                };
             }
 
             $http(req).then((response) => {
@@ -701,14 +700,14 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 req = {
                     url: "api/v1.0/projects/" + project_id + "/pipelines/",
                     method: "GET"
-                }
+                };
             }
             else {
                 req = {
                     url: "api/v1.0/projects/" + project_id + "/pipelines/",
                     method: "GET",
                     params: {strain_id_all: strain_id}
-                }
+                };
             }
 
             $http(req).then((response) => {
@@ -969,7 +968,7 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 params: {
                     "strainID": strain_name
                 }
-            }
+            };
 
             $http(req).then((response) => {
                     callback(response);
@@ -1286,10 +1285,10 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
             $http(req).then((response) => {
                     callback(response);
-                },
-                (response) => {
-                    callback(response);
-                });
+            },
+            (response) => {
+                callback(response);
+            });
 
         },
 
@@ -1305,10 +1304,10 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
 
             $http(req).then((response) => {
                     callback(response);
-                },
-                (response) => {
-                    callback(response);
-                });
+            },
+            (response) => {
+                callback(response);
+            });
         },
 
         fetch_job: (redis_job_id, callback) => {

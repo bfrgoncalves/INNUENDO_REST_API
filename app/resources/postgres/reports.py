@@ -24,6 +24,12 @@ report_get_parser.add_argument('job_ids', dest='job_ids', type=str,
 report_get_parser.add_argument('species_id', dest='species_id', type=str,
                                required=False, help="Species ID")
 
+# Defining post arguments parser
+report_post_id_parser = reqparse.RequestParser()
+
+report_post_id_parser.add_argument('job_ids', dest='job_ids', type=str,
+                               required=False, help="job identifier")
+
 # Defining projects get arguments parser
 report_get_project_parser = reqparse.RequestParser()
 
@@ -293,7 +299,48 @@ class ReportFilterResource(Resource):
             .all()
 
         for x in reports:
+            if "reportJson" in x.report_data.keys():
+                if "cagao" in x.report_data["reportJson"]:
+                    del x.report_data["reportJson"]["cagao"]
+
             reports_to_send.append(x.report_data)
+
+        return reports_to_send, 200
+
+
+class ReportByIdResource(Resource):
+    """
+    Class to get reports by applying filters
+    """
+
+    # @login_required
+    def post(self):
+        """Reports with filters
+
+        Returns the projects filtered according to a list of selected projet
+        identifiers and strain identifiers.
+
+        Returns
+        -------
+        list: list of reports
+        """
+
+        args = report_post_id_parser.parse_args()
+
+        job_ids = args.job_ids.split(",")
+
+        reports_to_send = []
+
+        for job in job_ids:
+            j = job.split("-")
+
+            report = db.session.query(Report)\
+                .filter(Report.project_id == j[0],
+                        Report.pipeline_id == j[1],
+                        Report.process_position == j[2]).first()
+
+            if report:
+                reports_to_send.append(report.report_data)
 
         return reports_to_send, 200
 

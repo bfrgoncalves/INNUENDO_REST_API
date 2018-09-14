@@ -8,14 +8,18 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
     const backButtonEl = $("#backbutton");
     current_scope_template = $scope.selectedTemplate.path;
 
-    if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
-    else backButtonEl.css({"display":"none"});
+    if(PREVIOUS_PAGE_ARRAY.length > 0) {
+        backButtonEl.css({"display":"block"});
+    }
+    else {
+        backButtonEl.css({"display":"none"});
+    }
 
     $("#innuendofooter").css({"display":"none"});
 
     backButtonEl.off("click").on("click", () => {
         $scope.$apply( () => {
-            session_array = PREVIOUS_PAGE_ARRAY.pop();
+            let session_array = PREVIOUS_PAGE_ARRAY.pop();
 
             CURRENT_PROJECT_ID = session_array[1];
             CURRENT_JOB_MINE = session_array[2];
@@ -302,7 +306,9 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
                 $("#div_button_addto_workflow").css({display:"block"});
             });
 
-            if(results.protocols.length !== 0) protocolSelEl.trigger("change");
+            if(results.protocols.length !== 0) {
+                protocolSelEl.trigger("change");
+            }
         });
     };
 
@@ -319,7 +325,9 @@ innuendoApp.controller("workflowsCtrl", ($scope, $http) => {
                     $scope.added_protocols = results.added_protocols;
                 });
             }
-            else $scope.added_protocols = results.added_protocols;
+            else {
+                $scope.added_protocols = results.added_protocols;
+            }
 
             $("#prot_default").css({display: "none"});
             $("#div_workflow_test").css({display: "block"});

@@ -92,7 +92,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         'PD': '#ffdfba',
         'COMPLETED': '#baffc9',
         'FAILED': '#ffb3ba',
-        'WARNING': '#ffdfba',
+        'WARNING': '#fdff2f',
         'NEUTRAL': '#ffffff'
     };
 
@@ -194,7 +194,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         if (response.status === 200) {
 
                         }
-                        else console.log(response.statusText);
+                        else {
+                            console.log(response.statusText);
+                        }
                     });
 
                     const data = response.data;
@@ -244,10 +246,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         });
 
                     }
-                    else callback({
-                        strains_headers: strains_headers,
-                        strains: strains
-                    });
+                    else {
+                        callback({
+                            strains_headers: strains_headers,
+                            strains: strains
+                        });
+                    }
 
                 };
 
@@ -278,7 +282,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         callback(strain_id, new_pipeline_id);
                     });
                 }
-                else console.log(response.statusText);
+                else {
+                    console.log(response.statusText);
+                }
             });
         };
 
@@ -360,7 +366,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         }
                     }
 
-                    if (total_pipelines === global_counter_pipelines) callback({strains: strains});
+                    if (total_pipelines === global_counter_pipelines) {
+                        callback({strains: strains});
+                    }
                 });
             }
             else {
@@ -444,11 +452,21 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         let prevtaskid = task_id;
 
                         //Case the job as finished in any way, clear the interval
-                        if (status === 'COMPLETED' || status === 'WARNING' || status === 'FAILED') all_status_done += 1;
-                        if (status === 'FAILED') has_failed = true;
-                        if (status === "R") is_running = true;
-                        if (status === "PD") pending_jobs += 1;
-                        if (status === "WARNING") has_warning = true;
+                        if (status === 'COMPLETED' || status === 'WARNING' || status === 'FAILED') {
+                            all_status_done += 1;
+                        }
+                        if (status === 'FAILED') {
+                            has_failed = true;
+                        }
+                        if (status === "R") {
+                            is_running = true;
+                        }
+                        if (status === "PD") {
+                            pending_jobs += 1;
+                        }
+                        if (status === "WARNING") {
+                            has_warning = true;
+                        }
 
                         if (prev_process_status === 'FAILED' && status === "PD") {
                             dict_of_tasks_status[task_id] = 'NEUTRAL';
@@ -824,7 +842,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         strains_headers: strains_headers
                     });
                 }
-                else callback({strains: [], strains_headers: []});
+                else {
+                    callback({strains: [], strains_headers: []});
+                }
             });
         },
 
@@ -833,7 +853,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         */
         get_applied_pipelines: (strainid, callback) => {
 
-            if (strainid !== null) strainid = strains_dict[strainid];
+            if (strainid !== null) {
+                strainid = strains_dict[strainid];
+            }
             //Get the pipeline ids for that strain
             pg_requests.get_applied_pipelines(strainid, CURRENT_PROJECT_ID, (response, strainid) => {
                 let total_pipelines = response.data.length;
@@ -946,7 +968,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                             total_wf[strain_id_to_name[strain_id]].push(final_pips);
                                         }
                                     }
-                                    if (total_strains === processed_strains) callback(total_wf, strainids, total_pips, strains_dict);
+                                    if (total_strains === processed_strains) {
+                                        callback(total_wf, strainids, total_pips, strains_dict);
+                                    }
                                 }
                             }
                             else {
@@ -2112,6 +2136,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                                             dict_strain_names[strain_name][3] += 1;
 
+                                            if (!strain_to_real_pip.hasOwnProperty(strains_dict[strain_name])) {
+                                                strain_to_real_pip[strains_dict[strain_name]] = [];
+                                            }
+
                                             console.log(response);
 
                                             // Case error in job submission
@@ -2136,6 +2164,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                                                         for (const s in task_ids) {
                                                             countTasks++;
+                                                            let projectId = task_ids[s].split("project")[1].split("pipeline")[0];
+                                                            let pipelineId = task_ids[s].split("pipeline")[1].split("process")[0];
+                                                            let processId = task_ids[s].split("process")[1];
+
+                                                            strain_to_real_pip[strains_dict[strain_name]].push([projectId, pipelineId, processId]);
+
                                                             var button_name = dict_strain_names[strain_name][5].shift();
                                                             tasks_to_buttons[task_ids[s]] = button_name;//strain_names[strain_name].replace(/ /g, "_") + '_' + String(countTasks) + '_' + CURRENT_PROJECT_ID;
                                                             buttons_to_tasks[button_name] = task_ids[s];
@@ -2496,7 +2530,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 });
             }
 
-            let f_path = response.data[0].file_3.split('^^')[0].replace(/"/g, "")
+            let f_path = response.data[0].file_3.split('^^')[0].replace(/"/g, "");
 
             pg_requests.download_file(f_path, (response) => {
                 callback();
@@ -2512,7 +2546,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 });
             }
 
-            let f_path = response.data[0].file_4.split('^^')[0].replace(/"/g, "")
+            let f_path = response.data[0].file_4.split('^^')[0].replace(/"/g, "");
 
             pg_requests.download_file(f_path, (response) => {
                 callback();
@@ -2671,10 +2705,10 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     delete buttons_to_tasks[sp_name];
                     delete protocols_applied_by_pipeline[strain_names[index]][removed_pip_name];
 
+                    strain_to_real_pip[strains_dict[strain_names[index]]].pop();
                     strainNames_to_pipelinesNames[strain_names[index]].pop();
                     applied_dependencies[strain_names[index]].pop();
                     protocols_applied[strain_names[index]].pop();
-                    //console.log(intervals_running, buttons_to_tasks[sp_name], tasks_to_buttons, current_job_status_color, pipelines_type_by_strain, pipelines_applied);
                 }
             }
             modalAlert("Procedure removed. This action will only be applied" +
@@ -2705,6 +2739,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             protocols_applied_by_pipeline = {};
             intervals_running = {};
             pipelines_applied = {};
+            strain_to_real_pip = {};
 
             for (const index in strain_indexes) {
                 strain_data[index]['Analysis'] = "";

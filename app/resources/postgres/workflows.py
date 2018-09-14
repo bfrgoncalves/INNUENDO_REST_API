@@ -127,7 +127,7 @@ class WorkflowAllResource(Resource):
         workflows = db.session.query(Workflow).all()
 
         if not workflows:
-            abort(404, message="No workflows are available".format(id))
+            abort(404, message="No workflows are available")
         return workflows, 200
 
 
@@ -253,6 +253,7 @@ class WorkflowTestResource(Resource):
                     loaded_steps = json.loads(protocol.steps.replace("'", '"'))
                     list_tags.append(loaded_steps["Nextflow Tag"])
                 except Exception as e:
+                    print e
                     return {"content": "Protocol with errors. Please create "
                                        "another protocol to use when building this workflow."}
 

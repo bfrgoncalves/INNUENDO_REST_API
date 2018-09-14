@@ -77,7 +77,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
     array_to_process = []
 
     for job_id in total_j_ids:
-        body_profile = [];
         split_job_ids = job_id.split(":")
         report = db.session.query(Report)\
             .filter(
@@ -156,7 +155,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
 
     headers_profile = ["ID"]
     headers_metadata = ["ID"]
-    body_profile = []
     all_profiles = []
     all_metadata = []
     headers = []
@@ -223,8 +221,6 @@ def send_to_phyloviz(job_ids, dataset_name, dataset_description,
                         headers_metadata.append("Case ID")
                     else:
                         headers_metadata.append(x)
-
-                count_metadata_added = 0
 
                 for key, val in additional_data.iteritems():
                     for key1, val1 in val.iteritems():

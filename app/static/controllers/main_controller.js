@@ -116,19 +116,20 @@ const sendMail = () => {
         $("#email-body").val(),
         (response) => {
             if (response.data === true) {
-                $("#email_res_text").text("Email successfully sent.")
+                $("#email_res_text").text("Email successfully sent.");
             }
             else {
                 $("#email_res_text").text("There was an error when sending" +
-                    " the email.")
+                    " the email.");
             }
         });
 };
 
 const getNavbarMessages = () => {
 
-    if (CURRENT_USER_ID === 0)
+    if (CURRENT_USER_ID === 0) {
         return;
+    }
 
     let pg_requests = Requests("", "", http);
 
@@ -167,7 +168,7 @@ const checkPlatformState = () => {
 
         if (response.data === "anonymous") {
             clearInterval(intervalState);
-            return
+            return;
         }
         else if (response.data === "false" && !SHOW_INFO_BUTTON) {
             clearInterval(intervalState);
@@ -190,7 +191,7 @@ const performChecks = () => {
     let pg_requests = Requests("", "", http);
 
     pg_requests.check_authentication((response) => {
-        if (response.data !== true && response.data != "anonymous") {
+        if (response.data !== true && response.data !== "anonymous") {
             modalAlert("You have logged in with a different account on this" +
                 " computer. You will be disconnected from the server for" +
                 " security reasons in 10 seconds.", "Alert", () => {
@@ -199,7 +200,7 @@ const performChecks = () => {
                 const href = $("#logout_user").attr('href');
                 window.location.href = href;
             }, 10000);
-            return
+            return;
         }
 
         pg_requests.check_ldap((response) => {
@@ -282,7 +283,7 @@ const checkAuthentication = () => {
     let pg_requests = Requests("", "", http);
 
     pg_requests.check_authentication((response) => {
-        if (response.data !== true && response.data != "anonymous") {
+        if (response.data !== true && response.data !== "anonymous") {
             modalAlert("You have logged in with a different account on this" +
                 " computer. You will be disconnected from the server for" +
                 " security reasons in 10 seconds.", "Alert", () => {
@@ -316,7 +317,7 @@ const startApp = () => {
         }, 15000);
 
         intervalState = setInterval(() => {
-            checkPlatformState()
+            checkPlatformState();
         }, 5000);
 
         setTimeout(() => {

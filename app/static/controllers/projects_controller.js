@@ -20,14 +20,18 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
     const backButtonEl = $("#backbutton");
 
-    if(PREVIOUS_PAGE_ARRAY.length > 0) backButtonEl.css({"display":"block"});
-    else backButtonEl.css({"display":"none"});
+    if(PREVIOUS_PAGE_ARRAY.length > 0) {
+        backButtonEl.css({"display":"block"});
+    }
+    else {
+        backButtonEl.css({"display":"none"});
+    }
 
     $("#innuendofooter").css({"display":"none"});
 
     backButtonEl.off("click").on("click", () => {
         $scope.$apply( () => {
-            session_array = PREVIOUS_PAGE_ARRAY.pop();
+            let session_array = PREVIOUS_PAGE_ARRAY.pop();
 
             CURRENT_PROJECT_ID = session_array[1];
             CURRENT_JOB_MINE = session_array[2];
@@ -44,7 +48,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
             PROJECT_STATUS = session_array[12];
 
             $scope.selectedTemplate.path = session_array[0];
-        })
+        });
     });
 
     for (const interval in intervals_running){
@@ -77,7 +81,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $("#reset_strain").on("click", () => {
         $scope.$apply(function(){
             $scope.selectedTemplate.path = 'static/html_components/overview.html';
-        })
+        });
     });
 
     const resetHomeOpts = () => {

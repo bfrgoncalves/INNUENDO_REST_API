@@ -488,6 +488,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
                 try:
                     classification_to_use = classification_json[strain_id]
                 except KeyError as e:
+                    print e
                     print "No classification found for " + strain_id +\
                           ". Adding undefined..."
                     w.write(strain_id + "\n")
@@ -497,6 +498,7 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
                 try:
                     metadata_to_use = metadata_json[strain_id]
                 except KeyError as e:
+                    print e
                     print "No metadata for " + strain_id + ". Adding empty..."
                     m.write(strain_id + "\n")
                     count_no_meta += 1

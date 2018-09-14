@@ -22,7 +22,7 @@ from resources.postgres.species import SpecieListResource, SpeciesSchemaVersions
 from resources.postgres.reports import ReportsResource, \
     CombinedReportsResource, ReportsStrainResource, ReportsByProjectResource, \
     ReportInfoResource, ReportFilterResource, \
-    ReportsFileStrainResource, FilePathOnZipResource, SavedReportsResource
+    ReportsFileStrainResource, FilePathOnZipResource, SavedReportsResource, ReportByIdResource
 from resources.postgres.uploads import GetFilesResource, DownloadFilesResource
 from resources.ngs_onto.ngs_onto_projects import NGSOnto_ProjectUserResource, \
     NGSOnto_ProjectListUserResource
@@ -176,7 +176,7 @@ api.add_resource(ReportsFileStrainResource, '/api/v1.0/reports/strain/files/')
 api.add_resource(FilePathOnZipResource, '/api/v1.0/reports/files/')
 api.add_resource(CombinedReportsResource, '/api/v1.0/reports/combined')
 api.add_resource(SavedReportsResource, '/api/v1.0/reports/saved/')
-
+api.add_resource(ReportByIdResource, '/api/v1.0/reports/ids/')
 
 ################################# USER FILES ##################################
 

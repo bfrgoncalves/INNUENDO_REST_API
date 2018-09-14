@@ -293,6 +293,9 @@ class ReportFilterResource(Resource):
             .all()
 
         for x in reports:
+            if hasattr(x.report_data, "reportJson") and hasattr(x.report_data["reportJson"], "cagao"):
+                del x.report_data["reportJson"]["cagao"]
+
             reports_to_send.append(x.report_data)
 
         return reports_to_send, 200

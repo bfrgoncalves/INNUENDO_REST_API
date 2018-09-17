@@ -120,7 +120,7 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
 
     $scope.metadata_fields = metadata.get_fields();
-    $scope.specie_name = CURRENT_SPECIES_NAME;
+    $scope.specie_name = SPECIES_CORRESPONDENCE[CURRENT_SPECIES_NAME];
 
     let strains_headers = metadata.get_minimal_fields();
 

@@ -238,6 +238,11 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         if (!strains_dict.hasOwnProperty($.trim(data.strainID))) {
                             strains_dict[$.trim(data.strainID)] = data.id;
                         }
+
+                        for (const s in sd) {
+                           sd[s] =  sd[s] !== "" ? sd[s] : "NA";
+                        }
+
                         strains.push(sd);
 
                         callback({
@@ -746,6 +751,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             sd["FilesLocation"] = data[i].fq_location;
                             sd["has_files"] = data[i].has_files;
                             sd["Accession"] = data[i].Accession;
+
+                            // Parse for empty cell data
+                            for (const s in sd) {
+                               sd[s] =  sd[s] !== "" ? sd[s] : "NA";
+                            }
+
                             new_strains.push(sd);
                         }
                         public_strains = new_strains;
@@ -832,6 +843,12 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             if (!strains_dict.hasOwnProperty($.trim(data[i].strainID))) {
                                 strains_dict[$.trim(data[i].strainID)] = data[i].id;
                             }
+
+                            for (const s in sd) {
+                               sd[s] =  sd[s] !== "" ? sd[s] : "NA";
+                            }
+
+
                             add_strains.push(sd);
                         }
                         strains = add_strains;
@@ -940,8 +957,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     let available_workflows = [];
                     let workflow_ids_added = {};
                     let pipelines_ids = [];
-
-                    console.log(response);
 
                     if (response.status === 200) {
                         const total_pip = response.data.length;

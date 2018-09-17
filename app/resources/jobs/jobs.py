@@ -271,14 +271,14 @@ def add_data_to_db(results, sample, project_id, pipeline_id, process_position,
         return True
     else:
 
-        report_to_append = ["trace"]
+        #report_to_append = ["trace"]
 
-        if overwrite == "false":
-            for el in report_to_append:
-                try:
-                    results[el].extend(report.report_data[el])
-                except Exception:
-                    print "No trace to append"
+        #if overwrite == "false":
+        #    for el in report_to_append:
+        #        try:
+        #            results[el].extend(report.report_data[el])
+        #        except Exception:
+        #            print "No trace to append"
 
         report.project_id = project_id
         report.pipeline_id = pipeline_id

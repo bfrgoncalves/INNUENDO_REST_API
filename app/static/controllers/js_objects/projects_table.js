@@ -301,6 +301,11 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                     ' able to run more analysis on this Project. This option is' +
                     ' useful to release space from the Storage. Do you really' +
                     ' want to proceed?', "Project Lock", () => {
+
+                    $("#submission_status").html("Locking Project...");
+                    $("#overlayProjects").css({"display":"block"});
+                    $("#overlayWorking").css({"display":"block"});
+
                     pg_requests.lock_project(project_id, (response) => {
                         const new_projects = [];
 
@@ -314,6 +319,10 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                         });
 
                         projects = new_projects;
+
+                        $("#overlayProjects").css({"display":"none"});
+                        $("#overlayWorking").css({"display":"none"});
+                        $("#submission_status").empty();
 
                         callback({projects: projects});
                     });

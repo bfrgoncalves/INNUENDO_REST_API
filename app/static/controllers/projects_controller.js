@@ -73,8 +73,6 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $("#tools_button_li").css({"display":"block"});
     $("#user_tools").css({"display":"block"});
     $("#species_drop_button_li").css({"display":"block"});
-    //$("#protocols_button_li").css({"display":"none"});
-    //$("#workflows_button_li").css({"display":"none"});
     $("#overview_li").css({"display":"none"});
 
     //Reset application to overview page. Allows to select a diferent species
@@ -254,7 +252,6 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
         else {
             CURRENT_JOB_MINE = true;
         }
-        console.log(CURRENT_PROJECT_ID);
         projects_table.load_project(table_id, CURRENT_PROJECT_ID, false, (results) => {
             CURRENT_PROJECT = results.project;
             PROJECT_STATUS = results.project.is_removed;
@@ -270,7 +267,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
                 objects_utils.destroyTable('projects_table');
                 projects = results;
                 objects_utils.loadDataTables('projects_table', projects, project_col_defs);
-                modalAlert("Project Locked!");
+                modalAlert("Project Locked!", "Information", () => {});
             });
         });
     }

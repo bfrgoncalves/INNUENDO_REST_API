@@ -106,6 +106,8 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 	TO_LOAD_STRAINS = "";
 	TO_LOAD_PROJECTS = "";
 
+	let currentSelected = [];
+
     $('#waiting_spinner').css({display:'block', position:'fixed', top:'40%', left:'50%'});
 
     const objects_utils = Objects_Utils();
@@ -120,7 +122,7 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
 
     $scope.metadata_fields = metadata.get_fields();
-    $scope.specie_name = CURRENT_SPECIES_NAME;
+    $scope.specie_name = SPECIES_CORRESPONDENCE[CURRENT_SPECIES_NAME];
 
     let strains_headers = metadata.get_minimal_fields();
 
@@ -249,7 +251,11 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
             modalAlert("Please select a strain first.", "Select Strains", () => {
 
             });
+            currentSelected = [];
             return;
+        }
+        else {
+            currentSelected = strain_selected;
         }
 
         const strain_id_in_use = strain_selected[0].id;
@@ -260,11 +266,16 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
         $('#modifyStrainModal').modal("show");
 
-        const updateMetadataEl = $('#update_metadata_button');
+        /*const updateMetadataEl = $('#update_metadata_button');
 
         updateMetadataEl.off("click").on("click", () => {
-            updateMetadata(strain_id_in_use);
-        });
+            console.log("AQUI");
+            //updateMetadata(strain_id_in_use);
+        });*/
+    };
+
+    $scope.change_Strain = () => {
+        updateMetadata(currentSelected[0].id);
     };
 
     const updateMetadata = (strain_id_in_use) => {

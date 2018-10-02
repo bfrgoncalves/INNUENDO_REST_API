@@ -181,6 +181,9 @@ class User(db.Model, UserMixin):
             ldif = modlist.modifyModlist(password_value_old, password_value_new)
 
             conn.modify_s("cn=" + email + ",ou=users," + baseDN, ldif)
+
+            conn.unbind()
+
             return True
 
         except Exception as e:

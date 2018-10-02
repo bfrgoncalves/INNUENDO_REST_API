@@ -96,6 +96,8 @@ def change_password():
                                       request.form.get('password'),
                                       request.form.get('new_password'))
 
+            print status
+
             if status:
                 password_changed.send(current_app._get_current_object(),
                                       user=current_user._get_current_object())

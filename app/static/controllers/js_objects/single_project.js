@@ -646,14 +646,16 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             //Request to get quota
             pg_requests.get_quota((quota_obj) => {
 
-                /*let testdict = {
+                let testdict = {
                     "t_quota": quota_obj.data.f_space.split(/\s/g),
                     "f_quota": quota_obj.data.f_space.split(/\s/g),
                     "user_quota": quota_obj.data.f_space.split(/\s/g),
                     "p_space": quota_obj.data.p_space.split(/\s/g),
                     "u_space": quota_obj.data.u_quota.split(/\s/g),
                     "i_quota": quota_obj.data.i_quota.split(/\s/g)
-                };*/
+                };
+
+                console.log(testdict);
 
                 let t_quota = quota_obj.data.f_space.split(/\s/g)[24];
                 let f_quota = quota_obj.data.f_space.split(/\s/g)[25];

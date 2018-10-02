@@ -381,8 +381,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             loadGoogleChart(t_quota);
             $scope.t_quota = humanFileSize(t_quota.t_quota, true);
             $scope.f_quota = humanFileSize(t_quota.f_quota, true);
-            $scope.p_space = humanFileSize(t_quota.u_space, true);
-            $scope.u_space = humanFileSize(t_quota.f_quota - t_quota.u_space, true);
+            $scope.p_space = humanFileSize(t_quota.p_space, true);
+            $scope.u_space = humanFileSize(t_quota.f_quota - t_quota.p_space, true);
             $scope.u_quota = humanFileSize(t_quota.t_quota - t_quota.f_quota, true);
 
             $("#overlayProjects").css({"display":"none"});

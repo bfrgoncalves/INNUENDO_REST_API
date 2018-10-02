@@ -94,10 +94,10 @@ const loadGoogleChart = (t_quota) => {
             colorByPoint: true,
             data: [{
                 name: "Free Space",
-                y: t_quota.t_quota - (t_quota.f_quota - t_quota.u_space + t_quota.u_space)
+                y: t_quota.t_quota - (t_quota.f_quota - t_quota.p_space + t_quota.u_space)
             },{
                 name: "Other Projects Space",
-                y: t_quota.f_quota - t_quota.u_space
+                y: t_quota.f_quota - t_quota.p_space
             }, {
                 name: "User Projects",
                 y: t_quota.u_space,

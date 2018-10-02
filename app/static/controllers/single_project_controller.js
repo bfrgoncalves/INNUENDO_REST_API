@@ -378,6 +378,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         if(CURRENT_JOB_MINE === true) {
             //Get quota when clicking on description tab
             single_project.get_quota((t_quota) => {
+                $("#div-text-description").css({"display": "block"});
 
                 loadGoogleChart(t_quota);
                 $scope.t_quota = humanFileSize(t_quota.t_quota, true);
@@ -404,6 +405,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#div_project").css({"display":"block"});
         $("#project_tab").addClass("active");
         $("#description_tab").removeClass("active");
+        $("#div-text-description").css({"display": "none"});
         $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
     });
 

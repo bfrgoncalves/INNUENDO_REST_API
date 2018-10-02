@@ -657,12 +657,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
 
                 console.log(testdict);
 
-                let t_quota = quota_obj.data.f_space.split(/\s/g)[24];
-                let f_quota = quota_obj.data.f_space.split(/\s/g)[25];
-                let user_quota = quota_obj.data.f_space.split(/\s/g)[25];
+                let t_quota = quota_obj.data.f_space.split(/\s/g)[24] === "" ?
+                    quota_obj.data.f_space.split(/\s/g)[33] : quota_obj.data.f_space.split(/\s/g)[24];
+                let f_quota = quota_obj.data.f_space.split(/\s/g)[25] === "" ?
+                    quota_obj.data.f_space.split(/\s/g)[34] : quota_obj.data.f_space.split(/\s/g)[25];
+                let user_quota = quota_obj.data.f_space.split(/\s/g)[25] === "" ?
+                    quota_obj.data.f_space.split(/\s/g)[34] : quota_obj.data.f_space.split(/\s/g)[25];
                 let p_space = quota_obj.data.p_space.split(/\s/g)[0];
-                let u_space = quota_obj.data.u_quota.split(/\s/g)[24];
-                let i_space = quota_obj.data.i_quota.split(/\s/g)[24];
+                let u_space = quota_obj.data.u_quota.split(/\s/g)[24] === "" ?
+                    quota_obj.data.u_quota.split(/\s/g)[33] : quota_obj.data.u_quota.split(/\s/g)[24];
+                let i_space = quota_obj.data.i_quota.split(/\s/g)[24] === "" ?
+                    quota_obj.data.i_quota.split(/\s/g)[33] : quota_obj.data.i_quota.split(/\s/g)[24];
 
                 let quota_dict = {
                     "t_quota": t_quota,

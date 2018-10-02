@@ -646,7 +646,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             //Request to get quota
             pg_requests.get_quota((quota_obj) => {
 
-                let testdict = {
+                /*let testdict = {
                     "t_quota": quota_obj.data.f_space.split(/\s/g),
                     "f_quota": quota_obj.data.f_space.split(/\s/g),
                     "user_quota": quota_obj.data.f_space.split(/\s/g),
@@ -655,7 +655,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     "i_quota": quota_obj.data.i_quota.split(/\s/g)
                 };
 
-                console.log(testdict);
+                console.log(testdict);*/
 
                 let t_quota = /^\d+$/.test(quota_obj.data.f_space.split(/\s/g)[24]) === false ?
                     quota_obj.data.f_space.split(/\s/g)[42] : quota_obj.data.f_space.split(/\s/g)[24];
@@ -677,8 +677,6 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     "u_space": u_space,
                     "i_quota": i_space
                 };
-
-                console.log(quota_dict);
 
                 quota_dict.t_quota = quota_dict.t_quota === "" ? 0 : parseInt(quota_dict.t_quota);
                 quota_dict.f_quota = quota_dict.f_quota === "" ? 0 : parseInt(quota_dict.f_quota);

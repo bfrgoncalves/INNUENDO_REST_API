@@ -53,10 +53,10 @@ const loadGoogleChart = (t_quota) => {
             colorByPoint: true,
             data: [{
                 name: "Free Space",
-                y: t_quota.f_quota
+                y: t_quota.t_quota - t_quota.f_quota
             }, {
                 name: "Used Quota",
-                y: t_quota.t_quota - t_quota.f_quota,
+                y: t_quota.f_quota,
                 sliced: true,
                 selected: true
             }]

@@ -36,43 +36,45 @@
   	<!-- Main jumbotron for project description -->
     <div id="div_description" style="display:none;">
       <div class="col-md-12 banner_strains" style="padding-left: 1%;
-                       padding-right: 1%;display:none;" id="div-text-description">
+                       padding-right: 1%;">
           <div class="row" style="text-align: center;width:100%;padding-left:
            1%;">
               <p><b>{{!!project.description ? project.description : "No Project description provided!"}}</b></p>
           </div>
-          <div class="row" style="text-align: center;margin-top: 20px;
-          padding-left:1%;
-          padding-right:1%;">
-              <div class="col-md-6">
+          <div id="div-text-description" style="display:none;">
+              <div class="row" style="text-align: center;margin-top: 20px;
+              padding-left:1%;
+              padding-right:1%;">
+                  <div class="col-md-6">
+                      <div style="width:100%;">
+                              <p style="margin:1%;"><b>Total Institution Quota: </b>{{ t_quota }}</p>
+                              <p style="margin:1%;"><b>Free Quota Space: </b>{{
+                                      u_quota }}</p>
+                              <p style="margin:1%;"><b>Used Quota Space: </b>{{ f_quota
+                                      }}</p>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div style="width:100%; padding-left: 1%;padding-right: 1%;">
+                              <p style="margin:1%;"><b>Total Space: </b>{{ t_quota
+                                      }}</p>
+                              <p style="margin:1%;"><b>Other Projects Space: </b>{{
+                                      u_space }}</p>
+                              <p style="margin:1%;"><b>Project Space: </b>{{ p_space }}</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="row" style="text-align: center; padding-left:1%;
+              padding-right:1%;padding-bottom: 2%;">
                   <div style="width:100%;">
-                          <p style="margin:1%;"><b>Total Institution Quota: </b>{{ t_quota }}</p>
-                          <p style="margin:1%;"><b>Free Quota Space: </b>{{
-                                  u_quota }}</p>
-                          <p style="margin:1%;"><b>Used Quota Space: </b>{{ f_quota
-                                  }}</p>
+                      <div class="col-md-6">
+                          <div style="padding: 1%;" id="piechart_quota"></div>
+                      </div>
                   </div>
-              </div>
-              <div class="col-md-6">
                   <div style="width:100%; padding-left: 1%;padding-right: 1%;">
-                          <p style="margin:1%;"><b>Total Space: </b>{{ t_quota
-                                  }}</p>
-                          <p style="margin:1%;"><b>Other Projects Space: </b>{{
-                                  u_space }}</p>
-                          <p style="margin:1%;"><b>Project Space: </b>{{ p_space }}</p>
-                  </div>
-              </div>
-          </div>
-          <div class="row" style="text-align: center; padding-left:1%;
-          padding-right:1%;padding-bottom: 2%;">
-              <div style="width:100%;">
-                  <div class="col-md-6">
-                      <div style="padding: 1%;" id="piechart_quota"></div>
-                  </div>
-              </div>
-              <div style="width:100%; padding-left: 1%;padding-right: 1%;">
-                  <div class="col-md-6">
-                      <div style="padding: 1%;" id="piechart_user"></div>
+                      <div class="col-md-6">
+                          <div style="padding: 1%;" id="piechart_user"></div>
+                      </div>
                   </div>
               </div>
           </div>

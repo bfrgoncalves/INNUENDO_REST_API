@@ -190,11 +190,11 @@ class UserQuotaResource(Resource):
                                    project_id+"-*")
 
         # Get size of homedir
-        proc = subprocess.Popen(["du", "-sh", "-B1", current_user.homedir],
+        proc = subprocess.Popen(["df", current_user.homedir],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out1, err = proc.communicate()
 
-        proc = subprocess.Popen(["du", "-sh", "-B1", instStorage],
+        proc = subprocess.Popen(["df", instStorage],
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out2, err = proc.communicate()
 
@@ -210,9 +210,9 @@ class UserQuotaResource(Resource):
                         print e
                         print "error loading " + fp
 
-        proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out4, err = proc.communicate()
+        #proc = subprocess.Popen(["df", "-Ph", "-B1", current_user.homedir],
+        #                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        #out4, err = proc.communicate()
 
-        return {"u_quota": out1, "i_quota": out2, "f_space": out4,
+        return {"u_quota": out1, "i_quota": out2, "f_space": out2,
                 "p_space": str(out3)}

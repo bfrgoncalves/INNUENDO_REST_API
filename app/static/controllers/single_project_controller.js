@@ -375,21 +375,28 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
         $("#overlayWorking").css({"display":"block"});
         $("#single_project_controller_div").css({"display":"none"});
 
-        //Get quota when clicking on description tab
-        single_project.get_quota((t_quota) => {
+        if(CURRENT_JOB_MINE === true) {
+            //Get quota when clicking on description tab
+            single_project.get_quota((t_quota) => {
 
-            loadGoogleChart(t_quota);
-            $scope.t_quota = humanFileSize(t_quota.t_quota, true);
-            $scope.f_quota = humanFileSize(t_quota.f_quota, true);
-            $scope.p_space = humanFileSize(t_quota.p_space, true);
-            $scope.u_space = humanFileSize(t_quota.f_quota - t_quota.p_space, true);
-            $scope.u_quota = humanFileSize(t_quota.t_quota - t_quota.f_quota, true);
+                loadGoogleChart(t_quota);
+                $scope.t_quota = humanFileSize(t_quota.t_quota, true);
+                $scope.f_quota = humanFileSize(t_quota.f_quota, true);
+                $scope.p_space = humanFileSize(t_quota.p_space, true);
+                $scope.u_space = humanFileSize(t_quota.f_quota - t_quota.p_space, true);
+                $scope.u_quota = humanFileSize(t_quota.t_quota - t_quota.f_quota, true);
 
+                $("#overlayProjects").css({"display":"none"});
+                $("#overlayWorking").css({"display":"none"});
+                $("#single_project_controller_div").css({"display":"block"});
+
+            });
+        }
+        else {
             $("#overlayProjects").css({"display":"none"});
             $("#overlayWorking").css({"display":"none"});
             $("#single_project_controller_div").css({"display":"block"});
-
-        });
+        }
     });
 
     $("#project_tab").on("click", () => {

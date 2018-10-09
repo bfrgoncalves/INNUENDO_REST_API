@@ -381,6 +381,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                 $("#div-text-description").css({"display": "block"});
 
                 loadGoogleChart(t_quota);
+                console.log(t_quota.t_quota - (t_quota.p_space + t_quota.u_space));
                 $scope.t_quota = humanFileSize(t_quota.t_quota, true);
                 $scope.f_quota = humanFileSize(t_quota.f_quota, true);
                 $scope.p_space = humanFileSize(t_quota.p_space, true);

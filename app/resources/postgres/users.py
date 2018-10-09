@@ -186,6 +186,9 @@ class UserQuotaResource(Resource):
 
         instStorage = "/".join(current_user.homedir.split("/")[0:-2]) + "/"
 
+        if LOGIN_METHOD != "LDAP":
+            instStorage = LOGIN_HOMEDIR
+
         project_dir = os.path.join(current_user.homedir, "jobs",
                                    project_id+"-*")
 

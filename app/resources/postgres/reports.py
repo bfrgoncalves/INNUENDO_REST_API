@@ -9,6 +9,7 @@ import zipfile
 import string
 import random
 import json
+import glob
 
 ############################################ NOT BEING USED ####################
 
@@ -679,7 +680,9 @@ class ReportsFileStrainResource(Resource):
 
             with zipfile.ZipFile(zip_file_name, 'w') as myzip:
                 for i, f in enumerate(args.path.split(";")):
-                    myzip.write(f, sampleNames[i] + ".fasta")
+                    paths = glob.glob(f)
+                    for x, p in enumerate(paths):
+                        myzip.write(p, os.path.basename(p))
 
             response = send_file(zip_file_name, as_attachment=True)
             response.headers.add('Access-Control-Allow-Origin', '*')

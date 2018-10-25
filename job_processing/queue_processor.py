@@ -51,6 +51,13 @@ class Queue_Processor:
             )
         return job.get_id()
 
+    # Function to get the closest classification
+    def get_closest_profile(self, profile, sampleName, species, schemaVersion):
+        return database_functions.get_closest_profile(
+            profile, sampleName, species, schemaVersion
+        )
+
+
     # Fetch a job from the queue to get their status later
     def fetch_job(self, job_key):
         job = Job.fetch(job_key, connection=conn)

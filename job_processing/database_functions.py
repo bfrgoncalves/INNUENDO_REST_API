@@ -149,7 +149,97 @@ def get_profiles(strain_ids, database_name, get_json):
             "json": json_data}
 
 
+def get_closest_profile(profile, sampleName, database_name, schemaVersion):
+    """Function to get the closest profile on the database for a single profile.
+    Used to give a classification without adding it to the database
+
+    :param profile:
+    :param sampleName:
+    :param database_name:
+    :param schemaVersion:
+    :return: str
+    """
+
+    file_name = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                        for _ in range(8))
+
+    query_profle_path = "./chewbbaca_database_profiles/query_files/" + \
+                        file_name + ".tab"
+
+    profile_string = "{}\t{}".format(sampleName, "\t".join(profile))
+
+    with open(query_profle_path, 'w') as writer:
+        writer.write(profile_string+"\n")
+
+    # First level classification
+    closest_profiles = fast_mlst_functions.get_closest_profiles(
+        query_profle_path,
+        core_index_correspondece[schemaVersion][database_name],
+        classification_levels[database_name][0])
+
+    # Second level classification
+    closest_profiles_2 = fast_mlst_functions.get_closest_profiles(
+        query_profle_path,
+        core_index_correspondece[schemaVersion][database_name],
+        classification_levels[database_name][1])
+
+    # Third level classification
+    closest_profiles_3 = fast_mlst_functions.get_closest_profiles(
+        query_profle_path,
+        core_index_correspondece[schemaVersion][database_name],
+        classification_levels[database_name][2])
+
+    # Total closest ids on first level
+    closest_ids = []
+    for i, x in enumerate(closest_profiles):
+        closest_ids.append(closest_profiles[i].split("\t")[0])
+
+    # Total closest ids on second level
+    closest_ids_2 = []
+    for i, x in enumerate(closest_profiles_2):
+        closest_ids_2.append(closest_profiles_2[i].split("\t")[0])
+
+    # Total closest ids on third level
+    closest_ids_3 = []
+    for i, x in enumerate(closest_profiles_3):
+        closest_ids_3.append(closest_profiles_3[i].split("\t")[0])
+
+    # Closest on first level
+    if len(closest_profiles) == 0:
+        first_closest = [None]
+    else:
+        # ID\tDIFFERENCES
+        first_closest = closest_profiles[0].split("\t")
+
+    # Closest on second level
+    if len(closest_profiles_2) == 0:
+        first_closest_2 = [None]
+    else:
+        # ID\tDIFFERENCES
+        first_closest_2 = closest_profiles_2[0].split("\t")
+
+    # Closest on third level
+    if len(closest_profiles_3) == 0:
+        first_closest_3 = [None]
+    else:
+        # ID\tDIFFERENCES
+        first_closest_3 = closest_profiles_3[0].split("\t")
+
+    return "{}:{}:{}".format(first_closest[0], first_closest_2[0], first_closest_3[0])
+
+
 def classify_profile(allcall_results, database_name, sample, job_id, schemaVersion):
+    """Function to classify a profile based on the profiles available on the
+    INNUENDO database. At the end it adds the results to the classification
+    database.
+
+    :param allcall_results:
+    :param database_name:
+    :param sample:
+    :param job_id:
+    :param schemaVersion:
+    :return:
+    """
 
     file_name = ''.join(random.choice(string.ascii_uppercase + string.digits)
                         for _ in range(8))
@@ -182,7 +272,7 @@ def classify_profile(allcall_results, database_name, sample, job_id, schemaVersi
 
     with open(core_headers_correspondece[schemaVersion][database_name], 'r') as reader:
         for i, line in enumerate(reader):
-            count_core+=1
+            count_core += 1
             if line.rstrip() == "FILE":
                 core_profile.append(sample.replace(" ", "_"))
             else:

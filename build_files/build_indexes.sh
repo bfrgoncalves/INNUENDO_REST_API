@@ -1,28 +1,31 @@
 #!/bin/bash
 
+: '
+This script allows the retrieval of the legacy wgMLST profiles dataset
+information available for the species covered by the INNUENDO Platform.
+The user can provide an outdir, one of the available profile versions,
+the path for the fastMLST program and for allegrograph.
+
+NOTE: Should be run on the INNUENDO_REST_API folder.
+'
+
 # RUN on INNUENDO_REST_API folder
 
 innuendo_dir=$(pwd)
 
 # INNUENDO DIR
 echo "INNUENDO dir: ${innuendo_dir}"
-
 # Output dir
 echo "Out dir: ${1}"
-
 # Fast MLST Path
 echo "fastmlst path: ${2}"
-
 # Allegrograph client
 echo "allegro client: ${3}"
 export PYTHONPATH="${3}/src"
-
 # Import version
 echo "Import version: ${4}"
-
 # Prepare Yersinia enterocolitica data
 echo "---> Checking Yersinia enterocolitica data  ..."
-
 
 # Create folders on defined outdir
 mkdir -p ${1}/${4}/legacy_profiles
@@ -31,21 +34,22 @@ mkdir -p ${1}/${4}/classifications
 mkdir -p ${1}/${4}/legacy_metadata
 mkdir -p ${1}/${4}/core_lists
 
+# Check if the Y. enterocolitica file exists in the out directory, If not, it
+# will download all the required files and build the Yersinia database.
 if [ ! -f "${1}/${4}/legacy_profiles/profiles_Yersinia.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
     cd ${1}/${4}/legacy_profiles
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_Yersinia.tsv
+    # Get wgMLST profiles for Y. enterocolitica
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Yenterocolitica_wgMLST_alleleProfiles.tsv
     mv Yenterocolitica_wgMLST_alleleProfiles.tsv profiles_Yersinia.tsv
-
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/Yersinia_enterocolitica_metadata.txt
+    # Get the metadata for the Y. enterocolitica legacy dataset
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Yenterocolitica_metadata.txt
     mv Yenterocolitica_metadata.txt Yersinia_enterocolitica_metadata.txt
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/cgMLST_list_Yersinia.txt
+    # Get the list of core genes for this schema
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Yenterocolitica_cgMLST_2406_listGenes.txt
     mv Yenterocolitica_cgMLST_2406_listGenes.txt cgMLST_list_Yersinia.txt
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/goeBURST_cgMLST_9_133_1189_yersinia.txt.1
+   # GEt the INNUENDO classification for the legacy dataset
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Yentero_correct_classification.txt
     mv Yentero_correct_classification.txt goeBURST_cgMLST_9_133_1189_yersinia.txt.1
     mv Yersinia_enterocolitica_metadata.txt ../legacy_metadata/
@@ -82,23 +86,24 @@ if [ ! -f "${1}/${4}/legacy_profiles/profiles_Yersinia.tsv" ]; then
 
 fi
 
-# Prepare Salmonella data
 echo "---> Checking Salmonella enterica data  ..."
 
+# Check if the S. enterica file exists in the out directory, If not, it
+# will download all the required files and build the Salmonella database.
 if [ ! -f "${1}/${4}/legacy_profiles/profiles_Salmonella.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
     cd ${1}/${4}/legacy_profiles
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_Salmonella.tsv
+    # Get wgMLST profiles for S. enterica
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Senterica_wgMLST_alleleProfiles.tsv
     mv Senterica_wgMLST_alleleProfiles.tsv profiles_Salmonella.tsv
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/Salmonella_enterica_metadata.txt
+    # Get S. enterica metadata for the legacy dataset
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Senterica_metadata.txt
     mv Senterica_metadata.txt Salmonella_enterica_metadata.txt
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/cgMLST_list_Salmonella.txt
+    # Get the list of cgMLST genes for S. enterica in the legacy schema
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Senterica_cgMLST_3255_listGenes.txt
     mv Senterica_cgMLST_3255_listGenes.txt cgMLST_list_Salmonella.txt
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/goeBURST_cgMLST_7_338_997_salmonella.txt.1
+    # Get INNUENDO classification file
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Salmonella_goeBURST_cgMLST_cleaned.-.goeBURST_cgMLST_cleaned.tsv
     mv Salmonella_goeBURST_cgMLST_cleaned.-.goeBURST_cgMLST_cleaned.tsv goeBURST_cgMLST_7_338_997_salmonella.txt.1
     mv Salmonella_enterica_metadata.txt ../legacy_metadata/
@@ -135,23 +140,24 @@ if [ ! -f "${1}/${4}/legacy_profiles/profiles_Salmonella.tsv" ]; then
 
 fi
 
-# Prepare Escherichia coli data
 echo "---> Checking Escherichia coli data  ..."
 
+# Check if the E. coli file exists in the out directory, If not, it
+# will download all the required files and build the Ecoli database.
 if [ ! -f "${1}/${4}/legacy_profiles/profiles_Ecoli.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
     cd ${1}/${4}/legacy_profiles
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_Ecoli.tsv
+    # Get E. coli profiles for the legacy dataset
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Ecoli_wgMLST_alleleProfiles.tsv
     mv Ecoli_wgMLST_alleleProfiles.tsv profiles_Ecoli.tsv
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/Escherichia_coli_metadata.txt
+    # Get the E. coli metadata
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Ecoli_metadata.txt
     mv Ecoli_metadata.txt Escherichia_coli_metadata.txt
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/cgMLST_list_Ecoli.txt
+    # Get the list of core genes for the legacy E. coli schema
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Ecoli_cgMLST_2360_listGenes.txt
     mv Ecoli_cgMLST_2360_listGenes.txt cgMLST_list_Ecoli.txt
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/goeBURST_FULL_8_112_793_ecoli.txt
+    # Get the INNUENDO classification for E. coli
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Ecoli_goeBURST_FULL_pub.-.goeBURST_FULL.tsv
     mv Ecoli_goeBURST_FULL_pub.-.goeBURST_FULL.tsv goeBURST_FULL_8_112_793_ecoli.txt
     mv Escherichia_coli_metadata.txt ../legacy_metadata/
@@ -188,23 +194,24 @@ if [ ! -f "${1}/${4}/legacy_profiles/profiles_Ecoli.tsv" ]; then
 
 fi
 
-# Prepare Campylobacter jejuni/coli data
 echo "---> Checking Campylobacter jejuni data  ..."
 
+# Check if the C. jejuni file exists in the out directory, If not, it
+# will download all the required files and build the Campy database.
 if [ ! -f "${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv" ]; then
 
     echo "---> Downloading legacy dataset  ..."
     cd ${1}/${4}/legacy_profiles
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/profiles_CcoliCjejuni.tsv
+    # Get C. jejuni profiles
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Cjejuni_wgMLST_alleleProfiles.tsv
     mv Cjejuni_wgMLST_alleleProfiles.tsv profiles_Cjejuni.tsv
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/Campylobacter_coli_jejuni_metadata.txt
+    # Get C. jejuni metadata
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Cjejuni_metadata.txt
     mv Cjejuni_metadata.txt Campylobacter_jejuni_metadata.txt
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/cgMLST_list_ccolicjejuni.tsv
+    # Get list of core genes from C. jejuni dataset
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Cjejuni_cgMLST_678_listGenes.txt
     mv Cjejuni_cgMLST_678_listGenes.txt cgMLST_list_cjejuni.tsv
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/goeBURST_cgMLST_4_59_292_campy.txt
+    # Get INNUENDO classification for C. jejuni
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Campylobacter_goeBURST_cgMLST_correct.tsv
     mv Campylobacter_goeBURST_cgMLST_correct.tsv goeBURST_cgMLST_4_59_292_campy.txt
     mv Campylobacter_jejuni_metadata.txt ../legacy_metadata/

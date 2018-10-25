@@ -1,5 +1,11 @@
 #!/bin/bash
 
+: '
+This script allows backup and restore a postgresql database by providing a mode,
+databseName, database username, and database password.
+'
+
+# Prints to the console the required arguments
 echo "mode: ${1}"
 echo "database: ${2}"
 echo "postgres username: ${3}"

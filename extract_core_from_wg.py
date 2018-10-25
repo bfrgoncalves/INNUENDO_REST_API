@@ -4,8 +4,8 @@ import csv
 import argparse
 
 '''
-This program removes genes from a tab delimited file according to a list.
-Allows only replacing chewBBACA tags by 0
+This program removes genes from a tab delimited file according to a key-value 
+list. Currently it only allows replacing chewBBACA tags by 0
 '''
 
 
@@ -44,6 +44,7 @@ def main():
     outputfileName = args.o
     inverse = args.inverse
 
+    # Key-value dictionary with the tags that need to be changed by 0
     allele_classes_to_ignore = {
         'LNF': '0',
         'INF-': '',
@@ -72,10 +73,14 @@ def main():
             as csvout, open(outputfileName + "_headers.txt", "wb")\
             as headers_out:
 
+        # Opens the file with the locus tags to be included in the final profile
+        #  file.
         tsvin = csv.reader(tsvin, delimiter='\t')
 
         listindextoremove = []
 
+        # Checks if a locus exists in the whole genome profile. If exists it
+        # marks it to be removed.
         for firstline in tsvin:
             for gene in firstline:
                 if gene in FilesToRemove and not inverse:
@@ -91,6 +96,7 @@ def main():
             headers_out.write(('\n'.join(firstline)))
             break
 
+        # Deletes the profile indexes to be removed from each profile.
         for line in tsvin:
             if not args.onlyreplace:
                 for elem in reversed(listindextoremove):
@@ -101,6 +107,7 @@ def main():
             for k, v in allele_classes_to_ignore.iteritems():
                 string_list = string_list.replace(k,v)
 
+            # Writes the processed profile to the final profiles file.
             csvout.write(string_list + "\n")
 
 

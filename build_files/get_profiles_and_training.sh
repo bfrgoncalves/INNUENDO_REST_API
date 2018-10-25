@@ -1,5 +1,10 @@
 #!/bin/bash
 
+: '
+This script gets all the chewBBACA wgMLST profiles for a set of available
+species in the INNUENDO Platform.
+'
+
 # Output location
 echo "Output location: ${1}"
 
@@ -12,7 +17,7 @@ mkdir -p ${1}/${2}/schemas/
 # Enter schemas directory
 cd ${1}/${2}/schemas/
 
-# Get Salmonella enterica schema
+# Get Salmonella enterica schema. If already there, doesnt do nothing.
 if [ ! -d "${1}/${2}/schemas/schema_Salmonella_Py3" ]; then
 
     echo "---> Downloading Salmonella enterica schema  ..."
@@ -33,12 +38,11 @@ if [ ! -d "${1}/${2}/schemas/schema_Salmonella_Py3" ]; then
 
 fi
 
-# Get Yersinia enterocolitica schema
+# Get Yersinia enterocolitica schema. If already there, doesnt do nothing.
 if [ ! -d "${1}/${2}/schemas/schema_Yenterocolitica_Py3_V1.5" ]; then
 
     echo "---> Downloading Yersinia enterocolitica schema  ..."
     cd ${1}/${2}/schemas/
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/Yenterocolitica_schema.tar.gz
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Yenterocolitica_wgMLST_6344_schema.tar.gz
 
     echo "---> Extracting Yersinia enterocolitica schema  ..."
@@ -54,12 +58,11 @@ if [ ! -d "${1}/${2}/schemas/schema_Yenterocolitica_Py3_V1.5" ]; then
     find ${1}/${2}/schemas/schema_Yenterocolitica_Py3_V1.5/*.fasta > listGenes.txt
 fi
 
-# Get Escherichia coli schema
+# Get Escherichia coli schema. If already there, doesnt do nothing.
 if [ ! -d "${1}/${2}/schemas/schema_enterobase_V4_called" ]; then
 
     echo "---> Downloading Escherichia coli schema  ..."
     cd ${1}/${2}/schemas/
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/Ecoli_schema.tar.gz
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Ecoli_wgMLST_7601_schema.tar.gz
 
     echo "---> Extracting Escherichia coli schema  ..."
@@ -75,13 +78,12 @@ if [ ! -d "${1}/${2}/schemas/schema_enterobase_V4_called" ]; then
     find ${1}/${2}/schemas/schema_enterobase_V4_called/*.fasta > listGenes.txt
 fi
 
-# Get Campylobacter jejuni/coli schema
+# Get Campylobacter jejuni/coli schema. If already there, doesnt do nothing.
 if [ ! -d "${1}/${2}/schemas/schema_seed_campy_roary_V5" ]; then
 
     echo "---> Downloading Campylobacter jejuni schema  ..."
     cd ${1}/${2}/schemas/
     wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/1.1/Cjejuni_wgMLST_2795_schema.tar.gz
-    #wget https://github.com/bfrgoncalves/INNUENDO_schemas/releases/download/v1.0/ccolicjejuni.tar.gz
 
     echo "---> Extracting Campylobacter jejuni/coli schema  ..."
     tar zxf Cjejuni_wgMLST_2795_schema.tar.gz

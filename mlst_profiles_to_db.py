@@ -11,8 +11,9 @@ from config import allele_classes_to_ignore, base_metadata, \
 def main():
     """Main function to trigger profile adding to the databases
 
-    The function parses the input of the user and triggers the funtion to add
-    profiles to the databases.
+    The function parses the input of the user and triggers the function to add
+    profiles to the databases. Each database must be specified as a model in the
+     INNUENDO platform to allow the connection.
 
     Returns
     -------

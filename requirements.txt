@@ -38,7 +38,7 @@ python-editor==1.0.1
 python-ldap==2.4.27
 python-openid==2.2.5
 pytz==2016.4
-requests==2.10.0
+requests>=2.20.0
 simplejson==3.8.2
 six==1.10.0
 SQLAlchemy==1.0.13

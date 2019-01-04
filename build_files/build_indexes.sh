@@ -82,7 +82,7 @@ if [ ! -f "${1}/${4}/legacy_profiles/profiles_Yersinia.tsv" ]; then
     cat ${1}/${4}/indexes/yersinia_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/yersinia_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Yersinia.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_9_133_1189_yersinia.txt -m ${1}/${4}/legacy_metadata/Yersinia_enterocolitica_metadata.txt -d yersinia -p NFP -v ${4}
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Yersinia.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_9_133_1189_yersinia.txt -m ${1}/${4}/legacy_metadata/Yersinia_enterocolitica_metadata.txt -d Yersinia -p NFP -v ${4}
 
 fi
 
@@ -136,7 +136,7 @@ if [ ! -f "${1}/${4}/legacy_profiles/profiles_Salmonella.tsv" ]; then
     cat ${1}/${4}/indexes/salmonella_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/salmonella_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Salmonella.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_7_338_997_salmonella.txt -m ${1}/${4}/legacy_metadata/Salmonella_enterica_metadata.txt -d salmonella -p NFP -v ${4}
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Salmonella.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_7_338_997_salmonella.txt -m ${1}/${4}/legacy_metadata/Salmonella_enterica_metadata.txt -d Salmonella -p NFP -v ${4}
 
 fi
 
@@ -190,7 +190,7 @@ if [ ! -f "${1}/${4}/legacy_profiles/profiles_Ecoli.tsv" ]; then
     cat ${1}/${4}/indexes/ecoli_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/ecoli_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Ecoli.tsv -c ${1}/${4}/classifications/goeBURST_FULL_8_112_793_ecoli.txt -m ${1}/${4}/legacy_metadata/Escherichia_coli_metadata.txt -d ecoli -p NFP -v ${4}
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Ecoli.tsv -c ${1}/${4}/classifications/goeBURST_FULL_8_112_793_ecoli.txt -m ${1}/${4}/legacy_metadata/Escherichia_coli_metadata.txt -d E.coli -p NFP -v ${4}
 
 fi
 
@@ -244,6 +244,6 @@ if [ ! -f "${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv" ]; then
     cat ${1}/${4}/indexes/campy_wg_profiles.tab | ${2}/src/main -i ${1}/${4}/indexes/campy_wg -b
 
     echo "---> Populating Profile Database ..."
-    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_4_59_292_campy.txt -m ${1}/${4}/legacy_metadata/Campylobacter_jejuni_metadata.txt -d campylobacter -p NFP -v ${4}
+    flask/bin/python mlst_profiles_to_db.py -i ${1}/${4}/legacy_profiles/profiles_Cjejuni.tsv -c ${1}/${4}/classifications/goeBURST_cgMLST_4_59_292_campy.txt -m ${1}/${4}/legacy_metadata/Campylobacter_jejuni_metadata.txt -d Campylobacter -p NFP -v ${4}
 
 fi

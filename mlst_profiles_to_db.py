@@ -1,8 +1,8 @@
 from app import db
-from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
 import datetime
 import sys
 import argparse
+from app.app_configuration import database_correspondece
 
 from config import allele_classes_to_ignore, base_metadata, \
     metadata_to_use_all
@@ -41,206 +41,28 @@ def main():
     mlst_profiles_to_db(args.i, args.c, args.m, args.d, args.p, args.v)
 
 
-def populate_db_ecoli(name, classifierl1, classifierl2,
-                      classifierl3, allelic_profile,
-                      strain_metadata, from_platform_tag, importVersion):
-    """Adds a new Escherichia coli profile to the database
-
-    Parameters
-    ----------
-    name: str
-    classifierl1: str
-    classifierl2: str
-    classifierl3: str
-    allelic_profile: json
-    strain_metadata: json
-    from_platform_tag: str
-
-    Returns
-    -------
-    status: request status code
-    """
-
-    try:
-        ecoli = Ecoli(name=name, classifier_l1=classifierl1,
-                      classifier_l2=classifierl2,
-                      classifier_l3=classifierl3,
-                      allelic_profile=allelic_profile,
-                      strain_metadata=strain_metadata,
-                      platform_tag=from_platform_tag,
-                      version=importVersion,
-                      timestamp=datetime.datetime.utcnow())
-
-        db.session.add(ecoli)
-        db.session.commit()
-
-    except Exception:
-        print name + " already exists"
-        print "Updating data..."
-
-        entry = db.session.query(Ecoli).filter(Ecoli.name == name).first()
-
-        if not entry:
-            print "Error updating " + name
-        else:
-            entry.classifier_l1 = classifierl1
-            entry.classifier_l2 = classifierl2
-            entry.classifier_l3 = classifierl3
-            entry.allelic_profile = allelic_profile
-            entry.strain_metadata = strain_metadata
-            entry.platform_tag = from_platform_tag
-            entry.version = importVersion
-
-            db.session.commit()
-
-            print name + " updated!"
-
-        return 200
-
-    return 201
-
-
-def populate_db_yersinia(name, classifierl1, classifierl2,
-                         classifierl3, allelic_profile,
-                         strain_metadata, from_platform_tag, importVersion):
-    """Adds a new Yersinia enterocolitica profile to the database
-
-    Parameters
-    ----------
-    name: str
-    classifierl1: str
-    classifierl2: str
-    classifierl3: str
-    allelic_profile: json
-    strain_metadata: json
-    from_platform_tag: str
-
-    Returns
-    -------
-    status: request status code
-    """
-
-    try:
-        ecoli = Yersinia(name=name, classifier_l1=classifierl1,
-                         classifier_l2=classifierl2,
-                         classifier_l3=classifierl3,
-                         allelic_profile=allelic_profile,
-                         strain_metadata=strain_metadata,
-                         platform_tag=from_platform_tag,
-                         version=importVersion,
-                         timestamp=datetime.datetime.utcnow())
-
-        db.session.add(ecoli)
-        db.session.commit()
-
-    except Exception:
-        print name + " already exists"
-        print "Updating data..."
-
-        entry = db.session.query(Yersinia).filter(Yersinia.name == name).first()
-
-        if not entry:
-            print "Error updating " + name
-        else:
-            entry.classifier_l1 = classifierl1
-            entry.classifier_l2 = classifierl2
-            entry.classifier_l3 = classifierl3
-            entry.allelic_profile = allelic_profile
-            entry.strain_metadata = strain_metadata
-            entry.platform_tag = from_platform_tag
-            entry.version = importVersion
-
-            db.session.commit()
-
-            print name + " updated!"
-
-        return 200
-
-    return 201
-
-
-def populate_db_campylobacter(name, classifierl1, classifierl2,
-                              classifierl3, allelic_profile,
-                              strain_metadata, from_platform_tag,
-                              importVersion):
-    """Adds a new Campylobacter jejuni/coli profile to the database
-
-    Parameters
-    ----------
-    name: str
-    classifierl1: str
-    classifierl2: str
-    classifierl3: str
-    allelic_profile: json
-    strain_metadata: json
-    from_platform_tag: str
-
-    Returns
-    -------
-    status: request status code
-    """
-
-    try:
-        ecoli = Campylobacter(name=name, classifier_l1=classifierl1,
-                              classifier_l2=classifierl2,
-                              classifier_l3=classifierl3,
-                              allelic_profile=allelic_profile,
-                              strain_metadata=strain_metadata,
-                              platform_tag=from_platform_tag,
-                              version=importVersion,
-                              timestamp=datetime.datetime.utcnow())
-
-        db.session.add(ecoli)
-        db.session.commit()
-
-    except Exception:
-        print name + " already exists"
-        print "Updating data..."
-
-        entry = db.session.query(Campylobacter).filter(Campylobacter.name == name).first()
-
-        if not entry:
-            print "Error updating " + name
-        else:
-            entry.classifier_l1 = classifierl1
-            entry.classifier_l2 = classifierl2
-            entry.classifier_l3 = classifierl3
-            entry.allelic_profile = allelic_profile
-            entry.strain_metadata = strain_metadata
-            entry.platform_tag = from_platform_tag
-            entry.version = importVersion
-
-            db.session.commit()
-
-            print name + " updated!"
-
-        return 200
-
-    return 201
-
-
-def populate_db_salmonella(name, classifierl1, classifierl2,
+def populate_db(name, classifierl1, classifierl2,
                            classifierl3, allelic_profile,
-                           strain_metadata, from_platform_tag, importVersion):
+                           strain_metadata, from_platform_tag, importVersion, databaseid):
     """Adds a new Salmonella enterica profile to the database
 
-    Parameters
-    ----------
-    name: str
-    classifierl1: str
-    classifierl2: str
-    classifierl3: str
-    allelic_profile: json
-    strain_metadata: json
-    from_platform_tag: str
+        Parameters
+        ----------
+        name: str
+        classifierl1: str
+        classifierl2: str
+        classifierl3: str
+        allelic_profile: json
+        strain_metadata: json
+        from_platform_tag: str
 
-    Returns
-    -------
-    status: request status code
-    """
+        Returns
+        -------
+        status: request status code
+        """
 
     try:
-        ecoli = Salmonella(name=name, classifier_l1=classifierl1,
+        entry = database_correspondece[databaseid](name=name, classifier_l1=classifierl1,
                            classifier_l2=classifierl2,
                            classifier_l3=classifierl3,
                            allelic_profile=allelic_profile,
@@ -249,14 +71,17 @@ def populate_db_salmonella(name, classifierl1, classifierl2,
                            version=importVersion,
                            timestamp=datetime.datetime.utcnow())
 
-        db.session.add(ecoli)
+        db.session.add(entry)
         db.session.commit()
 
     except Exception:
         print name + " already exists"
         print "Updating data..."
 
-        entry = db.session.query(Salmonella).filter(Salmonella.name == name).first()
+        db.session.rollback()
+
+        entry = db.session.query(database_correspondece[databaseid]).filter(
+            database_correspondece[databaseid].name == name).first()
 
         if not entry:
             print "Error updating " + name
@@ -276,16 +101,6 @@ def populate_db_salmonella(name, classifierl1, classifierl2,
         return 200
 
     return 201
-
-
-# dictionary with the associations between species tags and their respective
-# databases.
-populate_dbs = {
-    "ecoli": populate_db_ecoli,
-    "yersinia": populate_db_yersinia,
-    "campylobacter": populate_db_campylobacter,
-    "salmonella": populate_db_salmonella
-}
 
 
 def read_chewBBACA_file_to_JSON(file_path, type_species):
@@ -505,11 +320,11 @@ def mlst_profiles_to_db(chewbbaca_file_path, classification_file_path,
                     count_no_meta += 1
                     metadata_to_use = base_metadata
 
-                populate_dbs[table_id](strain_id, classification_to_use[0],
+                populate_db(strain_id, classification_to_use[0],
                                        classification_to_use[1],
                                        classification_to_use[2],
                                        allelic_profile, metadata_to_use,
-                                       platform_tag, importVersion)
+                                       platform_tag, importVersion, table_id)
 
     print "DONE IMPORTING TO DB AND CREATING PROFILE HEADERS FILE"
     print "Non classified: " + str(count_no_class)

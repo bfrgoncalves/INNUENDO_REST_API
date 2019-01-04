@@ -23,7 +23,7 @@ frontend server** and its associated RESTful API.
   
 > **Installation**
 
-Information about the platform installation can be found at the [documentation](https://innuendo.readthedocs.io/.
+Information about the platform installation can be found at the [documentation](https://innuendo.readthedocs.io/).
 
 > **Source code**
 

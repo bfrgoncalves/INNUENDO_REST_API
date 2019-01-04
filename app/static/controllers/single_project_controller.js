@@ -599,6 +599,13 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             }
                         });
 
+                        $('#fromdbbutton').on("click", () => {
+                            setTimeout(() => {
+                                $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
+                            }, 200);
+
+                        });
+
                         $('#fromfile_file').on("change", (e) => {
                             $("#file_text").val(e.target.files[0].name);
                         });
@@ -1090,6 +1097,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
+                $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
                 callback();
             });
         });

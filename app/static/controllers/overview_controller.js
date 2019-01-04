@@ -95,16 +95,11 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
                 CURRENT_SPECIES_NAME = results.CURRENT_SPECIES_NAME;
                 CURRENT_SPECIES_ID = results.CURRENT_SPECIES_ID;
 
+                // Get all species navailable from the configuration file
+                $scope.all_species = ALL_SPECIES;
+
+                // Set the name correspondence
                 $scope.species_correspondence = SPECIES_CORRESPONDENCE;
-
-                let t_use = "";
-
-                for(const r in results.species){
-                    //Select only for Ecoli or Yersinia
-                    if (results.species[r].name === "E.coli" || results.species[r].name === "Yersinia"){
-                        t_use += '<option species_id="'+results.species[r].id+'">' + results.species[r].name + '</option>';
-                    }
-                }
 
                 // Get global statistics to fill species badges
                 projects_table.get_statistics( (results) => {
@@ -112,10 +107,6 @@ innuendoApp.controller("overviewCtrl", ($scope, $rootScope, $http) => {
                     GLOBAL_STATISTICS = results.data;
 
                     $scope.global_statistics = GLOBAL_STATISTICS;
-
-                    $('#species_select_drop').append(t_use);
-
-                    $('.selectpicker').selectpicker({});
 
                     setTimeout( () => {
                         $("#innuendofooter").css({"display":"block"});

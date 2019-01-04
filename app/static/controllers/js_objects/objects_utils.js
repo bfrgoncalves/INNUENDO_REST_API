@@ -156,7 +156,6 @@ const Objects_Utils = (single_project, $sc) => {
 
         let table = $("#" + table_id).DataTable({
             dom: "Blfrtip",
-            "scrollCollapse": true,
             "scrollX": true,
             paging: true,
             colReorder: {
@@ -226,8 +225,9 @@ const Objects_Utils = (single_project, $sc) => {
             });
         });
 
+        $(".dataTables_scroll").css("overflow", "auto");
 
-        table.columns.adjust().draw();
+        $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
 
         const tableBodyEl = $("#" + table_id + " tbody");
         const tableBodyTrEl = $("#" + table_id + " tbody tr");

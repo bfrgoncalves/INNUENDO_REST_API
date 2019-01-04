@@ -138,6 +138,26 @@
 
             <div class="row">
 
+              <div ng-repeat="specie_tag in all_species" class="span3">
+                  <div id="box{{ $index +1 }}" class="pricing-box-plain">
+                  <div class="heading">
+                    <h4>{{ species_correspondence[specie_tag] }}</h4>
+                  </div>
+                  <div class="desc">
+                    <ul style="float:left; text-align: left;">
+                      <li>{{ global_statistics[specie_tag][0] }} strains</li>
+                      <li>{{ global_statistics[specie_tag][1] }} projects</li>
+                      <li>{{ global_statistics[specie_tag][2] }} wgMLST profiles</li>
+                    </ul>
+                  </div>
+                  <div class="action">
+                    <a href="#" class="btn btn-lg btn-default"
+                       ng-click="load_species($event)" sname="{{ specie_tag }}"
+                       sid="{{ $index +1 }}">View Projects</a>
+                  </div>
+                </div>
+              </div>
+            <!--
               <div class="span3">
                 <div id="box1" class="pricing-box-plain">
                   <div class="heading">
@@ -216,7 +236,7 @@
                        sid="3">View Projects</a>
                   </div>
                 </div>
-              </div>
+              </div>-->
             </div>
 
           </div>

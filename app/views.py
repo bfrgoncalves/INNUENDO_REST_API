@@ -3,7 +3,7 @@ from flask_security import login_required, current_user, utils, roles_required
 import json
 from app import app
 from config import FILES_ENTRY_POINT, ADMIN_GID, REPORTS_URL, \
-    NEXTFLOW_TAGS, INSPECT_ROUTE
+    NEXTFLOW_TAGS, INSPECT_ROUTE, ALL_SPECIES, SPECIES_CORRESPONDENCE
 
 
 '''Views:
@@ -45,7 +45,9 @@ def index():
                            show_info_button=json.dumps(show_protocols),
                            inspect_route=json.dumps(INSPECT_ROUTE),
                            homedir=json.dumps(homedir),
-                           nextflow_tags=json.dumps(NEXTFLOW_TAGS)
+                           nextflow_tags=json.dumps(NEXTFLOW_TAGS),
+                           ALL_SPECIES=json.dumps(ALL_SPECIES),
+                           SPECIES_CORRESPONDENCE=json.dumps(SPECIES_CORRESPONDENCE)
                            )
 
 

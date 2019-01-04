@@ -1,7 +1,6 @@
 from app import db
 import random
 import string
-from app.models.models import Ecoli, Yersinia, Campylobacter, Salmonella
 import fast_mlst_functions
 import datetime
 import subprocess
@@ -12,13 +11,11 @@ from config import wg_index_correspondece, core_index_correspondece, \
     allele_classes_to_ignore, core_increment_profile_file_correspondece, \
     wg_increment_profile_file_correspondece, classification_levels
 
+from app.app_configuration import database_correspondece
+
 '''Database Functions:
     - Classify a profile based on Fast-MLST (https://github.com/aplf/fast-mlst) 
     by using the closest strain classifier from the profiles db'''
-
-database_correspondece = {"E.coli": Ecoli, "Yersinia": Yersinia,
-                          "Campylobacter": Campylobacter,
-                          "Salmonella": Salmonella}
 
 
 def tab_profile_from_db(strain_id, database, headers_file_path,

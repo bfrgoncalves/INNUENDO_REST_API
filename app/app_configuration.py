@@ -15,10 +15,19 @@ from config import localNSpace,dcterms, SFTP_HOST, LOGIN_METHOD, \
     ALL_SPECIES
 from franz.openrdf.vocabulary.rdf import RDF
 
+from app.models.models import Ecoli, Yersinia, Salmonella, Campylobacter
+
 '''App configuration:
     - Set of functions to be applied before the first app request and an 
     handle  override for the flask-login post function'''
 
+# Database correspondences
+database_correspondece = {
+    "E.coli": Ecoli,
+    "Yersinia": Yersinia,
+    "Salmonella": Salmonella,
+    "Campylobacter": Campylobacter
+}
 
 # Executes before the first request is processed.
 @app.before_first_request

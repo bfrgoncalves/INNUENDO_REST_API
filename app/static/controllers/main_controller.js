@@ -25,13 +25,6 @@ let PROJECT_STATUS = "";
 let TO_LOAD_STRAINS = "";
 let TO_LOAD_PROJECTS = "";
 
-let SPECIES_CORRESPONDENCE = {
-    "E.coli": "Escherichia coli",
-    "Yersinia": "Yersinia enterocolitica",
-    "Salmonella": "Salmonella enterica",
-    "Campylobacter": "Campylobacter jejuni"
-};
-
 let GLOBAL_STATISTICS;
 
 let CURRENT_JOB_ID = "";

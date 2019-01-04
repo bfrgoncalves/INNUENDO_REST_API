@@ -469,6 +469,8 @@ class Tree(db.Model):
 
 #######################MLST DATABASE############################################
 
+# Classes for all the species wgMLST profiles and classification
+
 class Ecoli(db.Model):
     """
     Defines the species specific storage of profiles and its classification.

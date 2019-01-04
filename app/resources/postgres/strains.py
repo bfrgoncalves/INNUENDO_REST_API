@@ -3,11 +3,12 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with #
 from flask import request
 import json
 
-from app.models.models import Strain, Project, Ecoli, Yersinia, Salmonella, \
-    Campylobacter, Report, Specie
+from app.models.models import Strain, Project, Report, Specie
 from flask_security import current_user, login_required, roles_required
 import datetime
 import os
+
+from app.app_configuration import database_correspondece
 
 # Defining post arguments parser
 
@@ -80,14 +81,6 @@ strain_fields_project = {
 
 nottoStore = ["fileselector"]
 
-# Database correspondences
-database_correspondece = {
-    "E.coli": Ecoli,
-    "Yersinia": Yersinia,
-    "Salmonella": Salmonella,
-    "Campylobacter": Campylobacter
-}
-
 
 class StrainResource(Resource):
     """
@@ -114,34 +107,22 @@ class StrainResource(Resource):
 
         if not current_user.is_authenticated:
             abort(403, message="No permissions")
+
         strain = db.session.query(Strain).filter(Strain.name == name).first()
-
-        # SEARCH FOR CLASSIFICATION ON EACH DB
-        e_results = db.session.query(Ecoli).filter(Ecoli.name == name).first()
-
-        if not e_results:
-            y_results = db.session.query(Yersinia)\
-                .filter(Yersinia.name == name).first()
-
-            if not y_results:
-                c_results = db.session.query(Campylobacter)\
-                    .filter(Campylobacter.name == name).first()
-
-                if not c_results:
-                    s_results = db.session.query(Salmonella)\
-                        .filter(Salmonella.name == name).first()
-
-                    if not s_results:
-                        strain.classifier = "NA"
-                else:
-                    strain.classifier = c_results.classifier
-            else:
-                strain.classifier = y_results.classifier
-        else:
-            strain.classifier = e_results.classifier
 
         if not strain:
             abort(404, message="No strain available")
+
+        for specie in database_correspondece:
+            # SEARCH FOR CLASSIFICATION ON EACH DB
+            results = db.session.query(database_correspondece[specie]).\
+                filter(database_correspondece[specie].name == name).first()
+
+            if not results:
+                continue
+            else:
+                strain.classifier = results.classifier
+
         return strain, 200
 
 
@@ -334,8 +315,6 @@ class StrainsByNameResource(Resource):
         strains_to_search = args.selectedStrains.split(",")
         projects_to_search = args.selectedProjects.split(",")
 
-        print strains_to_search
-
         nameToProject = {}
 
         for i, y in enumerate(strains_to_search):
@@ -345,7 +324,6 @@ class StrainsByNameResource(Resource):
             .filter(Strain.name.in_(strains_to_search)).all()
 
         for strain in strains:
-            print strain.name
             database_entry = db.session.query(Specie)\
                 .filter(Specie.id == strain.species_id).first()
 
@@ -581,40 +559,23 @@ class SpeciesStatistics(Resource):
 
     def get(self):
 
-        # Get strain count
-        strains_1_count = db.session.query(Strain).filter(
-            Strain.species_id == "1").count()
-        strains_2_count = db.session.query(Strain).filter(
-            Strain.species_id == "2").count()
-        strains_3_count = db.session.query(Strain).filter(
-            Strain.species_id == "3").count()
-        strains_4_count = db.session.query(Strain).filter(
-            Strain.species_id == "4").count()
+        all_species = db.session.query(Specie).all()
 
-        # Get project count
-        projects_1_count = db.session.query(Project).filter(
-            Project.species_id == "1").count()
-        projects_2_count = db.session.query(Project).filter(
-            Project.species_id == "2").count()
-        projects_3_count = db.session.query(Project).filter(
-            Project.species_id == "3").count()
-        projects_4_count = db.session.query(Project).filter(
-            Project.species_id == "4").count()
+        species_object = {}
 
-        # Get profile count
-        profile_1_count = db.session.query(Ecoli).count()
-        profile_2_count = db.session.query(Yersinia).count()
-        profile_3_count = db.session.query(Campylobacter).count()
-        profile_4_count = db.session.query(Salmonella).count()
+        for specie in all_species:
+            # Get strain count
+            strains_count = db.session.query(Strain).filter(
+                Strain.species_id == specie.id).count()
 
-        # Build object
-        species_object = {
-            "E.coli": [strains_1_count, projects_1_count, profile_1_count],
-            "Salmonella": [strains_4_count, projects_4_count,
-                              profile_4_count],
-            "Yersinia": [strains_2_count, projects_2_count, profile_2_count],
-            "Campylobacter": [strains_3_count, projects_3_count,
-                              profile_3_count]
-        }
+            # Get project count
+            projects_count = db.session.query(Project).filter(
+                Project.species_id == specie.id).count()
+
+            # Get profile count
+            profile_count = db.session.query(database_correspondece[specie.name]).count()
+
+            # Build object
+            species_object[specie.name] = [strains_count, projects_count, profile_count]
 
         return species_object

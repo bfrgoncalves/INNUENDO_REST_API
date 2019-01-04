@@ -1,7 +1,10 @@
 from app import db
 from flask_restful import Resource, reqparse, abort, fields, marshal_with
 
-from app.models.models import Specie, Campylobacter, Ecoli, Salmonella, Yersinia
+from app.models.models import Specie
+
+from app.app_configuration import database_correspondece
+
 from flask_security import current_user, login_required
 
 # Defining post arguments parser
@@ -73,8 +76,13 @@ class SpeciesSchemaVersions(Resource):
         -------
         list of versions
         """
-        species_name = ["Salmonella", "Yersinia", "Campylobacter", "E.coli"]
-        species_list = [Salmonella, Yersinia, Campylobacter, Ecoli]
+        species_name = []
+        species_list = []
+
+        for specie in database_correspondece:
+            species_name.append(specie)
+            species_list.append(database_correspondece[specie])
+
         versionsdict = {}
 
         for i, x in enumerate(species_list):

@@ -261,7 +261,18 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
         const strain_id_in_use = strain_selected[0].id;
 
         for(const key in strain_selected[0]){
-            $('#'+key).val(strain_selected[0][key]);
+            // Check if is a datepicker
+            try{
+                const from = strain_selected[0][key].split("/");
+                const date = new Date(from[2], from[1], from[0]);
+                $('#'+key).data("DateTimePicker").date(date);
+
+            }
+            catch(e){
+                // Populates all the other form fields
+                $('#'+key).val(strain_selected[0][key]);
+            }
+
         }
 
         $('#modifyStrainModal').modal("show");

@@ -376,6 +376,8 @@ class Strain(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
     timestamp = db.Column(db.DateTime)
+    update_timestamp = db.Column(db.DateTime)
+    delete_timestamp = db.Column(db.DateTime)
     strain_metadata = db.Column(JSON)
     fields = db.Column(JSON)
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'))

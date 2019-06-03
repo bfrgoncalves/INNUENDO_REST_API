@@ -138,13 +138,24 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                         ' fa-unlock"></i></div>';
                                 }
 
+                                let strain_ex = d.name;
+                                if(d.number_strains_change > 0)
+                                {
+                                    if(d.strains_expire.includes(d.name))
+                                    {
+                                        strain_ex += " " + "<i class=\"fa fa-exclamation-triangle\" title=\"Esta strain foi removida ou alterada.\" style=\"color:orange\"></i>";
+                                    }
+                                }
+
                                 projects.push({
-                                    name: d.name,
+                                    name: strain_ex,
                                     description: d.description,
                                     date: d.timestamp.split(" ").slice(0, 4).join(' '),
                                     id: d.id,
                                     username: d.username,
-                                    lockStatus: lockStatus
+                                    lockStatus: lockStatus,
+                                    number_strains_change: d.number_strains_change,
+                                    strains_expire: d.strains_expire
                                 });
                             }
                         });

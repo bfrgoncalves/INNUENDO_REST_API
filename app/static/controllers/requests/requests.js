@@ -959,6 +959,24 @@ const Requests = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                 });
 
         },
+        remove_metadata: (strain_ids, callback) => {
+
+            const req = {
+                url: "api/v1.0/strains/",
+                method: "DELETE",
+                data: {
+                    "strainsIds": strain_ids
+                }
+            };
+
+            $http(req).then((response) => {
+                    callback(response);
+                },
+                (response) => {
+                    callback(response);
+                });
+
+        },
 
         remove_strain_from_project: (strain_name, callback) => {
 

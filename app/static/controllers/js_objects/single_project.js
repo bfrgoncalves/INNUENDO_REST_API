@@ -1268,6 +1268,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         },
 
         /*
+        Remove strain metadata
+        */
+        remove_metadata: (strain_id, callback) => {
+        pg_requests.remove_metadata(strain_id, (response) => {
+            callback(response);
+        });
+    },
+
+        /*
         Get nextflow logs
         */
         getNextflowLog: (filename, pipeline_id, project_id, callback) => {

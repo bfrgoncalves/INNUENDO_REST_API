@@ -241,6 +241,47 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
     };
 
+    $scope.deleteStrains = () => {
+
+        currentSelections = [];
+        const strain_selected = $.map($('#modify_strains_table').DataTable().rows('.selected').data(), (item) => {
+            return item;
+        });
+
+        if (strain_selected.length === 0){
+            modalAlert("Please select a strain first.", "Select Strains", () => {
+
+            });
+            currentSelected = [];
+            return;
+        }
+        else {
+            currentSelected = strain_selected;
+        }
+
+        for (i = 0; i < currentSelected.length; i++) {
+            currentSelections.push(currentSelected[i].id);
+          }
+
+    
+        
+        modalAlert("Do you want to remove the strains? " +
+        "Please note that you will not be able to affect further testing with these strains.", "Remove Strains!", () => {
+            removeMetadata(currentSelections);
+            
+
+        });
+
+        //$('#modifyStrainModal').modal("show");
+
+        /*const updateMetadataEl = $('#update_metadata_button');
+
+        updateMetadataEl.off("click").on("click", () => {
+            console.log("AQUI");
+            //updateMetadata(strain_id_in_use);
+        });*/
+    };
+
     $scope.modifyStrains = () => {
 
         const strain_selected = $.map($('#modify_strains_table').DataTable().rows('.selected').data(), (item) => {
@@ -280,6 +321,32 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
 
     const updateMetadata = (strain_id_in_use) => {
         single_project.update_metadata(strain_id_in_use, (response) => {
+
+
+            single_project.get_strains(true, (strains_results) => {
+                objects_utils.destroyTable('modify_strains_table');
+                global_public_strains = strains_results.public_strains;
+                let headers_defs = set_headers_metadata(global_public_strains);
+
+                strains_headers = headers_defs[1];
+
+                objects_utils.restore_table_headers('modify_strains_table', strains_headers, false, () => {
+                    objects_utils.loadDataTables('modify_strains_table', global_public_strains, headers_defs[0], strains_headers);
+
+                    // Remove selection from table
+                    $("#modify_strains_table").DataTable().rows().deselect();
+
+                   
+                    modalAlert("Strains was remove.", "Success!", () => {
+    
+                    });
+                });
+            });
+        });
+    };
+
+    const removeMetadata = (strainsIds) => {
+        single_project.remove_metadata(strainsIds, (response) => {
 
             single_project.get_strains(true, (strains_results) => {
                 objects_utils.destroyTable('modify_strains_table');

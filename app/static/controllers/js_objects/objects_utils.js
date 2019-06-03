@@ -148,7 +148,8 @@ const Objects_Utils = (single_project, $sc) => {
         }
 
         if (table_id === "modify_strains_table" || table_id === "reports_trees_table") {
-            selection_style = "single";
+            //selection_style = "single";
+            selection_style = "multi";
         }
         else {
             selection_style = "multi";

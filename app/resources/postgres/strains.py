@@ -62,6 +62,8 @@ strain_fields = {
     'fq_location': fields.String,
     'has_files': fields.String,
     'Accession': fields.String,
+    'delete_timestamp': fields.String,
+    'update_timestamp': fields.String,
     'strainsIDs': fields.List(fields.String)
 }
 
@@ -162,13 +164,13 @@ class StrainListResource(Resource):
         else:
             strains = db.session.query(Strain).all()
 
-        # strains_aux = strains
+        strains_aux = strains
 
-        #for strain in strains:
-        #    if strain.delete_timestamp != None:
-        #        strains_aux.remove(strain)
+        for strain in strains:
+          if strain.delete_timestamp != None:
+                strains_aux.remove(strain)
 
-        #strains = strains_aux 
+        strains = strains_aux 
 
         for strain in strains:
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
@@ -298,7 +300,25 @@ class StrainListResource(Resource):
             for key, val in args.iteritems():
                 strain_metadata[key] = val
 
+            if "Accession" in args:
+
+                metadata = json.loads(strain.strain_metadata)
+
+                if metadata["Accession"] != args["Accession"]:
+
+                    strain_specie_name = database_correspondece.keys()[strain.species_id - 1]
+
+                    strain_specie = database_correspondece[strain_specie_name]
+
+                    result = db.session.query(strain_specie).filter(strain_specie.strain_metadata['strainID'].astext == metadata["Accession"]).first()
+
+                    if not result:
+                        abort(404, message="An error as occurried")
+
+                    strain.update_timestamp = datetime.datetime.utcnow()
+
             strain.strain_metadata = json.dumps(strain_metadata)
+
             db.session.commit()
 
             return strain, 201

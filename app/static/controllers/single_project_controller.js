@@ -108,13 +108,13 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "File_1", "visible":false },
                 { "data": "Primary" , "visible":false},
                 { "data": "SamplingDate" },
-                { "data": "Owner", "visible":false },
+                { "data": "Owner", "visible":true },
                 { "data": "Food-Bug", "visible":false },
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
                 { "data": "Location" },
                 { "data": "Accession" },
-                 { "data": "timestamp" },
+                { "data": "timestamp" },
                 {
                     "className":      'details-control',
                     "orderable":      false,
@@ -128,7 +128,8 @@ const set_headers_single_project = (table_id, global_strains) => {
                     ' fa-lg fa-tasks" data-toggle="tooltip"' +
                     ' data-placement="top" title="Analytical' +
                     ' procedures"></i></button></div>'
-                }
+                },
+                { "data": "Strain_State" }
 
             ];
         }
@@ -156,8 +157,17 @@ const set_headers_single_project = (table_id, global_strains) => {
                                 p_col_defs.push({"data":x});
                             }
                         }
+                        /*if(x== "Strain_State")
+                        {
+                            p_col_defs.push({"data":x});
+                        }*/
                         else{
-                            p_col_defs.push({"data":x, "visible":false});
+                            if(x === "Owner") {
+                                p_col_defs.push({"data":x});
+                            }else{
+                                p_col_defs.push({"data":x, "visible":false});
+                            }
+                            
                         }
                         strains_headers.push(matching_fields[x]);
                     }
@@ -261,6 +271,7 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $("#overlayWorking").css({"display":"block"});
     $("#single_project_controller_div").css({"display":"none"});
     $("#submission_status").empty();
+    $("#AlertProjectStrains").css({"display":"none"});
 
     //if(SHOW_INFO_BUTTON){
     $("#button_remove_all_workflows").css({"display":"block"});
@@ -1111,9 +1122,39 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
         single_project.get_project_strains( (strains_results) => {
             global_strains = strains_results.strains;
+
+            for (let i= 0; i < global_strains.length; i++) 
+            {
+                if(global_strains[i].delete_timestamp != undefined || global_strains[i].update_timestamp != undefined)
+                {
+                    $("#AlertProjectStrains").css({"display":"block"});
+                    break;
+                }
+                else
+                {
+                    $("#AlertProjectStrains").css({"display":"none"});
+                }
+            }
+
+           /* let message = " <i class='fa fa-warning'></i> <b>Important: </b> Add your important here ";
+           
+
+          
+            $("#AlertProjectStrains").text(message);
+
+               */
+
             let headers_defs = set_headers_single_project('strains_table', global_strains);
 
+            /*objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
+                objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
+                callback();
+            });*/
+            
             objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
+
+
+
                 objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
                 callback();
             });

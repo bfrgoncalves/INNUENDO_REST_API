@@ -305,7 +305,41 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
             $('#'+key).val(strain_selected[0][key]);
         }
 
+        if(strain_selected[0].Accession != undefined)
+        {
+            $('#file_selector_modify').val("accession");
+            $('#file_selector_modify').attr('disabled', 'disabled');
+            $("#div_file1").css({"display":"none"});
+            $("#div_file2").css({"display":"none"});
+            $("#div_accession").css({"display":"block"});
+        }else if(strain_selected[0].File1 != undefined)
+        {
+
+            $('#file_selector_modify').val("reads");
+            $('#file_selector_modify').attr('disabled', 'disabled');
+            $("#div_file1").css({"display":"block"});
+            $("#div_file2").css({"display":"block"});
+            $("#div_accession").css({"display":"none"});
+        }
+
+       /* $('#file_selector_modify').on("change", (e) => {
+            const currentValue = $(e.target).val();
+            console.log($(e.target).val());
+            if (currentValue === "reads"){
+                $("#div_file1").css({"display":"block"});
+                $("#div_file2").css({"display":"block"});
+                $("#div_accession").css({"display":"none"});
+            }
+            else if(currentValue === "accession"){
+                $("#div_file1").css({"display":"none"});
+                $("#div_file2").css({"display":"none"});
+                $("#div_accession").css({"display":"block"});
+            }
+        });*/
+
         $('#modifyStrainModal').modal("show");
+
+       
 
         /*const updateMetadataEl = $('#update_metadata_button');
 
@@ -337,7 +371,7 @@ innuendoApp.controller("modifyStrainsCtrl", ($scope, $rootScope, $http) => {
                     $("#modify_strains_table").DataTable().rows().deselect();
 
                    
-                    modalAlert("Strains was remove.", "Success!", () => {
+                    modalAlert("Strains was update.", "Success!", () => {
     
                     });
                 });

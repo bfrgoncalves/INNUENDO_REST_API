@@ -226,6 +226,7 @@ class Project(db.Model):
     is_removed = db.Column(db.String(255))
     description = db.Column(db.Text())
     timestamp = db.Column(db.DateTime)
+    last_update_timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     pipelines = db.relationship('Pipeline', backref='project', lazy='dynamic')
     strains = db.relationship('Strain', secondary=projects_strains,

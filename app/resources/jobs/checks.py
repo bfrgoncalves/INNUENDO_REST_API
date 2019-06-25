@@ -53,6 +53,7 @@ class CheckDbMLSTResource(Resource):
                 print e
                 return False
 
+        
         return True
 
 

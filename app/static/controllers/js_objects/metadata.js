@@ -50,7 +50,8 @@ const Metadata = () => {
         "Project Name":"project_name",
         "Classifier":"classifier",
         "Accession": "Accession",
-        "Timestamp":"timestamp"
+        "Timestamp":"timestamp",
+        "Strain_State":"Strain_State"
     };
 
     //Conversion from the metadata fields stored in the db to how we want to see them on a table (Reverse)
@@ -76,7 +77,8 @@ const Metadata = () => {
         "project_name": "Project Name",
         "classifier": "Classifier",
         "Accession": "Accession",
-        "timestamp": "Timestamp"
+        "timestamp": "Timestamp",
+        "Strain_State":"Strain_State"
     };
 
     //The minimum headers to be seen on a table

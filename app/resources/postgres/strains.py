@@ -12,6 +12,7 @@ from app.app_configuration import database_correspondece
 
 # Defining post arguments parser
 
+
 strain_project_parser = reqparse.RequestParser()
 strain_project_parser.add_argument('strainID', dest='strainID', type=str,
                                    required=False, help="Strain identifier")
@@ -60,7 +61,10 @@ strain_fields = {
     'classifier': fields.String,
     'fq_location': fields.String,
     'has_files': fields.String,
-    'Accession': fields.String
+    'Accession': fields.String,
+    'delete_timestamp': fields.String,
+    'update_timestamp': fields.String,
+    'strainsIDs': fields.List(fields.String)
 }
 
 strain_fields_project = {
@@ -159,6 +163,14 @@ class StrainListResource(Resource):
                 .filter(Strain.species_id == args.speciesID).all()
         else:
             strains = db.session.query(Strain).all()
+
+        strains_aux = strains
+
+        for strain in strains:
+          if strain.delete_timestamp != None:
+                strains_aux.remove(strain)
+
+        strains = strains_aux 
 
         for strain in strains:
             strain.file_1 = json.loads(strain.strain_metadata)["File_1"]
@@ -288,10 +300,71 @@ class StrainListResource(Resource):
             for key, val in args.iteritems():
                 strain_metadata[key] = val
 
+            if "Accession" in args:
+
+                metadata = json.loads(strain.strain_metadata)
+
+                if metadata["Accession"] != args["Accession"]:
+
+                    strain_specie_name = database_correspondece.keys()[strain.species_id - 1]
+
+                    strain_specie = database_correspondece[strain_specie_name]
+
+                    result = db.session.query(strain_specie).filter(strain_specie.strain_metadata['strainID'].astext == metadata["Accession"]).first()
+
+                    if not result:
+                        abort(404, message="An error as occurried")
+
+                    strain.update_timestamp = datetime.datetime.utcnow()
+
             strain.strain_metadata = json.dumps(strain_metadata)
+
             db.session.commit()
 
             return strain, 201
+
+    @login_required
+    @marshal_with(strain_fields)
+    def delete(self):
+        """Remove strain 
+
+        This method allows removing a strain. Requires the
+        strain name and the project id.
+
+        Parameters
+        ----------
+        id: str
+            project identifier
+
+        Returns
+        -------
+        
+        """
+
+
+        args = request.data
+
+        obj = json.loads(args) 
+
+        strains_ids = list(obj.values())[0]
+    
+        if not current_user.is_authenticated:
+            abort(403, message="No permissions")
+       
+        for strainId in strains_ids:
+            strain = db.session.query(Strain).filter(Strain.id == strainId).first()
+
+            if not strain:
+                abort(404, message="No strain available")
+              
+            if strain.user_id != current_user.id:
+                abort(404, message="No permissions")
+            
+            strain.delete_timestamp = datetime.datetime.utcnow()
+
+        db.session.commit()
+
+        return 200
 
 
 class StrainsByNameResource(Resource):

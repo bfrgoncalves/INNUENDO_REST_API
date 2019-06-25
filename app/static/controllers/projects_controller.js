@@ -74,6 +74,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $("#user_tools").css({"display":"block"});
     $("#species_drop_button_li").css({"display":"block"});
     $("#overview_li").css({"display":"none"});
+    $("#AlertStrainExpire").css({"display":"none"});
 
     //Reset application to overview page. Allows to select a diferent species
     $("#reset_strain").on("click", () => {
@@ -183,6 +184,21 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
 
             objects_utils.loadDataTables('projects_table', projects, project_col_defs);
 
+
+            projects.forEach(p => {
+
+                let message = "There are " +  p.number_strains_change + " strains that have been changed or removed. Please review the strains of the projects you intend to run.";
+
+                if (p.number_strains_change > 0)
+                {
+                    $("#AlertStrainExpire").css({"display":"block"});
+                    $("#AlertStrainExpire").text(message);
+                    
+                }   
+            });
+
+           
+
             //Get available projects for the selected species of the other users
             projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, (results) => {
                 other_projects = results;
@@ -259,6 +275,8 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
             $scope.selectedTemplate.path = results.template;
         });
 
+
+
     };
 
     $scope.LockProject = () => {
@@ -270,6 +288,8 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
                 modalAlert("Project Locked!", "Information", () => {});
             });
         });
+
+       
     }
 
 });

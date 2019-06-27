@@ -30,7 +30,7 @@ Mako==1.0.4
 MarkupSafe==0.23
 passlib==1.6.5
 pbr==1.10.0
-psycopg2==2.6.1
+psycopg2==2.7.3.2
 pycurl==7.43.0
 python-cjson==1.1.0
 python-dateutil==2.5.3

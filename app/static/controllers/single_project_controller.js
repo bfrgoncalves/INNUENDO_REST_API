@@ -78,11 +78,11 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "File_1", "visible":false },
                 { "data": "Primary" , "visible":false},
                 { "data": "SamplingDate" },
-                { "data": "Owner", "visible":false },
+                { "data": "Owner", "visible":true },
                 { "data": "Food-Bug", "visible":false },
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
-                { "data": "Location" },
+                { "data": "Location" ,"visible":false},
                 { "data": "Accession" },
                 { "data": "timestamp" }
 
@@ -108,13 +108,14 @@ const set_headers_single_project = (table_id, global_strains) => {
                 { "data": "File_1", "visible":false },
                 { "data": "Primary" , "visible":false},
                 { "data": "SamplingDate" },
-                { "data": "Owner", "visible":false },
+                { "data": "Owner","visible":true },
                 { "data": "Food-Bug", "visible":false },
                 { "data": "Submitter", "visible":false },
                 { "data": "File_2", "visible":false },
-                { "data": "Location" },
+                { "data": "Location", "visible":false},
                 { "data": "Accession" },
-                 { "data": "timestamp" },
+                { "data": "timestamp" },
+                { "data": "Strain_State" },
                 {
                     "className":      'details-control',
                     "orderable":      false,
@@ -153,7 +154,12 @@ const set_headers_single_project = (table_id, global_strains) => {
                                 p_col_defs.push({"data":x, "className": 'strain_cell'});
                             }
                             else {
-                                p_col_defs.push({"data":x});
+                                if(x==="Location")
+                                    p_col_defs.push({"data":x, "visible":false});
+                                else{
+                                    p_col_defs.push({"data":x, "visible":true});
+                                }
+                                
                             }
                         }
                         else{
@@ -471,6 +477,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     $scope.showProject = () => {
         $timeout( () => {
 
+
+
             //Only show run and delete strain button if the project is from the current user
 
             const buttonRunStrainEl = $("#button_run_strain");
@@ -504,6 +512,8 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             //Get all the available workflows (ex: INNUca, chewBBACA, PathoTyping)
 
             $("#submission_status").html("Getting Available Workflows...");
+
+            
 
             $scope.getWorkflows( () => {
                 //Get all the public strains that can be added to a project
@@ -564,11 +574,14 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                                         $("#overlayWorking").css({"display":"none"});
                                         $("#single_project_controller_div").css({"display":"block"});
                                         $("#submission_status").empty();
+                                         
                                         $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
                                     });
                                 });
 
-                            }
+                             }  
+
+                            
                         });
 
                         /*
@@ -756,9 +769,51 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     */
     $scope.runPipelines = () => {
 
-        const alert_message = "By choosing this option, all selected" +
+
+        const table = $('#strains_table').DataTable();
+
+        const strains_DeleteTimeStamps = $.map(table.rows('.selected').data(), (item) => {
+            return item['delete_timestamp'];
+        });
+
+        const strains_names = $.map(table.rows('.selected').data(), (item) => {
+            return item['strainID'];
+        });
+
+       
+
+        let strain_names="";
+        for(let i = 0; i< strains_DeleteTimeStamps.length; i++)
+        {
+            if(strains_DeleteTimeStamps[i] != undefined && strains_DeleteTimeStamps[i] != null)
+            {
+                if(strain_names!=="")
+                {
+                    strain_names+= ", " + strains_names[i]
+                }else{
+                    strain_names+= strains_names[i]
+                }
+            }
+        }
+
+        const message_deleteStrains = "the strain/strains: " +  strain_names + " were removed "
+        +"from the system by their creator.";
+
+        let alert_message="";
+
+        
+
+        if(strain_names !== "")
+        {
+            alert_message = "By choosing this option, all selected" +
+            " pipelines will be saved and unsubmitted jobs will be sent" +
+            " to the server. And " + message_deleteStrains + " Do you want to proceed?";                  
+        }else
+        {
+            alert_message = "By choosing this option, all selected" +
             " pipelines will be saved and unsubmitted jobs will be sent" +
             " to the server. Do you want to proceed?";
+        }
 
         modalAlert(alert_message, "Run Pipelines", () => {
 
@@ -809,7 +864,11 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             single_project.save_pipelines((run) => {
                                 //Run the pipelines
                                 if(run === true) {
+
                                     single_project.run_pipelines();
+                                    
+                            
+                            
                                 }
                                 else if(run !== "no_select") {
                                     modalAlert('All processes for the selected strains' +
@@ -1098,10 +1157,13 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             objects_utils.restore_table_headers('public_strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('public_strains_table', global_public_strains, headers_defs[0], strains_headers);
                 $.fn.dataTable.tables( { visible: true, api: true } ).columns.adjust();
-                callback();
+                //callback();
             });
+
+        
         });
 
+        callback();
     };
 
     /*

@@ -74,6 +74,7 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
     $("#user_tools").css({"display":"block"});
     $("#species_drop_button_li").css({"display":"block"});
     $("#overview_li").css({"display":"none"});
+    $("#AlertStrainExpire").css({"display":"none"});
 
     //Reset application to overview page. Allows to select a diferent species
     $("#reset_strain").on("click", () => {
@@ -159,10 +160,11 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
         { "data": "name" },
         { "data": "username" },
         { "data": "description" },
-        { "data": "date" }
+        { "data": "date" },
+        { "data": "Project_State" }
     ];
 
-    $scope.projects_headers = ['Lock Status','Name', 'Owner','Description', "Date"];
+    $scope.projects_headers = ['Lock Status','Name', 'Owner','Description', "Date", "Project_State"];
 
     let other_projects = [];
 
@@ -181,7 +183,26 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
         projects_table.get_projects_from_species(CURRENT_SPECIES_ID, false, (results) => {
             projects = results;
 
+            projects.forEach(p => {
+
+                let message = "There are " +  p.number_strains_change + " strains that have been changed or removed. Please review the strains of the projects you intend to run.";
+
+                if (p.number_strains_change > 0)
+                {
+                    icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                    p.Project_State= icon + "<strong style='color:#DC143C;'> - Outdated </strong>";
+                    $("#AlertStrainExpire").css({"display":"block"});
+                    $("#AlertStrainExpire").text(message);
+                    
+                }else{
+                    icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                    p.Project_State= icon + "<strong style='color:#006400;'> - Up-to-date </strong>";
+                }
+            });
+
+
             objects_utils.loadDataTables('projects_table', projects, project_col_defs);
+
 
             //Get available projects for the selected species of the other users
             projects_table.get_projects_from_species(CURRENT_SPECIES_ID, true, (results) => {
@@ -259,6 +280,8 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
             $scope.selectedTemplate.path = results.template;
         });
 
+
+
     };
 
     $scope.LockProject = () => {
@@ -270,6 +293,8 @@ innuendoApp.controller("projectsCtrl", ($scope, $http) => {
                 modalAlert("Project Locked!", "Information", () => {});
             });
         });
+
+       
     }
 
 });

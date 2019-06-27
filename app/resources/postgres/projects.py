@@ -48,7 +48,9 @@ all_project_fields = {
     'uri': fields.Url('user_single_project', absolute=True),
     'species_id': fields.String,
     'is_removed': fields.String,
-    'username': fields.String
+    'username': fields.String,
+    'number_strains_change': fields.Integer,
+    'strains_expire': fields.List(fields.String)
 }
 
 project_fields = {
@@ -303,6 +305,16 @@ class ProjectListUserSpecieResource(Resource):
                 .filter(project.user_id == User.id).first()
 
             project.username = user.username
+            count = 0
+            project.strains_expire = []
+
+            
+            for strain in project.strains:
+                if strain.delete_timestamp != None:
+                    if strain.delete_timestamp > project.timestamp:
+                        count+=1
+                    project.strains_expire.append(strain.name)  
+            project.number_strains_change = count
 
         return projects, 200
 

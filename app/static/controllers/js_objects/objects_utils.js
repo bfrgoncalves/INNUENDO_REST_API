@@ -53,7 +53,11 @@ const Objects_Utils = (single_project, $sc) => {
     const format_analysis = (d, table_id) => {
         // `d` is the original data object for the row
 
-        $("#" + d.strainID + "_table").remove();
+
+        let strain_id = d.strainID;
+        strain_id = strain_id.replace(/(.*?) <i.*/i, "$1")  ;
+
+        $("#" + strain_id + "_table").remove();
 
         let tr_string = "";
 
@@ -148,7 +152,8 @@ const Objects_Utils = (single_project, $sc) => {
         }
 
         if (table_id === "modify_strains_table" || table_id === "reports_trees_table") {
-            selection_style = "single";
+            //selection_style = "single";
+            selection_style = "multi";
         }
         else {
             selection_style = "multi";
@@ -745,7 +750,7 @@ const Objects_Utils = (single_project, $sc) => {
 
             $("#" + table_id + " thead").append(create_table_headers(table_headers, has_analysis, table_id));
             $("#" + table_id + " tfoot > tr").remove();
-            $("#" + table_id + " tfoot").append(create_table_headers(table_headers, has_analysis, table_id));
+            //$("#" + table_id + " tfoot").append(create_table_headers(table_headers, has_analysis, table_id));
 
 
             callback();

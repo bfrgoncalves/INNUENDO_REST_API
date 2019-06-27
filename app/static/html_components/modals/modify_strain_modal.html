@@ -82,6 +82,34 @@
 				</div>
 			</div>
 
+			<div class="row">
+				<div class="form-group col-md-4">
+					<label>Input Type</label>
+					<select name="fileselector" class="form-control" id="file_selector_modify" form="database_file_form">
+						<option id="reads" value="reads">Reads: Paired End</option>
+						<option id="accessions" value="accession">Accession</option>
+					</select>
+				</div>
+				<div class="form-group col-md-4" id="div_accession"
+					 style="display:none;">
+					<label>Accession<sup>*</sup></label>
+					<input class="form-control" name="Accession"
+						   data-width="100%" id="Accession"
+						   placeholder="Accession number">
+				</select>
+				</div>
+				<div class="form-group col-md-4" id="div_file1">
+					<label>File 1<sup>*</sup></label>
+					<select name="File_1" data-width="100%" class="selectpicker" data-live-search="true" id="File_1">
+				</select>
+				</div>
+				<div class="form-group col-md-4" id="div_file2">
+					<label>File 2<sup>*</sup></label>
+					<select name="File_2" data-width="100%" class="selectpicker" data-live-search="true" id="File_2">
+				</select>
+				</div>
+			</div>
+
 			<!--<div class="row">
 				<div class="col-md-12" style="text-align:left;">
 					<button class="btn btn-primary" id="add_metadata_from_analysis_button">Add Data from Analysis<i class="fa fa-plus" data-toggle="tooltip" data-placement="top" title="Add metadata from analysis"></i></button>

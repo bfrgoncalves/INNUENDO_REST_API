@@ -206,8 +206,26 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         strains_headers = JSON.parse(data.fields).metadata_fields;
                         strains_headers.push('Analysis');
                         strains_headers.push("timestamp");
+                        strains_headers.push("Strain_State");
+
+                        
 
                         const strain_data = JSON.parse(data.strain_metadata);
+                        if(data.delete_timestamp != null)
+                        {
+                            icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                            strain_data["Strain_State"] = icon  + "<strong style='color:#DC143C;'> - Removed </strong>"; 
+
+                            strain_data["delete_timestamp"] = data[i].delete_timestamp; 
+                        }else if(data.update_timestamp != null)
+                        {
+                            icon = "<i class='fa fa-wrench' style='color:#FF8C00;'></i>";
+                            strain_data["Strain_State"] = icon  + "<strong style='color:#FF8C00;'> - Uptated </strong>"; ; 
+                            strain_data["update_timestamp"] = data[i].update_timestamp; 
+                        }else{
+                            icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                            strain_data["Strain_State"] = icon  + "<strong style='color:#006400;'> - No changed </strong>"; ; 
+                        }
                         strain_data['Analysis'] = "";
                         strain_data["timestamp"] = data.timestamp;
                         let sd = {};
@@ -710,6 +728,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         let public_strains_headers = JSON.parse(data[0].fields).metadata_fields;
                         public_strains_headers.unshift("strainID");
                         public_strains_headers.push("timestamp");
+                        public_strains_headers.push("Strain_State");
 
                         for (const i in data) {
 
@@ -720,6 +739,22 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             strain_data["strainID"] = data[i].strainID;
                             //strain_data["FilesLocation"] = data[i].fq_location;
                             strain_data["timestamp"] = data[i].timestamp;
+
+                            if(data[i].delete_timestamp != null)
+                            {
+                                icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#DC143C;'> - Removed </strong>"; 
+
+                                strain_data["delete_timestamp"] = data[i].delete_timestamp; 
+                            }else if(data[i].update_timestamp != null)
+                            {
+                                icon = "<i class='fa fa-wrench' style='color:#FF8C00;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#FF8C00;'> - Uptated </strong>"; ; 
+                                strain_data["update_timestamp"] = data[i].update_timestamp; 
+                            }else{
+                                icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#006400;'> - No changed </strong>"; ; 
+                            }
 
                             let sd = {};
                             //Parse the metadata and add it to the public strains object
@@ -804,13 +839,31 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         strains_headers.push("timestamp");
                         strains_headers.push("has_files");
                         strains_headers.push("Accession");
+                        strains_headers.push("Owner");
+                        strains_headers.push("Strain_State");
 
                         console.log(data);
 
                         for (const i in data) {
 
                             let strain_data = JSON.parse(data[i].strain_metadata);
-                            strain_data["strainID"] = data[i].strainID;
+                            strain_data["strainID"] = data[i].strainID ; 
+                            if(data[i].delete_timestamp != null)
+                            {
+                                icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#DC143C;'> - Removed </strong>"; 
+
+                                strain_data["delete_timestamp"] = data[i].delete_timestamp; 
+                            }else if(data[i].update_timestamp != null)
+                            {
+                                icon = "<i class='fa fa-wrench' style='color:#FF8C00;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#FF8C00;'> - Uptated </strong>"; ; 
+                                strain_data["update_timestamp"] = data[i].update_timestamp; 
+                            }else{
+                                icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#006400;'> - No changed </strong>"; ; 
+                            }
+                            
                             strain_data['Analysis'] = "";
                             strain_data['FilesLocation'] = data[i].fq_location;
                             strain_data['timestamp'] = data[i].timestamp;
@@ -836,8 +889,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                     else {
                                         sd[strains_headers[j]] = strain_data[strains_headers[j]];
                                     }
+
+                                    sd["delete_timestamp"] = strain_data["delete_timestamp"]; 
+                                    sd["update_timestamp"] = strain_data["update_timestamp"]; 
                                 }
                             }
+
+
                             if (!strains_dict.hasOwnProperty($.trim(data[i].strainID))) {
                                 strains_dict[$.trim(data[i].strainID)] = data[i].id;
                             }
@@ -846,6 +904,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                                sd[s] =  sd[s] !== "" ? sd[s] : "NA";
                             }
 
+                           
 
                             add_strains.push(sd);
                         }
@@ -1268,6 +1327,15 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
         },
 
         /*
+        Remove strain metadata
+        */
+        remove_metadata: (strain_id, callback) => {
+        pg_requests.remove_metadata(strain_id, (response) => {
+            callback(response);
+        });
+    },
+
+        /*
         Get nextflow logs
         */
         getNextflowLog: (filename, pipeline_id, project_id, callback) => {
@@ -1355,6 +1423,9 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                     while (strain_names.length !== 0) {
 
                         let strain_name = strain_names.pop();
+                        strain_name = strain_name.replace(/(.*?) <i.*/i, "$1")  ;
+
+
                         pg_requests.remove_strain_from_project(strain_name, (response) => {
                             count_removed += 1;
 
@@ -1691,6 +1762,14 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                 return item['strainID'];
             });
 
+            for(let i = 0; i< strain_names.length; i++)
+            {
+                let strain_id = strain_names[i];
+                strain_id = strain_id.replace(/(.*?) <i.*/i, "$1")  ;
+                strain_names[i] = strain_id;
+            }
+
+
             if (strain_names.length === 0) {
                 return callback("no_selected");
             }
@@ -1738,6 +1817,13 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             const strain_names = $.map(table.rows('.selected').data(), (item) => {
                 return item['strainID'];
             });
+
+            for(let i = 0; i< strain_names.length; i++)
+            {
+                let strain_id = strain_names[i];
+                strain_id = strain_id.replace(/(.*?) <i.*/i, "$1")  ;
+                strain_names[i] = strain_id;
+            }
 
             /**
              * Check if strain has files to run
@@ -1907,6 +1993,14 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
             const strain_names = $.map(table.rows('.selected').data(), (item) => {
                 return item['strainID'];
             });
+
+            for(let i = 0; i< strain_names.length; i++)
+            {
+                let strain_id = strain_names[i];
+                strain_id = strain_id.replace(/(.*?) <i.*/i, "$1")  ;
+                strain_names[i] = strain_id;
+            }
+
 
             const strain_submitter = $.map(table.rows('.selected').data(), (item) => {
                 return item['FilesLocation'];

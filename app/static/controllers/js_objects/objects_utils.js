@@ -750,7 +750,7 @@ const Objects_Utils = (single_project, $sc) => {
 
             $("#" + table_id + " thead").append(create_table_headers(table_headers, has_analysis, table_id));
             $("#" + table_id + " tfoot > tr").remove();
-            $("#" + table_id + " tfoot").append(create_table_headers(table_headers, has_analysis, table_id));
+            //$("#" + table_id + " tfoot").append(create_table_headers(table_headers, has_analysis, table_id));
 
 
             callback();

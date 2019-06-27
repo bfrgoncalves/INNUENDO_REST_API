@@ -164,7 +164,7 @@ class StrainListResource(Resource):
         else:
             strains = db.session.query(Strain).all()
 
-        strains_aux = strains
+        strains_aux = list(strains)
 
         for strain in strains:
           if strain.delete_timestamp != None:

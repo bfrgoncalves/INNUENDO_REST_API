@@ -710,6 +710,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         let public_strains_headers = JSON.parse(data[0].fields).metadata_fields;
                         public_strains_headers.unshift("strainID");
                         public_strains_headers.push("timestamp");
+                        public_strains_headers.push("Strain_State");
 
                         for (const i in data) {
 
@@ -720,6 +721,22 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             strain_data["strainID"] = data[i].strainID;
                             //strain_data["FilesLocation"] = data[i].fq_location;
                             strain_data["timestamp"] = data[i].timestamp;
+
+                            if(data[i].delete_timestamp != null)
+                            {
+                                icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#DC143C;'> - Removed </strong>"; 
+
+                                strain_data["delete_timestamp"] = data[i].delete_timestamp; 
+                            }else if(data[i].update_timestamp != null)
+                            {
+                                icon = "<i class='fa fa-wrench' style='color:#FF8C00;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#FF8C00;'> - Uptated </strong>"; ; 
+                                strain_data["update_timestamp"] = data[i].update_timestamp; 
+                            }else{
+                                icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#006400;'> - No changed </strong>"; ; 
+                            }
 
                             let sd = {};
                             //Parse the metadata and add it to the public strains object
@@ -804,6 +821,7 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         strains_headers.push("timestamp");
                         strains_headers.push("has_files");
                         strains_headers.push("Accession");
+                        strains_headers.push("Owner");
                         strains_headers.push("Strain_State");
 
                         console.log(data);
@@ -815,17 +833,17 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                             if(data[i].delete_timestamp != null)
                             {
                                 icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
-                                strain_data["Strain_State"] = "icon" ; 
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#DC143C;'> - Removed </strong>"; 
 
                                 strain_data["delete_timestamp"] = data[i].delete_timestamp; 
                             }else if(data[i].update_timestamp != null)
                             {
-                                icon = "<i class='fa fa-wrench' style='color:#DC143C;'></i>";
-                                strain_data["Strain_State"] = "icon" ; 
+                                icon = "<i class='fa fa-wrench' style='color:#FF8C00;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#FF8C00;'> - Uptated </strong>"; ; 
                                 strain_data["update_timestamp"] = data[i].update_timestamp; 
                             }else{
-                                icon = "<i class='fa fa-check' style='color:#DC143C;'></i>";
-                                strain_data["Strain_State"] = "asdasd" ; 
+                                icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                                strain_data["Strain_State"] = icon  + "<strong style='color:#006400;'> - No changed </strong>"; ; 
                             }
                             
                             strain_data['Analysis'] = "";

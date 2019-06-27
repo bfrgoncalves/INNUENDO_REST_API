@@ -85,11 +85,11 @@ const Metadata = () => {
     const minimal_headers = [
         "Strain Name", "Received Date", "Source", "Additional Info", "File 1",
         "Primary", "Sampling Date", "Owner", "Case ID", "Submitter", "File 2",
-        "Location", "Accession", "Timestamp"];
+        "Location", "Accession", "Timestamp", "Strain_State"];
 
     const default_headers = [
-        "Strain Name", "Received Date", "Source", "Sampling Date", "Location",
-        "Sample", "Run Identifier", "Project Name", "Classifier", "Accession", "Timestamp"];
+        "Strain Name", "Received Date", "Source", "Sampling Date", "Location","Owner",
+        "Sample", "Run Identifier", "Project Name", "Classifier", "Accession", "Timestamp","Strain_State"];
 
     return {
 

@@ -1176,12 +1176,12 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
            
             let headers_defs = set_headers_single_project('strains_table', global_strains);
 
-            $("AlertProjectStrains").css({"display":"none"});
+            $('#AlertProjectStrains').css({"display":"none"});
             for(let i = 0; i< global_strains.length; i++)
             {
-                if(global_strains.delete_timestamp!= null || global_strains.delete_timestamp!=undefined)
+                if(global_strains.delete_timestamp!== null || global_strains.delete_timestamp!==undefined)
                 {
-                    $("AlertProjectStrains").css({"display":"block"});
+                    $('#AlertProjectStrains').css({"display":"block"});
                     break;
                 }
             }
@@ -1228,12 +1228,12 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             else{
                 objects_utils.destroyTable('strains_table');
                 global_strains = strains_results.strains;
-                $("AlertProjectStrains").css({"display":"none"});
+                $('#AlertProjectStrains').css({"display":"none"});
                 for(let i = 0; i< global_strains.length; i++)
                 {
                     if(global_strains.delete_timestamp!= null || global_strains.delete_timestamp!=undefined)
                     {
-                        $("AlertProjectStrains").css({"display":"block"});
+                        $('#AlertProjectStrains').css({"display":"block"});
                         break;
                     }
                 }
@@ -1330,12 +1330,12 @@ const newPipelineFromFile = (element) => {
     single_p.add_strain_to_project($(element).attr("strain_name"), (strains_results, strain_name) => {
         objects_utils.destroyTable('strains_table');
         global_strains = strains_results.strains;
-        $("AlertProjectStrains").css({"display":"none"});
+        $('#AlertProjectStrains').css({"display":"none"});
         for(let i = 0; i< global_strains.length; i++)
         {
             if(global_strains.delete_timestamp!= null || global_strains.delete_timestamp!=undefined)
             {
-                $("AlertProjectStrains").css({"display":"block"});
+                $('#AlertProjectStrains').css({"display":"block"});
                 break;
             }
         }

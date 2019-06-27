@@ -1173,7 +1173,19 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
 
         single_project.get_project_strains( (strains_results) => {
             global_strains = strains_results.strains;
+           
             let headers_defs = set_headers_single_project('strains_table', global_strains);
+
+            $("AlertProjectStrains").css({"display":"none"});
+            for(let i = 0; i< global_strains.length; i++)
+            {
+                if(global_strains.delete_timestamp!= null || global_strains.delete_timestamp!=undefined)
+                {
+                    $("AlertProjectStrains").css({"display":"block"});
+                    break;
+                }
+            }
+
 
             objects_utils.restore_table_headers('strains_table', strains_headers, true, () => {
                 objects_utils.loadDataTables('strains_table', global_strains, headers_defs[0], strains_headers);
@@ -1216,6 +1228,15 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
             else{
                 objects_utils.destroyTable('strains_table');
                 global_strains = strains_results.strains;
+                $("AlertProjectStrains").css({"display":"none"});
+                for(let i = 0; i< global_strains.length; i++)
+                {
+                    if(global_strains.delete_timestamp!= null || global_strains.delete_timestamp!=undefined)
+                    {
+                        $("AlertProjectStrains").css({"display":"block"});
+                        break;
+                    }
+                }
 
                 let headers_defs = set_headers_single_project('strains_table', global_strains);
 
@@ -1309,6 +1330,15 @@ const newPipelineFromFile = (element) => {
     single_p.add_strain_to_project($(element).attr("strain_name"), (strains_results, strain_name) => {
         objects_utils.destroyTable('strains_table');
         global_strains = strains_results.strains;
+        $("AlertProjectStrains").css({"display":"none"});
+        for(let i = 0; i< global_strains.length; i++)
+        {
+            if(global_strains.delete_timestamp!= null || global_strains.delete_timestamp!=undefined)
+            {
+                $("AlertProjectStrains").css({"display":"block"});
+                break;
+            }
+        }
         let headers_defs = set_headers_single_project('strains_table', global_strains);
 
         objects_utils.restore_table_headers('strains_table', sh, true, () => {

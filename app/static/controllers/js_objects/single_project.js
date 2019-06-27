@@ -206,8 +206,26 @@ let Single_Project = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http, $rootScope) =>
                         strains_headers = JSON.parse(data.fields).metadata_fields;
                         strains_headers.push('Analysis');
                         strains_headers.push("timestamp");
+                        strains_headers.push("Strain_State");
+
+                        
 
                         const strain_data = JSON.parse(data.strain_metadata);
+                        if(data.delete_timestamp != null)
+                        {
+                            icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                            strain_data["Strain_State"] = icon  + "<strong style='color:#DC143C;'> - Removed </strong>"; 
+
+                            strain_data["delete_timestamp"] = data[i].delete_timestamp; 
+                        }else if(data.update_timestamp != null)
+                        {
+                            icon = "<i class='fa fa-wrench' style='color:#FF8C00;'></i>";
+                            strain_data["Strain_State"] = icon  + "<strong style='color:#FF8C00;'> - Uptated </strong>"; ; 
+                            strain_data["update_timestamp"] = data[i].update_timestamp; 
+                        }else{
+                            icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                            strain_data["Strain_State"] = icon  + "<strong style='color:#006400;'> - No changed </strong>"; ; 
+                        }
                         strain_data['Analysis'] = "";
                         strain_data["timestamp"] = data.timestamp;
                         let sd = {};

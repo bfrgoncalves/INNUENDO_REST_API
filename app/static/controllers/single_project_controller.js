@@ -769,9 +769,51 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
     */
     $scope.runPipelines = () => {
 
-        const alert_message = "By choosing this option, all selected" +
+
+        const table = $('#strains_table').DataTable();
+
+        const strains_DeleteTimeStamps = $.map(table.rows('.selected').data(), (item) => {
+            return item['delete_timestamp'];
+        });
+
+        const strains_names = $.map(table.rows('.selected').data(), (item) => {
+            return item['strainID'];
+        });
+
+       
+
+        let strain_names="";
+        for(let i = 0; i< strains_DeleteTimeStamps.length; i++)
+        {
+            if(strains_DeleteTimeStamps[i] != undefined && strains_DeleteTimeStamps[i] != null)
+            {
+                if(strain_names!=="")
+                {
+                    strain_names+= ", " + strains_names[i]
+                }else{
+                    strain_names+= strains_names[i]
+                }
+            }
+        }
+
+        const message_deleteStrains = "the strain/strains: " +  strain_names + " were removed "
+        +"from the system by their creator.";
+
+        let alert_message="";
+
+        
+
+        if(strain_names !== "")
+        {
+            alert_message = "By choosing this option, all selected" +
+            " pipelines will be saved and unsubmitted jobs will be sent" +
+            " to the server. And " + message_deleteStrains + " Do you want to proceed?";                  
+        }else
+        {
+            alert_message = "By choosing this option, all selected" +
             " pipelines will be saved and unsubmitted jobs will be sent" +
             " to the server. Do you want to proceed?";
+        }
 
         modalAlert(alert_message, "Run Pipelines", () => {
 
@@ -822,7 +864,11 @@ innuendoApp.controller("projectCtrl", ($scope, $rootScope, $http, $timeout) => {
                             single_project.save_pipelines((run) => {
                                 //Run the pipelines
                                 if(run === true) {
+
                                     single_project.run_pipelines();
+                                    
+                            
+                            
                                 }
                                 else if(run !== "no_select") {
                                     modalAlert('All processes for the selected strains' +

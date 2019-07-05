@@ -1333,7 +1333,7 @@ const newPipelineFromFile = (element) => {
         $('#AlertProjectStrains').css({"display":"none"});
         for(let i = 0; i< global_strains.length; i++)
         {
-            if(global_strains[i].delete_timestamp!== null || global_strains[i].delete_timestamp!==undefined)
+            if(global_strains[i].delete_timestamp!== null && global_strains[i].delete_timestamp!==undefined)
             {
                 $('#AlertProjectStrains').css({"display":"block"});
                 break;

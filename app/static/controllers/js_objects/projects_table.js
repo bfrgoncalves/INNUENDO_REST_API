@@ -211,13 +211,16 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                         ' style="width:100%;text-align:center;"><i class="fa' +
                         ' fa-unlock"></i></div>';
 
+                     let  icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                           
                     projects.push({
                         name: response.data.name,
                         description: response.data.description,
                         date: response.data.timestamp.split(" ").slice(0, 4).join(' '),
                         id: response.data.id,
                         username: response.data.username,
-                        lockStatus: lockStatus
+                        lockStatus: lockStatus,
+                        Project_State:icon+ "<strong style='color:#006400;'> - Up-to-date </strong>"
                     });
 
                     $('#newProjectModal').modal('hide');

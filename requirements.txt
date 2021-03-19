@@ -24,7 +24,7 @@ flipflop==1.0
 functools32==3.2.3.post2
 guess-language==0.2
 itsdangerous==0.24
-Jinja2==2.8
+Jinja2==2.11.3
 jsonschema==2.5.1
 Mako==1.0.4
 MarkupSafe==0.23

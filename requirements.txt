@@ -26,7 +26,7 @@ guess-language==0.2
 itsdangerous==0.24
 Jinja2==2.8
 jsonschema==2.5.1
-Mako==1.0.4
+Mako==1.2.2
 MarkupSafe==0.23
 passlib==1.6.5
 pbr==1.10.0

@@ -226,6 +226,7 @@ class Project(db.Model):
     is_removed = db.Column(db.String(255))
     description = db.Column(db.Text())
     timestamp = db.Column(db.DateTime)
+    last_update_timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     pipelines = db.relationship('Pipeline', backref='project', lazy='dynamic')
     strains = db.relationship('Strain', secondary=projects_strains,
@@ -376,6 +377,8 @@ class Strain(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True)
     timestamp = db.Column(db.DateTime)
+    update_timestamp = db.Column(db.DateTime)
+    delete_timestamp = db.Column(db.DateTime)
     strain_metadata = db.Column(JSON)
     fields = db.Column(JSON)
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'))

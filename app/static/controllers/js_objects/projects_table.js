@@ -102,13 +102,25 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                         ' fa-unlock"></i></div>';
                                 }
 
+                                if(d.number_strains_change > 0)
+                                {
+                                    icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                                        d.Project_State= icon + "<strong style='color:#DC143C;'> - Outdated </strong>";
+                                    
+                                }else{
+                                    icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                                    d.Project_State= icon + "<strong style='color:#006400;'> - Up-to-date </strong>";
+                                }
+
+
                                 other_projects.push({
                                     name: d.name,
                                     description: d.description,
                                     date: d.timestamp.split(" ").slice(0, 4).join(' '),
                                     id: d.id,
                                     username: d.username,
-                                    lockStatus: lockStatus
+                                    lockStatus: lockStatus,
+                                    Project_State:d.Project_State
                                 });
                             }
                         });
@@ -138,13 +150,32 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                                         ' fa-unlock"></i></div>';
                                 }
 
+                
+                                let strain_ex = d.name;
+                                if(d.number_strains_change > 0)
+                                {
+                                    icon = "<i class='fa fa-ban' style='color:#DC143C;'></i>";
+                                        d.Project_State= icon + "<strong style='color:#DC143C;'> - Outdated </strong>";
+                                    if(d.strains_expire.includes(d.name))
+                                    {
+                                        
+                                        strain_ex += " " + "<i class=\"fa fa-exclamation-triangle\" title=\"Esta strain foi removida ou alterada.\" style=\"color:orange\"></i>";
+                                    }
+                                }else{
+                                    icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                                    d.Project_State= icon + "<strong style='color:#006400;'> - Up-to-date </strong>";
+                                }
+
                                 projects.push({
-                                    name: d.name,
+                                    name: strain_ex,
                                     description: d.description,
                                     date: d.timestamp.split(" ").slice(0, 4).join(' '),
                                     id: d.id,
                                     username: d.username,
-                                    lockStatus: lockStatus
+                                    lockStatus: lockStatus,
+                                    number_strains_change: d.number_strains_change,
+                                    strains_expire: d.strains_expire,
+                                    Project_State:d.Project_State
                                 });
                             }
                         });
@@ -180,13 +211,16 @@ const Projects_Table = (CURRENT_PROJECT_ID, CURRENT_PROJECT, $http) => {
                         ' style="width:100%;text-align:center;"><i class="fa' +
                         ' fa-unlock"></i></div>';
 
+                     let  icon = "<i class='fa fa-check' style='color:#006400;'></i>";
+                           
                     projects.push({
                         name: response.data.name,
                         description: response.data.description,
                         date: response.data.timestamp.split(" ").slice(0, 4).join(' '),
                         id: response.data.id,
                         username: response.data.username,
-                        lockStatus: lockStatus
+                        lockStatus: lockStatus,
+                        Project_State:icon+ "<strong style='color:#006400;'> - Up-to-date </strong>"
                     });
 
                     $('#newProjectModal').modal('hide');

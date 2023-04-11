@@ -30,6 +30,7 @@
     <li id="description_tab"><a href="#">Description</a></li>
   </ul>
 
+ 
 
   <div id="s_project_message_div"></div>
 
@@ -91,6 +92,8 @@
     <div ng-include src="'static/html_components/modals/modal_nextflow_logs.html'"></div>
 
     <div style="width:100%;">
+
+    
       <div class="col-md-12 banner_strains" style="padding:10px;">
         
         <div id="procedures_div" style="display:block;margin-top: 10px; width:40%; float:left;">
@@ -129,7 +132,20 @@
           <div class="col-md-12">
               <div class="banner-title rule1"></div>
           </div>
+
+          
           <div class="col-md-12" >
+
+              <div id="AlertProjectStrains" class="alert alert-warning" style="display: none">
+                  <strong>Warning!</strong> 
+                  There are strains that have been deleted or updated. To identify if the strain of the project lies in some of these states, check the StrainName cell contains any of the following icons:
+                  <i class='fa fa-ban' style='color:#DC143C;'></i>
+                  Indicates that the strain was removed
+                  <i class='fa fa-wrench' style='color:#DC143C;'></i>
+                  Indicates that the strain was updated
+                </div>
+              
+
               <label>*Strains without associated and Fastq files and
                   accession number are marked in <label style="color:red;">Red</label></label>
               <br>
